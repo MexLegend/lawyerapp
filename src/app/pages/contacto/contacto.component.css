@@ -20,16 +20,6 @@
   box-shadow: inset 0px -4px 5px -1px rgba(0, 0, 0, 0.02); */
 }
 
-/* .main-info::after {
-  content: "\A";
-  position: absolute;
-  background: black;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  width: 50%;
-} */
-
 #main-info-title {
   font-size: 22px;
   font-weight: 700;
@@ -44,7 +34,7 @@
 
 /* Contact Content Styling */
 #contact-background {
-  padding-top: 60px;
+  padding: 60px 0;
   color: white;
   background-color: #26aee4;
   /* -webkit-clip-path: polygon(50% 0%, 100% 10%, 100% 100%, 0 100%, 0 10%);
@@ -59,7 +49,6 @@
 
 #left-contact-content {
   width: 45%;
-  /* padding: 15px; */
   position: relative;
   height: fit-content;
   color: black;
@@ -72,7 +61,9 @@
   position: relative;
   height: fit-content;
   color: black;
-  /* border: 2px solid rgb(238, 238, 238); */
+  background: white;
+  margin-bottom: -120px;
+  z-index: 2;
   box-sizing: border-box;
   border-radius: 5px;
   -webkit-box-shadow: 0px 0px 21px 9px rgba(0, 0, 0, 0.08);
@@ -123,6 +114,18 @@
   text-align: left;
   display: flex;
   flex-direction: column;
+}
+
+#contact-location > span {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding-bottom: 15px;
+}
+
+#contact-location > span > i {
+  padding-right: 10px;
+  color: #26aee4;
 }
 
 .contact-content-info span span {
@@ -183,7 +186,7 @@
 }
 
 #space-contact-contact {
-  width: 10%;
+  width: 20%;
 }
 
 #right-contact-content {
@@ -195,6 +198,14 @@
   display: flex;
   margin-top: 40px;
   justify-content: flex-end;
+}
+
+#contact-social-network > div {
+  border: 1px solid white;
+}
+
+#contact-social-network > div > a {
+  color: white;
 }
 
 /* Inputs and Buttons Styling */

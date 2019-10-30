@@ -6,6 +6,7 @@ import { PAGES_ROUTING } from './pages.routes';
 import { NoticiasComponent } from './noticias/noticias.component';
 import { InicioComponent } from './inicio/inicio.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { SharedModule } from '../shared/shared.module';
 
 
 
@@ -13,7 +14,8 @@ import { DashboardComponent } from './dashboard/dashboard.component';
   declarations: [ContactoComponent, NoticiasComponent, InicioComponent, DashboardComponent],
   imports: [
     CommonModule,
-    PAGES_ROUTING
+    PAGES_ROUTING,
+    SharedModule
   ]
 })
 export class PagesModule { }
