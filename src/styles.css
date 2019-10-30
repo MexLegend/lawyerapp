@@ -1,1 +1,145 @@
-/* You can add global styles to this file, and also import other style files */
+/* Global Styling */
+
+/* Global Font */
+html {
+  line-height: 1.5;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  font-weight: normal;
+  color: rgba(0, 0, 0, 0.87);
+}
+
+/* Padding-Top-141 */
+.padding-top-141 {
+  padding-top: 141px;
+}
+
+/* Social Network Options*/
+.social-media-item {
+  position: relative;
+  line-height: initial;
+  width: 42px;
+  height: 40px;
+  overflow: hidden;
+  display: flex;
+  margin: 0 1px;
+  padding: 0;
+  background: transparent;
+  box-shadow: none !important;
+  color: #949ba1;
+}
+
+.social-media-item > i {
+  padding: 0 10px;
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
+  font-size: 16px;
+  overflow: hidden;
+}
+
+.social-media-item > a {
+  padding: 0px;
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
+  font-size: 16px;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  color: currentColor;
+  transition: 0.5s;
+  transition-timing-function: ease-in-out;
+}
+
+.social-media-item:hover > a {
+  transform: translateX(-100%);
+  box-shadow: none;
+}
+
+.social-media-item > a > i {
+  text-align: center;
+  font-size: 16px;
+  line-height: 0;
+  height: fit-content;
+  width: 42px;
+}
+
+.social-network {
+  margin: 0;
+}
+
+.social-hidden {
+  color: white !important;
+}
+
+/* Social Network Tooltips*/
+.material-tooltip {
+  font-size: 12px;
+  top: 37px !important;
+  padding: 2px 8px 5px;
+  text-transform: capitalize;
+  background-color: rgba(0, 0, 0, 0.7);
+  height: fit-content;
+  line-height: initial;
+  min-height: fit-content;
+  border-radius: 3px;
+  overflow: visible;
+  border: none;
+}
+
+.material-tooltip::before {
+  display: block;
+  z-index: 1000;
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: auto;
+  text-align: center;
+  justify-content: center;
+  top: -5px;
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 5px solid rgba(0, 0, 0, 0.7);
+}
+
+/* Redes Sociales Styling*/
+#Facebook:hover {
+  color: white;
+  background: #3b5998;
+  transition: background-color 0.3s ease-in;
+}
+
+#Google:hover {
+  color: white;
+  background: #d24a30;
+  transition: background-color 0.3s ease-in;
+}
+
+#LinkedIn:hover {
+  color: white;
+  background: #005886;
+  transition: background-color 0.3s ease-in;
+}
+
+#Twitter:hover {
+  color: white;
+  background: #35c9f9;
+  transition: background-color 0.3s ease-in;
+}
+
+#Youtube:hover {
+  color: white;
+  background: #cb322c;
+  transition: background-color 0.3s ease-in;
+}
+
+/* Links Hover Styling */
+a:hover {
+  color: #ee6e73;
+}

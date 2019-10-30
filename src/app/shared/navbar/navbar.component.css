@@ -1,0 +1,82 @@
+/*NAVBAR STYLING */
+.navbar-fixed {
+  position: fixed;
+  top: 0;
+}
+
+
+/* Contact Options*/
+.contact-media {
+  display: flex;
+  font-weight: 700;
+  height: 40px !important;
+  line-height: 40px !important;
+}
+
+.contact-media > i {
+  height: 40px !important;
+  line-height: 40px !important;
+  font-size: 20px;
+}
+
+/* Telephone Options*/
+#telefonos > a,
+#mail > a {
+  color: #949ba1;
+}
+
+#telefonos > a:hover,
+#mail > a:hover {
+  color: #26ade4;
+}
+
+/* Main & Second Navbar styling */
+
+#nav-menu-logo {
+  margin-top: 20px;
+}
+
+#nav-menu-logo > .brand-logo {
+  height: 100%;
+  position: relative;
+}
+
+#nav-menu-logo > .brand-logo > img {
+  height: 64px;
+  margin: auto;
+}
+
+#nav-menu-items {
+  margin-top: 20px;
+  text-transform: uppercase;
+}
+
+#nav-menu-items > ul > li > a {
+  color: #949ba1;
+  font-size: 12px;
+}
+
+#nav-menu-items > ul > li > a:hover {
+  color: #26ade4;
+}
+
+nav .sidenav-trigger {
+  margin: 25px 18px 0;
+  color: #26ade4;
+}
+
+#mainNavbar {
+  height: 100px;
+  min-height: 100px;
+  color: #949ba1;
+  display: flex;
+}
+
+#secondNavbar {
+  height: 40px;
+  line-height: 40px;
+  min-height: 40px;
+  color: #949ba1;
+  border-bottom: 1px solid #f2f2f2;
+  background-color: #f5f5f5;
+}
