@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+declare var $: any, M: any, options: any;
 
 @Component({
   selector: 'app-dashboard',
@@ -10,6 +11,10 @@ export class DashboardComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+
+    $(document).ready(function () {
+      $('.sidenav').sidenav();
+    });
   }
 
 }
