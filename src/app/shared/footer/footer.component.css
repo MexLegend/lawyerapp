@@ -1,0 +1,104 @@
+#page-footer {
+  color: white;
+  background-color: #26aee4;
+}
+
+#superior-container,
+#middle-container,
+#bottom-container {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  text-align: center;
+}
+
+#middle-container {
+  border-top: 2px solid black;
+  border-bottom: 2px solid rgba(0, 0, 0, 0.164);
+  padding: 50px 0 45px 0 !important;
+}
+
+#bottom-container {
+  padding: 15px 0 !important;
+}
+
+#page-footer > div > div {
+  padding: 25px 0;
+}
+
+#page-footer .btn {
+  background: #26aee4;
+}
+
+#page-footer .btn:hover {
+  color: rgb(63, 63, 63);
+}
+
+#page-footer
+  #footer-container
+  #superior-container
+  #footer-button-container
+  #btn-footer-contacto {
+  width: fit-content;
+  position: relative;
+  bottom: -20px;
+  height: 40px;
+  line-height: 40px;
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14),
+    0 3px 1px -2px rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.9);
+  background: white;
+  color: rgb(63, 63, 63);
+  font-weight: 600;
+}
+
+#btn-footer-contacto:hover > span {
+  color: rgb(17, 144, 146);
+}
+
+#footer-contact-location {
+  display: flex;
+  flex-direction: column;
+  align-items: baseline;
+  padding-top: 20px;
+}
+
+#footer-contact-location span {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding-bottom: 5px;
+}
+
+#footer-contact-location span > i {
+  padding-right: 10px;
+}
+
+#footer-contact-location span > a {
+  color: rgb(63, 63, 63);
+  font-weight: 600;
+}
+
+#footer-contact-location span > a:hover {
+  color: rgb(92, 250, 255);
+}
+
+#footer-newsletter-input {
+  color: white;
+  border: 2px solid #3b3738;
+  height: 2.5rem;
+  padding: 10px;
+  height: fit-content;
+  margin-right: 5px;
+  border-radius: 5px;
+}
+
+#footer-newsletter-btn {
+  height: fit-content;
+  padding: 3px 12px 3px 16px;
+}
+
+#footer-newsletter-input:hover,
+#footer-newsletter-input:active,
+#footer-newsletter-input:focus {
+  border: 2px solid #26aee4;
+}

@@ -1,5 +1,7 @@
 /* Global Styling */
 
+/* Global Media Queries */
+
 /* Global Font */
 html {
   line-height: 1.5;
@@ -9,9 +11,102 @@ html {
   color: rgba(0, 0, 0, 0.87);
 }
 
-/* Padding-Top-141 */
-.padding-top-141 {
+/* Global Styling Clases */
+
+.gradient-45deg-indigo-purple {
+  background: #303f9f;
+  background: -webkit-linear-gradient(45deg, #303f9f, #7b1fa2) !important;
+  background: -moz- oldlinear-gradient(45deg, #303f9f, #7b1fa2) !important;
+  background: -o-linear-gradient(45deg, #303f9f, #7b1fa2) !important;
+  background: linear-gradient(45deg, #303f9f, #7b1fa2) !important;
+}
+
+small {
+  font-size: 0.8rem;
+}
+
+h5 {
+  font-size: 1.64rem;
+  line-height: 110%;
+  margin: 0.82rem 0 0.656rem 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Muli", sans-serif;
+  font-weight: 400;
+  line-height: 1.1;
+  color: #333;
+}
+
+.m-0 {
+  margin: 0 !important;
+}
+
+.mr-2 {
+  margin-right: 2% !important;
+}
+
+.mt-10 {
+  margin-top: 10% !important;
+}
+
+p {
+  font-family: "Muli", sans-serif;
+}
+
+.pt-2 {
+  padding-top: 2% !important;
+}
+
+.pt-141 {
   padding-top: 141px;
+}
+
+.pr {
+  position: relative;
+}
+
+.delay-1 {
+  -webkit-animation-delay: 0.3s !important;
+  -moz-animation-delay: 0.3s !important;
+  -o-animation-delay: 0.3s !important;
+  animation-delay: 0.3s !important;
+}
+
+.display-grid {
+  display: grid;
+}
+
+.font-weight-500 {
+  font-weight: 500 !important;
+}
+
+/* Font Awesome Icons Styling */
+.font-awesome-icons {
+  font-size: 22px;
+  height: 24px;
+  width: 34px;
+}
+
+/* Global Animation */
+.animate.fadeLeft {
+  -webkit-animation: fadeLeft;
+  -moz-animation: fadeLeft;
+  -o-animation: fadeLeft;
+  animation: fadeLeft;
+  -webkit-animation-duration: 1.5s;
+  -moz-animation-duration: 1.5s;
+  -o-animation-duration: 1.5s;
+  animation-duration: 1.5s;
+  -webkit-animation-fill-mode: both;
+  -moz-animation-fill-mode: both;
+  -o-animation-fill-mode: both;
+  animation-fill-mode: both;
 }
 
 /* Social Network Options*/
@@ -142,4 +237,9 @@ html {
 /* Links Hover Styling */
 a:hover {
   color: #ee6e73;
+}
+
+/* Waves Styling Effect */
+.waves-effect.waves-blue .waves-ripple {
+  background-color: #26aee4;
 }

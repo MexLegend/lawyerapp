@@ -1,0 +1,5 @@
+<div>
+    <app-navbar></app-navbar>
+    <router-outlet></router-outlet> 
+    <app-footer *ngIf="this.router.url !== '/contacto'" ></app-footer>
+</div>

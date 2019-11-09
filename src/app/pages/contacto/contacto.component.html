@@ -1,4 +1,4 @@
-<div id="contact-container" class="white">
+<div id="contact-container" class="white pr pt-141">
   <div class="main-info">
     <div class="container">
       <div id="main-contact-content">
@@ -23,8 +23,8 @@
                 ></span
               >
               <span
-                ><i class="material-icons">phone_android</i>Celular At&t: 348
-                105 5088</span
+                ><i class="fab fa-whatsapp font-awesome-icons"></i>Celular At&t:
+                348 105 5088</span
               >
               <span
                 ><i class="material-icons">phone_android</i>Celular Telcel: 348
@@ -50,26 +50,39 @@
           <div id="contact-content-form">
             <div id="contanct-form" style="margin-top: 20px;">
               <div class="row" style="margin-bottom: 0;">
-                <form class="col s12">
+                <form
+                  class="col s12"
+                  ngNativeValidate
+                  [formGroup]="form"
+                  (ngSubmit)="enviar()"
+                >
                   <div class="input-field col s12">
                     <input
                       id="name"
+                      name="name"
+                      formControlName="name"
                       type="text"
                       class="validate contact-input"
+                      required
                     />
                     <label for="name">Nombre y apellidos*</label>
                   </div>
                   <div class="input-field col s12">
                     <input
                       id="email"
+                      name="email"
+                      formControlName="email"
                       type="email"
                       class="validate contact-input"
+                      required
                     />
                     <label for="email">Email*</label>
                   </div>
                   <div class="input-field col s12">
                     <input
                       id="number"
+                      name="phone"
+                      formControlName="phone"
                       type="number"
                       class="validate contact-input"
                     />
@@ -78,6 +91,8 @@
                   <div class="input-field col s12">
                     <input
                       id="city"
+                      name="city"
+                      formControlName="city"
                       type="text"
                       class="validate contact-input"
                     />
@@ -86,15 +101,19 @@
                   <div class="input-field col s12">
                     <textarea
                       id="message"
+                      name="message"
+                      formControlName="message"
                       class="materialize-textarea contact-input"
                     ></textarea>
                     <label for="message">Escribe tu mensaje aquí...</label>
                   </div>
-                  <a
+                  <button
+                    type="submit"
                     id="contact-submit-button"
                     class="waves-effect waves-light btn"
-                    >Enviar</a
                   >
+                    Enviar
+                  </button>
                 </form>
               </div>
             </div>

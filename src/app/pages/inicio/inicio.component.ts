@@ -12,8 +12,17 @@ export class InicioComponent implements OnInit {
   }
 
   ngOnInit() {
-    // start carrousel
-    $('.carousel.carousel-slider').carousel({
+    // start carousel Partners
+    $('#carouselPartner').carousel({
+      fullWidth: false,
+      numVisible: 7
+    });
+
+    // Autoplay carousel Partners
+    window.setInterval(function () { $('#carouselPartner').carousel('next') }, 3000)
+
+    // start carousel Principal
+    $('#carouselPrincipal.carousel-slider').carousel({
       dist: 0,
       padding: 0,
       fullWidth: true,
@@ -25,7 +34,7 @@ export class InicioComponent implements OnInit {
     $('.moveNextCarousel').click(function (e) {
       e.preventDefault();
       e.stopPropagation();
-      $('.carousel').carousel('next');
+      $('#carouselPrincipal').carousel('next');
       resetAnimation();
     });
 
@@ -33,7 +42,7 @@ export class InicioComponent implements OnInit {
     $('.movePrevCarousel').click(function (e) {
       e.preventDefault();
       e.stopPropagation();
-      $('.carousel').carousel('prev');
+      $('#carouselPrincipal').carousel('prev');
       resetAnimation();
     });
 
@@ -41,7 +50,7 @@ export class InicioComponent implements OnInit {
     // setTimeout(autoplay, 8000);
 
     function autoplay() {
-      $(".carousel").carousel("next");
+      $("#carouselPrincipal").carousel("next");
       resetAnimation();
       setTimeout(autoplay, 8000);
     }
