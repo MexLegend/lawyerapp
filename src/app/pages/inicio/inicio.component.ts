@@ -19,7 +19,43 @@ export class InicioComponent implements OnInit {
     });
 
     // Autoplay carousel Partners
-    window.setInterval(function () { $('#carouselPartner').carousel('next') }, 3000)
+    let startTime = 3;
+    let currentTime = 0;
+    let myTimer;
+    let myTimerSpeed = 1000; // 1 sec
+
+    resetTimer();
+    // startTimer();
+
+    // $('#carouselPartner').hover(function (e) {
+    //   e.stopPropagation();
+    //   resetTimer();
+    // }, function () {
+    //   startTimer();
+    // });
+
+    function resetTimer() {
+      stopTimer();
+      currentTime = startTime;
+    }
+
+    function startTimer() {
+      resetTimer();
+      myTimer = setInterval(timerTick, myTimerSpeed);
+    }
+
+    function stopTimer() {
+      window.clearInterval(myTimer);
+    }
+
+    function timerTick() {
+      currentTime--;
+      if (currentTime == 0) {
+        $('#carouselPartner').carousel('next');
+        resetTimer();
+        startTimer();
+      }
+    }
 
     // start carousel Principal
     $('#carouselPrincipal.carousel-slider').carousel({
@@ -74,6 +110,9 @@ export class InicioComponent implements OnInit {
         .addClass("animate");
       $(".carousel-progress-bar-timer").css("width", 100 + "%");
     }
+
+    // Start Material Box
+    $('.materialboxed').materialbox();
   }
 
 }

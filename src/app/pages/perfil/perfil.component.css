@@ -1,0 +1,205 @@
+@import "~perfect-scrollbar/css/perfect-scrollbar.css";
+
+@media only screen and (max-width: 1075px) {
+  #perfil-content-container {
+    padding: 0 15px !important;
+    margin: 0 !important;
+  }
+}
+
+@media only screen and (max-width: 992px) {
+  html {
+    font-size: 14.5px;
+  }
+  .container {
+    width: 100%;
+  }
+  .sidenav-main {
+    width: auto !important;
+    height: 0 !important;
+  }
+  .sidenav-main .sidenav {
+    top: 0;
+    width: 260px;
+  }
+  .sidenav-main .btn-sidenav-toggle {
+    position: relative;
+    top: 10px;
+    left: 10px;
+  }
+  .brand-sidebar {
+    background: transparent !important;
+    box-shadow: none !important;
+    left: 50px !important;
+  }
+  .sidenav-main .brand-sidebar .logo-wrapper {
+    padding: 0 !important;
+  }
+  .brand-sidebar .brand-logo {
+    padding: 10px !important;
+  }
+  .brand-sidebar .brand-logo img {
+    width: 50px !important;
+  }
+  #sidebar-list {
+    position: absolute !important;
+    top: 56px;
+    left: 0;
+    overflow: hidden;
+    height: -webkit-calc(100% - 56px) !important;
+    height: -moz-calc(100% - 56px) !important;
+    height: calc(100% - 56px) !important;
+  }
+  #sidenav-trigger-btn {
+    top: 88px !important;
+    display: block !important;
+  }
+  #perfil-content-container {
+    position: relative;
+    margin-left: -280px !important;
+    padding: 0 15px;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .sidenav-main .btn-sidenav-toggle {
+    position: relative;
+    top: 6px;
+    left: 6px;
+  }
+  .brand-sidebar {
+    background: transparent !important;
+    box-shadow: none !important;
+    left: 50px !important;
+  }
+  .brand-sidebar .brand-logo {
+    padding: 8px !important;
+  }
+  .container {
+    width: 100%;
+  }
+}
+
+@media only screen and (min-width: 993px) {
+  #main {
+    padding-left: 260px !important;
+  }
+}
+
+@media only screen and (min-width: 992px) {
+  .text-sub {
+    font-size: 16px !important;
+  }
+  .text-sub > i {
+    font-size: 18px !important;
+  }
+}
+
+@media only screen and (min-width: 900px) {
+  .app-sidebar {
+    -webkit-transform: none !important;
+    -moz-transform: none !important;
+    -ms-transform: none !important;
+    -o-transform: none !important;
+    transform: none !important;
+  }
+}
+
+/* Perfil Container */
+#perfil-main-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+#perfil-content-container {
+  margin: 0 auto 0 15px;
+  height: fit-content;
+}
+
+#perfil-content-container .card .card-tabs ul {
+  background: #26aee4;
+}
+
+#perfil-content-container .card .card-tabs ul li a {
+  color: white;
+}
+
+#perfil-content-container .card .card-tabs ul li a.active {
+  background: #1a7092;
+}
+
+/* SideBar Left */
+.sidebar-left {
+  /* float: left; */
+  position: relative;
+  border-right: 1.5px solid #c8c8c8;
+}
+
+.sidebar {
+  width: 280px;
+}
+
+.sidebar .sidebar-content .sidebar-menu#sidebar-list {
+  position: relative;
+  width: 280px;
+  height: -webkit-calc(100vh - 325px);
+  height: -moz-calc(100vh - 325px);
+  height: calc(100vh - 325px);
+  padding-left: 1.4rem;
+}
+
+.sidebar .sidebar-content .sidebar-menu ul {
+  line-height: 1.5rem;
+}
+
+.sidebar .sidebar-content .app-sidebar .sidebar-title {
+  font-weight: 500;
+  font-size: 14px;
+  padding: 15px 8px !important;
+  text-transform: uppercase;
+  color: #212121;
+}
+
+.sidebar .sidebar-content .sidebar-menu ul li {
+  margin-right: 20px;
+  padding-top: 8px;
+  padding-bottom: 5px;
+  cursor: pointer;
+}
+
+.perfil-menu-option-hover {
+  background-color: rgb(182, 182, 182);
+  margin-left: -1.8rem;
+  padding-left: 1.8rem;
+  border-top-right-radius: 2rem;
+  border-bottom-right-radius: 2rem;
+}
+
+.sidebar .sidebar-content .sidebar-menu ul li.active {
+  margin-left: -1.8rem;
+  padding-left: 1.8rem;
+  border-top-right-radius: 2rem;
+  border-bottom-right-radius: 2rem;
+  background-color: #2196f3;
+  -webkit-box-shadow: 0 0 8px 0 #2196f3;
+  box-shadow: 0 0 8px 0 #2196f3;
+}
+
+.sidebar .sidebar-content .sidebar-menu ul li.active a {
+  color: #fff;
+}
+
+.sidebar .sidebar-content .sidebar-menu ul a {
+  line-height: 1.75rem;
+  padding: 0.5rem;
+  vertical-align: top;
+  color: #757575;
+}
+
+#sidenav-trigger-btn {
+  position: absolute;
+  top: 90px;
+  left: 17px;
+  display: none;
+}

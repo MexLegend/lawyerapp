@@ -1,0 +1,82 @@
+<section id="perfil-main-container" class="pr pt-141">
+  <!-- Sidebar Area Starts -->
+  <div class="sidebar-left sidebar-fixed">
+    <div class="sidebar">
+      <div class="sidebar-content">
+        <perfect-scrollbar
+          class="scroll-container nav-collapsible sidenav-light sidenav-active-square nav-lock"
+          [config]="config"
+          [scrollIndicators]="true"
+          (psXReachEnd)="onScrollEvent($event)"
+          (psYReachEnd)="onScrollEvent($event)"
+          (psXReachStart)="onScrollEvent($event)"
+          (psYReachStart)="onScrollEvent($event)"
+        >
+          <div class="scrollable-content">
+            <div
+              id="sidebar-list"
+              class="sidebar-menu list-group position-relative animate fadeLeft delay-1"
+            >
+              <div
+                class="sidebar-list-padding app-sidebar"
+                id="contact-sidenav"
+              >
+                <ul class="contact-list display-grid">
+                  <li class="sidebar-title">Configuración</li>
+                  <li class="active perfil-menu-option">
+                    <a href="#!" class="text-sub"
+                      ><i class="material-icons mr-2"> perm_identity </i>
+                      General</a
+                    >
+                  </li>
+                  <li class="perfil-menu-option">
+                    <a href="#!" class="text-sub"
+                      ><i class="material-icons mr-2"> history </i> Seguridad</a
+                    >
+                  </li>
+                  <li class="sidebar-title">Reciente</li>
+                  <li class="perfil-menu-option">
+                    <a href="#!" class="text-sub"
+                      ><i class="material-icons mr-2"> perm_identity </i>
+                      Noticias</a
+                    >
+                  </li>
+                  <li class="perfil-menu-option">
+                    <a href="#!" class="text-sub"
+                      ><i class="material-icons mr-2"> history </i>
+                      Notificaciones</a
+                    >
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </perfect-scrollbar>
+        <a
+          href="#"
+          data-target="sidebar-list"
+          id="sidenav-trigger-btn"
+          class="sidenav-trigger hide-on-large-only"
+          ><i class="material-icons">menu</i></a
+        >
+      </div>
+    </div>
+  </div>
+  <!-- Sidebar Area Ends -->
+  <div id="perfil-content-container" class="container">
+    <div class="card">
+      <div class="card-tabs">
+        <ul class="tabs tabs-fixed-width white-text">
+          <li class="tab"><a href="#test4">Test 1</a></li>
+          <li class="tab"><a class="active" href="#test5">Test 2</a></li>
+          <li class="tab"><a href="#test6">Test 3</a></li>
+        </ul>
+      </div>
+      <div class="card-content grey lighten-4">
+        <div id="test4">Test 1</div>
+        <div id="test5">Test 2</div>
+        <div id="test6">Test 3</div>
+      </div>
+    </div>
+  </div>
+</section>

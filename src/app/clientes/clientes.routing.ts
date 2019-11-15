@@ -2,8 +2,13 @@ import { Routes, RouterModule } from '@angular/router';
 import { ContactoComponent } from '../pages/contacto/contacto.component';
 import { NoticiasComponent } from '../pages/noticias/noticias.component';
 import { InicioComponent } from '../pages/inicio/inicio.component';
+import { PerfilComponent } from '../pages/perfil/perfil.component';
 
 const PAGES_ROUTES: Routes = [
+    {
+        path: 'perfil',
+        component: PerfilComponent
+    },
     {
         path: 'contacto',
         component: ContactoComponent
