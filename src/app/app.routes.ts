@@ -1,10 +1,19 @@
 import { Routes, RouterModule } from '@angular/router';
 import { NopagefoundComponent } from './shared/nopagefound/nopagefound.component';
 import { ClientesComponent } from './clientes/clientes.component';
-import { AdminModule } from './admin/admin.module';
+import { AdminComponent } from './admin/admin.component';
+import { LoginGuard } from './guards/login.guard';
+import { LoginComponent } from './login/login.component';
 
 const APP_ROUTES: Routes = [
 
+    {
+        path: '',
+        component: AdminComponent,
+        canActivate: [LoginGuard],
+        loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule)
+
+    },
     {
         path: '',
         component: ClientesComponent,
@@ -12,9 +21,7 @@ const APP_ROUTES: Routes = [
 
     },
     {
-        path: 'admin',
-        loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule)
-
+        path: 'login', component: LoginComponent
     },
     {
         path: '**', component: NopagefoundComponent

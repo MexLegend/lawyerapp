@@ -17,7 +17,7 @@ export class ContactoService {
   enviarEmail(contacto: Contacto): Observable<Contacto> {
     
 
-    const url = `${environment.URI}/email`;
+    const url = `${environment.URI}/api/email`;
     
     return this.http.post<Contacto>(url, contacto).pipe(
       map((resp: any) => {

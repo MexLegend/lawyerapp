@@ -1,0 +1,379 @@
+<!-- Inicio NavBar -->
+<header class="page-topbar" id="header">
+  <div class="navbar navbar-fixed">
+    <nav
+      class="navbar-main navbar-color nav-collapsible navbar-dark gradient-45deg-indigo-purple no-shadow sideNav-lock">
+      <div class="nav-wrapper">
+        <div class="header-search-wrapper hide-on-med-and-down">
+          <i class="material-icons">search</i>
+          <input class="header-search-input z-depth-2" type="text" name="Search" placeholder="Explore Materialize" />
+        </div>
+        <ul class="navbar-list right">
+          <li class="hide-on-med-and-down">
+            <a class="waves-effect waves-block waves-light toggle-fullscreen" href="javascript:void(0);"><i
+                class="material-icons">settings_overscan</i></a>
+          </li>
+          <li class="hide-on-large-only">
+            <a class="waves-effect waves-block waves-light search-button" href="javascript:void(0);"><i
+                class="material-icons">search</i></a>
+          </li>
+          <li>
+            <a class="waves-effect waves-block waves-light notification-button" href="javascript:void(0);"
+              data-target="notifications-dropdown"><i class="material-icons">notifications_none<small
+                  class="notification-badge">5</small></i></a>
+            <ul class="dropdown-content" id="notifications-dropdown" tabindex="0">
+              <li tabindex="0">
+                <h6>NOTIFICATIONS<span class="new badge">5</span></h6>
+              </li>
+              <li class="divider" tabindex="0"></li>
+              <li tabindex="0">
+                <a class="grey-text text-darken-2" href="#!"><span
+                    class="material-icons icon-bg-circle cyan small">add_shopping_cart</span>
+                  A new order has been placed!</a>
+                <time class="media-meta" datetime="2015-06-12T20:50:48+08:00">2 hours ago</time>
+              </li>
+              <li tabindex="0">
+                <a class="grey-text text-darken-2" href="#!"><span
+                    class="material-icons icon-bg-circle red small">stars</span>
+                  Completed the task</a>
+                <time class="media-meta" datetime="2015-06-12T20:50:48+08:00">3 days ago</time>
+              </li>
+              <li tabindex="0">
+                <a class="grey-text text-darken-2" href="#!"><span
+                    class="material-icons icon-bg-circle teal small">settings</span>
+                  Settings updated</a>
+                <time class="media-meta" datetime="2015-06-12T20:50:48+08:00">4 days ago</time>
+              </li>
+              <li tabindex="0">
+                <a class="grey-text text-darken-2" href="#!"><span
+                    class="material-icons icon-bg-circle deep-orange small">today</span>
+                  Director meeting started</a>
+                <time class="media-meta" datetime="2015-06-12T20:50:48+08:00">6 days ago</time>
+              </li>
+              <li tabindex="0">
+                <a class="grey-text text-darken-2" href="#!"><span
+                    class="material-icons icon-bg-circle amber small">trending_up</span>
+                  Generate monthly report</a>
+                <time class="media-meta" datetime="2015-06-12T20:50:48+08:00">1 week ago</time>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <a class="waves-effect waves-block waves-light profile-button" href="javascript:void(0);"
+              data-target="profile-dropdown"><span class="avatar-status avatar-online"><img
+                  src="../../../assets/images/user.jpg" alt="avatar" /><i></i></span></a>
+            <ul class="dropdown-content" id="profile-dropdown" tabindex="0">
+              <li tabindex="0">
+                <a class="grey-text text-darken-1" href="user-profile-page.html"><i
+                    class="material-icons">person_outline</i> Profile</a>
+              </li>
+              <li tabindex="0">
+                <a class="grey-text text-darken-1" href="app-chat.html"><i
+                    class="material-icons">chat_bubble_outline</i> Chat</a>
+              </li>
+              <li tabindex="0">
+                <a class="grey-text text-darken-1" href="page-faq.html"><i class="material-icons">help_outline</i>
+                  Help</a>
+              </li>
+              <li class="divider" tabindex="0"></li>
+              <li tabindex="0">
+                <a class="grey-text text-darken-1" href="user-lock-screen.html"><i
+                    class="material-icons">lock_outline</i> Lock</a>
+              </li>
+              <li tabindex="0">
+                <a class="grey-text text-darken-1" href="user-login.html"><i class="material-icons">keyboard_tab</i>
+                  Logout</a>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <a class="waves-effect waves-block waves-light sidenav-trigger" (click)="_usuariosS.logout()"
+              data-target="slide-out-right"><i class="material-icons">format_indent_increase</i></a>
+          </li>
+        </ul>
+        <!-- translation-button-->
+
+        <!-- notifications-dropdown-->
+
+        <!-- profile-dropdown-->
+      </div>
+    </nav>
+  </div>
+</header>
+<!-- Fin NavBar -->
+
+<!-- Inicio SideNav -->
+<aside class="sidenav-main nav-collapsible sidenav-light sidenav-active-square nav-lock">
+  <div class="brand-sidebar">
+    <h1 class="logo-wrapper">
+      <a class="brand-logo darken-1" href="index.html"><img src="../../../assets/images/brand.png" alt="site logo"
+          style="width: 20%;" /><span class="logo-text hide-on-med-and-down">Materialize</span></a>
+    </h1>
+  </div>
+  <perfect-scrollbar class="scroll-container" [config]="config" [scrollIndicators]="true"
+    (psXReachEnd)="onScrollEvent($event)" (psYReachEnd)="onScrollEvent($event)" (psXReachStart)="onScrollEvent($event)"
+    (psYReachStart)="onScrollEvent($event)">
+    <div class="scrollable-content">
+      <ul id="slide-out" class="sidenav sidenav-collapsible leftside-navigation collapsible sidenav-fixed menu-shadow"
+        data-menu="menu-navigation" data-collapsible="menu-accordion" style="transform: translateX(0%);">
+        <li class="bold open">
+          <a class="collapsible-header waves-effect waves-cyan " href="#" tabindex="0"><i
+              class="material-icons">settings_input_svideo</i><span class="menu-title"
+              data-i18n="">Dashboard</span><span class="badge badge pill orange float-right mr-10">3</span></a>
+          <div class="collapsible-body" style="">
+            <ul class="collapsible collapsible-sub" data-collapsible="accordion">
+              <li>
+                <a class="collapsible-body" href="dashboard-modern.html" data-i18n=""><i
+                    class="material-icons">radio_button_unchecked</i><span>Modern</span></a>
+              </li>
+              <li>
+                <a class="collapsible-body" href="dashboard-ecommerce.html" data-i18n=""><i
+                    class="material-icons">radio_button_unchecked</i><span>eCommerce</span></a>
+              </li>
+              <li>
+                <a class="collapsible-body" href="dashboard-analytics.html" data-i18n=""><i
+                    class="material-icons">radio_button_unchecked</i><span>Analytics</span></a>
+              </li>
+            </ul>
+          </div>
+        </li>
+        <li class="bold">
+          <a class="waves-effect waves-cyan active " href="app-contacts.html"><i
+              class="material-icons">import_contacts</i><span class="menu-title" data-i18n="">Contacts</span></a>
+        </li>
+        <li class="navigation-header">
+          <a class="navigation-header-text">Misc </a><i class="navigation-header-icon material-icons">more_horiz</i>
+        </li>
+        <li class="bold">
+          <a class="waves-effect waves-cyan " href="app-email.html"><i class="material-icons">mail_outline</i><span
+              class="menu-title" data-i18n="">Mail</span><span
+              class="badge new badge pill pink accent-2 float-right mr-10">5</span></a>
+        </li>
+        <li class="active bold open">
+          <a class="waves-effect waves-cyan active " href="app-contacts.html"><i
+              class="material-icons">import_contacts</i><span class="menu-title" data-i18n="">Contacts</span></a>
+        </li>
+        <li class="bold">
+          <a class="waves-effect waves-cyan " href="app-email.html"><i class="material-icons">mail_outline</i><span
+              class="menu-title" data-i18n="">Mail</span><span
+              class="badge new badge pill pink accent-2 float-right mr-10">5</span></a>
+        </li>
+        <li class="bold">
+          <a class="waves-effect waves-cyan " href="app-email.html"><i class="material-icons">mail_outline</i><span
+              class="menu-title" data-i18n="">Mail</span><span
+              class="badge new badge pill pink accent-2 float-right mr-10">5</span></a>
+        </li>
+        <li class="bold">
+          <a class="waves-effect waves-cyan " href="app-email.html"><i class="material-icons">mail_outline</i><span
+              class="menu-title" data-i18n="">Mail</span><span
+              class="badge new badge pill pink accent-2 float-right mr-10">5</span></a>
+        </li>
+        <li class="bold">
+          <a class="waves-effect waves-cyan " href="app-email.html"><i class="material-icons">mail_outline</i><span
+              class="menu-title" data-i18n="">Mail</span><span
+              class="badge new badge pill pink accent-2 float-right mr-10">5</span></a>
+        </li>
+        <li class="bold">
+          <a class="waves-effect waves-cyan " href="app-email.html"><i class="material-icons">mail_outline</i><span
+              class="menu-title" data-i18n="">Mail</span><span
+              class="badge new badge pill pink accent-2 float-right mr-10">5</span></a>
+        </li>
+        <li class="bold">
+          <a class="waves-effect waves-cyan " href="app-email.html"><i class="material-icons">mail_outline</i><span
+              class="menu-title" data-i18n="">Mail</span><span
+              class="badge new badge pill pink accent-2 float-right mr-10">5</span></a>
+        </li>
+        <li class="bold">
+          <a class="waves-effect waves-cyan " href="app-email.html"><i class="material-icons">mail_outline</i><span
+              class="menu-title" data-i18n="">Mail</span><span
+              class="badge new badge pill pink accent-2 float-right mr-10">5</span></a>
+        </li>
+        <li class="bold">
+          <a class="waves-effect waves-cyan " href="app-email.html"><i class="material-icons">mail_outline</i><span
+              class="menu-title" data-i18n="">Mail</span><span
+              class="badge new badge pill pink accent-2 float-right mr-10">5</span></a>
+        </li>
+        <li class="bold">
+          <a class="waves-effect waves-cyan " href="app-email.html"><i class="material-icons">mail_outline</i><span
+              class="menu-title" data-i18n="">Mail</span><span
+              class="badge new badge pill pink accent-2 float-right mr-10">5</span></a>
+        </li>
+        <li class="bold">
+          <a class="waves-effect waves-cyan " href="app-email.html"><i class="material-icons">mail_outline</i><span
+              class="menu-title" data-i18n="">Mail</span><span
+              class="badge new badge pill pink accent-2 float-right mr-10">5</span></a>
+        </li>
+      </ul>
+    </div>
+  </perfect-scrollbar>
+  <div class="navigation-background"></div>
+  <a class="sidenav-trigger btn-sidenav-toggle btn-floating btn-medium waves-effect waves-light hide-on-large-only"
+    href="#" data-target="slide-out" style="position: fixed;"><i class="material-icons">menu</i></a>
+</aside>
+<!-- Fin SideNav -->
+
+<!-- Inicio Main Content -->
+
+<div id="main">
+  <div class="row">
+    <div class="content-wrapper-before gradient-45deg-indigo-purple"></div>
+    <div class="col s12">
+      <div class="container">
+        <!-- Add new contact popup -->
+        <!-- <div style="bottom: 54px; right: 19px; z-index: 999;" class="fixed-action-btn direction-top active">
+          <a class="btn-floating btn-large primary-text gradient-shadow modal-trigger" href="#modal1">
+            <i class="material-icons">person_add</i>
+          </a>
+        </div> -->
+        <!-- Add new contact popup Ends-->
+
+        <!-- Modal Structure -->
+        <!-- <div id="modal1" class="modal border-radius-6" tabindex="0"
+          style="z-index: 1003; display: none; opacity: 0; top: 4%; transform: scaleX(0.8) scaleY(0.8);">
+          <div class="modal-content">
+            <h5 class="mt-0">Create new contact</h5>
+            <hr />
+            <div class="row">
+              <form class="col s12">
+                <div class="row">
+                  <div class="input-field col m6 s12">
+                    <i class="material-icons prefix"> perm_identity </i>
+                    <input id="first_name" type="text" class="validate" />
+                    <label for="first_name" class="">First Name</label>
+                  </div>
+                  <div class="input-field col m6 s12">
+                    <i class="material-icons prefix"> perm_identity </i>
+                    <input id="last_name" type="text" class="validate" />
+                    <label for="last_name" class="">Last Name</label>
+                  </div>
+                  <div class="input-field col m6 s12">
+                    <i class="material-icons prefix"> business </i>
+                    <input id="company" type="text" class="validate" />
+                    <label for="company" class="">Company</label>
+                  </div>
+                  <div class="input-field col m6 s12">
+                    <i class="material-icons prefix"> business_center </i>
+                    <input id="business" type="text" class="validate" />
+                    <label for="business" class="">Job Title</label>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="input-field col s12">
+                    <i class="material-icons prefix"> email </i>
+                    <input id="email" type="email" class="validate" />
+                    <label for="email" class="">Email</label>
+                  </div>
+                  <div class="input-field col s12">
+                    <i class="material-icons prefix"> call </i>
+                    <input id="phone" type="number" class="validate" />
+                    <label for="phone" class="">Phone</label>
+                  </div>
+                  <div class="input-field col s12">
+                    <i class="material-icons prefix"> note </i>
+                    <input id="notes" type="text" class="validate" />
+                    <label for="notes" class="">Notes</label>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <a class="btn modal-close waves-effect waves-light mr-2">Add Contact</a>
+          </div>
+        </div> -->
+        <!-- Modal Structure Ends -->
+
+        <!-- Sidebar Area Starts -->
+        <div class="sidebar-left sidebar-fixed">
+          <div class="sidebar">
+            <div class="sidebar-content">
+              <div class="sidebar-header">
+                <div class="sidebar-details">
+                  <app-breadcrumbs></app-breadcrumbs>
+                </div>
+              </div>
+              <perfect-scrollbar style="margin-left: -1.5rem;"
+                class="scroll-container nav-collapsible sidenav-light sidenav-active-square nav-lock" [config]="config"
+                [scrollIndicators]="true" (psXReachEnd)="onScrollEvent($event)" (psYReachEnd)="onScrollEvent($event)"
+                (psXReachStart)="onScrollEvent($event)" (psYReachStart)="onScrollEvent($event)">
+                <div class="scrollable-content">
+                  <div id="sidebar-list" class="sidebar-menu list-group position-relative animate fadeLeft delay-1">
+                    <div class="sidebar-list-padding app-sidebar" id="contact-sidenav"
+                      style="transform: translateX(-105%);">
+                      <ul class="contact-list display-grid">
+                        <li class="sidebar-title">Filters</li>
+                        <li class="active">
+                          <a href="#!" class="text-sub"><i class="material-icons mr-2"> perm_identity </i>
+                            All Contact</a>
+                        </li>
+                        <li>
+                          <a href="#!" class="text-sub"><i class="material-icons mr-2"> history </i>
+                            Frequent</a>
+                        </li>
+                        <li>
+                          <a href="#!" class="text-sub"><i class="material-icons mr-2"> star_border </i>
+                            Starred Contacts</a>
+                        </li>
+                        <li class="sidebar-title">Options</li>
+                        <li>
+                          <a href="#!" class="text-sub"><i class="material-icons mr-2">
+                              keyboard_arrow_down
+                            </i>
+                            Import</a>
+                        </li>
+                        <li>
+                          <a href="#!" class="text-sub"><i class="material-icons mr-2">
+                              keyboard_arrow_up
+                            </i>
+                            Export</a>
+                        </li>
+                        <li>
+                          <a href="#!" class="text-sub"><i class="material-icons mr-2"> print </i> Print</a>
+                        </li>
+                        <li class="sidebar-title">Department</li>
+                        <li>
+                          <a href="#!" class="text-sub"><i class="purple-text material-icons small-icons mr-2">
+                              fiber_manual_record
+                            </i>
+                            Engineering</a>
+                        </li>
+                        <li>
+                          <a href="#!" class="text-sub"><i class="amber-text material-icons small-icons mr-2">
+                              fiber_manual_record
+                            </i>
+                            Sales</a>
+                        </li>
+                        <li>
+                          <a href="#!" class="text-sub"><i class="light-green-text material-icons small-icons mr-2">
+                              fiber_manual_record
+                            </i>
+                            Support</a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </perfect-scrollbar>
+              <a href="#" data-target="sidebar-list" id="sidenav-trigger-btn"
+                class="sidenav-trigger hide-on-large-only"><i class="material-icons">menu</i></a>
+              <router-outlet></router-outlet>
+            </div>
+          </div>
+        </div>
+        <!-- Sidebar Area Ends -->
+
+        <!-- Content Area Starts -->
+
+        <div class="content-area content-right">
+        </div>
+        <!-- Content Area Ends -->
+        <!-- START RIGHT SIDEBAR NAV -->
+        <aside id="right-sidebar-nav">
+
+        </aside>
+        <!-- END RIGHT SIDEBAR NAV -->
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Fin Main Content -->

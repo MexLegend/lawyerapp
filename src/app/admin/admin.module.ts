@@ -1,11 +1,16 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { AdminRoutingModule } from './admin-routing.module';
+import { ArticulosComponent } from './articulos/articulos.component';
+import { ArticulosFormComponent } from './articulos/articulos-form.component';
+import { ADMIN_ROUTING } from './admin.routes';
+import { ReactiveFormsModule } from '@angular/forms';
+import { SharedModule } from '../shared/shared.module';
 import {
   PerfectScrollbarModule, PerfectScrollbarConfigInterface,
   PERFECT_SCROLLBAR_CONFIG
 } from 'ngx-perfect-scrollbar';
+import { AngularEditorModule } from '@kolkov/angular-editor';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   wheelPropagation: true
@@ -13,11 +18,14 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
 
 
 @NgModule({
-  declarations: [DashboardComponent],
+  declarations: [ArticulosComponent, DashboardComponent, ArticulosFormComponent],
   imports: [
     CommonModule,
-    AdminRoutingModule,
-    PerfectScrollbarModule
+    PerfectScrollbarModule,
+    ADMIN_ROUTING,
+    ReactiveFormsModule,
+    SharedModule,
+    AngularEditorModule
   ],
   providers: [
     {

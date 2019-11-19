@@ -11,6 +11,9 @@ import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { LoginComponent } from './login/login.component';
+import { AdminComponent } from './admin/admin.component';
+import { FormsModule } from '@angular/forms';
 
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
@@ -20,16 +23,19 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
 
 @NgModule({
   declarations: [
+    AdminComponent,
     AppComponent,
-    ClientesComponent
+    ClientesComponent,
+    LoginComponent
   ],
   imports: [
-    BrowserModule,
-    HttpClientModule,
-    SharedModule,
     APP_ROUTING,
-    PerfectScrollbarModule,
     BrowserAnimationsModule,
+    BrowserModule,
+    FormsModule,
+    HttpClientModule,
+    PerfectScrollbarModule,
+    SharedModule,
   ],
   providers: [
     {
