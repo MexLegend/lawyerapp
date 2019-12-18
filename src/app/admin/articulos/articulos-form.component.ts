@@ -3,6 +3,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AngularEditorConfig } from '@kolkov/angular-editor';
 import { ArticulosService } from '../../services/articulos.service';
 import { Articulo } from '../../models/Articulo';
+declare var $: any;
 
 @Component({
   selector: 'app-articulos-form',
@@ -61,6 +62,7 @@ export class ArticulosFormComponent implements OnInit {
 
   ngOnInit() {
     this.initArticulosForm();
+    $('.modal').modal();
   }
 
   private initArticulosForm() {
@@ -83,7 +85,7 @@ export class ArticulosFormComponent implements OnInit {
       this.form.value.img,
     );
 
-    this._articulosS.crear(articulo).subscribe(resp => {
+    this._articulosS.crearArticulo(articulo).subscribe(resp => {
       console.log(resp);
       this.form.reset();
     })

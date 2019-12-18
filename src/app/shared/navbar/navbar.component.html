@@ -1,3 +1,11 @@
+<!-- Perfil Dropdown -->
+<ul id="dropdownPerfil" class="dropdown-content">
+  <li><a href="#!">Configuración</a></li>
+  <li><a href="#!">Notificaciones</a></li>
+  <li class="divider"></li>
+  <li><a href="#!">Cerrar Sesión</a></li>
+</ul>
+
 <nav class="nav-extended white text-grey darken-3 navbar-fixed">
   <div id="secondNavbar" class="nav-wrapper">
     <div
@@ -85,8 +93,8 @@
         ><img class="responsive-img" id="logo" src="/assets/images/logo.png"
       /></a>
     </div>
-    <div id="nav-menu-items">
-      <ul class="left hide-on-med-and-down">
+    <div id="nav-menu-items" class="hide-on-med-and-down">
+      <ul class="left">
         <li>
           <a class="waves-effect waves-light" routerLink="/inicio">Inicio</a>
         </li>
@@ -96,25 +104,152 @@
           >
         </li>
         <li>
-          <a class="waves-effect waves-light" routerLink="/noticias">Noticias</a>
+          <a class="waves-effect waves-light" routerLink="/noticias"
+            >Noticias</a
+          >
         </li>
         <li><a class="waves-effect waves-light" href="blog.html">Blog</a></li>
         <li>
           <a class="waves-effect waves-light" href="blog.html">Transparencia</a>
         </li>
-        <li>
-          <a class="waves-effect waves-light right" routerLink="/perfil">Perfil</a>
-        </li>
+        <!-- Perfil Dropdown -->
+        <ng-container *ngIf="this._usuariosS.estaLogueado()">
+          <li>
+            <button mat-button [matMenuTriggerFor]="belowMenu">
+              Perfil
+            </button>
+            <mat-menu #belowMenu="matMenu" yPosition="below">
+              <button mat-menu-item><span>Configuración</span></button>
+              <button mat-menu-item>
+                <span>Notificaciones</span>
+                <span class="badge badge pill teal darken-1 float-right mr-10"
+                  >5</span
+                >
+              </button>
+              <button mat-menu-item>
+                <span>Noticias Recientes</span>
+                <span class="badge badge pill teal darken-1 float-right mr-10"
+                  >5</span
+                >
+              </button>
+              <mat-divider></mat-divider>
+              <button mat-menu-item (click)="_usuariosS.logout()">
+                <i class="material-icons">keyboard_tab</i>Cerrar Sesión
+              </button>
+            </mat-menu>
+          </li>
+        </ng-container>
+        <ng-container *ngIf="!this._usuariosS.estaLogueado()">
+          <li>
+            <a class="modal-trigger" href="#modalRegistro">Iniciar Sesion</a>
+          </li>
+        </ng-container>
       </ul>
     </div>
   </div>
 </nav>
 
+<!-- SideNav Dropdown -->
 <ul class="sidenav" id="mobile-demo">
-  <li><a routerLink="/inicio">Inicio</a></li>
-  <li><a routerLink="/contacto">Contacto</a></li>
-  <li><a routerLink="/noticias">Noticias</a></li>
-  <li><a href="mobile.html">Blog</a></li>
-  <li><a href="mobile.html">Transparencia</a></li>
-  <li><a href="mobile.html">Cerrar Sesión</a></li>
+  <li class="sidenav-logo">
+    <h1 class="logo-wrapper">
+      <a class="brand-logo darken-1" href="index.html"
+        ><img src="../../../assets/images/brand.png" alt="site logo" /><span
+          class="logo-text"
+          >Pino Y Roble</span
+        ></a
+      >
+    </h1>
+  </li>
+  <li>
+    <a routerLink="/inicio"> <i class="material-icons mr-2"> home </i>Inicio</a>
+  </li>
+  <li>
+    <a routerLink="/contacto"
+      ><i class="material-icons mr-2"> contact_mail </i>Contacto</a
+    >
+  </li>
+  <li>
+    <a routerLink="/noticias"
+      ><i class="material-icons mr-2"> fiber_new </i>Noticias</a
+    >
+  </li>
+  <li>
+    <a href="mobile.html"><i class="material-icons mr-2"> feedback </i>Blog</a>
+  </li>
+  <li>
+    <a href="mobile.html"
+      ><i class="material-icons mr-2"> remove_red_eye </i>Transparencia</a
+    >
+  </li>
+  <ng-container *ngIf="this._usuariosS.estaLogueado()">
+    <li>
+      <mat-accordion>
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <i class="material-icons mr-2"> person</i>
+              Perfil
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+
+          <ul>
+            <li>
+              <a href="#!"
+                ><i class="material-icons mr-2"> brightness_low </i
+                >Configuración</a
+              >
+            </li>
+            <li>
+              <a href="#!"
+                ><i class="material-icons mr-2"> notifications_none </i
+                >Notificaciones
+                <span class="badge badge pill teal darken-1 float-right mr-10"
+                  >5</span
+                ></a
+              >
+            </li>
+            <li>
+              <a href="#!"
+                ><i class="material-icons mr-2"> fiber_new </i>Noticias
+                Recientes
+                <span class="badge badge pill teal darken-1 float-right mr-10"
+                  >5</span
+                ></a
+              >
+            </li>
+            <li class="divider" tabindex="-1"></li>
+            <li>
+              <a (click)="_usuariosS.logout()"
+                ><i class="material-icons mr-2">keyboard_tab</i>Cerrar Sesión</a
+              >
+            </li>
+          </ul>
+        </mat-expansion-panel>
+        <!-- <mat-expansion-panel
+              (opened)="panelOpenState = true"
+              (closed)="panelOpenState = false"
+            >
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  Self aware panel
+                </mat-panel-title>
+                <mat-panel-description>
+                  Currently I am {{ panelOpenState ? "open" : "closed" }}
+                </mat-panel-description>
+              </mat-expansion-panel-header>
+              <p>I'm visible because I am open</p>
+            </mat-expansion-panel> -->
+      </mat-accordion>
+    </li>
+  </ng-container>
+  <ng-container *ngIf="!this._usuariosS.estaLogueado()">
+    <li>
+      <a class="modal-trigger" href="#modalRegistro"
+        ><i class="material-icons mr-2"> person </i>Iniciar Sesion</a
+      >
+    </li>
+  </ng-container>
 </ul>
+
+<app-login></app-login>

@@ -1,5 +1,54 @@
 <div>
-    <app-navbar></app-navbar>
-    <router-outlet></router-outlet> 
-    <app-footer *ngIf="this.router.url !== '/contacto'" ></app-footer>
+  <app-navbar></app-navbar>
+  <router-outlet></router-outlet>
+  <app-footer *ngIf="this.router.url !== '/contacto'"></app-footer>
+  <div
+    _ngcontent-nai-c17=""
+    class="fixed-action-btn direction-top active"
+    style="bottom: 54px; right: 19px; z-index: 998;"
+  >
+    <a
+      _ngcontent-nai-c17=""
+      id="btn-whatsapp"
+      class="btn-floating btn-large primary-text gradient-shadow modal-trigger btn-whatsapp"
+      ><i class="fab fa-whatsapp"></i
+    ></a>
+  </div>
+  <div class="card horizontal">
+    <div class="card-stacked">
+      <div class="card-title">
+        <i class="fab fa-whatsapp"></i>WhatsApp
+        <div class="btn-whatsApp-close">
+          <i _ngcontent-mob-c3="" class="material-icons">close </i>
+        </div>
+      </div>
+      <div class="card-content">
+        <form [formGroup]="form" (ngSubmit)="enviar()">
+          <div class="row">
+            <div class="input-field col s12">
+              <input
+                id="message"
+                type="text"
+                name="message"
+                formControlName="message"
+                class="validate"
+              />
+
+              <label class="active" for="message">Mensaje</label>
+            </div>
+          </div>
+          <div class="card-action">
+            <button
+              class="btn waves-effect waves-light"
+              type="submit"
+              name="action"
+            >
+              <i class="material-icons right">send</i>
+              Enviar
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
 </div>

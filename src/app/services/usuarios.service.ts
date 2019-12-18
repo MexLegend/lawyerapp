@@ -18,10 +18,10 @@ export class UsuariosService {
 
   constructor(
     private http: HttpClient,
-    private router: Router,
-    // public _notificationS: NotificationService,
-    // public _subirIS: SubirImagenService
-  ) {
+    private router: Router
+  ) // public _notificationS: NotificationService,
+  // public _subirIS: SubirImagenService
+  {
     this.cargarStorage();
   }
 
@@ -35,7 +35,7 @@ export class UsuariosService {
       'Content-Type': 'application/json',
       token: this.token
     });
-    const url = `${environment.URI}/api/users/${id}`;
+    const url = `${environment.URI}/api/usuarios/${id}`;
 
     return this.http.delete<Usuario>(url, { headers });
   }
@@ -51,29 +51,28 @@ export class UsuariosService {
       'Content-Type': 'application/json',
       token: this.token
     });
-    const url = `${environment.URI}/api/users/${id}`;
+    const url = `${environment.URI}/api/usuarios/${id}`;
 
     return this.http
       .get<Usuario>(url, { headers })
       .pipe(map((resp: any) => resp.users));
   }
 
-  obtenerUsuarios({
-    page,
-    perPage,
-    orderField,
-    orderType,
-    filter,
-    filterOpt,
-    status
-  }): Observable<UsuariosPaginacion> {
-
+  obtenerUsuarios(
+    page: number = 0,
+    perPage: number = 10,
+    orderField: string = '',
+    orderType: string = '',
+    filter: string = '',
+    filterOpt: string = 'firstName',
+    status: boolean = true
+  ): Observable<UsuariosPaginacion> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       token: this.token
     });
 
-    let url = `${environment.URI}/api/users?status=${status}&page=${page +
+    let url = `${environment.URI}/api/usuarios?status=${status}&page=${page +
       1}&perPage=${perPage}`;
 
     if (orderField && orderType) {
@@ -123,11 +122,7 @@ export class UsuariosService {
     const url = `${environment.URI}/api/login`;
     return this.http.post(url, user).pipe(
       map((resp: any) => {
-        this.guardarStorage(
-          resp.user._id,
-          resp.token,
-          resp.user
-        );
+        this.guardarStorage(resp.user._id, resp.token, resp.user);
         return true;
       }),
       catchError(err => {
@@ -149,7 +144,9 @@ export class UsuariosService {
     localStorage.removeItem('user');
     localStorage.removeItem('id');
     localStorage.removeItem('token');
-
+    if ($(".sidenav-overlay").css("display", "block")) {
+      $(".sidenav-overlay").css("display", "none");
+    }
     this.router.navigate(['/inicio']);
   }
 
@@ -158,14 +155,14 @@ export class UsuariosService {
       'Content-Type': 'application/json',
       token: this.token
     });
-    const url = `${environment.URI}/api/users`;
+    const url = `${environment.URI}/api/usuarios`;
 
     return this.http.post(url, user, { headers }).pipe(
       map((resp: any) => {
         return resp.users;
       }),
       catchError(err => {
-        console.log(err)
+        console.log(err);
         // this._notificationS.create(
         //   `Error: ${err}`,
         //   'Cerrar',
@@ -177,7 +174,7 @@ export class UsuariosService {
   }
 
   actualizarUsuario(id, user: any) {
-    const url = `${environment.URI}/api/users/${id}`;
+    const url = `${environment.URI}/api/usuarios/${id}`;
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       token: this.token
@@ -186,11 +183,7 @@ export class UsuariosService {
     return this.http.put(url, user, { headers }).pipe(
       map((resp: any) => {
         if (id === this.id) {
-          this.guardarStorage(
-            resp.user._id,
-            this.token,
-            resp.user
-          );
+          this.guardarStorage(resp.user._id, this.token, resp.user);
         }
         // this._notificationS.create(
         //   `${resp.user.firstName}, perfil actualizado correctamente`,

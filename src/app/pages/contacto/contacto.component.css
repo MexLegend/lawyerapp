@@ -1,3 +1,85 @@
+/* Media Queries */
+@media only screen and (max-width: 1350px) {
+  #right-contact-content {
+    width: 50% !important;
+  }
+}
+
+@media only screen and (max-width: 1220px) {
+  #right-contact-content {
+    width: 55% !important;
+  }
+}
+
+@media only screen and (max-width: 860px) {
+  #space-contact-contact {
+    width: 10% !important;
+  }
+  #right-contact-content {
+    width: 60% !important;
+  }
+}
+
+@media only screen and (max-width: 770px) {
+  #main-contact-content > div {
+    width: 85% !important;
+  }
+  #space-contact-contact {
+    width: 0% !important;
+  }
+  #main-contact-content {
+    flex-direction: column;
+    align-items: center;
+  }
+  #right-contact-content {
+    margin-top: 20px;
+    margin-bottom: -70px !important;
+  }
+  #contact-background {
+    padding: 110px 0 !important;
+  }
+  #contact-form-text-left {
+    width: 55% !important;
+  }
+  #contact-form-text-middle {
+    width: 0% !important;
+  }
+  #contact-form-text-right {
+    width: 45% !important;
+    padding-top: 0 !important;
+  }
+}
+
+@media only screen and (max-width: 560px) {
+  #right-contact-content {
+    padding: 15px !important;
+  }
+  #right-contact-content::after {
+    right: auto !important;
+  }
+  #contact-form-text {
+    flex-direction: column !important;
+  }
+  #contact-form-text-left {
+    width: 100% !important;
+  }
+  #contact-form-text-left > div:first-child {
+    text-align: center;
+  }
+  #contact-form-text-right {
+    width: 100% !important;
+  }
+  #contact-social-network {
+    justify-content: center !important;
+  }
+}
+
+@media only screen and (max-width: 520px) {
+  #main-contact-content > div {
+    width: 100% !important;
+  }
+}
+
 /* Contact Styling */
 
 #contact-container {
@@ -253,42 +335,4 @@ textarea.materialize-textarea {
   font-size: 16px;
   border-radius: 5px;
   padding: 3px 0;
-}
-
-/* label focus color */
-.input-field {
-  margin: 5px 0;
-}
-
-.input-field input[type="text"]:focus + label,
-.input-field input[type="email"]:focus + label,
-.input-field input[type="number"]:focus + label,
-.materialize-textarea:focus + label {
-  color: #26aee4;
-}
-
-/* label underline focus color */
-.input-field input[type="text"]:focus,
-.input-field input[type="email"]:focus,
-.input-field input[type="number"]:focus,
-.materialize-textarea:focus {
-  border-bottom: 1.5px solid #26aee4 !important;
-  box-shadow: none !important;
-}
-
-/* Valid Color */
-.input-field input[type="text"].valid,
-.input-field input[type="email"].valid,
-.input-field input[type="number"].valid,
-.materialize-textarea.valid {
-  border-bottom: 1.5px solid #26aee4 !important;
-  box-shadow: none !important;
-}
-/* Invalid Color */
-.input-field input[type="text"].invalid,
-.input-field input[type="email"].invalid,
-.input-field input[type="number"].invalid,
-.materialize-textarea.invalid {
-  border-bottom: 1.5px solid #e45c26 !important;
-  box-shadow: none !important;
 }

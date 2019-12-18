@@ -11,22 +11,20 @@ import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { LoginComponent } from './login/login.component';
 import { AdminComponent } from './admin/admin.component';
-import { FormsModule } from '@angular/forms';
-
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ModalsModule } from './modals/modals.module';
+import { NgScrollbarModule } from 'ngx-scrollbar';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   wheelPropagation: true
 };
-
 
 @NgModule({
   declarations: [
     AdminComponent,
     AppComponent,
     ClientesComponent,
-    LoginComponent
   ],
   imports: [
     APP_ROUTING,
@@ -36,6 +34,10 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     HttpClientModule,
     PerfectScrollbarModule,
     SharedModule,
+    ModalsModule,
+    NgScrollbarModule,
+    ReactiveFormsModule
+
   ],
   providers: [
     {
@@ -45,4 +47,5 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

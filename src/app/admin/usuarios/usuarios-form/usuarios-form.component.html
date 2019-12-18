@@ -1,0 +1,71 @@
+<div
+  id="modalUsuarios"
+  class="modal border-radius-6"
+  tabindex="0"
+  style="z-index: 1003; display: none; opacity: 0; top: 4%; transform: scaleX(0.8) scaleY(0.8);"
+>
+  <div class="modal-content">
+    <h5 class="mt-0">Crear nuevo Usuario</h5>
+    <hr />
+    <div class="row">
+      <form
+        class="col s12"
+        ngNativeValidate
+        [formGroup]="form"
+        (ngSubmit)="crear()"
+      >
+        <input
+          name="address"
+          formControlName="address"
+          type="text"
+          placeholder="Domicilio"
+          required
+        />
+        <input
+          name="cellPhone"
+          formControlName="cellPhone"
+          type="tel"
+          placeholder="Telefono"
+          required
+        />
+        <input
+          name="email"
+          formControlName="email"
+          type="email"
+          placeholder="Email"
+          required
+        />
+        <input
+          name="firstName"
+          formControlName="firstName"
+          type="text"
+          placeholder="Nombre(s)"
+          required
+        />
+        <input
+          name="lastName"
+          formControlName="lastName"
+          type="text"
+          placeholder="Apellido(s)"
+          required
+        />
+        <input
+          name="password"
+          formControlName="password"
+          type="password"
+          placeholder="Contraseña"
+          required
+        />
+        <div class="modal-footer">
+          <button
+            type="submit"
+            class="waves-effect waves-light blue darken-1 btn"
+          >
+            Crear
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="modal-footer"></div>
+</div>

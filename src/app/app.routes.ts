@@ -3,7 +3,6 @@ import { NopagefoundComponent } from './shared/nopagefound/nopagefound.component
 import { ClientesComponent } from './clientes/clientes.component';
 import { AdminComponent } from './admin/admin.component';
 import { LoginGuard } from './guards/login.guard';
-import { LoginComponent } from './login/login.component';
 
 const APP_ROUTES: Routes = [
 
@@ -21,11 +20,8 @@ const APP_ROUTES: Routes = [
 
     },
     {
-        path: 'login', component: LoginComponent
-    },
-    {
         path: '**', component: NopagefoundComponent
     }
 ];
 
-export const APP_ROUTING = RouterModule.forRoot(APP_ROUTES, { useHash: true});
+export const APP_ROUTING = RouterModule.forRoot(APP_ROUTES, { useHash: true });

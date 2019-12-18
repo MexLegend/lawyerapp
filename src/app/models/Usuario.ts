@@ -1,5 +1,6 @@
 export class Usuario {
     constructor(
+        public address: string,
         public cellPhone: string,
         public email: string,
         public firstName: string,

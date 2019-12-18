@@ -16,7 +16,7 @@ export class ArticulosService {
     private _usuariosS: UsuariosService
   ) { }
 
-  crear(articulo: Articulo): Observable<Articulo> {
+  crearArticulo(articulo: Articulo): Observable<Articulo> {
 
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
@@ -24,7 +24,7 @@ export class ArticulosService {
     });
 
 
-    const url = `${environment.URI}/api/posts`;
+    const url = `${environment.URI}/api/articulos`;
 
     return this.http.post<Articulo>(url, articulo, { headers }).pipe(
       map((resp: any) => {
@@ -35,7 +35,7 @@ export class ArticulosService {
     );
   }
 
-  obtener(
+  obtenerArticulos(
     page: number = 0,
     perPage: number = 10,
     orderField: string = '',
@@ -45,7 +45,7 @@ export class ArticulosService {
     status: boolean = true
   ): Observable<ArticulosPaginacion> {
 
-    let url = `${environment.URI}/api/posts?status=${status}&page=${page +
+    let url = `${environment.URI}/api/articulos?status=${status}&page=${page +
       1}&perPage=${perPage}`;
 
     if (orderField && orderType) {

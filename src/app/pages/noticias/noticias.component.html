@@ -6,9 +6,18 @@
         <div class="nav-wrapper">
           <form>
             <div class="input-field">
-              <input id="search" type="search" placeholder="Buscar..." required />
-              <label id="noticias-search-label-icon" class="label-icon" for="search"><i
-                  class="material-icons">search</i></label>
+              <input
+                id="search"
+                type="search"
+                placeholder="Buscar..."
+                required
+              />
+              <label
+                id="noticias-search-label-icon"
+                class="label-icon"
+                for="search"
+                ><i class="material-icons">search</i></label
+              >
               <i class="noticias-search-close-icon material-icons">close</i>
             </div>
           </form>
@@ -17,11 +26,19 @@
     </div>
   </div>
   <div id="noticias-content-container" class="container">
-    <div *ngFor="let noticia of noticias" class="card sticky-action" style="width: 100%;">
+    <div
+      *ngFor="let noticia of noticias"
+      class="card sticky-action"
+      style="width: 100%;"
+    >
       <div class="card-header card-content">
         <div class="card-date">
-          <div class="card-day"><span>{{ noticia.created_at | date: 'd'}}</span></div>
-          <div class="card-month"><span>{{ noticia.created_at | date: 'MMM'}}</span></div>
+          <div class="card-day">
+            <span>{{ noticia.created_at | date: "d" }}</span>
+          </div>
+          <div class="card-month">
+            <span>{{ noticia.created_at | date: "MMM" }}</span>
+          </div>
         </div>
         <div class="card-title-new">
           <span class="card-title activator">{{ noticia.title }}</span>
@@ -39,26 +56,38 @@
       <div class="card-footer card-action">
         <div class="card-social-network"><a href="">Redes sociales</a></div>
         <div class="card-show-more">
-          <a class="activator btn-news waves-effect waves-light btn">Mostrar más</a>
+          <a class="activator btn-news waves-effect waves-light btn"
+            >Mostrar más</a
+          >
         </div>
       </div>
       <div class="card-reveal">
         <div class="card-reveal-header">
           <div class="card-date">
-            <div class="card-day"><span>{{ noticia.created_at | date: 'd'}}</span></div>
-            <div class="card-month"><span>{{ noticia.created_at | date: 'MMM'}}</span></div>
+            <div class="card-day">
+              <span>{{ noticia.created_at | date: "d" }}</span>
+            </div>
+            <div class="card-month">
+              <span>{{ noticia.created_at | date: "MMM" }}</span>
+            </div>
           </div>
           <div class="card-reveal-title">
-            <span class="news-card-title activated grey-text text-darken-4">{{ noticia.title }}<i
-                class="material-icons right">close</i></span>
-                <span class="news-card-autor">{{ noticia.author }}</span>
+            <span class="news-card-title activated grey-text text-darken-4"
+              >{{ noticia.title
+              }}<i class="material-icons right">close</i></span
+            >
+            <span class="news-card-autor">{{ noticia.author }}</span>
           </div>
         </div>
         <div class="card-reveal-body">
-          <div class="card-reveal-img" style="width: 300px;">
-            <img src="../../../assets/images/New_image.jpg" />
-          </div>
           <div class="card-reveal-text">
+            <p>
+              <strong>
+                <div class="card-reveal-img">
+                  <img src="../../../assets/images/New_image.jpg" />
+                </div>
+              </strong>
+            </p>
             <p>
               {{ noticia.content }}
             </p>

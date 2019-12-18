@@ -19,15 +19,14 @@ export class NoticiasComponent implements OnInit {
 
   ngOnInit() {
 
-    this._articulosS.obtener()
-        .subscribe( (resp: any) => {
-          this.noticias = resp.docs;
-          console.log(resp.docs);
-        })
+    this._articulosS.obtenerArticulos()
+      .subscribe((resp: any) => {
+        this.noticias = resp.docs;
+      })
 
-    $(document).ready(function(){
+    $(document).ready(function () {
       // Noticia Expand on Click
-      $(".activator").click(function (e) {
+      $(document).on("click", ".activator", function (e) {
         e.preventDefault();
         $(".card-reveal").css({ "transform": "translateY(0px)", "transition": "all 0.3s ease-in-out" });
         retractNoticia();
@@ -39,7 +38,7 @@ export class NoticiasComponent implements OnInit {
       });
 
       // Noticia Retract on Title Click
-      $(".card-reveal-title").click(function (e) {
+      $(document).on("click", ".card-reveal-title", function (e) {
         e.preventDefault();
         $(".card-reveal").css({ "transform": "translateY(0px)", "transition": "all 0.3s ease-in-out" });
         $(".btn-news").text("Mostrar más");
@@ -47,14 +46,15 @@ export class NoticiasComponent implements OnInit {
       });
 
       // Noticia Retract on Button Click
-      $(".btn-news").click(function (e) {
-        e.preventDefault();
-        if ($(this).text() == "Mostrar más") {
-          $(this).removeClass("activator");
-        } else {
-          $(this).addClass("activator");
-        }
-      });
+      // $(document).on("click", ".btn-news", function (e) {
+      //   e.preventDefault();
+      //   if ($(this).text() == "Mostrar más") {
+      //     $(".card-reveal").css({ "transform": "translateY(0px)", "transition": "all 0.3s ease-in-out" });
+      //     $(this).addClass("activator")
+      //   } else {
+      //     $(this).removeClass("activator");
+      //   }
+      // });
 
       // Function Expand Noticia 
       function expandNoticia(element) {
@@ -67,12 +67,13 @@ export class NoticiasComponent implements OnInit {
       // Function Retract Noticia 
       function retractNoticia() {
         $(".btn-news").text("Mostrar más");
+        // $(".card-reveal").css({ "transform": "translateY(0px)", "transition": "all 0.3s ease-in-out" });
         $(".card.sticky-action").css({ "max-height": "600px", "min-height": "286px", "transition": "all 0.3s ease-in-out" });
         $(".card.sticky-action").find($(".card-footer.card-action")).removeClass("card-footer-active");
         $(".card.sticky-action").find($(".card-footer.card-action")).addClass("card-footer-inactive");
       }
-    });  
-    
+    });
+
   }
 
 }
