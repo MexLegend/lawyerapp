@@ -49,11 +49,20 @@ export class AdminComponent implements OnInit {
       });
 
 
+      // Change Main SideNav Option Style on Click
+      $(document).on("click", "#slide-out li", function () {
+        $("#slide-out li a").removeClass("active");
+        $(this).find("a").addClass("active");
+        // if($(this).closest("a").hasClass("active")){
+
+        // }
+      });
+
       // Change Z-index of Navbar When Sidenav Show / Hide
 
       // Change Z-index of sidenav on clic
       $(document).on("click", "#sidenav-trigger-btn", function () {
-        $(".scroll-sidenav").css("z-index", "996");
+        $(".scroll-sidenav").css("z-index", "998");
       });
 
       // Select the node that will be observed for mutations

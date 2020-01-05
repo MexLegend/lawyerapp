@@ -27,7 +27,7 @@
   </div>
   <div id="noticias-content-container" class="container">
     <div
-      *ngFor="let noticia of noticias"
+      *ngFor="let noticia of noticias | paginate:{itemsPerPage: 2, currentPage: paginaActual}"
       class="card sticky-action"
       style="width: 100%;"
     >
@@ -49,7 +49,7 @@
         <div class="card-img card-image waves-effect waves-block waves-light">
           <img class="activator" src="../../../assets/images/New_image.jpg" />
         </div>
-        <div class="card-information">
+        <div class="card-information" [innerHtml]="noticia.content">
           {{ noticia.content }}
         </div>
       </div>
@@ -88,12 +88,11 @@
                 </div>
               </strong>
             </p>
-            <p>
-              {{ noticia.content }}
-            </p>
+            <div [innerHtml]="noticia.content"></div>
           </div>
         </div>
       </div>
     </div>
+    <pagination-controls (pageChange)="paginaActual = $event"></pagination-controls>
   </div>
 </section>

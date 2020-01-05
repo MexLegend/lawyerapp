@@ -236,22 +236,36 @@ a.middle-indicator-text {
   padding-top: 30px;
 }
 
-#carouselPartner .carousel-item {
-  padding: 10px 10px 30px 10px;
+#carousel-Partners .carousel-item {
   background: #26aee4;
-  width: fit-content;
+  padding: 0;
   width: 200px;
-  height: 170px;
-  position: absolute;
-  overflow: hidden;
-  top: 0;
-  left: 0;
+  height: 150px;  
+  min-height: 150px;
   -webkit-box-shadow: 0px 0px 9px 2px rgba(0, 0, 0, 0.34);
   -moz-box-shadow: 0px 0px 9px 2px rgba(0, 0, 0, 0.34);
   box-shadow: 0px 0px 9px 2px rgba(0, 0, 0, 0.34);
+  top: 0px;
+  left: 0px;
 }
 
+#carousel-Partners .carousel-item img {
+width: 100%;
+height: inherit;
+}
 
+#carousel-Partners .carousel-Parters-Title {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+}
+
+#carousel-Partners .carousel-Parters-Title span {
+  width: 100%;
+  margin: 0;
+}
 
 /* progress bar */
 .carousel-progress-bar-timer {

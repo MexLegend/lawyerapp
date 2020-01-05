@@ -1,0 +1,17 @@
+/* Modal Submit Button Styling */
+.modal-footer {
+  padding: 0;
+  margin-top: 30px;
+  height: fit-content;
+}
+
+.modal .modal-footer .btn {
+  border-radius: 5px;
+  text-transform: capitalize;
+  font-size: medium;
+  margin-left: 8px;
+}
+
+.add-type {
+  color: #1e88e5;
+}

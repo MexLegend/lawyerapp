@@ -9,14 +9,11 @@ import { NoticiasComponent } from '../pages/noticias/noticias.component';
 import { InicioComponent } from '../pages/inicio/inicio.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import {
-  PerfectScrollbarModule, PerfectScrollbarConfigInterface,
-  PERFECT_SCROLLBAR_CONFIG
-} from 'ngx-perfect-scrollbar';
-
-const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
-  wheelPropagation: true
-};
+import { PerfilModule } from '../pages/perfil/perfil.module';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { DataTablesModule } from 'angular-datatables';
+import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
+import { PagesComponent } from '../pages/pages.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +21,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     ContactoComponent,
     NoticiasComponent,
     InicioComponent,
+    PagesComponent
   ],
   imports: [
     CommonModule,
@@ -31,14 +29,13 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     CLIENTE_ROUTING,
     ReactiveFormsModule,
     FormsModule,
-    PerfectScrollbarModule,
     MatFormFieldModule,
+    PerfilModule,
+    NgxPaginationModule,
+    DataTablesModule,
+    [SweetAlert2Module.forRoot()],
   ],
   providers: [
-    {
-      provide: PERFECT_SCROLLBAR_CONFIG,
-      useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG
-    }
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

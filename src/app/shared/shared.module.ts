@@ -6,7 +6,7 @@ import { RouterModule } from '@angular/router';
 import { FooterComponent } from './footer/footer.component';
 import { BreadcrumbsComponent } from './breadcrumbs/breadcrumbs.component';
 import { ModalsModule } from '../modals/modals.module';
-import { MatMenuModule, MatButtonModule, MatExpansionModule } from '@angular/material'
+import { MatMenuModule, MatButtonModule, MatExpansionModule, MatSnackBarModule } from '@angular/material'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDividerModule, MatListModule } from '@angular/material'
 
@@ -27,6 +27,7 @@ import { MatDividerModule, MatListModule } from '@angular/material'
     ReactiveFormsModule,
     MatDividerModule, MatListModule,
     MatExpansionModule,
+    MatSnackBarModule
   ],
   exports: [
     BreadcrumbsComponent,

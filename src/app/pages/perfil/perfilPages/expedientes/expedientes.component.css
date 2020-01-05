@@ -1,0 +1,156 @@
+@media only screen and (max-width: 800px) {
+  .filtros {
+    flex-direction: column !important;
+    border-bottom: none !important;
+  }
+  .filtros-group,
+  .filtro-option,
+  .filtro-buscador {
+    width: 100% !important;
+  }
+  .filtros-group {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+  }
+}
+
+.card-stacked {
+  width: 100%;
+}
+
+.card-content {
+  padding: 0;
+}
+
+/* Buscardor Styling */
+.filtro-buscador {
+  width: 33.33%;
+  height: 50px;
+  padding: 5px 20px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.buscadorExpediente {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 0px;
+  padding: 0;
+  width: 100%;
+}
+
+.buscadorExpediente input {
+  background: #dcdcdc52;
+  height: 37px;
+  border: none;
+  margin: 0 2px 0 0;
+  padding: 0 15px;
+  box-shadow: none;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+  border: 2px solid transparent;
+}
+
+.buscadorExpediente input:focus {
+  background: #dcdcdc52;
+  border: 2px solid #26aee4;
+}
+
+.buscadorExpediente button {
+  padding: 0;
+  width: 45px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: inherit;
+  height: 40px;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  background: #26aee4;
+  box-shadow: none;
+}
+
+.buscadorExpediente button i {
+  font-size: 30px;
+}
+
+/* Filteros Styling */
+.filtros {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+.filtros-group {
+  width: 66.66%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.filtro-option {
+  width: 50%;
+  height: 50px;
+  padding: 5px 20px;
+  font-size: 16px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  color: #5f6368;
+  cursor: pointer;
+}
+
+.filtro-option:hover {
+  background: #0000000d;
+  color: #3d3e3e;
+  font-weight: 600;
+}
+
+.filtro-option:hover i {
+  color: #3d3e3e;
+}
+
+.filtro-option i {
+  padding-right: 10px;
+  font-size: 20px;
+  color: #5f6368;
+}
+
+.notification-table tr {
+  cursor: pointer;
+}
+
+.notification-table tr:hover {
+  background: rgba(0, 0, 0, 0.081);
+  -webkit-transition: background-color 0.3s ease-out;
+  -moz-transition: background-color 0.3s ease-out;
+  -o-transition: background-color 0.3s ease-out;
+  transition: background-color 0.3s ease-out;
+}
+
+.notification-table .notification-checkbox label span {
+  padding: 0;
+  height: 15px;
+}
+
+.notification-table .notification-data,
+.notification-table .notification-data a {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  font-size: 1.1rem;
+  font-weight: 300;
+}
+
+.notification-table .notification-data {
+  justify-content: space-between;
+}
+
+/* Checkbox Styling */
+[type="checkbox"].filled-in:checked + span:not(.lever):after {
+  border: 2px solid #26aee4;
+  background-color: #26aee4;
+}

@@ -24,12 +24,12 @@ export class ClientesComponent implements OnInit {
     $(document).ready(function () {
       // Open WhatsApp Window on Click
       $(document).on("click", "#btn-whatsapp", function () {
-        $(".card.horizontal").css({"visibility": "visible", "opacity" : "1"});
+        $(".whatsAppCard").css({"visibility": "visible", "opacity" : "1"});
       });
 
       // Close WhatsApp Window on Click
       $(document).on("click", ".btn-whatsApp-close", function () {
-        $(".card.horizontal").css({"transition": "visibility 0.5s, opacity 0.5s ease-in-out", "visibility": "hidden", "opacity" : "0"});
+        $(".whatsAppCard").css({"transition": "visibility 0.5s, opacity 0.5s ease-in-out", "visibility": "hidden", "opacity" : "0"});
       });
     });
 

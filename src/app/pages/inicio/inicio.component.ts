@@ -10,44 +10,33 @@ declare var $: any;
 export class InicioComponent implements OnInit {
 
   constructor() {
-    
+
   }
 
   ngOnInit() {
     $(document).ready(function () {
 
       // start carousel Partners
-      $('#carouselPartner').carousel({
+      $('#carousel-Partners').carousel({
         fullWidth: false,
-        numVisible: 7
+        padding: 100,
+        dist: 0,
+        numVisible: 5,
+        indicators: true
       });
 
-      // Autoplay carousel Partners
-      let autoplayCarouselPartners = true;
-      run();
+      let int: any; 
+      const carouselInterval = 4000;
 
       function run() {
-        // console.log(autoplayCarouselPartners);
-        // setTimeout(function () {
-        if (autoplayCarouselPartners) { 
-          $('#carouselPartner').carousel('next'); 
-        }
-        // }, carousel_interval);
-        setTimeout(run, 3000);
+        int = setInterval(function () {
+          $('#carousel-Partners').carousel('next');
+        }, carouselInterval);
       }
-      $('#carouselPartner').hover(function () {
-        autoplayCarouselPartners = false;
-      }, function () { autoplayCarouselPartners = true; });
-
-      // function run() {
-      //   int = setInterval(function () {
-      //     $('#carouselPartner').carousel('next');
-      //   }, carousel_interval);
-      // }
-      // function stop() {
-      //   clearInterval(int);
-      // }
-      // $('#carouselPartner').hover(stop, run);
+      function stop() {
+        clearInterval(int);
+      }
+      $('#carousel-Partners').hover(stop, run);
 
       // start carousel Principal
       $('#carouselPrincipal.carousel-slider').carousel({
@@ -105,29 +94,6 @@ export class InicioComponent implements OnInit {
 
       // Start Material Box
       $('.materialboxed').materialbox();
-
-      // Change Z-idex of Navbar When Carousel Partner Image Clicked
-      var observer = new MutationObserver(function (mutations) {
-        console.log();
-        mutations.forEach(function (mutation) {
-          if (mutation.attributeName === "class") {
-            if ($(mutation.target).hasClass("active")) {
-              $(".navbar-fixed").css({ "z-index": "0", "opacity": "0", "transition": "all 0.2s ease-in-out" });
-              $(".material-placeholder").css("overflow", "visible");
-            } else {
-              $(".navbar-fixed").css({ "z-index": "997", "opacity": "1", "transition": "all 0.2s ease-in-out" });
-              $(".material-placeholder").css("overflow", "hidden");
-            }
-            // var attributeValue = $(mutation.target).prop(mutation.attributeName);
-          }
-        });
-      });
-
-      $(".materialboxed").each((index, value) => {
-        observer.observe(value, {
-          attributes: true
-        });
-      });
     });
 
   }

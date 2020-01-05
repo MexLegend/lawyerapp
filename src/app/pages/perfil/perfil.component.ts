@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { PerfectScrollbarConfigInterface, PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
+import { Router, ActivatedRoute } from '@angular/router';
 
-declare var $: any, M: any, options: any, PerfectScrollbar: any, width: any, height: any, style: any, value: any;
+declare var $: any;
 
 @Component({
   selector: 'app-perfil',
@@ -10,13 +10,14 @@ declare var $: any, M: any, options: any, PerfectScrollbar: any, width: any, hei
 })
 export class PerfilComponent implements OnInit {
 
-  public config: PerfectScrollbarConfigInterface = {};
-
-  @ViewChild(PerfectScrollbarComponent, null) componentRef?: PerfectScrollbarComponent;
-
-  constructor() { }
+  constructor(
+    private router: Router,
+    private activatedRoute: ActivatedRoute
+  ) {
+  }
 
   ngOnInit() {
+
     $("#contact-sidenav .contact-list li").hover(function (e) {
       e.stopPropagation();
       if (!$(this).closest(".perfil-menu-option").hasClass("active")) {
@@ -24,6 +25,16 @@ export class PerfilComponent implements OnInit {
       }
     }, function () {
       $(this).closest(".perfil-menu-option").removeClass("perfil-menu-option-hover");
+    });
+
+    $("#contact-sidenav .contact-list li").click(function (e) {
+      e.stopPropagation();
+      if (!$(this).hasClass("sidebar-title")) {
+        $("#contact-sidenav .contact-list li").removeClass("active");
+        if (!$(this).closest(".perfil-menu-option").hasClass("active")) {
+          $(this).addClass("active");
+        }
+      }
     });
   }
 

@@ -6,6 +6,9 @@ import { Router } from '@angular/router';
 import { Observable, throwError } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { catchError, map } from 'rxjs/operators';
+import { NotificationService } from './notification.service';
+
+declare var $: any;
 
 @Injectable({
   providedIn: 'root'
@@ -18,17 +21,13 @@ export class UsuariosService {
 
   constructor(
     private http: HttpClient,
-    private router: Router
-  ) // public _notificationS: NotificationService,
+    private router: Router,
+    public _notificationS: NotificationService,
+  )
   // public _subirIS: SubirImagenService
   {
     this.cargarStorage();
   }
-
-  headers = new HttpHeaders({
-    'Content-Type': 'application/json',
-    token: this.token
-  });
 
   eliminarUsuario(id: string): Observable<Usuario> {
     const headers = new HttpHeaders({
@@ -126,11 +125,7 @@ export class UsuariosService {
         return true;
       }),
       catchError(err => {
-        // this._notificationS.create(
-        //   `Error: ${err.error.message}`,
-        //   'Cerrar',
-        //   3000
-        // );
+        this._notificationS.mensaje('error', 'Credenciales incorrectas', err.error.message, true, false, '', 'Cerrar', 4000)
         return throwError(err);
       })
     );
@@ -159,15 +154,39 @@ export class UsuariosService {
 
     return this.http.post(url, user, { headers }).pipe(
       map((resp: any) => {
+        $("#modalUsuarios").modal("close");
+        this._notificationS.mensaje('success', 'Creación correcta', resp.message, false, false, '', '', 2000)
+
         return resp.users;
       }),
       catchError(err => {
-        console.log(err);
-        // this._notificationS.create(
-        //   `Error: ${err}`,
-        //   'Cerrar',
-        //   3000
-        // );
+        $("#modalUsuarios").modal("close");
+        this._notificationS.mensaje('error', 'Creación fallida', err.error.message, false, false, '', '', 2000)
+        return throwError(err);
+      })
+    );
+  }
+
+  actualizarPassword(id, user: any) {
+    const url = `${environment.URI}/api/usuarios/cambiar-pass/${id}`;
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      token: this.token
+    });
+
+    return this.http.put(url, user, { headers }).pipe(
+      map((resp: any) => {
+        this._notificationS.mensaje('error', 'Actualización fallida', resp.message, false, false, '', '', 2000)
+        if(resp.ok) {
+          if (id === this.id) {
+            this.guardarStorage(resp.user._id, this.token, resp.user);
+          }
+          this._notificationS.mensaje('success', 'Actualización correcta', resp.message, false, false, '', '', 2000)
+          return true;
+        }
+      }),
+      catchError(err => {
+        this._notificationS.mensaje('error', 'Actualización fallida', err.message, false, false, '', '', 2000)
         return throwError(err);
       })
     );
@@ -185,11 +204,7 @@ export class UsuariosService {
         if (id === this.id) {
           this.guardarStorage(resp.user._id, this.token, resp.user);
         }
-        // this._notificationS.create(
-        //   `${resp.user.firstName}, perfil actualizado correctamente`,
-        //   'Cerrar',
-        //   3000
-        // );
+        this._notificationS.mensaje('success', 'Actualización correcta', resp.message, false, false, '', '', 2000)
         return true;
       })
     );

@@ -11,7 +11,10 @@ declare var $: any;
 })
 export class NoticiasComponent implements OnInit {
 
+  allowedChars = '@ # $ % ^ & * ( ) _ - ., ? < > { } [ ] ! +';
+  text = '<b><i>Ejemplo-2</i></b>';
   noticias;
+  paginaActual: number = 1;
 
   constructor(
     private _articulosS: ArticulosService

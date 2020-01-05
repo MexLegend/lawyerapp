@@ -7,11 +7,11 @@
     opacity: 0 !important;
   }
 }
-@media only screen and (max-width: 992px) {
+/* @media only screen and (max-width: 992px) {
   .sidenav-overlay {
     z-index: 995;
   }
-}
+} */
 @media only screen and (max-width: 899px) {
   .sidebar
     .sidebar-content
@@ -296,7 +296,7 @@ body {
   color: #26aee4 !important;
 }
 
-/* label underline focus color */
+/* Vista Cliente Label Underline Focus Color */
 .input-field input[type="text"]:focus,
 .input-field input[type="email"]:focus,
 .input-field input[type="number"]:focus,
@@ -304,6 +304,16 @@ body {
 .materialize-textarea:focus {
   border-bottom: 1.5px solid #26aee4 !important;
   box-shadow: none !important;
+}
+
+/* Vista Admin Label Underline Focus Color */
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="number"]:focus,
+input[type="password"]:focus,
+input[type="tel"]:focus {
+  border-bottom: 1px solid #ff4081!important;
+  box-shadow: 0 1px 0 0 #ff4081 !important;
 }
 
 /* Valid Color */
@@ -335,10 +345,10 @@ body {
   vertical-align: bottom;
 }
 
-/* Angular Dtatables Styling */
+/* Angular Datatables Styling */
 table {
   border-color: rgba(0, 0, 0, 0.12) !important;
-  width: 100% !important;
+  /* width: 100% !important; */
   margin-bottom: 5px !important;
 }
 
@@ -454,10 +464,20 @@ table.dataTable.dtr-inline.collapsed > tbody > tr[role="row"] > th:first-child {
 }
 
 /* Navbar Dropdown Styling */
+.mat-menu-panel {
+  max-width: fit-content !important;
+}
+
+.mat-menu-content {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
 .mat-menu-content button {
   display: flex;
   flex-direction: row;
   align-items: center;
+  color: #757575;
 }
 
 .mat-menu-content button:focus,
@@ -474,13 +494,15 @@ table.dataTable.dtr-inline.collapsed > tbody > tr[role="row"] > th:first-child {
 }
 
 span.badge {
-  float: right;
   border-radius: 10px;
-  line-height: 20px;
-  height: 18px;
   color: white;
   min-width: fit-content;
 }
+
+span.badge.new:after {
+  content: " nuevas";
+}
+
 .mat-button-focus-overlay {
   background: white;
 }
@@ -554,4 +576,55 @@ span.badge {
   li
   a {
   padding: 0 10px;
+}
+
+/* DatePicker Styling */
+.month-prev:focus,
+.month-next:focus {
+  background-color: #26aee4;
+}
+
+.datepicker-date-display {
+  background-color: #26aee4;
+}
+
+.datepicker-table td.is-today {
+  color: #26aee4;
+}
+
+.datepicker-table td.is-selected {
+  background-color: #26aee4;
+  color: white;
+}
+
+.datepicker-table thead th {
+  padding: 10px 5px !important;
+}
+
+.datepicker-table td {
+  padding: 0 !important;
+}
+
+.datepicker-table td:focus {
+  background-color: red !important;
+  color: red !important;
+}
+
+.datepicker-cancel,
+.datepicker-clear,
+.datepicker-today,
+.datepicker-done {
+  text-transform: capitalize;
+  color: #26aee4;
+}
+
+.dropdown-content li > a,
+.dropdown-content li > span {
+  color: #26aee4;
+}
+
+/* Select Styling */
+[type="checkbox"]:checked + span:not(.lever):before {
+  border-right: 2px solid #26aee4;
+  border-bottom: 2px solid #26aee4;
 }

@@ -1,16 +1,25 @@
 /*NAVBAR STYLING */
 
 /* Media Queries */
-@media only screen and (max-width: 1105px) {
-  #nav-menu-items > ul > li {
-    width: min-content;
+@media only screen and (max-width: 1160px) {
+  #nav-menu-items > ul > li a {
+    padding: 0 10px;
   }
+}
+
+@media only screen and (max-width: 1105px) {
   #nav-menu-items > ul > li .modal-trigger {
     line-height: initial;
     height: 64px;
     display: flex;
     flex-direction: row;
     align-items: center;
+  }
+  #nav-menu-items > ul > li .nav-menu-item-transparency {
+    width: 73px;
+  }
+  #nav-menu-items > ul > li .nav-menu-item-transparency div {
+    overflow: hidden;
   }
 }
 
@@ -35,6 +44,9 @@
   nav .brand-logo img {
     height: 80px !important;
   }
+  #nav-menu-items ul {
+    float: right !important;
+  }
 }
 
 @media only screen and (max-width: 650px) {
@@ -47,11 +59,32 @@
     padding: 5px;
     line-height: initial;
   }
+
+  nav .brand-logo {
+    left: calc(50% - 54px);
+    line-height: 100%;
+  }
+}
+
+@media only screen and (max-width: 580px) {
+  nav ul li {
+    flex-direction: column !important;
+    align-items: center;
+  }
+  nav ul li a {
+    width: 100% !important;
+    margin-right: 0 !important;
+    margin-bottom: 3px;
+    justify-content: center;
+  }
 }
 
 @media only screen and (max-width: 500px) {
+  nav .brand-logo {
+    left: calc(50% - 44px);
+  }
   nav .brand-logo img {
-    height: 64px !important;
+    height: 50px !important;
   }
 }
 
@@ -60,6 +93,9 @@
   #mail a {
     font-size: 10px;
     padding: 2px 5px;
+  }
+  .notificationsMenu {
+    width: 310px !important;
   }
 }
 
@@ -143,6 +179,60 @@
   height: 65px;
 }
 
+#nav-menu-items > ul > li .avatar-status {
+  line-height: 0px;
+  position: relative;
+  display: inline-block;
+  width: 35px;
+  border-radius: 50px;
+}
+
+#nav-menu-items > ul > li .avatar-status i {
+  background-color: #00e676;
+  position: absolute;
+  right: -2px;
+  bottom: 3px;
+  width: 10px !important;
+  height: 10px !important;
+  border: 1px solid #fff;
+  border-radius: 100%;
+}
+
+#nav-menu-items > ul > li .avatar-status img {
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  border: 0;
+  border-radius: 1000px;
+  background: #e6e6e6;
+}
+
+#nav-menu-items > ul > li:last-child {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  right: 0 !important;
+}
+
+#nav-menu-items > ul > li:nth-child(6) {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  right: 69.5px;
+}
+
+#nav-menu-items > ul > li:last-child a {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0 10px;
+  margin-right: 5px;
+}
+
 #nav-menu-items > ul > li > a {
   color: #949ba1;
   font-size: 12px;
@@ -158,7 +248,20 @@
 }
 
 nav .sidenav-trigger {
-  color: #26ade4;
+  color: white;
+  background: #26ade4;
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14),
+    0 3px 1px -2px rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.2);
+}
+
+nav .sidenav-trigger i {
+  height: 40px;
+  line-height: 40px;
+  width: 40px;
+  text-align: center;
 }
 
 #mainNavbar {
@@ -183,8 +286,82 @@ nav .sidenav-trigger {
   height: auto !important;
 }
 
-[hidden] {
-  display: none !important;
+.login-btn {
+  background-color: #3a3a3d;
+  color: white !important;
+  outline: none;
+  border-radius: 5px;
+  height: 30px !important;
+  text-transform: capitalize;
+  width: fit-content !important;
+}
+
+.register-btn {
+  background-color: #26ade4;
+  color: white !important;
+  outline: none;
+  border-radius: 5px;
+  height: 30px !important;
+  text-transform: capitalize;
+  width: fit-content !important;
+}
+
+/* Notifications Menu Styling */
+.notificationsMenu {
+  width: 350px;
+}
+
+.notificationsMenu button {
+  padding: 8px 16px;
+  min-height: 50px;
+  line-height: 1.5rem;
+  height: auto;
+}
+
+.notificationsMenu button .new.badge {
+  background-color: #26ade4;
+}
+
+.notificationsMenu button .notificationMenu-item {
+  display: flex;
+  flex-direction: column;
+  align-items: baseline;
+  font-family: Muli, sans-serif !important;
+}
+
+.notificationsMenu
+  button
+  .notificationMenu-item
+  .notificationMenu-item-content {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  line-height: normal;
+  font-size: 1.1rem;
+  font-weight: 300;
+  color: rgb(0, 0, 0);
+}
+
+.notificationsMenu
+  button
+  .notificationMenu-item
+  .notificationMenu-item-content
+  span {
+  font-size: 1rem !important;
+  padding: 0.4rem;
+  color: #fff;
+  border-radius: 50%;
+  margin-right: 8px;
+}
+
+.notificationsMenu button .notificationMenu-item time {
+  line-height: normal;
+  font-size: 0.8rem;
+  font-weight: 400;
+  position: relative;
+  top: -4px;
+  margin-left: 38px;
+  padding: 4px 0;
 }
 
 #mobile-demo .ng-star-inserted .mat-accordion .mat-expansion-panel {
@@ -211,4 +388,37 @@ nav .sidenav-trigger {
 
 .sidenav-logo .logo-wrapper .brand-logo img {
   width: 50px;
+}
+
+/* Perfil Menu Styling */
+.perfilMenu {
+  width: 170px;
+}
+
+/* Notification and Perfil Badge Styling */
+.notification-badge {
+  font-family: Muli, sans-serif;
+  position: relative;
+  top: -20px;
+  right: 5px;
+  margin: 0 -0.8em;
+  padding: 2px 5px;
+  color: #fff;
+  border-radius: 50%;
+  background-color: #26ade4;
+  box-shadow: 0 0 10px 0 #26ade4;
+}
+
+.perfil-badge {
+  float: right;
+  border-radius: 10px;
+  line-height: 20px;
+  height: 18px;
+  color: white;
+  min-width: -webkit-fit-content;
+  min-width: -moz-fit-content;
+  min-width: fit-content;
+  background-color: #26ade4;
+  position: absolute;
+  right: 16px;
 }

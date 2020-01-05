@@ -1,0 +1,59 @@
+<div class="col s12 m7">
+  <div class="card horizontal">
+    <div class="card-image"></div>
+    <div class="card-stacked">
+      <form ngNativeValidate #fA="ngForm" class="col s12">
+        <div class="card-content">
+          <div class="row">
+            <div class="input-field col s12">
+              <input
+                id="date"
+                name="date"
+                type="text"
+                class="validate birthdate-picker"
+              />
+              <label for="date">Fecha de Nacimiento</label>
+            </div>
+            <div class="input-field col s12">
+              <input id="country" name="country" type="text" class="validate" />
+              <label for="country">País</label>
+            </div>
+            <div class="input-field col s12">
+              <select id="languaje" multiple>
+                <option value="" disabled>Selecciona un idioma</option>
+                <option value="1">Español</option>
+                <option value="2">Inglés</option>
+                <option value="3">Fránces</option>
+                <option value="3">Alemán</option>
+                <option value="3">Japonés</option>
+                <option value="3">Portugués</option>
+              </select>
+              <label for="languaje">Idiomas</label>
+            </div>
+            <div class="input-field col s12">
+              <input
+                placeholder="Telefono"
+                id="cellPhone2"
+                name="cellPhone"
+               
+                type="text"
+                class="validate"
+              />
+              <label for="cellPhone2" class="active">Telefono</label>
+            </div>
+          </div>
+        </div>
+        <div class="card-action">
+          <button
+            class="btn waves-effect waves-light"
+            type="submit"
+            name="action"
+          >
+            Guardar Cambios
+            <i class="material-icons right">send</i>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

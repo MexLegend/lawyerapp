@@ -5,7 +5,6 @@
       <div class="sidebar-content">
         <perfect-scrollbar
           class="scroll-container nav-collapsible sidenav-light sidenav-active-square nav-lock"
-          [config]="config"
           [scrollIndicators]="true"
           (psXReachEnd)="onScrollEvent($event)"
           (psYReachEnd)="onScrollEvent($event)"
@@ -23,39 +22,55 @@
               >
                 <ul class="contact-list display-grid">
                   <li class="sidebar-title">Configuración</li>
-                  <li class="active perfil-menu-option">
-                    <a href="#!" class="text-sub"
+                  <li
+                    class="active perfil-menu-option"
+                    routerLink="/perfil/general"
+                  >
+                    <a class="text-sub"
                       ><i class="material-icons mr-2"> brightness_low </i>
                       General</a
                     >
                   </li>
-                  <li class="perfil-menu-option">
-                    <a href="#!" class="text-sub"
+                  <li
+                    class="perfil-menu-option"
+                    routerLink="/perfil/cambiar-password"
+                  >
+                    <a class="text-sub"
                       ><i class="material-icons mr-2"> lock_open </i> Cambiar
                       contraseña</a
                     >
                   </li>
-                  <li class="perfil-menu-option">
-                    <a href="#!" class="text-sub"
-                      ><i class="material-icons mr-2"> error_outline </i> Información</a
+                  <li
+                    class="perfil-menu-option"
+                    routerLink="/perfil/informacion"
+                  >
+                    <a class="text-sub"
+                      ><i class="material-icons mr-2"> error_outline </i>
+                      Información</a
                     >
                   </li>
-                  <li class="perfil-menu-option">
-                    <a href="#!" class="text-sub"
-                      ><i class="material-icons mr-2"> lock_open </i> Seguridad</a
+                  <li class="perfil-menu-option" routerLink="/perfil/social">
+                    <a class="text-sub"
+                      ><i class="material-icons mr-2"> chat_bubble_outline </i> Redes
+                      Sociales</a
                     >
                   </li>
                   <li class="sidebar-title">Reciente</li>
-                  <li class="perfil-menu-option">
-                    <a href="#!" class="text-sub"
-                      ><i class="material-icons mr-2"> fiber_new </i>
-                      Noticias</a
+                  <li
+                    class="perfil-menu-option"
+                    routerLink="/perfil/expedientes"
+                  >
+                    <a class="text-sub"
+                      ><i class="material-icons mr-2"> contact_mail </i>
+                      Expedientes</a
                     >
                   </li>
-                  <li class="perfil-menu-option">
-                    <a href="#!" class="text-sub"
-                      ><i class="material-icons mr-2"> notifications_none </i>
-                      Notificaciones</a
+                  <li
+                    class="perfil-menu-option"
+                    routerLink="/perfil/eventos"
+                  >
+                    <a class="text-sub"
+                      ><i class="material-icons mr-2"> insert_invitation </i> Eventos</a
                     >
                   </li>
                 </ul>
@@ -75,19 +90,6 @@
   </div>
   <!-- Sidebar Area Ends -->
   <div id="perfil-content-container" class="container">
-    <div class="card">
-      <div class="card-tabs">
-        <ul class="tabs tabs-fixed-width white-text">
-          <li class="tab"><a href="#test4">Test 1</a></li>
-          <li class="tab"><a class="active" href="#test5">Test 2</a></li>
-          <li class="tab"><a href="#test6">Test 3</a></li>
-        </ul>
-      </div>
-      <div class="card-content grey lighten-4">
-        <div id="test4">Test 1</div>
-        <div id="test5">Test 2</div>
-        <div id="test6">Test 3</div>
-      </div>
-    </div>
+    <router-outlet></router-outlet>
   </div>
 </section>

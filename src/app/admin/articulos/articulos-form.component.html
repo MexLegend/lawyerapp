@@ -12,7 +12,7 @@
         </div>
         <div class="input-field col s12">
           <label for="content">Contenido*</label>
-          <angular-editor formControlName="content" [config]="editorConfig"></angular-editor>
+          <angular-editor formControlName="content" (viewMode)="true" [config]="editorConfig"></angular-editor>
         </div>
         <div class="input-field col s12">
           <input id="title" name="title" formControlName="title" type="text" class="validate contact-input" />

@@ -10,7 +10,7 @@ import { AngularEditorModule } from '@kolkov/angular-editor';
 import { UsuariosComponent } from './usuarios/usuarios.component';
 import { DataTablesModule } from 'angular-datatables';
 import { UsuariosFormComponent } from './usuarios/usuarios-form/usuarios-form.component';
-
+import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 
 
 @NgModule({
@@ -22,6 +22,7 @@ import { UsuariosFormComponent } from './usuarios/usuarios-form/usuarios-form.co
     SharedModule,
     AngularEditorModule,
     DataTablesModule,
+    [SweetAlert2Module.forRoot()]
   ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA

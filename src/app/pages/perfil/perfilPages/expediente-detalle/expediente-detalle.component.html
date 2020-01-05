@@ -1,0 +1,65 @@
+<!-- Expedientes Structure  -->
+<div class="col s12 m7">
+  <!-- Expediente Encabezado -->
+  <div class="card horizontal">
+    <div class="card-image"></div>
+    <div class="card-stacked">
+      <div class="card-content">
+        <div class="row" style="margin: 0;">
+          <div class="col s12" style="padding: 0;">
+            <div class="tituloExpediente">
+              <div class="expedienteData">
+                Titulo Expediente
+                <span class="indigo white-text left"
+                  ><i class="material-icons mr-2">lock</i> {{ expediente?.key }}</span
+                >
+              </div>
+              <div class="expediente-status right">
+                <div class="status-icon">
+                  <i class="material-icons mr-2"> check </i>
+                </div>
+                <span class="white-text">Finalizado</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Expediente Contenido -->
+  <div class="card horizontal">
+    <div class="card-image"></div>
+    <div class="card-stacked">
+      <div class="card-content">
+        <div class="row">
+          <div class="col s12">
+            <table
+              datatable
+              class="row-border hover stripe"
+              style="width: 100%"
+            >
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Fecha</th>
+                  <th>Descripción</th>
+                  <th>Archivos</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>1</td>
+                  <td>{{ expediente?.start_date | date }}</td>
+                  <td>{{ expediente?.description }}</td>
+                  <td>Ninguno</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="card-action"></div>
+    </div>
+  </div>
+</div>

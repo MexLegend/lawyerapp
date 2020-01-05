@@ -5,7 +5,7 @@
   <div
     _ngcontent-nai-c17=""
     class="fixed-action-btn direction-top active"
-    style="bottom: 54px; right: 19px; z-index: 998;"
+    style="bottom: 54px; right: 19px; z-index: 997;"
   >
     <a
       _ngcontent-nai-c17=""
@@ -14,7 +14,7 @@
       ><i class="fab fa-whatsapp"></i
     ></a>
   </div>
-  <div class="card horizontal">
+  <div class="card horizontal whatsAppCard">
     <div class="card-stacked">
       <div class="card-title">
         <i class="fab fa-whatsapp"></i>WhatsApp
@@ -25,16 +25,22 @@
       <div class="card-content">
         <form [formGroup]="form" (ngSubmit)="enviar()">
           <div class="row">
-            <div class="input-field col s12">
-              <input
+            <div class="input-field col s12 whatsAppMessage">
+              <!-- <input
                 id="message"
                 type="text"
                 name="message"
                 formControlName="message"
                 class="validate"
-              />
-
-              <label class="active" for="message">Mensaje</label>
+              /> -->
+              <textarea
+                class="materialize-textarea whatsApp-input ng-pristine ng-valid ng-touched validate"
+                formcontrolname="message"
+                id="message"
+                name="message"
+                ng-reflect-name="message"
+                placeholder="Enscribe un mensaje"
+              ></textarea>
             </div>
           </div>
           <div class="card-action">
