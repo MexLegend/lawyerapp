@@ -11,6 +11,7 @@ import { SocialComponent } from '../pages/perfil/perfilPages/social/social.compo
 import { EventosComponent } from '../pages/perfil/perfilPages/eventos/eventos.component';
 import { ExpedientesComponent } from '../pages/perfil/perfilPages/expedientes/expedientes.component';
 import { ExpedienteDetalleComponent } from '../pages/perfil/perfilPages/expediente-detalle/expediente-detalle.component';
+import { NoticiaDetalleComponent } from '../pages/noticia-detalle/noticia-detalle.component';
 
 const PAGES_ROUTES: Routes = [
     {
@@ -63,6 +64,10 @@ const PAGES_ROUTES: Routes = [
     {
         path: 'noticias',
         component: NoticiasComponent
+    },
+    {
+        path: 'noticia-detalle/:id',
+        component: NoticiaDetalleComponent
     },
     {
         path: '', redirectTo: '/inicio',

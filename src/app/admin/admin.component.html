@@ -5,15 +5,6 @@
       class="navbar-main navbar-color nav-collapsible navbar-dark gradient-45deg-indigo-purple no-shadow sideNav-lock"
     >
       <div class="nav-wrapper">
-        <div class="header-search-wrapper hide-on-med-and-down">
-          <i class="material-icons">search</i>
-          <input
-            class="header-search-input z-depth-2"
-            type="text"
-            name="Search"
-            placeholder="Explore Materialize"
-          />
-        </div>
         <ul class="navbar-list right">
           <li class="hide-on-med-and-down">
             <a
@@ -31,78 +22,38 @@
           </li>
           <li>
             <a
-              class="waves-effect waves-block waves-light notification-button"
+              class="waves-effect waves-block waves-light notification-button dropdown-trigger"
               href="javascript:void(0);"
               data-target="notifications-dropdown"
               ><i class="material-icons"
-                >notifications_none<small class="notification-badge"
-                  >5</small
-                ></i
+                >notifications_none<small class="notification-badge">{{
+                  notifications?.total
+                }}</small></i
               ></a
             >
             <ul
               class="dropdown-content"
               id="notifications-dropdown"
               tabindex="0"
+              style="width: fit-content;"
             >
               <li tabindex="0">
-                <h6>NOTIFICATIONS<span class="new badge">5</span></h6>
+                <div class="notificaciones-header">
+                  <span class="notificaciones-header-title">NOTIFICACIONES</span
+                  ><span class="new badge">{{ notifications?.total }}</span>
+                </div>
               </li>
               <li class="divider" tabindex="0"></li>
-              <li tabindex="0">
-                <a class="grey-text text-darken-2" href="#!"
-                  ><span class="material-icons icon-bg-circle cyan small"
+              <li *ngFor="let notification of notifications?.docs" tabindex="0">
+                <div class="notification-item">
+                  <span class="material-icons icon-bg-circle cyan small"
                     >add_shopping_cart</span
                   >
-                  A new order has been placed!</a
-                >
-                <time class="media-meta" datetime="2015-06-12T20:50:48+08:00"
-                  >2 hours ago</time
-                >
-              </li>
-              <li tabindex="0">
-                <a class="grey-text text-darken-2" href="#!"
-                  ><span class="material-icons icon-bg-circle red small"
-                    >stars</span
-                  >
-                  Completed the task</a
-                >
-                <time class="media-meta" datetime="2015-06-12T20:50:48+08:00"
-                  >3 days ago</time
-                >
-              </li>
-              <li tabindex="0">
-                <a class="grey-text text-darken-2" href="#!"
-                  ><span class="material-icons icon-bg-circle teal small"
-                    >settings</span
-                  >
-                  Settings updated</a
-                >
-                <time class="media-meta" datetime="2015-06-12T20:50:48+08:00"
-                  >4 days ago</time
-                >
-              </li>
-              <li tabindex="0">
-                <a class="grey-text text-darken-2" href="#!"
-                  ><span class="material-icons icon-bg-circle deep-orange small"
-                    >today</span
-                  >
-                  Director meeting started</a
-                >
-                <time class="media-meta" datetime="2015-06-12T20:50:48+08:00"
-                  >6 days ago</time
-                >
-              </li>
-              <li tabindex="0">
-                <a class="grey-text text-darken-2" href="#!"
-                  ><span class="material-icons icon-bg-circle amber small"
-                    >trending_up</span
-                  >
-                  Generate monthly report</a
-                >
-                <time class="media-meta" datetime="2015-06-12T20:50:48+08:00"
-                  >1 week ago</time
-                >
+                  {{ notification.title }}
+                </div>
+                <time class="media-meta grey-text">{{
+                  notification.created_at | date
+                }}</time>
               </li>
             </ul>
           </li>
@@ -135,7 +86,7 @@
               <li class="divider" tabindex="0"></li>
               <li tabindex="0">
                 <a class="grey-text text-darken-1" (click)="_usuariosS.logout()"
-                  ><i class="material-icons">keyboard_tab</i> Salir</a
+                  ><i class="material-icons">exit_to_app</i> Cerrar Sesión</a
                 >
               </li>
             </ul>
@@ -183,6 +134,15 @@
     style="transform: translateX(-105%);"
   >
     <li class="bold">
+      <a class="waves-effect waves-cyan " routerLink="/admin"
+        ><i class="material-icons">mail_outline</i
+        ><span class="menu-title" data-i18n="">Home</span
+        ><span class="badge new badge pill pink accent-2 float-right mr-10"
+          >5</span
+        ></a
+      >
+    </li>
+    <li class="bold">
       <a class="waves-effect waves-cyan " routerLink="/usuarios"
         ><i class="material-icons">perm_identity</i
         ><span class="menu-title" data-i18n="">Usuarios</span
@@ -198,12 +158,27 @@
       >
     </li>
     <li class="bold">
-      <a class="waves-effect waves-cyan " routerLink="/admin"
-        ><i class="material-icons">mail_outline</i
-        ><span class="menu-title" data-i18n="">Admin</span
-        ><span class="badge new badge pill pink accent-2 float-right mr-10"
-          >5</span
-        ></a
+      <a class="waves-effect waves-cyan" routerLink="/expedientes"
+        ><i class="material-icons">contact_mail</i
+        ><span class="menu-title" data-i18n="">Expedientes</span></a
+      >
+    </li>
+    <li class="bold">
+      <a class="waves-effect waves-cyan" routerLink="/seguimiento-expediente"
+        ><i class="material-icons">contact_mail</i
+        ><span class="menu-title" data-i18n="">Seguimiento Expediente</span></a
+      >
+    </li>
+    <li class="bold">
+      <a class="waves-effect waves-cyan" routerLink="/notificaciones"
+        ><i class="material-icons">notifications_none</i
+        ><span class="menu-title" data-i18n="">Notificaciones</span></a
+      >
+    </li>
+    <li class="bold">
+      <a class="waves-effect waves-cyan" routerLink="/articulos"
+        ><i class="material-icons">insert_invitation </i
+        ><span class="menu-title" data-i18n="">Eventos</span></a
       >
     </li>
   </ul>
@@ -259,56 +234,7 @@
                 id="contact-sidenav"
                 style="transform: translateX(-105%);"
               >
-                <ul class="contact-list display-grid">
-                  <li class="sidebar-title">Filtros</li>
-                  <li class="active">
-                    <a href="#!" class="text-sub"
-                      ><i class="material-icons mr-2">
-                        perm_identity
-                      </i>
-                      Todos los Usuarios</a
-                    >
-                  </li>
-                  <li>
-                    <a href="#!" class="text-sub"
-                      ><i class="material-icons mr-2"> history </i>
-                      Frecuentes</a
-                    >
-                  </li>
-                  <li>
-                    <a href="#!" class="text-sub"
-                      ><i class="material-icons mr-2"> star_border </i> Usuarios
-                      Destacados</a
-                    >
-                  </li>
-                  <li class="sidebar-title">Rol</li>
-                  <li>
-                    <a href="#!" class="text-sub"
-                      ><i class="purple-text material-icons small-icons mr-2">
-                        fiber_manual_record
-                      </i>
-                      Administrador</a
-                    >
-                  </li>
-                  <li>
-                    <a href="#!" class="text-sub"
-                      ><i class="amber-text material-icons small-icons mr-2">
-                        fiber_manual_record
-                      </i>
-                      Cliente</a
-                    >
-                  </li>
-                  <li>
-                    <a href="#!" class="text-sub"
-                      ><i
-                        class="light-green-text material-icons small-icons mr-2"
-                      >
-                        fiber_manual_record
-                      </i>
-                      Normal</a
-                    >
-                  </li>
-                </ul>
+                <app-usuarios-filter></app-usuarios-filter>
               </div>
             </div>
           </ng-scrollbar>

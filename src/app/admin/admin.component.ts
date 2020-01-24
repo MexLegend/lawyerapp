@@ -1,9 +1,11 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { UsuariosService } from '../services/usuarios.service';
 import { Subject, Subscription } from 'rxjs';
 import { NgScrollbar } from 'ngx-scrollbar';
+import { WebPushNotificationService } from '../services/webPushNotification.service';
+import { NotificationsPagination } from '../models/Notification';
 
-declare var $: any, M: any;
+declare var $: any;
 
 
 @Component({
@@ -11,9 +13,10 @@ declare var $: any, M: any;
   templateUrl: './admin.component.html',
   styleUrls: ['./admin.component.css']
 })
-export class AdminComponent implements OnInit {
+export class AdminComponent implements OnInit, OnDestroy {
 
   public type: string = 'component';
+  notifications: NotificationsPagination;
 
   // Stream that will update title font size on scroll down
   size$ = new Subject();
@@ -24,11 +27,35 @@ export class AdminComponent implements OnInit {
   // Get NgScrollbar reference
   @ViewChild(NgScrollbar, null) scrollBar: NgScrollbar;
 
+  notificationsSubs: Subscription;
+
   constructor(
-    public _usuariosS: UsuariosService
+    public _usuariosS: UsuariosService,
+    public _wPNS: WebPushNotificationService
   ) { }
+  
+  ngOnDestroy() {
+    this.notificationsSubs.unsubscribe();
+  }
 
   ngOnInit() {
+
+    this._wPNS.get()
+        .subscribe(resp => {
+          this.notifications = resp;
+        })
+
+    this.notificationsSubs = this._wPNS.getNotifications()
+        .subscribe(notification => {
+          // console.log(notification)
+
+          if(notification) {
+            this._wPNS.get()
+                .subscribe(resp => {
+                  this.notifications = resp;
+                })
+          }
+        });
 
     $(document).ready(function () {
       // Initialize Sidenav
@@ -76,7 +103,6 @@ export class AdminComponent implements OnInit {
         // Use traditional 'for loops' for IE 11
         for (let mutation of mutationsList) {
           if (mutation.type === 'childList') {
-            console.log('A child node has been added or removed.');
           }
           else if (mutation.type === 'attributes') {
             if (($(mutation.target)[0].style.cssText == "transform: translateX(-105%);")) {

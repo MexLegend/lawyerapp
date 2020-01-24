@@ -26,6 +26,16 @@
   }
 }
 
+@media only screen and (max-width: 767px) {
+  .dataTables_wrapper .dataTables_info {
+    margin: auto;
+  }
+  .dataTables_wrapper .dataTables_paginate {
+    margin: auto;
+    padding: 0 0 10px 0 !important;
+  }
+}
+
 /* Global Font */
 html {
   line-height: 1.5;
@@ -312,7 +322,7 @@ input[type="email"]:focus,
 input[type="number"]:focus,
 input[type="password"]:focus,
 input[type="tel"]:focus {
-  border-bottom: 1px solid #ff4081!important;
+  border-bottom: 1px solid #ff4081 !important;
   box-shadow: 0 1px 0 0 #ff4081 !important;
 }
 
@@ -461,6 +471,20 @@ table.dataTable.dtr-inline.collapsed > tbody > tr[role="row"] > th:first-child {
   position: relative;
   padding-left: 30px !important;
   cursor: pointer;
+}
+
+.dataTables_scrollBody > table > thead > tr {
+  visibility: collapse;
+  height: 0px !important;
+}
+
+.dataTables_scrollHead {
+  height: 61px;
+  border-bottom: 1px solid #d8d8d8;
+}
+
+.dataTables_wrapper.no-footer .dataTables_scrollBody {
+  border-bottom: 1px solid #d8d8d8;
 }
 
 /* Navbar Dropdown Styling */
@@ -627,4 +651,81 @@ span.badge.new:after {
 [type="checkbox"]:checked + span:not(.lever):before {
   border-right: 2px solid #26aee4;
   border-bottom: 2px solid #26aee4;
+}
+
+/* Admin Angular Editor Styling */
+.articuloEditor .angular-editor {
+  margin: 10px 0 5px 0;
+}
+
+.angular-editor-textarea:focus {
+  outline-color: #ff4081 !important;
+}
+
+/* Like and Dislike Thumbs Styling */
+
+.like,
+.dislike {
+  color: rgb(144, 144, 144);
+}
+
+.like a,
+.dislike a {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.like i,
+.dislike i {
+  font-size: 22px;
+  padding: 8px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.cdk-global-overlay-wrapper,
+.cdk-overlay-container {
+  z-index: 99999 !important;
+}
+
+/* Datatable Pagination Styling */
+.dataTables_wrapper .dataTables_info {
+  padding: 15px 0;
+}
+
+.dataTables_wrapper .dataTables_paginate {
+  padding-top: 10px;
+}
+
+/* Datatables Search Box Styling */
+.buscadorExpediente .dataTables_filter {
+  height: 100%;
+  width: 100%;
+}
+
+.buscadorExpediente .dataTables_filter label input {
+  background: #26aee4;
+  color: white;
+  height: 100%;
+  width: calc(100% - 50px);
+  border: none;
+  padding-right: 15px;
+  padding-left: 35px;
+  margin: 0;
+  box-shadow: none;
+  border-radius: 2px;
+}
+
+.buscadorExpediente .dataTables_filter label input::placeholder {
+  color: white;
+  opacity: 1;
+}
+
+.buscadorExpediente:focus-within i {
+  color: rgba(0, 0, 0, 0.5) !important;
+}
+
+.buscadorExpediente .dataTables_filter label input:focus::placeholder {
+  color: rgba(0, 0, 0, 0.5);
 }

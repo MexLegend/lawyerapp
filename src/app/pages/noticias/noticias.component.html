@@ -27,7 +27,10 @@
   </div>
   <div id="noticias-content-container" class="container">
     <div
-      *ngFor="let noticia of noticias | paginate:{itemsPerPage: 2, currentPage: paginaActual}"
+      *ngFor="
+        let noticia of noticias
+          | paginate: { itemsPerPage: 2, currentPage: paginaActual }
+      "
       class="card sticky-action"
       style="width: 100%;"
     >
@@ -41,58 +44,56 @@
           </div>
         </div>
         <div class="card-title-new">
-          <span class="card-title activator">{{ noticia.title }}</span>
+          <span class="card-title">{{ noticia.title }}</span>
           <span class="card-autor">{{ noticia.author }}</span>
         </div>
       </div>
       <div class="card-body card-content grey lighten-4">
         <div class="card-img card-image waves-effect waves-block waves-light">
-          <img class="activator" src="../../../assets/images/New_image.jpg" />
+          <img src="../../../assets/images/New_image.jpg" />
         </div>
         <div class="card-information" [innerHtml]="noticia.content">
           {{ noticia.content }}
         </div>
       </div>
       <div class="card-footer card-action">
-        <div class="card-social-network"><a href="">Redes sociales</a></div>
+        <div class="card-social-network">
+          <div class="like-dislike-comments-section">
+            <div class="like">
+              <a>
+                <i class="waves-effect material-icons new-like">thumb_up</i>
+                <span>201</span>
+              </a>
+            </div>
+            <div class="dislike">
+              <a>
+                <i class="waves-effect material-icons new-dislike"
+                  >thumb_down</i
+                >
+                <span style="margin-top: -5px;">23</span>
+              </a>
+            </div>
+            <div class="comments">
+              <a class="waves-effect" (click)="goToComments(noticia._id)">
+                <i class="material-icons">forum</i>
+                <span>Comentarios</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
         <div class="card-show-more">
-          <a class="activator btn-news waves-effect waves-light btn"
-            >Mostrar más</a
+          <a
+            class="btn-news waves-effect waves-light btn"
+            [routerLink]="['/noticia-detalle', noticia._id]"
           >
-        </div>
-      </div>
-      <div class="card-reveal">
-        <div class="card-reveal-header">
-          <div class="card-date">
-            <div class="card-day">
-              <span>{{ noticia.created_at | date: "d" }}</span>
-            </div>
-            <div class="card-month">
-              <span>{{ noticia.created_at | date: "MMM" }}</span>
-            </div>
-          </div>
-          <div class="card-reveal-title">
-            <span class="news-card-title activated grey-text text-darken-4"
-              >{{ noticia.title
-              }}<i class="material-icons right">close</i></span
-            >
-            <span class="news-card-autor">{{ noticia.author }}</span>
-          </div>
-        </div>
-        <div class="card-reveal-body">
-          <div class="card-reveal-text">
-            <p>
-              <strong>
-                <div class="card-reveal-img">
-                  <img src="../../../assets/images/New_image.jpg" />
-                </div>
-              </strong>
-            </p>
-            <div [innerHtml]="noticia.content"></div>
-          </div>
+            Mostrar más
+          </a>
         </div>
       </div>
     </div>
-    <pagination-controls (pageChange)="paginaActual = $event"></pagination-controls>
+    <pagination-controls
+      (pageChange)="paginaActual = $event"
+    ></pagination-controls>
   </div>
 </section>

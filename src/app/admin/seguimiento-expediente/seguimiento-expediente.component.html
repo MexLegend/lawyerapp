@@ -1,0 +1,239 @@
+<!-- Modal Seleccionar Usuario -->
+<app-seleccionar-usuario></app-seleccionar-usuario>
+
+<!-- Contenedor Seguimiento Expediente -->
+<div class="seguimiento-expediente-container">
+  <div class="card card-container">
+    <div class="card-tabs">
+      <ul class="tabs tabs-fixed-width">
+        <li class="tab">
+          <a class="active" href="#choose-user">Seleccionar Usuario</a>
+        </li>
+        <li class="tab">
+          <a href="#choose-expediente">Seleccionar Expediente</a>
+        </li>
+        <li class="tab"><a href="#expedient-tracking">Seguimiento</a></li>
+      </ul>
+    </div>
+    <div class="card-content grey lighten-4">
+      <div id="choose-user">
+        <div class="seguimiento-expediente-user">
+          <div class="choose-option">
+            <a
+              class="btn-close btn-news waves-effect waves-light btn blue darken-1 modal-trigger"
+              href="#selectUser"
+            >
+              <i class="material-icons">person_add</i>
+              Seleccionar Usuario
+            </a>
+          </div>
+          <div>
+            <div class="card horizontal user-card">
+              <div class="card-stacked">
+                <div class="card-content">
+                  <div class="card-header">
+                    <div class="profile-icon">
+                      <img src="../../../assets/images/user.jpg" />
+                    </div>
+                    <span class="profile-name"
+                      ><b>José Armando Lara Espinoza</b>
+                    </span>
+                    <div class="close-card waves-effect waves-light">
+                      <i class="material-icons">close</i>
+                    </div>
+                  </div>
+                </div>
+                <div class="card-action">
+                  <span class="personal-data">Datos Personales</span>
+                  <div class="datos">
+                    <div><span>Nombre</span></div>
+                    <div><span>Correo</span></div>
+                    <div><span>Numero</span></div>
+                    <div><span>Dirección</span></div>
+                    <div><span></span></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="choose-expediente">
+        <div class="seguimiento-expediente-user">
+          <div class="choose-option">
+            <a
+              class="btn-close btn-news waves-effect waves-light btn blue darken-1"
+            >
+              <i class="material-icons">contact_mail</i>
+              Seleccionar Expediente
+            </a>
+          </div>
+          <div>
+            <div class="card horizontal user-card">
+              <div class="card-stacked">
+                <div class="card-content">
+                  <div
+                    class="card-header card-header-expedient"
+                    style="justify-content: space-between;"
+                  >
+                    <span class="expedient-name"
+                      ><b>Caso Expropiación Petrolera</b>
+                      <span class="expedient-date">14-Enero-2020</span>
+                    </span>
+                    <div class="expediente-status">
+                      <div class="status-icon">
+                        <i class="material-icons mr-2">lock_open</i>
+                      </div>
+                      <span class="white-text">Clave Interna</span>
+                    </div>
+                    <div class="close-card waves-effect waves-light">
+                      <i class="material-icons">close</i>
+                    </div>
+                  </div>
+                </div>
+                <div class="card-action">
+                  <span class="personal-data">Datos Expediente</span>
+                  <div class="datos">
+                    <div><span>Clave Externa</span></div>
+                    <div><span>Cliente</span></div>
+                    <div><span>Actor</span></div>
+                    <div><span>Demandado</span></div>
+                    <div><span>Terceros</span></div>
+                    <div><span>Terceros</span></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="expedient-tracking">
+        <div class="card horizontal file-actions-card">
+          <div class="card-stacked">
+            <div class="card-content expedient-tracking-content">
+              <div
+                class="card-header card-header-expedient"
+                style="justify-content: space-between;"
+              >
+                <b>
+                  Expediente > <span style="color: #1e88e5;">Acciones</span>
+                </b>
+              </div>
+            </div>
+            <div class="card-action">
+              <div class="seguimiento-expediente-actions">
+                <div class="seguimiento-expediente-options right">
+                  <a
+                    class="btn-finish btn-news waves-effect waves-light btn teal accent-4"
+                    [routerLink]=""
+                  >
+                    Agregar Tomo
+                  </a>
+                  <a
+                    class="btn-finish btn-news waves-effect waves-light btn blue darken-1"
+                    [routerLink]=""
+                  >
+                    Reabrir expediente
+                  </a>
+                  <a
+                    class="btn-close btn-news waves-effect waves-light btn orange"
+                    [routerLink]=""
+                  >
+                    Cerrar Expediente
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card horizontal file-tracking-card">
+          <div class="card-stacked">
+            <div class="card-content expedient-tracking-content">
+              <div
+                class="card-header card-header-expedient"
+                style="justify-content: space-between;"
+              >
+                <span class="expedient-name">
+                  <b
+                    >Expediente > <span style="color: #1e88e5;">Avances</span>
+                  </b>
+                </span>
+              </div>
+            </div>
+            <div class="card-action seguimiento-expediente-data">
+              <div class="comment-progress">
+                <textarea
+                  class="materialize-textarea expediente-input ng-pristine ng-valid ng-touched validate"
+                  formcontrolname="commentProgress"
+                  id="commentProgress"
+                  name="commentProgress"
+                  placeholder="Comentario avances"
+                ></textarea>
+              </div>
+              <div class="choose-files">
+                <div class="file-chooser-container">
+                  <div class="file-chooser-input">
+                    <div class="file-field">
+                      <div class="upload-file-btn file-box">
+                        <button
+                          class="select-file-btn blue darken-1 waves-effect waves-light"
+                          onclick="document.getElementById('expedienteFile').click();"
+                        >
+                          Subir archivo
+                        </button>
+                        <div style="margin-left: 10px;">
+                          <span>O soltar archivos aquí</span>
+                        </div>
+                        <input
+                          id="expedienteFile"
+                          class="upload-file-input"
+                          type="file"
+                          multiple
+                        />
+                      </div>
+                      <div class="file-path-wrapper" hidden>
+                        <input type="text" class="file-path" />
+                      </div>
+                    </div>
+                  </div>
+                  <div class="file-chooser-files">
+                    <div class="file-chooser-file file-box">
+                      <div class="file-name">
+                        <span>Documento Uno.pdf</span>
+                      </div>
+                      <div class="file-size"><span>12 MB</span></div>
+                      <div class="remove-file">
+                        <i class="material-icons">close</i>
+                      </div>
+                    </div>
+                    <div class="file-chooser-file file-box">
+                      <div class="file-name">
+                        <span>Documento Dos.pdf</span>
+                      </div>
+                      <div class="file-size"><span>6 MB</span></div>
+                      <div class="remove-file">
+                        <i class="material-icons">close</i>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- <div class="center file-path-text">
+                  <span class="expediente-file-path"
+                    >Ningún archivo seleccionado...</span
+                  >
+                </div> -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-action card-next">
+        <a
+          class="btn-close btn-news waves-effect waves-light btn blue darken-1"
+        >
+          Siguiente
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

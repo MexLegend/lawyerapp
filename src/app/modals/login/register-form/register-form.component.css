@@ -1,0 +1,139 @@
+@media only screen and (max-width: 490px) {
+  .login-content {
+    margin-top: 10px !important;
+  }
+  .modal-forgot-password {
+    font-size: 11px !important;
+  }
+  .login-input-field {
+    margin: 0 !important;
+  }
+  #register-button {
+    margin: 20px auto !important;
+  }
+}
+
+.login-content {
+  margin-top: 30px;
+}
+
+.login-content,
+.login-content div {
+  width: 100%;
+}
+
+.login-input-field {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 10px;
+}
+
+.login-label {
+  font-weight: bolder;
+  color: black;
+  font-family: sans-serif;
+}
+
+.login-input {
+  background: rgb(232, 240, 254) !important;
+  width: calc(100% - 1.5rem) !important;
+  border: 1.5px solid rgba(0, 0, 0, 0.01) !important;
+  padding: 0.4rem 0.6rem !important;
+  border-radius: 5px !important;
+  height: fit-content !important;
+  line-height: 0;
+  font-size: 12px !important;
+}
+
+.login-input:focus,
+.login-input:active {
+  border: 1.5px solid #26aee4 !important;
+  box-shadow: none !important;
+}
+
+.login-actions {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+#register-button {
+  width: 100%;
+  color: white;
+  text-transform: capitalize;
+  font-size: 14px;
+  border-radius: 5px;
+  box-shadow: none;
+  height: auto;
+  padding: 2px 0;
+  margin: 30px auto;
+  font-weight: 600;
+  background: -webkit-gradient(
+    left top,
+    right top,
+    color-stop(0%, rgba(50, 187, 250, 1)),
+    color-stop(47%, rgba(9, 140, 240, 1)),
+    color-stop(72%, rgba(0, 133, 222, 1)),
+    color-stop(100%, rgba(4, 89, 201, 1))
+  );
+  background: -webkit-linear-gradient(
+    left,
+    rgba(50, 187, 250, 1) 0%,
+    rgba(9, 140, 240, 1) 47%,
+    rgba(0, 133, 222, 1) 72%,
+    rgba(4, 89, 201, 1) 100%
+  );
+  background: -o-linear-gradient(
+    left,
+    rgba(50, 187, 250, 1) 0%,
+    rgba(9, 140, 240, 1) 47%,
+    rgba(0, 133, 222, 1) 72%,
+    rgba(4, 89, 201, 1) 100%
+  );
+  background: -ms-linear-gradient(
+    left,
+    rgba(50, 187, 250, 1) 0%,
+    rgba(9, 140, 240, 1) 47%,
+    rgba(0, 133, 222, 1) 72%,
+    rgba(4, 89, 201, 1) 100%
+  );
+  background: linear-gradient(
+    to right,
+    rgba(50, 187, 250, 1) 0%,
+    rgba(9, 140, 240, 1) 47%,
+    rgba(0, 133, 222, 1) 72%,
+    rgba(4, 89, 201, 1) 100%
+  );
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#32bbfa', endColorstr='#0459c9', GradientType=1 );
+}
+
+#register-button:hover {
+  border-color: #26aee4;
+  -webkit-box-shadow: 0px 0px 21px 9px rgba(0, 0, 0, 0.08);
+  -moz-box-shadow: 0px 0px 21px 9px rgba(0, 0, 0, 0.08);
+  box-shadow: 0px 0px 5px 2px rgba(0, 0, 0, 0.3);
+}
+
+.register-button-disabled {
+  background: rgba(0, 0, 0, 0.09) !important;
+  color: rgba(0, 0, 0, 0.3) !important;
+  box-shadow: none !important;
+  cursor: not-allowed;
+}
+
+.modal .modal-footer {
+  text-align: center;
+}
+
+.modal .modal-footer {
+  margin-bottom: 15px;
+}
+
+.modal .modal-footer > a {
+  color: #c7c7c7;
+}
+
+.modal .modal-footer > a:hover {
+  color: #26aee4;
+}

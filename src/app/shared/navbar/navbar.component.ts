@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { UsuariosService } from '../../services/usuarios.service';
-import { EventEmitter } from 'events';
 declare var $: any, M: any;
 
 @Component({
@@ -12,6 +11,7 @@ declare var $: any, M: any;
 export class NavbarComponent implements OnInit {
 
   public drop: boolean = true;
+  tFo: string = '';
   dropdownActions;
 
   constructor(
@@ -43,5 +43,10 @@ export class NavbarComponent implements OnInit {
       // Modal Incialization
       $('.modal').modal();
     })
+  }
+
+  form(tF: string) {
+    this.tFo = tF;
+    console.log(this.tFo)
   }
 }

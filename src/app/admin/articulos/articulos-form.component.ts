@@ -75,7 +75,6 @@ export class ArticulosFormComponent implements OnInit {
   }
 
   crear() {
-    console.log(this.form)
 
     const articulo = new Articulo(
       this.form.value.content,
@@ -86,7 +85,6 @@ export class ArticulosFormComponent implements OnInit {
     );
 
     this._articulosS.crearArticulo(articulo).subscribe(resp => {
-      console.log(resp);
       this.form.reset();
     })
   }

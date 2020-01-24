@@ -1,12 +1,6 @@
-<!-- Perfil Dropdown -->
-<ul id="dropdownPerfil" class="dropdown-content">
-  <li><a href="#!">Configuración</a></li>
-  <li><a href="#!">Notificaciones</a></li>
-  <li class="divider"></li>
-  <li><a href="#!">Cerrar Sesión</a></li>
-</ul>
-
+<!-- NavBar Container -->
 <nav class="nav-extended white text-grey darken-3 navbar-fixed">
+  <!-- Second NavBar -->
   <div id="secondNavbar" class="nav-wrapper">
     <div
       class="container"
@@ -84,6 +78,7 @@
       </div>
     </div>
   </div>
+  <!-- Main Navbar -->
   <div id="mainNavbar" class="nav-wrapper container">
     <div id="nav-menu-logo">
       <a href="#" data-target="mobile-demo" class="sidenav-trigger"
@@ -242,10 +237,16 @@
         </ng-container>
         <ng-container *ngIf="!this._usuariosS.estaLogueado()">
           <li>
-            <a class="login-btn modal-trigger" href="#modalRegistro"
+            <a
+              class="login-btn modal-trigger"
+              (click)="form('login')"
+              href="#modalRegistro"
               >Iniciar Sesion</a
             >
-            <a class="register-btn modal-trigger" href="#modalRegistro"
+            <a
+              class="register-btn modal-trigger"
+              (click)="form('register')"
+              href="#modalRegistro"
               >Registrarse</a
             >
           </li>
@@ -290,4 +291,5 @@
   </li>
 </ul>
 
-<app-login></app-login>
+<!-- Login Modal Content -->
+<app-login [tForm]="tFo"></app-login>

@@ -18,6 +18,13 @@
   }
 }
 
+@media only screen and (max-width: 440px) {
+  .like a,
+  .dislike a {
+    margin-right: 10px !important;
+  }
+}
+
 /* General Display Styling */
 #noticias-main-container,
 #noticias-content-container,
@@ -63,6 +70,7 @@
   height: 55px;
   background: #545454;
   color: white;
+  border-top-left-radius: 3px;
 }
 
 .card-date {
@@ -131,28 +139,31 @@
   transition: all 0.3s ease-in-out;
 }
 
-.card-footer-active {
-  transform: translateY(-64px);
-  position: absolute;
-  width: 100%;
-  left: 0;
-  top: 100%;
-  transition: all 0.3s ease-in-out;
-}
-
-.card-footer-inactive {
-  position: relative;
-  transform: translateY(0px);
-  transition: all 0.3s ease-in-out;
-}
-
 .card-footer .card-social-network {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
   width: 90%;
 }
 
-.card-footer .card-show-more {
-  position: relative;
-  float: right;
+.like-dislike-comments-section,
+.comments a {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.comments a {
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.comments a span {
+  text-transform: capitalize;
+}
+
+.comments i {
+  margin-right: 5px;
 }
 
 .card-footer .card-show-more .btn-news {
@@ -208,52 +219,4 @@
 
 .nav-wrapper .input-field input[type="search"] {
   color: rgb(134, 134, 134);
-}
-
-.card-reveal {
-  transition: all 0.3s ease-in-out;
-}
-
-.card-reveal-header .card-reveal-title {
-  width: 100%;
-  padding-left: 15px;
-  font-size: 24px;
-  font-weight: 400;
-  cursor: pointer;
-  display: flex;
-  flex-direction: column;
-}
-
-.card-reveal-header .card-reveal-title:hover > .news-card-title {
-  color: #ee6e73 !important;
-}
-
-.card-reveal-header .card-reveal-title .news-card-autor {
-  font-size: 14px;
-  color: #26aee4;
-  font-style: italic;
-  font-weight: 500;
-}
-
-.card-reveal-body {
-  padding-top: 20px;
-  align-items: flex-start;
-  text-align: justify;
-}
-
-.card-reveal-img {
-  width: 100px;
-  min-width: 250px;
-  margin: 0;
-  float: left;
-  padding-right: 20px;
-}
-
-.card-reveal-text {
-  padding-left: 15px;
-  width: 100%;
-}
-
-.card-reveal-img > img {
-  width: 100%;
 }

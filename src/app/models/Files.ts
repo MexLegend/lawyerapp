@@ -1,8 +1,9 @@
 export class Files {
     constructor(
+        public assigned_client: string,
         public affair: string,
         public description: string,
-        public key: string,
+        public key?: string,
         public end_date?: string,
         public start_date?: string,
         public status?: string,

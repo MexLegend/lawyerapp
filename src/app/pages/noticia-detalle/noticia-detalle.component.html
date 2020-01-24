@@ -1,0 +1,111 @@
+<section id="noticias-main-container" class="pr pt-141">
+  <div id="noticias-content-container" class="container">
+    <!-- Detail New Card -->
+    <div class="card sticky-action" style="width: 100%;">
+      <div class="card-header card-content">
+        <div class="card-date">
+          <div class="card-day">
+            <span>28</span>
+          </div>
+          <div class="card-month">
+            <span>Nov</span>
+          </div>
+        </div>
+        <div class="card-title-new">
+          <span class="card-title">noticia.title</span>
+          <span class="card-autor">author</span>
+        </div>
+      </div>
+      <div class="card-body card-content grey lighten-4">
+        <div class="card-img card-image waves-effect waves-block waves-light">
+          <img src="../../../assets/images/New_image.jpg" />
+        </div>
+        <div class="card-information">
+          content
+        </div>
+      </div>
+      <div class="card-footer card-action">
+        <div class="card-show-more">
+          <a class="btn-news waves-effect waves-light btn" (click)="goBack()">
+            <i class="material-icons">reply</i>
+            Regresar
+          </a>
+        </div>
+        <div class="card-social-network">
+          <div class="like">
+            <a>
+              <i class="waves-effect material-icons new-like">thumb_up</i>
+              <span>201</span>
+            </a>
+          </div>
+          <div class="dislike">
+            <a>
+              <i class="waves-effect material-icons new-dislike">thumb_down</i>
+              <span style="margin-top: -5px;">23</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Comments Card -->
+    <div class="col s12 m7" id="comments-box">
+      <div class="card horizontal">
+        <div class="card-stacked">
+          <div class="comment-card-header card-content">
+            <div class="comments-number"><span>120 Comentarios</span></div>
+            <div class="filter-comments"><span>Filtrar Comentarios</span></div>
+          </div>
+          <div class="card-comment card-content">
+            <div class="card-comment-content">
+              <div class="user-icon">
+                <img src="../../../assets/images/user.jpg" />
+              </div>
+              <div class="input-field col s12">
+                <input id="comment" name="comment" type="text" required />
+                <label class="comment-label" for="comment">Agregar comentario</label>
+              </div>
+            </div>
+            <div class="comment-buttons">
+              <button
+                class="cancel-comment waves-effect waves-light orange darken-1 btn"
+                type="submit"
+              >
+                Cancelar
+              </button>
+              <button
+                class="send-comment waves-effect waves-light blue darken-1 btn"
+                type="submit"
+                disabled
+              >
+                Comentar
+              </button>
+            </div>
+          </div>
+          <div class="comment-card-body card-content grey lighten-4">
+            <div class="card-comment-content">
+              <div class="user-icon">
+                <img src="../../../assets/images/user.jpg" />
+              </div>
+              <div class="comment-body">
+                <div class="comment-info">
+                  <div class="comment-user-name">
+                    <a href=""><span>Armando Lara</span></a>
+                  </div>
+                  <div class="comment-date"><span>Hace 4 semanas</span></div>
+                </div>
+                <div class="user-comment-content">
+                  <span
+                    >Primer comentario de la página. Since a long time ago i
+                    wanted to try this but i had had a lot of problems but now
+                    it already works..</span
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

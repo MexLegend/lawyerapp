@@ -6,10 +6,10 @@ import { RouterModule } from '@angular/router';
 import { FooterComponent } from './footer/footer.component';
 import { BreadcrumbsComponent } from './breadcrumbs/breadcrumbs.component';
 import { ModalsModule } from '../modals/modals.module';
-import { MatMenuModule, MatButtonModule, MatExpansionModule, MatSnackBarModule } from '@angular/material'
+import { MatMenuModule, MatButtonModule, MatExpansionModule, MatSnackBarModule, MatSelectModule } from '@angular/material'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatDividerModule, MatListModule } from '@angular/material'
-
+import { MatDividerModule, MatListModule } from '@angular/material';
+import { UsuariosFilterComponent } from './usuarios-filter/usuarios-filter.component';
 
 @NgModule({
   declarations: [
@@ -17,12 +17,14 @@ import { MatDividerModule, MatListModule } from '@angular/material'
     FooterComponent,
     NavbarComponent,
     NopagefoundComponent,
+    UsuariosFilterComponent
   ],
   imports: [
     CommonModule,
     RouterModule,
     ModalsModule,
     MatMenuModule, MatButtonModule,
+    MatSelectModule,
     FormsModule,
     ReactiveFormsModule,
     MatDividerModule, MatListModule,
@@ -33,7 +35,9 @@ import { MatDividerModule, MatListModule } from '@angular/material'
     BreadcrumbsComponent,
     FooterComponent,
     NavbarComponent,
-    NopagefoundComponent
+    NopagefoundComponent,
+    UsuariosFilterComponent,
+    MatSelectModule
   ]
 })
 export class SharedModule { }

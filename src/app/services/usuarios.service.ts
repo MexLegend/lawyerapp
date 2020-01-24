@@ -7,6 +7,7 @@ import { Observable, throwError } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { catchError, map } from 'rxjs/operators';
 import { NotificationService } from './notification.service';
+import { NotificationsPagination } from '../models/Notification';
 
 declare var $: any;
 
@@ -18,6 +19,7 @@ export class UsuariosService {
   token: string;
   user: Usuario;
   id: string;
+  notifications: NotificationsPagination;
 
   constructor(
     private http: HttpClient,
@@ -108,6 +110,8 @@ export class UsuariosService {
       this.id = '';
       this.token = '';
       this.user = null;
+      this.notifications = null;
+      localStorage.removeItem('notifications');
     }
   }
 
@@ -135,6 +139,7 @@ export class UsuariosService {
     this.user = null;
     this.id = null;
     this.token = null;
+    localStorage.removeItem("notifications");
 
     localStorage.removeItem('user');
     localStorage.removeItem('id');
@@ -146,13 +151,10 @@ export class UsuariosService {
   }
 
   crearUsuario(user: Usuario) {
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      token: this.token
-    });
+
     const url = `${environment.URI}/api/usuarios`;
 
-    return this.http.post(url, user, { headers }).pipe(
+    return this.http.post(url, user).pipe(
       map((resp: any) => {
         $("#modalUsuarios").modal("close");
         this._notificationS.mensaje('success', 'Creación correcta', resp.message, false, false, '', '', 2000)

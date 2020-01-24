@@ -1,0 +1,51 @@
+ul .sidebar-title {
+  font-weight: 500;
+  text-transform: uppercase;
+  color: #212121;
+  margin-left: 1.4rem;
+}
+
+ul {
+  line-height: inherit;
+}
+
+ul li {
+  margin-right: 20px;
+  cursor: pointer;
+}
+
+ul li a i {
+  font-size: 21px;
+  vertical-align: middle;
+}
+
+ul li.active {
+  margin-left: -1.8rem;
+  padding-left: 1.8rem;
+  border-top-right-radius: 2rem;
+  border-bottom-right-radius: 2rem;
+  background-color: #2196f3;
+  -webkit-box-shadow: 0 0 8px 0 #2196f3;
+  box-shadow: 0 0 8px 0 #2196f3;
+}
+
+ul li.active a {
+  color: #fff;
+}
+
+ul a {
+  padding: 0.5rem;
+  vertical-align: top;
+  color: #757575;
+  line-height: 40px;
+  height: 40px;
+}
+
+ul li a i {
+  line-height: inherit;
+  height: inherit;
+}
+
+ul li.active a i {
+  color: white;
+}

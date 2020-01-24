@@ -1,0 +1,229 @@
+/* Media Queries */
+@media only screen and (max-width: 499px) {
+  .card-body {
+    flex-direction: column !important;
+  }
+  .card-reveal-text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .card-reveal-text > p:first-child {
+    margin-bottom: 0px !important;
+  }
+  .card-reveal-img {
+    padding-right: 0 !important;
+  }
+}
+
+@media only screen and (max-width: 440px) {
+  .like a,
+  .dislike a {
+    margin-right: 10px !important;
+  }
+}
+
+/* General Display Styling */
+.noticias-main-menu-container,
+.card-header,
+.card-body,
+.card-footer,
+.card-reveal-header,
+.card-reveal-body {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+#noticias-content-container {
+  padding-top: 25px;
+}
+
+/* New Card Styling */
+
+.card.sticky-action {
+  transition: all 0.3s ease-in-out;
+  min-height: 286px;
+  max-height: 600px;
+  overflow: auto;
+  position: relative;
+}
+
+.card-header {
+  padding: 0;
+}
+
+.card-date {
+  height: 55px;
+  background: #545454;
+  color: white;
+  border-top-left-radius: 3px;
+}
+
+.card-date {
+  padding: 8px 15px;
+}
+
+.card-date > div {
+  padding: 0;
+  line-height: 1;
+}
+
+.card-day {
+  font-size: 22px;
+}
+
+.card-month {
+  font-size: 14px;
+}
+
+.card-title-new {
+  padding: 0 15px;
+}
+
+.card .card-content .card-title {
+  margin: 0;
+}
+
+.card-title-new > .card-title {
+  font-size: 24px;
+  color: #26aee4;
+  font-weight: 400;
+  overflow: hidden;
+  -webkit-line-clamp: 1;
+  display: -webkit-box;
+  -webkit-box-orient: block-axis;
+}
+
+.card-title-new > .card-title:hover {
+  color: #ee6e73;
+}
+
+.card-title-new > .card-autor {
+  color: #a2a2a2;
+  font-style: italic;
+  font-weight: 500;
+}
+
+.card-img {
+  width: 250px;
+  min-width: 250px;
+}
+
+.card-information {
+  padding-left: 15px;
+  overflow-y: hidden;
+  max-height: 120px;
+  -webkit-line-clamp: 5;
+  display: -webkit-box;
+  -webkit-box-orient: block-axis;
+  text-align: justify;
+}
+
+.card-footer {
+  justify-content: flex-end;
+  width: 100%;
+  transition: all 0.3s ease-in-out;
+}
+
+.card-footer .card-social-network {
+  width: 90%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.card-footer .card-show-more .btn-news {
+  background: #26aee4;
+  width: max-content;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.card-footer .card-show-more .btn-news i {
+  margin-right: 5px;
+}
+
+.card-footer .card-show-more .btn-news:hover {
+  color: rgb(63, 63, 63);
+}
+
+/* Comment Card Styling */
+.comment-card-header,
+.card-comment-content,
+.comment-info {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+}
+
+.filter-comments {
+  margin-left: 25px;
+}
+
+/* .card-comment {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+} */
+
+.card-comment {
+  padding-top: 0;
+}
+
+.card-comment .card-comment-content .input-field {
+  width: 100%;
+}
+
+.card-comment .card-comment-content .input-field label {
+  left: 0;
+}
+
+.user-icon {
+  width: 40px;
+  min-width: 40px;
+  height: 40px;
+  min-height: 40px;
+  border-radius: 50%;
+  margin-right: 16px;
+  margin-top: 8px;
+  overflow: hidden;
+}
+
+.user-icon img {
+  width: 100%;
+  height: 100%;
+}
+
+.comment-buttons {
+  justify-content: flex-end;
+  display: none;
+}
+
+.comment-buttons-show {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.comment-buttons-hide {
+  display: none;
+}
+
+.comment-buttons button {
+  text-transform: capitalize;
+  margin-left: 5px;
+}
+
+.comment-body {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.comment-date {
+  font-size: 14px;
+  margin-left: 10px;
+}

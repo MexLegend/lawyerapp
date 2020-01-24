@@ -22,8 +22,8 @@ export class UsuariosFormComponent implements OnInit {
 
   private initRegisterForm() {
     this.form = new FormGroup({
-      address: new FormControl(null, Validators.required),
-      cellPhone: new FormControl(null, Validators.required),
+      address: new FormControl(null),
+      cellPhone: new FormControl(null),
       email: new FormControl(null, Validators.required),
       firstName: new FormControl(null, Validators.required),
       lastName: new FormControl(null, Validators.required),

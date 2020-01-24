@@ -1,0 +1,56 @@
+<form ngNativeValidate [formGroup]="form" (ngSubmit)="crear()">
+  <div class="login-content">
+    <div class="login-input-field">
+      <label class="login-label" for="emailRegister">Correo electrónico</label>
+      <input
+        id="emailRegister"
+        name="email"
+        formControlName="email"
+        type="email"
+        class="login-input"
+        required
+      />
+    </div>
+    <div class="login-input-field">
+      <label class="login-label" for="nameRegister">Nombre</label>
+      <input
+        id="nameRegister"
+        name="firstName"
+        formControlName="firstName"
+        type="text"
+        class="login-input"
+        required
+      />
+    </div>
+    <div class="login-input-field">
+      <label class="login-label" for="lastNameRegister">Apellidos</label>
+      <input
+        id="lastNameRegister"
+        name="lastName"
+        formControlName="lastName"
+        type="text"
+        class="login-input"
+        required
+      />
+    </div>
+    <div class="login-input-field">
+      <label class="login-label" for="passwordRegister">Contraseña</label>
+      <input
+        id="passwordRegister"
+        name="password"
+        formControlName="password"
+        type="password"
+        class="login-input"
+        required
+      />
+    </div>
+    <button
+      type="submit"
+      [class.register-button-disabled]="!form.valid"
+      id="register-button"
+      class="waves-effect waves-light btn"
+    >
+      Registrarse
+    </button>
+  </div>
+</form>

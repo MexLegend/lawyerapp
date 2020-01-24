@@ -1,11 +1,11 @@
 export class Usuario {
     constructor(
-        public address: string,
-        public cellPhone: string,
         public email: string,
         public firstName: string,
         public lastName: string,
         public password: string,
+        public address?: string,
+        public cellPhone?: string,
         public created_at?: string,
         public img?: string,
         public role?: string,

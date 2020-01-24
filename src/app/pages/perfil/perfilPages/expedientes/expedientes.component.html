@@ -7,33 +7,10 @@
         <div class="row" style="margin: 0;">
           <div class="col s12" style="padding: 0;">
             <div class="filtros">
-              <div class="filtros-group">
-                <div class="filtro-option">
-                  <i class="material-icons mr-2"> folder_open </i>
-                  <span>En proceso</span>
-                </div>
-                <div class="filtro-option">
-                  <i class="material-icons mr-2"> check_box </i>
-                  <span>Finalizado</span>
-                </div>
-              </div>
-
               <div class="filtro-buscador">
                 <div class="buscadorExpediente input-field">
-                  <input
-                    id="searchExpediente"
-                    name="searchExpediente"
-                    type="search"
-                    placeholder="Buscar Expediente"
-                    class="validate"
-                  />
-                  <button
-                    class="btn waves-effect waves-light"
-                    type="submit"
-                    name="action"
-                  >
-                    <i class="material-icons prefix">search</i>
-                  </button>
+                  <i class="filter-search material-icons">search</i>
+                  <i class="filter-close material-icons waves-effect">close</i>
                 </div>
               </div>
             </div>
@@ -53,34 +30,49 @@
             <div class="notification-content">
               <table
                 datatable
+                [dtOptions]="dtOptions"
+                [dtTrigger]="dtTrigger"
                 class="notification-table row-border hover stripe"
                 style="width: 100%; margin: 0 !important;"
               >
                 <thead>
                   <tr>
-                    <th>Clave</th>
+                    <th>Clave Externa</th>
+                    <th class="all">Clave Interna</th>
                     <th>Asunto</th>
-                    <th>Descripción</th>
                     <th>Fecha Inicio</th>
-                    <th>Fecha Fin</th>
+                    <th>Descripción</th>
+                    <th>Observaciones</th>
+                    <th class="all">Detalles</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let file of files" (click)="goToExpediente(file._id)">
+                  <tr *ngFor="let file of files">
+                    <td class="notification-file">AB12Z97L7A5A</td>
                     <td class="notification-file">
                       <span>{{ file.key }}</span>
                     </td>
                     <td class="notification-data">
                       <span> {{ file.affair }}</span>
                     </td>
+                    <td class="notification-time">
+                      <time>{{ file.start_date | date }}</time>
+                    </td>
                     <td class="notification-description">
                       <span> {{ file.description }}</span>
                     </td>
                     <td class="notification-time">
-                      <time class="left">{{ file.start_date | date }}</time>
+                      <span>Ninguna</span>
                     </td>
-                    <td class="notification-time">
-                      <time class="left">{{ file.end_date | date }}</time>
+                    <td>
+                      <button
+                        class="btn waves-effect waves-light file-details-btn"
+                        (click)="goToExpediente(file._id)"
+                      >
+                        <span>
+                          Más Detalles
+                        </span>
+                      </button>
                     </td>
                   </tr>
                 </tbody>

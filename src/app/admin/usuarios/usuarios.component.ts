@@ -27,13 +27,17 @@ export class UsuariosComponent implements OnInit {
 
     this.dtOptions = {
       pagingType: 'simple_numbers',
-      pageLength: 2,
+      pageLength: 5,
       responsive: true,
       lengthChange: false,
       language: {
         search: "",
         searchPlaceholder: "Buscar usuarios"
-      }
+      },
+      scrollY: "220px",
+      scrollX: true,
+      scrollCollapse: true,
+      fixedColumns: true
     };
   }
 

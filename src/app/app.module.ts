@@ -13,7 +13,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ModalsModule } from './modals/modals.module';
 import { NgScrollbarModule } from 'ngx-scrollbar';
 import { ServiceWorkerModule } from '@angular/service-worker';
-import { environment } from '../environments/environment';
+import { environment } from '../environments/environment.prod';
+
+import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
+const config: SocketIoConfig = { url: environment.URI, options: {} }
 
 @NgModule({
   declarations: [
@@ -27,11 +30,12 @@ import { environment } from '../environments/environment';
     BrowserModule,
     FormsModule,
     HttpClientModule,
-    SharedModule,
     ModalsModule,
     NgScrollbarModule,
     ReactiveFormsModule,
-    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
+    SharedModule,
+    SocketIoModule.forRoot(config)
 
   ],
   providers: [],

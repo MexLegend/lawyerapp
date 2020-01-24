@@ -1,19 +1,26 @@
 <div>
+  <!-- Client View NavBar Container -->
   <app-navbar></app-navbar>
+
+  <!-- Client View Main Container -->
   <router-outlet></router-outlet>
+
+  <!-- Client View Footer Container -->
   <app-footer *ngIf="this.router.url !== '/contacto'"></app-footer>
+
+  <!-- WhatsApp Button Trigger -->
   <div
-    _ngcontent-nai-c17=""
     class="fixed-action-btn direction-top active"
     style="bottom: 54px; right: 19px; z-index: 997;"
   >
     <a
-      _ngcontent-nai-c17=""
       id="btn-whatsapp"
-      class="btn-floating btn-large primary-text gradient-shadow modal-trigger btn-whatsapp"
+      class="btn-floating btn-large primary-text gradient-shadow btn-whatsapp pulse"
       ><i class="fab fa-whatsapp"></i
     ></a>
   </div>
+  
+  <!-- WhatsApp Dialog Container -->
   <div class="card horizontal whatsAppCard">
     <div class="card-stacked">
       <div class="card-title">

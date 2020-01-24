@@ -14,26 +14,28 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { DataTablesModule } from 'angular-datatables';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { PagesComponent } from '../pages/pages.component';
+import { NoticiaDetalleComponent } from '../pages/noticia-detalle/noticia-detalle.component';
 
 @NgModule({
   declarations: [
     PerfilComponent,
     ContactoComponent,
     NoticiasComponent,
+    NoticiaDetalleComponent,
     InicioComponent,
     PagesComponent
   ],
   imports: [
     CommonModule,
-    SharedModule,
     CLIENTE_ROUTING,
-    ReactiveFormsModule,
+    DataTablesModule,
     FormsModule,
     MatFormFieldModule,
-    PerfilModule,
     NgxPaginationModule,
-    DataTablesModule,
-    [SweetAlert2Module.forRoot()],
+    PerfilModule,
+    ReactiveFormsModule,
+    SharedModule,
+    [SweetAlert2Module.forRoot()]
   ],
   providers: [
   ],

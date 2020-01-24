@@ -7,6 +7,7 @@ import { SocialComponent } from './perfilPages/social/social.component';
 import { ExpedientesComponent } from './perfilPages/expedientes/expedientes.component';
 import { EventosComponent } from './perfilPages/eventos/eventos.component';
 import { FormsModule } from '@angular/forms';
+import { DataTablesModule } from 'angular-datatables';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { ExpedienteDetalleComponent } from './perfilPages/expediente-detalle/expediente-detalle.component';
 
@@ -16,6 +17,7 @@ import { ExpedienteDetalleComponent } from './perfilPages/expediente-detalle/exp
   imports: [
     CommonModule,
     FormsModule,
+    DataTablesModule,
     [SweetAlert2Module.forRoot()]
   ]
 })

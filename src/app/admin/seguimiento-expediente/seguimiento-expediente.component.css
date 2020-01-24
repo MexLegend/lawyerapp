@@ -1,0 +1,349 @@
+@media (max-width: 678px) {
+  .seguimiento-expediente-options a {
+    line-height: 15px;
+  }
+}
+
+@media (max-width: 620px) {
+  .expedient-name {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .expedient-date {
+    padding: 0 !important;
+  }
+}
+
+@media (max-width: 520px) {
+  .tabs .tab a {
+    font-size: 12px !important;
+  }
+  .seguimiento-expediente-data {
+    flex-direction: column !important;
+    align-items: center !important;
+  }
+  .comment-progress {
+    width: 100% !important;
+    height: 120px !important;
+  }
+  .choose-files {
+    width: 100% !important;
+    margin-top: 10px;
+    margin-left: 0 !important;
+  }
+  .seguimiento-expediente-options {
+    flex-direction: column !important;
+  }
+  .seguimiento-expediente-options a {
+    width: 100%;
+    margin-bottom: 10px;
+    margin-right: 0 !important;
+  }
+  .file-size {
+    font-size: 12px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .card-header .profile-icon {
+    height: 50px !important;
+    width: 50px !important;
+  }
+  .card-content {
+    font-size: 14px;
+    line-height: 18px;
+  }
+  .personal-data {
+    font-size: 16px !important;
+    line-height: 14px;
+  }
+  a {
+    font-size: 12px;
+  }
+  a i {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 460px) {
+  .tabs .tab a {
+    word-wrap: break-word;
+    white-space: normal;
+    line-height: normal;
+    display: flex;
+  }
+  .card-header-expedient {
+    flex-direction: column !important;
+    align-items: baseline !important;
+  }
+  .expediente-status {
+    margin-top: 10px;
+  }
+}
+
+a {
+  border-radius: 5px;
+  justify-content: center;
+}
+
+a:hover {
+  color: white;
+}
+
+i {
+  margin-right: 5px;
+}
+
+.card {
+  border-radius: 10px;
+  box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12),
+    0 2px 4px -1px rgba(0, 0, 0, 0.3);
+  margin-top: 20px;
+}
+
+.card-container {
+  padding: 0;
+  box-shadow: none;
+  margin-top: 0;
+}
+
+.card-action.card-next {
+  padding: 10px 0 0 0;
+}
+
+.card-action.card-next a {
+  width: fit-content;
+  float: right;
+}
+
+.tabs .tab a.active {
+  color: #ff4081;
+}
+
+.tabs .tab a {
+  color: #fb899c;
+}
+
+.tabs .tab a:focus,
+.tabs .tab a:focus.active {
+  background-color: #ff408011;
+  outline: none;
+}
+
+.file-actions-card {
+  margin-top: 0;
+}
+
+/* Gneral Displaying */
+a,
+.seguimiento-expediente-actions,
+.seguimiento-expediente-options,
+.choose-option,
+.card-header,
+.close-card,
+.comment-progress {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.seguimiento-expediente-container {
+  margin: 0 15px;
+}
+
+.seguimiento-expediente-actions,
+.seguimiento-expediente-actions .seguimiento-expediente-options {
+  width: 100%;
+}
+
+.seguimiento-expediente-options a {
+  margin-right: 10px;
+}
+
+.expedient-tracking-content {
+  padding: 10px 24px;
+}
+
+/* User Profile Card Styling */
+
+.card-header .profile-icon {
+  border-radius: 50%;
+  overflow: hidden;
+  height: 60px;
+  width: 60px;
+  min-width: 50px;
+  -webkit-box-shadow: 0px 2px 14px -3px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 0px 2px 14px -3px rgba(0, 0, 0, 0.75);
+  box-shadow: 0px 2px 14px -3px rgba(0, 0, 0, 0.75);
+}
+
+.card-header .profile-icon img {
+  height: 100%;
+  width: 100%;
+}
+
+.card-header .profile-name {
+  margin-left: 15px;
+}
+
+.card-header .close-card {
+  flex-direction: column;
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  color: white;
+  justify-content: center;
+  border: 1px solid #ff4081;
+  background: #ff4081;
+  box-shadow: 0 0 8px 0 #ff4081;
+}
+
+.card-header .close-card i {
+  margin: 0;
+  font-size: 16px;
+}
+
+.personal-data {
+  font-size: 18px;
+  color: #1e88e5;
+}
+
+/* Expedient Card Styling */
+.expedient-date {
+  padding-left: 10px;
+}
+
+.expediente-status {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background: #1e88e5;
+  border-radius: 5px;
+  padding: 5px;
+  margin-right: 10px;
+}
+
+.status-icon {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background: white;
+  border-radius: 50%;
+  margin-right: 3px;
+}
+
+.expediente-status .status-icon i {
+  color: #1e88e5;
+  font-size: 18px;
+  font-weight: 600;
+  padding: 2px;
+}
+
+.expediente-status span {
+  font-weight: 500;
+}
+
+/* Tracking Expedient Styling */
+.seguimiento-expediente-data {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.comment-progress {
+  width: 50%;
+  height: 200px;
+  max-height: 200px;
+}
+
+.comment-progress #commentProgress {
+  height: 100%;
+  border: 1px solid #80808057 !important;
+  padding: 10px;
+  border-radius: 5px;
+  margin: 0;
+}
+
+.comment-progress #commentProgress:focus {
+  border-color: #2196f3 !important;
+  box-shadow: 0 0 2px 0px #2196f3 !important;
+}
+
+.choose-files {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 50%;
+  margin-left: 10px;
+}
+
+.file-chooser-container {
+  height: 100%;
+  width: 100%;
+  border-radius: 5px;
+  border: 1px solid #80808057;
+}
+
+.file-box {
+  padding: 10px;
+  border-bottom: 1px solid #80808057;
+  position: relative;
+}
+
+.file-chooser-files div:last-child {
+  border-bottom: none;
+}
+
+.upload-file-btn {
+  height: fit-content;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.select-file-btn {
+  color: white;
+  padding: 8px 10px;
+  border-radius: 5px;
+  border: 1px solid #58585878;
+}
+
+.file-size {
+  font-size: 14px;
+  color: rgba(0, 0, 0, 0.57);
+}
+
+.remove-file {
+  position: absolute;
+  right: 5px;
+  top: calc(50% - 10px);
+  height: 24px;
+}
+
+.remove-file i {
+  font-weight: bolder;
+  font-size: 18px;
+  margin: 0;
+  cursor: pointer;
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.file-path-text {
+  width: 100%;
+  max-height: 105.6px;
+  overflow: hidden;
+}
+
+.expediente-file-path {
+  word-wrap: break-word;
+  white-space: normal;
+  line-height: normal;
+}

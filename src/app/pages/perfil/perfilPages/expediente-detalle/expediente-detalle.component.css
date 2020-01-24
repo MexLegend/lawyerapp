@@ -1,58 +1,50 @@
-.card-content {
-  padding: 15px 24px;
+@media only screen and (max-width: 800px) {
+  .expedienteKeys {
+    flex-direction: column !important;
+  }
 }
 
-.tituloExpediente {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
+.card-stacked {
   width: 100%;
 }
 
-.tituloExpediente .expedienteData {
+.expedienteDetailContent {
+  padding: 0;
+}
+
+.expedienteData,
+.expedienteDetails {
   display: flex;
   flex-direction: column;
   align-items: baseline;
   width: 100%;
 }
 
-.tituloExpediente .expedienteData span {
+.expedienteKeys,
+.expedienteDetailGroup {
   display: flex;
   flex-direction: row;
   align-items: center;
-  border-radius: 5px;
-  padding: 0 5px;
+  width: 100%;
 }
 
-.tituloExpediente .expedienteData span i {
-  font-size: 18px;
+.expedienteData .expedienteDetailGroup {
+  margin: 10px 0;
 }
 
-.expediente-status {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  background: #00bfa5;
-  border-radius: 5px;
-  padding: 5px;
+.expedienteKeys {
+  justify-content: space-between;
 }
 
-.status-icon {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  background: white;
-  border-radius: 50%;
-  margin-right: 3px;
-}
-
-.expediente-status .status-icon i {
-  color: #00bfa5;
-  font-size: 18px;
+.expedienteData .expedienteTitle {
   font-weight: 600;
-  padding: 2px;
+  min-width: 120px;
 }
 
-.expediente-status span {
-  font-weight: 500;
+.expedienteData .expedienteSubtitle {
+  font-weight: 100;
+  padding: 5px 10px;
+  min-width: 200px;
+  background: #26aee41c;
+  border-radius: 5px;
 }

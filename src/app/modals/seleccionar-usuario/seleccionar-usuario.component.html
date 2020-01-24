@@ -1,0 +1,59 @@
+<!-- Modal Structure -->
+<div
+  id="selectUser"
+  class="modal border-radius-6"
+  style="z-index: 1003; display: none; opacity: 0; top: 4%; transform: scaleX(0.8) scaleY(0.8);"
+>
+  <div class="modal-content">
+    <h5 class="mt-0">Seleccionar - <span class="add-type">Usuario</span></h5>
+    <hr />
+    <div class="row">
+      <form class="col s12">
+        <!-- Table Filter Box -->
+        <div class="card horizontal">
+          <div class="card-stacked">
+            <div class="card-content">
+              <div class="filtro-buscador">
+                <div class="buscadorExpediente input-field">
+                  <i class="filter-search material-icons">search</i>
+                  <i class="filter-close material-icons waves-effect">close</i>
+                  <!-- <input type="search" placeholder="Buscar usuarios.." /> -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Table List Container -->
+        <div class="card horizontal">
+          <div class="card-stacked">
+            <div class="card-content">
+              <table
+                datatable
+                id="select-users-tbl"
+                [dtOptions]="dtOptions"
+                [dtTrigger]="dtTrigger"
+                class="row-border hover stripe"
+                style="width: 100%"
+              >
+                <thead>
+                  <tr>
+                    <th style="width: 50%;">Email</th>
+                    <th style="width: 25%;">Nombre</th>
+                    <th style="width: 25%;">Apellidos</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let usuario of usuarios">
+                    <td style="width: 50%;">{{ usuario.email }}</td>
+                    <td style="width: 25%;">{{ usuario.firstName }}</td>
+                    <td style="width: 25%;">{{ usuario.lastName }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
