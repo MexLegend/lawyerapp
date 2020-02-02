@@ -57,13 +57,29 @@
             <div class="filter-comments"><span>Filtrar Comentarios</span></div>
           </div>
           <div class="card-comment card-content">
-            <div class="card-comment-content">
+            <div
+              class="card-comment-content dfr"
+              style="align-items: flex-start;"
+            >
               <div class="user-icon">
                 <img src="../../../assets/images/user.jpg" />
               </div>
               <div class="input-field col s12">
-                <input id="comment" name="comment" type="text" required />
-                <label class="comment-label" for="comment">Agregar comentario</label>
+                <input
+                  id="comment"
+                  name="comment"
+                  type="text"
+                  required
+                  [readonly]="!this._usuariosS.estaLogueado()"
+                  (click)="
+                    this._usuariosS.estaLogueado()
+                      ? showCommentButtons()
+                      : showM()
+                  "
+                />
+                <label class="comment-label" for="comment"
+                  >Agregar comentario</label
+                >
               </div>
             </div>
             <div class="comment-buttons">
@@ -82,28 +98,8 @@
               </button>
             </div>
           </div>
-          <div class="comment-card-body card-content grey lighten-4">
-            <div class="card-comment-content">
-              <div class="user-icon">
-                <img src="../../../assets/images/user.jpg" />
-              </div>
-              <div class="comment-body">
-                <div class="comment-info">
-                  <div class="comment-user-name">
-                    <a href=""><span>Armando Lara</span></a>
-                  </div>
-                  <div class="comment-date"><span>Hace 4 semanas</span></div>
-                </div>
-                <div class="user-comment-content">
-                  <span
-                    >Primer comentario de la página. Since a long time ago i
-                    wanted to try this but i had had a lot of problems but now
-                    it already works..</span
-                  >
-                </div>
-              </div>
-            </div>
-          </div>
+          <!-- Comments Card Content -->
+          <app-comments></app-comments>
         </div>
       </div>
     </div>

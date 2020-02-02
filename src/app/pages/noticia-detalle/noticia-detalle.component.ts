@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { Location } from '@angular/common';
+import { UsuariosService } from '../../services/usuarios.service';
 declare var $: any;
 
 @Component({
@@ -9,19 +10,15 @@ declare var $: any;
 })
 export class NoticiaDetalleComponent implements OnInit {
 
+  login = 'login';
+
   constructor(
-    private location: Location
+    private location: Location,
+    public _usuariosS: UsuariosService
   ) { }
 
   ngOnInit() {
     $(document).ready(function () {
-      // Show Comment Buttons When Comment Input Text is Focused
-      $("#comment").focusin(function () {
-        if ($(".comment-buttons").hasClass("comment-buttons-hide")) {
-          $(".comment-buttons").removeClass("comment-buttons-hide");
-        }
-        $(".comment-buttons").addClass("comment-buttons-show");
-      })
       // Hide Comment Buttons When Cancel Button is Clicked
       $(document).on("click", ".cancel-comment", function () {
         $("#comment").val('');
@@ -41,9 +38,22 @@ export class NoticiaDetalleComponent implements OnInit {
     });
   }
 
+  // Show Comment Buttons When Comment Input Text is Focused
+  showCommentButtons() {
+    if ($(".comment-buttons").hasClass("comment-buttons-hide")) {
+      $(".comment-buttons").removeClass("comment-buttons-hide");
+    }
+    $(".comment-buttons").addClass("comment-buttons-show");
+  }
+
   // Return to Previous Page
   goBack(): void {
     this.location.back();
+  }
+
+  // Trigger Login Modal When Is Not Logged In
+  showM() {
+    $('#modalRegistro').modal('open');
   }
 
 }

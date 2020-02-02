@@ -1,7 +1,31 @@
-/* Modal Submit Button Styling */
-.modal-footer {
+/* - - - - - - - - - - - - - - - - - |
+/*           MODAL STYLING           |
+/* - - - - - - - - - - - - - - - - - |
+
+/* General Modal Styling */
+.modal-content {
   padding: 0;
-  margin-top: 30px;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+  position: absolute;
+  height: calc(100% - 90px) !important;
+  bottom: 0;
+}
+
+.modal-header {
+  padding: 10px 24px;
+  background: linear-gradient(45deg, #303f9f, #7b1fa2);
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
+
+/* Modal Button Styling */
+.modal-actions {
+  padding: 0 10px;
+  margin: 10px 0;
   height: fit-content;
   display: flex;
   flex-direction: row;
@@ -9,16 +33,40 @@
   justify-content: flex-end;
 }
 
-.modal .modal-footer .btn {
+.modal .modal-actions .btn {
   border-radius: 5px;
   text-transform: capitalize;
   font-size: medium;
   margin-left: 8px;
+  position: relative;
+  line-height: inherit;
 }
 
-.add-type {
-  color: #1e88e5;
+.modal .modal-actions .modal-close-action {
+  background: white;
+  color: #303f9f;
+  border: solid 3px #303f9f;
+  font-weight: 600;
+  max-height: 36px;
+  width: 98px;
+  max-width: 98px;
+  padding: 1px 6px;
 }
+
+.modal .modal-actions .modal-close-action:hover {
+  background: linear-gradient(45deg, #303f9f, #7b1fa2);
+  color: white;
+  border: none;
+  font-weight: 400;
+}
+
+.modal .modal-actions .modal-submit-action {
+  background: linear-gradient(45deg, #303f9f, #7b1fa2);
+}
+
+/* - - - - - - - - - - - - - - - - - |
+/*           CARD STYLING            |
+/* - - - - - - - - - - - - - - - - - |
 
 /* Cards Styling */
 .card-content {
@@ -28,10 +76,20 @@
   width: 100%;
 }
 
+.header-card {
+  border-radius: 5px;
+  margin: 10px 0;
+}
+
+/* - - - - - - - - - - - - - - - - - |
+/*        DATATABLE STYLING          |
+/* - - - - - - - - - - - - - - - - - |
+
 /* Datatable Styling */
 table,
 .dataTables_scrollHeadInner {
   width: 100% !important;
+  border-collapse: collapse;
 }
 
 /* Buscardor Styling */
@@ -46,7 +104,7 @@ table,
   border-radius: 3px;
 }
 
-.buscadorExpediente {
+.buscadorAdmin {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -56,7 +114,7 @@ table,
   height: 50px;
 }
 
-.buscadorExpediente input {
+.buscadorAdmin input {
   padding-right: 15px;
   padding-left: 35px;
   margin: 0;
@@ -67,20 +125,20 @@ table,
   color: white;
 }
 
-.buscadorExpediente input:focus {
+.buscadorAdmin input:focus {
   color: black;
 }
 
-.buscadorExpediente input::placeholder {
+.buscadorAdmin input::placeholder {
   color: white;
   opacity: 1;
 }
 
-.buscadorExpediente input:focus::placeholder {
+.buscadorAdmin input:focus::placeholder {
   color: rgba(0, 0, 0, 0.5);
 }
 
-.buscadorExpediente .filter-search {
+.buscadorAdmin .filter-search {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -91,7 +149,7 @@ table,
   color: white;
 }
 
-.buscadorExpediente .filter-close {
+.buscadorAdmin .filter-close {
   display: none;
   flex-direction: row;
   align-items: center;

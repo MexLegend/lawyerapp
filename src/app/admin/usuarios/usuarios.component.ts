@@ -22,7 +22,7 @@ export class UsuariosComponent implements OnInit {
     this._usuariosS.obtenerUsuarios().subscribe(r => {
       this.usuarios = r.docs;
       this.dtTrigger.next();
-      $('.modal').modal();
+      $(".modal").modal();
     });
 
     this.dtOptions = {

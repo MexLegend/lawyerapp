@@ -1,14 +1,31 @@
 <app-expedientes-form></app-expedientes-form>
 
-<div style="margin-left: 20px;">
-  <a
-    class="btn waves-effect waves-light primary-text blue darken-1"
-    (click)="generarClave()"
-  >
-    <span>Generar Clave</span>
-  </a>
-  <span class="clave-generada" style="margin-left: 20px; font-size: 18px;">Clave Generada</span>
-</div>
+
+
+<!-- Tabla Listado Usuarios -->
+<table
+  datatable
+  id="files-tbl"
+  [dtOptions]="dtOptions"
+  [dtTrigger]="dtTrigger"
+  class="row-border hover stripe"
+  style="width: 100%"
+>
+  <thead>
+    <tr>
+      <th>Cliente Asignado</th>
+      <th>Asunto</th>
+      <th>Clave Interna</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let expediente of expedientes">
+      <td>{{ expediente.assigned_client }}</td>
+      <td>{{ expediente.affair }}</td>
+      <td>{{ expediente.key }}</td>
+    </tr>
+  </tbody>
+</table>
 
 <div
   style="bottom: 54px; right: 19px; z-index: 999;"
@@ -18,6 +35,6 @@
     class="btn-floating btn-large primary-text pink accent-2 gradient-shadow modal-trigger"
     href="#modal-Expediente"
   >
-    <i class="material-icons">person_add</i>
+    <i class="material-icons">contact_mail</i>
   </a>
 </div>

@@ -1,29 +1,29 @@
 <!-- Modal Structure -->
 <div
   id="selectUser"
-  class="modal border-radius-6"
+  class="modal border-radius-6 modal-fixed-footer"
   style="z-index: 1003; display: none; opacity: 0; top: 4%; transform: scaleX(0.8) scaleY(0.8);"
 >
-  <div class="modal-content">
-    <h5 class="mt-0">Seleccionar - <span class="add-type">Usuario</span></h5>
-    <hr />
-    <div class="row">
-      <form class="col s12">
-        <!-- Table Filter Box -->
-        <div class="card horizontal">
-          <div class="card-stacked">
-            <div class="card-content">
-              <div class="filtro-buscador">
-                <div class="buscadorExpediente input-field">
-                  <i class="filter-search material-icons">search</i>
-                  <i class="filter-close material-icons waves-effect">close</i>
-                  <!-- <input type="search" placeholder="Buscar usuarios.." /> -->
-                </div>
-              </div>
+  <div class="modal-header">
+    <!-- Table Filter Box -->
+    <div class="card horizontal header-card">
+      <div class="card-stacked">
+        <div class="card-content">
+          <div class="filtro-buscador">
+            <div class="buscadorAdmin input-field">
+              <i class="filter-search material-icons">search</i>
+              <i class="filter-close material-icons waves-effect">close</i>
             </div>
           </div>
         </div>
-        <!-- Table List Container -->
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-content">
+    <!-- Table List Container -->
+    <div class="row" style="margin: 20px 0 0 0;">
+      <div class="col s12">
         <div class="card horizontal">
           <div class="card-stacked">
             <div class="card-content">
@@ -53,7 +53,20 @@
             </div>
           </div>
         </div>
-      </form>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button
+        class="modal-close waves-effect waves-light btn modal-close-action"
+      >
+        Cancelar
+      </button>
+      <button
+        type="submit"
+        class="waves-effect waves-light btn modal-submit-action"
+      >
+        Seleccionar
+      </button>
     </div>
   </div>
 </div>

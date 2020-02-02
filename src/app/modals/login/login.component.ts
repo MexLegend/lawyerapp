@@ -12,8 +12,9 @@ export class LoginComponent implements OnInit {
   form: string = '';
   constructor() {
   }
-
+  
   ngOnInit() {
+    this.tForm = 'login';
 
   }
 

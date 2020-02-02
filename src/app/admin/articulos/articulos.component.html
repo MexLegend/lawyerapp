@@ -1,4 +1,30 @@
 <app-articulos-form></app-articulos-form>
+
+<!-- Tabla Listado Usuarios -->
+<table
+  datatable
+  id="articles-tbl"
+  [dtOptions]="dtOptions"
+  [dtTrigger]="dtTrigger"
+  class="row-border hover stripe"
+  style="width: 100%"
+>
+  <thead>
+    <tr>
+      <th>Titulo</th>
+      <th>Autor</th>
+      <th>Contenido</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let articulo of articulos">
+      <td>{{ articulo.title }}</td>
+      <td>{{ articulo.author }}</td>
+      <td>{{ articulo.content }}</td>
+    </tr>
+  </tbody>
+</table>
+
 <div
   style="bottom: 54px; right: 19px; z-index: 999;"
   class="fixed-action-btn direction-top active"
@@ -7,6 +33,6 @@
     class="btn-floating btn-large primary-text pink accent-2 gradient-shadow modal-trigger"
     href="#modal-Articulo"
   >
-    <i class="material-icons">person_add</i>
+    <i class="material-icons">import_contacts</i>
   </a>
 </div>

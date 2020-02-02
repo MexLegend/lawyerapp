@@ -15,6 +15,8 @@ import { DataTablesModule } from 'angular-datatables';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { PagesComponent } from '../pages/pages.component';
 import { NoticiaDetalleComponent } from '../pages/noticia-detalle/noticia-detalle.component';
+import { ModalsModule } from '../modals/modals.module';
+import { CommentsComponent } from '../pages/noticia-detalle/comments/comments.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +25,8 @@ import { NoticiaDetalleComponent } from '../pages/noticia-detalle/noticia-detall
     NoticiasComponent,
     NoticiaDetalleComponent,
     InicioComponent,
-    PagesComponent
+    PagesComponent,
+    CommentsComponent
   ],
   imports: [
     CommonModule,
@@ -35,7 +38,8 @@ import { NoticiaDetalleComponent } from '../pages/noticia-detalle/noticia-detall
     PerfilModule,
     ReactiveFormsModule,
     SharedModule,
-    [SweetAlert2Module.forRoot()]
+    [SweetAlert2Module.forRoot()],
+    ModalsModule
   ],
   providers: [
   ],

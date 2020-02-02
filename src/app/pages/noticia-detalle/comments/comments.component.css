@@ -1,0 +1,30 @@
+/* - - - - - - - - - - - - - - - - - - - - - |
+/*              COMMENTS QUERIES             |
+/* - - - - - - - - - - - - - - - - - - - - - |
+
+/* Media Queries */
+@media only screen and (max-width: 499px) {
+  .comment-info {
+    flex-direction: column !important;
+  }
+  .comment-date {
+    margin-left: 0 !important;
+  }
+}
+
+/* - - - - - - - - - - - - - - - - - - - - - |
+/*           COMMENTS CARD STYLING           |
+/* - - - - - - - - - - - - - - - - - - - - - |
+
+/* General Display Content */
+.card-comment-content,
+.comment-body,
+.comment-info {
+  align-items: flex-start;
+}
+
+/* Comment Date Styling*/
+.comment-date {
+  font-size: 14px;
+  margin-left: 10px;
+}

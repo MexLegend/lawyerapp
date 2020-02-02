@@ -26,15 +26,15 @@ export class SeleccionarUsuarioComponent implements OnInit {
 
     this.dtOptions = {
       pagingType: 'simple_numbers',
-      pageLength: 5,
+      pageLength: 4,
       responsive: true,
       lengthChange: false,
       language: {
         search: "",
-        searchPlaceholder: "Buscar expedientes.."
+        searchPlaceholder: "Buscar clientes.."
       },
       initComplete: function () {
-        $(".dataTables_filter").detach().appendTo('.buscadorExpediente');
+        $(".dataTables_filter").detach().appendTo('.buscadorAdmin');
       },
       scrollCollapse: true,
       fixedColumns: true
@@ -42,18 +42,18 @@ export class SeleccionarUsuarioComponent implements OnInit {
 
     $(document).ready(function () {
       // Show/Hide Close Serach Box Button
-      $(document).on("keyup", ".buscadorExpediente input", function () {
+      $(document).on("keyup", ".buscadorAdmin input", function () {
         if ($(this).val() !== '') {
-          $(this).closest($(".buscadorExpediente")).find($('.filter-close')).css('display', "flex");
+          $(this).closest($(".buscadorAdmin")).find($('.filter-close')).css('display', "flex");
         } else {
-          $(this).closest($(".buscadorExpediente")).find($('.filter-close')).css('display', "none");
+          $(this).closest($(".buscadorAdmin")).find($('.filter-close')).css('display', "none");
         }
       })
       // Clear Serach Box On Close Button Click
       $(document).on("click", ".filter-close", function () {
         $(this).css('display', "none");
-        $(this).closest($(".buscadorExpediente")).find($('.buscadorExpediente input')).val("");
-        // $(".notification-table").DataTable().search("").draw();
+        $(this).closest($(".buscadorAdmin")).find($('.buscadorAdmin input')).val("");
+        $("#select-users-tbl").DataTable().search("").draw();
       })
     });
   }

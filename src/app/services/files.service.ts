@@ -71,6 +71,11 @@ export class FilesService {
     status: boolean = true
   ): Observable<FilesPaginacion> {
 
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      token: this._usuariosS.token
+    });
+
     let url = `${environment.URI}/api/file?status=${status}&page=${page +
       1}&perPage=${perPage}`;
 
@@ -87,7 +92,7 @@ export class FilesService {
     }
 
     return this.http
-      .get<FilesPaginacion>(url)
+      .get<FilesPaginacion>(url, { headers })
       .pipe(map((resp: any) => resp.files));
   }
 }

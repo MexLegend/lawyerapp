@@ -22,7 +22,7 @@ const config: SocketIoConfig = { url: environment.URI, options: {} }
   declarations: [
     AdminComponent,
     AppComponent,
-    ClientesComponent
+    ClientesComponent,
   ],
   imports: [
     APP_ROUTING,
@@ -36,7 +36,6 @@ const config: SocketIoConfig = { url: environment.URI, options: {} }
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
     SharedModule,
     SocketIoModule.forRoot(config)
-
   ],
   providers: [],
   bootstrap: [AppComponent]

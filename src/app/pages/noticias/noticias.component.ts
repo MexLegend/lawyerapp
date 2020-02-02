@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ArticulosService } from '../../services/articulos.service';
-import { Articulo } from '../../models/Articulo';
-import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 
 declare var $: any;

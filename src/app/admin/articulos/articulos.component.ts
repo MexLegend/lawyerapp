@@ -1,4 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Articulo } from '../../models/Articulo';
+import { Subject } from 'rxjs';
+import { ArticulosService } from '../../services/articulos.service';
+declare var $: any;
 
 @Component({
   selector: 'app-articulos',
@@ -7,10 +11,37 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ArticulosComponent implements OnInit {
 
-  constructor() { }
+  articulos: Articulo[] = [];
+  dtOptions: any;
+  dtTrigger: Subject<any> = new Subject();
 
-  ngOnInit() {}
 
-  
+  constructor(
+    private _articulosS: ArticulosService
+  ) { }
+
+  ngOnInit() {
+    this._articulosS.obtenerArticulos().subscribe(r => {
+      this.articulos = r.docs;
+      this.dtTrigger.next();
+      $('.modal').modal();
+    });
+
+    this.dtOptions = {
+      pagingType: 'simple_numbers',
+      pageLength: 5,
+      responsive: true,
+      lengthChange: false,
+      language: {
+        search: "",
+        searchPlaceholder: "Buscar articulos"
+      }
+      
+    }
+  }
+
+  ngOnDestroy() {
+    this.dtTrigger.unsubscribe();
+  }
 
 }

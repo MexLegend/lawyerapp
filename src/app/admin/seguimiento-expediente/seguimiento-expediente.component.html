@@ -1,5 +1,8 @@
-<!-- Modal Seleccionar Usuario -->
+<!-- Modal Seleccionar Cliente -->
 <app-seleccionar-usuario></app-seleccionar-usuario>
+
+<!-- Modal Seleccionar Expediente -->
+<app-seleccionar-expediente></app-seleccionar-expediente>
 
 <!-- Contenedor Seguimiento Expediente -->
 <div class="seguimiento-expediente-container">
@@ -7,7 +10,7 @@
     <div class="card-tabs">
       <ul class="tabs tabs-fixed-width">
         <li class="tab">
-          <a class="active" href="#choose-user">Seleccionar Usuario</a>
+          <a class="active" href="#choose-user">Seleccionar Cliente</a>
         </li>
         <li class="tab">
           <a href="#choose-expediente">Seleccionar Expediente</a>
@@ -20,11 +23,11 @@
         <div class="seguimiento-expediente-user">
           <div class="choose-option">
             <a
-              class="btn-close btn-news waves-effect waves-light btn blue darken-1 modal-trigger"
+              class="btn-close btn-news waves-effect waves-light btn pink accent-2 modal-trigger"
               href="#selectUser"
             >
               <i class="material-icons">person_add</i>
-              Seleccionar Usuario
+              Seleccionar Cliente
             </a>
           </div>
           <div>
@@ -62,7 +65,8 @@
         <div class="seguimiento-expediente-user">
           <div class="choose-option">
             <a
-              class="btn-close btn-news waves-effect waves-light btn blue darken-1"
+              class="btn-close btn-news waves-effect waves-light btn pink accent-2 modal-trigger"
+              href="#selectFile"
             >
               <i class="material-icons">contact_mail</i>
               Seleccionar Expediente
@@ -99,7 +103,6 @@
                     <div><span>Actor</span></div>
                     <div><span>Demandado</span></div>
                     <div><span>Terceros</span></div>
-                    <div><span>Terceros</span></div>
                   </div>
                 </div>
               </div>
@@ -124,19 +127,19 @@
               <div class="seguimiento-expediente-actions">
                 <div class="seguimiento-expediente-options right">
                   <a
-                    class="btn-finish btn-news waves-effect waves-light btn teal accent-4"
+                    class="btn-finish btn-news waves-effect waves-light btn pink accent-2"
                     [routerLink]=""
                   >
                     Agregar Tomo
                   </a>
                   <a
-                    class="btn-finish btn-news waves-effect waves-light btn blue darken-1"
+                    class="btn-finish btn-news waves-effect waves-light btn pink accent-2"
                     [routerLink]=""
                   >
                     Reabrir expediente
                   </a>
                   <a
-                    class="btn-close btn-news waves-effect waves-light btn orange"
+                    class="btn-close btn-news waves-effect waves-light btn pink accent-2"
                     [routerLink]=""
                   >
                     Cerrar Expediente
@@ -176,7 +179,7 @@
                     <div class="file-field">
                       <div class="upload-file-btn file-box">
                         <button
-                          class="select-file-btn blue darken-1 waves-effect waves-light"
+                          class="select-file-btn pink accent-2 waves-effect waves-light"
                           onclick="document.getElementById('expedienteFile').click();"
                         >
                           Subir archivo
@@ -226,13 +229,6 @@
             </div>
           </div>
         </div>
-      </div>
-      <div class="card-action card-next">
-        <a
-          class="btn-close btn-news waves-effect waves-light btn blue darken-1"
-        >
-          Siguiente
-        </a>
       </div>
     </div>
   </div>

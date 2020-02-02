@@ -27,7 +27,7 @@ export class ExpedientesFormComponent implements OnInit {
         this.usuarios = usuarios.docs;
       })
     this.initArticulosForm();
-    $('.modal').modal();
+    // $('.modal').modal();
     $('select').formSelect();
   }
 

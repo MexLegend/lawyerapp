@@ -1,22 +1,76 @@
+<!-- Modal Seleccionar Cliente -->
+<app-seleccionar-usuario></app-seleccionar-usuario>
+
+<!-- Modal Crear Nuevo Articulo -->
 <div
   id="modal-Expediente"
-  class="modal border-radius-6"
-  tabindex="0"
+  class="modal border-radius-6 modal-fixed-footer"
   style="z-index: 1003; display: none; opacity: 0; top: 4%; transform: scaleX(0.8) scaleY(0.8);"
 >
+  <!--Modal Fixed Header-->
+  <div class="modal-header">
+    <div class="modal-icon dfc">
+      <i class="material-icons">contact_mail</i>
+    </div>
+    <span>Crear Nuevo Expediente</span>
+  </div>
+
+  <!-- Modal Content -->
   <div class="modal-content">
-    <h5 class="mt-0">Crear Nuevo - <span class="add-type">Expediente</span></h5>
-    <hr />
-    <!-- <div class="row"> -->
-      <form ngNativeValidate [formGroup]="form" (ngSubmit)="crear()">
-        <mat-form-field style="width: 100%;">
-          <mat-label>Selecciona un Cliente</mat-label>
-          <mat-select name="assigned_client" formControlName="assigned_client">
-            <mat-option *ngFor="let usuario of usuarios" [value]="usuario._id">
-              {{ usuario.firstName }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
+    <div class="row" style="margin: 20px 0 0 0;">
+      <form
+        class="col s12"
+        style="padding: 0 30px;"
+        ngNativeValidate
+        [formGroup]="form"
+        (ngSubmit)="crear()"
+      >
+        <!-- Select User Input Field -->
+        <div class="select-user-input dfr">
+          <input
+            id="client"
+            name="client"
+            placeholder="Seleccionar Cliente..."
+            type="text"
+            class="modal-trigger"
+            href="#selectUser"
+            readonly
+            required
+          />
+          <button
+            type="button"
+            class="waves-effect waves-light btn modal-select-action modal-trigger"
+            href="#selectUser"
+          >
+            <i class="material-icons">person_add</i>
+          </button>
+        </div>
+
+        <!-- Other Input Fields -->
+        <input
+          id="extKey"
+          name="extKey"
+          placeholder="Clave Externa"
+          type="text"
+        />
+        <input
+          id="actor"
+          name="actor"
+          placeholder="Actor(es)"
+          type="text"
+        />
+        <input
+          id="defendant"
+          name="defendant"
+          placeholder="Demandado(s)"
+          type="text"
+        />
+        <input
+          id="third"
+          name="third"
+          placeholder="Terceros"
+          type="text"
+        />
         <input
           id="affair"
           name="affair"
@@ -29,26 +83,27 @@
           id="description"
           name="description"
           formControlName="description"
-          placeholder="Descripción"
+          placeholder="Observaciones"
           type="text"
           required
         />
-        <div class="modal-footer">
+        <div class="modal-actions">
           <button
-            type="submit"
-            class="modal-close waves-effect waves-light orange darken-1 btn"
+            type="button"
+            class="modal-close waves-effect waves-light btn modal-close-action"
           >
             Cancelar
           </button>
           <button
             id="expediente-submit-button"
             type="submit"
-            class="waves-effect waves-light blue darken-1 btn"
+            [class.button-disabled]="!form.valid"
+            class="waves-effect waves-light btn modal-submit-action"
           >
             Crear expediente
           </button>
         </div>
       </form>
-    <!-- </div> -->
+    </div>
   </div>
 </div>

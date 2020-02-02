@@ -114,6 +114,7 @@
 <aside
   class="sidenav-main nav-collapsible sidenav-light sidenav-active-square nav-lock"
 >
+  <!-- Main Navbar Brand -->
   <div class="brand-sidebar">
     <h1 class="logo-wrapper">
       <a class="brand-logo darken-1" href="index.html"
@@ -126,64 +127,119 @@
     </h1>
   </div>
 
-  <ul
+  <div
     id="slide-out"
-    class="sidenav sidenav-collapsible leftside-navigation collapsible sidenav-fixed menu-shadow"
-    data-menu="menu-navigation"
-    data-collapsible="menu-accordion"
+    class="sidenav collapsible sidenav-fixed dfr"
     style="transform: translateX(-105%);"
   >
-    <li class="bold">
-      <a class="waves-effect waves-cyan " routerLink="/admin"
-        ><i class="material-icons">mail_outline</i
-        ><span class="menu-title" data-i18n="">Home</span
-        ><span class="badge new badge pill pink accent-2 float-right mr-10"
-          >5</span
-        ></a
-      >
-    </li>
-    <li class="bold">
-      <a class="waves-effect waves-cyan " routerLink="/usuarios"
-        ><i class="material-icons">perm_identity</i
-        ><span class="menu-title" data-i18n="">Usuarios</span
-        ><span class="badge new badge pill pink accent-2 float-right mr-10"
-          >5</span
-        ></a
-      >
-    </li>
-    <li class="active bold open">
-      <a class="waves-effect waves-cyan active " routerLink="/articulos"
-        ><i class="material-icons">import_contacts</i
-        ><span class="menu-title" data-i18n="">Articulos</span></a
-      >
-    </li>
-    <li class="bold">
-      <a class="waves-effect waves-cyan" routerLink="/expedientes"
-        ><i class="material-icons">contact_mail</i
-        ><span class="menu-title" data-i18n="">Expedientes</span></a
-      >
-    </li>
-    <li class="bold">
-      <a class="waves-effect waves-cyan" routerLink="/seguimiento-expediente"
-        ><i class="material-icons">contact_mail</i
-        ><span class="menu-title" data-i18n="">Seguimiento Expediente</span></a
-      >
-    </li>
-    <li class="bold">
-      <a class="waves-effect waves-cyan" routerLink="/notificaciones"
-        ><i class="material-icons">notifications_none</i
-        ><span class="menu-title" data-i18n="">Notificaciones</span></a
-      >
-    </li>
-    <li class="bold">
-      <a class="waves-effect waves-cyan" routerLink="/articulos"
-        ><i class="material-icons">insert_invitation </i
-        ><span class="menu-title" data-i18n="">Eventos</span></a
-      >
-    </li>
-  </ul>
+    <!-- Main Navbar Principal Options -->
+    <ul class="main-sidenav-principal-options">
+      <li class="bold">
+        <div class="principal-option-active" [attr.data-active]="actSt === '/admin' ? 'on' : 'off'"></div>
+        <a
+          class="waves-effect waves-cyan dfr"
+          routerLink="/admin"
+          [attr.data-active]="actSt === '/admin' ? 'on' : 'off'"
+        >
+          <i class="material-icons">home</i>
+        </a>
+      </li>
+      <li class="bold">
+        <div class="principal-option-active" [attr.data-active]="actSt === '/usuarios' ? 'on' : 'off'"></div>
+        <a
+          class="waves-effect waves-cyan "
+          routerLink="/usuarios"
+          [attr.data-active]="actSt === '/usuarios' ? 'on' : 'off'"
+        >
+          <i class="material-icons">perm_identity</i>
+        </a>
+      </li>
+      <li class="active bold">
+        <div class="principal-option-active" [attr.data-active]="actSt === '/articulos' ? 'on' : 'off'"></div>
+        <a
+          class="waves-effect waves-cyan "
+          routerLink="/articulos"
+          [attr.data-active]="actSt === '/articulos' ? 'on' : 'off'"
+        >
+          <i class="material-icons">import_contacts</i>
+        </a>
+      </li>
+      <li class="bold">
+        <div class="principal-option-active" [attr.data-active]="actSt === '/expedientes' ? 'on' : 'off'"></div>
+        <a
+          class="waves-effect waves-cyan"
+          routerLink="/expedientes"
+          [attr.data-active]="actSt === '/expedientes' ? 'on' : 'off'"
+        >
+          <i class="material-icons">contact_mail</i>
+        </a>
+      </li>
+      <li class="bold">
+        <div class="principal-option-active" [attr.data-active]="actSt === '/seguimiento-expediente' ? 'on' : 'off'"></div>
+        <a
+          class="waves-effect waves-cyan"
+          routerLink="/seguimiento-expediente"
+          [attr.data-active]="actSt === '/seguimiento-expediente' ? 'on' : 'off'"
+        >
+          <i class="material-icons">contact_mail</i>
+        </a>
+      </li>
+      <li class="bold">
+        <div class="principal-option-active" [attr.data-active]="actSt === '/notificaciones' ? 'on' : 'off'"></div>
+        <a
+          class="waves-effect waves-cyan"
+          routerLink="/notificaciones"
+          [attr.data-active]="actSt === '/notificaciones' ? 'on' : 'off'"
+        >
+          <i class="material-icons">notifications_none</i>
+        </a>
+      </li>
+      <li class="bold">
+        <div class="principal-option-active" [attr.data-active]="actSt === '/articulos' ? 'on' : 'off'"></div>
+        <a
+          class="waves-effect waves-cyan"
+          routerLink="/articulos"
+          [attr.data-active]="actSt === '/articulos' ? 'on' : 'off'"
+        >
+          <i class="material-icons">insert_invitation </i>
+        </a>
+      </li>
+    </ul>
 
-  <div class="navigation-background"></div>
+    <!-- Main Navbar Filter Options -->
+    <ul class="main-sidenav-filter-options">
+      <li class="filter-options-title dfr">
+        <span class="filter-title">Usuarios</span>
+        <span class="badge new-badge pill pink accent-2 float-right">5</span>
+      </li>
+      <li class="filter-options-item dfr">
+        <span class="filter-title">Todos</span>
+      </li>
+      <li class="filter-options-item dfr">
+        <span class="filter-title">Nuevos</span>
+      </li>
+      <li class="filter-options-item dfr">
+        <span class="filter-title">Frecuentes</span>
+      </li>
+      <li class="filter-options-item dfr">
+        <span class="filter-title">Destacados</span>
+      </li>
+      <li class="filter-options-item dfr">
+        <span class="filter-title">Administradores</span>
+      </li>
+      <li class="filter-options-item dfr">
+        <span class="filter-title">Asociados</span>
+      </li>
+      <li class="filter-options-item dfr">
+        <span class="filter-title">Clientes</span>
+      </li>
+      <li class="filter-options-item dfr">
+        <span class="filter-title">Normales</span>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Main Navbar Trigger Button -->
   <a
     id="main-sidenav-trigger"
     class="sidenav-trigger btn-sidenav-toggle btn-floating btn-medium pink accent-2 waves-effect waves-light hide-on-large-only"
@@ -196,7 +252,6 @@
 <!-- Fin SideNav -->
 
 <!-- Inicio Main Content -->
-
 <div id="main">
   <div class="row">
     <div class="content-wrapper-before gradient-45deg-indigo-purple"></div>
@@ -218,7 +273,7 @@
 
         <!-- Content Area Starts -->
         <div class="content-area content-right">
-          <ng-scrollbar
+          <!-- <ng-scrollbar
             class="white-theme scroll-sidenav"
             thumbClass="white-scrollbars"
             disableOnBreakpoints="false"
@@ -237,14 +292,15 @@
                 <app-usuarios-filter></app-usuarios-filter>
               </div>
             </div>
-          </ng-scrollbar>
-          <a
+          </ng-scrollbar> -->
+          <!-- Second Sidebar Button Trigger -->
+          <!-- <a
             href="#"
             data-target="contact-sidenav"
             id="sidenav-trigger-btn"
             class="sidenav-trigger hide-on-large-only"
             ><i class="material-icons">menu</i></a
-          >
+          > -->
           <div class="table-content">
             <router-outlet></router-outlet>
           </div>
