@@ -135,7 +135,6 @@
 }
 
 .card-footer .card-show-more .btn-news {
-  background: #26aee4;
   width: max-content;
   display: flex;
   flex-direction: row;
@@ -147,7 +146,7 @@
 }
 
 .card-footer .card-show-more .btn-news:hover {
-  color: rgb(63, 63, 63);
+  color: aquamarine;
 }
 
 /* Comment Card Styling */

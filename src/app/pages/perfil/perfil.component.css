@@ -1,95 +1,38 @@
-@media only screen and (max-width: 1075px) {
-  #perfil-content-container {
-    padding: 0 15px !important;
-    margin: 0 !important;
+/* - - - - - - - - - - - - - - - - - - |
+/*         PERFIL MEDIA QUERIES        |
+/* - - - - - - - - - - - - - - - - - - |*/
+
+@media only screen and (max-width: 992px) {
+  .perfil-footer {
+    font-size: 14px !important;
+    padding: 0 20px;
   }
 }
 
-@media only screen and (max-width: 992px) {
-  html {
-    font-size: 14.5px;
-  }
-  .container {
-    width: 100%;
-  }
-  .sidenav-main {
-    width: auto !important;
-    height: 0 !important;
-  }
-  .sidenav-main .sidenav {
-    top: 0;
-    width: 260px;
-  }
-  .sidenav-main .btn-sidenav-toggle {
-    position: relative;
-    top: 10px;
-    left: 10px;
-  }
-  .brand-sidebar {
-    background: transparent !important;
-    box-shadow: none !important;
-    left: 50px !important;
-  }
-  .sidenav-main .brand-sidebar .logo-wrapper {
-    padding: 0 !important;
-  }
-  .brand-sidebar .brand-logo {
-    padding: 10px !important;
-  }
-  .brand-sidebar .brand-logo img {
-    width: 50px !important;
-  }
-  #sidebar-list {
-    position: absolute !important;
-    top: 56px;
-    left: 0;
-    overflow: hidden;
-    height: -webkit-calc(100% - 56px) !important;
-    height: -moz-calc(100% - 56px) !important;
-    height: calc(100% - 56px) !important;
-  }
-  #sidenav-trigger-btn {
-    top: 88px !important;
-    display: block !important;
-  }
-  #perfil-content-container {
-    position: relative;
-    margin-left: -280px !important;
-    padding: 0 15px;
+@media only screen and (max-width: 650px) {
+  .contact-media {
+    font-size: 12px !important;
   }
 }
 
 @media only screen and (max-width: 600px) {
-  .sidenav-main .btn-sidenav-toggle {
-    position: relative;
-    top: 6px;
-    left: 6px;
+  .perfil-footer {
+    justify-content: center !important;
   }
-  .brand-sidebar {
-    background: transparent !important;
-    box-shadow: none !important;
-    left: 50px !important;
-  }
-  .brand-sidebar .brand-logo {
-    padding: 8px !important;
-  }
-  .container {
-    width: 100%;
+}
+
+@media only screen and (max-width: 500px) {
+  #telefonos {
+    display: none !important;
   }
 }
 
 @media only screen and (min-width: 993px) {
-  #main {
-    padding-left: 260px !important;
+  #perfil-main-container {
+    padding-left: 260px;
   }
-}
-
-@media only screen and (min-width: 992px) {
-  .text-sub {
-    font-size: 16px !important;
-  }
-  .text-sub > i {
-    font-size: 18px !important;
+  .perfil-footer {
+    padding: 0 20px;
   }
 }
 
@@ -103,16 +46,201 @@
   }
 }
 
-/* Perfil Container */
-#perfil-main-container {
+/* - - - - - - - - - - - - - - - - - - |
+/*         PERFIL NAVBAR STYLING       |
+/* - - - - - - - - - - - - - - - - - - |
+
+/* Perfil Navbar Container */
+.perfil-navbar {
+  width: 100%;
+  height: 64px;
+  padding: 0 20px;
+  color: white;
+  justify-content: space-around;
+}
+
+.perfil-fake-bg {
+  width: 100%;
+  height: 200px;
+  z-index: 0;
+  background: linear-gradient(45deg, #243393, #1976d2) !important;
+  background: -webkit-linear-gradient(45deg, #243393, #1976d2) !important;
+  background: -moz-linear-gradient(45deg, #243393, #1976d2) !important;
+  background: -o-linear-gradient(45deg, #243393, #1976d2) !important;
+}
+
+/* Site Contact Media */
+.contact-media {
   display: flex;
+  font-weight: 700;
+  height: 40px !important;
+  line-height: 40px !important;
+}
+
+.contact-media span a {
+  color: white;
+}
+
+.contact-media span a:hover {
+  color: aquamarine;
+}
+
+/* Perfil Dropdown */
+.perfil-button-trigger {
+  background: none;
+  height: 64px;
+  border-radius: 0;
+  font-weight: 300;
+  font-size: 12px;
+  text-transform: uppercase;
+  color: #949ba1;
+}
+
+.avatar-status {
+  line-height: 0px;
+  position: relative;
+  display: inline-block;
+  width: 35px;
+  border-radius: 50px;
+}
+
+.avatar-status img {
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  border: 0;
+  border-radius: 1000px;
+  background: #e6e6e6;
+}
+
+.avatar-status i {
+  background-color: #00e676;
+  position: absolute;
+  right: -2px;
+  bottom: 3px;
+  width: 10px !important;
+  height: 10px !important;
+  border: 1px solid #fff;
+  border-radius: 100%;
+}
+
+/* - - - - - - - - - - - - - - - - - - |
+/*        PERFIL SIDEBAR STYLING       |
+/* - - - - - - - - - - - - - - - - - - |
+
+/* SideBar Container */
+.sidebar {
+  z-index: 999;
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 260px;
+  margin: 0;
+  background: white;
+  transition: 0.3s ease all;
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.01),
+    0 3px 1px -2px rgba(0, 0, 0, 0.01), 0 1px 5px 0 rgba(0, 0, 0, 0.1);
+}
+
+/* Sidebar Brand */
+.brand-sidebar {
+  height: 64px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.brand-sidebar .brand-logo {
+  height: 100%;
+  padding: 0 15px;
+}
+
+.brand-sidebar .brand-logo .logo-text {
+  font-size: 24px;
+  padding-left: 8px;
+  color: #333;
+  font-family: "Muli", sans-serif;
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: -0.09375rem;
+}
+
+/* Sidebar Button Trigger */
+#sidenav-trigger-btn {
+  position: absolute;
+  top: 90px;
+  left: 17px;
+  display: none;
+}
+
+/* Sidebar Options */
+.perfil-sidebar-options,
+.perfil-sidebar-options .perfil-menu-option,
+.perfil-sidebar-options .perfil-menu-option a {
+  width: 100%;
+}
+
+.perfil-sidebar-options .perfil-menu-option {
+  margin-bottom: 5px;
+}
+
+.perfil-sidebar-options .perfil-menu-option:hover {
+  /* background: rgba(0, 0, 0, 0.2); */
+  background: #26c5da9e;
+}
+
+.perfil-sidebar-options .perfil-menu-option a {
+  display: flex;
+  position: relative;
   flex-direction: row;
-  align-items: flex-start;
+  align-items: center;
+  height: 50px;
+  padding: 0px 20px;
+  color: #494949;
+  font-size: 16px;
+  font-family: sans-serif;
+}
+
+.perfil-sidebar-options .perfil-menu-option a i {
+  margin-right: 15px;
+}
+
+.perfil-sidebar-options .perfil-menu-option:hover > a {
+  color: white;
+  background: #1a74d0;
+}
+
+.perfil-sidebar-options .perfil-menu-option a[data-active="on"] {
+  background: linear-gradient(45deg, #303f9f, #1976d2) !important;
+  background: -moz-linear-gradient(45deg, #303f9f, #1976d2) !important;
+  box-shadow: 0 0 5px 1px #00a8fa;
+  color: white;
+}
+
+/* - - - - - - - - - - - - - - - - - - |
+/*       PERFIL CONTAINER STYLING      |
+/* - - - - - - - - - - - - - - - - - - |
+
+/* Perfil Container */
+.container {
+  width: 100%;
+  max-width: 100% !important;
+  margin: 0 auto;
+  padding: 0 0.5rem;
+  display: flex;
+  flex-direction: column;
+}
+
+#perfil-main-container {
+  height: 100%;
+  z-index: 998;
+  transition: 0.3s ease all;
 }
 
 #perfil-content-container {
-  margin: 0 auto 0 15px;
-  height: fit-content;
+  background: #ececec;
+  width: 100%;
+  margin-top: -130px;
+  height: calc(100% - 60px);
 }
 
 #perfil-content-container .card .card-tabs ul {
@@ -127,84 +255,20 @@
   background: #1a7092;
 }
 
-/* SideBar Left */
-.sidebar-left {
-  /* float: left; */
-  position: relative;
-  border-right: 1.5px solid rgba(0, 0, 0, 0.14);
-}
+/* - - - - - - - - - - - - - - - - - - |
+/*         PERFIL FOOTER STYLING       |
+/* - - - - - - - - - - - - - - - - - - |
 
-.sidebar {
-  width: 280px;
-}
-
-.sidebar .sidebar-content .sidebar-menu#sidebar-list {
-  position: relative;
-  width: 280px;
-  height: -webkit-calc(100vh - 325px);
-  height: -moz-calc(100vh - 325px);
-  height: calc(100vh - 325px);
-  padding-left: 1.4rem;
-}
-
-.sidebar .sidebar-content .sidebar-menu ul {
-  line-height: 1.5rem;
-}
-
-.sidebar .sidebar-content .app-sidebar .sidebar-title {
-  font-weight: 500;
-  font-size: 14px;
-  padding: 15px 8px !important;
-  text-transform: uppercase;
-  color: #212121;
-}
-
-.sidebar .sidebar-content .sidebar-menu ul li {
-  margin-right: 20px;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  cursor: pointer;
-  height: 48px;
-  line-height: 48px;
-}
-
-.perfil-menu-option:focus,
-.perfil-menu-option:active {
-  border: none;
-}
-
-.perfil-menu-option-hover {
-  background-color: rgba(182, 182, 182, 0.224);
-  border-radius: 4px;
-}
-
-.sidebar .sidebar-content .sidebar-menu ul li.active {
-  border-radius: 4px;
-  background-color: #26aee4;
-  -webkit-box-shadow: 0 0 8px 0 #2196f3;
-  box-shadow: 0 0 8px 0 #2196f3;
-  border-color: transparent;
-}
-
-.sidebar .sidebar-content .sidebar-menu ul li.active a {
-  color: #fff;
-}
-
-.sidebar .sidebar-content .sidebar-menu ul a {
-  line-height: 1.75rem;
+/* Perfil Footer Container */
+.perfil-footer {
   width: 100%;
-  padding: 0 24px;
-  vertical-align: top;
-  color: #757575;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
+  height: 60px;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 16px;
+  justify-content: space-between;
+  transition: 0.3s ease all;
 }
 
-#sidenav-trigger-btn {
-  position: absolute;
-  top: 90px;
-  left: 17px;
-  display: none;
+.footer-author {
+  color: white;
 }

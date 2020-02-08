@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 declare var $: any;
 
@@ -16,12 +16,9 @@ export class DashboardComponent implements OnInit {
   ngOnInit() {
 
     $(document).ready(function () {
+      // Sidenav Initiation
       $('.sidenav').sidenav();
     });
-  }
-
-  public onScrollEvent(event: any): void {
-    console.log(event);
   }
 
 }

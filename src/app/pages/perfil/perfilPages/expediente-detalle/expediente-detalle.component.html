@@ -1,63 +1,60 @@
-<!-- Expedientes Structure  -->
-<div class="col s12 m7">
-  <!-- Expediente Encabezado -->
-  <div class="card horizontal">
-    <div class="card-image"></div>
-    <div class="card-stacked">
-      <div class="card-content">
-        <div class="row" style="margin: 0;">
-          <div class="col s12" style="padding: 0;">
-            <div class="expedienteData">
-              <div class="expedienteKeys">
-                <div class="expedienteDetailGroup">
-                  <div class="expedienteTitle">
-                    <span>Clave Externa:</span>
-                  </div>
-                  <div class="expedienteSubtitle">
-                    <span>{{ expediente?.key }}</span>
-                  </div>
+<!-- Expediente Encabezado -->
+<div class="card horizontal perfil-card">
+  <div class="card-image"></div>
+  <div class="card-stacked">
+    <div class="card-content">
+      <div class="row" style="margin: 0;">
+        <div class="col s12" style="padding: 0;">
+          <div class="expedienteData">
+            <div class="expedienteKeys">
+              <div class="expedienteDetailGroup">
+                <div class="expedienteTitle">
+                  <span>Clave Externa:</span>
                 </div>
-                <div class="expedienteDetailGroup">
-                  <div class="expedienteTitle">
-                    <span>Clave Interna:</span>
-                  </div>
-                  <div class="expedienteSubtitle">
-                    <span>{{ expediente?.key }}</span>
-                  </div>
+                <div class="expedienteSubtitle">
+                  <span>{{ expediente?.key }}</span>
                 </div>
               </div>
-              <div class="expedienteDetails">
-                <div class="expedienteDetailGroup">
-                  <div class="expedienteTitle">
-                    <span>Cliente:</span>
-                  </div>
-                  <div class="expedienteSubtitle">
-                    <span>José Armando Lara Espinoza</span>
-                  </div>
+              <div class="expedienteDetailGroup">
+                <div class="expedienteTitle">
+                  <span>Clave Interna:</span>
                 </div>
-                <div class="expedienteDetailGroup">
-                  <div class="expedienteTitle">
-                    <span>Actor(es):</span>
-                  </div>
-                  <div class="expedienteSubtitle">
-                    <span>José Armando Lara Espinoza</span>
-                  </div>
+                <div class="expedienteSubtitle">
+                  <span>{{ expediente?.key }}</span>
                 </div>
-                <div class="expedienteDetailGroup">
-                  <div class="expedienteTitle">
-                    <span>Demandado(s):</span>
-                  </div>
-                  <div class="expedienteSubtitle">
-                    <span>Carlos Sánchez</span>
-                  </div>
+              </div>
+            </div>
+            <div class="expedienteDetails">
+              <div class="expedienteDetailGroup">
+                <div class="expedienteTitle">
+                  <span>Cliente:</span>
                 </div>
-                <div class="expedienteDetailGroup">
-                  <div class="expedienteTitle">
-                    <span>Terceros:</span>
-                  </div>
-                  <div class="expedienteSubtitle">
-                    <span>Katth Flores</span>
-                  </div>
+                <div class="expedienteSubtitle">
+                  <span>José Armando Lara Espinoza</span>
+                </div>
+              </div>
+              <div class="expedienteDetailGroup">
+                <div class="expedienteTitle">
+                  <span>Actor(es):</span>
+                </div>
+                <div class="expedienteSubtitle">
+                  <span>José Armando Lara Espinoza</span>
+                </div>
+              </div>
+              <div class="expedienteDetailGroup">
+                <div class="expedienteTitle">
+                  <span>Demandado(s):</span>
+                </div>
+                <div class="expedienteSubtitle">
+                  <span>Carlos Sánchez</span>
+                </div>
+              </div>
+              <div class="expedienteDetailGroup">
+                <div class="expedienteTitle">
+                  <span>Terceros:</span>
+                </div>
+                <div class="expedienteSubtitle">
+                  <span>Katth Flores</span>
                 </div>
               </div>
             </div>
@@ -66,44 +63,44 @@
       </div>
     </div>
   </div>
+</div>
 
-  <!-- Expediente Contenido -->
-  <div class="card horizontal">
-    <div class="card-image"></div>
-    <div class="card-stacked">
-      <div class="card-content expedienteDetailContent">
-        <div class="row" style="margin: 0;">
-          <div class="col s12" style="padding: 0;">
-            <table
-              datatable
-              [dtOptions]="dtOptions"
-              class="row-border hover stripe"
-              style="width: 100%"
-            >
-              <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>Fecha</th>
-                  <th>Descripción</th>
-                  <th>Archivos</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>1</td>
-                  <td>{{ expediente?.start_date | date }}</td>
-                  <td>{{ expediente?.description }}</td>
-                  <td>Ninguno</td>
-                </tr>
-                <tr>
-                  <td>1</td>
-                  <td>{{ expediente?.start_date | date }}</td>
-                  <td>{{ expediente?.description }}</td>
-                  <td>Ninguno</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+<!-- Expediente Contenido -->
+<div class="card horizontal perfil-card">
+  <div class="card-image"></div>
+  <div class="card-stacked">
+    <div class="card-content expedienteDetailContent">
+      <div class="row" style="margin: 0;">
+        <div class="col s12" style="padding: 0;">
+          <table
+            datatable
+            [dtOptions]="dtOptions"
+            class="row-border hover stripe"
+            style="width: 100%"
+          >
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Fecha</th>
+                <th>Descripción</th>
+                <th>Archivos</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1</td>
+                <td>{{ expediente?.start_date | date }}</td>
+                <td>{{ expediente?.description }}</td>
+                <td>Ninguno</td>
+              </tr>
+              <tr>
+                <td>1</td>
+                <td>{{ expediente?.start_date | date }}</td>
+                <td>{{ expediente?.description }}</td>
+                <td>Ninguno</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>

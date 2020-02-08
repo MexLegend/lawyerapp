@@ -95,9 +95,6 @@
   background: transparent;
   text-align: center;
   position: relative;
-  /* -webkit-box-shadow: inset 0px -4px 5px -1px rgba(0, 0, 0, 0.02);
-  -moz-box-shadow: inset 0px -4px 5px -1px rgba(0, 0, 0, 0.02);
-  box-shadow: inset 0px -4px 5px -1px rgba(0, 0, 0, 0.02); */
 }
 
 #main-info-title {
@@ -116,9 +113,6 @@
 #contact-background {
   padding: 60px 0;
   color: white;
-  background-color: #26aee4;
-  /* -webkit-clip-path: polygon(50% 0%, 100% 10%, 100% 100%, 0 100%, 0 10%);
-  clip-path: polygon(50% 0%, 100% 10%, 100% 100%, 0 100%, 0 10%); */
 }
 
 #main-contact-content {
@@ -329,10 +323,15 @@ textarea.materialize-textarea {
 
 #contact-submit-button {
   width: 100%;
-  background-color: #26aee4;
   color: white;
-  text-transform: capitalize;
+  text-transform: uppercase;
   font-size: 16px;
   border-radius: 5px;
   padding: 3px 0;
+  letter-spacing: 2px;
+  font-weight: 600;
+}
+
+#contact-submit-button:hover {
+  color: aquamarine;
 }

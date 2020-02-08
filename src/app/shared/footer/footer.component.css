@@ -40,7 +40,6 @@
 /* General Styling */
 #page-footer {
   color: white;
-  background-color: #26aee4;
   z-index: 1;
 }
 
@@ -58,9 +57,8 @@
 }
 
 #superior-container .container .col .footer-image > img {
-  width:100%;
+  width: 100%;
 }
-
 
 #middle-container {
   border-top: 2px solid black;
@@ -77,11 +75,11 @@
 }
 
 #page-footer .btn {
-  background: #26aee4;
+  color: white !important;
 }
 
 #page-footer .btn:hover {
-  color: rgb(63, 63, 63);
+  color: #ff5a92;
 }
 
 #page-footer
@@ -102,7 +100,7 @@
 }
 
 #btn-footer-contacto:hover > span {
-  color: rgb(17, 144, 146);
+  color: aquamarine;
 }
 
 #footer-contact-location {
@@ -130,7 +128,8 @@
 }
 
 #footer-contact-location span > a:hover {
-  color: rgb(92, 250, 255);
+  color: white;
+  text-decoration: underline;
 }
 
 #footer-newsletter-input {

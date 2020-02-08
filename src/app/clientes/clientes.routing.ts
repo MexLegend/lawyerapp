@@ -5,9 +5,9 @@ import { InicioComponent } from '../pages/inicio/inicio.component';
 import { PerfilComponent } from '../pages/perfil/perfil.component';
 import { LoginGuard } from '../guards/login.guard';
 import { ConfGeneralComponent } from '../pages/perfil/perfilPages/conf-general/conf-general.component';
-import { CambiarPassComponent } from '../pages/perfil/perfilPages/cambiar-pass/cambiar-pass.component';
+import { SeguridadComponent } from '../pages/perfil/perfilPages/seguridad/seguridad.component';
 import { InformacionComponent } from '../pages/perfil/perfilPages/informacion/informacion.component';
-import { SocialComponent } from '../pages/perfil/perfilPages/social/social.component';
+import { MensajesComponent } from '../pages/perfil/perfilPages/mensajes/mensajes.component';
 import { EventosComponent } from '../pages/perfil/perfilPages/eventos/eventos.component';
 import { ExpedientesComponent } from '../pages/perfil/perfilPages/expedientes/expedientes.component';
 import { ExpedienteDetalleComponent } from '../pages/perfil/perfilPages/expediente-detalle/expediente-detalle.component';
@@ -28,16 +28,16 @@ const PAGES_ROUTES: Routes = [
                 component: ConfGeneralComponent
             },
             {
-                path: 'cambiar-password',
-                component: CambiarPassComponent
+                path: 'seguridad',
+                component: SeguridadComponent
             },
             {
                 path: 'informacion',
                 component: InformacionComponent
             },
             {
-                path: 'social',
-                component: SocialComponent
+                path: 'mensajes',
+                component: MensajesComponent
             },
             {
                 path: 'eventos',

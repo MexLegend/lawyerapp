@@ -31,10 +31,11 @@ export class SeleccionarUsuarioComponent implements OnInit {
       lengthChange: false,
       language: {
         search: "",
+        "infoFiltered": "",
         searchPlaceholder: "Buscar clientes.."
       },
       initComplete: function () {
-        $(".dataTables_filter").detach().appendTo('.buscadorAdmin');
+        $("#select-users-tbl_filter").detach().appendTo('.buscadorAdminUsers');
       },
       scrollCollapse: true,
       fixedColumns: true
@@ -42,17 +43,17 @@ export class SeleccionarUsuarioComponent implements OnInit {
 
     $(document).ready(function () {
       // Show/Hide Close Serach Box Button
-      $(document).on("keyup", ".buscadorAdmin input", function () {
+      $(document).on("keyup", ".buscadorAdminUsers input", function () {
         if ($(this).val() !== '') {
-          $(this).closest($(".buscadorAdmin")).find($('.filter-close')).css('display', "flex");
+          $(this).closest($(".buscadorAdminUsers")).find($('.filter-close')).css('display', "flex");
         } else {
-          $(this).closest($(".buscadorAdmin")).find($('.filter-close')).css('display', "none");
+          $(this).closest($(".buscadorAdminUsers")).find($('.filter-close')).css('display', "none");
         }
       })
       // Clear Serach Box On Close Button Click
       $(document).on("click", ".filter-close", function () {
         $(this).css('display', "none");
-        $(this).closest($(".buscadorAdmin")).find($('.buscadorAdmin input')).val("");
+        $(this).closest($(".buscadorAdminUsers")).find($('.buscadorAdminUsers input')).val("");
         $("#select-users-tbl").DataTable().search("").draw();
       })
     });

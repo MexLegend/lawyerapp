@@ -1,95 +1,198 @@
-<section id="perfil-main-container" class="pr pt-141">
-  <!-- Sidebar Area Starts -->
-  <div class="sidebar-left sidebar-fixed">
-    <div class="sidebar">
-      <div class="sidebar-content">
-        <perfect-scrollbar
-          class="scroll-container nav-collapsible sidenav-light sidenav-active-square nav-lock"
-          [scrollIndicators]="true"
-          (psXReachEnd)="onScrollEvent($event)"
-          (psYReachEnd)="onScrollEvent($event)"
-          (psXReachStart)="onScrollEvent($event)"
-          (psYReachStart)="onScrollEvent($event)"
+<!-- Perfil Sidebar -->
+<div class="sidebar sidebar-fixed collapsible hide-on-med-and-down">
+  <!-- Sidebar Brand -->
+  <div class="brand-sidebar">
+    <a class="brand-logo darken-1 dfr" routerlink="/inicio" href="#/inicio">
+      <img
+        alt="site logo"
+        src="../../../assets/images/brand.png"
+        style="width: 20%;"
+      />
+      <span class="logo-text hide-on-med-and-down">Pino Y Roble</span></a
+    >
+  </div>
+
+  <!-- Sidebar Content -->
+  <ul class="perfil-sidebar-options display-grid">
+    <!-- Files Option -->
+    <li class="perfil-menu-option">
+      <a class="text-sub" data-active="on" routerLink="/perfil/expedientes"
+        ><i class="material-icons"> contact_mail </i> Expedientes</a
+      >
+    </li>
+    <!-- Messages Option -->
+    <li class="perfil-menu-option">
+      <a class="text-sub" data-active="off" routerLink="/perfil/mensajes"
+        ><i class="material-icons"> question_answer </i> Mensajes</a
+      >
+    </li>
+    <!-- Events Option -->
+    <li class="perfil-menu-option">
+      <a class="text-sub" data-active="off" routerLink="/perfil/eventos"
+        ><i class="material-icons"> insert_invitation </i> Eventos</a
+      >
+    </li>
+    <!-- General Option -->
+    <li class="perfil-menu-option">
+      <a class="text-sub" data-active="off" routerLink="/perfil/general"
+        ><i class="material-icons"> person_outline </i> Perfil</a
+      >
+    </li>
+    <!-- Information Option -->
+    <li class="perfil-menu-option">
+      <a class="text-sub" data-active="off" routerLink="/perfil/informacion"
+        ><i class="material-icons"> error_outline </i> Información</a
+      >
+    </li>
+    <!-- Security Option -->
+    <li class="perfil-menu-option">
+      <a class="text-sub" data-active="off" routerLink="/perfil/seguridad"
+        ><i class="material-icons"> lock_open </i> Seguridad y privacidad</a
+      >
+    </li>
+  </ul>
+
+  <!-- Sidebar Button Trigger -->
+  <a
+    href="#"
+    data-target="sidebar-list"
+    id="sidenav-trigger-btn"
+    class="sidenav-trigger hide-on-large-only"
+    ><i class="material-icons">menu</i></a
+  >
+</div>
+
+<!-- Perfil Main Container -->
+<section id="perfil-main-container" class="pr dfc">
+  <!-- Perfil NavBar Container -->
+  <div class="perfil-navbar gradient-pos-45deg-dark-blue dfr">
+    <!-- Site Contact Phones -->
+    <div class="contact-media dfr">
+      <i class="material-icons hide-on-small-only" style="padding: 0 5px;"
+        >phone_in_talk</i
+      >
+      <span id="telefonos">
+        <a>348 196 1337</a>
+        <span style="margin: 0 5px;">|</span>
+        <a>348 162 1446</a>
+      </span>
+    </div>
+    <!-- Site Contact Email -->
+    <div class="contact-media dfr">
+      <i class="material-icons hide-on-small-only" style="padding: 0 5px;"
+        >email</i
+      >
+      <span id="mail">
+        <a href="mailto:rorofernando@yahoo.com.mx" style="letter-spacing: 2px;"
+          >rorofernando@yahoo.com.mx</a
         >
-          <div class="scrollable-content">
-            <div
-              id="sidebar-list"
-              class="sidebar-menu list-group position-relative animate fadeLeft delay-1"
-            >
-              <div
-                class="sidebar-list-padding app-sidebar"
-                id="contact-sidenav"
-              >
-                <ul class="contact-list display-grid">
-                  <li class="sidebar-title">Configuración</li>
-                  <li
-                    class="active perfil-menu-option"
-                    routerLink="/perfil/general"
-                  >
-                    <a class="text-sub"
-                      ><i class="material-icons mr-2"> brightness_low </i>
-                      General</a
-                    >
-                  </li>
-                  <li
-                    class="perfil-menu-option"
-                    routerLink="/perfil/cambiar-password"
-                  >
-                    <a class="text-sub"
-                      ><i class="material-icons mr-2"> lock_open </i> Cambiar
-                      contraseña</a
-                    >
-                  </li>
-                  <li
-                    class="perfil-menu-option"
-                    routerLink="/perfil/informacion"
-                  >
-                    <a class="text-sub"
-                      ><i class="material-icons mr-2"> error_outline </i>
-                      Información</a
-                    >
-                  </li>
-                  <li class="perfil-menu-option" routerLink="/perfil/social">
-                    <a class="text-sub"
-                      ><i class="material-icons mr-2"> chat_bubble_outline </i> Redes
-                      Sociales</a
-                    >
-                  </li>
-                  <li class="sidebar-title">Reciente</li>
-                  <li
-                    class="perfil-menu-option"
-                    routerLink="/perfil/expedientes"
-                  >
-                    <a class="text-sub"
-                      ><i class="material-icons mr-2"> contact_mail </i>
-                      Expedientes</a
-                    >
-                  </li>
-                  <li
-                    class="perfil-menu-option"
-                    routerLink="/perfil/eventos"
-                  >
-                    <a class="text-sub"
-                      ><i class="material-icons mr-2"> insert_invitation </i> Eventos</a
-                    >
-                  </li>
-                </ul>
+      </span>
+    </div>
+    <!-- Navbar Options -->
+    <div class="navbar-options">
+      <!-- Toogle Full Screen -->
+      <div class="waves-effect waves-light hide-on-med-and-down">
+        <button
+          class="perfil-button-trigger"
+          mat-button
+          (click)="!isfullscreen ? openfullscreen() : closefullscreen()"
+        >
+          <i class="material-icons white-text">settings_overscan</i>
+        </button>
+      </div>
+      <!-- Perfil Dropdown -->
+      <div class="waves-effect waves-light">
+        <!-- Button Triger -->
+        <button
+          class="perfil-button-trigger"
+          mat-button
+          [matMenuTriggerFor]="beforeMenu"
+        >
+          <span class="avatar-status avatar-online"
+            ><img src="../../../assets/images/user.jpg" alt="avatar"/><i></i
+          ></span>
+        </button>
+        <!-- Dropdown Content -->
+        <mat-menu #beforeMenu="matMenu" xPosition="before">
+          <div class="perfilMenu">
+            <!-- Perfil Information -->
+            <div class="perfil-info dfr">
+              <div class="perfil-icon">
+                <img
+                  src="../../../assets/images/user.jpg"
+                  style="width: 100%;"
+                />
+              </div>
+              <div class="perfil-text dfc">
+                <span class="perfil-name ff-rr">{{
+                  this._usuariosS.user.firstName
+                    .split(" ")[0]
+                    .concat(" ", this._usuariosS.user.lastName.split(" ")[0])
+                }}</span>
+                <span class="perfil-email ff-rr">{{
+                  this._usuariosS.user.email
+                }}</span>
               </div>
             </div>
+            <div class="divider"></div>
+            <!-- FAQ Option -->
+            <button mat-menu-item>
+              <i class="material-icons">help_outline</i>Ayuda
+            </button>
+            <!-- Change Theme Option -->
+            <button
+              mat-menu-item
+              class="dfr"
+              style="justify-content: space-between;"
+            >
+              <div class="dfr">
+                <i class="material-icons">brightness_4</i>Tema Oscuro
+              </div>
+              <div class="switch">
+                <label>
+                  <input
+                    name="remember"
+                    type="checkbox"
+                    class="ng-valid ng-dirty ng-touched"/><span
+                    class="lever"
+                  ></span
+                ></label>
+              </div>
+            </button>
+            <div class="divider"></div>
+            <!-- Logout Option -->
+            <button mat-menu-item (click)="_usuariosS.logout()">
+              <i class="material-icons">exit_to_app</i>Cerrar Sesión
+            </button>
           </div>
-        </perfect-scrollbar>
-        <a
-          href="#"
-          data-target="sidebar-list"
-          id="sidenav-trigger-btn"
-          class="sidenav-trigger hide-on-large-only"
-          ><i class="material-icons">menu</i></a
-        >
+        </mat-menu>
       </div>
     </div>
   </div>
-  <!-- Sidebar Area Ends -->
-  <div id="perfil-content-container" class="container">
-    <router-outlet></router-outlet>
+  <!-- Perfil Fake Background -->
+  <div class="perfil-fake-bg"></div>
+
+  <!-- Perfil Content Container -->
+  <div id="perfil-content-container">
+    <div class="row">
+      <div class="col s12">
+        <div class="container">
+          <router-outlet></router-outlet>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Perfil Footer -->
+  <div class="perfil-footer ff-ss gradient-pos-45deg-dark-blue dfr">
+    <span>
+      © 2020
+      <span class="footer-author"> PINOYROBLE</span>
+      All rights reserved.
+    </span>
+    <span class="hide-on-small-only">
+      Design and Developed by
+      <span class="footer-author">Armando Lara</span>
+    </span>
   </div>
 </section>

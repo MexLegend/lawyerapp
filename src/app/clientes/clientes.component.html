@@ -1,15 +1,20 @@
-<div>
+<div style="height: 100%;">
   <!-- Client View NavBar Container -->
-  <app-navbar></app-navbar>
+  <app-navbar *ngIf="!this.router.url.includes('perfil')"></app-navbar>
 
   <!-- Client View Main Container -->
   <router-outlet></router-outlet>
 
   <!-- Client View Footer Container -->
-  <app-footer *ngIf="this.router.url !== '/contacto'"></app-footer>
+  <app-footer
+    *ngIf="
+      this.router.url !== '/contacto' && !this.router.url.includes('perfil')
+    "
+  ></app-footer>
 
   <!-- WhatsApp Button Trigger -->
   <div
+    *ngIf="!this.router.url.includes('perfil')"
     class="fixed-action-btn direction-top active"
     style="bottom: 54px; right: 19px; z-index: 997;"
   >
@@ -19,9 +24,12 @@
       ><i class="fab fa-whatsapp"></i
     ></a>
   </div>
-  
+
   <!-- WhatsApp Dialog Container -->
-  <div class="card horizontal whatsAppCard">
+  <div
+    *ngIf="!this.router.url.includes('perfil')"
+    class="card horizontal whatsAppCard"
+  >
     <div class="card-stacked">
       <div class="card-title">
         <i class="fab fa-whatsapp"></i>WhatsApp

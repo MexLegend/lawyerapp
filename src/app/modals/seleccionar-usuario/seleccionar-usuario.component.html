@@ -10,7 +10,7 @@
       <div class="card-stacked">
         <div class="card-content">
           <div class="filtro-buscador">
-            <div class="buscadorAdmin input-field">
+            <div class="buscadorAdminUsers input-field">
               <i class="filter-search material-icons">search</i>
               <i class="filter-close material-icons waves-effect">close</i>
             </div>
@@ -37,16 +37,23 @@
               >
                 <thead>
                   <tr>
-                    <th style="width: 50%;">Email</th>
-                    <th style="width: 25%;">Nombre</th>
-                    <th style="width: 25%;">Apellidos</th>
+                    <th class="th-custom-checkbox"></th>
+                    <th>Email</th>
+                    <th>Nombre</th>
+                    <th>Apellidos</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr *ngFor="let usuario of usuarios">
-                    <td style="width: 50%;">{{ usuario.email }}</td>
-                    <td style="width: 25%;">{{ usuario.firstName }}</td>
-                    <td style="width: 25%;">{{ usuario.lastName }}</td>
+                    <td class="dfr" style="width: fit-content;">
+                      <label class="custom-checkbox dfr">
+                        <input type="checkbox" />
+                        <span></span>
+                      </label>
+                    </td>
+                    <td>{{ usuario.email }}</td>
+                    <td>{{ usuario.firstName }}</td>
+                    <td>{{ usuario.lastName }}</td>
                   </tr>
                 </tbody>
               </table>

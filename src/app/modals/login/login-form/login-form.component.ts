@@ -40,12 +40,12 @@ export class LoginFormComponent implements OnInit {
       .login(user, form.value.remember)
       .subscribe(correct => {
         if (this._usuariosS.user.role === 'ADMIN') {
-          this.router.navigate(['/admin'])
+          this.router.navigate(['/dashboard'])
           if ($(".sidenav-overlay").css("display", "block")) {
             $(".sidenav-overlay").css("display", "none");
           }
         } else if (this._usuariosS.user.role === 'USER') {
-          this.router.navigate(['/inicio'])
+          this.router.navigate(['/perfil'])
         }
         this.password = '';
         $(document).ready(function () {

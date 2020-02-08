@@ -39,6 +39,12 @@
   }
 }
 
+/* Display Perfil Sidebar Trigger*/
+.display-perfil-sidebar {
+  
+}
+
+/* WhatsApp Button Styling */
 .btn-whatsapp {
   background-color: #25d366;
   color: white;
@@ -59,6 +65,7 @@
   font-size: 38px;
 }
 
+/* WhatsApp Card Content Styling */
 .card.horizontal {
   position: fixed;
   bottom: 35px;

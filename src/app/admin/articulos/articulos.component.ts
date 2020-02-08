@@ -34,9 +34,10 @@ export class ArticulosComponent implements OnInit {
       lengthChange: false,
       language: {
         search: "",
+        "infoFiltered": "",
         searchPlaceholder: "Buscar articulos"
       }
-      
+
     }
   }
 

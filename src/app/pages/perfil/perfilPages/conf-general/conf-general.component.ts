@@ -30,12 +30,12 @@ export class ConfGeneralComponent implements OnInit, OnDestroy {
     this.reloadCache()
     this.notificationsSubs = this._webPN.getNotifications()
         .subscribe(notification => {
-          console.log(notification)
-
+          console.log(this._usuarioS.user.role);
           if(notification) {
+            console.log('Notification: '+notification)
             this._webPN.get()
                 .subscribe(resp => {
-                  console.log(resp)
+                  console.log('Resp: '+resp)
                 })
           }
         });
@@ -77,10 +77,9 @@ export class ConfGeneralComponent implements OnInit, OnDestroy {
       })
       .then(sub => {
         
-        console.log()
         this._webPN.postSubscription(sub, name)
             .subscribe(r => {
-              console.log(r)
+              console.log('Resp PostSubs: '+r)
             })
       })
       .catch(console.log)

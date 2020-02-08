@@ -167,12 +167,11 @@
 }
 
 .card-footer .card-show-more .btn-news {
-  background: #26aee4;
   width: max-content;
 }
 
 .card-footer .card-show-more .btn-news:hover {
-  color: rgb(63, 63, 63);
+  color: aquamarine;
 }
 
 #noticias-main-menu {

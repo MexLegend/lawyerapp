@@ -31,7 +31,8 @@ export class ExpedientesComponent implements OnInit {
       lengthChange: false,
       language: {
         search: "",
-        searchPlaceholder: "Buscar usuarios"
+        "infoFiltered": "",
+        searchPlaceholder: "Buscar expedientes"
       }
     };
   }

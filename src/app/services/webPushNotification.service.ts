@@ -7,6 +7,7 @@ import { map, catchError } from 'rxjs/operators';
 import { Whatsapp } from '../models/Whatsapp';
 import { NotificationsPagination } from '../models/Notification';
 import { WebSocketService } from './webSocket.service';
+import { UsuariosService } from './usuarios.service';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,8 @@ export class WebPushNotificationService {
 
   constructor(
     private http: HttpClient,
-    public _webSocketS: WebSocketService
+    public _webSocketS: WebSocketService,
+    public _userS: UsuariosService
   ) {
     this.loadStorage()
   }
@@ -27,12 +29,18 @@ export class WebPushNotificationService {
 
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
-      name
+      token: this._userS.token,
     });
+
+    const body = {
+      sub,
+      name,
+      typeU: this._userS.user.role
+    }
 
     const url = `${environment.URI}/api/notification`;
 
-    this._webSocketS.emitEvt("notification", sub);
+    this._webSocketS.emitEvt("notification", body);
     
     return this.http.post(url, sub, { headers }).pipe(
         catchError(this.handleError)

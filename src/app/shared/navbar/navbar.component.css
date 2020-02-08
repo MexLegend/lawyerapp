@@ -390,9 +390,18 @@ nav .sidenav-trigger i {
   width: 50px;
 }
 
-/* Perfil Menu Styling */
-.perfilMenu {
-  width: 170px;
+.perfil-badge {
+  float: right;
+  border-radius: 10px;
+  line-height: 20px;
+  height: 18px;
+  color: white;
+  min-width: -webkit-fit-content;
+  min-width: -moz-fit-content;
+  min-width: fit-content;
+  background-color: #26ade4;
+  position: absolute;
+  right: 16px;
 }
 
 /* Notification and Perfil Badge Styling */
@@ -407,18 +416,4 @@ nav .sidenav-trigger i {
   border-radius: 50%;
   background-color: #26ade4;
   box-shadow: 0 0 10px 0 #26ade4;
-}
-
-.perfil-badge {
-  float: right;
-  border-radius: 10px;
-  line-height: 20px;
-  height: 18px;
-  color: white;
-  min-width: -webkit-fit-content;
-  min-width: -moz-fit-content;
-  min-width: fit-content;
-  background-color: #26ade4;
-  position: absolute;
-  right: 16px;
 }

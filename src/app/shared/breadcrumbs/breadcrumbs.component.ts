@@ -12,7 +12,7 @@ export class BreadcrumbsComponent implements OnInit {
 
   label: '';
 
-  constructor(private router: Router, public title: Title, public meta: Meta) {
+  constructor(public router: Router, public title: Title, public meta: Meta) {
     this.getDataRoute()
       .subscribe(data => {
         this.label = data.titulo;

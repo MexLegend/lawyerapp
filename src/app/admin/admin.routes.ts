@@ -6,13 +6,19 @@ import { AdminGuard } from '../guards/admin.guard';
 import { ExpedientesComponent } from './expedientes/expedientes.component';
 import { NotificacionesComponent } from './notificaciones/notificaciones.component';
 import { SeguimientoExpedienteComponent } from './seguimiento-expediente/seguimiento-expediente.component';
+import { MensajesComponent } from './mensajes/mensajes.component';
 
 const ADMIN_ROUTES: Routes = [
     {
-        path: 'admin',
+        path: 'dashboard',
         component: DashboardComponent,
-        data: { titulo: 'Home' },
+        data: { titulo: 'Dashboard' },
         canActivate: [AdminGuard]
+    },
+    {
+        path: 'mensajes',
+        component: MensajesComponent,
+        data: { titulo: 'Mensajes' },
     },
     {
         path: 'usuarios',
@@ -32,7 +38,7 @@ const ADMIN_ROUTES: Routes = [
     {
         path: 'seguimiento-expediente',
         component: SeguimientoExpedienteComponent,
-        data: { titulo: 'Expedientes Detalle' }
+        data: { titulo: 'Seguimiento Expediente' }
     },
     {
         path: 'notificaciones',
@@ -40,7 +46,7 @@ const ADMIN_ROUTES: Routes = [
         data: { titulo: 'Notificaciones' }
     },
     {
-        path: '', redirectTo: '/admin',
+        path: '', redirectTo: '/dashboard',
         pathMatch: 'full'
     }
 ];

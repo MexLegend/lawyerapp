@@ -29,9 +29,29 @@ export class SeleccionarExpedienteComponent implements OnInit {
       lengthChange: false,
       language: {
         search: "",
+        "infoFiltered": "",
         searchPlaceholder: "Buscar expedientes"
-      }
+      }, initComplete: function () {
+        $("#select-files-tbl_filter").detach().appendTo('.buscadorAdminFiles');
+      },
     };
+
+    $(document).ready(function () {
+      // Show/Hide Close Serach Box Button
+      $(document).on("keyup", ".buscadorAdminFiles input", function () {
+        if ($(this).val() !== '') {
+          $(this).closest($(".buscadorAdminFiles")).find($('.filter-close')).css('display', "flex");
+        } else {
+          $(this).closest($(".buscadorAdminFiles")).find($('.filter-close')).css('display', "none");
+        }
+      })
+      // Clear Serach Box On Close Button Click
+      $(document).on("click", ".filter-close", function () {
+        $(this).css('display', "none");
+        $(this).closest($(".buscadorAdminFiles")).find($('.buscadorAdminFiles input')).val("");
+        $("#select-files-tbl").DataTable().search("").draw();
+      })
+    });
   }
 
   ngOnDestroy() {

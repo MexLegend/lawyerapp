@@ -2,7 +2,15 @@
   <i class="material-icons app-header-icon text-top">perm_identity</i>
   {{ label }}
 </h5>
-<div class="sidebar-cuantity-text" style="display: flex;">
+<div
+  class="sidebar-cuantity-text"
+  style="display: flex;"
+  *ngIf="
+    this.router.url !== '/dashboard' &&
+    this.router.url !== '/mensajes' &&
+    this.router.url !== '/seguimiento-expediente'
+  "
+>
   <p class="m-0 subtitle font-weight-500">Número total de {{ label }}</p>
   <p class="m-0 text-muted">1457 {{ label }}</p>
 </div>

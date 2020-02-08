@@ -33,7 +33,9 @@
               <span><i class="material-icons">print</i>Fax: 348 783 2055</span>
               <span
                 ><i class="material-icons">mail</i
-                ><a href="">rorofernando@yahoo.com.mx</a></span
+                ><a href="mailto:rorofernando@yahoo.com.mx"
+                  >rorofernando@yahoo.com.mx</a
+                ></span
               >
             </div>
           </div>
@@ -104,13 +106,15 @@
                       name="message"
                       formControlName="message"
                       class="materialize-textarea contact-input"
+                      required
                     ></textarea>
-                    <label for="message">Escribe tu mensaje aquí...</label>
+                    <label for="message">Mensaje*</label>
                   </div>
                   <button
                     type="submit"
                     id="contact-submit-button"
-                    class="waves-effect waves-light btn"
+                    class="waves-effect waves-light btn ff-tss gradient-45deg-dark-blue"
+                    [disabled]="!form.valid"
                   >
                     Enviar
                   </button>
@@ -123,13 +127,16 @@
     </div>
   </div>
   <div>
-    <div id="contact-background">
+    <div id="contact-background" class="gradient-pos-45deg-light-blue">
       <div class="container">
         <div
           id="contact-form-text"
           style="width: 100%; display: flex; flex-direction: row;"
         >
-          <div id="contact-form-text-left" style="width: 40%; text-align: left;">
+          <div
+            id="contact-form-text-left"
+            style="width: 40%; text-align: left;"
+          >
             <div>
               <span style="font-size: 18px; font-weight: 700;">About us</span>
             </div>
@@ -143,7 +150,10 @@
             </div>
           </div>
           <div id="contact-form-text-middle" style="width: 20%;"></div>
-          <div id="contact-form-text-right" style="width: 40%; padding-top: 100px;">
+          <div
+            id="contact-form-text-right"
+            style="width: 40%; padding-top: 100px;"
+          >
             <div id="contact-social-network">
               <div
                 id="Facebook"

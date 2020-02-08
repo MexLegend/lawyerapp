@@ -17,6 +17,7 @@ import { PagesComponent } from '../pages/pages.component';
 import { NoticiaDetalleComponent } from '../pages/noticia-detalle/noticia-detalle.component';
 import { ModalsModule } from '../modals/modals.module';
 import { CommentsComponent } from '../pages/noticia-detalle/comments/comments.component';
+import { MatButtonModule, MatMenuModule } from '@angular/material';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { CommentsComponent } from '../pages/noticia-detalle/comments/comments.co
     FormsModule,
     MatFormFieldModule,
     NgxPaginationModule,
+    MatMenuModule, MatButtonModule,
     PerfilModule,
     ReactiveFormsModule,
     SharedModule,

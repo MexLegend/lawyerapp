@@ -1,0 +1,60 @@
+<div class="card horizontal perfil-card">
+  <div class="card-image"></div>
+  <div class="card-stacked">
+    <form
+      ngNativeValidate
+      #fA="ngForm"
+      (ngSubmit)="actualizarPass(fA)"
+      class="col s12"
+    >
+      <div class="card-content">
+        <div class="row">
+          <div class="input-field col s12">
+            <input
+              id="passAct"
+              name="passAct"
+              [ngModel]="passAct"
+              type="password"
+              class="validate"
+              required
+            />
+            <label for="passAct">Contraseña Actual</label>
+          </div>
+          <div class="input-field col s12">
+            <input
+              id="passNew"
+              name="passNew"
+              [ngModel]="passNew"
+              type="password"
+              class="validate"
+              required
+            />
+            <label for="passNew">Contraseña Nueva</label>
+          </div>
+          <div class="input-field col s12">
+            <input
+              id="passNewR"
+              name="passNewR"
+              [ngModel]="passNewR"
+              type="password"
+              class="validate"
+              required
+            />
+            <label for="passNewR">Repetir Contraseña Nueva</label>
+          </div>
+        </div>
+      </div>
+      <div class="card-action perfil-card-action">
+        <button
+          class="btn waves-effect waves-light gradient-45deg-dark-blue"
+          type="submit"
+          name="action"
+          [disabled]="!fA.valid"
+        >
+          Guardar Cambios
+          <i class="material-icons right">send</i>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

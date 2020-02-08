@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ConfGeneralComponent } from './perfilPages/conf-general/conf-general.component';
-import { CambiarPassComponent } from './perfilPages/cambiar-pass/cambiar-pass.component';
+import { SeguridadComponent } from './perfilPages/seguridad/seguridad.component';
 import { InformacionComponent } from './perfilPages/informacion/informacion.component';
-import { SocialComponent } from './perfilPages/social/social.component';
+import { MensajesComponent } from './perfilPages/mensajes/mensajes.component';
 import { ExpedientesComponent } from './perfilPages/expedientes/expedientes.component';
 import { EventosComponent } from './perfilPages/eventos/eventos.component';
 import { FormsModule } from '@angular/forms';
@@ -13,7 +13,7 @@ import { ExpedienteDetalleComponent } from './perfilPages/expediente-detalle/exp
 
 
 @NgModule({
-  declarations: [ConfGeneralComponent, CambiarPassComponent, InformacionComponent, SocialComponent, ExpedientesComponent, EventosComponent, ExpedienteDetalleComponent],
+  declarations: [ConfGeneralComponent, SeguridadComponent, InformacionComponent, MensajesComponent, ExpedientesComponent, EventosComponent, ExpedienteDetalleComponent],
   imports: [
     CommonModule,
     FormsModule,

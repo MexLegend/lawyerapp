@@ -32,6 +32,7 @@ export class UsuariosComponent implements OnInit {
       lengthChange: false,
       language: {
         search: "",
+        "infoFiltered": "",
         searchPlaceholder: "Buscar usuarios"
       },
       scrollY: "220px",

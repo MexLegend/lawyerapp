@@ -31,10 +31,13 @@ export class ExpedienteDetalleComponent implements OnInit {
 
     this.dtOptions = {
       pagingType: 'simple_numbers',
-      pageLength: 1,
+      pageLength: 6,
       responsive: true,
       lengthChange: false,
       "bFilter": false,
+      language: {
+        "infoFiltered": "",
+      },
       scrollCollapse: true,
       fixedColumns: true
     };

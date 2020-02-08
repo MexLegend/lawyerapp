@@ -17,9 +17,10 @@ import { NotificacionesFormComponent } from './notificaciones/notificaciones-for
 import { ExpedientesFormComponent } from './expedientes/expedientes-form/expedientes-form.component';
 import { SeguimientoExpedienteComponent } from './seguimiento-expediente/seguimiento-expediente.component';
 import { ModalsModule } from '../modals/modals.module';
+import { MensajesComponent } from './mensajes/mensajes.component';
 
 @NgModule({
-  declarations: [ArticulosComponent, DashboardComponent, ArticulosFormComponent, UsuariosComponent, UsuariosFormComponent, ExpedientesComponent, NotificacionesComponent, NotificacionesFormComponent, ExpedientesFormComponent, SeguimientoExpedienteComponent],
+  declarations: [ArticulosComponent, DashboardComponent, ArticulosFormComponent, UsuariosComponent, UsuariosFormComponent, ExpedientesComponent, NotificacionesComponent, NotificacionesFormComponent, ExpedientesFormComponent, SeguimientoExpedienteComponent, MensajesComponent],
   imports: [
     CommonModule,
     ADMIN_ROUTING,

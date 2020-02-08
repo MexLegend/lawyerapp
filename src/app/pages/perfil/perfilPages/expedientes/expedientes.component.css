@@ -72,6 +72,7 @@
   color: white;
 }
 
+/* Notification Table Styling */
 .notification-table tr {
   cursor: pointer;
 }
@@ -109,6 +110,5 @@
 }
 
 .file-details-btn {
-  background-color: #26aee4;
   text-transform: capitalize;
 }

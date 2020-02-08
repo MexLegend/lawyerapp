@@ -1,18 +1,28 @@
-<!-- Inicio NavBar -->
+<!-- Modal Seleccionar Cliente -->
+<app-seleccionar-usuario></app-seleccionar-usuario>
+
+<!-- Modal Seleccionar Expediente -->
+<app-seleccionar-expediente></app-seleccionar-expediente>
+
+<!-- Admin NavBar -->
 <header class="page-topbar" id="header">
   <div class="navbar navbar-fixed">
     <nav
       class="navbar-main navbar-color nav-collapsible navbar-dark gradient-45deg-indigo-purple no-shadow sideNav-lock"
     >
       <div class="nav-wrapper">
+        <!-- Admin Navbar Container -->
         <ul class="navbar-list right">
+          <!-- Toggle Full Screen Option -->
           <li class="hide-on-med-and-down">
             <a
               class="waves-effect waves-block waves-light toggle-fullscreen"
+              (click)="!isfullscreen ? openfullscreen() : closefullscreen()"
               href="javascript:void(0);"
               ><i class="material-icons">settings_overscan</i></a
             >
           </li>
+          <!-- Search Option -->
           <li class="hide-on-large-only">
             <a
               class="waves-effect waves-block waves-light search-button"
@@ -20,6 +30,7 @@
               ><i class="material-icons">search</i></a
             >
           </li>
+          <!-- Notifications Option -->
           <li>
             <a
               class="waves-effect waves-block waves-light notification-button dropdown-trigger"
@@ -34,17 +45,16 @@
             <ul
               class="dropdown-content"
               id="notifications-dropdown"
-              tabindex="0"
               style="width: fit-content;"
             >
-              <li tabindex="0">
+              <li>
                 <div class="notificaciones-header">
                   <span class="notificaciones-header-title">NOTIFICACIONES</span
                   ><span class="new badge">{{ notifications?.total }}</span>
                 </div>
               </li>
-              <li class="divider" tabindex="0"></li>
-              <li *ngFor="let notification of notifications?.docs" tabindex="0">
+              <li class="divider"></li>
+              <li *ngFor="let notification of notifications?.docs">
                 <div class="notification-item">
                   <span class="material-icons icon-bg-circle cyan small"
                     >add_shopping_cart</span
@@ -57,7 +67,9 @@
               </li>
             </ul>
           </li>
+          <!-- Perfil Option -->
           <li>
+            <!-- Perfil Dropdown Trigger -->
             <a
               class="waves-effect waves-block waves-light profile-button dropdown-trigger"
               href="javascript:void(0);"
@@ -67,30 +79,78 @@
                   src="../../../assets/images/user.jpg"
                   alt="avatar"/><i></i></span
             ></a>
-            <ul class="dropdown-content" id="profile-dropdown" tabindex="0">
-              <li tabindex="0">
+            <!-- Perfil Dropdown Container -->
+            <ul class="dropdown-content" id="profile-dropdown">
+              <!-- Perfil Information -->
+              <li>
+                <div class="perfil-info dfr">
+                  <div class="perfil-icon">
+                    <img
+                      src="../../../assets/images/user.jpg"
+                      style="width: 100%;"
+                    />
+                  </div>
+                  <div class="perfil-text dfc">
+                    <span class="perfil-name ff-rr">{{
+                      this._usuariosS.user.firstName
+                        .split(" ")[0]
+                        .concat(
+                          " ",
+                          this._usuariosS.user.lastName.split(" ")[0]
+                        )
+                    }}</span>
+                    <span class="perfil-email ff-rr">{{
+                      this._usuariosS.user.email
+                    }}</span>
+                  </div>
+                </div>
+              </li>
+              <li class="divider"></li>
+              <!-- Perfil Option -->
+              <li>
                 <a class="grey-text text-darken-1" href="user-profile-page.html"
                   ><i class="material-icons">person_outline</i> Perfil</a
                 >
               </li>
-              <li tabindex="0">
-                <a class="grey-text text-darken-1" href="app-chat.html"
-                  ><i class="material-icons">chat_bubble_outline</i> Chat</a
-                >
-              </li>
-              <li tabindex="0">
+              <!-- FAQ Option -->
+              <li>
                 <a class="grey-text text-darken-1" href="page-faq.html"
-                  ><i class="material-icons">help_outline</i> Help</a
+                  ><i class="material-icons">help_outline</i> Ayuda</a
                 >
               </li>
-              <li class="divider" tabindex="0"></li>
-              <li tabindex="0">
+              <!-- Change Theme Option -->
+              <li>
+                <a
+                  class="grey-text text-darken-1 dfr"
+                  style="justify-content: space-between;"
+                  ><div class="dfr">
+                    <i
+                      class="material-icons"
+                      style="height: fit-content; line-height: inherit;"
+                      >brightness_4</i
+                    >Tema Oscuro
+                  </div>
+                  <div class="switch">
+                    <label>
+                      <input
+                        name="remember"
+                        type="checkbox"
+                        class="ng-valid ng-dirty ng-touched"/><span
+                        class="lever"
+                      ></span
+                    ></label></div
+                ></a>
+              </li>
+              <li class="divider"></li>
+              <!-- Logout Option -->
+              <li>
                 <a class="grey-text text-darken-1" (click)="_usuariosS.logout()"
                   ><i class="material-icons">exit_to_app</i> Cerrar Sesión</a
                 >
               </li>
             </ul>
           </li>
+          <!-- Messages Right Sidebar -->
           <li>
             <a
               class="waves-effect waves-block waves-light sidenav-trigger"
@@ -99,18 +159,12 @@
             >
           </li>
         </ul>
-        <!-- translation-button-->
-
-        <!-- notifications-dropdown-->
-
-        <!-- profile-dropdown-->
       </div>
     </nav>
   </div>
 </header>
-<!-- Fin NavBar -->
 
-<!-- Inicio SideNav -->
+<!-- Admin SideNav -->
 <aside
   class="sidenav-main nav-collapsible sidenav-light sidenav-active-square nav-lock"
 >
@@ -135,17 +189,36 @@
     <!-- Main Navbar Principal Options -->
     <ul class="main-sidenav-principal-options">
       <li class="bold">
-        <div class="principal-option-active" [attr.data-active]="actSt === '/admin' ? 'on' : 'off'"></div>
+        <div
+          class="principal-option-active"
+          [attr.data-active]="actSt === '/dashboard' ? 'on' : 'off'"
+        ></div>
         <a
           class="waves-effect waves-cyan dfr"
-          routerLink="/admin"
-          [attr.data-active]="actSt === '/admin' ? 'on' : 'off'"
+          routerLink="/dashboard"
+          [attr.data-active]="actSt === '/dashboard' ? 'on' : 'off'"
         >
-          <i class="material-icons">home</i>
+          <i class="material-icons">pie_chart</i>
         </a>
       </li>
       <li class="bold">
-        <div class="principal-option-active" [attr.data-active]="actSt === '/usuarios' ? 'on' : 'off'"></div>
+        <div
+          class="principal-option-active"
+          [attr.data-active]="actSt === '/mensajes' ? 'on' : 'off'"
+        ></div>
+        <a
+          class="waves-effect waves-cyan dfr"
+          routerLink="/mensajes"
+          [attr.data-active]="actSt === '/mensajes' ? 'on' : 'off'"
+        >
+          <i class="material-icons">mail_outline</i>
+        </a>
+      </li>
+      <li class="bold">
+        <div
+          class="principal-option-active"
+          [attr.data-active]="actSt === '/usuarios' ? 'on' : 'off'"
+        ></div>
         <a
           class="waves-effect waves-cyan "
           routerLink="/usuarios"
@@ -155,7 +228,10 @@
         </a>
       </li>
       <li class="active bold">
-        <div class="principal-option-active" [attr.data-active]="actSt === '/articulos' ? 'on' : 'off'"></div>
+        <div
+          class="principal-option-active"
+          [attr.data-active]="actSt === '/articulos' ? 'on' : 'off'"
+        ></div>
         <a
           class="waves-effect waves-cyan "
           routerLink="/articulos"
@@ -165,7 +241,10 @@
         </a>
       </li>
       <li class="bold">
-        <div class="principal-option-active" [attr.data-active]="actSt === '/expedientes' ? 'on' : 'off'"></div>
+        <div
+          class="principal-option-active"
+          [attr.data-active]="actSt === '/expedientes' ? 'on' : 'off'"
+        ></div>
         <a
           class="waves-effect waves-cyan"
           routerLink="/expedientes"
@@ -175,17 +254,27 @@
         </a>
       </li>
       <li class="bold">
-        <div class="principal-option-active" [attr.data-active]="actSt === '/seguimiento-expediente' ? 'on' : 'off'"></div>
+        <div
+          class="principal-option-active"
+          [attr.data-active]="
+            actSt === '/seguimiento-expediente' ? 'on' : 'off'
+          "
+        ></div>
         <a
           class="waves-effect waves-cyan"
           routerLink="/seguimiento-expediente"
-          [attr.data-active]="actSt === '/seguimiento-expediente' ? 'on' : 'off'"
+          [attr.data-active]="
+            actSt === '/seguimiento-expediente' ? 'on' : 'off'
+          "
         >
-          <i class="material-icons">contact_mail</i>
+          <i class="material-icons">visibility</i>
         </a>
       </li>
       <li class="bold">
-        <div class="principal-option-active" [attr.data-active]="actSt === '/notificaciones' ? 'on' : 'off'"></div>
+        <div
+          class="principal-option-active"
+          [attr.data-active]="actSt === '/notificaciones' ? 'on' : 'off'"
+        ></div>
         <a
           class="waves-effect waves-cyan"
           routerLink="/notificaciones"
@@ -195,7 +284,10 @@
         </a>
       </li>
       <li class="bold">
-        <div class="principal-option-active" [attr.data-active]="actSt === '/articulos' ? 'on' : 'off'"></div>
+        <div
+          class="principal-option-active"
+          [attr.data-active]="actSt === '/articulos' ? 'on' : 'off'"
+        ></div>
         <a
           class="waves-effect waves-cyan"
           routerLink="/articulos"
@@ -249,9 +341,8 @@
     ><i class="material-icons">menu</i></a
   >
 </aside>
-<!-- Fin SideNav -->
 
-<!-- Inicio Main Content -->
+<!-- Admin Main Content -->
 <div id="main">
   <div class="row">
     <div class="content-wrapper-before gradient-45deg-indigo-purple"></div>
@@ -269,7 +360,6 @@
             </div>
           </div>
         </div>
-        <!-- Sidebar Area Ends -->
 
         <!-- Content Area Starts -->
         <div class="content-area content-right">
@@ -305,12 +395,19 @@
             <router-outlet></router-outlet>
           </div>
         </div>
-        <!-- Content Area Ends -->
-        <!-- START RIGHT SIDEBAR NAV -->
-        <aside id="right-sidebar-nav"></aside>
-        <!-- END RIGHT SIDEBAR NAV -->
       </div>
     </div>
   </div>
 </div>
-<!-- Fin Main Content -->
+
+<!-- Admin Footer -->
+<div class="admin-footer ff-ss gradient-45deg-indigo-purple dfr">
+  <span
+    >© 2020 <span class="footer-author">PINOYROBLE</span> All rights
+    reserved.</span
+  >
+  <span class="hide-on-small-only"
+    >Design and Developed by
+    <span class="footer-author">Armando Lara</span></span
+  >
+</div>

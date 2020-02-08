@@ -10,7 +10,7 @@
       <div class="card-stacked">
         <div class="card-content">
           <div class="filtro-buscador">
-            <div class="buscadorAdmin input-field">
+            <div class="buscadorAdminFiles input-field">
               <i class="filter-search material-icons">search</i>
               <i class="filter-close material-icons waves-effect">close</i>
             </div>
@@ -29,7 +29,7 @@
             <div class="card-content">
               <table
                 datatable
-                id="files-tbl"
+                id="select-files-tbl"
                 [dtOptions]="dtOptions"
                 [dtTrigger]="dtTrigger"
                 class="row-border hover stripe"
@@ -37,6 +37,7 @@
               >
                 <thead>
                   <tr>
+                    <th class="th-custom-checkbox"></th>
                     <th>Cliente Asignado</th>
                     <th>Asunto</th>
                     <th>Clave Interna</th>
@@ -44,6 +45,12 @@
                 </thead>
                 <tbody>
                   <tr *ngFor="let expediente of expedientes">
+                    <td class="dfr" style="width: fit-content;">
+                      <label class="custom-checkbox dfr">
+                        <input type="checkbox" />
+                        <span></span>
+                      </label>
+                    </td>
                     <td>{{ expediente.assigned_client }}</td>
                     <td>{{ expediente.affair }}</td>
                     <td>{{ expediente.key }}</td>

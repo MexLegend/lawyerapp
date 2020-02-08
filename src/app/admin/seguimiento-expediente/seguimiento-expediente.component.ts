@@ -16,8 +16,11 @@ export class SeguimientoExpedienteComponent implements OnInit {
       // Tabs Initiation
       $('.tabs').tabs();
 
-      // Modal Incialization
-      $('.modal').modal();
+      // Clients Modal Initiation
+      $("#selectUser").modal();
+
+      //  Files Modal Initiation
+      $("#selectFile").modal();
 
       // Maximum Files Selected
       // $(".upload-file-input").change(function () {

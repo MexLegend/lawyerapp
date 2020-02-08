@@ -3,11 +3,11 @@ import { UsuariosService } from '../../../../services/usuarios.service';
 import { NgForm } from '@angular/forms';
 
 @Component({
-  selector: 'app-cambiar-pass',
-  templateUrl: './cambiar-pass.component.html',
-  styleUrls: ['./cambiar-pass.component.css']
+  selector: 'app-seguridad',
+  templateUrl: './seguridad.component.html',
+  styleUrls: ['./seguridad.component.css']
 })
-export class CambiarPassComponent implements OnInit {
+export class SeguridadComponent implements OnInit {
 
   passAct: string = '';
   passNew: string = '';
