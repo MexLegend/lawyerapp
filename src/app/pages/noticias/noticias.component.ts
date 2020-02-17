@@ -29,6 +29,11 @@ export class NoticiasComponent implements OnInit {
       })
   }
 
+  // Scroll to Top of New Page 
+  scrollToTop() {
+    window.scrollTo(0, 0);
+  }
+
   // Go to News Comments Section
   goToComments(id): void {
     this.router.navigate([`/noticia-detalle/${id}`]);

@@ -29,14 +29,17 @@ export class ArticulosComponent implements OnInit {
 
     this.dtOptions = {
       pagingType: 'simple_numbers',
-      pageLength: 5,
+      pageLength: 15,
       responsive: true,
       lengthChange: false,
       language: {
         search: "",
         "infoFiltered": "",
         searchPlaceholder: "Buscar articulos"
-      }
+      },
+      autoWidth: true,
+      "scrollY": "calc(100vh - 431px)",
+      "scrollCollapse": true,
 
     }
   }

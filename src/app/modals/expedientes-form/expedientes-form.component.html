@@ -5,7 +5,7 @@
   style="z-index: 1003; display: none; opacity: 0; top: 4%; transform: scaleX(0.8) scaleY(0.8);"
 >
   <!--Modal Fixed Header-->
-  <div class="modal-header">
+  <div class="modal-header dfc">
     <div class="modal-icon dfc">
       <i class="material-icons">contact_mail</i>
     </div>
@@ -47,27 +47,19 @@
         <input
           id="extKey"
           name="extKey"
+          formControlName="extKey"
           placeholder="Clave Externa"
           type="text"
         />
-        <input
-          id="actor"
-          name="actor"
-          placeholder="Actor(es)"
-          type="text"
-        />
+        <input id="actor" name="actor" formControlName="actor" placeholder="Actor(es)" type="text" />
         <input
           id="defendant"
           name="defendant"
+          formControlName="defendant"
           placeholder="Demandado(s)"
           type="text"
         />
-        <input
-          id="third"
-          name="third"
-          placeholder="Terceros"
-          type="text"
-        />
+        <input id="third" name="third" formControlName="third" placeholder="Terceros" type="text" />
         <input
           id="affair"
           name="affair"

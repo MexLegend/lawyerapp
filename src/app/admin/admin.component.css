@@ -9,6 +9,9 @@
   .admin-footer {
     padding: 0 20px 0 280px;
   }
+  .inner-sidebar-brand {
+    display: none !important;
+  }
 }
 
 @media only screen and (min-width: 900px) {
@@ -79,8 +82,6 @@
 
   .sidebar .sidebar-content .sidebar-header {
     z-index: -1;
-    top: 20px !important;
-    left: 30px;
   }
 
   .scroll-sidenav {
@@ -143,13 +144,41 @@
   }
 }
 
+@media only screen and (max-height: 1000px) and (max-width: 850px) {
+  #main {
+    min-height: calc(100vh - 116px) !important;
+  }
+}
+
+@media only screen and (max-height: 680px) {
+  .main-sidenav-principal-options {
+    height: fit-content !important;
+    margin-top: 12px !important;
+  }
+  .main-navbar-container {
+    padding-right: 14px;
+  }
+}
+
+@media only screen and (max-height: 650px) {
+  .main-sidenav-principal-options {
+    margin-top: 38px !important;
+  }
+}
+
+@media only screen and (max-height: 600px) {
+  .main-sidenav-principal-options {
+    margin-top: 110px !important;
+  }
+}
+
 /* - - - - - - - - - - - - - - - - - |
 /*           NAVBAR STYLING          |
 /* - - - - - - - - - - - - - - - - - |
 /* NavBar */
 
 .navbar-fixed {
-  z-index: 999;
+  z-index: 998;
 }
 
 .navbar .no-shadow {
@@ -290,7 +319,6 @@
 /* - - - - - - - - - - - - - - - - - |*/
 
 /* SideNav */
-
 .sidenav {
   width: 260px;
   top: 64px;
@@ -307,6 +335,8 @@
   -o-transition: 0.3s ease all;
   transition: 0.3s ease all;
 }
+
+/* Sidebar Main Brand */
 
 .brand-sidebar {
   position: fixed;
@@ -331,17 +361,16 @@
 }
 
 .brand-sidebar .brand-logo {
-  font-size: 2.1rem;
   line-height: 0;
   position: relative;
   display: flex;
   flex-direction: row;
   align-items: center;
-  color: #333;
   padding: 15px;
 }
 
-.brand-sidebar span.logo-text {
+.brand-sidebar span.logo-text,
+.inner-sidebar-brand span {
   font-size: 24px;
   visibility: visible;
   padding-left: 8px;
@@ -350,6 +379,18 @@
   -o-transition: opacity 0.2s linear;
   transition: opacity 0.2s linear;
   opacity: 1;
+  color: #333;
+  font-family: "Muli", sans-serif;
+  letter-spacing: normal;
+}
+
+/* Sidebar Inner Brand */
+.inner-sidebar-brand {
+  min-height: 64px;
+}
+
+.inner-sidebar-brand a {
+  padding: 15px;
 }
 
 .collapsible {
@@ -396,6 +437,21 @@ nav,
 nav .sidenav-trigger {
   display: inherit;
   margin: 0;
+}
+
+/* Main Navbar Container*/
+.main-navbar-container-wrapper {
+  height: 100%;
+  width: 100%;
+  position: relative;
+}
+
+.main-navbar-container {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
 }
 
 /* Main Sidenav Principal Options Container*/
@@ -605,9 +661,9 @@ span.badge.pill {
 
 #main {
   background: #ececec;
-  min-height: -webkit-calc(100% - 124px);
-  min-height: -moz-calc(100% - 124px);
-  min-height: calc(100% - 124px);
+  min-height: -webkit-calc(100vh - 124px);
+  min-height: -moz-calc(100vh - 124px);
+  min-height: calc(100vh - 124px);
   padding-left: 0;
   -webkit-transition: 0.3s ease all;
   -moz-transition: 0.3s ease all;

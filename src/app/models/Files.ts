@@ -1,10 +1,13 @@
 export class Files {
     constructor(
-        public assigned_client: string,
+        public actor: string,
         public affair: string,
+        public assigned_client: string,
+        public defendant: string,
         public description: string,
-        public key?: string,
-        public end_date?: string,
+        public intKey: string,
+        public third: string,
+        public extKey?: string,
         public start_date?: string,
         public status?: string,
         public user?: string,

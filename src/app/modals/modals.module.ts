@@ -7,21 +7,30 @@ import { LoginFormComponent } from './login/login-form/login-form.component';
 import { RegisterFormComponent } from './login/register-form/register-form.component';
 import { SeleccionarUsuarioComponent } from './seleccionar-usuario/seleccionar-usuario.component';
 import { SeleccionarExpedienteComponent } from './seleccionar-expediente/seleccionar-expediente.component';
-
+import { ExpedientesFormComponent } from './expedientes-form/expedientes-form.component';
+import { NotificacionesFormComponent } from './notificaciones-form/notificaciones-form.component';
+import { UsuariosFormComponent } from './usuarios-form/usuarios-form.component';
+import { ArticulosFormComponent } from './articulos-form/articulos-form.component';
+import { AngularEditorModule } from '@kolkov/angular-editor';
 
 
 @NgModule({
-  declarations: [LoginComponent, LoginFormComponent, RegisterFormComponent, SeleccionarUsuarioComponent, SeleccionarExpedienteComponent],
+  declarations: [LoginComponent, LoginFormComponent, RegisterFormComponent, SeleccionarUsuarioComponent, SeleccionarExpedienteComponent, ExpedientesFormComponent, NotificacionesFormComponent, UsuariosFormComponent, ArticulosFormComponent],
   imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    DataTablesModule
+    DataTablesModule,
+    AngularEditorModule,
   ],
   exports: [
     LoginComponent,
     SeleccionarUsuarioComponent,
-    SeleccionarExpedienteComponent
+    SeleccionarExpedienteComponent,
+    ExpedientesFormComponent,
+    NotificacionesFormComponent,
+    UsuariosFormComponent,
+    ArticulosFormComponent
   ]
 })
 export class ModalsModule { }

@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import Swal from 'sweetalert2'
 
 
@@ -8,23 +7,21 @@ import Swal from 'sweetalert2'
 })
 export class NotificationService {
 
-  constructor(
-    private http: HttpClient
-  ) { }
+  constructor() { }
 
-  mensaje(icon, title, text, showCancelButton: boolean, showConfirmButton: boolean = true, confirmButtonText: string = '', cancelButtonText: string = '', timer) {   
+  mensaje(icon, title, text, showCancelButton: boolean, showConfirmButton: boolean = true, confirmButtonText: string = '', cancelButtonText: string = '', timer) {
 
     Swal.fire({
-        icon,
-        title,
-        text,
-        showCancelButton,
-        showConfirmButton,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText,
-        cancelButtonText,
-        timer
-      })
+      icon,
+      title,
+      text,
+      showCancelButton,
+      showConfirmButton,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText,
+      cancelButtonText,
+      timer
+    })
   }
 }

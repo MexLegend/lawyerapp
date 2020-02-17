@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, NavigationEnd } from '@angular/router';
 import { UsuariosService } from '../../services/usuarios.service';
 
 declare var $: any;
@@ -12,34 +12,23 @@ declare var $: any;
 export class PerfilComponent implements OnInit {
 
   isfullscreen: boolean = false;
+  actSt: any = '';
 
   constructor(
-    private router: Router,
-    private activatedRoute: ActivatedRoute,
+    public router: Router,
     public _usuariosS: UsuariosService
   ) {
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        this.actSt = this.router.url;
+      }
+    })
   }
 
   ngOnInit() {
 
-    $("#contact-sidenav .contact-list li").hover(function (e) {
-      e.stopPropagation();
-      if (!$(this).closest(".perfil-menu-option").hasClass("active")) {
-        $(this).closest(".perfil-menu-option").addClass("perfil-menu-option-hover");
-      }
-    }, function () {
-      $(this).closest(".perfil-menu-option").removeClass("perfil-menu-option-hover");
-    });
-
-    $("#contact-sidenav .contact-list li").click(function (e) {
-      e.stopPropagation();
-      if (!$(this).hasClass("sidebar-title")) {
-        $("#contact-sidenav .contact-list li").removeClass("active");
-        if (!$(this).closest(".perfil-menu-option").hasClass("active")) {
-          $(this).addClass("active");
-        }
-      }
-    });
+    // Initialize Sidenav
+    $('.sidenav').sidenav();
   }
 
   // Toggle Full Screen Function

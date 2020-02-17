@@ -1,5 +1,5 @@
 <!-- Perfil Sidebar -->
-<div class="sidebar sidebar-fixed collapsible hide-on-med-and-down">
+<div id="perfil-sidebar" class="sidenav sidebar sidebar-fixed collapsible">
   <!-- Sidebar Brand -->
   <div class="brand-sidebar">
     <a class="brand-logo darken-1 dfr" routerlink="/inicio" href="#/inicio">
@@ -8,7 +8,7 @@
         src="../../../assets/images/brand.png"
         style="width: 20%;"
       />
-      <span class="logo-text hide-on-med-and-down">Pino Y Roble</span></a
+      <span class="logo-text">Pino Y Roble</span></a
     >
   </div>
 
@@ -16,59 +16,76 @@
   <ul class="perfil-sidebar-options display-grid">
     <!-- Files Option -->
     <li class="perfil-menu-option">
-      <a class="text-sub" data-active="on" routerLink="/perfil/expedientes"
+      <a
+        class="text-sub"
+        [attr.data-active]="actSt === '/perfil/expedientes' ? 'on' : 'off'"
+        routerLink="/perfil/expedientes"
         ><i class="material-icons"> contact_mail </i> Expedientes</a
       >
     </li>
     <!-- Messages Option -->
     <li class="perfil-menu-option">
-      <a class="text-sub" data-active="off" routerLink="/perfil/mensajes"
+      <a
+        class="text-sub"
+        [attr.data-active]="actSt === '/perfil/mensajes' ? 'on' : 'off'"
+        routerLink="/perfil/mensajes"
         ><i class="material-icons"> question_answer </i> Mensajes</a
       >
     </li>
     <!-- Events Option -->
     <li class="perfil-menu-option">
-      <a class="text-sub" data-active="off" routerLink="/perfil/eventos"
+      <a
+        class="text-sub"
+        [attr.data-active]="actSt === '/perfil/eventos' ? 'on' : 'off'"
+        routerLink="/perfil/eventos"
         ><i class="material-icons"> insert_invitation </i> Eventos</a
       >
     </li>
     <!-- General Option -->
     <li class="perfil-menu-option">
-      <a class="text-sub" data-active="off" routerLink="/perfil/general"
+      <a
+        class="text-sub"
+        [attr.data-active]="actSt === '/perfil/general' ? 'on' : 'off'"
+        routerLink="/perfil/general"
         ><i class="material-icons"> person_outline </i> Perfil</a
       >
     </li>
     <!-- Information Option -->
     <li class="perfil-menu-option">
-      <a class="text-sub" data-active="off" routerLink="/perfil/informacion"
+      <a
+        class="text-sub"
+        [attr.data-active]="actSt === '/perfil/informacion' ? 'on' : 'off'"
+        routerLink="/perfil/informacion"
         ><i class="material-icons"> error_outline </i> Información</a
       >
     </li>
     <!-- Security Option -->
     <li class="perfil-menu-option">
-      <a class="text-sub" data-active="off" routerLink="/perfil/seguridad"
+      <a
+        class="text-sub"
+        [attr.data-active]="actSt === '/perfil/seguridad' ? 'on' : 'off'"
+        routerLink="/perfil/seguridad"
         ><i class="material-icons"> lock_open </i> Seguridad y privacidad</a
       >
     </li>
   </ul>
-
-  <!-- Sidebar Button Trigger -->
-  <a
-    href="#"
-    data-target="sidebar-list"
-    id="sidenav-trigger-btn"
-    class="sidenav-trigger hide-on-large-only"
-    ><i class="material-icons">menu</i></a
-  >
 </div>
 
 <!-- Perfil Main Container -->
 <section id="perfil-main-container" class="pr dfc">
   <!-- Perfil NavBar Container -->
   <div class="perfil-navbar gradient-pos-45deg-dark-blue dfr">
+    <!-- Perfil Sidebar Button Trigger -->
+    <a
+      class="sidenav-trigger btn-sidenav-toggle btn-floating btn-medium orange waves-effect waves-light hide-on-large-only"
+      data-target="perfil-sidebar"
+      href="#"
+      id="perfil-sidebar-trigger"
+      ><i class="material-icons">menu</i></a
+    >
     <!-- Site Contact Phones -->
     <div class="contact-media dfr">
-      <i class="material-icons hide-on-small-only" style="padding: 0 5px;"
+      <i class="material-icons" style="padding: 0 5px;"
         >phone_in_talk</i
       >
       <span id="telefonos">
@@ -79,7 +96,7 @@
     </div>
     <!-- Site Contact Email -->
     <div class="contact-media dfr">
-      <i class="material-icons hide-on-small-only" style="padding: 0 5px;"
+      <i class="material-icons" style="padding: 0 5px;"
         >email</i
       >
       <span id="mail">

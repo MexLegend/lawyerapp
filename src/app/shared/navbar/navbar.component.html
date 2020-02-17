@@ -85,34 +85,52 @@
   <!-- Main Navbar -->
   <div id="mainNavbar" class="nav-wrapper container">
     <div id="nav-menu-logo">
-      <a href="#" data-target="mobile-demo" class="sidenav-trigger"
+      <!-- Main Client Sidebar Button Trigger -->
+      <a href="#" data-target="main-client-sidebar" class="sidenav-trigger"
         ><i class="material-icons">menu</i></a
       >
-      <a routerLink="/inicio" class="brand-logo"
+      <a routerLink="/inicio" class="brand-logo dfr" (click)="scrollToTop()"
         ><img class="responsive-img" id="logo" src="/assets/images/logo.png"
       /></a>
     </div>
     <div id="nav-menu-items">
       <ul class="left">
         <li class="hide-on-med-and-down">
-          <a class="waves-effect waves-light" routerLink="/inicio">Inicio</a>
+          <a
+            class="waves-effect waves-light"
+            routerLink="/inicio"
+            (click)="scrollToTop()"
+            >Inicio</a
+          >
         </li>
         <li class="hide-on-med-and-down">
-          <a class="waves-effect waves-light" routerLink="/contacto"
+          <a
+            class="waves-effect waves-light"
+            routerLink="/contacto"
+            (click)="scrollToTop()"
             >Contacto</a
           >
         </li>
         <li class="hide-on-med-and-down">
-          <a class="waves-effect waves-light" routerLink="/noticias"
+          <a
+            class="waves-effect waves-light"
+            routerLink="/noticias"
+            (click)="scrollToTop()"
             >Noticias</a
           >
         </li>
         <li class="hide-on-med-and-down">
-          <a class="waves-effect waves-light" href="blog.html">Blog</a>
+          <a
+            class="waves-effect waves-light"
+            (click)="scrollToTop()"
+            href="blog.html"
+            >Blog</a
+          >
         </li>
         <li class="hide-on-med-and-down">
           <a
             class="waves-effect waves-light nav-menu-item-transparency"
+            (click)="scrollToTop()"
             href="blog.html"
             ><div>Transparencia</div>
           </a>
@@ -312,39 +330,53 @@
   </div>
 </nav>
 
-<!-- SideNav Dropdown -->
-<ul class="sidenav" id="mobile-demo">
-  <li class="sidenav-logo">
-    <h1 class="logo-wrapper">
-      <a class="brand-logo darken-1" href="index.html"
-        ><img src="../../../assets/images/brand.png" alt="site logo" /><span
-          class="logo-text"
-          >Pino Y Roble</span
-        ></a
+<!-- Main Client Sidebar -->
+<ul class="sidenav gradient-pos-45deg-light-blue" id="main-client-sidebar">
+  <!-- Sidebar Logo -->
+  <li class="sidenav-logo dfc">
+    <div class="sidenav-logo-after"></div>
+    <div class="sidenav-logo-wrapper">
+      <a
+        class="brand-logo darken-1 dfc"
+        routerLink="/inicio"
+        (click)="scrollToTop()"
       >
-    </h1>
+        <img src="../../../assets/images/brand.png" alt="site logo" />
+        <span class="logo-text">Pino Y Roble</span>
+      </a>
+    </div>
   </li>
-  <li>
-    <a routerLink="/inicio"> <i class="material-icons mr-2"> home </i>Inicio</a>
-  </li>
-  <li>
-    <a routerLink="/contacto"
-      ><i class="material-icons mr-2"> contact_mail </i>Contacto</a
-    >
-  </li>
-  <li>
-    <a routerLink="/noticias"
-      ><i class="material-icons mr-2"> fiber_new </i>Noticias</a
-    >
-  </li>
-  <li>
-    <a href="mobile.html"><i class="material-icons mr-2"> feedback </i>Blog</a>
-  </li>
-  <li>
-    <a href="mobile.html"
-      ><i class="material-icons mr-2"> remove_red_eye </i>Transparencia</a
-    >
-  </li>
+  <div class="sidenav-options-container">
+    <!-- Sidebar Option -->
+    <li [attr.data-active]="actSt === '/inicio' ? 'on' : 'off'">
+      <a routerLink="/inicio" (click)="scrollToTop()">Inicio</a>
+    </li>
+    <!-- Sidebar Option -->
+    <li [attr.data-active]="actSt === '/contacto' ? 'on' : 'off'">
+      <a routerLink="/contacto" (click)="scrollToTop()">Contacto</a>
+    </li>
+    <!-- Sidebar Option -->
+    <li [attr.data-active]="actSt === '/noticias' ? 'on' : 'off'">
+      <a routerLink="/noticias" (click)="scrollToTop()">Noticias</a>
+    </li>
+    <!-- Sidebar Option -->
+    <li [attr.data-active]="actSt === '/blog' ? 'on' : 'off'">
+      <a routerLink="/blog" (click)="scrollToTop()">Blog</a>
+    </li>
+    <!-- Sidebar Option -->
+    <li [attr.data-active]="actSt === '/transparencia' ? 'on' : 'off'">
+      <a routerLink="/transparencia" (click)="scrollToTop()">Transparencia</a>
+    </li>
+    <!-- Sidebar Footer -->
+    <li class="sidebar-footer dfr">
+      <div>
+        <span
+          >Design and Developed by
+          <span style="color: white;">Armando Lara</span></span
+        >
+      </div>
+    </li>
+  </div>
 </ul>
 
 <!-- Login Modal Content -->

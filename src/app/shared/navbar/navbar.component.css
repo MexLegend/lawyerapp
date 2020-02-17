@@ -84,7 +84,7 @@
     left: calc(50% - 44px);
   }
   nav .brand-logo img {
-    height: 50px !important;
+    height: 40px !important;
   }
 }
 
@@ -155,7 +155,6 @@
 /* Main & Second Navbar styling */
 
 #nav-menu-logo {
-  margin-top: 20px;
   width: 250px;
 }
 
@@ -368,28 +367,85 @@ nav .sidenav-trigger i {
   box-shadow: none;
 }
 
-.sidenav-logo .logo-wrapper {
+/* SideBar Navigation Styling */
+.sidenav-logo {
   padding: 15px 0;
-  margin: 0;
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.09);
+  margin: 0 0px 65px 0px;
+  height: 113px;
+  position: relative;
+  background: white;
+  box-shadow: 0 0 15px 1px rgba(0, 0, 0, 0.3);
 }
 
-.sidenav-logo .logo-wrapper .logo-text {
-  font-size: 24px;
+.sidenav-logo::before {
+  content: "";
+  position: absolute;
+  background: #f8f7f7;
+  height: 0;
+  left: 10px;
+  bottom: -31px;
+  width: 280px;
+  height: 45px;
+  box-shadow: 6px -2px 15px -7px;
+  transform: rotate(-199deg) skew(-19deg, 10deg);
+}
+
+.sidenav-logo::after {
+  content: "";
+  position: absolute;
+  height: 100px;
+  left: 0;
+  bottom: -22px;
+  width: 300px;
+  background: white;
+  transform: rotate(-199deg) skew(-19deg, 10deg);
+  box-shadow: 7px -6px 12px -8px rgba(0, 0, 0, 0.3);
+}
+
+.sidenav-logo .sidenav-logo-wrapper {
+  z-index: 2;
+  position: absolute;
+}
+
+.sidenav-logo .sidenav-logo-wrapper .logo-text {
+  font-size: 12px;
   padding-left: 5px;
+  color: black;
 }
 
-.sidenav-logo .logo-wrapper .brand-logo {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  margin: auto 33px;
+.sidenav-logo .sidenav-logo-wrapper .brand-logo img {
+  width: 80px;
 }
 
-.sidenav-logo .logo-wrapper .brand-logo img {
-  width: 50px;
+.sidenav-options-container {
+  position: relative;
+  height: calc(100% - 178px);
 }
 
+.sidebar-footer {
+  width: 100%;
+  height: 40px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  background: rgba(255, 255, 255, 0.13);
+  color: rgba(255, 255, 255, 0.8);
+  justify-content: center;
+}
+
+#main-client-sidebar li a {
+  color: #ffffffa3;
+  text-transform: uppercase;
+  text-align: center;
+  letter-spacing: 2px;
+}
+
+#main-client-sidebar li[data-active="on"] a {
+  color: white;
+  font-weight: 600;
+}
+
+/* Notification and Perfil Badge Styling */
 .perfil-badge {
   float: right;
   border-radius: 10px;
@@ -404,7 +460,6 @@ nav .sidenav-trigger i {
   right: 16px;
 }
 
-/* Notification and Perfil Badge Styling */
 .notification-badge {
   font-family: Muli, sans-serif;
   position: relative;

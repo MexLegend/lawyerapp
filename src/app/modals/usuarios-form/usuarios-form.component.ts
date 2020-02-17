@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Usuario } from '../../../models/Usuario';
-import { UsuariosService } from '../../../services/usuarios.service';
+import { Usuario } from '../../models/Usuario';
+import { UsuariosService } from '../../services/usuarios.service';
 
 @Component({
   selector: 'app-usuarios-form',

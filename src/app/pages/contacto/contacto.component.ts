@@ -46,5 +46,4 @@ export class ContactoComponent implements OnInit {
       this.form.reset()
     })
   }
-
 }

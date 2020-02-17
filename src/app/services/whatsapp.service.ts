@@ -16,15 +16,12 @@ export class WhatsappService {
   ) { }
 
   enviarMensaje(message: Whatsapp): Observable<Whatsapp> {
-    console.log(message);
-    
 
     const url = `${environment.URI}/api/whatsapp`;
-    
+
     return this.http.post<Whatsapp>(url, message).pipe(
       map((resp: any) => {
         // this._notificacionS.crear(`Carrera ${resp.carrera.nombre} actualizado`, 'Cerrar', 3000);
-        console.log(resp);
         return resp;
       })
     );

@@ -33,7 +33,7 @@
                 [dtOptions]="dtOptions"
                 [dtTrigger]="dtTrigger"
                 class="row-border hover stripe"
-                style="width: 100%"
+                style="width: 100% !important"
               >
                 <thead>
                   <tr>
@@ -47,7 +47,11 @@
                   <tr *ngFor="let expediente of expedientes">
                     <td class="dfr" style="width: fit-content;">
                       <label class="custom-checkbox dfr">
-                        <input type="checkbox" />
+                        <input
+                          name="filesGroup"
+                          type="radio"
+                          (click)="this.isCheckedFunction(expediente)"
+                        />
                         <span></span>
                       </label>
                     </td>
@@ -70,7 +74,9 @@
       </button>
       <button
         type="submit"
-        class="waves-effect waves-light btn modal-submit-action"
+        class="waves-effect waves-light btn modal-submit-action modal-close"
+        [disabled]="!this.isChecked"
+        (click)="this.printData()"
       >
         Seleccionar
       </button>

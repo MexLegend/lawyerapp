@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UsuariosService } from '../../services/usuarios.service';
-declare var $: any, M: any;
+import { Router, NavigationEnd } from '@angular/router';
+declare var $: any;
 
 @Component({
   selector: 'app-navbar',
@@ -12,11 +13,17 @@ export class NavbarComponent implements OnInit {
 
   public drop: boolean = true;
   tFo: string = '';
-  dropdownActions;
+  actSt: any = '';
 
   constructor(
-    public _usuariosS: UsuariosService
+    public _usuariosS: UsuariosService,
+    public router: Router
   ) {
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        this.actSt = this.router.url;
+      }
+    })
   }
 
   ngOnInit() {
@@ -48,5 +55,10 @@ export class NavbarComponent implements OnInit {
   form(tF: string) {
     this.tFo = tF;
     console.log(this.tFo)
+  }
+
+  // Scroll to Top Function
+  scrollToTop() {
+    window.scrollTo(0, 0);
   }
 }

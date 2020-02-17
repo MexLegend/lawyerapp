@@ -1,40 +1,36 @@
 <!-- Modal Structure -->
 <div id="modalRegistro" class="modal">
   <div class="modal-content">
-    <div class="modal-content-superior-draw"></div>
-    <div class="modal-inner-container">
-      <div class="modal-fake-inner-container">
-        <div class="titulo-Modal">
-          <img class="responsive-img" id="logo" src="/assets/images/logo.png" />
-        </div>
-        <div class="contenido-Modal-Text">
-          <div class="register-login">
-            <div
-              (click)="vForm('login')"
-              [class.login-option-active]="tForm === 'login'"
-              class="register-btn login-option"
-            >
-              <span>Iniciar sesión</span>
-            </div>
-            <div
-              (click)="vForm('register')"
-              [class.login-option-active]="tForm === 'register'"
-              class="login-btn login-option"
-            >
-              <span>Registrarse</span>
-            </div>
+    <div class="modal-container">
+      <div class="titulo-Modal">
+        <img class="responsive-img" id="logo" src="/assets/images/logo.png" />
+      </div>
+      <div class="contenido-Modal-Text">
+        <div class="register-login">
+          <div
+            (click)="vForm('login')"
+            [class.login-option-active]="tForm === 'login'"
+            class="register-btn login-option"
+          >
+            <span>Iniciar sesión</span>
           </div>
-          <app-login-form
-            *ngIf="tForm === 'login'"
-            style="width: 100%;"
-          ></app-login-form>
-          <app-register-form
-            *ngIf="tForm === 'register'"
-            style="width: 100%;"
-          ></app-register-form>
+          <div
+            (click)="vForm('register')"
+            [class.login-option-active]="tForm === 'register'"
+            class="login-btn login-option"
+          >
+            <span>Registrarse</span>
+          </div>
         </div>
+        <app-login-form
+          *ngIf="tForm === 'login'"
+          style="width: 100%;"
+        ></app-login-form>
+        <app-register-form
+          *ngIf="tForm === 'register'"
+          style="width: 100%;"
+        ></app-register-form>
       </div>
     </div>
-    <div class="modal-content-bottom-draw"></div>
   </div>
 </div>

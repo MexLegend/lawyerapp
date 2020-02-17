@@ -5,7 +5,6 @@ import { NgScrollbar } from 'ngx-scrollbar';
 import { WebPushNotificationService } from '../services/webPushNotification.service';
 import { NotificationsPagination } from '../models/Notification';
 import { Router, NavigationEnd } from '@angular/router';
-import { element } from 'protractor';
 
 declare var $: any;
 
@@ -92,6 +91,7 @@ export class AdminComponent implements OnInit, OnDestroy {
       });
     });
   }
+
   // Toggle Full Screen Function
   openfullscreen() {
     // Trigger fullscreen

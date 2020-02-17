@@ -12,4 +12,9 @@ export class FooterComponent implements OnInit {
   ngOnInit() {
   }
 
+  // Scroll to Top Function
+  scrollToTop() {
+    window.scrollTo(0, 0);
+  }
+
 }

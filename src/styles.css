@@ -2,18 +2,64 @@
 /*        GLOBAL MEDIA QUERIES       |
 /* - - - - - - - - - - - - - - - - - |
 
-/* Global Media Queries */
-@media (min-width: 900px) {
-  .sidenav-overlay {
-    display: none !important;
-    opacity: 0 !important;
+/* Specific Queries */
+
+@media only screen and (min-height: 1024px) and (max-height: 1100px) {
+  .modal-content
+    .dataTables_wrapper
+    .dataTables_scroll
+    div.dataTables_scrollBody {
+    max-height: calc(100vh - 612px) !important;
   }
 }
+
 /* @media only screen and (max-width: 992px) {
   .sidenav-overlay {
     z-index: 995;
   }
 } */
+
+/* Max Height Queries */
+
+@media only screen and (max-height: 720px) {
+  .modal.modal-fixed-footer .modal-content {
+    padding: 0 0 10px 0 !important;
+  }
+}
+
+@media only screen and (max-height: 700px) {
+  .modal-content
+    .dataTables_wrapper
+    .dataTables_scroll
+    div.dataTables_scrollBody {
+    max-height: calc(100vh - 507px) !important;
+  }
+}
+
+@media only screen and (max-height: 600px) {
+  .modal-content.dataTables_wrapper
+    .dataTables_scroll
+    div.dataTables_scrollBody {
+    max-height: calc(100vh - 485px) !important;
+  }
+}
+
+/* Max Width Queries */
+
+@media only screen and (max-width: 400px) {
+  .modal-header .modal-icon {
+    width: fit-content !important;
+    height: fit-content !important;
+    margin-right: 10px;
+  }
+  .modal-header .modal-icon i {
+    font-size: 22px !important;
+  }
+  .modal-header span {
+    font-size: 16px !important;
+  }
+}
+
 @media only screen and (max-width: 899px) {
   .sidebar
     .sidebar-content
@@ -30,11 +76,10 @@
 
 @media only screen and (max-width: 767px) {
   .dataTables_wrapper .dataTables_info {
-    margin: auto;
+    display: none;
   }
   .dataTables_wrapper .dataTables_paginate {
     margin: auto;
-    padding: 0 0 10px 0 !important;
   }
 }
 
@@ -164,6 +209,12 @@ h6 {
   margin-top: 10% !important;
 }
 
+.t-o-h {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
 p {
   font-family: "Muli", sans-serif;
 }
@@ -259,6 +310,10 @@ button[disabled] {
   z-index: 99999 !important;
 }
 
+.sidenav-overlay {
+  z-index: 998;
+}
+
 /* - - - - - - - - - - - - - - - - - |
 /*        CUSTOM SCROLLBAR           |
 /* - - - - - - - - - - - - - - - - - |*/
@@ -334,12 +389,12 @@ button[disabled] {
   border-radius: 4px !important;
 }
 
-[type="checkbox"] + span:not(.lever):before {
+[type="radio"] + span:not(.lever):before {
   width: 20px !important;
   height: 20px !important;
 }
 
-[type="checkbox"]:checked + span:not(.lever):before {
+[type="radio"]:checked + span:not(.lever):before {
   top: -4px;
   left: -5px;
   width: 12px !important;
@@ -356,6 +411,11 @@ button[disabled] {
   border-left: 2px solid transparent;
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
+}
+
+[type="radio"]:checked + span:not(.lever):after {
+  background: transparent !important;
+  border: none !important;
 }
 
 /* - - - - - - - - - - - - - - - - - - |
@@ -661,6 +721,22 @@ td {
 
 /* Angular Datatables Styling */
 
+tr.child {
+  width: 100%;
+  font-size: 12px;
+}
+
+table.dataTable tbody th,
+table.dataTable tbody td {
+  white-space: nowrap;
+}
+
+#select-users-tbl_wrapper {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .dataTables_info {
   margin-left: 18px;
   color: #616161 !important;
@@ -762,6 +838,10 @@ table.dataTable.dtr-inline.collapsed > tbody > tr[role="row"] > th:first-child {
   border-bottom: 1px solid #d8d8d8;
 }
 
+/* .dataTables_scrollHeadInner {
+  width: 100% !important;
+} */
+
 .dataTables_wrapper.no-footer .dataTables_scrollBody {
   border-bottom: 1px solid #d8d8d8;
 }
@@ -776,7 +856,7 @@ table.dataTable.dtr-inline.collapsed > tbody > tr[role="row"] > th:first-child {
 }
 
 .dataTables_wrapper .dataTables_paginate {
-  padding-top: 10px;
+  padding: 10px 0;
 }
 
 #chat-users-tbl_paginate {
@@ -1035,6 +1115,115 @@ span.badge.new:after {
 .datepicker-done {
   text-transform: capitalize;
   color: #26aee4;
+}
+
+/* - - - - - - - - - - - - - - - - - - |
+/*     ADMIN VIEW MODALS STYLING       |
+/* - - - - - - - - - - - - - - - - - - |
+
+/* - - - - - - - - - - - - - - - - - |
+/*           MODAL STYLING           |
+/* - - - - - - - - - - - - - - - - - |
+
+/* General Modal Styling */
+.modal-content {
+  padding: 0 !important;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+  position: absolute;
+  height: calc(100% - 90px) !important;
+  bottom: 0;
+}
+
+.modal-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 10px 24px;
+  background: linear-gradient(45deg, #303f9f, #7b1fa2);
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 90px;
+}
+
+.modal-header span {
+  color: white;
+  font-size: 1.5rem;
+  letter-spacing: 0;
+  text-transform: none;
+  line-height: 1.75rem;
+}
+
+.modal-header .modal-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  justify-content: center;
+}
+
+.modal-header .modal-icon i {
+  color: white;
+  font-size: 32px;
+}
+
+/* Modal Action Buttons Styling */
+.modal-actions {
+  margin-top: 20px;
+  height: fit-content;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.modal .modal-actions .btn,
+.modal-select-action {
+  border-radius: 5px;
+  text-transform: capitalize;
+  font-size: medium;
+  margin-left: 8px;
+  position: relative;
+  line-height: inherit;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Select Action */
+.modal-select-action {
+  display: flex;
+  background: #ff4081;
+}
+
+.modal-select-action i {
+  margin-right: 10px;
+}
+
+/* Close Action */
+.modal .modal-actions .modal-close-action {
+  background: white;
+  color: #303f9f;
+  border: solid 3px #303f9f;
+  font-weight: 600;
+  max-height: 36px;
+  width: 98px;
+  max-width: 98px;
+  padding: 1px 6px;
+}
+
+.modal .modal-actions .modal-close-action:hover {
+  background: linear-gradient(45deg, #303f9f, #7b1fa2);
+  color: white;
+  border: none;
+  font-weight: 400;
+}
+
+/* Submit Action */
+.modal .modal-actions .modal-submit-action {
+  background: linear-gradient(45deg, #303f9f, #7b1fa2);
 }
 
 /* - - - - - - - - - - - - - - - - - - |

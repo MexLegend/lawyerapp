@@ -6,13 +6,15 @@
         <li class="tab">
           <a class="active" href="#choose-user">Seleccionar Cliente</a>
         </li>
-        <li class="tab">
+        <li class="tab" [class.disabled]="this.userData === ''">
           <a href="#choose-expediente">Seleccionar Expediente</a>
         </li>
-        <li class="tab"><a href="#expedient-tracking">Seguimiento</a></li>
+        <li class="tab" [class.disabled]="this.fileData === ''">
+          <a href="#expedient-tracking">Seguimiento</a>
+        </li>
       </ul>
     </div>
-    <div class="card-content grey lighten-4">
+    <div class="card-content">
       <div id="choose-user">
         <div class="seguimiento-expediente-user">
           <div class="choose-option">
@@ -24,30 +26,51 @@
               Seleccionar Cliente
             </a>
           </div>
-          <div>
+          <!-- User Card Container -->
+          <div class="user-card-container" *ngIf="this.userData !== ''">
             <div class="card horizontal user-card">
-              <div class="card-stacked">
-                <div class="card-content">
+              <div
+                class="card-stacked file-card-stacked dfr"
+                style="flex-direction: row; width: 100%;"
+              >
+                <!-- Close Card Button -->
+                <!-- <div class="close-card waves-effect waves-light">
+                  <i class="material-icons">close</i>
+                </div> -->
+                <!-- User Icon -->
+                <div class="card-icon">
                   <div class="card-header">
                     <div class="profile-icon">
                       <img src="../../../assets/images/user.jpg" />
                     </div>
-                    <span class="profile-name"
-                      ><b>José Armando Lara Espinoza</b>
-                    </span>
-                    <div class="close-card waves-effect waves-light">
-                      <i class="material-icons">close</i>
-                    </div>
                   </div>
                 </div>
-                <div class="card-action">
-                  <span class="personal-data">Datos Personales</span>
-                  <div class="datos">
-                    <div><span>Nombre</span></div>
-                    <div><span>Correo</span></div>
-                    <div><span>Numero</span></div>
-                    <div><span>Dirección</span></div>
-                    <div><span></span></div>
+                <!-- User Information -->
+                <div class="card-data t-o-h">
+                  <div class="profile-header t-o-h dfc">
+                    <span class="profile-name">{{
+                      this.userData.firstName + " " + this.userData.lastName
+                    }}</span>
+                    <span class="profile-rol">{{
+                      this.userData.role !== undefined
+                        ? this.userData.role.toLowerCase()
+                        : ""
+                    }}</span>
+                  </div>
+                  <div class="divider files-card-divider"></div>
+                  <div class="datos" style="color: #757575">
+                    <div class="dfr data-header-container">
+                      <div class="data-headers">Email</div>
+                      <span>{{ this.userData.email }}</span>
+                    </div>
+                    <div class="dfr data-header-container">
+                      <div class="data-headers">Teléfono</div>
+                      <span> {{ this.userData.cellPhone }}</span>
+                    </div>
+                    <div class="dfr data-header-container">
+                      <div class="data-headers">Dirección</div>
+                      <span> {{ this.userData.address }}</span>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -66,10 +89,17 @@
               Seleccionar Expediente
             </a>
           </div>
-          <div>
+          <!-- Files Card Container -->
+          <div class="file-card-container" *ngIf="this.fileData !== ''">
             <div class="card horizontal user-card">
               <div class="card-stacked">
-                <div class="card-content">
+                <!-- Files Content Container -->
+                <div class="card-content" style="padding: 10px !important;">
+                  <!-- Close Files Card -->
+                  <div class="close-card waves-effect waves-light">
+                    <i class="material-icons">close</i>
+                  </div>
+                  <!-- Files Header -->
                   <div
                     class="card-header card-header-expedient"
                     style="justify-content: space-between;"
@@ -84,11 +114,9 @@
                       </div>
                       <span class="white-text">Clave Interna</span>
                     </div>
-                    <div class="close-card waves-effect waves-light">
-                      <i class="material-icons">close</i>
-                    </div>
                   </div>
                 </div>
+                <!-- Files Information -->
                 <div class="card-action">
                   <span class="personal-data">Datos Expediente</span>
                   <div class="datos">

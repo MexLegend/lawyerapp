@@ -19,6 +19,7 @@ export class ExpedientesComponent implements OnInit {
 
   ngOnInit() {
     this._filesS.obtenerExpedientes().subscribe(r => {
+      console.log(r)
       this.expedientes = r.docs;
       this.dtTrigger.next();
       $(".modal").modal();
@@ -26,14 +27,17 @@ export class ExpedientesComponent implements OnInit {
 
     this.dtOptions = {
       pagingType: 'simple_numbers',
-      pageLength: 5,
+      pageLength: 15,
       responsive: true,
       lengthChange: false,
       language: {
         search: "",
         "infoFiltered": "",
         searchPlaceholder: "Buscar expedientes"
-      }
+      },
+      autoWidth: true,
+      "scrollY": "calc(100vh - 431px)",
+      "scrollCollapse": true,
     };
   }
 

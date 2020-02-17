@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Usuario } from '../../models/Usuario';
 import { Subject } from 'rxjs/internal/Subject';
 import { UsuariosService } from '../../services/usuarios.service';
-import { HttpClient } from '@angular/common/http';
+import { UpdateDataService } from '../../services/updateData.service';
 declare var $: any;
 
 @Component({
@@ -15,18 +15,26 @@ export class SeleccionarUsuarioComponent implements OnInit {
   usuarios: Usuario[] = [];
   dtOptions: any;
   dtTrigger: Subject<any> = new Subject();
+  isChecked: boolean = false;
+  selectedRowData: any;
+  userData: any;
 
-  constructor(private _usuariosS: UsuariosService, private http: HttpClient) { }
+  constructor(private _usuariosS: UsuariosService, private _updateData: UpdateDataService) { }
 
   ngOnInit() {
+    // Get Users Subscription
     this._usuariosS.obtenerUsuarios().subscribe(r => {
       this.usuarios = r.docs;
       this.dtTrigger.next();
     });
 
+    // Set UserData Subscription
+    this._updateData.getUserData().subscribe(data => this.userData = data)
+
+    // Change Datatable Options
     this.dtOptions = {
       pagingType: 'simple_numbers',
-      pageLength: 4,
+      pageLength: 15,
       responsive: true,
       lengthChange: false,
       language: {
@@ -34,11 +42,11 @@ export class SeleccionarUsuarioComponent implements OnInit {
         "infoFiltered": "",
         searchPlaceholder: "Buscar clientes.."
       },
+      "scrollY": "calc(100vh - 542px)",
+      "scrollCollapse": true,
       initComplete: function () {
         $("#select-users-tbl_filter").detach().appendTo('.buscadorAdminUsers');
-      },
-      scrollCollapse: true,
-      fixedColumns: true
+      }
     };
 
     $(document).ready(function () {
@@ -57,6 +65,18 @@ export class SeleccionarUsuarioComponent implements OnInit {
         $("#select-users-tbl").DataTable().search("").draw();
       })
     });
+  }
+
+  // Enable Select Button On Checkbox Click And Get Data
+  isCheckedFunction(data: any) {
+    if (this.isChecked === false) {
+      this.isChecked = true;
+    }
+    this.selectedRowData = data;
+  }
+
+  printData() {
+    this._updateData.setUserData(this.selectedRowData);
   }
 
   ngOnDestroy() {

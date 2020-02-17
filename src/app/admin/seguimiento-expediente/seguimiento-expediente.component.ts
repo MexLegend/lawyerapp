@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { UpdateDataService } from '../../services/updateData.service';
+import { Subscription } from 'rxjs';
 
-declare var $: any;
+declare var $: any, M: any;
 
 @Component({
   selector: 'app-seguimiento-expediente',
@@ -9,18 +11,38 @@ declare var $: any;
 })
 export class SeguimientoExpedienteComponent implements OnInit {
 
-  constructor() { }
+  public userData: any = "";
+  public fileData: any = "";
+
+  constructor(private _updateData: UpdateDataService) { }
 
   ngOnInit() {
+
+    // Get UserData Subscription
+    this._updateData.getUserData().subscribe(data => this.userData = data);
+
+    // Get FileData Subscription
+    this._updateData.getFileData().subscribe(data => this.fileData = data);
+
     $(document).ready(function () {
       // Tabs Initiation
       $('.tabs').tabs();
 
       // Clients Modal Initiation
-      $("#selectUser").modal();
+      $("#selectUser").modal({
+        onOpenEnd: function () {
+          var table = $('#select-users-tbl').DataTable();
+          table.columns.adjust().draw();
+        }
+      });
 
       //  Files Modal Initiation
-      $("#selectFile").modal();
+      $("#selectFile").modal({
+        onOpenEnd: function () {
+          var table = $('#select-files-tbl').DataTable();
+          table.columns.adjust().draw();
+        }
+      });
 
       // Maximum Files Selected
       // $(".upload-file-input").change(function () {
@@ -42,5 +64,10 @@ export class SeguimientoExpedienteComponent implements OnInit {
       // });
     });
   }
+
+  // Change Card User Data With Service Response
+  // changeUserData() {
+  //   this._updateData.getData();
+  // }
 
 }

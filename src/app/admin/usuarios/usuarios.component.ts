@@ -27,7 +27,7 @@ export class UsuariosComponent implements OnInit {
 
     this.dtOptions = {
       pagingType: 'simple_numbers',
-      pageLength: 5,
+      pageLength: 15,
       responsive: true,
       lengthChange: false,
       language: {
@@ -35,11 +35,11 @@ export class UsuariosComponent implements OnInit {
         "infoFiltered": "",
         searchPlaceholder: "Buscar usuarios"
       },
-      scrollY: "220px",
-      scrollX: true,
-      scrollCollapse: true,
-      fixedColumns: true
+      autoWidth: true,
+      "scrollY": "calc(100vh - 431px)",
+      "scrollCollapse": true,
     };
+
   }
 
   ngOnDestroy() {

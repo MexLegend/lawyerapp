@@ -1,6 +1,21 @@
 /* News Styling */
 
 /* Media Queries */
+@media only screen and (max-width: 600px) {
+  .card-title-new .author-contact-btn span {
+    display: none !important;
+  }
+  .card-title-new .author-contact-btn i {
+    margin-right: 0 !important;
+  }
+  .card-title-new .card-title-content {
+    width: calc(100% - 10px) !important;
+  }
+  .comments {
+    display: none;
+  }
+}
+
 @media only screen and (max-width: 499px) {
   .card-body {
     flex-direction: column !important;
@@ -22,6 +37,9 @@
   .like a,
   .dislike a {
     margin-right: 10px !important;
+  }
+  .card .card-action {
+    padding: 16px;
   }
 }
 
@@ -67,14 +85,12 @@
 }
 
 .card-date {
-  height: 55px;
+  height: 58px;
+  padding: 8px 15px;
   background: #545454;
   color: white;
   border-top-left-radius: 3px;
-}
-
-.card-date {
-  padding: 8px 15px;
+  justify-content: center;
 }
 
 .card-date > div {
@@ -92,30 +108,62 @@
 
 .card-title-new {
   padding: 0 15px;
+  width: 100%;
 }
 
-.card .card-content .card-title {
-  margin: 0;
+.card-title-new .card-title-content {
+  width: calc(100% - 135px);
+  align-items: flex-start;
 }
 
-.card-title-new > .card-title {
-  font-size: 24px;
-  color: #26aee4;
-  font-weight: 400;
+.card-title-new .card-title-content .card-title,
+.card-title-new .card-title-content .card-autor {
   overflow: hidden;
   -webkit-line-clamp: 1;
   display: -webkit-box;
   -webkit-box-orient: block-axis;
 }
 
-.card-title-new > .card-title:hover {
+.card-title-new > .card-title-content .card-title {
+  font-size: 24px;
+  color: #26aee4;
+  font-weight: 400;
+  margin: 0;
+}
+
+.card-title-new > .card-title-content .card-title:hover {
   color: #ee6e73;
 }
 
-.card-title-new > .card-autor {
+.card-title-new > .card-title-content .card-autor {
   color: #a2a2a2;
   font-style: italic;
   font-weight: 500;
+}
+
+.card-title-new > .author-contact-btn {
+  color: white;
+  background: linear-gradient(-45deg, #f78a00, #ffab40);
+  text-transform: capitalize;
+  padding: 5px 10px;
+  height: 33px;
+  height: 33px;
+  border-radius: 5px;
+  line-height: initial;
+  justify-content: center;
+  white-space: nowrap;
+}
+
+.card-title-new .author-contact-btn i {
+  height: 23px;
+  width: 23px;
+  font-size: 19px;
+  line-height: 0;
+  border-radius: 50px;
+  padding: 5px;
+  margin-right: 3px;
+  justify-content: center;
+  flex-flow: 2;
 }
 
 .card-img {
@@ -146,13 +194,6 @@
   width: 90%;
 }
 
-.like-dislike-comments-section,
-.comments a {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-
 .comments a {
   padding: 5px;
   border-radius: 5px;
@@ -167,7 +208,8 @@
 }
 
 .card-footer .card-show-more .btn-news {
-  width: max-content;
+  width: fit-content;
+  border-radius: 5px;
 }
 
 .card-footer .card-show-more .btn-news:hover {

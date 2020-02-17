@@ -2,6 +2,18 @@
   .seguimiento-expediente-options a {
     line-height: 15px;
   }
+  .file-card-stacked {
+    flex-direction: column !important;
+  }
+  .card-data {
+    margin: 0 !important;
+  }
+  .card-icon {
+    margin-bottom: 15px;
+  }
+  .profile-header {
+    text-align: center;
+  }
 }
 
 @media (max-width: 620px) {
@@ -47,16 +59,27 @@
 
 @media (max-width: 480px) {
   .card-header .profile-icon {
-    height: 50px !important;
-    width: 50px !important;
+    height: 100px !important;
+    width: 90px !important;
   }
   .card-content {
     font-size: 14px;
     line-height: 18px;
+    padding: 10px 0 0 0 !important;
+  }
+  .data-header-container {
+    flex-direction: column !important;
+    align-items: flex-start !important;
   }
   .personal-data {
     font-size: 16px !important;
     line-height: 14px;
+  }
+  .profile-name {
+    font-size: 20px !important;
+  }
+  .profile-rol {
+    font-size: 16px !important;
   }
   a {
     font-size: 12px;
@@ -108,6 +131,10 @@ i {
   margin-top: 0;
 }
 
+.card-content {
+  padding: 24px 10px 1px 10px;
+}
+
 .card-action.card-next {
   padding: 10px 0 0 0;
 }
@@ -115,6 +142,20 @@ i {
 .card-action.card-next a {
   width: fit-content;
   float: right;
+}
+
+.data-headers {
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 14px;
+  width: 100px;
+  min-width: 100px;
+  margin-right: 10px;
+  color: #ff4081;
+}
+
+.files-card-divider {
+  margin: 15px 0;
 }
 
 .tabs .tab a.active {
@@ -125,10 +166,26 @@ i {
   color: #fb899c;
 }
 
+.tabs .tab.disabled a {
+  color: rgba(0, 0, 0, 0.2);
+  font-weight: 600;
+}
+
+
 .tabs .tab a:focus,
 .tabs .tab a:focus.active {
   background-color: #ff408011;
   outline: none;
+}
+
+.tabs.tabs-fixed-width {
+  background: rgb(244, 244, 244);
+}
+
+.user-card {
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.1);
+  padding: 10px;
 }
 
 .file-actions-card {
@@ -168,14 +225,14 @@ a,
 /* User Profile Card Styling */
 
 .card-header .profile-icon {
-  border-radius: 50%;
+  border-radius: 10px;
   overflow: hidden;
-  height: 60px;
-  width: 60px;
+  height: 200px;
+  width: 180px;
   min-width: 50px;
-  -webkit-box-shadow: 0px 2px 14px -3px rgba(0, 0, 0, 0.75);
-  -moz-box-shadow: 0px 2px 14px -3px rgba(0, 0, 0, 0.75);
-  box-shadow: 0px 2px 14px -3px rgba(0, 0, 0, 0.75);
+  box-shadow: 0px 2px 6px -3px rgba(0, 0, 0, 0.5);
+  -webkit-box-shadow: 0px 2px 6px -3px rgba(0, 0, 0, 0.5);
+  -moz-box-shadow: 0px 2px 6px -3px rgba(0, 0, 0, 0.5);
 }
 
 .card-header .profile-icon img {
@@ -183,11 +240,25 @@ a,
   width: 100%;
 }
 
-.card-header .profile-name {
-  margin-left: 15px;
+.profile-header {
+  align-items: flex-start;
+  width: 100%;
 }
 
-.card-header .close-card {
+.profile-name {
+  width: 100%;
+  font-size: 28px;
+  font-weight: 600;
+  color: #1e88e5;
+}
+
+.profile-rol {
+  width: 100%;
+  font-size: 20px;
+  text-transform: capitalize;
+}
+
+.close-card {
   flex-direction: column;
   position: absolute;
   right: 5px;
@@ -202,9 +273,18 @@ a,
   box-shadow: 0 0 8px 0 #ff4081;
 }
 
-.card-header .close-card i {
+.close-card i {
   margin: 0;
   font-size: 16px;
+}
+
+.card-data {
+  width: 100%;
+  margin-left: 30px;
+  flex-grow: 1;
+  -o-flex-grow: 1;
+  -moz-flex-grow: 1;
+  -webkit-flex-grow: 1;
 }
 
 .personal-data {
@@ -224,7 +304,7 @@ a,
   background: #1e88e5;
   border-radius: 5px;
   padding: 5px;
-  margin-right: 10px;
+  margin-right: 35px;
 }
 
 .status-icon {

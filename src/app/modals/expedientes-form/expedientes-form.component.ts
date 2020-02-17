@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Files } from '../../../models/Files';
-import { FilesService } from '../../../services/files.service';
-import { Usuario } from '../../../models/Usuario';
-import { UsuariosService } from '../../../services/usuarios.service';
+import { Files } from '../../models/Files';
+import { FilesService } from '../../services/files.service';
+import { Usuario } from '../../models/Usuario';
+import { UsuariosService } from '../../services/usuarios.service';
 declare var $: any;
 
 @Component({
@@ -33,27 +33,34 @@ export class ExpedientesFormComponent implements OnInit {
 
   private initArticulosForm() {
     this.form = new FormGroup({
-      assigned_client: new FormControl(null, Validators.required),
+      actor: new FormControl(null, Validators.required),
       affair: new FormControl(null, Validators.required),
+      assigned_client: new FormControl(null, Validators.required),
+      defendant: new FormControl(null, Validators.required),
       description: new FormControl(null, Validators.required),
-      key: new FormControl(null)
+      third: new FormControl(null, Validators.required),
+      extKey: new FormControl(null)
     });
   }
 
   crear() {
 
     const file = new Files(
-      this.form.value.assigned_client,
+      this.form.value.actor,
       this.form.value.affair,
+      this.form.value.assigned_client,
+      this.form.value.defendant,
       this.form.value.description,
-      'ryghery8her89yr8'
+      'ryghery8her89yr8',
+      this.form.value.third,
+      this.form.value.extKey
     );
 
     this._filesS.crearExpediente(file).subscribe(resp => {
       this.form.reset();
     })
   }
-  
+
   obtenerUsuarios() {
 
   }
