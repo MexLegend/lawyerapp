@@ -6,7 +6,8 @@ import { InformacionComponent } from './perfilPages/informacion/informacion.comp
 import { MensajesComponent } from './perfilPages/mensajes/mensajes.component';
 import { ExpedientesComponent } from './perfilPages/expedientes/expedientes.component';
 import { EventosComponent } from './perfilPages/eventos/eventos.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatSelectModule } from '@angular/material/select';
 import { DataTablesModule } from 'angular-datatables';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { ExpedienteDetalleComponent } from './perfilPages/expediente-detalle/expediente-detalle.component';
@@ -18,6 +19,8 @@ import { ExpedienteDetalleComponent } from './perfilPages/expediente-detalle/exp
     CommonModule,
     FormsModule,
     DataTablesModule,
+    ReactiveFormsModule,
+    MatSelectModule,
     [SweetAlert2Module.forRoot()]
   ]
 })

@@ -1,4 +1,4 @@
-<section id="noticias-main-container" class="pr pt-141">
+<section id="noticias-main-container" class="pr pt-141 dfc">
   <div id="noticias-main-menu">
     <div class="noticias-main-menu-container container">
       <div><span>Últimas Noticias</span></div>
@@ -25,7 +25,7 @@
       </nav>
     </div>
   </div>
-  <div id="noticias-content-container" class="container">
+  <div id="noticias-content-container" class="container dfr">
     <div
       *ngFor="
         let noticia of noticias
@@ -48,7 +48,9 @@
             <span class="card-title">{{ noticia.title }}</span>
             <span class="card-autor">{{ noticia.author }}</span>
           </div>
-          <button class="author-contact-btn btn waves-effect waves-light dfr">
+          <button
+            class="author-contact-btn btn waves-effect waves-light gradient-45deg-dark-blue dfr"
+          >
             <i class="material-icons dfr">mail_outline</i>
             <span>Contactame</span>
           </button>
@@ -56,6 +58,15 @@
       </div>
       <div class="card-body card-content grey lighten-4">
         <div class="card-img card-image waves-effect waves-block waves-light">
+          <div class="card-date dfr">
+            <span>{{
+              (noticia.created_at | date: "d") +
+                " " +
+                (noticia.created_at | date: "MMM") +
+                ", " +
+                (noticia.created_at | date: "yyyy")
+            }}</span>
+          </div>
           <img src="../../../assets/images/New_image.jpg" />
         </div>
         <div class="card-information" [innerHtml]="noticia.content">
@@ -90,7 +101,7 @@
           </div>
         </div>
 
-        <div class="card-show-more">
+        <!-- <div class="card-show-more">
           <a
             class="btn-news waves-effect waves-light btn gradient-45deg-dark-blue dfr"
             [routerLink]="['/noticia-detalle', noticia._id]"
@@ -98,10 +109,11 @@
           >
             <span style="white-space: nowrap;"> Leer más</span>
           </a>
-        </div>
+        </div> -->
       </div>
     </div>
     <pagination-controls
+      class="news-pagination"
       (pageChange)="paginaActual = $event"
     ></pagination-controls>
   </div>

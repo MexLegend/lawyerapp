@@ -5,6 +5,8 @@ import { SwUpdate, SwPush } from '@angular/service-worker';
 import { WebPushNotificationService } from '../../../../services/webPushNotification.service';
 import { Subscription } from 'rxjs';
 
+var $: any;
+
 @Component({
   selector: 'app-conf-general',
   templateUrl: './conf-general.component.html',
@@ -29,20 +31,19 @@ export class ConfGeneralComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.reloadCache()
     this.notificationsSubs = this._webPN.getNotifications()
-        .subscribe(notification => {
-          console.log(this._usuarioS.user.role);
-          if(notification) {
-            console.log('Notification: '+notification)
-            this._webPN.get()
-                .subscribe(resp => {
-                  console.log('Resp: '+resp)
-                })
-          }
-        });
+      .subscribe(notification => {
+        console.log(this._usuarioS.user.role);
+        if (notification) {
+          console.log('Notification: ' + notification)
+          this._webPN.get()
+            .subscribe(resp => {
+              console.log('Resp: ' + resp)
+            })
+        }
+      });
   }
 
   actualizar(usuario: any) {
-    // console.log(usuario)
     this.usuario.address = usuario.address;
     this.usuario.cellPhone = usuario.cellPhone;
     this.usuario.email = usuario.emailU;
@@ -50,10 +51,10 @@ export class ConfGeneralComponent implements OnInit, OnDestroy {
     this.usuario.lastName = usuario.lastName;
 
     this._usuarioS.actualizarUsuario(this.usuario._id, this.usuario)
-        .subscribe(r => {
-          console.log(r)
-          this.subscribeToNotification(this.usuario.firstName);
-        });
+      .subscribe(r => {
+        console.log(r)
+        this.subscribeToNotification(this.usuario.firstName);
+      });
   }
 
   ngOnDestroy() {
@@ -71,19 +72,18 @@ export class ConfGeneralComponent implements OnInit, OnDestroy {
   }
 
   subscribeToNotification(name: string) {
-    if(this.swPush.isEnabled) {
+    if (this.swPush.isEnabled) {
       this.swPush.requestSubscription({
         serverPublicKey: this.VAPID_PUBLIC_KEY
       })
-      .then(sub => {
-        
-        this._webPN.postSubscription(sub, name)
+        .then(sub => {
+
+          this._webPN.postSubscription(sub, name)
             .subscribe(r => {
-              console.log('Resp PostSubs: '+r)
+              console.log('Resp PostSubs: ' + r)
             })
-      })
-      .catch(console.log)
+        })
+        .catch(console.log)
     }
   }
-
 }

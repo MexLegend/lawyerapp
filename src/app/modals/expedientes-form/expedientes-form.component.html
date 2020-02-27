@@ -9,73 +9,153 @@
     <div class="modal-icon dfc">
       <i class="material-icons">contact_mail</i>
     </div>
-    <span>Crear Nuevo Expediente</span>
+    <span><span class="file-action">Crear</span> Expediente</span>
+    <i
+      class="modal-close modal-exit material-icons pink accent-2 waves-effect waves-light dfr"
+      >close</i
+    >
   </div>
 
   <!-- Modal Content -->
   <div class="modal-content">
-    <div class="row" style="margin: 20px 0 0 0;">
+    <div class="row" style="margin: 20px 0 0 0; height: calc(100% - 20px);">
       <form
+        id="formExpedientes"
         class="col s12"
-        style="padding: 0 30px;"
+        style="padding: 0 30px; height: 100%;"
         ngNativeValidate
         [formGroup]="form"
         (ngSubmit)="crear()"
       >
-        <!-- Select User Input Field -->
-        <div class="select-user-input dfr">
-          <input
-            id="client"
-            name="client"
-            placeholder="Seleccionar Cliente..."
-            type="text"
-            class="modal-trigger"
-            href="#selectUser"
-            readonly
-            required
-          />
-          <button
-            type="button"
-            class="waves-effect waves-light btn modal-select-action modal-trigger"
-            href="#selectUser"
-          >
-            <i class="material-icons">person_add</i>
-          </button>
+        <!-- Inputs Container -->
+        <div class="inputs-container">
+          <!-- Select User Input Field -->
+          <div class="select-user-input dfr" style="margin-bottom: 10px;">
+            <div class="modal-input modal-input-pink" style="margin-bottom: 0;">
+              <input
+                id="assigned_client"
+                name="assigned_client"
+                type="text"
+                class="modal-trigger user-input"
+                href="#selectUser"
+                formControlName="assigned_client"
+                readonly
+                required
+                placeholder=" "
+                [(ngModel)]="this.nombre"
+                (click)="updateDataServiceAction()"
+              />
+              <div class="modal-input-placeholder modal-input-placeholder-pink">
+                Seleccionar cliente*
+              </div>
+            </div>
+            <button
+              type="button"
+              class="waves-effect waves-light btn modal-select-action modal-trigger pink accent-2"
+              href="#selectUser"
+              (click)="updateDataServiceAction()"
+            >
+              <i class="material-icons">person_add</i>
+            </button>
+          </div>
+
+          <!-- Other Input Fields -->
+          <div class="modal-input modal-input-pink">
+            <input
+              id="extKey"
+              name="extKey"
+              formControlName="extKey"
+              [(ngModel)]="extKey"
+              type="text"
+            />
+            <div
+              class="modal-input-placeholder modal-input-placeholder-pink"
+              [class.modal-input-focused]="extKey"
+            >
+              Clave externa
+            </div>
+          </div>
+          <div class="modal-input modal-input-pink">
+            <input
+              id="actor"
+              name="actor"
+              formControlName="actor"
+              [(ngModel)]="actor"
+              type="text"
+              required
+            />
+            <div
+              class="modal-input-placeholder modal-input-placeholder-pink"
+              [class.modal-input-focused]="actor"
+            >
+              Actor(es)*
+            </div>
+          </div>
+          <div class="modal-input modal-input-pink">
+            <input
+              id="defendant"
+              name="defendant"
+              formControlName="defendant"
+              [(ngModel)]="defendant"
+              type="text"
+              required
+            />
+            <div
+              class="modal-input-placeholder modal-input-placeholder-pink"
+              [class.modal-input-focused]="defendant"
+            >
+              Demandado(s)*
+            </div>
+          </div>
+          <div class="modal-input modal-input-pink">
+            <input
+              id="third"
+              name="third"
+              formControlName="third"
+              [(ngModel)]="third"
+              type="text"
+            />
+            <div
+              class="modal-input-placeholder modal-input-placeholder-pink"
+              [class.modal-input-focused]="third"
+            >
+              Terceros
+            </div>
+          </div>
+          <div class="modal-input modal-input-pink">
+            <input
+              id="affair"
+              name="affair"
+              formControlName="affair"
+              [(ngModel)]="affair"
+              type="text"
+              required
+            />
+            <div
+              class="modal-input-placeholder modal-input-placeholder-pink"
+              [class.modal-input-focused]="affair"
+            >
+              Asunto*
+            </div>
+          </div>
+          <div class="modal-input modal-input-pink">
+            <input
+              id="description"
+              name="description"
+              formControlName="description"
+              [(ngModel)]="description"
+              type="text"
+              required
+            />
+            <div
+              class="modal-input-placeholder modal-input-placeholder-pink"
+              [class.modal-input-focused]="description"
+            >
+              Descripción
+            </div>
+          </div>
         </div>
 
-        <!-- Other Input Fields -->
-        <input
-          id="extKey"
-          name="extKey"
-          formControlName="extKey"
-          placeholder="Clave Externa"
-          type="text"
-        />
-        <input id="actor" name="actor" formControlName="actor" placeholder="Actor(es)" type="text" />
-        <input
-          id="defendant"
-          name="defendant"
-          formControlName="defendant"
-          placeholder="Demandado(s)"
-          type="text"
-        />
-        <input id="third" name="third" formControlName="third" placeholder="Terceros" type="text" />
-        <input
-          id="affair"
-          name="affair"
-          formControlName="affair"
-          placeholder="Asunto"
-          type="text"
-          required
-        />
-        <input
-          id="description"
-          name="description"
-          formControlName="description"
-          placeholder="Observaciones"
-          type="text"
-          required
-        />
         <div class="modal-actions">
           <button
             type="button"
@@ -89,7 +169,7 @@
             [class.button-disabled]="!form.valid"
             class="waves-effect waves-light btn modal-submit-action"
           >
-            Crear expediente
+            <span class="file-action">Crear</span> expediente
           </button>
         </div>
       </form>

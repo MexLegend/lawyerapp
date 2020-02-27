@@ -9,16 +9,94 @@
 >
   <thead>
     <tr>
-      <th>Email</th>
-      <th>Nombre</th>
-      <th>Apellidos</th>
+      <th class="users-tbl-user-th all no-sort">
+        Usuario
+      </th>
+      <th class="users-tbl-email-th">
+        Email
+      </th>
+      <th class="users-tbl-tel-th">
+        Teléfono
+      </th>
+      <th class="users-tbl-name-th all">
+        Nombre
+      </th>
+      <th class="users-tbl-ape-th">
+        Apellidos
+      </th>
+      <th class="users-tbl-add-th">
+        Dirección
+      </th>
+      <th class="users-tbl-acc-th all no-sort">
+        Acciones
+      </th>
     </tr>
   </thead>
   <tbody>
     <tr *ngFor="let usuario of usuarios">
-      <td>{{ usuario.email }}</td>
-      <td>{{ usuario.firstName }}</td>
-      <td>{{ usuario.lastName }}</td>
+      <!-- User Image -->
+      <td class="users-tbl-user-td">
+        <div class="tbl-user-icon">
+          <img src="../../../assets/images/user.jpg" />
+        </div>
+      </td>
+      <!-- User Email -->
+      <td class="users-tbl-email-td t-o-h">
+        {{ usuario.email }}
+      </td>
+      <!-- User CellPhone -->
+      <td class="users-tbl-tel-td t-o-h">
+        {{ usuario.cellPhone }}
+      </td>
+      <!-- User Name -->
+      <td class="users-tbl-name-td t-o-h">
+        {{ usuario.firstName }}
+      </td>
+      <!-- User LastName -->
+      <td class="users-tbl-ape-td t-o-h">
+        {{ usuario.lastName }}
+      </td>
+      <!-- User Address -->
+      <td class="users-tbl-add-td t-o-h">
+        {{ usuario.address }}
+      </td>
+      <!-- User Actions -->
+      <td class="users-tbl-acc-td">
+        <!-- Actions Dropdown Trigger -->
+        <button
+          class="btn tbl-action-button waves-effect waves-light indigo darken-1"
+          mat-icon-button
+          [matMenuTriggerFor]="actionsMenu"
+        >
+          <i class="material-icons">more_vert</i>
+        </button>
+        <!-- Actions Dropdown -->
+        <mat-menu #actionsMenu="matMenu" xPosition="before">
+          <ng-template matMenuContent>
+            <div class="dfc">
+              <button
+                class="modal-trigger"
+                mat-menu-item
+                href="#modalUsuarios"
+                (click)="sendUserId(usuario._id)"
+              >
+                <i class="material-icons" style="color: #ff4081;">edit</i>
+                <span>Editar</span>
+              </button>
+              <button mat-menu-item (click)="borrarUsuario(usuario)">
+                <i class="material-icons" style="color: #ff4081;">delete</i>
+                <span>Eliminar</span>
+              </button>
+              <button mat-menu-item>
+                <i class="material-icons" style="color: #ff4081;"
+                  >star_border</i
+                >
+                <span>Favorito</span>
+              </button>
+            </div>
+          </ng-template>
+        </mat-menu>
+      </td>
     </tr>
   </tbody>
 </table>

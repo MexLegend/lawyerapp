@@ -5,39 +5,57 @@
       <div class="card-content">
         <div class="row">
           <div class="input-field col s12">
-            <input
-              id="date"
-              name="date"
-              type="text"
-              class="validate birthdate-picker"
-            />
-            <label for="date">Fecha de Nacimiento</label>
+            <div class="modal-input modal-input-blue">
+              <input
+                id="date"
+                name="date"
+                type="text"
+                class="validate birthdate-picker"
+                placeholder=" "
+              />
+              <div class="modal-input-placeholder modal-input-placeholder-blue">
+                Fecha de nacimiento*
+              </div>
+            </div>
           </div>
           <div class="input-field col s12">
-            <input id="country" name="country" type="text" class="validate" />
-            <label for="country">País</label>
+            <div class="modal-input modal-input-blue">
+              <input
+                id="country"
+                name="country"
+                type="text"
+                class="validate"
+                placeholder=" "
+              />
+              <div class="modal-input-placeholder modal-input-placeholder-blue">
+                País*
+              </div>
+            </div>
           </div>
           <div class="input-field col s12">
-            <select id="languaje" multiple>
-              <option value="" disabled>Selecciona un idioma</option>
-              <option value="1">Español</option>
-              <option value="2">Inglés</option>
-              <option value="3">Fránces</option>
-              <option value="3">Alemán</option>
-              <option value="3">Japonés</option>
-              <option value="3">Portugués</option>
-            </select>
-            <label for="languaje">Idiomas</label>
-          </div>
-          <div class="input-field col s12">
-            <input
-              placeholder="Telefono"
-              id="cellPhone2"
-              name="cellPhone"
-              type="text"
-              class="validate"
-            />
-            <label for="cellPhone2" class="active">Telefono</label>
+            <div class="modal-input modal-input-blue">
+              <mat-form-field>
+                <mat-label>Seleccionar idioma*</mat-label>
+                <mat-select [formControl]="languages" multiple>
+                  <mat-option
+                    *ngFor="let language of languageList"
+                    [value]="language"
+                    >{{ language }}</mat-option
+                  >
+                </mat-select>
+              </mat-form-field>
+              <!-- <select id="languaje" multiple>
+                <option value="1">Español</option>
+                <option value="2">Inglés</option>
+                <option value="3">Fránces</option>
+                <option value="3">Alemán</option>
+                <option value="3">Japonés</option>
+                <option value="3">Portugués</option>
+              </select> -->
+              <!-- <div class="modal-input-placeholder modal-input-placeholder-blue">
+                Seleccionar idioma*
+              </div> -->
+            </div>
           </div>
         </div>
       </div>

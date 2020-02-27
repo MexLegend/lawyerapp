@@ -13,6 +13,7 @@ import { NotificacionesComponent } from './notificaciones/notificaciones.compone
 import { SeguimientoExpedienteComponent } from './seguimiento-expediente/seguimiento-expediente.component';
 import { ModalsModule } from '../modals/modals.module';
 import { MensajesComponent } from './mensajes/mensajes.component';
+import { MatButtonModule, MatMenuModule } from '@angular/material';
 
 @NgModule({
   declarations: [ArticulosComponent, DashboardComponent, UsuariosComponent, ExpedientesComponent, NotificacionesComponent, SeguimientoExpedienteComponent, MensajesComponent],
@@ -23,6 +24,7 @@ import { MensajesComponent } from './mensajes/mensajes.component';
     SharedModule,
     DataTablesModule,
     ModalsModule,
+    MatMenuModule, MatButtonModule,
     [SweetAlert2Module.forRoot()]
   ],
   schemas: [

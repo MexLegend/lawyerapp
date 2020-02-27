@@ -12,7 +12,7 @@
                   <span>Clave Externa:</span>
                 </div>
                 <div class="expedienteSubtitle">
-                  <span>{{ expediente?.key }}</span>
+                  <span>{{ (expediente?.extKey !== '' ? expediente?.extKey : 'N/E') }}</span>
                 </div>
               </div>
               <div class="expedienteDetailGroup">
@@ -20,7 +20,7 @@
                   <span>Clave Interna:</span>
                 </div>
                 <div class="expedienteSubtitle">
-                  <span>{{ expediente?.key }}</span>
+                  <span>{{ expediente?.intKey }}</span>
                 </div>
               </div>
             </div>
@@ -30,7 +30,7 @@
                   <span>Cliente:</span>
                 </div>
                 <div class="expedienteSubtitle">
-                  <span>José Armando Lara Espinoza</span>
+                  <span>{{ expediente?.assigned_client?.firstName + ' ' + expediente?.assigned_client?.lastName }}</span>
                 </div>
               </div>
               <div class="expedienteDetailGroup">
@@ -38,7 +38,7 @@
                   <span>Actor(es):</span>
                 </div>
                 <div class="expedienteSubtitle">
-                  <span>José Armando Lara Espinoza</span>
+                  <span>{{ expediente?.actor }}</span>
                 </div>
               </div>
               <div class="expedienteDetailGroup">
@@ -46,7 +46,7 @@
                   <span>Demandado(s):</span>
                 </div>
                 <div class="expedienteSubtitle">
-                  <span>Carlos Sánchez</span>
+                  <span>{{ expediente?.defendant }}</span>
                 </div>
               </div>
               <div class="expedienteDetailGroup">
@@ -54,7 +54,7 @@
                   <span>Terceros:</span>
                 </div>
                 <div class="expedienteSubtitle">
-                  <span>Katth Flores</span>
+                  <span>{{ expediente?.third }}</span>
                 </div>
               </div>
             </div>

@@ -8,60 +8,119 @@
     <div class="modal-icon dfc">
       <i class="material-icons">perm_identity</i>
     </div>
-    <span>Crear Nuevo Usuario</span>
+    <span><span class="client-action">Crear</span> Cliente</span>
+    <i
+      class="modal-close modal-exit material-icons pink accent-2 waves-effect waves-light dfr"
+      >close</i
+    >
   </div>
 
   <!-- Modal Content -->
   <div class="modal-content">
-    <div class="row" style="margin: 20px 0 0 0;">
+    <div class="row" style="margin: 20px 0 0 0; height: calc(100% - 20px);">
       <form
-        class="col s12" style="padding: 0 30px;"
+        id="formUsuarios"
+        class="col s12"
+        style="padding: 0 30px; height: 100%;"
         ngNativeValidate
         [formGroup]="form"
         (ngSubmit)="crear()"
       >
-        <input
-          name="address"
-          formControlName="address"
-          type="text"
-          placeholder="Domicilio"
-          required
-        />
-        <input
-          name="cellPhone"
-          formControlName="cellPhone"
-          type="tel"
-          placeholder="Telefono"
-          required
-        />
-        <input
-          name="email"
-          formControlName="email"
-          type="email"
-          placeholder="Email"
-          required
-        />
-        <input
-          name="firstName"
-          formControlName="firstName"
-          type="text"
-          placeholder="Nombre(s)"
-          required
-        />
-        <input
-          name="lastName"
-          formControlName="lastName"
-          type="text"
-          placeholder="Apellido(s)"
-          required
-        />
-        <input
-          name="password"
-          formControlName="password"
-          type="password"
-          placeholder="Contraseña"
-          required
-        />
+        <!-- Inputs Container -->
+        <div class="inputs-container">
+          <div class="modal-input modal-input-pink">
+            <input
+              name="address"
+              formControlName="address"
+              type="text"
+              [(ngModel)]="addressLabel"
+              required
+            />
+            <div
+              class="modal-input-placeholder modal-input-placeholder-pink"
+              [class.modal-input-focused]="addressLabel"
+            >
+              Domicilio*
+            </div>
+          </div>
+          <div class="modal-input modal-input-pink">
+            <input
+              name="cellPhone"
+              formControlName="cellPhone"
+              type="tel"
+              [(ngModel)]="telephoneLabel"
+              required
+            />
+            <div
+              class="modal-input-placeholder modal-input-placeholder-pink"
+              [class.modal-input-focused]="telephoneLabel"
+            >
+              Teléfono*
+            </div>
+          </div>
+          <div class="modal-input modal-input-pink">
+            <input
+              name="email"
+              formControlName="email"
+              type="email"
+              [(ngModel)]="emailLabel"
+              required
+              (ngModelChange)="this.userEmail.next($event)"
+            />
+            <div
+              class="modal-input-placeholder modal-input-placeholder-pink"
+              [class.modal-input-focused]="emailLabel"
+            >
+              Email*
+            </div>
+          </div>
+          <div class="modal-input modal-input-pink">
+            <input
+              name="firstName"
+              formControlName="firstName"
+              type="text"
+              [(ngModel)]="nameLabel"
+              required
+            />
+            <div
+              class="modal-input-placeholder modal-input-placeholder-pink"
+              [class.modal-input-focused]="nameLabel"
+            >
+              Nombre(s)*
+            </div>
+          </div>
+          <div class="modal-input modal-input-pink">
+            <input
+              name="lastName"
+              formControlName="lastName"
+              type="text"
+              [(ngModel)]="lastnameLabel"
+              required
+            />
+            <div
+              class="modal-input-placeholder modal-input-placeholder-pink"
+              [class.modal-input-focused]="lastnameLabel"
+            >
+              Apellido*
+            </div>
+          </div>
+          <div id="userPassInput" class="modal-input modal-input-pink">
+            <input
+              name="password"
+              formControlName="password"
+              type="password"
+              [(ngModel)]="passwordLabel"
+              required
+            />
+            <div
+              class="modal-input-placeholder modal-input-placeholder-pink"
+              [class.modal-input-focused]="passwordLabel"
+            >
+              Contraseña*
+            </div>
+          </div>
+        </div>
+
         <div class="modal-actions">
           <button
             type="button"
@@ -74,7 +133,7 @@
             [class.button-disabled]="!form.valid"
             class="waves-effect waves-light btn modal-submit-action"
           >
-            Crear Usuario
+            <span class="client-action">Crear</span> Cliente
           </button>
         </div>
       </form>

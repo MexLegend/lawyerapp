@@ -12,15 +12,12 @@
   .inner-sidebar-brand {
     display: none !important;
   }
-}
-
-@media only screen and (min-width: 900px) {
-  .app-sidebar {
-    -webkit-transform: none !important;
-    -moz-transform: none !important;
-    -ms-transform: none !important;
-    -o-transform: none !important;
-    transform: none !important;
+  .sidenav-main .sidenav {
+    -webkit-transform: translateX(0) !important;
+    -moz-transform: translateX(0) !important;
+    -ms-transform: translateX(0) !important;
+    -o-transform: translateX(0) !important;
+    transform: translateX(0) !important;
   }
 }
 
@@ -40,8 +37,17 @@
 
   .sidenav-main .sidenav {
     top: 0;
+    padding-top: 64px;
+    padding-bottom: 0;
     width: 260px;
-    transform: translateX(-105%);
+  }
+
+  .sidenav-main .sidenav:not(.sidenav-active) {
+    -webkit-transform: translateX(-105%) !important;
+    -moz-transform: translateX(-105%) !important;
+    -ms-transform: translateX(-105%) !important;
+    -o-transform: translateX(-105%) !important;
+    transform: translateX(-105%) !important;
   }
 
   .sidenav-main .btn-sidenav-toggle {
@@ -70,6 +76,16 @@
   .admin-footer {
     padding: 0 20px;
     font-size: 14px !important;
+  }
+}
+
+@media only screen and (min-width: 900px) {
+  .app-sidebar {
+    -webkit-transform: none !important;
+    -moz-transform: none !important;
+    -ms-transform: none !important;
+    -o-transform: none !important;
+    transform: none !important;
   }
 }
 
@@ -144,6 +160,14 @@
   }
 }
 
+@media only screen and (max-width: 450px) {
+  ul#notifications-dropdown,
+  #profile-dropdown {
+    width: calc(96vw) !important;
+    left: 2vw !important;
+  }
+}
+
 @media only screen and (max-height: 1000px) and (max-width: 850px) {
   #main {
     min-height: calc(100vh - 116px) !important;
@@ -152,8 +176,8 @@
 
 @media only screen and (max-height: 680px) {
   .main-sidenav-principal-options {
-    height: fit-content !important;
-    margin-top: 12px !important;
+    height: calc(100vh - 22px) !important;
+    margin-top: 41px !important;
   }
   .main-navbar-container {
     padding-right: 14px;
@@ -168,7 +192,8 @@
 
 @media only screen and (max-height: 600px) {
   .main-sidenav-principal-options {
-    margin-top: 110px !important;
+    height: calc(109vh) !important;
+    margin-top: 116px !important;  
   }
 }
 
@@ -320,8 +345,18 @@
 
 /* SideNav */
 .sidenav {
-  width: 260px;
   top: 64px;
+  left: 0;
+  z-index: 999;
+  height: 100%;
+  width: 260px;
+  position: fixed;
+  align-items: flex-start;
+  overflow: visible;
+  -webkit-transition: 0.3s ease all;
+  -moz-transition: 0.3s ease all;
+  -o-transition: 0.3s ease all;
+  transition: 0.3s ease all;
 }
 
 .sidenav-main {
@@ -334,6 +369,14 @@
   -moz-transition: 0.3s ease all;
   -o-transition: 0.3s ease all;
   transition: 0.3s ease all;
+}
+
+.sidenav-active {
+  -webkit-transform: translateX(0%) !important;
+  -moz-transform: translateX(0%) !important;
+  -ms-transform: translateX(0%) !important;
+  -o-transform: translateX(0%) !important;
+  transform: translateX(0%) !important;
 }
 
 /* Sidebar Main Brand */
@@ -387,6 +430,7 @@
 /* Sidebar Inner Brand */
 .inner-sidebar-brand {
   min-height: 64px;
+  margin-top: -64px;
 }
 
 .inner-sidebar-brand a {
@@ -413,19 +457,6 @@ nav,
     0 3px 1px -2px rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.1);
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.01),
     0 3px 1px -2px rgba(0, 0, 0, 0.01), 0 1px 5px 0 rgba(0, 0, 0, 0.1);
-}
-
-.sidenav.sidenav-fixed {
-  /* background: linear-gradient(45deg, #303f9f, #7b1fa2); */
-  position: fixed;
-  align-items: flex-start;
-  left: 0;
-  overflow: visible;
-  -webkit-transform: translateX(0);
-  -moz-transform: translateX(0);
-  -ms-transform: translateX(0);
-  -o-transform: translateX(0);
-  transform: translateX(0);
 }
 
 #sidenav-trigger-btn {
@@ -462,7 +493,7 @@ nav .sidenav-trigger {
 }
 
 /* Main Sidenav Option Styling */
-.sidenav.sidenav-fixed li {
+.sidenav li {
   margin: 15px 10px;
   width: 60px;
   height: 60px;

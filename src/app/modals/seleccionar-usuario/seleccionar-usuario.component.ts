@@ -29,7 +29,7 @@ export class SeleccionarUsuarioComponent implements OnInit {
     });
 
     // Set UserData Subscription
-    this._updateData.getUserData().subscribe(data => this.userData = data)
+    // this._updateData.getUserData().subscribe(data => this.userData = data)
 
     // Change Datatable Options
     this.dtOptions = {
@@ -75,7 +75,7 @@ export class SeleccionarUsuarioComponent implements OnInit {
     this.selectedRowData = data;
   }
 
-  printData() {
+  setData() {
     this._updateData.setUserData(this.selectedRowData);
   }
 

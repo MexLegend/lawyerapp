@@ -23,6 +23,7 @@ export class ExpedientesComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+
     this._filesS.obtenerExpedientes()
       .subscribe((resp) => {
         this.files = resp.docs;

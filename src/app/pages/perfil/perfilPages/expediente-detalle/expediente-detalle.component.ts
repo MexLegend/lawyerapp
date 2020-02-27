@@ -50,6 +50,7 @@ export class ExpedienteDetalleComponent implements OnInit {
   cargarExpediente(id: string) {
     this._filesS.obtenerExpediente(id)
       .subscribe(expediente => {
+        console.log(expediente)
         this.expediente = expediente;
       })
   }

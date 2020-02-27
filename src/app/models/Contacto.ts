@@ -1,9 +1,9 @@
 export class Contacto {
     constructor(
-        public name: string,
-        public email: string,
-        public phone?: string,
-        public city?: string,
-        public message?: string
+        public nameContacto: string,
+        public emailContacto: string,
+        public messageContacto: string,
+        public phoneContacto?: string,
+        public cityContacto?: string
     ) { }
 }

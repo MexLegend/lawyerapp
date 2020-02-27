@@ -59,56 +59,91 @@
                   (ngSubmit)="enviar()"
                 >
                   <div class="input-field input-outlined col s12">
-                    <input
-                      id="name"
-                      name="name"
-                      formControlName="name"
-                      type="text"
-                      class="validate contact-input"
-                      required
-                    />
-                    <label for="name">Nombre y apellidos*</label>
+                    <div class="modal-input modal-input-blue">
+                      <input
+                        id="nameContacto"
+                        name="nameContacto"
+                        formControlName="nameContacto"
+                        type="text"
+                        class="validate contact-input"
+                        placeholder=" "
+                        required
+                      />
+                      <div
+                        class="modal-input-placeholder modal-input-placeholder-blue"
+                      >
+                        Nombre y Apellidos*
+                      </div>
+                    </div>
                   </div>
                   <div class="input-field col s12">
-                    <input
-                      id="email"
-                      name="email"
-                      formControlName="email"
-                      type="email"
-                      class="validate contact-input"
-                      required
-                    />
-                    <label for="email">Email*</label>
+                    <div class="modal-input modal-input-blue">
+                      <input
+                        id="emailContacto"
+                        name="emailContacto"
+                        formControlName="emailContacto"
+                        type="email"
+                        class="validate contact-input"
+                        placeholder=" "
+                        required
+                      />
+                      <div
+                        class="modal-input-placeholder modal-input-placeholder-blue"
+                      >
+                        Email*
+                      </div>
+                    </div>
                   </div>
                   <div class="input-field col s12">
-                    <input
-                      id="number"
-                      name="phone"
-                      formControlName="phone"
-                      type="number"
-                      class="validate contact-input"
-                    />
-                    <label for="number">Teléfono</label>
+                    <div class="modal-input modal-input-blue">
+                      <input
+                        id="phoneContacto"
+                        name="phoneContacto"
+                        formControlName="phoneContacto"
+                        type="number"
+                        class="validate contact-input"
+                        placeholder=" "
+                      />
+                      <div
+                        class="modal-input-placeholder modal-input-placeholder-blue"
+                      >
+                        Número
+                      </div>
+                    </div>
                   </div>
                   <div class="input-field col s12">
-                    <input
-                      id="city"
-                      name="city"
-                      formControlName="city"
-                      type="text"
-                      class="validate contact-input"
-                    />
-                    <label for="city">Ciudad</label>
+                    <div class="modal-input modal-input-blue">
+                      <input
+                        id="cityContacto"
+                        name="cityContacto"
+                        formControlName="cityContacto"
+                        type="text"
+                        class="validate contact-input"
+                        placeholder=" "
+                      />
+                      <div
+                        class="modal-input-placeholder modal-input-placeholder-blue"
+                      >
+                        Ciudad
+                      </div>
+                    </div>
                   </div>
                   <div class="input-field col s12">
-                    <textarea
-                      id="message"
-                      name="message"
-                      formControlName="message"
-                      class="materialize-textarea contact-input"
-                      required
-                    ></textarea>
-                    <label for="message">Mensaje*</label>
+                    <div class="modal-input modal-input-blue">
+                      <textarea
+                        id="messageContacto"
+                        name="messageContacto"
+                        formControlName="messageContacto"
+                        class="materialize-textarea contact-input"
+                        placeholder=" "
+                        required
+                      ></textarea>
+                      <div
+                        class="modal-input-placeholder modal-input-placeholder-blue"
+                      >
+                        Mensaje*
+                      </div>
+                    </div>
                   </div>
                   <button
                     type="submit"

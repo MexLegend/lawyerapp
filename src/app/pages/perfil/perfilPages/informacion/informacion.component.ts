@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
 
 declare var $: any;
 
@@ -10,6 +11,10 @@ declare var $: any;
 export class InformacionComponent implements OnInit {
 
   constructor() { }
+
+  languages = new FormControl();
+
+  languageList: string[] = ['Español', 'Inglés', 'Francés', 'Alemán', 'Japonés', 'Portugués'];
 
   ngOnInit() {
     $(document).ready(function () {
@@ -36,5 +41,7 @@ export class InformacionComponent implements OnInit {
       $('select').formSelect();
     });
   }
+
+
 
 }

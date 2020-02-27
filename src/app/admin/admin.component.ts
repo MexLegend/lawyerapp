@@ -79,15 +79,65 @@ export class AdminComponent implements OnInit, OnDestroy {
         alignment: "right"
       });
 
+      // Create New User Modal Init
+      $("#modalUsuarios").modal({
+        onCloseEnd: () => {
+          $("#formUsuarios")[0].reset();
+        },
+        onOpenStart: () => {
+          $('.client-action').text('Crear');
+          $('#userPassInput').show();
+        }
+      });
+
+      // Create New Article Modal Init
+      $("#modal-Articulo").modal({
+        onCloseEnd: () => {
+          $("#formArticulos")[0].reset();
+        },
+        onOpenStart: () => {
+          $('.article-action').text('Crear');
+        }
+      });
+
+      // Create New File Modal Init
+      $("#modal-Expediente").modal({
+        onCloseEnd: () => {
+          $("#formExpedientes")[0].reset();
+        },
+        onOpenStart: () => {
+          $('.file-action').text('Crear');
+        }
+      });
+
+      $("#selectUser").modal();
+
       // Close every sidenav intance before open a new one
       $(document).on("click", "#main-sidenav-trigger", function () {
         $('#contact-sidenav').sidenav('close');
       });
 
-      // Change Main SideNav Option Style on Click
-      $(document).on("click", "#slide-out li", function () {
-        $("#slide-out li a").removeClass("active");
-        $(this).find("a").addClass("active");
+      // Open Main SideNav on Click
+      $(document).on("click", "#main-sidenav-trigger", function () {
+        $("#slide-out").addClass("sidenav-active");
+        $(".sidenav-overlay").addClass("sidenav-overlay-active");
+        $(".sidenav-overlay").removeClass("sidenav-overlay-inactive");
+      });
+
+      // Close Main SideNav on Click
+      $(document).on("click", ".sidenav-overlay", function () {
+        $(".sidenav-overlay").removeClass("sidenav-overlay-active");
+        $("#slide-out").removeClass("sidenav-active");
+        $("body").css("overflow", "");
+      });
+      // Close Main SideNav If Screen Size < 992px
+      $(window).bind('DOMContentLoaded load resize', function () {
+        if ($(window).innerWidth() > 992) {
+          $("#slide-out").removeClass("sidenav-active");
+          $(".sidenav-overlay").addClass("sidenav-overlay-inactive");
+          $(".sidenav-overlay").css({ "display": "none", "opacity": 0 });
+          $("body").css("overflow", "");
+        }
       });
     });
   }

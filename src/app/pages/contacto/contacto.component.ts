@@ -22,11 +22,11 @@ export class ContactoComponent implements OnInit {
 
   private initcontactoForm() {
     this.form = new FormGroup({
-      name: new FormControl(null, Validators.required),
-      email: new FormControl(null, Validators.required),
-      phone: new FormControl(null),
-      city: new FormControl(null),
-      message: new FormControl(null)
+      nameContacto: new FormControl(null, Validators.required),
+      emailContacto: new FormControl(null, Validators.required),
+      messageContacto: new FormControl(null, Validators.required),
+      phoneContacto: new FormControl(null),
+      cityContacto: new FormControl(null)
     });
   }
 
@@ -34,11 +34,11 @@ export class ContactoComponent implements OnInit {
     console.log(this.form)
 
     const email = new Contacto(
-      this.form.value.name,
-      this.form.value.email,
-      this.form.value.phone,
-      this.form.value.city,
-      this.form.value.message
+      this.form.value.nameContacto,
+      this.form.value.emailContacto,
+      this.form.value.messageContacto,
+      this.form.value.phoneContacto,
+      this.form.value.cityContacto
     )
 
     this._contactoS.enviarEmail(email).subscribe(resp => {

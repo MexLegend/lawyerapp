@@ -10,64 +10,85 @@
       <div class="card-content">
         <div class="row">
           <div class="input-field col s12">
-            <input
-              placeholder="Email"
-              id="emailU"
-              name="emailU"
-              [ngModel]="usuario.email"
-              type="email"
-              class="validate"
-              required
-            />
-            <label for="emailU" class="active">Email</label>
+            <div class="modal-input modal-input-blue">
+              <input
+                id="emailU"
+                name="emailU"
+                [ngModel]="usuario.email"
+                placeholder=" "
+                email="ngModel"
+                type="email"
+                class="validate"
+                required
+              />
+              <div class="modal-input-placeholder modal-input-placeholder-blue">
+                Email*
+              </div>
+            </div>
           </div>
           <div class="input-field col s12">
-            <input
-              placeholder="Nombre(s)"
-              id="firstName"
-              name="firstName"
-              [ngModel]="usuario.firstName"
-              type="text"
-              class="validate"
-              required
-            />
-            <label for="firstName" class="active">Nombre(s)</label>
+            <div class="modal-input modal-input-blue">
+              <input
+                placeholder=" "
+                id="firstName"
+                name="firstName"
+                [ngModel]="usuario.firstName"
+                type="text"
+                class="validate"
+                required
+              />
+              <div class="modal-input-placeholder modal-input-placeholder-blue">
+                Nombre(s)*
+              </div>
+            </div>
           </div>
           <div class="input-field col s12">
-            <input
-              placeholder="Apellidos"
-              id="lastName"
-              name="lastName"
-              [ngModel]="usuario.lastName"
-              type="text"
-              class="validate"
-              required
-            />
-            <label for="lastName" class="active">Apellidos</label>
+            <div class="modal-input modal-input-blue">
+              <input
+                placeholder=" "
+                id="lastName"
+                name="lastName"
+                [ngModel]="usuario.lastName"
+                type="text"
+                class="validate"
+                required
+              />
+              <div class="modal-input-placeholder modal-input-placeholder-blue">
+                Apellidos*
+              </div>
+            </div>
           </div>
           <div class="input-field col s12">
-            <input
-              placeholder="Telefono"
-              id="cellPhone"
-              name="cellPhone"
-              [ngModel]="usuario.cellPhone"
-              type="text"
-              class="validate"
-              required
-            />
-            <label for="cellPhone" class="active">Telefono</label>
+            <div class="modal-input modal-input-blue">
+              <input
+                placeholder=" "
+                id="cellPhone"
+                name="cellPhone"
+                [ngModel]="usuario.cellPhone"
+                type="text"
+                class="validate"
+                required
+              />
+              <div class="modal-input-placeholder modal-input-placeholder-blue">
+                Telefono*
+              </div>
+            </div>
           </div>
           <div class="input-field col s12">
-            <input
-              placeholder="Domicilio"
-              id="address"
-              name="address"
-              [ngModel]="usuario.address"
-              type="text"
-              class="validate"
-              required
-            />
-            <label for="address" class="active">Domicilio</label>
+            <div class="modal-input modal-input-blue">
+              <input
+                placeholder=" "
+                id="address"
+                name="address"
+                [ngModel]="usuario.address"
+                type="text"
+                class="validate"
+                required
+              />
+              <div class="modal-input-placeholder modal-input-placeholder-blue">
+                Domicilio*
+              </div>
+            </div>
           </div>
         </div>
       </div>

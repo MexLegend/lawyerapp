@@ -1,8 +1,8 @@
 export class Articulo {
     constructor(
+        public author: string,
         public content: string,
         public title: string,
-        public author?: string,
         public created_at?: string,
         public img?: string,
         public status?: string,

@@ -46,23 +46,23 @@
               </thead>
               <tbody>
                 <tr *ngFor="let file of files">
-                  <td class="notification-file">AB12Z97L7A5A</td>
+                  <td class="notification-file">{{ (file?.extKey !== '' ? file?.extKey : 'N/E') }}</td>
                   <td class="notification-file">
-                    <span>{{ file.key }}</span>
+                    <span>{{ file?.intKey }}</span>
                   </td>
                   <td class="notification-data">
-                    <span> {{ file.affair }}</span>
+                    <span> {{ file?.affair }}</span>
                   </td>
                   <td class="notification-time">
-                    <time>{{ file.start_date | date }}</time>
+                    <time>{{ file?.start_date | date }}</time>
                   </td>
                   <td class="notification-description">
-                    <span> {{ file.description }}</span>
+                    <span> {{ file?.description }}</span>
                   </td>
                   <td>
                     <button
                       class="btn waves-effect waves-light file-details-btn gradient-45deg-dark-blue"
-                      (click)="goToExpediente(file._id)"
+                      (click)="goToExpediente(file?._id)"
                     >
                       <span>
                         Más Detalles

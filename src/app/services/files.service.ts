@@ -1,64 +1,28 @@
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../environments/environment';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, throwError } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 import { UsuariosService } from './usuarios.service';
 import { Files, FilesPaginacion } from '../models/Files';
+import { NotificationService } from './notification.service';
+
+declare var $: any;
 
 @Injectable({
   providedIn: 'root'
 })
+
 export class FilesService {
 
+  public notifica = new EventEmitter<any>();
+
   constructor(
-    private http: HttpClient,
-    private _usuariosS: UsuariosService
-  ) { }
+    private http?: HttpClient,
+    private _usuariosS?: UsuariosService,
+    public _notificationS?: NotificationService
+  ) {
 
-  actualizarExpediente(id, file: any) {
-    const url = `${environment.URI}/api/file/${id}`;
-
-    return this.http.put(url, file).pipe(
-      map((resp: any) => {
-    //    this._notificationS.mensaje('success', 'Actualización correcta', resp.message, false, false, '', '', 2000)
-        return true;
-      })
-    );
-  }
-
-  crearExpediente(file: Files): Observable<Files> {
-
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      token: this._usuariosS.token
-    });
-
-
-    const url = `${environment.URI}/api/file`;
-
-    return this.http.post<Files>(url, file, { headers }).pipe(
-      map((resp: any) => {
-        // this._notificacionS.crear(`Carrera ${resp.carrera.nombre} actualizado`, 'Cerrar', 3000);
-        console.log(resp);
-        return resp;
-      })
-    );
-  }
-
-  eliminarExpediente(id: string): Observable<Files> {
-
-    const url = `${environment.URI}/api/file/${id}`;
-
-    return this.http.delete<Files>(url);
-  }
-
-  obtenerExpediente(id: string): Observable<Files> {
-    const url = `${environment.URI}/api/file/${id}`;
-
-    return this.http
-      .get<Files>(url)
-      .pipe(map((resp: any) => resp.file));
   }
 
   obtenerExpedientes(
@@ -94,5 +58,71 @@ export class FilesService {
     return this.http
       .get<FilesPaginacion>(url, { headers })
       .pipe(map((resp: any) => resp.files));
+  }
+
+  obtenerExpediente(id: string): Observable<Files> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      token: this._usuariosS.token
+    })
+    const url = `${environment.URI}/api/file/${id}`;
+
+    return this.http.get<Files>(url, { headers }).pipe(map((resp: any) => resp.file));
+  }
+
+  crearExpediente(file: Files): Observable<Files> {
+
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      token: this._usuariosS.token
+    });
+
+    const url = `${environment.URI}/api/file`;
+
+    return this.http.post<Files>(url, file, { headers }).pipe(
+      map((resp: any) => {
+        $("#modal-Expediente").modal("close");
+        this._notificationS.mensaje('success', 'Creación correcta', resp.message, false, false, '', '', 2000);
+        return resp;
+      }),
+      catchError(err => {
+        $("#modal-Expediente").modal("close");
+        this._notificationS.mensaje('error', 'Creación fallida', err.message, false, false, '', '', 2000);
+        return throwError(err);
+      })
+    );
+  }
+
+  actualizarExpediente(id, file: any) {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      token: this._usuariosS.token
+    })
+    const url = `${environment.URI}/api/file/${id}`;
+
+    return this.http.put(url, file, { headers }).pipe(map((resp: any) => {
+      $("#modal-Expediente").modal("close");
+      this._notificationS.mensaje('success', 'Actualización correcta', resp.mensaje, false, false, '', '', 2000);
+      return true;
+    }),
+      catchError(err => {
+        $("#modal-Expediente").modal("close");
+        this._notificationS.mensaje('error', 'Actualización fallida', err.message, false, false, '', '', 2000);
+        return throwError(err);
+      })
+    );
+  }
+
+  eliminarExpediente(id: string): Observable<Files> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      token: this._usuariosS.token
+    })
+    const url = `${environment.URI}/api/file/${id}`;
+
+    return this.http.delete<Files>(url, { headers }).pipe(map((resp: any) => {
+      this._notificationS.mensaje('success', 'Eliminación correcta', resp.message, false, false, '', '', 2000);
+      return resp;
+    }));
   }
 }

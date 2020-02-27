@@ -2,7 +2,7 @@ export class Files {
     constructor(
         public actor: string,
         public affair: string,
-        public assigned_client: string,
+        public assigned_client: any,
         public defendant: string,
         public description: string,
         public intKey: string,

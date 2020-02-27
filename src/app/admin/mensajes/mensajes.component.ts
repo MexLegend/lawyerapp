@@ -15,7 +15,7 @@ export class MensajesComponent implements OnInit {
   ngOnInit() {
     this.dtOptions = {
       pagingType: 'simple_numbers',
-      pageLength: 10,
+      pageLength: 15,
       responsive: true,
       lengthChange: false,
       bInfo: false,
@@ -28,8 +28,7 @@ export class MensajesComponent implements OnInit {
       initComplete: function () {
         $("#chat-users-tbl_filter").detach().appendTo('.chat-search-input');
       },
-      scrollCollapse: true,
-      fixedColumns: true
+      scrollCollapse: true
     };
   }
 }

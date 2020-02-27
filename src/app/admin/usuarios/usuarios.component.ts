@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Usuario } from '../../models/Usuario';
 import { Subject } from 'rxjs/internal/Subject';
 import { UsuariosService } from '../../services/usuarios.service';
-import { HttpClient } from '@angular/common/http';
+import Swal from 'sweetalert2';
+import { UpdateDataService } from '../../services/updateData.service';
+import { DataTableDirective } from 'angular-datatables/src/angular-datatables.directive';
 declare var $: any;
 
 @Component({
@@ -12,19 +14,26 @@ declare var $: any;
 })
 export class UsuariosComponent implements OnInit {
 
+  constructor(
+    private _usuariosS: UsuariosService,
+    public _upS: UpdateDataService
+  ) { }
+
   usuarios: Usuario[] = [];
-  dtOptions: any;
+
+  @ViewChild(DataTableDirective, { static: false })
+  dtElement: DataTableDirective;
+  dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<any> = new Subject();
 
-  constructor(private _usuariosS: UsuariosService, private http: HttpClient) { }
-
   ngOnInit() {
+    // Get Users Supcription
     this._usuariosS.obtenerUsuarios().subscribe(r => {
       this.usuarios = r.docs;
       this.dtTrigger.next();
-      $(".modal").modal();
     });
 
+    // Datatable Options
     this.dtOptions = {
       pagingType: 'simple_numbers',
       pageLength: 15,
@@ -35,15 +44,61 @@ export class UsuariosComponent implements OnInit {
         "infoFiltered": "",
         searchPlaceholder: "Buscar usuarios"
       },
-      autoWidth: true,
-      "scrollY": "calc(100vh - 431px)",
-      "scrollCollapse": true,
+      scrollY: "calc(100vh - 431px)",
+      scrollCollapse: true
     };
 
+    this._usuariosS.notifica
+      .subscribe(r => {
+        this.cargarUsuarios();
+        this.rerender()
+      }
+      )
   }
 
   ngOnDestroy() {
     this.dtTrigger.unsubscribe();
   }
 
+  cargarUsuarios() {
+    this._usuariosS.obtenerUsuarios().subscribe(r => {
+      this.usuarios = r.docs;
+    })
+  }
+
+  borrarUsuario(usuario: Usuario) {
+    Swal.fire({
+      icon: 'warning',
+      title: '¿Esta seguro?',
+      text: 'Esta a punto de borrar el usuario ' + usuario.firstName + ' ' + usuario.lastName,
+      showCancelButton: true,
+      showConfirmButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si',
+      cancelButtonText: 'No'
+    })
+      .then((result) => {
+        if (result.value) {
+          this._usuariosS.eliminarUsuario(usuario._id).subscribe(borrado => {
+            this.cargarUsuarios();
+            this.rerender();
+          })
+        }
+      })
+  }
+
+  sendUserId(id: string) {
+    this._upS.sendUserId(id)
+  }
+
+  // Update Datatable data after content changes
+  rerender(): void {
+    this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+      // Destroy the table first
+      dtInstance.destroy();
+      // Call the dtTrigger to rerender again
+      this.dtTrigger.next();
+    });
+  }
 }

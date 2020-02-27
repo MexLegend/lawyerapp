@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 import { Usuario, UsuariosPaginacion } from '../models/Usuario';
 import { HttpHeaders } from '@angular/common/http';
 import { HttpClient } from '@angular/common/http';
@@ -8,6 +8,7 @@ import { environment } from '../../environments/environment';
 import { catchError, map } from 'rxjs/operators';
 import { NotificationService } from './notification.service';
 import { NotificationsPagination } from '../models/Notification';
+import { WebSocketService } from './webSocket.service';
 
 declare var $: any;
 
@@ -16,6 +17,7 @@ declare var $: any;
 })
 export class UsuariosService {
 
+  public notifica = new EventEmitter<any>();
   token: string;
   user: Usuario;
   id: string;
@@ -25,20 +27,11 @@ export class UsuariosService {
     private http: HttpClient,
     private router: Router,
     public _notificationS: NotificationService,
+    public _webS: WebSocketService
   )
   // public _subirIS: SubirImagenService
   {
     this.cargarStorage();
-  }
-
-  eliminarUsuario(id: string): Observable<Usuario> {
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      token: this.token
-    });
-    const url = `${environment.URI}/api/usuarios/${id}`;
-
-    return this.http.delete<Usuario>(url, { headers });
   }
 
   obtenerToken() {
@@ -46,17 +39,15 @@ export class UsuariosService {
   }
 
   obtenerUsuario(id: string): Observable<Usuario> {
-    if (id === this.user._id) {
-    }
+    // if (id === this.user._id) {
+    // }
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       token: this.token
     });
     const url = `${environment.URI}/api/usuarios/${id}`;
 
-    return this.http
-      .get<Usuario>(url, { headers })
-      .pipe(map((resp: any) => resp.users));
+    return this.http.get<Usuario>(url, { headers }).pipe(map((resp: any) => resp.user));
   }
 
   obtenerUsuarios(
@@ -154,6 +145,8 @@ export class UsuariosService {
 
     const url = `${environment.URI}/api/usuarios`;
 
+    this._webS.emitEvt('exist-user', user);
+
     return this.http.post(url, user).pipe(
       map((resp: any) => {
         $("#modalUsuarios").modal("close");
@@ -178,16 +171,17 @@ export class UsuariosService {
 
     return this.http.put(url, user, { headers }).pipe(
       map((resp: any) => {
-        this._notificationS.mensaje('error', 'Actualización fallida', resp.message, false, false, '', '', 2000)
-        if(resp.ok) {
+        if (resp.ok) {
           if (id === this.id) {
             this.guardarStorage(resp.user._id, this.token, resp.user);
           }
+          $("#modalUsuarios").modal("close");
           this._notificationS.mensaje('success', 'Actualización correcta', resp.message, false, false, '', '', 2000)
           return true;
         }
       }),
       catchError(err => {
+        $("#modalUsuarios").modal("close");
         this._notificationS.mensaje('error', 'Actualización fallida', err.message, false, false, '', '', 2000)
         return throwError(err);
       })
@@ -206,9 +200,30 @@ export class UsuariosService {
         if (id === this.id) {
           this.guardarStorage(resp.user._id, this.token, resp.user);
         }
+        $("#modalUsuarios").modal("close");
         this._notificationS.mensaje('success', 'Actualización correcta', resp.message, false, false, '', '', 2000)
         return true;
+      }),
+      catchError(err => {
+        $("#modalUsuarios").modal("close");
+        this._notificationS.mensaje('error', 'Actualización fallida', err.message, false, false, '', '', 2000);
+        return throwError(err);
       })
+    );
+  }
+
+  eliminarUsuario(id: string): Observable<Usuario> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      token: this.token
+    });
+    const url = `${environment.URI}/api/usuarios/${id}`;
+
+    // return this.http.delete<Usuario>(url, { headers });
+    return this.http.delete<Usuario>(url, { headers }).pipe(map((resp: any) => {
+      this._notificationS.mensaje('success', 'Eliminación correcta', resp.message, false, false, '', '', 2000);
+      return resp;
+    })
     );
   }
 
@@ -220,4 +235,23 @@ export class UsuariosService {
     this.user = user;
     this.token = token;
   }
+
+  checkEmail(email: string) {
+
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      token: this.token
+    });
+
+    const url = `${environment.URI}/api/usuarios/check/email`;
+
+
+    return this.http.post(url, email, { headers }).pipe(map((resp: any) => {
+      console.log(resp)
+      // this._notificationS.mensaje('success', 'Eliminación correcta', resp.message, false, false, '', '', 2000);
+      return resp;
+    })
+    );
+  }
+
 }

@@ -37,7 +37,10 @@
               >
                 <thead>
                   <tr>
-                    <th class="th-custom-checkbox all"></th>
+                    <th class="th-custom-checkbox no-sort all"></th>
+                    <th class="all no-sort" style="max-width: 68px !important">
+                      Usuario
+                    </th>
                     <th>Email</th>
                     <th class="all">Nombre</th>
                     <th>Apellidos</th>
@@ -54,6 +57,13 @@
                         />
                         <span></span>
                       </label>
+                    </td>
+                    <td
+                      style="width: 68px !important; justify-content: space-between;"
+                    >
+                      <div class="tbl-user-icon">
+                        <img src="../../../assets/images/user.jpg" />
+                      </div>
                     </td>
                     <td>{{ usuario.email }}</td>
                     <td>{{ usuario.firstName }}</td>
@@ -76,7 +86,7 @@
         type="submit"
         class="waves-effect waves-light btn modal-submit-action modal-close"
         [disabled]="!this.isChecked"
-        (click)="this.printData()"
+        (click)="this.setData()"
       >
         Seleccionar
       </button>

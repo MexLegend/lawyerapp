@@ -87,6 +87,8 @@
 
 /* Current User Info */
 .current-user-info {
+  width: 211.8px;
+  max-width: 211.8px;
   align-items: flex-start;
   padding: 0 1rem;
 }
@@ -198,12 +200,12 @@
 
 tr {
   max-height: 75.5px;
+  height: 75.5px;
 }
 
 td {
   border-right: 2px solid transparent !important;
   height: 100%;
-  max-height: 75.5px;
 }
 
 td.active {

@@ -14,11 +14,6 @@ export class DashboardComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-
-    $(document).ready(function () {
-      // Sidenav Initiation
-      $('.sidenav').sidenav();
-    });
   }
 
 }

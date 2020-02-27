@@ -27,6 +27,8 @@ export class SeguridadComponent implements OnInit {
       passNew : f.value.passNew,
       passNewR : f.value.passNewR
     }
+    console.log('Data: ', data)
+    // return;
 
     this._usuariosS.actualizarPassword(this._usuariosS.user._id, data)
     .subscribe(resp => {

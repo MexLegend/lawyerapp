@@ -5,15 +5,15 @@
       <div class="card-header card-content">
         <div class="card-date">
           <div class="card-day">
-            <span>28</span>
+            <span>{{ noticia.created_at | date: "d" }}</span>
           </div>
           <div class="card-month">
-            <span>Nov</span>
+            <span>{{ noticia.created_at | date: "MMM" }}</span>
           </div>
         </div>
         <div class="card-title-new">
-          <span class="card-title">noticia.title</span>
-          <span class="card-autor">author</span>
+          <span class="card-title">{{ noticia?.title }}</span>
+          <span class="card-autor">{{ noticia?.author }}</span>
         </div>
       </div>
       <div class="card-body card-content grey lighten-4">
@@ -21,7 +21,7 @@
           <img src="../../../assets/images/New_image.jpg" />
         </div>
         <div class="card-information">
-          content
+          {{ noticia?.content }}
         </div>
       </div>
       <div class="card-footer card-action">

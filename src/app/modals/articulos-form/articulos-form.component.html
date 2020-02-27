@@ -8,39 +8,74 @@
     <div class="modal-icon dfc">
       <i class="material-icons">import_contacts</i>
     </div>
-    <span>Crear Nuevo Articulo</span>
+    <span><span class="article-action">Crear</span> Articulo</span>
+    <i
+      class="modal-close modal-exit material-icons pink accent-2 waves-effect waves-light dfr"
+      >close</i
+    >
   </div>
 
   <div class="modal-content">
-    <div class="row" style="margin: 20px 0 0 0;">
+    <div class="row" style="margin: 20px 0 0 0; height: calc(100% - 20px);">
       <form
+        id="formArticulos"
         class="col s12"
-        style="padding: 0 30px;"
+        style="padding: 0 30px; height: 100%;"
         ngNativeValidate
         [formGroup]="form"
         (ngSubmit)="crear()"
       >
-        <input
-          id="author"
-          name="author"
-          placeholder="Autor"
-          formControlName="author"
-          type="text"
-          required
-        />
-        <angular-editor
-          formControlName="content"
-          (viewMode)="(true)"
-          [config]="editorConfig"
-          class="articuloEditor"
-        ></angular-editor>
-        <input
-          id="title"
-          name="title"
-          placeholder="Titulo"
-          formControlName="title"
-          type="text"
-        />
+        <!-- Inputs Container -->
+        <div class="inputs-container">
+          <div class="dfr">
+            <div class="article-img">
+              <img src="../../../assets/images/New_image.jpg" />
+            </div>
+            <div class="dfc" style="width: 100%;">
+              <div class="modal-input modal-input-pink">
+                <input
+                  id="title"
+                  name="title"
+                  formControlName="title"
+                  [(ngModel)]="titleLabel"
+                  type="text"
+                  required
+                />
+                <div
+                  class="modal-input-placeholder modal-input-placeholder-pink"
+                  [class.modal-input-focused]="titleLabel"
+                >
+                  Titulo*
+                </div>
+              </div>
+              <div class="modal-input modal-input-pink">
+                <input
+                  id="author"
+                  name="author"
+                  formControlName="author"
+                  [(ngModel)]="authorLabel"
+                  type="text"
+                  required
+                />
+                <div
+                  class="modal-input-placeholder modal-input-placeholder-pink"
+                  [class.modal-input-focused]="authorLabel"
+                >
+                  Autor*
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <angular-editor
+            name="content"
+            formControlName="content"
+            (viewMode)="(true)"
+            [config]="editorConfig"
+            class="articuloEditor"
+            required
+          ></angular-editor>
+        </div>
         <div class="modal-actions">
           <button
             type="button"
@@ -54,7 +89,7 @@
             class="waves-effect waves-light btn modal-submit-action"
             [class.button-disabled]="!form.valid"
           >
-            Crear articulo
+            <span class="article-action">Crear</span> articulo
           </button>
         </div>
       </form>

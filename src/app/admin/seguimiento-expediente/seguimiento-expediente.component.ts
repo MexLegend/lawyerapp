@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { UpdateDataService } from '../../services/updateData.service';
-import { Subscription } from 'rxjs';
 
 declare var $: any, M: any;
 
@@ -19,7 +18,7 @@ export class SeguimientoExpedienteComponent implements OnInit {
   ngOnInit() {
 
     // Get UserData Subscription
-    this._updateData.getUserData().subscribe(data => this.userData = data);
+    this._updateData.getUserData('seguimiento').subscribe(data => this.userData = data);
 
     // Get FileData Subscription
     this._updateData.getFileData().subscribe(data => this.fileData = data);
@@ -65,9 +64,8 @@ export class SeguimientoExpedienteComponent implements OnInit {
     });
   }
 
-  // Change Card User Data With Service Response
-  // changeUserData() {
-  //   this._updateData.getData();
-  // }
-
+  // Send Action to Update Data Service
+  updateDataServiceAction() {
+    this._updateData.dataServiceAction("seguimiento");
+  }
 }

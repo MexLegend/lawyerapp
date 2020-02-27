@@ -1,0 +1,35 @@
+/* Articles Media Queries */
+
+/* Article Image */
+.tbl-article-image {
+  width: 45px;
+  min-width: 45px;
+  height: 45px;
+  min-height: 45px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.tbl-article-image img {
+  height: 100%;
+  width: 100%;
+}
+
+/* Article Title Styling */
+.article-title {
+  max-width: 200px;
+}
+
+/* Article Title Styling */
+.article-content {
+  max-width: 300px;
+}
+
+.tbl-wrapper {
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  position: absolute;
+}
