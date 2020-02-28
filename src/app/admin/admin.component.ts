@@ -86,7 +86,7 @@ export class AdminComponent implements OnInit, OnDestroy {
         },
         onOpenStart: () => {
           $('.client-action').text('Crear');
-          $('#userPassInput').show();
+          // $('#userPassInput').show();
         }
       });
 

@@ -29,12 +29,12 @@
     <div
       *ngFor="
         let noticia of noticias
-          | paginate: { itemsPerPage: 4, currentPage: paginaActual }
+          | paginate: { itemsPerPage: 16, currentPage: paginaActual }
       "
       class="card sticky-action"
       style="width: 100%;"
     >
-      <div class="card-header card-content">
+      <!-- <div class="card-header card-content">
         <div class="card-date dfc">
           <div class="card-day">
             <span>{{ noticia.created_at | date: "d" }}</span>
@@ -48,17 +48,14 @@
             <span class="card-title">{{ noticia.title }}</span>
             <span class="card-autor">{{ noticia.author }}</span>
           </div>
-          <button
-            class="author-contact-btn btn waves-effect waves-light gradient-45deg-dark-blue dfr"
-          >
-            <i class="material-icons dfr">mail_outline</i>
-            <span>Contactame</span>
-          </button>
         </div>
-      </div>
-      <div class="card-body card-content grey lighten-4">
-        <div class="card-img card-image waves-effect waves-block waves-light">
+      </div> -->
+      <div class="card-body card-content">
+        <div
+          class="card-img card-image ff-ur waves-effect waves-block waves-light"
+        >
           <div class="card-date dfr">
+            <i class="material-icons">access_time</i>
             <span>{{
               (noticia.created_at | date: "d") +
                 " " +
@@ -69,8 +66,24 @@
           </div>
           <img src="../../../assets/images/New_image.jpg" />
         </div>
-        <div class="card-information" [innerHtml]="noticia.content">
-          {{ noticia.content }}
+        <div class="card-information">
+          <div class="card-title-content dfc">
+            <span class="card-title">{{ noticia.title }}</span>
+            <div
+              class="card-author dfr"
+              style="justify-content: space-between;"
+            >
+              <span class="card-autor">{{ noticia.author }}</span>
+              <button
+                class="author-contact-btn btn waves-effect waves-light gradient-45deg-dark-blue dfr"
+              >
+                <i class="material-icons dfr">mail_outline</i>
+              </button>
+            </div>
+          </div>
+          <div class="noticia-content" [innerHtml]="noticia.content">
+            {{ noticia.content }}
+          </div>
         </div>
       </div>
       <div class="card-footer card-action">

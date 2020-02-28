@@ -24,6 +24,14 @@ export class UpdateDataService {
         return this.articleSubject.asObservable();
     }
 
+    validateUserPass(id: string) {
+        this.userSubject.next(id);
+    }
+
+    getValidateUserPass(): Observable<any> {
+        return this.userSubject.asObservable();
+    }
+
     sendUserId(id: string) {
         this.userSubject.next(id);
     }

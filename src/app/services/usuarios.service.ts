@@ -237,18 +237,16 @@ export class UsuariosService {
   }
 
   checkEmail(email: string) {
-
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      token: this.token
-    });
+    // console.log('Service: ' + email)
 
     const url = `${environment.URI}/api/usuarios/check/email`;
+    const body = {
+      email
+    }
 
-
-    return this.http.post(url, email, { headers }).pipe(map((resp: any) => {
-      console.log(resp)
-      // this._notificationS.mensaje('success', 'Eliminación correcta', resp.message, false, false, '', '', 2000);
+    return this.http.post(url, body).pipe(
+      map((resp: any) => {
+      // console.log(resp)
       return resp;
     })
     );

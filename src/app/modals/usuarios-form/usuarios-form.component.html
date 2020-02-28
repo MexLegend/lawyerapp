@@ -28,6 +28,7 @@
       >
         <!-- Inputs Container -->
         <div class="inputs-container">
+          <!-- Address Input Field -->
           <div class="modal-input modal-input-pink">
             <input
               name="address"
@@ -43,6 +44,7 @@
               Domicilio*
             </div>
           </div>
+          <!-- CellPhone Input Field -->
           <div class="modal-input modal-input-pink">
             <input
               name="cellPhone"
@@ -58,6 +60,7 @@
               Teléfono*
             </div>
           </div>
+          <!-- Email Input Field -->
           <div class="modal-input modal-input-pink">
             <input
               name="email"
@@ -74,6 +77,10 @@
               Email*
             </div>
           </div>
+          <span *ngIf="errorEmail && this.form.value._id === ''">
+            El email ya esta en uso
+          </span>
+          <!-- First Name Input Field -->
           <div class="modal-input modal-input-pink">
             <input
               name="firstName"
@@ -89,6 +96,7 @@
               Nombre(s)*
             </div>
           </div>
+          <!-- Last Name Input Field -->
           <div class="modal-input modal-input-pink">
             <input
               name="lastName"
@@ -104,13 +112,14 @@
               Apellido*
             </div>
           </div>
+          <!-- Password Input Field -->
           <div id="userPassInput" class="modal-input modal-input-pink">
             <input
+              id="userPassword"
               name="password"
               formControlName="password"
               type="password"
               [(ngModel)]="passwordLabel"
-              required
             />
             <div
               class="modal-input-placeholder modal-input-placeholder-pink"
@@ -130,7 +139,7 @@
           </button>
           <button
             type="submit"
-            [class.button-disabled]="!form.valid"
+            [class.button-disabled]="!form.valid || errorEmail === true"
             class="waves-effect waves-light btn modal-submit-action"
           >
             <span class="client-action">Crear</span> Cliente

@@ -128,8 +128,8 @@ export class ExpedientesFormComponent implements OnInit {
       affair: new FormControl(null, Validators.required),
       assigned_client: new FormControl(null, Validators.required),
       defendant: new FormControl(null, Validators.required),
-      description: new FormControl(null, Validators.required),
-      third: new FormControl(null, Validators.required),
+      description: new FormControl(null),
+      third: new FormControl(null),
       extKey: new FormControl(null),
       _id: new FormControl(null)
     });

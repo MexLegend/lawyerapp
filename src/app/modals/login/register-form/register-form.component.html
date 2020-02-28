@@ -9,8 +9,12 @@
         type="email"
         class="login-input"
         required
+        (ngModelChange)="this.userEmail.next($event)"
       />
     </div>
+    <span *ngIf="errorEmail">
+      El email ya esta en uso
+    </span>
     <div class="login-input-field">
       <label class="login-label" for="nameRegister">Nombre</label>
       <input
@@ -46,7 +50,7 @@
     </div>
     <button
       type="submit"
-      [class.register-button-disabled]="!form.valid"
+      [class.register-button-disabled]="!form.valid || errorEmail === true"
       id="register-button"
       class="waves-effect waves-light btn"
     >

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
 import { Usuario } from '../../models/Usuario';
 import { UsuariosService } from '../../services/usuarios.service';
 import { UpdateDataService } from '../../services/updateData.service';
@@ -18,19 +18,26 @@ export class UsuariosFormComponent implements OnInit {
     public _uS: UpdateDataService
   ) {
     this.userEmail.pipe(
-      debounceTime(400),
+      debounceTime(800),
       distinctUntilChanged())
       .subscribe(value => {
         if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value)) {
-          console.log(true)
           this._usuariosS.checkEmail(value)
-              .subscribe((resp) => {
-                
-              })
+            .subscribe((resp) => {
+              // console.log(resp)
+              if (resp.exist) {
+                this.errorEmail = true;
+              } else {
+                this.errorEmail = false;
+              }
+              if (this.form.value._id !== '') {
+                this.errorEmail = false;
+              }
+
+            })
         } else {
-          console.log(false)
+          // console.log(false)
         }
-        console.log(value);
       });
   }
 
@@ -42,6 +49,7 @@ export class UsuariosFormComponent implements OnInit {
   nameLabel: any;
   lastnameLabel: any;
   passwordLabel: any;
+  errorEmail: boolean = false;
   userEmail = new Subject<string>();
 
   ngOnInit() {
@@ -51,8 +59,9 @@ export class UsuariosFormComponent implements OnInit {
     this.subscription = this._uS.getUserId().subscribe(id => {
       this._usuariosS.obtenerUsuario(id).subscribe(r => {
         if (id !== '') {
+          this.requiredPass(id);
           $('.client-action').text('Actualizar');
-          $('#userPassInput').hide();
+          // $('#userPassInput').hide();
           this.form.patchValue({
             address: r.address,
             cellPhone: r.cellPhone,
@@ -62,11 +71,20 @@ export class UsuariosFormComponent implements OnInit {
             password: r.password,
             _id: r._id
           })
+          // if (id !== null) {
+          //   this.form.controls['password'].setValidators(null);
+          //   this.form.controls['password'].updateValueAndValidity();
+          // }
         } else {
+          // this.initRegisterForm()
+          // this.form.controls['password'].setValidators([Validators.required]);
+          // this.form.controls['password'].updateValueAndValidity();
           this.form.reset();
         }
       })
     })
+
+
   }
 
   ngOnDestroy() {
@@ -111,19 +129,7 @@ export class UsuariosFormComponent implements OnInit {
     });
   }
 
-  validateEmail(e: any) {
-    console.log(e)
-    if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(e.target.value)) {
-      console.log(true)
-    } else {
-      console.log(false)
-    }
-    this._usuariosS.checkEmail(e.target.value)
-      .pipe(debounceTime(2000), distinctUntilChanged())
-      .subscribe((r) => {
-        console.log(r)
-      })
-    // console.log(e.target.value)
+  requiredPass(id: string) {
+    return (id !== '') ? false : true;
   }
-
 }
