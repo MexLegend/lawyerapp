@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
-import { UsuariosService } from '../../services/usuarios.service';
+
+import { UsersService } from '../../services/users.service';
 
 declare var $: any;
 
@@ -16,7 +17,7 @@ export class PerfilComponent implements OnInit {
 
   constructor(
     public router: Router,
-    public _usuariosS: UsuariosService
+    public _usersS: UsersService
   ) {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
@@ -26,9 +27,10 @@ export class PerfilComponent implements OnInit {
   }
 
   ngOnInit() {
-
     // Initialize Sidenav
     $('.sidenav').sidenav();
+
+    $("#modal-File-Upload").modal();
   }
 
   // Toggle Full Screen Function

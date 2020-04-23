@@ -111,4 +111,5 @@
 
 .file-details-btn {
   text-transform: capitalize;
+  min-width: calc(100% - 30px);
 }

@@ -1,36 +1,58 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { LoginComponent } from './login/login.component';
+import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AngularEditorModule } from '@kolkov/angular-editor';
 import { DataTablesModule } from 'angular-datatables';
+
+import { FilesFormComponent } from './files-form/files-form.component';
+import { LoginComponent } from './login/login.component';
 import { LoginFormComponent } from './login/login-form/login-form.component';
 import { RegisterFormComponent } from './login/register-form/register-form.component';
-import { SeleccionarUsuarioComponent } from './seleccionar-usuario/seleccionar-usuario.component';
-import { SeleccionarExpedienteComponent } from './seleccionar-expediente/seleccionar-expediente.component';
-import { ExpedientesFormComponent } from './expedientes-form/expedientes-form.component';
-import { NotificacionesFormComponent } from './notificaciones-form/notificaciones-form.component';
-import { UsuariosFormComponent } from './usuarios-form/usuarios-form.component';
-import { ArticulosFormComponent } from './articulos-form/articulos-form.component';
-import { AngularEditorModule } from '@kolkov/angular-editor';
+import { NotificationsFormComponent } from './notifications-form/notifications-form.component';
+import { PostsFormComponent } from './posts-form/posts-form.component';
+import { SelectFileComponent } from './select-file/select-file.component';
+import { SelectUserComponent } from './select-user/select-user.component';
+import { UsersFormComponent } from './users-form/users-form.component';
+import { PipesModule } from '../pipes/pipes.module';
+import { FileUploadComponent } from './file-upload/file-upload.component';
+import { ComponentsModule } from '../components/components.module';
+import { MaterialModule } from '../shared/material.module';
+import { FileUploadModule } from "ng2-file-upload";
 
 
 @NgModule({
-  declarations: [LoginComponent, LoginFormComponent, RegisterFormComponent, SeleccionarUsuarioComponent, SeleccionarExpedienteComponent, ExpedientesFormComponent, NotificacionesFormComponent, UsuariosFormComponent, ArticulosFormComponent],
-  imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    DataTablesModule,
-    AngularEditorModule,
+  declarations: [
+    FileUploadComponent,
+    FilesFormComponent,
+    LoginComponent,
+    LoginFormComponent,
+    NotificationsFormComponent,
+    PostsFormComponent,
+    RegisterFormComponent,
+    SelectFileComponent,
+    SelectUserComponent,
+    UsersFormComponent
   ],
   exports: [
+    FileUploadComponent,
+    FilesFormComponent,
     LoginComponent,
-    SeleccionarUsuarioComponent,
-    SeleccionarExpedienteComponent,
-    ExpedientesFormComponent,
-    NotificacionesFormComponent,
-    UsuariosFormComponent,
-    ArticulosFormComponent
+    NotificationsFormComponent,
+    PostsFormComponent,
+    SelectFileComponent,
+    SelectUserComponent,
+    UsersFormComponent
+  ],
+  imports: [
+    AngularEditorModule,
+    CommonModule,
+    ComponentsModule,
+    DataTablesModule,
+    FileUploadModule,
+    FormsModule,
+    MaterialModule,
+    PipesModule,
+    ReactiveFormsModule
   ]
 })
 export class ModalsModule { }

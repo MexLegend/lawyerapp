@@ -1,76 +1,115 @@
+<!-- Config General Container -->
 <div class="card horizontal perfil-card">
-  <div class="card-image"></div>
   <div class="card-stacked">
     <form
       ngNativeValidate
       #f="ngForm"
-      (ngSubmit)="actualizar(f.value)"
+      (ngSubmit)="update(f.value)"
       class="col s12"
     >
       <div class="card-content">
         <div class="row">
-          <div class="input-field col s12">
-            <div class="modal-input modal-input-blue">
-              <input
-                id="emailU"
-                name="emailU"
-                [ngModel]="usuario.email"
-                placeholder=" "
-                email="ngModel"
-                type="email"
-                class="validate"
-                required
+          <div class="input-field perfil-input-field col s12 dfr">
+            <div
+              href="#modal-File-Upload"
+              class="upload-img modal-trigger centered-img-bg dfc"
+            >
+              <img
+                [src]="
+                  this._imgS.fileUrl
+                    ? (this._imgS.fileUrl | img: 'user':true)
+                    : ''
+                "
+                alt=""
               />
-              <div class="modal-input-placeholder modal-input-placeholder-blue">
-                Email*
+
+              <div
+                class="select-img dfr"
+                [attr.data-active]="this._imgS.file ? 'on' : 'off'"
+              >
+                <i
+                  class="material-icons"
+                  [attr.data-active]="this._imgS.file ? 'on' : 'off'"
+                  >camera_alt</i
+                >
+                <input
+                  #userImg
+                  type="file"
+                  style="display: none;"
+                  accept="image/png, image/jpg, image/jpeg"
+                  (change)="imageValidation($event)"
+                />
+              </div>
+            </div>
+            <div
+              class="perfil-input-field-content dfc"
+              style="width: calc(100% - 190px);"
+            >
+              <div class="modal-input modal-input-blue">
+                <input
+                  id="emailU"
+                  name="emailU"
+                  [ngModel]="user.email"
+                  placeholder=" "
+                  email="ngModel"
+                  type="email"
+                  class="validate"
+                  required
+                />
+                <div
+                  class="modal-input-placeholder modal-input-placeholder-blue"
+                >
+                  Email*
+                </div>
+              </div>
+              <div class="modal-input modal-input-blue">
+                <input
+                  placeholder=" "
+                  id="firstName"
+                  name="firstName"
+                  [ngModel]="user?.firstName"
+                  type="text"
+                  class="validate"
+                  required
+                />
+                <div
+                  class="modal-input-placeholder modal-input-placeholder-blue"
+                >
+                  Nombre(s)*
+                </div>
+              </div>
+              <div class="modal-input modal-input-blue">
+                <input
+                  placeholder=" "
+                  id="lastName"
+                  name="lastName"
+                  [ngModel]="user?.lastName"
+                  type="text"
+                  class="validate"
+                  required
+                />
+                <div
+                  class="modal-input-placeholder modal-input-placeholder-blue"
+                >
+                  Apellidos*
+                </div>
               </div>
             </div>
           </div>
-          <div class="input-field col s12">
-            <div class="modal-input modal-input-blue">
-              <input
-                placeholder=" "
-                id="firstName"
-                name="firstName"
-                [ngModel]="usuario.firstName"
-                type="text"
-                class="validate"
-                required
-              />
-              <div class="modal-input-placeholder modal-input-placeholder-blue">
-                Nombre(s)*
-              </div>
-            </div>
-          </div>
-          <div class="input-field col s12">
-            <div class="modal-input modal-input-blue">
-              <input
-                placeholder=" "
-                id="lastName"
-                name="lastName"
-                [ngModel]="usuario.lastName"
-                type="text"
-                class="validate"
-                required
-              />
-              <div class="modal-input-placeholder modal-input-placeholder-blue">
-                Apellidos*
-              </div>
-            </div>
-          </div>
+          <!-- <div class="input-field col s12"></div> -->
+          <!-- <div class="input-field col s12"></div> -->
           <div class="input-field col s12">
             <div class="modal-input modal-input-blue">
               <input
                 placeholder=" "
                 id="cellPhone"
                 name="cellPhone"
-                [ngModel]="usuario.cellPhone"
+                [ngModel]="user?.cellPhone"
                 type="text"
                 class="validate"
-                required
               />
               <div class="modal-input-placeholder modal-input-placeholder-blue">
-                Telefono*
+                Telefono
               </div>
             </div>
           </div>
@@ -80,13 +119,12 @@
                 placeholder=" "
                 id="address"
                 name="address"
-                [ngModel]="usuario.address"
+                [ngModel]="user?.address"
                 type="text"
                 class="validate"
-                required
               />
               <div class="modal-input-placeholder modal-input-placeholder-blue">
-                Domicilio*
+                Domicilio
               </div>
             </div>
           </div>
@@ -97,7 +135,7 @@
           class="btn waves-effect waves-light gradient-45deg-dark-blue"
           type="submit"
           name="action"
-          [disabled]="!f.valid"
+          [class.button-disabled]="!f.valid"
         >
           Guardar Cambios
           <i class="material-icons right">send</i>

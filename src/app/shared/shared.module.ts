@@ -3,13 +3,15 @@ import { CommonModule } from '@angular/common';
 import { NavbarComponent } from './navbar/navbar.component';
 import { NopagefoundComponent } from './nopagefound/nopagefound.component';
 import { RouterModule } from '@angular/router';
-import { FooterComponent } from './footer/footer.component';
-import { BreadcrumbsComponent } from './breadcrumbs/breadcrumbs.component';
-import { ModalsModule } from '../modals/modals.module';
-import { MatMenuModule, MatButtonModule, MatExpansionModule, MatSnackBarModule, MatSelectModule } from '@angular/material'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatDividerModule, MatListModule } from '@angular/material';
-import { UsuariosFilterComponent } from './usuarios-filter/usuarios-filter.component';
+
+import { BreadcrumbsComponent } from './breadcrumbs/breadcrumbs.component';
+import { FooterComponent } from './footer/footer.component';
+import { MaterialModule } from './material.module';
+import { ModalsModule } from '../modals/modals.module';
+import { PipesModule } from '../pipes/pipes.module';
+import { UsersFilterComponent } from './users-filter/users-filter.component';
+import { ComponentsModule } from '../components/components.module';
 
 @NgModule({
   declarations: [
@@ -17,27 +19,25 @@ import { UsuariosFilterComponent } from './usuarios-filter/usuarios-filter.compo
     FooterComponent,
     NavbarComponent,
     NopagefoundComponent,
-    UsuariosFilterComponent
-  ],
-  imports: [
-    CommonModule,
-    RouterModule,
-    ModalsModule,
-    MatMenuModule, MatButtonModule,
-    MatSelectModule,
-    FormsModule,
-    ReactiveFormsModule,
-    MatDividerModule, MatListModule,
-    MatExpansionModule,
-    MatSnackBarModule
+    UsersFilterComponent
   ],
   exports: [
     BreadcrumbsComponent,
     FooterComponent,
+    MaterialModule,
     NavbarComponent,
     NopagefoundComponent,
-    UsuariosFilterComponent,
-    MatSelectModule
-  ]
+    UsersFilterComponent
+  ],
+  imports: [
+    CommonModule,
+    ComponentsModule,
+    FormsModule,
+    MaterialModule,
+    ModalsModule,
+    PipesModule,
+    ReactiveFormsModule,
+    RouterModule
+  ]  
 })
 export class SharedModule { }

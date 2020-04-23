@@ -1,12 +1,13 @@
-import { Routes, RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
+
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { ArticulosComponent } from './articulos/articulos.component';
-import { UsuariosComponent } from './usuarios/usuarios.component';
+import { FilesComponent } from './files/files.component';
+import { FileTrackingComponent } from './file-tracking/file-tracking.component';
 import { AdminGuard } from '../guards/admin.guard';
-import { ExpedientesComponent } from './expedientes/expedientes.component';
-import { NotificacionesComponent } from './notificaciones/notificaciones.component';
-import { SeguimientoExpedienteComponent } from './seguimiento-expediente/seguimiento-expediente.component';
-import { MensajesComponent } from './mensajes/mensajes.component';
+import { MessagesComponent } from './messages/messages.component';
+import { NotificationsComponent } from './notifications/notifications.component';
+import { PostsComponent } from './posts/posts.component';
+import { UsersComponent } from './users/users.component';
 
 const ADMIN_ROUTES: Routes = [
     {
@@ -17,32 +18,32 @@ const ADMIN_ROUTES: Routes = [
     },
     {
         path: 'mensajes',
-        component: MensajesComponent,
+        component: MessagesComponent,
         data: { titulo: 'Mensajes' },
     },
     {
         path: 'usuarios',
-        component: UsuariosComponent,
+        component: UsersComponent,
         data: { titulo: 'Usuarios' }
     },
     {
-        path: 'articulos',
-        component: ArticulosComponent,
+        path: 'posts',
+        component: PostsComponent,
         data: { titulo: 'Articulos' }
     },
     {
         path: 'expedientes',
-        component: ExpedientesComponent,
+        component: FilesComponent,
         data: { titulo: 'Expedientes' }
     },
     {
         path: 'seguimiento-expediente',
-        component: SeguimientoExpedienteComponent,
+        component: FileTrackingComponent,
         data: { titulo: 'Seguimiento Expediente' }
     },
     {
         path: 'notificaciones',
-        component: NotificacionesComponent,
+        component: NotificationsComponent,
         data: { titulo: 'Notificaciones' }
     },
     {

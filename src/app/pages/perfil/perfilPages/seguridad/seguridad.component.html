@@ -4,7 +4,7 @@
     <form
       ngNativeValidate
       #fA="ngForm"
-      (ngSubmit)="actualizarPass(fA)"
+      (ngSubmit)="update(fA)"
       class="col s12"
     >
       <div class="card-content">
@@ -64,7 +64,7 @@
           class="btn waves-effect waves-light gradient-45deg-dark-blue"
           type="submit"
           name="action"
-          [disabled]="!fA.valid"
+          [class.button-disabled]="!fA.valid"
         >
           Guardar Cambios
           <i class="material-icons right">send</i>

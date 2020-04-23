@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { UsuariosService } from '../../services/usuarios.service';
-import { Router, NavigationEnd } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
+
+import { UsersService } from '../../services/users.service';
+
 declare var $: any;
 
 @Component({
@@ -11,13 +13,9 @@ declare var $: any;
 
 export class NavbarComponent implements OnInit {
 
-  public drop: boolean = true;
-  tFo: string = '';
-  actSt: any = '';
-
   constructor(
-    public _usuariosS: UsuariosService,
-    public router: Router
+    public router: Router,
+    public _usersS: UsersService
   ) {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
@@ -25,6 +23,10 @@ export class NavbarComponent implements OnInit {
       }
     })
   }
+
+  actSt: any = '';
+  public drop: boolean = true;
+  tFo: string = '';
 
   ngOnInit() {
     $(document).ready(function () {
@@ -54,7 +56,6 @@ export class NavbarComponent implements OnInit {
 
   form(tF: string) {
     this.tFo = tF;
-    console.log(this.tFo)
   }
 
   // Scroll to Top Function

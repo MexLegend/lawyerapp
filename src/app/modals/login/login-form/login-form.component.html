@@ -1,26 +1,32 @@
 <form ngNativeValidate #f="ngForm" (ngSubmit)="logIn(f)">
   <div class="login-content">
-    <div class="login-input-field">
-      <label class="login-label" for="email">Correo electrónico</label>
+    <!-- Email Input -->
+    <div class="modal-input modal-input-blue">
       <input
         id="email"
         [(ngModel)]="email"
         name="email"
         type="email"
-        class="login-input"
+        placeholder=" "
         required
       />
+      <div class="modal-input-placeholder modal-input-placeholder-blue">
+        Correo electronico*
+      </div>
     </div>
-    <div class="login-input-field">
-      <label class="login-label" for="password">Contraseña</label>
+    <!-- Password Input -->
+    <div class="modal-input modal-input-blue">
       <input
         id="password"
         [(ngModel)]="password"
         name="password"
         type="password"
-        class="login-input"
+        placeholder=" "
         required
       />
+      <div class="modal-input-placeholder modal-input-placeholder-blue">
+        Contraseña*
+      </div>
     </div>
     <div class="login-actions">
       <div class="switch">

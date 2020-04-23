@@ -12,7 +12,7 @@
                   <span>Clave Externa:</span>
                 </div>
                 <div class="expedienteSubtitle">
-                  <span>{{ (expediente?.extKey !== '' ? expediente?.extKey : 'N/E') }}</span>
+                  <span>{{ file?.extKey !== "" ? file?.extKey : "N/E" }}</span>
                 </div>
               </div>
               <div class="expedienteDetailGroup">
@@ -20,7 +20,7 @@
                   <span>Clave Interna:</span>
                 </div>
                 <div class="expedienteSubtitle">
-                  <span>{{ expediente?.intKey }}</span>
+                  <span>{{ file?.intKey }}</span>
                 </div>
               </div>
             </div>
@@ -30,7 +30,11 @@
                   <span>Cliente:</span>
                 </div>
                 <div class="expedienteSubtitle">
-                  <span>{{ expediente?.assigned_client?.firstName + ' ' + expediente?.assigned_client?.lastName }}</span>
+                  <span>{{
+                    file?.assigned_client?.firstName +
+                      " " +
+                      file?.assigned_client?.lastName
+                  }}</span>
                 </div>
               </div>
               <div class="expedienteDetailGroup">
@@ -38,7 +42,7 @@
                   <span>Actor(es):</span>
                 </div>
                 <div class="expedienteSubtitle">
-                  <span>{{ expediente?.actor }}</span>
+                  <span>{{ file?.actor }}</span>
                 </div>
               </div>
               <div class="expedienteDetailGroup">
@@ -46,7 +50,7 @@
                   <span>Demandado(s):</span>
                 </div>
                 <div class="expedienteSubtitle">
-                  <span>{{ expediente?.defendant }}</span>
+                  <span>{{ file?.defendant }}</span>
                 </div>
               </div>
               <div class="expedienteDetailGroup">
@@ -54,7 +58,7 @@
                   <span>Terceros:</span>
                 </div>
                 <div class="expedienteSubtitle">
-                  <span>{{ expediente?.third }}</span>
+                  <span>{{ file?.third }}</span>
                 </div>
               </div>
             </div>
@@ -76,27 +80,27 @@
             datatable
             [dtOptions]="dtOptions"
             class="row-border hover stripe"
-            style="width: 100%"
+            style="width: 100%;"
           >
             <thead>
               <tr>
-                <th>ID</th>
-                <th>Fecha</th>
+                <th class="all">ID</th>
+                <th class="all">Fecha</th>
                 <th>Descripción</th>
-                <th>Archivos</th>
+                <th class="all">Archivos</th>
               </tr>
             </thead>
             <tbody>
               <tr>
                 <td>1</td>
-                <td>{{ expediente?.start_date | date }}</td>
-                <td>{{ expediente?.description }}</td>
+                <td>{{ file?.start_date | date }}</td>
+                <td>{{ file?.observations }}</td>
                 <td>Ninguno</td>
               </tr>
               <tr>
                 <td>1</td>
-                <td>{{ expediente?.start_date | date }}</td>
-                <td>{{ expediente?.description }}</td>
+                <td>{{ file?.start_date | date }}</td>
+                <td>{{ file?.observations }}</td>
                 <td>Ninguno</td>
               </tr>
             </tbody>

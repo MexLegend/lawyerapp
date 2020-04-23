@@ -44,8 +44,7 @@
 }
 
 #superior-container,
-#middle-container,
-#bottom-container {
+#middle-container {
   display: flex;
   flex-direction: column;
   align-content: center;
@@ -64,14 +63,6 @@
   border-top: 2px solid black;
   border-bottom: 2px solid rgba(0, 0, 0, 0.164);
   padding: 50px 0 45px 0 !important;
-}
-
-#bottom-container {
-  padding: 15px 0 !important;
-}
-
-#page-footer > div > div {
-  padding: 25px 0;
 }
 
 #page-footer .btn {

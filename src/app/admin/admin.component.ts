@@ -1,10 +1,11 @@
-import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
-import { UsuariosService } from '../services/usuarios.service';
-import { Subject, Subscription } from 'rxjs';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
 import { NgScrollbar } from 'ngx-scrollbar';
-import { WebPushNotificationService } from '../services/webPushNotification.service';
+import { Subject, Subscription } from 'rxjs';
+
 import { NotificationsPagination } from '../models/Notification';
-import { Router, NavigationEnd } from '@angular/router';
+import { UsersService } from '../services/users.service';
+import { WebPushNotificationsService } from '../services/webPushNotifications.service';
 
 declare var $: any;
 
@@ -16,36 +17,28 @@ declare var $: any;
 })
 export class AdminComponent implements OnInit, OnDestroy {
 
-  public type: string = 'component';
+  // Get NgScrollbar reference
+  @ViewChild(NgScrollbar, null) scrollBar: NgScrollbar;
+  actSt: any = '';
+  isfullscreen: boolean = false;
   notifications: NotificationsPagination;
-
+  notificationsSubs: Subscription;
   // Stream that will update title font size on scroll down
   size$ = new Subject();
-
+  public type: string = 'component';
   // Unsubscriber for elementScrolled stream.
   unsubscriber$ = Subscription.EMPTY;
 
-  // Get NgScrollbar reference
-  @ViewChild(NgScrollbar, null) scrollBar: NgScrollbar;
-
-  notificationsSubs: Subscription;
-  actSt: any = '';
-  isfullscreen: boolean = false;
-
   constructor(
-    public _usuariosS: UsuariosService,
-    public _wPNS: WebPushNotificationService,
-    public router: Router
+    public router: Router,
+    public _usersS: UsersService,
+    public _wPNS: WebPushNotificationsService
   ) {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         this.actSt = this.router.url;
       }
     })
-  }
-
-  ngOnDestroy() {
-    this.notificationsSubs.unsubscribe();
   }
 
   ngOnInit() {
@@ -56,7 +49,6 @@ export class AdminComponent implements OnInit, OnDestroy {
 
     this.notificationsSubs = this._wPNS.getNotifications()
       .subscribe(notification => {
-        // console.log(notification)
 
         if (notification) {
           this._wPNS.get()
@@ -80,13 +72,14 @@ export class AdminComponent implements OnInit, OnDestroy {
       });
 
       // Create New User Modal Init
-      $("#modalUsuarios").modal({
+      $("#modalUsers").modal({
         onCloseEnd: () => {
-          $("#formUsuarios")[0].reset();
+          $("#formUsers")[0].reset();
         },
         onOpenStart: () => {
-          $('.client-action').text('Crear');
-          // $('#userPassInput').show();
+          if ($(".upload-img")) {
+            $(".upload-img").css('background-image', '');
+          }
         }
       });
 
@@ -96,7 +89,9 @@ export class AdminComponent implements OnInit, OnDestroy {
           $("#formArticulos")[0].reset();
         },
         onOpenStart: () => {
-          $('.article-action').text('Crear');
+          if ($(".upload-img")) {
+            $(".upload-img").css('background-image', '');
+          }
         }
       });
 
@@ -105,9 +100,7 @@ export class AdminComponent implements OnInit, OnDestroy {
         onCloseEnd: () => {
           $("#formExpedientes")[0].reset();
         },
-        onOpenStart: () => {
-          $('.file-action').text('Crear');
-        }
+        onOpenStart: () => { }
       });
 
       $("#selectUser").modal();
@@ -142,6 +135,34 @@ export class AdminComponent implements OnInit, OnDestroy {
     });
   }
 
+  ngOnDestroy() {
+    this.notificationsSubs.unsubscribe();
+  }
+
+  // Change Theme Function
+  changeTheme(event) {
+    console.log(event.checked);
+  }
+
+  // Close Full Screen Function
+  closefullscreen() {
+    const docWithBrowsersExitFunctions = document as Document & {
+      mozCancelFullScreen(): Promise<void>;
+      webkitExitFullscreen(): Promise<void>;
+      msExitFullscreen(): Promise<void>;
+    };
+    if (docWithBrowsersExitFunctions.exitFullscreen) {
+      docWithBrowsersExitFunctions.exitFullscreen();
+    } else if (docWithBrowsersExitFunctions.mozCancelFullScreen) { /* Firefox */
+      docWithBrowsersExitFunctions.mozCancelFullScreen();
+    } else if (docWithBrowsersExitFunctions.webkitExitFullscreen) { /* Chrome, Safari and Opera */
+      docWithBrowsersExitFunctions.webkitExitFullscreen();
+    } else if (docWithBrowsersExitFunctions.msExitFullscreen) { /* IE/Edge */
+      docWithBrowsersExitFunctions.msExitFullscreen();
+    }
+    this.isfullscreen = false;
+  }
+
   // Toggle Full Screen Function
   openfullscreen() {
     // Trigger fullscreen
@@ -161,23 +182,5 @@ export class AdminComponent implements OnInit, OnDestroy {
       docElmWithBrowsersFullScreenFunctions.msRequestFullscreen();
     }
     this.isfullscreen = true;
-  }
-  // Close Full Screen Function
-  closefullscreen() {
-    const docWithBrowsersExitFunctions = document as Document & {
-      mozCancelFullScreen(): Promise<void>;
-      webkitExitFullscreen(): Promise<void>;
-      msExitFullscreen(): Promise<void>;
-    };
-    if (docWithBrowsersExitFunctions.exitFullscreen) {
-      docWithBrowsersExitFunctions.exitFullscreen();
-    } else if (docWithBrowsersExitFunctions.mozCancelFullScreen) { /* Firefox */
-      docWithBrowsersExitFunctions.mozCancelFullScreen();
-    } else if (docWithBrowsersExitFunctions.webkitExitFullscreen) { /* Chrome, Safari and Opera */
-      docWithBrowsersExitFunctions.webkitExitFullscreen();
-    } else if (docWithBrowsersExitFunctions.msExitFullscreen) { /* IE/Edge */
-      docWithBrowsersExitFunctions.msExitFullscreen();
-    }
-    this.isfullscreen = false;
   }
 }

@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { UsuariosService } from '../../../services/usuarios.service';
-import { Usuario } from 'src/app/models/Usuario';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subject } from 'rxjs/internal/Subject';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+
+import { User } from '../../../models/User';
+import { UsersService } from '../../../services/users.service';
 
 @Component({
   selector: 'app-register-form',
@@ -12,27 +13,34 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 })
 export class RegisterFormComponent implements OnInit {
 
-  form: FormGroup;
+  constructor(
+    private _usersS: UsersService
+  ) {
+    this.check();
+  }
+
   errorEmail: boolean = false;
+  form: FormGroup;
   userEmail = new Subject<string>();
 
-  constructor(
-    private _usuariosS: UsuariosService
-  ) {
+  ngOnInit() {
+    this.initRegisterForm();
+  }
+
+  check() {
     this.userEmail.pipe(
       debounceTime(800),
       distinctUntilChanged())
       .subscribe(value => {
         if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value)) {
-          this._usuariosS.checkEmail(value)
-          .subscribe((resp) => {
-            console.log(resp)
-            if(resp.exist) {
-              this.errorEmail = true;
-            } else {
-              this.errorEmail = false;
-            }
-                
+          this._usersS.checkEmail(value)
+            .subscribe((resp) => {
+              console.log(resp)
+              if (resp.exist) {
+                this.errorEmail = true;
+              } else {
+                this.errorEmail = false;
+              }
             })
         } else {
           console.log(false)
@@ -40,39 +48,49 @@ export class RegisterFormComponent implements OnInit {
       });
   }
 
-  ngOnInit() {
-    this.initRegisterForm();
-  }
-
-  private initRegisterForm() {
-    this.form = new FormGroup({
-      email: new FormControl(null, Validators.required),
-      firstName: new FormControl(null, Validators.required),
-      lastName: new FormControl(null, Validators.required),
-      password: new FormControl(null, Validators.required),
-      address: new FormControl(null),
-      cellPhone: new FormControl(null),
-      img: new FormControl(null)
-    });
-  }
-
-  crear() {
-    // console.log(this.form);
-
-    const usuario = new Usuario(
+  create() {
+    const user = new User(
       this.form.value.email,
       this.form.value.firstName,
       this.form.value.lastName,
-      this.form.value.password, 
+      this.form.value.password1,
+      this.form.value.password2,
       this.form.value.address,
       this.form.value.cellPhone,
       null,
       this.form.value.img
     );
 
-    this._usuariosS.crearUsuario(usuario).subscribe(resp => {
+    this._usersS.createUser(user).subscribe(() => {
       this.form.reset();
     });
   }
 
+  private initRegisterForm() {
+    this.form = new FormGroup({
+      address: new FormControl(null),
+      cellPhone: new FormControl(null),
+      email: new FormControl(null, Validators.required),
+      firstName: new FormControl(null, Validators.required),
+      img: new FormControl(null),
+      lastName: new FormControl(null, Validators.required),
+      password1: new FormControl(null, [Validators.required, Validators.minLength(9)]),
+      password2: new FormControl()
+    });
+
+    this.form.controls['password2'].setValidators([
+      Validators.required,
+      this.notEqual.bind(this.form)
+    ]);
+  }
+
+  notEqual(control: FormControl): { [s: string]: boolean } {
+    let form: any = this;
+    if (control.value !== form.controls['password1'].value) {
+      return {
+        notEqual: true
+      }
+    }
+    return null;
+  }
 }

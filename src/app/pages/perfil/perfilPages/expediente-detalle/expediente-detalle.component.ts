@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { FilesService } from '../../../../services/files.service';
 import { Subject } from 'rxjs/internal/Subject';
+
 import { Files } from '../../../../models/Files';
+import { FilesService } from '../../../../services/files.service';
 
 @Component({
   selector: 'app-expediente-detalle',
@@ -11,7 +12,7 @@ import { Files } from '../../../../models/Files';
 })
 export class ExpedienteDetalleComponent implements OnInit {
 
-  expediente: Files;
+  file: Files;
   dtOptions: any;
   dtTrigger: Subject<any> = new Subject();
 
@@ -24,8 +25,8 @@ export class ExpedienteDetalleComponent implements OnInit {
     this.activatedRoute.params.subscribe(params => {
       const id = params['id'];
       this.dtTrigger.next();
-      if (id !== 'nuevo') {
-        this.cargarExpediente(id);
+      if (id !== 'new') {
+        this.load(id);
       }
     })
 
@@ -47,11 +48,10 @@ export class ExpedienteDetalleComponent implements OnInit {
     this.dtTrigger.unsubscribe();
   }
 
-  cargarExpediente(id: string) {
-    this._filesS.obtenerExpediente(id)
-      .subscribe(expediente => {
-        console.log(expediente)
-        this.expediente = expediente;
+  load(id: string) {
+    this._filesS.getFile(id)
+      .subscribe((file: Files) => {
+        this.file = file;
       })
   }
 

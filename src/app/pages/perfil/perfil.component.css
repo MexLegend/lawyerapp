@@ -75,6 +75,7 @@
 #perfil-sidebar-trigger {
   min-width: 40px;
   min-height: 40px;
+  background: linear-gradient(45deg, #b72318 10%, #ff5722 62%) !important;
 }
 
 .perfil-fake-bg {
@@ -100,7 +101,7 @@
   color: white;
 }
 
-.contact-media span a:hover {
+.contact-media #mail a:hover {
   color: aquamarine;
 }
 
@@ -116,26 +117,25 @@
 }
 
 .avatar-status {
-  line-height: 0px;
   position: relative;
-  display: inline-block;
   width: 35px;
-  border-radius: 50px;
+  min-width: 35px;
+  max-width: 35px;
+  height: 35px;
+  min-height: 35px;
+  max-height: 35px;
 }
 
-.avatar-status img {
-  width: 100%;
-  max-width: 100%;
-  height: auto;
-  border: 0;
-  border-radius: 1000px;
-  background: #e6e6e6;
+.avatar-status .centered-img-bg {
+  width: inherit;
+  height: inherit;
+  border-radius: 50%;
 }
 
 .avatar-status i {
   background-color: #00e676;
   position: absolute;
-  right: -2px;
+  left: 26px;
   bottom: 3px;
   width: 10px !important;
   height: 10px !important;
@@ -231,7 +231,10 @@
 .perfil-sidebar-options .perfil-menu-option a[data-active="on"] {
   background: linear-gradient(45deg, #303f9f, #1976d2) !important;
   background: -moz-linear-gradient(45deg, #303f9f, #1976d2) !important;
-  box-shadow: 0 0 5px 1px #00a8fa;
+  color: white;
+}
+
+.perfil-sidebar-options .perfil-menu-option a[data-active="on"] > i {
   color: white;
 }
 
@@ -251,7 +254,7 @@
 
 #perfil-main-container {
   height: 100%;
-  z-index: 998;
+  z-index: 997;
   transition: 0.3s ease all;
 }
 

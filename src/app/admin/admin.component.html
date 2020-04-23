@@ -1,17 +1,17 @@
 <!-- Modal Seleccionar Cliente -->
-<app-seleccionar-usuario></app-seleccionar-usuario>
+<app-select-user></app-select-user>
 
 <!-- Modal Seleccionar Expediente -->
-<app-seleccionar-expediente></app-seleccionar-expediente>
+<app-select-file></app-select-file>
 
-<!-- Modal Formulario Usuario -->
-<app-usuarios-form></app-usuarios-form>
+<!-- Modal Formulario User -->
+<app-users-form></app-users-form>
 
 <!-- Modal Formulario Articulos -->
-<app-articulos-form></app-articulos-form>
+<app-posts-form></app-posts-form>
 
 <!-- Modal Formulario Expediente -->
-<app-expedientes-form></app-expedientes-form>
+<app-files-form></app-files-form>
 
 <!-- Admin NavBar -->
 <header class="page-topbar" id="header">
@@ -69,10 +69,10 @@
                   <span class="material-icons icon-bg-circle cyan small"
                     >add_shopping_cart</span
                   >
-                  {{ notification.title }}
+                  {{ notification?.title }}
                 </div>
                 <time class="media-meta grey-text">{{
-                  notification.created_at | date
+                  notification?.created_at | date
                 }}</time>
               </li>
             </ul>
@@ -81,36 +81,37 @@
           <li>
             <!-- Perfil Dropdown Trigger -->
             <a
-              class="waves-effect waves-block waves-light profile-button dropdown-trigger"
+              class="waves-effect waves-block waves-light profile-button dropdown-trigger dfc"
               href="javascript:void(0);"
               data-target="profile-dropdown"
-              ><span class="avatar-status avatar-online"
-                ><img
-                  src="../../../assets/images/user.jpg"
-                  alt="avatar"/><i></i></span
+              ><div class="avatar-status avatar-online">
+                <div class="centered-img-bg dfc">
+                  <img
+                    [src]="_usersS.user?.img | img: 'user':true"
+                    alt="avatar"
+                  />
+                </div>
+                <i></i></div
             ></a>
             <!-- Perfil Dropdown Container -->
             <ul class="dropdown-content" id="profile-dropdown">
               <!-- Perfil Information -->
               <li>
                 <div class="perfil-info dfr">
-                  <div class="perfil-icon">
-                    <img
-                      src="../../../assets/images/user.jpg"
-                      style="width: 100%;"
-                    />
+                  <div class="perfil-icon centered-img-bg dfc">
+                    <img [src]="_usersS.user?.img | img: 'user':true" />
                   </div>
                   <div class="perfil-text dfc">
                     <span class="perfil-name ff-rr">{{
-                      this._usuariosS.user.firstName
+                      this._usersS.user?.firstName
                         .split(" ")[0]
                         .concat(
                           " ",
-                          this._usuariosS.user.lastName.split(" ")[0]
+                          (this._usersS.user?.lastName.split(" "))[0]
                         )
                     }}</span>
                     <span class="perfil-email ff-rr">{{
-                      this._usuariosS.user.email
+                      this._usersS.user?.email
                     }}</span>
                   </div>
                 </div>
@@ -118,7 +119,7 @@
               <li class="divider"></li>
               <!-- Perfil Option -->
               <li>
-                <a class="grey-text text-darken-1" href="user-profile-page.html"
+                <a class="grey-text text-darken-1" routerLink="/perfil"
                   ><i class="material-icons">person_outline</i> Perfil</a
                 >
               </li>
@@ -136,25 +137,17 @@
                   ><div class="dfr">
                     <i
                       class="material-icons"
-                      style="height: fit-content; line-height: inherit;"
+                      style="height: 0; line-height: 0;"
                       >brightness_4</i
                     >Tema Oscuro
                   </div>
-                  <div class="switch">
-                    <label>
-                      <input
-                        name="remember"
-                        type="checkbox"
-                        class="ng-valid ng-dirty ng-touched"/><span
-                        class="lever"
-                      ></span
-                    ></label></div
-                ></a>
+                  <app-theme-switch></app-theme-switch>
+              </a>
               </li>
               <li class="divider"></li>
               <!-- Logout Option -->
               <li>
-                <a class="grey-text text-darken-1" (click)="_usuariosS.logout()"
+                <a class="grey-text text-darken-1" (click)="_usersS.logout()"
                   ><i class="material-icons">exit_to_app</i> Cerrar Sesión</a
                 >
               </li>
@@ -180,180 +173,116 @@
 >
   <!-- Main Navbar Brand -->
   <div class="brand-sidebar">
-    <h1 class="logo-wrapper">
-      <a class="brand-logo darken-1" routerLink="/dashboard"
-        ><img
-          src="../../../assets/images/brand.png"
-          alt="site logo"
-          style="width: 20%;"
-        /><span class="logo-text hide-on-med-and-down">Pino Y Roble</span></a
-      >
-    </h1>
+    <a class="brand-logo darken-1" routerLink="/dashboard"
+      ><img
+        src="../../../assets/images/brand.png"
+        alt="site logo"
+        style="width: 100%;"
+    /></a>
   </div>
 
-  <div
-    id="slide-out"
-    class="sidenav collapsible dfc"
-  >
+  <div id="slide-out" class="sidenav collapsible dfc">
     <!-- Inner Navbar Brand -->
     <div class="inner-sidebar-brand dfr">
       <a class="brand-logo darken-1 dfr" routerLink="/dashboard"
         ><img
           src="../../../assets/images/brand.png"
           alt="site logo"
-          style="width: 20%;"
-        /><span class="logo-text">Pino Y Roble</span></a
-      >
+          style="width: 100%;"
+      /></a>
     </div>
     <!-- Main Navbar Options Container -->
     <div class="main-navbar-container-wrapper custom-scroll-y">
       <div class="main-navbar-container dfc">
-        <div class="dfr" style="width: 100%; height: 100%; position: relative;">
+        <div class="dfr" style="width: 100%; position: relative;">
           <!-- Main Navbar Principal Options -->
           <ul class="main-sidenav-principal-options">
             <li class="bold">
-              <div
-                class="principal-option-active"
-                [attr.data-active]="actSt === '/dashboard' ? 'on' : 'off'"
-              ></div>
               <a
-                class="waves-effect waves-cyan dfr"
+                class="waves-effect waves-cyan dfc"
                 routerLink="/dashboard"
                 [attr.data-active]="actSt === '/dashboard' ? 'on' : 'off'"
               >
                 <i class="material-icons">pie_chart</i>
+                <span>Tablero</span>
               </a>
             </li>
             <li class="bold">
-              <div
-                class="principal-option-active"
-                [attr.data-active]="actSt === '/mensajes' ? 'on' : 'off'"
-              ></div>
               <a
-                class="waves-effect waves-cyan dfr"
+                class="waves-effect waves-cyan dfc"
                 routerLink="/mensajes"
                 [attr.data-active]="actSt === '/mensajes' ? 'on' : 'off'"
               >
                 <i class="material-icons">mail_outline</i>
+                <span>Mensajes</span>
               </a>
             </li>
             <li class="bold">
-              <div
-                class="principal-option-active"
-                [attr.data-active]="actSt === '/usuarios' ? 'on' : 'off'"
-              ></div>
               <a
-                class="waves-effect waves-cyan "
+                class="waves-effect waves-cyan dfc"
                 routerLink="/usuarios"
                 [attr.data-active]="actSt === '/usuarios' ? 'on' : 'off'"
               >
                 <i class="material-icons">perm_identity</i>
-              </a>
-            </li>
-            <li class="active bold">
-              <div
-                class="principal-option-active"
-                [attr.data-active]="actSt === '/articulos' ? 'on' : 'off'"
-              ></div>
-              <a
-                class="waves-effect waves-cyan "
-                routerLink="/articulos"
-                [attr.data-active]="actSt === '/articulos' ? 'on' : 'off'"
-              >
-                <i class="material-icons">import_contacts</i>
+                <span>Usuarios</span>
               </a>
             </li>
             <li class="bold">
-              <div
-                class="principal-option-active"
-                [attr.data-active]="actSt === '/expedientes' ? 'on' : 'off'"
-              ></div>
               <a
-                class="waves-effect waves-cyan"
+                class="waves-effect waves-cyan dfc"
+                routerLink="/posts"
+                [attr.data-active]="actSt === '/posts' ? 'on' : 'off'"
+              >
+                <i class="material-icons">import_contacts</i>
+                <span>Artículos</span>
+              </a>
+            </li>
+            <li class="bold">
+              <a
+                class="waves-effect waves-cyan dfc"
                 routerLink="/expedientes"
                 [attr.data-active]="actSt === '/expedientes' ? 'on' : 'off'"
               >
                 <i class="material-icons">contact_mail</i>
+                <span>Expedientes</span>
               </a>
             </li>
             <li class="bold">
-              <div
-                class="principal-option-active"
-                [attr.data-active]="
-                  actSt === '/seguimiento-expediente' ? 'on' : 'off'
-                "
-              ></div>
               <a
-                class="waves-effect waves-cyan"
+                class="waves-effect waves-cyan dfc"
                 routerLink="/seguimiento-expediente"
                 [attr.data-active]="
                   actSt === '/seguimiento-expediente' ? 'on' : 'off'
                 "
               >
                 <i class="material-icons">visibility</i>
+                <span>Seguimiento</span>
               </a>
             </li>
             <li class="bold">
-              <div
-                class="principal-option-active"
-                [attr.data-active]="actSt === '/notificaciones' ? 'on' : 'off'"
-              ></div>
               <a
-                class="waves-effect waves-cyan"
+                class="waves-effect waves-cyan dfc"
                 routerLink="/notificaciones"
                 [attr.data-active]="actSt === '/notificaciones' ? 'on' : 'off'"
               >
                 <i class="material-icons">notifications_none</i>
+                <span>Notificaciones</span>
               </a>
             </li>
             <li class="bold">
-              <div
-                class="principal-option-active"
-                [attr.data-active]="actSt === '/articulos' ? 'on' : 'off'"
-              ></div>
               <a
-                class="waves-effect waves-cyan"
-                routerLink="/articulos"
-                [attr.data-active]="actSt === '/articulos' ? 'on' : 'off'"
+                class="waves-effect waves-cyan dfc"
+                routerLink="/posts"
+                [attr.data-active]="actSt === '/posts' ? 'on' : 'off'"
               >
                 <i class="material-icons">insert_invitation </i>
+                <span>Eventos</span>
               </a>
             </li>
           </ul>
 
           <!-- Main Navbar Filter Options -->
-          <ul class="main-sidenav-filter-options">
-            <li class="filter-options-title dfr">
-              <span class="filter-title">Usuarios</span>
-              <span class="badge new-badge pill pink accent-2 float-right"
-                >5</span
-              >
-            </li>
-            <li class="filter-options-item dfr">
-              <span class="filter-title">Todos</span>
-            </li>
-            <li class="filter-options-item dfr">
-              <span class="filter-title">Nuevos</span>
-            </li>
-            <li class="filter-options-item dfr">
-              <span class="filter-title">Frecuentes</span>
-            </li>
-            <li class="filter-options-item dfr">
-              <span class="filter-title">Destacados</span>
-            </li>
-            <li class="filter-options-item dfr">
-              <span class="filter-title">Administradores</span>
-            </li>
-            <li class="filter-options-item dfr">
-              <span class="filter-title">Asociados</span>
-            </li>
-            <li class="filter-options-item dfr">
-              <span class="filter-title">Clientes</span>
-            </li>
-            <li class="filter-options-item dfr">
-              <span class="filter-title">Normales</span>
-            </li>
-          </ul>
+          <ul class="main-sidenav-filter-options"></ul>
         </div>
       </div>
     </div>
@@ -362,7 +291,7 @@
   <!-- Main Navbar Trigger Button -->
   <a
     id="main-sidenav-trigger"
-    class="sidenav-trigger btn-sidenav-toggle btn-floating btn-medium pink accent-2 waves-effect waves-light hide-on-large-only"
+    class="sidenav-trigger btn-sidenav-toggle btn-floating btn-medium gradient-pos-45deg-lighter-blue waves-effect waves-light hide-on-large-only"
     href="#"
     data-target="slide-out"
     style="position: fixed;"
@@ -403,11 +332,10 @@
 <!-- Admin Footer -->
 <div class="admin-footer ff-ss gradient-45deg-indigo-purple dfr">
   <span
-    >© 2020 <span class="footer-author">PINOYROBLE</span> All rights
-    reserved.</span
+    >© 2020 <span class="footer-author">Haizen</span> All rights reserved.</span
   >
   <span class="hide-on-small-only"
-    >Design and Developed by
+    >Designed and Developed by
     <span class="footer-author">Armando Lara</span></span
   >
 </div>

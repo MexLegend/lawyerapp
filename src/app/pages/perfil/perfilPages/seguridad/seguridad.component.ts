@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { UsuariosService } from '../../../../services/usuarios.service';
 import { NgForm } from '@angular/forms';
+
+import { UsersService } from '../../../../services/users.service';
 
 @Component({
   selector: 'app-seguridad',
@@ -14,29 +15,25 @@ export class SeguridadComponent implements OnInit {
   passNewR: string = '';
 
   constructor(
-    private _usuariosS: UsuariosService
+    private _usersS: UsersService
   ) { }
 
   ngOnInit() {
   }
 
-  actualizarPass(f: NgForm) {
+  update(f: NgForm) {
 
     const data = {
       passAct : f.value.passAct,
       passNew : f.value.passNew,
       passNewR : f.value.passNewR
     }
-    console.log('Data: ', data)
-    // return;
 
-    this._usuariosS.actualizarPassword(this._usuariosS.user._id, data)
+    this._usersS.updatePassword(this._usersS.user._id, data)
     .subscribe(resp => {
-          console.log(resp)
-          if(resp) {
+          if(resp.ok) {
             f.reset()
           }
         })
   }
-
 }

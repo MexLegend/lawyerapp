@@ -5,17 +5,32 @@ export class Files {
         public assigned_client: any,
         public defendant: string,
         public intKey: string,
-        public description?: string,
-        public third?: string,
+        public comments?: {
+            comment: string,
+            date: Date,
+            numV: number
+        },
+        public documents?: {
+            date?: Date,
+            document: string,
+            numV: number
+        },
         public extKey?: string,
+        public observations?: string,
         public start_date?: string,
         public status?: string,
+        public third?: string,
         public user?: string,
+        public volumes?: {
+            date: Date,
+            num: number,
+            volume: string
+        },
         public _id?: string
     ) { }
 }
 
-export class FilesPaginacion {
+export class FilesPagination {
     constructor(
         public docs: Files[],
         public total: number,

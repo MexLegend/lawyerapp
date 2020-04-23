@@ -9,9 +9,9 @@ declare var $: any;
 })
 export class DashboardComponent implements OnInit {
 
-  public type: string = 'component';
-
   constructor() { }
+  
+  public type: string = 'component';
 
   ngOnInit() {
   }

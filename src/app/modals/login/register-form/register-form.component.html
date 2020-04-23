@@ -1,52 +1,84 @@
-<form ngNativeValidate [formGroup]="form" (ngSubmit)="crear()">
+<form ngNativeValidate [formGroup]="form" (ngSubmit)="create()">
   <div class="login-content">
-    <div class="login-input-field">
-      <label class="login-label" for="emailRegister">Correo electrónico</label>
+    <!-- Email Input -->
+    <div class="modal-input modal-input-blue">
       <input
         id="emailRegister"
         name="email"
         formControlName="email"
         type="email"
-        class="login-input"
+        placeholder=" "
         required
         (ngModelChange)="this.userEmail.next($event)"
       />
+      <div class="modal-input-placeholder modal-input-placeholder-blue">
+        Correo electronico*
+      </div>
     </div>
-    <span *ngIf="errorEmail">
-      El email ya esta en uso
-    </span>
-    <div class="login-input-field">
-      <label class="login-label" for="nameRegister">Nombre</label>
+    <div class="emailError" [ngStyle]="errorEmail ? { height: '23px' } : ''">
+      <div *ngIf="errorEmail" style="margin-top: 5px;">
+        *Este email no está disponible
+      </div>
+    </div>
+    <!-- FirstName Input -->
+    <div class="modal-input modal-input-blue">
       <input
         id="nameRegister"
         name="firstName"
         formControlName="firstName"
         type="text"
-        class="login-input"
+        placeholder=" "
         required
       />
+      <div class="modal-input-placeholder modal-input-placeholder-blue">
+        Nombre(s)*
+      </div>
     </div>
-    <div class="login-input-field">
-      <label class="login-label" for="lastNameRegister">Apellidos</label>
+    <!-- LastName Input -->
+    <div class="modal-input modal-input-blue">
       <input
         id="lastNameRegister"
         name="lastName"
         formControlName="lastName"
         type="text"
-        class="login-input"
+        placeholder=" "
         required
       />
+      <div class="modal-input-placeholder modal-input-placeholder-blue">
+        Apellidos*
+      </div>
     </div>
-    <div class="login-input-field">
-      <label class="login-label" for="passwordRegister">Contraseña</label>
+    <!-- Password Input -->
+    <div class="modal-input last modal-input-blue">
       <input
         id="passwordRegister"
-        name="password"
-        formControlName="password"
+        formControlName="password1"
         type="password"
-        class="login-input"
+        placeholder=" "
         required
       />
+      <div class="modal-input-placeholder modal-input-placeholder-blue">
+        Contraseña*
+      </div>
+      <div *ngIf="this.form.get('password1').errors?.minlength" class="form-control-feedback">
+        Por lo menos 9 caracteres
+      </div>
+    </div>
+    <!-- Password2 Input -->
+    <div class="modal-input last modal-input-blue">
+      <input
+        id="passwordRegister2"
+        formControlName="password2"
+        type="password"
+        placeholder=" "
+        required
+      />
+      <div class="modal-input-placeholder modal-input-placeholder-blue">
+        Repetir la Contraseña*
+      </div>
+      <div *ngIf="this.form.get('password2').errors?.notEqual" class="form-control-feedback">
+        Las contraseñas deben ser iguales
+      </div>
     </div>
     <button
       type="submit"

@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { Usuario } from '../../../models/Usuario';
 import { Router } from '@angular/router';
-import { UsuariosService } from '../../../services/usuarios.service';
+
+import { User } from '../../../models/User';
+import { UsersService } from '../../../services/users.service';
+
 declare var $: any;
 
 @Component({
@@ -12,39 +14,37 @@ declare var $: any;
 })
 export class LoginFormComponent implements OnInit {
 
+  constructor(
+    private router: Router,
+    private _usersS: UsersService
+  ) { }
+
   email: string;
   password: string = '';
   remember = false;
 
-  constructor(
-    private _usuariosS: UsuariosService,
-    private router: Router
-  ) { }
-
   ngOnInit() {
     this.email = localStorage.getItem('email') || '';
 
-    if (this.email.length > 1) {
+    if ( this.email.length > 1 ) {
       this.remember = true;
     }
   }
 
   logIn(form: NgForm) {
 
-    const user = new Usuario(
-      form.value.email, null, null, form.value.password, null, null);
+    const user = new User(
+    form.value.email, null, null, form.value.password);
 
-    // console.log(user);
-
-    this._usuariosS
+    this._usersS
       .login(user, form.value.remember)
-      .subscribe(correct => {
-        if (this._usuariosS.user.role === 'ADMIN') {
+      .subscribe(() => {
+        if (this._usersS.user.role === 'ADMIN') {
           this.router.navigate(['/dashboard'])
           if ($(".sidenav-overlay").css("display", "block")) {
             $(".sidenav-overlay").css("display", "none");
           }
-        } else if (this._usuariosS.user.role === 'USER') {
+        } else if (this._usersS.user.role === 'USER') {
           this.router.navigate(['/perfil'])
         }
         this.password = '';
@@ -53,5 +53,4 @@ export class LoginFormComponent implements OnInit {
         })
       });
   }
-
 }

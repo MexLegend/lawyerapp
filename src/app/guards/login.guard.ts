@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
-import { UsuariosService } from '../services/usuarios.service';
+
+import { UsersService } from '../services/users.service';
 
 @Injectable({
   providedIn: 'root'
@@ -8,12 +9,12 @@ import { UsuariosService } from '../services/usuarios.service';
 export class LoginGuard implements CanActivate {
 
   constructor(
-    private _usuariosS: UsuariosService,
-    private router: Router
+    private router: Router,
+    private _usersS: UsersService
   ) { }
 
   canActivate() {
-    if (!this._usuariosS.estaLogueado()) {
+    if (!this._usersS.isLogged()) {
       this.router.navigate(['/inicio']);
       return false;
     } else {

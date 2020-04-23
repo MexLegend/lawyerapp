@@ -38,7 +38,7 @@
         </div>
       </div>
       <div class="card-content">
-        <form [formGroup]="form" (ngSubmit)="enviar()">
+        <form [formGroup]="form" (ngSubmit)="sendM()">
           <div class="row">
             <div class="input-field col s12 whatsAppMessage">
               <!-- <input
@@ -49,7 +49,7 @@
                 class="validate"
               /> -->
               <textarea
-                class="materialize-textarea whatsApp-input ng-pristine ng-valid ng-touched validate"
+                class="materialize-textarea whatsApp-input ng-pristine ng-touched"
                 formcontrolname="message"
                 id="message"
                 name="message"
@@ -69,6 +69,9 @@
             </button>
           </div>
         </form>
+        <div class="whatsApp-bg centered-img-bg">
+          <img src="../../assets/images/whatsApp_appi_bg.jpg" alt="" />
+        </div>
       </div>
     </div>
   </div>

@@ -81,6 +81,7 @@
           class="btn waves-effect waves-light gradient-45deg-dark-blue"
           type="submit"
           name="action"
+          [class.button-disabled]="!fA.valid"
         >
           Guardar Cambios
           <i class="material-icons right">send</i>

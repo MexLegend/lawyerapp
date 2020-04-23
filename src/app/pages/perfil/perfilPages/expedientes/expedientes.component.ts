@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { FilesService } from '../../../../services/files.service';
 import { Subject } from 'rxjs/internal/Subject';
+
 import { Files } from '../../../../models/Files';
+import { FilesService } from '../../../../services/files.service';
 
 declare var $: any;
 
@@ -24,7 +25,7 @@ export class ExpedientesComponent implements OnInit {
 
   ngOnInit() {
 
-    this._filesS.obtenerExpedientes()
+    this._filesS.getFiles()
       .subscribe((resp) => {
         this.files = resp.docs;
         this.dtTrigger.next();
@@ -78,10 +79,9 @@ export class ExpedientesComponent implements OnInit {
   }
 
 
-  goToExpediente(route: any) {
-    const url = `/perfil/expediente-detalle/${route}`;
+  goToFile(route: any) {
+    const url = `/perfil/expediente-detalle/${ route }`;
     this.router.navigateByUrl(url)
-    console.log(url)
   }
 
 }

@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  URI: 'https://lawyerapp-api.herokuapp.com/'
+  URI: 'http://localhost:3000'
 };

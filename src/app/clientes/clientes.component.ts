@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { UsuariosService } from '../services/usuarios.service';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+
+import { UsersService } from '../services/users.service';
 import { WhatsappService } from '../services/whatsapp.service';
 
 @Component({
@@ -10,14 +11,14 @@ import { WhatsappService } from '../services/whatsapp.service';
   styleUrls: ['./clientes.component.css']
 })
 export class ClientesComponent implements OnInit {
-  form: FormGroup;
 
   constructor(
     public router: Router,
-    public _usuariosS: UsuariosService,
+    public _usersS: UsersService,
     public _whatsappS: WhatsappService
-  ) {
-  }
+  ) {}
+
+  form: FormGroup;
 
   ngOnInit() {
     this.initWhatsappForm();
@@ -33,20 +34,18 @@ export class ClientesComponent implements OnInit {
         $(".whatsAppCard").css({ "transition": "visibility 0.5s, opacity 0.5s ease-in-out", "visibility": "hidden", "opacity": "0" });
       });
     });
+  }
 
+  sendM() {
+    this._whatsappS.sendMessage(this.form.value.message).subscribe(resp => {
+      console.log(resp);
+      this.form.reset();
+    })
   }
 
   private initWhatsappForm() {
     this.form = new FormGroup({
       message: new FormControl(null, Validators.required)
     });
-  }
-
-  enviar() {
-
-    this._whatsappS.enviarMensaje(this.form.value.message).subscribe(resp => {
-      console.log(resp);
-      this.form.reset();
-    })
   }
 }

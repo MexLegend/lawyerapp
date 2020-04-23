@@ -1,9 +1,9 @@
-import { Injectable } from '@angular/core';
-import { Contacto } from '../models/Contacto';
-import { Observable } from 'rxjs';
-import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+
+import { environment } from '../../environments/environment';
 import { Whatsapp } from '../models/Whatsapp';
 
 @Injectable({
@@ -15,9 +15,9 @@ export class WhatsappService {
     private http: HttpClient
   ) { }
 
-  enviarMensaje(message: Whatsapp): Observable<Whatsapp> {
+  sendMessage(message: Whatsapp): Observable<Whatsapp> {
 
-    const url = `${environment.URI}/api/whatsapp`;
+    const url = `${ environment.URI }/api/whatsapp`;
 
     return this.http.post<Whatsapp>(url, message).pipe(
       map((resp: any) => {

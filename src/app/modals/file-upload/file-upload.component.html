@@ -1,0 +1,100 @@
+<!-- Modal Structure -->
+<div
+  id="modal-File-Upload"
+  class="modal border-radius-6 modal-fixed-footer"
+  style="
+    z-index: 1003;
+    display: none;
+    opacity: 0;
+    top: 4%;
+    transform: scaleX(0.8) scaleY(0.8);
+  "
+>
+  <div class="modal-header">
+    <span><span class="article-action">Subir</span> Imágen</span>
+  </div>
+
+  <div class="modal-content">
+    <div class="upload-container">
+      <div class="upload-inner-container dfc" [hidden]="this.previewUrl">
+        <div class="upload-content dfc">
+          <div
+            ng2FileDrop
+            [ngClass]="{ 'nv-file-over': hasBaseDropZoneOver }"
+            (fileOver)="fileOverBase($event)"
+            [uploader]="uploader"
+            (onFileDrop)="onFileSelected($event)"
+            class="well my-drop-zone dfc"
+          >
+            <i class="material-icons">cloud_upload</i>
+            Arrastrar y soltar archivos aquí
+            <span class="file-upload-or" style="color: black;">O</span>
+            <div class="input-file-button" style="width: 30%;">
+              <button
+                class="waves-effect waves-light btn modal-upload-action"
+                (click)="uploadButton.click()"
+              >
+                Buscar
+              </button>
+              <input
+                #uploadButton
+                id="file-upload"
+                style="display: none;"
+                ng2FileSelect
+                type="file"
+                [uploader]="uploader"
+                (change)="onFileSelected($event)"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="uploader?.isUploading" class="upload-progress">
+        <app-progress [progress]="uploader?.progress"></app-progress>
+      </div>
+      <div *ngIf="this.previewUrl" class="upload-img-preview centered-img-bg">
+        <img [src]="this.previewUrl" />
+        <div class="img-delete-button">
+          <div
+            class="img-delete waves-effect waves-light dfr"
+            (click)="clearImgQueue()"
+          >
+            <i class="material-icons">close</i>
+          </div>
+        </div>
+        <div class="img-details dfc">
+          <div class="top-img-details">
+            <div class="img-name">
+              {{
+                (this.img?.name.split("."))[0] +
+                  "." +
+                  (this.img?.name.split("."))[1] | uppercase
+              }}
+            </div>
+          </div>
+          <div class="bottom-img-details">
+            <div class="img-type">
+              <i class="material-icons">image</i>
+              {{ (this.img?.name.split("."))[1] | uppercase }}
+            </div>
+            <div class="img-size">
+              {{ this.formatBytes(this.img?.size) }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer modal-actions">
+    <button class="modal-close waves-effect waves-light btn modal-close-action perfil-close-action">
+      Cancelar
+    </button>
+    <button
+      type="submit"
+      (click)="uploader.uploadAll()"
+      class="waves-effect waves-light btn modal-submit-action"
+    >
+      Subir
+    </button>
+  </div>
+</div>

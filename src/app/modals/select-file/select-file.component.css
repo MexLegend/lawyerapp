@@ -1,0 +1,97 @@
+/* - - - - - - - - - - - - - - - - - |
+  /*           CARD STYLING            |
+  /* - - - - - - - - - - - - - - - - - |
+  
+  /* Cards Styling */
+.card-content {
+  padding: 0;
+}
+.card-stacked {
+  width: 100%;
+}
+
+.header-card {
+  border-radius: 5px;
+  margin: 10px 0;
+}
+
+/* - - - - - - - - - - - - - - - - - |
+  /*        DATATABLE STYLING          |
+  /* - - - - - - - - - - - - - - - - - |
+  
+  /* Datatable Styling */
+table,
+.dataTables_scrollHeadInner {
+  width: 100% !important;
+  border-collapse: collapse;
+}
+
+/* Buscardor Styling */
+.filtro-buscador {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background: linear-gradient(45deg, #303f9f, #7b1fa2);
+  color: white;
+  border-radius: 3px;
+}
+
+.buscadorAdminFiles {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 0px;
+  padding: 0;
+  width: 100%;
+  height: 50px;
+}
+
+.buscadorAdminFiles input {
+  padding-right: 15px;
+  padding-left: 35px;
+  margin: 0;
+  box-shadow: none;
+  border-radius: 2px;
+  height: 100%;
+  border: none;
+  color: white;
+}
+
+.buscadorAdminFiles input:focus {
+  color: black;
+}
+
+.buscadorAdminFiles input::placeholder {
+  color: white;
+  opacity: 1;
+}
+
+.buscadorAdminFiles input:focus::placeholder {
+  color: rgba(0, 0, 0, 0.5);
+}
+
+.buscadorAdminFiles .filter-search {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+  position: absolute;
+  left: 5px;
+  color: white;
+}
+
+.buscadorAdminFiles .filter-close {
+  display: none;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+  position: absolute;
+  right: 5px;
+  height: 40px;
+  width: 40px;
+  border-radius: 50px;
+}

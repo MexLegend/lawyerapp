@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-login',
@@ -7,20 +7,18 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class LoginComponent implements OnInit {
 
-
   @Input() public tForm: string;
   form: string = '';
+
   constructor() {
   }
   
   ngOnInit() {
     this.tForm = 'login';
-
   }
 
   vForm(form: string) {
     this.tForm = form;
-    console.log(this.tForm)
   }
 
 }

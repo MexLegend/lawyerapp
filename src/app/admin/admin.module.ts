@@ -1,31 +1,42 @@
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DashboardComponent } from './dashboard/dashboard.component';
-import { ArticulosComponent } from './articulos/articulos.component';
-import { ADMIN_ROUTING } from './admin.routes';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { SharedModule } from '../shared/shared.module';
-import { UsuariosComponent } from './usuarios/usuarios.component';
 import { DataTablesModule } from 'angular-datatables';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
-import { ExpedientesComponent } from './expedientes/expedientes.component';
-import { NotificacionesComponent } from './notificaciones/notificaciones.component';
-import { SeguimientoExpedienteComponent } from './seguimiento-expediente/seguimiento-expediente.component';
+
+import { ADMIN_ROUTING } from './admin.routes';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { FilesComponent } from './files/files.component';
+import { FileTrackingComponent } from './file-tracking/file-tracking.component';
+import { MessagesComponent } from './messages/messages.component';
 import { ModalsModule } from '../modals/modals.module';
-import { MensajesComponent } from './mensajes/mensajes.component';
-import { MatButtonModule, MatMenuModule } from '@angular/material';
+import { NotificationsComponent } from './notifications/notifications.component';
+import { PipesModule } from '../pipes/pipes.module';
+import { PostsComponent } from './posts/posts.component';
+import { MaterialModule } from '../shared/material.module';
+import { SharedModule } from '../shared/shared.module';
+import { UsersComponent } from './users/users.component';
 
 @NgModule({
-  declarations: [ArticulosComponent, DashboardComponent, UsuariosComponent, ExpedientesComponent, NotificacionesComponent, SeguimientoExpedienteComponent, MensajesComponent],
+  declarations: [
+    DashboardComponent,
+    FilesComponent,
+    FileTrackingComponent,
+    MessagesComponent,
+    NotificationsComponent,
+    PostsComponent,
+    UsersComponent
+  ],
   imports: [
     CommonModule,
-    ADMIN_ROUTING,
-    ReactiveFormsModule,
-    SharedModule,
     DataTablesModule,
+    [SweetAlert2Module.forRoot()],
+    ReactiveFormsModule,
+    ADMIN_ROUTING,
+    MaterialModule,
     ModalsModule,
-    MatMenuModule, MatButtonModule,
-    [SweetAlert2Module.forRoot()]
+    PipesModule,
+    SharedModule
   ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA

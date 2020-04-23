@@ -1,8 +1,9 @@
-import { Routes, RouterModule } from '@angular/router';
-import { NopagefoundComponent } from './shared/nopagefound/nopagefound.component';
-import { ClientesComponent } from './clientes/clientes.component';
+import { RouterModule, Routes } from '@angular/router';
+
 import { AdminComponent } from './admin/admin.component';
+import { ClientesComponent } from './clientes/clientes.component';
 import { LoginGuard } from './guards/login.guard';
+import { NopagefoundComponent } from './shared/nopagefound/nopagefound.component';
 
 const APP_ROUTES: Routes = [
 

@@ -1,0 +1,29 @@
+.progress-cont {
+  height: 25px;
+  width: 100%;
+  border-radius: 4px;
+  background-color: #d0d0d073;
+  position: relative;
+
+  .progress {
+    width: 0;
+    height: 100%;
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    border-radius: 4px;
+    background-color: #4c97cb;
+    transition: 0.5s all;
+    margin: 0;
+  }
+
+  .progress-text {
+    z-index: 2;
+    position: absolute;
+    height: 100%;
+    left: 50%;
+    justify-content: center;
+    color: white;
+  }
+}

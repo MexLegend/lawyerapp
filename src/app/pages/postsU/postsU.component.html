@@ -1,0 +1,131 @@
+<section id="noticias-main-container" class="pr pt-141 dfc">
+  <div id="noticias-main-menu">
+    <div class="noticias-main-menu-container container">
+      <div><span>Últimos Articulos</span></div>
+      <nav id="noticias-search" class="grey lighten-4">
+        <div class="nav-wrapper">
+          <form>
+            <div class="input-field">
+              <input
+                id="search"
+                type="search"
+                placeholder="Buscar..."
+                required
+              />
+              <label
+                id="noticias-search-label-icon"
+                class="label-icon"
+                for="search"
+                ><i class="material-icons">search</i></label
+              >
+              <i class="noticias-search-close-icon material-icons">close</i>
+            </div>
+          </form>
+        </div>
+      </nav>
+    </div>
+  </div>
+  <div id="noticias-content-container" class="container">
+    <div
+      *ngFor="
+        let post of posts
+          | paginate: { itemsPerPage: 16, currentPage: currentPage }
+      "
+      class="card sticky-action"
+      style="width: 100%;"
+    >
+      <div class="card-body card-content">
+        <div class="date-img-container dfc">
+          <div class="card-date dfc">
+            <div class="card-autor list-author">
+              <span
+                >{{ post?.user?.firstName }} {{ post?.user?.lastName }}</span
+              >
+            </div>
+            <div class="dfr">
+              <span>{{
+                (post?.created_at | date: "d") +
+                  " " +
+                  (post?.created_at | date: "MMM") +
+                  ", " +
+                  (post?.created_at | date: "yyyy")
+              }}</span>
+            </div>
+          </div>
+          <div
+            class="card-img card-image centered-img-bg ff-ur waves-effect waves-block waves-light"
+          >
+            <img
+              [src]="post?.img | img: 'post':false"
+              [routerLink]="['/articulo-detalle', post._id]"
+              (click)="scrollToTop()"
+            />
+          </div>
+        </div>
+
+        <div class="card-information">
+          <div class="card-title-content dfr">
+            <a
+              [routerLink]="['/articulo-detalle', post._id]"
+              (click)="scrollToTop()"
+              ><span class="card-title">{{ post?.title }}</span></a
+            >
+            <div
+              class="card-author dfr"
+              style="justify-content: space-between; margin-left: 10px;"
+            >
+              <button
+                class="author-contact-btn btn waves-effect waves-light gradient-45deg-dark-blue dfr"
+              >
+                <i class="material-icons dfr">mail_outline</i>
+              </button>
+            </div>
+          </div>
+          <div class="noticia-content" [innerHtml]="post?.content"></div>
+        </div>
+      </div>
+      <div class="card-footer card-action">
+        <div class="card-social-network">
+          <div class="like-dislike-comments-section dfr">
+            <div class="dfr">
+              <div class="like">
+                <a>
+                  <i class="waves-effect material-icons new-like">thumb_up</i>
+                  <span>201</span>
+                </a>
+              </div>
+              <div class="dislike">
+                <a>
+                  <i class="waves-effect material-icons new-dislike"
+                    >thumb_down</i
+                  >
+                  <span style="margin-top: -5px;">23</span>
+                </a>
+              </div>
+            </div>
+            <div class="comments">
+              <a class="waves-effect dfr" (click)="goToComments(post._id)">
+                <i class="material-icons">forum</i>
+                <span>Comentarios</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- <div class="card-show-more">
+          <a
+            class="btn-news waves-effect waves-light btn gradient-45deg-dark-blue dfr"
+            [routerLink]="['/articulo-detalle', noticia._id]"
+            (click)="scrollToTop()"
+          >
+            <span style="white-space: nowrap;"> Leer más</span>
+          </a>
+        </div> -->
+      </div>
+    </div>
+  </div>
+  <pagination-controls
+    class="news-pagination"
+    (pageChange)="currentPage = $event"
+  ></pagination-controls>
+</section>

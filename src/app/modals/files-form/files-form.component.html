@@ -1,0 +1,173 @@
+<!-- Modal Crear Nuevo Articulo -->
+<div
+  id="modal-Expediente"
+  class="modal border-radius-6 modal-fixed-footer"
+  style="
+    z-index: 1003;
+    display: none;
+    opacity: 0;
+    top: 4%;
+    transform: scaleX(0.8) scaleY(0.8);
+  "
+>
+  <!--Modal Fixed Header-->
+  <div class="modal-header dfc">
+    <div class="modal-icon dfc">
+      <i class="material-icons">contact_mail</i>
+    </div>
+    <span
+      ><span class="file-action">{{ this.fileModalTitle }}</span>
+      Expediente</span
+    >
+    <i
+      class="modal-close modal-exit material-icons pink accent-2 waves-effect waves-light dfr"
+      >close</i
+    >
+  </div>
+
+  <!-- Modal Content -->
+  <div class="modal-content">
+    <div class="row" style="margin: 20px 0 0 0; height: calc(100% - 20px);">
+      <form
+        id="formExpedientes"
+        class="col s12"
+        style="padding: 0 30px; height: 100%;"
+        ngNativeValidate
+        [formGroup]="form"
+      >
+        <!-- Inputs Container -->
+        <div class="inputs-container">
+          <!-- Select User Input Field -->
+          <div class="select-user-input dfr" style="margin-bottom: 10px;">
+            <div class="modal-input modal-input-pink" style="margin-bottom: 0;">
+              <input
+                id="assigned_client"
+                name="assigned_client"
+                type="text"
+                class="modal-trigger user-input"
+                href="#selectUser"
+                formControlName="assigned_client"
+                readonly
+                required
+                placeholder=" "
+                [(ngModel)]="this.name"
+                (click)="updateDataServiceAction()"
+              />
+              <div class="modal-input-placeholder modal-input-placeholder-pink">
+                Seleccionar cliente*
+              </div>
+            </div>
+            <button
+              type="button"
+              class="waves-effect waves-light btn modal-select-action modal-trigger gradient-pos-45deg-lighter-blue"
+              href="#selectUser"
+              (click)="updateDataServiceAction()"
+            >
+              <i class="material-icons">person_add</i>
+            </button>
+          </div>
+
+          <!-- External Key Input Field -->
+          <div class="modal-input modal-input-pink">
+            <input
+              id="extKey"
+              name="extKey"
+              formControlName="extKey"
+              placeholder=" "
+              type="text"
+            />
+            <div class="modal-input-placeholder modal-input-placeholder-pink">
+              Clave externa
+            </div>
+          </div>
+          <!-- Actor Input Field -->
+          <div class="modal-input modal-input-pink">
+            <input
+              id="actor"
+              name="actor"
+              formControlName="actor"
+              placeholder=" "
+              type="text"
+              required
+            />
+            <div class="modal-input-placeholder modal-input-placeholder-pink">
+              Actor(es)*
+            </div>
+          </div>
+          <!-- Defendant Input Field -->
+          <div class="modal-input modal-input-pink">
+            <input
+              id="defendant"
+              name="defendant"
+              formControlName="defendant"
+              placeholder=" "
+              type="text"
+              required
+            />
+            <div class="modal-input-placeholder modal-input-placeholder-pink">
+              Demandado(s)*
+            </div>
+          </div>
+          <!-- Third Input Field -->
+          <div class="modal-input modal-input-pink">
+            <input
+              id="third"
+              name="third"
+              formControlName="third"
+              placeholder=" "
+              type="text"
+            />
+            <div class="modal-input-placeholder modal-input-placeholder-pink">
+              Terceros
+            </div>
+          </div>
+          <!-- Affair Input Field -->
+          <div class="modal-input modal-input-pink">
+            <input
+              id="affair"
+              name="affair"
+              formControlName="affair"
+              placeholder=" "
+              type="text"
+              required
+            />
+            <div class="modal-input-placeholder modal-input-placeholder-pink">
+              Asunto*
+            </div>
+          </div>
+          <!-- Observations Input Field -->
+          <div class="modal-input modal-input-pink">
+            <input
+              id="observations"
+              name="observations"
+              formControlName="observations"
+              placeholder=" "
+              type="text"
+            />
+            <div class="modal-input-placeholder modal-input-placeholder-pink">
+              Observaciones
+            </div>
+          </div>
+        </div>
+        <!-- Modal Actions -->
+      </form>
+    </div>
+  </div>
+  <div class="modal-footer modal-actions">
+    <button
+      type="button"
+      class="modal-close waves-effect waves-light btn modal-close-action"
+    >
+      Cancelar
+    </button>
+    <button
+      id="expediente-submit-button"
+      type="submit"
+      [class.button-disabled]="!form.valid"
+      class="waves-effect waves-light btn modal-submit-action"
+      onclick="create()"
+    >
+      Guardar
+    </button>
+  </div>
+</div>

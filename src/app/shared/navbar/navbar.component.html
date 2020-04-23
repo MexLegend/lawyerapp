@@ -1,5 +1,5 @@
 <!-- NavBar Container -->
-<nav class="nav-extended white text-grey darken-3 navbar-fixed">
+<nav class="nav-extended text-grey darken-3 navbar-fixed">
   <!-- Second NavBar -->
   <div id="secondNavbar" class="nav-wrapper">
     <div
@@ -31,7 +31,7 @@
       <div class="contact-media social-network hide-on-med-and-down">
         <div
           id="Facebook"
-          class="social-media-item btn tooltipped "
+          class="social-media-item btn tooltipped"
           data-position="bottom"
           data-tooltip="Facebook"
           data-html="true"
@@ -114,9 +114,9 @@
         <li class="hide-on-med-and-down">
           <a
             class="waves-effect waves-light"
-            routerLink="/noticias"
+            routerLink="/articulos"
             (click)="scrollToTop()"
-            >Noticias</a
+            >Articulos</a
           >
         </li>
         <li class="hide-on-med-and-down">
@@ -137,7 +137,7 @@
         </li>
 
         <!-- Notifications Dropdown -->
-        <ng-container *ngIf="this._usuariosS.estaLogueado()">
+        <ng-container *ngIf="this._usersS.isLogged()">
           <li>
             <button mat-button [matMenuTriggerFor]="beforeMenu">
               <i class="material-icons" style="width: fit-content;"
@@ -227,34 +227,37 @@
         </ng-container>
 
         <!-- Perfil Dropdown -->
-        <ng-container *ngIf="this._usuariosS.estaLogueado()">
+        <ng-container *ngIf="this._usersS.isLogged()">
           <li>
             <button mat-button [matMenuTriggerFor]="beforeMenu">
-              <span class="avatar-status avatar-online"
-                ><img src="../../../assets/images/user.jpg" alt="avatar"/><i></i
-              ></span>
+              <div class="avatar-status avatar-online">
+                <div class="centered-img-bg dfc">
+                  <img
+                    [src]="_usersS.user?.img | img: 'user':true"
+                    alt="avatar"
+                  />
+                </div>
+                <i></i>
+              </div>
             </button>
             <mat-menu #beforeMenu="matMenu" xPosition="before">
               <div class="perfilMenu">
                 <!-- Perfil Information -->
                 <div class="perfil-info dfr">
-                  <div class="perfil-icon">
+                  <div class="perfil-icon centered-img-bg dfc">
                     <img
-                      src="../../../assets/images/user.jpg"
+                      [src]="_usersS.user?.img | img: 'user':true"
                       style="width: 100%;"
                     />
                   </div>
                   <div class="perfil-text dfc">
                     <span class="perfil-name ff-rr">{{
-                      this._usuariosS.user.firstName
+                      this._usersS.user.firstName
                         .split(" ")[0]
-                        .concat(
-                          " ",
-                          this._usuariosS.user.lastName.split(" ")[0]
-                        )
+                        .concat(" ", this._usersS.user.lastName.split(" ")[0])
                     }}</span>
                     <span class="perfil-email ff-rr">{{
-                      this._usuariosS.user.email
+                      this._usersS.user.email
                     }}</span>
                   </div>
                 </div>
@@ -289,27 +292,18 @@
                   <div class="dfr">
                     <i class="material-icons">brightness_4</i>Tema Oscuro
                   </div>
-                  <div class="switch">
-                    <label>
-                      <input
-                        name="remember"
-                        type="checkbox"
-                        class="ng-valid ng-dirty ng-touched"/><span
-                        class="lever"
-                      ></span
-                    ></label>
-                  </div>
+                  <app-theme-switch></app-theme-switch>
                 </button>
                 <mat-divider></mat-divider>
                 <!-- Logout Option -->
-                <button mat-menu-item (click)="_usuariosS.logout()">
+                <button mat-menu-item (click)="_usersS.logout()">
                   <i class="material-icons">exit_to_app</i>Cerrar Sesión
                 </button>
               </div>
             </mat-menu>
           </li>
         </ng-container>
-        <ng-container *ngIf="!this._usuariosS.estaLogueado()">
+        <ng-container *ngIf="!this._usersS.isLogged()">
           <li>
             <a
               class="login-btn modal-trigger"
@@ -342,7 +336,7 @@
         (click)="scrollToTop()"
       >
         <img src="../../../assets/images/brand.png" alt="site logo" />
-        <span class="logo-text">Pino Y Roble</span>
+        <span class="logo-text">Haizen</span>
       </a>
     </div>
   </li>
@@ -356,8 +350,8 @@
       <a routerLink="/contacto" (click)="scrollToTop()">Contacto</a>
     </li>
     <!-- Sidebar Option -->
-    <li [attr.data-active]="actSt === '/noticias' ? 'on' : 'off'">
-      <a routerLink="/noticias" (click)="scrollToTop()">Noticias</a>
+    <li [attr.data-active]="actSt === '/articulos' ? 'on' : 'off'">
+      <a routerLink="/articulos" (click)="scrollToTop()">Articulos</a>
     </li>
     <!-- Sidebar Option -->
     <li [attr.data-active]="actSt === '/blog' ? 'on' : 'off'">
@@ -371,7 +365,7 @@
     <li class="sidebar-footer dfr">
       <div>
         <span
-          >Design and Developed by
+          >Designed and Developed by
           <span style="color: white;">Armando Lara</span></span
         >
       </div>

@@ -1,11 +1,12 @@
-import { Injectable, EventEmitter } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { environment } from '../../environments/environment';
+import { EventEmitter, Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-import { UsuariosService } from './usuarios.service';
-import { Files, FilesPaginacion } from '../models/Files';
-import { NotificationService } from './notification.service';
+
+import { environment } from '../../environments/environment';
+import { Files, FilesPagination } from '../models/Files';
+import { NotificationsService } from './notifications.service';
+import { UsersService } from './users.service';
 
 declare var $: any;
 
@@ -19,13 +20,11 @@ export class FilesService {
 
   constructor(
     private http?: HttpClient,
-    private _usuariosS?: UsuariosService,
-    public _notificationS?: NotificationService
-  ) {
+    public _notificationsS?: NotificationsService,
+    private _usersS?: UsersService
+  ) {}
 
-  }
-
-  obtenerExpedientes(
+  getFiles(
     page: number = 0,
     perPage: number = 10,
     orderField: string = '',
@@ -33,95 +32,95 @@ export class FilesService {
     filter: string = '',
     filterOpt: string = 'affair',
     status: boolean = true
-  ): Observable<FilesPaginacion> {
+  ): Observable<FilesPagination> {
 
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
-      token: this._usuariosS.token
+      token: this._usersS.token
     });
 
-    let url = `${environment.URI}/api/file?status=${status}&page=${page +
-      1}&perPage=${perPage}`;
+    let url = `${ environment.URI }/api/files?status=${ status }&page=${ page +
+      1 }&perPage=${ perPage }`;
 
     if (orderField && orderType) {
-      url = `${url}&orderField=${orderField}&orderType=${orderType}`;
+      url = `${ url }&orderField=${ orderField }&orderType=${ orderType }`;
     }
 
     if (filterOpt) {
-      url = `${url}&filterOpt=${filterOpt}`;
+      url = `${ url }&filterOpt=${ filterOpt }`;
     }
 
     if (filter) {
-      url = `${url}&filter=${filter}`;
+      url = `${ url }&filter=${ filter }`;
     }
 
     return this.http
-      .get<FilesPaginacion>(url, { headers })
+      .get<FilesPagination>(url, { headers })
       .pipe(map((resp: any) => resp.files));
   }
 
-  obtenerExpediente(id: string): Observable<Files> {
+  getFile(id: string): Observable<Files> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
-      token: this._usuariosS.token
+      token: this._usersS.token
     })
-    const url = `${environment.URI}/api/file/${id}`;
+    const url = `${ environment.URI }/api/files/${ id }`;
 
     return this.http.get<Files>(url, { headers }).pipe(map((resp: any) => resp.file));
   }
 
-  crearExpediente(file: Files): Observable<Files> {
+  createFile(file: Files): Observable<Files> {
 
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
-      token: this._usuariosS.token
+      token: this._usersS.token
     });
 
-    const url = `${environment.URI}/api/file`;
+    const url = `${ environment.URI }/api/files`;
 
     return this.http.post<Files>(url, file, { headers }).pipe(
       map((resp: any) => {
         $("#modal-Expediente").modal("close");
-        this._notificationS.mensaje('success', 'Creación correcta', resp.message, false, false, '', '', 2000);
+        this._notificationsS.message('success', 'Creación correcta', resp.message, false, false, '', '', 2000);
         return resp;
       }),
       catchError(err => {
         $("#modal-Expediente").modal("close");
-        this._notificationS.mensaje('error', 'Creación fallida', err.message, false, false, '', '', 2000);
+        this._notificationsS.message('error', 'Creación fallida', err.message, false, false, '', '', 2000);
         return throwError(err);
       })
     );
   }
 
-  actualizarExpediente(id, file: any) {
+  updateFile(id, file: any) {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
-      token: this._usuariosS.token
+      token: this._usersS.token
     })
-    const url = `${environment.URI}/api/file/${id}`;
+    const url = `${ environment.URI }/api/files/${ id }`;
 
     return this.http.put(url, file, { headers }).pipe(map((resp: any) => {
       $("#modal-Expediente").modal("close");
-      this._notificationS.mensaje('success', 'Actualización correcta', resp.mensaje, false, false, '', '', 2000);
+      this._notificationsS.message('success', 'Actualización correcta', resp.message, false, false, '', '', 2000);
       return true;
     }),
       catchError(err => {
         $("#modal-Expediente").modal("close");
-        this._notificationS.mensaje('error', 'Actualización fallida', err.message, false, false, '', '', 2000);
+        this._notificationsS.message('error', 'Actualización fallida', err.message, false, false, '', '', 2000);
         return throwError(err);
       })
     );
   }
 
-  eliminarExpediente(id: string): Observable<Files> {
+  deleteFile(id: string): Observable<Files> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
-      token: this._usuariosS.token
+      token: this._usersS.token
     })
-    const url = `${environment.URI}/api/file/${id}`;
+    const url = `${ environment.URI }/api/files/${ id }`;
 
     return this.http.delete<Files>(url, { headers }).pipe(map((resp: any) => {
-      this._notificationS.mensaje('success', 'Eliminación correcta', resp.message, false, false, '', '', 2000);
+      this._notificationsS.message('success', 'Eliminación correcta', resp.message, false, false, '', '', 2000);
       return resp;
     }));
   }

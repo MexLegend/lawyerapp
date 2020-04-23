@@ -41,7 +41,6 @@
 
 /* Display Perfil Sidebar Trigger*/
 .display-perfil-sidebar {
-  
 }
 
 /* WhatsApp Button Styling */
@@ -72,14 +71,21 @@
   right: 18px;
   height: 300px;
   width: 400px;
-  background: #ede4dd url(../../assets/images/whatsApp_appi_bg.jpg) center
-    repeat-y;
-  background-size: 100% auto;
   border-radius: 30px;
   z-index: 997;
   visibility: hidden;
   opacity: 0;
   transition: visibility 0s, opacity 0.5s ease-in-out;
+}
+
+.whatsApp-bg {
+  z-index: 0;
+  position: absolute;
+  width: 100%;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
 }
 
 .card.horizontal .card-stacked .card-title {
@@ -135,6 +141,17 @@
 .card.horizontal .card-stacked .card-content,
 .card.horizontal .card-stacked .card-content form {
   height: 100%;
+  position: relative;
+}
+
+.card.horizontal .card-stacked .card-content {
+  border-bottom-left-radius: 30px;
+  border-bottom-right-radius: 30px;
+  overflow: hidden;
+}
+
+.card.horizontal .card-stacked .card-content form {
+  z-index: 1;
 }
 
 .card.horizontal .card-stacked .card-content form .row {
@@ -172,10 +189,12 @@
 
 .materialize-textarea.valid {
   border-bottom: none !important;
+  box-shadow: none !important;
 }
 
 .whatsApp-input:focus {
   border-bottom: none !important;
+  box-shadow: none !important;
 }
 
 .card.horizontal .card-stacked .card-content form .card-action {

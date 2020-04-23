@@ -2,6 +2,20 @@
   .expedienteKeys {
     flex-direction: column !important;
   }
+  .expedienteData .expedienteSubtitle {
+    min-width: calc(100% - 120px) !important;
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .expedienteDetailGroup {
+    margin: 0 !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+  }
+  .expedienteData .expedienteSubtitle {
+    min-width: 100% !important;
+  }
 }
 
 .card-stacked {

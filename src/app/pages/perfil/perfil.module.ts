@@ -7,20 +7,32 @@ import { MensajesComponent } from './perfilPages/mensajes/mensajes.component';
 import { ExpedientesComponent } from './perfilPages/expedientes/expedientes.component';
 import { EventosComponent } from './perfilPages/eventos/eventos.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatSelectModule } from '@angular/material/select';
 import { DataTablesModule } from 'angular-datatables';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { ExpedienteDetalleComponent } from './perfilPages/expediente-detalle/expediente-detalle.component';
+import { PipesModule } from '../../pipes/pipes.module';
+import { MaterialModule } from '../../shared/material.module';
+import { ModalsModule } from '../../modals/modals.module';
 
 
 @NgModule({
-  declarations: [ConfGeneralComponent, SeguridadComponent, InformacionComponent, MensajesComponent, ExpedientesComponent, EventosComponent, ExpedienteDetalleComponent],
+  declarations: [
+    ConfGeneralComponent,
+    SeguridadComponent,
+    InformacionComponent,
+    MensajesComponent,
+    ExpedientesComponent,
+    EventosComponent,
+    ExpedienteDetalleComponent
+  ],
   imports: [
     CommonModule,
     FormsModule,
     DataTablesModule,
+    MaterialModule,
+    ModalsModule,
+    PipesModule,
     ReactiveFormsModule,
-    MatSelectModule,
     [SweetAlert2Module.forRoot()]
   ]
 })

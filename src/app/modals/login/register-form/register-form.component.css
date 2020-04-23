@@ -9,7 +9,7 @@
     margin: 0 !important;
   }
   #register-button {
-    margin: 20px auto !important;
+    margin: 0 auto 20px auto !important;
   }
 }
 
@@ -18,7 +18,7 @@
 }
 
 .login-content,
-.login-content div {
+.login-content div:not(.modal-input-placeholder) {
   width: 100%;
 }
 
@@ -29,27 +29,40 @@
   margin-bottom: 10px;
 }
 
-.login-label {
-  font-weight: bolder;
-  color: black;
-  font-family: sans-serif;
+.modal-input {
+  background: rgba(0, 0, 0, 0.05) !important;
+  border: 1px solid rgb(0, 0, 0, 0.05) !important;
+  margin-top: 30px;
+  margin-bottom: 0 !important;
 }
 
-.login-input {
-  background: rgb(232, 240, 254) !important;
-  width: calc(100% - 1.5rem) !important;
-  border: 1.5px solid rgba(0, 0, 0, 0.01) !important;
-  padding: 0.4rem 0.6rem !important;
-  border-radius: 5px !important;
-  height: fit-content !important;
-  line-height: 0;
+.login-content .modal-input.last {
+  margin-bottom: 30px !important;
+}
+
+.modal-input input {
+  padding: 3px 10px !important;
   font-size: 12px !important;
 }
 
-.login-input:focus,
-.login-input:active {
-  border: 1.5px solid #26aee4 !important;
-  box-shadow: none !important;
+.modal-input-placeholder {
+  top: 8px !important;
+  font-size: 12px !important;
+}
+
+.modal-input.modal-input-blue
+  input:focus
+  ~ .modal-input-placeholder.modal-input-placeholder-blue,
+.modal-input.modal-input-blue
+  input:not(:placeholder-shown)
+  ~ .modal-input-placeholder.modal-input-placeholder-blue,
+.modal-input.modal-input-blue
+  textarea:focus
+  ~ .modal-input-placeholder.modal-input-placeholder-blue,
+.modal-input.modal-input-blue
+  textarea:not(:placeholder-shown)
+  ~ .modal-input-placeholder.modal-input-placeholder-blue {
+  transform: scale(0.75) translatey(-20px) !important;
 }
 
 .login-actions {
@@ -67,7 +80,7 @@
   box-shadow: none;
   height: auto;
   padding: 2px 0;
-  margin: 30px auto;
+  margin: 0 auto 30px auto;
   font-weight: 600;
   background: -webkit-gradient(
     left top,

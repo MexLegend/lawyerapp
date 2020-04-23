@@ -1,0 +1,136 @@
+<div
+  id="modal-Articulo"
+  class="modal border-radius-6 modal-fixed-footer"
+  style="
+    z-index: 1003;
+    display: none;
+    opacity: 0;
+    top: 4%;
+    transform: scaleX(0.8) scaleY(0.8);
+  "
+>
+  <!--Modal Fixed Header-->
+  <div class="modal-header dfc">
+    <div class="modal-icon dfc">
+      <i class="material-icons">import_contacts</i>
+    </div>
+    <span
+      ><span class="article-action">{{ this.postModalTitle }}</span>
+      Articulo</span
+    >
+    <i
+      class="modal-close modal-exit material-icons pink accent-2 waves-effect waves-light dfr"
+      >close</i
+    >
+  </div>
+
+  <div class="modal-content">
+    <div class="row" style="margin: 20px 0 0 0; height: calc(100% - 20px);">
+      <form
+        id="formArticulos"
+        class="col s12"
+        style="padding: 0 30px; height: 100%;"
+        ngNativeValidate
+        [formGroup]="form"
+      >
+        <!-- Inputs Container -->
+        <div class="inputs-container">
+          <div class="upload-img-container dfr">
+            <div class="upload-img centered-img-bg dfc">
+              <img
+                *ngIf="this._imgS.image"
+                [attr.src]="
+                  this._imgS.image
+                    ? (this._imgS.image | img: 'post':true)
+                    : ''
+                "
+              />
+              <div
+                id="articleImgSelect"
+                class="select-img dfr"
+                [attr.data-active]="this._imgS.image ? 'on' : 'off'"
+                (click)="articleImg.click()"
+              >
+                <i
+                  class="material-icons"
+                  [attr.data-active]="this._imgS.image ? 'on' : 'off'"
+                  >camera_alt</i
+                >
+                <input
+                  #articleImg
+                  ng2FileSelect
+                  type="file"
+                  [uploader]="this._imgS.uploader"
+                  style="display: none;"
+                  accept="image/png, image/jpg, image/jpeg"
+                  (change)="selectImg($event)"
+                />
+              </div>
+            </div>
+            <div class="dfc" style="width: 100%;">
+              <div class="modal-input modal-input-pink">
+                <input
+                  id="title"
+                  name="title"
+                  formControlName="title"
+                  placeholder=" "
+                  type="text"
+                  required
+                />
+                <div
+                  class="modal-input-placeholder modal-input-placeholder-pink"
+                >
+                  Titulo*
+                </div>
+              </div>
+              <div class="modal-input modal-input-pink">
+                <input
+                  id="external_sources"
+                  name="external_sources"
+                  formControlName="external_sources"
+                  placeholder=" "
+                  type="text"
+                />
+                <div
+                  class="modal-input-placeholder modal-input-placeholder-pink"
+                >
+                  Fuentes Externas
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <angular-editor
+            name="content"
+            formControlName="content"
+            (viewMode)="(true)"
+            [config]="editorConfig"
+            class="articuloEditor"
+            required
+          ></angular-editor>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="modal-footer modal-actions">
+    <div *ngIf="this._imgS.uploader?.isUploading" class="upload-progress">
+      <app-progress [progress]="this._imgS.uploader?.progress"></app-progress>
+    </div>
+    <button
+      type="button"
+      class="modal-close waves-effect waves-light btn modal-close-action"
+      (click)="clearImg()"
+    >
+      Cancelar
+    </button>
+    <button
+      id="contact-submit-button"
+      type="submit"
+      class="waves-effect waves-light btn modal-submit-action"
+      [class.button-disabled]="!form.valid"
+      (click)="create()"
+    >
+      Guardar
+    </button>
+  </div>
+</div>
