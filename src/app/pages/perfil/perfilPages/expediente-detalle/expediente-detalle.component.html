@@ -12,7 +12,7 @@
                   <span>Clave Externa:</span>
                 </div>
                 <div class="expedienteSubtitle">
-                  <span>{{ file?.extKey !== "" ? file?.extKey : "N/E" }}</span>
+                  <span>{{ file?.extKey !== null ? file?.extKey : "N/E" }}</span>
                 </div>
               </div>
               <div class="expedienteDetailGroup">
@@ -58,7 +58,7 @@
                   <span>Terceros:</span>
                 </div>
                 <div class="expedienteSubtitle">
-                  <span>{{ file?.third }}</span>
+                  <span>{{ file?.third !== null ? file?.third : "N/E" }}</span>
                 </div>
               </div>
             </div>
@@ -84,24 +84,24 @@
           >
             <thead>
               <tr>
-                <th class="all">ID</th>
+                <th class="all">#</th>
                 <th class="all">Fecha</th>
-                <th>Descripción</th>
+                <th>Comentarios</th>
                 <th class="all">Archivos</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>1</td>
-                <td>{{ file?.start_date | date }}</td>
-                <td>{{ file?.observations }}</td>
-                <td>Ninguno</td>
-              </tr>
-              <tr>
-                <td>1</td>
-                <td>{{ file?.start_date | date }}</td>
-                <td>{{ file?.observations }}</td>
-                <td>Ninguno</td>
+              <tr *ngFor="let track of trackings">
+                <td>{{ track?.track }}</td>
+                <td>{{ track?.date | date }}</td>
+                <td>{{ track.comments[0].comment }}</td>
+                <td>
+                  <span *ngIf="track?.documents.length < 1">Ninguno</span>
+                  <span *ngIf="track?.documents.length >= 1">
+                    {{ track?.documents.length }} Archivos
+                    <i class="material-icons">visibility</i>
+                  </span>
+                </td>
               </tr>
             </tbody>
           </table>

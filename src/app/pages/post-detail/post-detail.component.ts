@@ -1,5 +1,5 @@
 import { Location } from '@angular/common';
-import { Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { Post } from '../../models/Post';
@@ -21,19 +21,21 @@ export class PostDetailComponent implements OnInit {
     public _usersS: UsersService,
     public _postsS: PostsService
   ) {
-    this.activatedRoute.params.subscribe( params => {
+    this.activatedRoute.params.subscribe(params => {
       const id = params['id'];
 
-      if ( id !== 'new' ) {
-        this.loadPost( id )
+      if (id !== 'new') {
+        this.loadPost(id)
       }
     })
   }
-  
+
   login = 'login';
   post: Post;
+  lastposts: Post[] = [];
 
   ngOnInit() {
+    this.lastPosts()
     $(document).ready(function () {
       // Hide Comment Buttons When Cancel Button is Clicked
       $(document).on("click", ".cancel-comment", function () {
@@ -59,12 +61,18 @@ export class PostDetailComponent implements OnInit {
     this.location.back();
   }
 
+  lastPosts() {
+    this._postsS.getPosts(0, 2, 'created_at', -1)
+      .subscribe(resp => {
+        this.lastposts = resp.docs;
+      })
+  }
+
   loadPost(id) {
-    this._postsS.getPost( id )
-        .subscribe( post => {
-          console.log(post)
-          this.post = post;
-        })
+    this._postsS.getPost(id)
+      .subscribe(post => {
+        this.post = post;
+      })
   }
 
   // Show Comment Buttons When Comment Input Text is Focused

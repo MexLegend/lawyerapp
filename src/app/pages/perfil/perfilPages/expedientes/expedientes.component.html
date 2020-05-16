@@ -47,7 +47,7 @@
               <tbody>
                 <tr *ngFor="let file of files">
                   <td class="notification-file">
-                    {{ file?.extKey !== "" ? file?.extKey : "N/E" }}
+                    {{ file?.extKey !== null ? file?.extKey : "N/E" }}
                   </td>
                   <td class="notification-file">
                     <span>{{ file?.intKey }}</span>

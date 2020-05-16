@@ -193,6 +193,11 @@ i {
   margin-top: 0;
 }
 
+.file-actions-card,
+.file-tracking-card {
+  box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.1);
+}
+
 /* Gneral Displaying */
 a,
 .seguimiento-expediente-actions,
@@ -349,19 +354,59 @@ a,
   width: 50%;
   height: 200px;
   max-height: 200px;
+  align-items: flex-start;
+}
+
+.comment-progress-content {
+  position: relative;
 }
 
 .comment-progress #commentProgress {
   height: 100%;
-  border: 1px solid #80808057 !important;
+  border: 1.5px solid #80808057 !important;
   padding: 10px;
   border-radius: 5px;
   margin: 0;
+  padding-right: 40px;
 }
 
 .comment-progress #commentProgress:focus {
-  border-color: #2196f3 !important;
-  box-shadow: 0 0 2px 0px #2196f3 !important;
+  border-color: #3949ab !important;
+  box-shadow: none;
+}
+
+.comment-progress-content .comment-progress-button {
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 999;
+}
+
+.comment-progress-content .comment-progress-button button {
+  background: transparent !important;
+  border: none;
+  color: #3949ab;
+}
+
+.choose-files-container {
+  width: calc(50% - 60px);
+  margin-left: 60px;
+}
+
+.choose-files-title {
+  color: var(--default-color);
+  width: 100%;
+  justify-content: space-between;
+}
+
+.choose-files-title .main {
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.choose-files-title .secondary {
+  font-size: 16px;
+  font-weight: 500;
 }
 
 .choose-files {
@@ -369,8 +414,7 @@ a,
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 50%;
-  margin-left: 10px;
+  width: 100%;
 }
 
 .file-chooser-container {
@@ -381,7 +425,6 @@ a,
 }
 
 .file-box {
-  padding: 10px;
   border-bottom: 1px solid #80808057;
   position: relative;
 }
@@ -400,14 +443,42 @@ a,
 
 .select-file-btn {
   color: white;
-  padding: 8px 10px;
+  width: 100%;
+  margin: 15px 0;
+  padding: 10px;
   border-radius: 5px;
+  font-weight: 600;
   border: 1px solid #58585878;
+  background: var(--message-button-bg);
 }
 
 .file-size {
   font-size: 14px;
   color: rgba(0, 0, 0, 0.57);
+}
+
+.file-item {
+  cursor: pointer;
+}
+
+.file-icon {
+  width: 65px;
+  height: 60px;
+  margin-right: 15px;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+  background: var(--message-button-bg);
+  justify-content: center;
+}
+
+.file-icon img {
+  width: 40px;
+  max-width: 40px;
+}
+
+.file-format {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 13px;
 }
 
 .remove-file {

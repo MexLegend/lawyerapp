@@ -59,8 +59,8 @@ export class AdminComponent implements OnInit, OnDestroy {
       });
 
     $(document).ready(function () {
-      // Initialize Sidenav
-      $('.sidenav').sidenav();
+      // Initialize Main Admin Sidenav
+      $('#admin-sidenav').sidenav();
 
       // Initialize Dropdown
       $(".dropdown-trigger").dropdown({
@@ -104,34 +104,6 @@ export class AdminComponent implements OnInit, OnDestroy {
       });
 
       $("#selectUser").modal();
-
-      // Close every sidenav intance before open a new one
-      $(document).on("click", "#main-sidenav-trigger", function () {
-        $('#contact-sidenav').sidenav('close');
-      });
-
-      // Open Main SideNav on Click
-      $(document).on("click", "#main-sidenav-trigger", function () {
-        $("#slide-out").addClass("sidenav-active");
-        $(".sidenav-overlay").addClass("sidenav-overlay-active");
-        $(".sidenav-overlay").removeClass("sidenav-overlay-inactive");
-      });
-
-      // Close Main SideNav on Click
-      $(document).on("click", ".sidenav-overlay", function () {
-        $(".sidenav-overlay").removeClass("sidenav-overlay-active");
-        $("#slide-out").removeClass("sidenav-active");
-        $("body").css("overflow", "");
-      });
-      // Close Main SideNav If Screen Size < 992px
-      $(window).bind('DOMContentLoaded load resize', function () {
-        if ($(window).innerWidth() > 992) {
-          $("#slide-out").removeClass("sidenav-active");
-          $(".sidenav-overlay").addClass("sidenav-overlay-inactive");
-          $(".sidenav-overlay").css({ "display": "none", "opacity": 0 });
-          $("body").css("overflow", "");
-        }
-      });
     });
   }
 

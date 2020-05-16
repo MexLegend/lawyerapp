@@ -13,7 +13,7 @@ import { ExpedienteDetalleComponent } from './perfilPages/expediente-detalle/exp
 import { PipesModule } from '../../pipes/pipes.module';
 import { MaterialModule } from '../../shared/material.module';
 import { ModalsModule } from '../../modals/modals.module';
-
+import { MatExpansionModule } from '@angular/material/expansion';
 
 @NgModule({
   declarations: [
@@ -33,6 +33,7 @@ import { ModalsModule } from '../../modals/modals.module';
     ModalsModule,
     PipesModule,
     ReactiveFormsModule,
+    MatExpansionModule,
     [SweetAlert2Module.forRoot()]
   ]
 })

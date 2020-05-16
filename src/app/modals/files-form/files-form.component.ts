@@ -41,8 +41,17 @@ export class FilesFormComponent implements OnInit {
 
     // Get UserData Subscription
     this._updateData.getUserData('expediente').subscribe((data: any) => {
-      this.userData = data;
-      this.name = (data !== '') ? data.firstName + ' ' + data.lastName : '';
+      if ( data !== '' && data !== null) {
+        this.userData = data;
+        if (localStorage.getItem('userData')) {
+          this.name =
+            JSON.parse(localStorage.getItem("userData")).firstName +
+            " " +
+            JSON.parse(localStorage.getItem("userData")).lastName;
+        } else {
+          this.name = data.firstName + ' ' + data.lastName;
+        }
+      }
     });
 
     // Get User List Subscription
@@ -51,7 +60,7 @@ export class FilesFormComponent implements OnInit {
         this.users = resp.docs;
       })
 
-    this.initPostsForm();
+    this.initFilesForm();
 
     // Create / Update Subscription
     this.subscription = this._updateData.getFileId().subscribe((data: { id: string, action: string }) => {
@@ -81,8 +90,11 @@ export class FilesFormComponent implements OnInit {
   }
 
   create() {
-    let extK = (this.form.value.extKey === '') ? 'N/E' : this.form.value.extKey;
+    let extKey = this.form.value.extKey === '' ? null : this.form.value.extKey;
+    let observations = this.form.value.observations === '' ? null : this.form.value.observations;
+    let third = this.form.value.third === '' ? null : this.form.value.third;
     let intKey = 'ryghery8her89yr8';
+    
     const file = new Files(
       this.form.value.actor,
       this.form.value.affair,
@@ -90,10 +102,12 @@ export class FilesFormComponent implements OnInit {
       this.form.value.defendant,
       intKey,
       null,
-      this.form.value.observations,
       null,
-      this.form.value.third,
-      extK
+      extKey,
+      observations,
+      "",
+      "",
+      third
     );
 
     if (this.form.value._id !== null) {
@@ -110,7 +124,7 @@ export class FilesFormComponent implements OnInit {
     }
   }
 
-  private initPostsForm() {
+  private initFilesForm() {
     this.form = new FormGroup({
       actor: new FormControl(null, Validators.required),
       affair: new FormControl(null, Validators.required),

@@ -27,6 +27,7 @@ export class FilesComponent implements OnInit {
 
   ngOnInit() {
     this._filesS.getFiles().subscribe(resp => {
+      console.log(resp)
       this.files = resp.docs;
       this.dtTrigger.next();
     });

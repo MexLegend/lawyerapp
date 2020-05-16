@@ -8,7 +8,7 @@ export class NotificationsService {
 
   constructor() { }
 
-  message(icon, title, text, showCancelButton: boolean, showConfirmButton: boolean = true, confirmButtonText: string = '', cancelButtonText: string = '', timer) {
+  message(icon, title, text, showCancelButton: boolean, showConfirmButton: boolean = true, confirmButtonText: string = '', cancelButtonText: string = '', timer?) {
 
     Swal.fire({
       icon,

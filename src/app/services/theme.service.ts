@@ -39,6 +39,7 @@ export const darkTheme = {
     'message-button-color': '#aaa',
     'favorite-time-color': '#aaa',
     'sidebar-li-active': '#ffffff',
+    'last-articles-color': '#9d9d9d',
     // Borders
     'medium-dark-border': '1px solid #212121',
     'dark-border': '1px solid #303030',
@@ -48,6 +49,7 @@ export const darkTheme = {
     'transparent-border': 'transparent',
     'admin-modal-button-border': 'none',
     'perfil-modal-button-border': 'none',
+    'lawyer-modal-border-color': 'rgba(255, 255, 255, 0.05)',
     // Box Shadow
     'dark-box-shadow': '0 0 4px 2px #3030304d',
     'dark-box-shadow-color': 'rgba(0, 0, 0, 0.3)',
@@ -107,6 +109,7 @@ export const lightTheme = {
     'message-button-color': 'rgba(0, 0, 0, 0.85)',
     'favorite-time-color': '#6b6f82',
     'sidebar-li-active': '#08b0ec',
+    'last-articles-color': '#606060',
     // Borders
     'medium-dark-border': '1px solid #ddd',
     'dark-border': '1px solid rgb(211, 211, 211)',
@@ -116,6 +119,7 @@ export const lightTheme = {
     'transparent-border': 'inherit',
     'admin-modal-button-border': 'solid 3px #303f9f',
     'perfil-modal-button-border': 'solid 3px #303f9f',
+    'lawyer-modal-border-color': 'rgba(0, 0, 0, 0.05)',
     // Box Shadow
     'dark-box-shadow': '0 0 4px 2px rgba(0, 0, 0, 0.1)',
     'dark-box-shadow-color': '',
@@ -153,7 +157,6 @@ export class ThemeService {
     }
 
     setTheme(theme: {}) {
-        console.log(theme)
         Object.keys(theme).forEach(k =>
             document.documentElement.style.setProperty(`--${k}`, theme[k])
         );

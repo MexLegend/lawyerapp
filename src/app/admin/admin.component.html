@@ -13,6 +13,9 @@
 <!-- Modal Formulario Expediente -->
 <app-files-form></app-files-form>
 
+<!-- Modal File Upload -->
+<app-file-upload></app-file-upload>
+
 <!-- Admin NavBar -->
 <header class="page-topbar" id="header">
   <div class="navbar navbar-fixed">
@@ -29,14 +32,6 @@
               (click)="!isfullscreen ? openfullscreen() : closefullscreen()"
               href="javascript:void(0);"
               ><i class="material-icons">settings_overscan</i></a
-            >
-          </li>
-          <!-- Search Option -->
-          <li class="hide-on-large-only">
-            <a
-              class="waves-effect waves-block waves-light search-button"
-              href="javascript:void(0);"
-              ><i class="material-icons">search</i></a
             >
           </li>
           <!-- Notifications Option -->
@@ -124,25 +119,23 @@
                 >
               </li>
               <!-- FAQ Option -->
-              <li>
+              <!-- <li>
                 <a class="grey-text text-darken-1" href="page-faq.html"
                   ><i class="material-icons">help_outline</i> Ayuda</a
                 >
-              </li>
+              </li> -->
               <!-- Change Theme Option -->
               <li>
                 <a
                   class="grey-text text-darken-1 dfr"
                   style="justify-content: space-between;"
                   ><div class="dfr">
-                    <i
-                      class="material-icons"
-                      style="height: 0; line-height: 0;"
+                    <i class="material-icons" style="height: 0; line-height: 0;"
                       >brightness_4</i
                     >Tema Oscuro
                   </div>
                   <app-theme-switch></app-theme-switch>
-              </a>
+                </a>
               </li>
               <li class="divider"></li>
               <!-- Logout Option -->
@@ -154,13 +147,13 @@
             </ul>
           </li>
           <!-- Messages Right Sidebar -->
-          <li>
+          <!-- <li>
             <a
               class="waves-effect waves-block waves-light sidenav-trigger"
               data-target="slide-out-right"
               ><i class="material-icons">format_indent_increase</i></a
             >
-          </li>
+          </li> -->
         </ul>
       </div>
     </nav>
@@ -181,10 +174,10 @@
     /></a>
   </div>
 
-  <div id="slide-out" class="sidenav collapsible dfc">
+  <div id="admin-sidenav" class="sidenav collapsible dfc">
     <!-- Inner Navbar Brand -->
     <div class="inner-sidebar-brand dfr">
-      <a class="brand-logo darken-1 dfr" routerLink="/dashboard"
+      <a class="brand-logo darken-1 dfr sidenav-close" routerLink="/dashboard"
         ><img
           src="../../../assets/images/brand.png"
           alt="site logo"
@@ -199,7 +192,7 @@
           <ul class="main-sidenav-principal-options">
             <li class="bold">
               <a
-                class="waves-effect waves-cyan dfc"
+                class="waves-effect waves-cyan dfc sidenav-close"
                 routerLink="/dashboard"
                 [attr.data-active]="actSt === '/dashboard' ? 'on' : 'off'"
               >
@@ -209,7 +202,7 @@
             </li>
             <li class="bold">
               <a
-                class="waves-effect waves-cyan dfc"
+                class="waves-effect waves-cyan dfc sidenav-close"
                 routerLink="/mensajes"
                 [attr.data-active]="actSt === '/mensajes' ? 'on' : 'off'"
               >
@@ -219,7 +212,7 @@
             </li>
             <li class="bold">
               <a
-                class="waves-effect waves-cyan dfc"
+                class="waves-effect waves-cyan dfc sidenav-close"
                 routerLink="/usuarios"
                 [attr.data-active]="actSt === '/usuarios' ? 'on' : 'off'"
               >
@@ -229,7 +222,7 @@
             </li>
             <li class="bold">
               <a
-                class="waves-effect waves-cyan dfc"
+                class="waves-effect waves-cyan dfc sidenav-close"
                 routerLink="/posts"
                 [attr.data-active]="actSt === '/posts' ? 'on' : 'off'"
               >
@@ -239,7 +232,7 @@
             </li>
             <li class="bold">
               <a
-                class="waves-effect waves-cyan dfc"
+                class="waves-effect waves-cyan dfc sidenav-close"
                 routerLink="/expedientes"
                 [attr.data-active]="actSt === '/expedientes' ? 'on' : 'off'"
               >
@@ -249,7 +242,7 @@
             </li>
             <li class="bold">
               <a
-                class="waves-effect waves-cyan dfc"
+                class="waves-effect waves-cyan dfc sidenav-close"
                 routerLink="/seguimiento-expediente"
                 [attr.data-active]="
                   actSt === '/seguimiento-expediente' ? 'on' : 'off'
@@ -261,7 +254,7 @@
             </li>
             <li class="bold">
               <a
-                class="waves-effect waves-cyan dfc"
+                class="waves-effect waves-cyan dfc sidenav-close"
                 routerLink="/notificaciones"
                 [attr.data-active]="actSt === '/notificaciones' ? 'on' : 'off'"
               >
@@ -271,7 +264,7 @@
             </li>
             <li class="bold">
               <a
-                class="waves-effect waves-cyan dfc"
+                class="waves-effect waves-cyan dfc sidenav-close"
                 routerLink="/posts"
                 [attr.data-active]="actSt === '/posts' ? 'on' : 'off'"
               >
@@ -293,7 +286,7 @@
     id="main-sidenav-trigger"
     class="sidenav-trigger btn-sidenav-toggle btn-floating btn-medium gradient-pos-45deg-lighter-blue waves-effect waves-light hide-on-large-only"
     href="#"
-    data-target="slide-out"
+    data-target="admin-sidenav"
     style="position: fixed;"
     ><i class="material-icons">menu</i></a
   >

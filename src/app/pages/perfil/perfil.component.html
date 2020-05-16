@@ -2,14 +2,17 @@
 <div id="perfil-sidebar" class="sidenav sidebar sidebar-fixed collapsible">
   <!-- Sidebar Brand -->
   <div class="brand-sidebar">
-    <a class="brand-logo darken-1 dfr" routerlink="/inicio" href="#/inicio">
+    <a
+      class="brand-logo darken-1 dfr sidenav-close"
+      routerlink="/inicio"
+      href="#/inicio"
+    >
       <img
         alt="site logo"
-        src="../../../assets/images/brand.png"
-        style="width: 20%;"
+        src="../../../assets/images/logo.png"
+        style="width: 60%;"
       />
-      <span class="logo-text">Haizen</span></a
-    >
+    </a>
   </div>
 
   <!-- Sidebar Content -->
@@ -17,10 +20,10 @@
     <!-- Files Option -->
     <li class="perfil-menu-option">
       <a
-        class="text-sub"
+        class="text-sub sidenav-close"
         [attr.data-active]="
           actSt === '/perfil/expedientes' ||
-          actSt === '/perfil/expediente-detalle:id'
+          actSt.includes('expediente-detalle')
             ? 'on'
             : 'off'
         "
@@ -29,27 +32,27 @@
       >
     </li>
     <!-- Messages Option -->
-    <li class="perfil-menu-option">
+    <!-- <li class="perfil-menu-option">
       <a
-        class="text-sub"
+        class="text-sub sidenav-close"
         [attr.data-active]="actSt === '/perfil/mensajes' ? 'on' : 'off'"
         routerLink="/perfil/mensajes"
         ><i class="material-icons"> question_answer </i> Mensajes</a
       >
-    </li>
+    </li> -->
     <!-- Events Option -->
-    <li class="perfil-menu-option">
+    <!-- <li class="perfil-menu-option">
       <a
-        class="text-sub"
+        class="text-sub sidenav-close"
         [attr.data-active]="actSt === '/perfil/eventos' ? 'on' : 'off'"
         routerLink="/perfil/eventos"
         ><i class="material-icons"> insert_invitation </i> Eventos</a
       >
-    </li>
+    </li> -->
     <!-- General Option -->
     <li class="perfil-menu-option">
       <a
-        class="text-sub"
+        class="text-sub sidenav-close"
         [attr.data-active]="
           actSt === '/perfil/general' || actSt === '/perfil' ? 'on' : 'off'
         "
@@ -58,18 +61,18 @@
       >
     </li>
     <!-- Information Option -->
-    <li class="perfil-menu-option">
+    <!-- <li class="perfil-menu-option">
       <a
-        class="text-sub"
+        class="text-sub sidenav-close"
         [attr.data-active]="actSt === '/perfil/informacion' ? 'on' : 'off'"
         routerLink="/perfil/informacion"
         ><i class="material-icons"> error_outline </i> Información</a
       >
-    </li>
+    </li> -->
     <!-- Security Option -->
     <li class="perfil-menu-option">
       <a
-        class="text-sub"
+        class="text-sub sidenav-close"
         [attr.data-active]="actSt === '/perfil/seguridad' ? 'on' : 'off'"
         routerLink="/perfil/seguridad"
         ><i class="material-icons"> lock_open </i> Seguridad y privacidad</a
@@ -162,9 +165,9 @@
             </div>
             <div class="divider"></div>
             <!-- FAQ Option -->
-            <button mat-menu-item>
+            <!-- <button mat-menu-item>
               <i class="material-icons">help_outline</i>Ayuda
-            </button>
+            </button> -->
             <!-- Change Theme Option -->
             <button
               mat-menu-item
@@ -214,10 +217,25 @@
   </div>
 </section>
 
-<!-- Modals Initiation -->
+<!-- Prime Account Button -->
+<div
+  style="bottom: 65px; right: 19px; z-index: 999;"
+  class="fixed-action-btn direction-top active"
+>
+  <a
+    class="prime-account btn-floating btn-large primary-text gradient-shadow modal-trigger pulse"
+    href="#bePrime"
+  >
+    <i class="material-icons">person_add</i>
+    <!-- <i class="fas fa-user-tie"></i> -->
+  </a>
+</div>
 
 <!-- Modal Subir Archivos -->
 <app-file-upload
   typeImg="user"
   [idImg]="this._usersS.user._id"
 ></app-file-upload>
+
+<!-- Prime Account Modal -->
+<app-be-prime></app-be-prime>

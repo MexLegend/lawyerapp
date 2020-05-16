@@ -16,6 +16,7 @@ import { PostsComponent } from './posts/posts.component';
 import { MaterialModule } from '../shared/material.module';
 import { SharedModule } from '../shared/shared.module';
 import { UsersComponent } from './users/users.component';
+import { MatTabsModule } from '@angular/material/tabs';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { UsersComponent } from './users/users.component';
     MaterialModule,
     ModalsModule,
     PipesModule,
-    SharedModule
+    SharedModule,
+    MatTabsModule
   ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA

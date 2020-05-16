@@ -28,9 +28,11 @@ export class PerfilComponent implements OnInit {
 
   ngOnInit() {
     // Initialize Sidenav
-    $('.sidenav').sidenav();
+    $('#perfil-sidebar').sidenav();
 
     $("#modal-File-Upload").modal();
+
+    $("#bePrime").modal();
   }
 
   // Toggle Full Screen Function

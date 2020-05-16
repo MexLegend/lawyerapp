@@ -1,0 +1,91 @@
+/* Modal Styling */
+.modal-header {
+  height: 60px !important;
+  position: relative !important;
+  background: linear-gradient(45deg, #243393, #1976d2) !important;
+}
+
+.modal.modal-fixed-footer .modal-content {
+  height: calc(100% - 116px) !important;
+  position: relative !important;
+}
+
+.modal .modal-actions .modal-close-action:hover {
+  background: linear-gradient(45deg, #243393, #1976d2) !important;
+}
+
+.modal .modal-actions .modal-submit-action {
+  background: linear-gradient(45deg, #243393, #1976d2) !important;
+}
+
+/* Lawyer Contact Form */
+.lawyer-contact-accordion {
+  position: relative;
+  margin-top: 30px;
+  border-style: solid;
+  border-width: 2px;
+  border-radius: 4px;
+}
+
+.lawyer-contact-expansion-panel {
+  width: 100%;
+  margin: 0;
+  background: transparent !important;
+  box-shadow: none;
+}
+
+.lawyer-contact-accordion-header {
+  height: 48px !important;
+  max-height: 48px !important;
+}
+
+.mat-expansion-panel-spacing {
+  margin: 0;
+}
+
+.lawyer-data-container {
+  background: #383838;
+  border-radius: 4px;
+}
+
+.lawyer-data-container:not(:last-child) {
+  margin-bottom: 15px;
+}
+
+.lawyer-data-title {
+  color: white;
+  background: #2196f3;
+  font-size: 16px;
+  padding: 5px 10px;
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+  width: 90px;
+  min-width: 90px;
+}
+
+.lawyer-data-info {
+  padding: 5px 10px;
+}
+
+.lawyer-data-info-about {
+  max-height: 80px;
+  overflow: auto;
+}
+
+.lawyer-data-info-about p {
+  margin: 0;
+}
+
+.lawyer-data-about {
+  height: 80px;
+  max-height: 80px;
+}
+
+.lawyer-data-about div {
+  height: 100%;
+}
+
+#client-contact-affair {
+  height: 7rem !important;
+  padding: 0.8rem;
+}

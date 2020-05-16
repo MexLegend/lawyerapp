@@ -119,22 +119,22 @@
             >Articulos</a
           >
         </li>
-        <li class="hide-on-med-and-down">
+        <!-- <li class="hide-on-med-and-down">
           <a
             class="waves-effect waves-light"
             (click)="scrollToTop()"
             href="blog.html"
             >Blog</a
           >
-        </li>
-        <li class="hide-on-med-and-down">
+        </li> -->
+        <!-- <li class="hide-on-med-and-down">
           <a
             class="waves-effect waves-light nav-menu-item-transparency"
             (click)="scrollToTop()"
             href="blog.html"
             ><div>Transparencia</div>
           </a>
-        </li>
+        </li> -->
 
         <!-- Notifications Dropdown -->
         <ng-container *ngIf="this._usersS.isLogged()">
@@ -279,11 +279,11 @@
                   <span class="badge badge pill perfil-badge mr-10">5</span>
                 </button>
                 <mat-divider></mat-divider>
-                <!-- Change Theme Option -->
-                <button mat-menu-item>
-                  <i class="material-icons">help_outline</i>Ayuda
-                </button>
                 <!-- FAQ Option -->
+                <!-- <button mat-menu-item>
+                  <i class="material-icons">help_outline</i>Ayuda
+                </button> -->
+                <!-- Change Theme Option -->
                 <button
                   mat-menu-item
                   class="dfr"
@@ -331,7 +331,7 @@
     <div class="sidenav-logo-after"></div>
     <div class="sidenav-logo-wrapper">
       <a
-        class="brand-logo darken-1 dfc"
+        class="brand-logo darken-1 dfc sidenav-close"
         routerLink="/inicio"
         (click)="scrollToTop()"
       >
@@ -342,25 +342,47 @@
   </li>
   <div class="sidenav-options-container">
     <!-- Sidebar Option -->
-    <li [attr.data-active]="actSt === '/inicio' ? 'on' : 'off'">
-      <a routerLink="/inicio" (click)="scrollToTop()">Inicio</a>
+    <li [attr.data-active]="this.router.url === '/inicio' ? 'on' : 'off'">
+      <a routerLink="/inicio" class="sidenav-close" (click)="scrollToTop()"
+        >Inicio</a
+      >
     </li>
     <!-- Sidebar Option -->
-    <li [attr.data-active]="actSt === '/contacto' ? 'on' : 'off'">
-      <a routerLink="/contacto" (click)="scrollToTop()">Contacto</a>
+    <li [attr.data-active]="this.router.url === '/contacto' ? 'on' : 'off'">
+      <a routerLink="/contacto" class="sidenav-close" (click)="scrollToTop()"
+        >Contacto</a
+      >
     </li>
     <!-- Sidebar Option -->
-    <li [attr.data-active]="actSt === '/articulos' ? 'on' : 'off'">
-      <a routerLink="/articulos" (click)="scrollToTop()">Articulos</a>
+    <li
+      [attr.data-active]="
+        this.router.url === '/articulos' ||
+        this.router.url.includes('articulo-detalle')
+          ? 'on'
+          : 'off'
+      "
+    >
+      <a routerLink="/articulos" class="sidenav-close" (click)="scrollToTop()"
+        >Articulos</a
+      >
     </li>
     <!-- Sidebar Option -->
-    <li [attr.data-active]="actSt === '/blog' ? 'on' : 'off'">
-      <a routerLink="/blog" (click)="scrollToTop()">Blog</a>
-    </li>
+    <!-- <li [attr.data-active]="this.router.url === '/blog' ? 'on' : 'off'">
+      <a routerLink="/blog" class="sidenav-close" (click)="scrollToTop()"
+        >Blog</a
+      >
+    </li> -->
     <!-- Sidebar Option -->
-    <li [attr.data-active]="actSt === '/transparencia' ? 'on' : 'off'">
-      <a routerLink="/transparencia" (click)="scrollToTop()">Transparencia</a>
-    </li>
+    <!-- <li
+      [attr.data-active]="this.router.url === '/transparencia' ? 'on' : 'off'"
+    >
+      <a
+        routerLink="/transparencia"
+        class="sidenav-close"
+        (click)="scrollToTop()"
+        >Transparencia</a
+      >
+    </li> -->
     <!-- Sidebar Footer -->
     <li class="sidebar-footer dfr">
       <div>

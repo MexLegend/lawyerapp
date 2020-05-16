@@ -203,6 +203,8 @@
   display: -webkit-box;
   -webkit-box-orient: block-axis;
   text-align: justify;
+  height: 155px;
+  max-height: 155px;
 }
 
 .card-title-content,

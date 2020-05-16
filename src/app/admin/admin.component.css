@@ -21,33 +21,10 @@
   }
 }
 
-@media only screen and (max-width: 992px) {
-  html {
-    font-size: 14.5px;
-  }
-
-  .container {
-    width: 100%;
-  }
-
+@media only screen and (max-width: 993px) {
   .sidenav-main {
     width: auto !important;
     height: 0 !important;
-  }
-
-  .sidenav-main .sidenav {
-    top: 0;
-    padding-top: 60px;
-    padding-bottom: 0;
-    width: 100px;
-  }
-
-  .sidenav-main .sidenav:not(.sidenav-active) {
-    -webkit-transform: translateX(-105%) !important;
-    -moz-transform: translateX(-105%) !important;
-    -ms-transform: translateX(-105%) !important;
-    -o-transform: translateX(-105%) !important;
-    transform: translateX(-105%) !important;
   }
 
   .sidenav-main .btn-sidenav-toggle {
@@ -73,6 +50,31 @@
   .brand-sidebar .brand-logo img {
     width: 50px !important;
   }
+}
+
+@media only screen and (max-width: 992px) {
+  html {
+    font-size: 14.5px;
+  }
+
+  .container {
+    width: 100%;
+  }
+  .sidenav-main .sidenav {
+    top: 0;
+    padding-top: 70px;
+    padding-bottom: 0;
+    width: 100px;
+  }
+
+  .sidenav-main .sidenav {
+    -webkit-transform: translateX(-105%);
+    -moz-transform: translateX(-105%);
+    -ms-transform: translateX(-105%);
+    -o-transform: translateX(-105%);
+    transform: translateX(-105%);
+  }
+
   .admin-footer {
     padding: 0 20px;
     font-size: 14px !important;
@@ -334,8 +336,13 @@
 /* - - - - - - - - - - - - - - - - - |*/
 
 /* SideNav */
+#admin-sidenav {
+  box-shadow: none !important;
+  border: none !important;
+}
+
 .sidenav {
-  top: 60px;
+  top: 70px;
   left: 0;
   z-index: 999;
   height: 100%;
@@ -361,29 +368,11 @@
   transition: 0.3s ease all;
 }
 
-.sidenav-active {
-  -webkit-transform: translateX(0%) !important;
-  -moz-transform: translateX(0%) !important;
-  -ms-transform: translateX(0%) !important;
-  -o-transform: translateX(0%) !important;
-  transform: translateX(0%) !important;
-}
-
 /* Sidebar Main Brand */
-
 .brand-sidebar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: inherit;
-  height: 60px;
+  position: relative;
+  width: 100px;
   background: #fff;
-  -webkit-box-shadow: 1px -3px 5px 0px rgba(0, 0, 0, 0.2);
-  -moz-box-shadow: 1px -3px 5px 0px rgba(0, 0, 0, 0.2);
-  box-shadow: 1px -3px 5px 0px rgba(0, 0, 0, 0.2);
-  -webkit-backface-visibility: hidden;
-  -moz-backface-visibility: hidden;
-  backface-visibility: hidden;
 }
 
 .brand-sidebar .logo-wrapper {
@@ -419,12 +408,14 @@
 
 /* Sidebar Inner Brand */
 .inner-sidebar-brand {
-  min-height: 60px;
-  margin-top: -60px;
+  min-height: 70px;
+  margin-top: -70px;
 }
 
 .inner-sidebar-brand a {
-  padding: 7px 15px 13px 15px;
+  padding: 7px 15px;
+  max-height: 70px;
+  min-height: 70px;
 }
 
 .collapsible {
@@ -479,7 +470,6 @@ nav .sidenav-trigger {
 .main-sidenav-principal-options {
   margin: 0;
   height: 100%;
-  padding-top: 10px;
 }
 
 /* Main Sidenav Option Styling */
@@ -493,8 +483,8 @@ nav .sidenav-trigger {
   line-height: 44px;
   padding: 0;
   width: 100px;
-  height: 60px;
-  padding: 3px 0 5px 0;
+  height: 65px;
+  justify-content: center;
 }
 
 .sidenav li > a:hover {
@@ -528,40 +518,12 @@ nav .sidenav-trigger {
   background: white;
 }
 
-/* .principal-option-active[data-active="on"]::before {
-  content: "";
-  position: absolute;
-  right: 2px;
-  top: -36px;
-  width: 40px;
-  height: 35px;
-  border-radius: 50%;
-  box-shadow: 7px 22.5px 0 0 white;
-  transform: rotate(333deg);
-}
-
-.principal-option-active[data-active="on"]::after {
-  content: "";
-  position: absolute;
-  right: 1px;
-  bottom: -37px;
-  width: 40px;
-  height: 35px;
-  border-radius: 50%;
-  box-shadow: 7px 22.5px 0 0 white;
-  transform: rotate(245deg);
-} */
-
-/* .sidenav ul li:last-child > .principal-option-active[data-active="on"]::after {
-  display: none;
-} */
-
 .sidenav li a i {
   font-size: 2.1rem;
   line-height: initial;
-  margin: 0 0 5px 0;
+  margin: 0;
   width: 100%;
-  height: fit-content;
+  height: initial;
   text-align: center;
   color: rgba(0, 0, 0, 0.7);
 }

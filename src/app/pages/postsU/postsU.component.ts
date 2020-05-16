@@ -26,14 +26,13 @@ export class PostsUComponent implements OnInit {
   ngOnInit() {
     this._postsS.getPosts()
       .subscribe(resp => {
-        console.log(resp)
         this.posts = resp.docs;
       })
   }
 
   // Go to News Comments Section
   goToComments(id): void {
-    this.router.navigate([`/articulo-detalle/${ id }`]);
+    this.router.navigate([`/articulo-detalle/${id}`]);
     $(document).ready(function () {
       // scroll to your element
       document.getElementById("comments-box").scrollIntoView(true);

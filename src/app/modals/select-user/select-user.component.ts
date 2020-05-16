@@ -86,6 +86,15 @@ export class SelectUserComponent implements OnInit {
   }
 
   setData() {
+    if(this.selectedRowData !== '' && this.selectedRowData !== null) {
+
+      this._updateData.setItemUser(
+        "userData",
+        JSON.stringify(this.selectedRowData)
+      );
+    }
+    
     this._updateData.setUserData(this.selectedRowData);
+    // this._updateData.setFileData(null);
   }
 }

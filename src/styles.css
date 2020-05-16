@@ -177,6 +177,7 @@
   --message-button-color: rgba(0, 0, 0, 0.85);
   --favorite-time-color: #6b6f82;
   --sidebar-li-active: #08b0ec;
+  --last-articles-color: #606060;
 
   /* Borders */
   --medium-dark-border: 1px solid #ddd;
@@ -187,6 +188,7 @@
   --transparent-border: inherit;
   --admin-modal-button-border: solid 3px #303f9f;
   --perfil-modal-button-border: solid 3px #303f9f;
+  --lawyer-modal-border-color: rgba(0, 0, 0, 0.5);
 
   /* Box Shadow */
   --dark-box-shadow: 0 0 4px 2px rgba(0, 0, 0, 0.1);
@@ -200,7 +202,7 @@
   --light-dark-bg-hover: #eee;
   --medium-dark-bg-hover: #eee;
   --dark-bg-odd-hover: #f6f6f6;
-  --sidebar-li-hover: rgba(0,0,0,0.05);
+  --sidebar-li-hover: rgba(0, 0, 0, 0.05);
 
   /* Disabled */
   --dark-disabled-button-bg: rgba(255, 255, 255, 1);
@@ -355,6 +357,12 @@ a:hover {
 .gradient-pos-45deg-lighter-blue {
   background: linear-gradient(45deg, #0288d1, #26c6da) !important;
   background: -moz-linear-gradient(45deg, #0288d1, #26c6da) !important;
+}
+
+/* 45Deg Orange Gradient */
+.gradient-45deg-orange {
+  background: linear-gradient(45deg, #b72318 10%, #ff5722 62%) !important;
+  background: -moz-linear-gradient(45deg, #b72318 10%, #ff5722 62%) !important;
 }
 
 small {
@@ -1370,8 +1378,6 @@ table.dataTable > tbody > tr.child ul.dtr-details > li {
   text-align: center;
 }
 
-/* Datatable Actions Styling */
-
 /* - - - - - - - - - - - - - - - - - - |
 /*      DATATABLES ACTIONS STYLING     |
 /* - - - - - - - - - - - - - - - - - - |
@@ -1674,11 +1680,6 @@ span.badge.new:after {
 /*     ADMIN VIEW MODALS STYLING       |
 /* - - - - - - - - - - - - - - - - - - |
 
-/* - - - - - - - - - - - - - - - - - |
-/*           MODAL STYLING           |
-/* - - - - - - - - - - - - - - - - - |
-
-
 /* Exit From Modal Button Trigger */
 .modal-exit {
   width: 20px;
@@ -1956,6 +1957,119 @@ span.badge.new:after {
 }
 
 /* - - - - - - - - - - - - - - - - - - - - - |
+/*    CLIENT VIEW PREMIUM ACCOUNT STYLING    |
+/* - - - - - - - - - - - - - - - - - - - - - |
+
+/* Tabs */
+.mat-tab-group:not(.admin-tab)
+  .mat-tab-header
+  .mat-tab-label-container
+  .mat-tab-list
+  .mat-tab-labels
+  .mat-tab-label {
+  min-width: calc(100% / 3) !important;
+  height: 70px !important;
+  text-transform: uppercase;
+  opacity: 1 !important;
+}
+
+.mat-tab-group.admin-tab .mat-tab-header {
+  display: none;
+}
+
+.mat-tab-group.admin-tab .mat-tab-body-content {
+  background: transparent !important;
+}
+
+.mat-tab-group.admin-tab .inner-admin-tab .mat-tab-header {
+  display: flex;
+  border-bottom: 1.6px solid var(--lawyer-modal-border-color) !important;
+}
+
+.mat-tab-group.admin-tab
+  .inner-admin-tab
+  .mat-tab-header
+  .mat-tab-label-container
+  .mat-tab-list
+  .mat-tab-labels
+  .mat-tab-label {
+  min-width: calc(100% / 2) !important;
+  height: 50px !important;
+  text-transform: uppercase;
+  opacity: 1 !important;
+}
+
+.mat-tab-group.admin-tab
+  .inner-admin-tab
+  .mat-tab-header
+  .mat-tab-label-container
+  .mat-tab-list
+  .mat-tab-labels
+  .mat-tab-label
+  .mat-tab-label-content {
+  color: var(--default-color) !important;
+}
+
+.mat-tab-group.admin-tab
+  .inner-admin-tab
+  .mat-tab-header
+  .mat-tab-label-container
+  .mat-tab-list
+  .mat-tab-labels
+  .mat-tab-label.mat-tab-label-active {
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+}
+
+.mat-tab-group.admin-tab
+  .inner-admin-tab
+  .mat-tab-header
+  .mat-tab-label-container
+  .mat-tab-list
+  .mat-tab-labels
+  .mat-tab-label.mat-tab-label-active
+  .mat-tab-label-content {
+  color: var(--white-color) !important;
+}
+
+.mat-tab-group.admin-tab .inner-admin-tab .mat-tab-body-content {
+  padding: 20px;
+}
+
+.mat-tab-group.mat-primary .mat-ink-bar,
+.mat-tab-nav-bar.mat-primary .mat-ink-bar {
+  background-color: #1976d2;
+}
+
+.mat-tab-label-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.lawyer-contact-accordion-header,
+.mat-tab-label-active {
+  background: #1976d2 !important;
+}
+
+.mat-expansion-panel-body {
+  margin-top: 15px;
+}
+
+.mat-tab-body-content {
+  background: #020f3c !important;
+}
+
+.mat-tab-label-content {
+  color: white;
+}
+
+.mat-tab-header,
+.mat-tab-nav-bar,
+.premium-account-tab {
+  border-bottom: 1.6px solid #081955 !important;
+}
+
+/* - - - - - - - - - - - - - - - - - - - - - |
 /*      ADMIN VIEW UPLOAD IMAGE STYLING      |
 /* - - - - - - - - - - - - - - - - - - - - - |
 
@@ -2027,7 +2141,15 @@ body {
 
 /* Admin View */
 
+.sidenav-main {
+  background: var(--medium-dark-bg) !important;
+}
+
 .brand-sidebar {
+  background: var(--medium-dark-bg) !important;
+}
+
+.inner-sidebar-brand {
   background: var(--medium-dark-bg) !important;
 }
 
@@ -2550,7 +2672,7 @@ body div .nav-extended {
   color: var(--default-color) !important;
 }
 
-#nav-menu-items > ul > li > a:hover,
+#nav-menu-items > ul > li > a:not(.login-btn):not(.register-btn):hover,
 #nav-menu-items > ul > li > button:hover {
   color: var(--default-color) !important;
   background-color: var(--medium-dark-bg-hover) !important;
@@ -2703,7 +2825,7 @@ body div .nav-extended {
   color: var(--dark-disabled-button-color) !important;
 }
 
-#main-client-sidebar li a:hover {
+#main-client-sidebar li a:not(.brand-logo):hover {
   background-color: var(--sidebar-li-hover) !important;
   color: var(--white-color) !important;
 }
@@ -2724,4 +2846,51 @@ body div .nav-extended {
 
 .swal2-content {
   color: var(--dark-disabled-button-color) !important;
+}
+
+/* Last Articles */
+.last-article-name {
+  color: var(--default-color);
+}
+
+.last-article-author,
+.last-article-rm {
+  color: var(--last-articles-color);
+}
+
+.article-container {
+  background: var(--medium-dark-bg-hover) !important;
+}
+
+.article-container:hover {
+  background: var(--dark-bg-odd) !important;
+}
+
+/* Lawyer Contact Modal */
+.lawyer-contact-accordion {
+  border-color: var(--lawyer-modal-border-color);
+}
+
+.lawyer-contact-accordion-title,
+.lawyer-contact-accordion-description,
+.mat-expansion-indicator::after,
+.mat-expansion-panel-header-description {
+  color: var(--white-color) !important;
+}
+
+.lawyer-data-container {
+  background: var(--light-dark-bg-hover) !important;
+}
+
+.lawyer-data-info {
+  color: var(--default-color) !important;
+}
+
+/* Primum Account  */
+.premium-account-img {
+  background: var(--medium-dark-bg-hover) !important;
+}
+
+.mat-tab-label {
+  color: var(--default-color) !important;
 }

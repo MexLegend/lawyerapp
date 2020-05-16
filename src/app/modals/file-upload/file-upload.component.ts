@@ -1,120 +1,88 @@
-import { Component, OnInit, Input, EventEmitter } from "@angular/core";
+import { Component, OnInit, Input } from "@angular/core";
 import { ImgService } from "../../services/img.service";
-import { HttpEvent, HttpEventType } from "@angular/common/http";
-import {
-  FileUploader,
-  FileUploaderOptions,
-  ParsedResponseHeaders
-} from "ng2-file-upload";
-import { Cloudinary } from "@cloudinary/angular-5.x";
-import { UsersService } from '../../services/users.service';
+import { HttpEventType, HttpErrorResponse } from "@angular/common/http";
+import { FileUploader } from "ng2-file-upload";
+import { UsersService } from "../../services/users.service";
+import { UpdateDataService } from "../../services/updateData.service";
+import { map, catchError } from "rxjs/operators";
+import { of } from "rxjs/internal/observable/of";
+import { NotificationsService } from "../../services/notifications.service";
+import { TrackingService } from "../../services/tracking.service";
 
 declare var $: any;
 
 @Component({
   selector: "app-file-upload",
   templateUrl: "./file-upload.component.html",
-  styleUrls: ["./file-upload.component.scss"]
+  styleUrls: ["./file-upload.component.scss"],
 })
 export class FileUploadComponent implements OnInit {
-  constructor(private cloudinary: Cloudinary, public _imgS: ImgService, public _userS: UsersService) { }
+  constructor(
+    public _trackingS: TrackingService,
+    public _imgS: ImgService,
+    public _notificationsS: NotificationsService,
+    public _updateDS: UpdateDataService,
+    public _userS: UsersService
+  ) {}
 
   public uploader: FileUploader;
   public hasBaseDropZoneOver = false;
 
-  files: any[] = [];
+  file: File;
+  totalFiles: number = 0;
   img: File = null;
   previewUrl: any = null;
   @Input() typeImg: string;
   @Input() idImg: string;
   progress: number = 0;
+  progressT: number = 0;
 
   public onFileSelected(event: any) {
-    let file: File;
 
-    if(event.type && event.type === "change") {
-      file = event.target.files[0];
-    } else {
-      file = event[0];
-    }
+    let validExtensions = ["doc", "docx", "pdf"];
 
-    this.img = file;
+    for (let index = 0; index < event.length; index++) {
+      let extension = event[index].name.split(".")[1];
+      if (validExtensions.indexOf(extension) < 0) {
 
-    this.readBase64(file).then((data) => {
-      this.previewUrl = data;
-    });
-  }
-
-  ngOnInit() {
-    // Create the file uploader, wire it to upload to your account
-    const uploaderOptions: FileUploaderOptions = {
-      url: `https://api.cloudinary.com/v1_1/${
-        this.cloudinary.config().cloud_name
-        }/image/upload`,
-      // Upload files automatically upon addition to upload queue
-      autoUpload: false,
-      // Use xhrTransport in favor of iframeTransport
-      isHTML5: true,
-      // Calculate progress independently for each uploaded file
-      removeAfterUpload: true,
-      // XHR request headers
-      headers: [
-        {
-          name: "X-Requested-With",
-          value: "XMLHttpRequest"
+        this._notificationsS.message(
+          "error",
+          "Formato no valido",
+          `Sólo se permiten: ${validExtensions.join(", ")}`,
+          false,
+          false,
+          "",
+          "",
+          2000
+        );
+        return;
+      } else {
+        if (this._trackingS.files.length < 3) {
+          const file = event[index];
+          this._trackingS.files.push({
+            data: file,
+            inProgress: false,
+            progress: 0,
+          });
+        } else {
+          this._notificationsS.message(
+            "error",
+            "Limite de archivos exedido",
+            "Sólo se permiten 3 archivos",
+            false,
+            false,
+            "",
+            "",
+            2000
+          );
+          return;
         }
-      ]
-    };
-    const upsertResponse = fileItem => {
-      // Check if HTTP request was successful
-      // console.log(fileItem)
-      if (fileItem.status !== 200) {
-        console.log("Upload to cloudinary Failed");
-        console.log(fileItem);
-        return false;
       }
-      // console.log(fileItem.data.url);
-    };
-
-    this.uploader = new FileUploader(uploaderOptions);
-
-    this.uploader.onBuildItemForm = (fileItem: any, form: FormData): any => {
-      // Add Cloudinary unsigned upload preset to the upload form
-      form.append("upload_preset", this.cloudinary.config().upload_preset);
-
-      // Add file to upload
-      form.append("file", fileItem);
-
-      // Add folder
-      form.append("folder", this.typeImg === "user" ? "Users" : "Posts");
-
-      // Use default "withCredentials" value for CORS requests
-      fileItem.withCredentials = false;
-      return { fileItem, form };
-    };
-
-    this.uploader.onCompleteItem = (
-      item: any,
-      response: string,
-      status: number,
-      headers: ParsedResponseHeaders
-    ) => {
-      upsertResponse({
-        file: item.file,
-        status,
-        data: JSON.parse(response)
-      });
-      const data = JSON.parse(response);
-      const img = {
-        url: data.url,
-        public_id: data.public_id
-      }
-      this._imgS.upload(img, this.typeImg, this.idImg).subscribe((r) => {
-        this._userS.saveStorage(this._userS.user._id, this._userS.token, r.user)
-        $("#modal-File-Upload").modal('close');
-      });
     }
+
   }
+
+  ngOnInit() {}
 
   readBase64(file): Promise<any> {
     var reader = new FileReader();
@@ -140,76 +108,21 @@ export class FileUploadComponent implements OnInit {
     return future;
   }
 
-  public fileOverBase(e: any): void {
-    this.hasBaseDropZoneOver = e;
-  }
-
-  clearImgQueue() {
-    this.previewUrl = null;
-    $("#file-upload").val(null);
-    this.uploader.clearQueue()
-  }
-
-  /**
-   * on file drop handler
-   */
-  onFileDropped($event) {
-    this.prepareFilesList($event);
-  }
-
-  /**
-   * handle file from browsing
-   */
-  fileBrowseHandler(files) {
-    this.typeFile(files);
-  }
-
   /**
    * Delete file from files list
    * @param index (File index)
    */
   deleteFile(index: number) {
-    this.files.splice(index, 1);
+    this._trackingS.files.splice(index, 1);
   }
 
-  /**
-   * Simulate the upload process
-   */
-  uploadFilesSimulator(index: number) {
-    setTimeout(() => {
-      if (index === this.files.length) {
-        return;
-      } else {
-        const progressInterval = setInterval(() => {
-          if (this.files[index].progress === 100) {
-            clearInterval(progressInterval);
-            this.uploadFilesSimulator(index + 1);
-          } else {
-            this.files[index].progress += 5;
-          }
-        }, 200);
-      }
-    }, 1000);
-  }
-
-  /**
-   * Convert Files list to normal array list
-   * @param files (Files List)
-   */
-  prepareFilesList(files: Array<any>) {
-    for (const item of files) {
-      item.progress = 0;
-      this.files.push(item);
-    }
-    this.uploadFilesSimulator(0);
-  }
 
   /**
    * format bytes
    * @param bytes (File size in bytes)
    * @param decimals (Decimals point)
    */
-  formatBytes(bytes, decimals) {
+  formatBytes(bytes, decimals?) {
     if (bytes === 0) {
       return "0 Bytes";
     }
@@ -223,17 +136,115 @@ export class FileUploadComponent implements OnInit {
   preview() {
     var reader = new FileReader();
     reader.readAsDataURL(this.img);
-    reader.onload = _event => {
+    reader.onload = (_event) => {
       this.previewUrl = reader.result;
     };
   }
 
-  typeFile(files: any) {
-    if (files[0].type.match(/image\/*/) === null) {
-      this.prepareFilesList(files);
-    } else {
-      this.img = files[0];
-      this.preview();
-    }
+  // typeFile(files: any) {
+  //   if (files[0].type.match(/image\/*/) === null) {
+  //     this.prepareFilesList(files);
+  //   } else {
+  //     this.img = files[0];
+  //     this.preview();
+  //   }
+  // }
+
+  uploadFile(file?) {
+    file.inProgress = true;
+    this._updateDS.getFileData().subscribe((data: any) => {
+
+      if (data !== null) {
+        if (localStorage.getItem("tracking")) {
+          this._trackingS
+            .updateTracking(
+              localStorage.getItem("trackingDOC"),
+              this._trackingS.files
+            )
+            .pipe(
+              map((event) => {
+                switch (event.type) {
+                  case HttpEventType.UploadProgress:
+                    file.progress = Math.round(
+                      (event.loaded * 100) / event.total
+                    );
+                    break;
+                  case HttpEventType.Response:
+                    this.totalFiles += 1;
+                    this.progressT = Math.round(
+                      (this.totalFiles / this.totalFiles) * 100
+                    );
+
+                    if(this.progressT === 100) {
+                      $("#modal-File-Upload").modal('close');
+                    }
+
+                    file.inProgress = false;
+
+                    return event;
+                }
+              }),
+              catchError((error: HttpErrorResponse) => {
+                file.inProgress = false;
+                return of(`${file.data.name} upload failed.`);
+              })
+            )
+            .subscribe((event: any) => {
+              if (typeof event === "object") {
+              }
+            });
+        } else {
+
+          let idFile = localStorage.getItem("fileData")
+            ? JSON.parse(localStorage.getItem("fileData"))._id
+            : data._id;
+
+          this._trackingS
+            .createTracking(idFile, this._trackingS.files)
+            .pipe(
+              map((event) => {
+                switch (event.type) {
+                  case HttpEventType.UploadProgress:
+                    file.progress = Math.round(
+                      (event.loaded * 100) / event.total
+                    );
+                    break;
+                  case HttpEventType.Response:
+                    this.totalFiles += 1;
+                    this.progressT = Math.round(
+                      (this.totalFiles / this.totalFiles) * 100
+                    );
+
+                    if (this.progressT === 100) {
+                      $("#modal-File-Upload").modal("close");
+                    }
+
+                    file.inProgress = false;
+                    localStorage.setItem("tracking", JSON.stringify(true));
+
+                    return event;
+                }
+              }),
+              catchError((error: HttpErrorResponse) => {
+                file.inProgress = false;
+                return of(`${file.data.name} upload failed.`);
+              })
+            )
+            .subscribe((event: any) => {
+              if (typeof event === "object") {
+                if (event.body) {
+                  localStorage.setItem("trackingDOC", event.body.tracking._id);
+                }
+              }
+            });
+        }
+      }
+    });
+  }
+
+  private uploadFiles() {
+    this._trackingS.files.forEach((file) => {
+      this.uploadFile(file);
+    });
   }
 }

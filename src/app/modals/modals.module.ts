@@ -18,7 +18,10 @@ import { FileUploadComponent } from './file-upload/file-upload.component';
 import { ComponentsModule } from '../components/components.module';
 import { MaterialModule } from '../shared/material.module';
 import { FileUploadModule } from "ng2-file-upload";
-
+import { LawyerContactComponent } from './lawyer-contact/lawyer-contact.component';
+import { BePrimeComponent } from './be-prime/be-prime.component';
+import { MatTabsModule } from '@angular/material/tabs';
+import {MatIconModule} from '@angular/material/icon';
 
 @NgModule({
   declarations: [
@@ -31,7 +34,9 @@ import { FileUploadModule } from "ng2-file-upload";
     RegisterFormComponent,
     SelectFileComponent,
     SelectUserComponent,
-    UsersFormComponent
+    UsersFormComponent,
+    LawyerContactComponent,
+    BePrimeComponent
   ],
   exports: [
     FileUploadComponent,
@@ -41,7 +46,9 @@ import { FileUploadModule } from "ng2-file-upload";
     PostsFormComponent,
     SelectFileComponent,
     SelectUserComponent,
-    UsersFormComponent
+    UsersFormComponent,
+    LawyerContactComponent,
+    BePrimeComponent
   ],
   imports: [
     AngularEditorModule,
@@ -52,7 +59,9 @@ import { FileUploadModule } from "ng2-file-upload";
     FormsModule,
     MaterialModule,
     PipesModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatTabsModule,
+    MatIconModule
   ]
 })
 export class ModalsModule { }

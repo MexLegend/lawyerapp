@@ -13,25 +13,17 @@ declare var $: any;
 
 export class NavbarComponent implements OnInit {
 
+  tFo: string = '';
+
   constructor(
     public router: Router,
     public _usersS: UsersService
-  ) {
-    this.router.events.subscribe(event => {
-      if (event instanceof NavigationEnd) {
-        this.actSt = this.router.url;
-      }
-    })
-  }
-
-  actSt: any = '';
-  public drop: boolean = true;
-  tFo: string = '';
+  ) { }
 
   ngOnInit() {
     $(document).ready(function () {
       // Sinenav Inicialization
-      $('.sidenav').sidenav();
+      $('#main-client-sidebar').sidenav();
 
       // Tooltip Inicialization
       $('.tooltipped').tooltip({

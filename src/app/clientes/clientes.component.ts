@@ -16,7 +16,7 @@ export class ClientesComponent implements OnInit {
     public router: Router,
     public _usersS: UsersService,
     public _whatsappS: WhatsappService
-  ) {}
+  ) { }
 
   form: FormGroup;
 

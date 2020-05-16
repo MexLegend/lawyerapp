@@ -1,4 +1,4 @@
-<!-- Modal Crear Nuevo Articulo -->
+<!-- Modal Crear Nuevo Expediente -->
 <div
   id="modal-Expediente"
   class="modal border-radius-6 modal-fixed-footer"
@@ -165,7 +165,7 @@
       type="submit"
       [class.button-disabled]="!form.valid"
       class="waves-effect waves-light btn modal-submit-action"
-      onclick="create()"
+      (click)="create()"
     >
       Guardar
     </button>

@@ -19,11 +19,8 @@
       <div class="upload-inner-container dfc" [hidden]="this.previewUrl">
         <div class="upload-content dfc">
           <div
-            ng2FileDrop
-            [ngClass]="{ 'nv-file-over': hasBaseDropZoneOver }"
-            (fileOver)="fileOverBase($event)"
-            [uploader]="uploader"
-            (onFileDrop)="onFileSelected($event)"
+            appDragNDrop
+            (onFileDropped)="onFileSelected($event)"
             class="well my-drop-zone dfc"
           >
             <i class="material-icons">cloud_upload</i>
@@ -38,26 +35,30 @@
               </button>
               <input
                 #uploadButton
+                name="uploadButton"
                 id="file-upload"
                 style="display: none;"
-                ng2FileSelect
                 type="file"
-                [uploader]="uploader"
-                (change)="onFileSelected($event)"
+                (change)="onFileSelected($event.target.files)"
+                multiple
               />
             </div>
           </div>
         </div>
       </div>
-      <div *ngIf="uploader?.isUploading" class="upload-progress">
-        <app-progress [progress]="uploader?.progress"></app-progress>
+      <app-progress *ngIf="totalFiles > 0 && progressT !== 100" [progress]="progressT"></app-progress>
+      <div *ngIf="this._trackingS.files.length > 0" class="upload-progress">
+        <li *ngFor="let file of this._trackingS.files">
+
+          <app-progress *ngIf="file.inProgress" [progress]="file.progress"></app-progress>
+          <span id="file-label"> </span>
+        </li>
       </div>
       <div *ngIf="this.previewUrl" class="upload-img-preview centered-img-bg">
         <img [src]="this.previewUrl" />
         <div class="img-delete-button">
           <div
             class="img-delete waves-effect waves-light dfr"
-            (click)="clearImgQueue()"
           >
             <i class="material-icons">close</i>
           </div>
@@ -86,12 +87,14 @@
     </div>
   </div>
   <div class="modal-footer modal-actions">
-    <button class="modal-close waves-effect waves-light btn modal-close-action perfil-close-action">
+    <button
+      class="modal-close waves-effect waves-light btn modal-close-action perfil-close-action"
+    >
       Cancelar
     </button>
     <button
       type="submit"
-      (click)="uploader.uploadAll()"
+      (click)="uploadFiles()"
       class="waves-effect waves-light btn modal-submit-action"
     >
       Subir

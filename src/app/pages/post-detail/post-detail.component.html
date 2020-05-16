@@ -2,7 +2,7 @@
   <div id="noticias-content-container">
     <div class="noticias-data dfr">
       <!-- Detail Post Card -->
-      <div class="card sticky-action" style="width: calc(100% - 450px);">
+      <div class="card sticky-action" style="width: calc(100% - 430px);">
         <div class="card-header card-content">
           <div class="card-date">
             <div class="card-day">
@@ -68,18 +68,47 @@
         </div>
       </div>
       <!-- Last Posts Card -->
-      <div class="card sticky-action" style="width: 400px; margin-left: 50px;">
-        <div class="card-header card-content">
-          <span>Header</span>
+      <div class="card sticky-action" style="width: 400px; margin-left: 30px;">
+        <div class="card-header last-articles-title card-content">
+          <span>Últimos Artículos</span>
         </div>
-        <div class="card-body card-content grey lighten-4 dfc">
+        <div
+          class="card-body last-article-body card-content grey lighten-4 dfc"
+        >
+          <!-- Last Articles List -->
           <div class="card-data-container dfc">
-            <span>Content</span>
+            <div *ngFor="let post of lastposts" class="article-container dfr">
+              <a
+                class="article-content dfr"
+                [routerLink]="['/articulo-detalle', post._id]"
+              >
+                <div class="last-article-img centered-img-bg">
+                  <img
+                    [src]="post?.img | img: 'post':false"
+                    [alt]="post?.title"
+                  />
+                </div>
+                <div class="last-article-data dfc">
+                  <div class="last-article-name">
+                    <span>{{ post?.title }}</span>
+                  </div>
+                  <div class="last-article-author">
+                    <span
+                      >{{ post?.user?.firstName }}
+                      {{ post?.user?.lastName }}</span
+                    >
+                  </div>
+                  <div class="last-article-rm dfr">
+                    <span>Leer más</span>
+
+                    <i class="material-icons">chevron_right</i>
+                  </div>
+                </div>
+              </a>
+            </div>
           </div>
         </div>
-        <div class="card-footer card-action">
-          <span>Footer</span>
-        </div>
+        <div class="card-footer card-action"></div>
       </div>
     </div>
 

@@ -1,0 +1,220 @@
+<!-- Modal Structure -->
+<div
+  id="bePrime"
+  class="modal border-radius-6 modal-fixed-footer"
+  style="
+    z-index: 1003;
+    display: none;
+    opacity: 0;
+    top: 4%;
+    transform: scaleX(0.8) scaleY(0.8);
+  "
+>
+  <div class="modal-header">
+    <span><span class="article-action">Haizen</span> Prime</span>
+  </div>
+
+  <div class="modal-content">
+    <div class="row">
+      <form
+        id="formArticulos"
+        class="col s12"
+        style="padding: 0; height: 100%;"
+        ngNativeValidate
+      >
+        <!-- Inputs Container -->
+        <div class="inputs-container dfc">
+          <div class="premium-account-img upload-img centered-img-bg dfc">
+            <!-- <i class="fas fa-user-tie"></i> -->
+            <div class="premium-account-inner-content dfc">
+              <div class="premium-account-inner-logo">
+                <img src="../../../assets/images/logo_footer.png" alt="" />
+                <span style="margin-left: 10px;">prime</span>
+              </div>
+              <div class="premium-account-inner-text dfc">
+                <div class="inner-main-text">
+                  <span>Haizen Prime para los mejores clientes...</span>
+                </div>
+                <div class="inner-secondary-text">
+                  <p>
+                    Obten acceso a contenido exclusivo y descarga nuestros
+                    ultimos contratos inteligentes.
+                  </p>
+                </div>
+              </div>
+              <div class="premium-account-inner-button">
+                <button
+                  class="try-premium-btn waves-effect waves-light btn gradient-45deg-dark-blue"
+                >
+                  Probar Prime
+                </button>
+              </div>
+              <div class="premium-account-inner-trial dfc">
+                <div class="inner-trial-text">
+                  <span>30 días de prueba gratis. Después $30 mensuales.</span>
+                </div>
+              </div>
+            </div>
+            <img src="../../../assets/images/Haizen_Prime_Bg.png" alt="" />
+          </div>
+          <div class="premium-account-tabs">
+            <mat-tab-group>
+              <mat-tab>
+                <ng-template mat-tab-label>
+                  <mat-icon class="example-tab-icon"
+                    >notifications_active</mat-icon
+                  >
+                  Notificaciones al instante
+                </ng-template>
+                <div class="last-notifications-container dfr">
+                  <div class="last-notifications-texts dfc">
+                    <div class="last-notifications-main-text">
+                      <span
+                        >Enterate de inmediato de lo que sucede en Haizen</span
+                      >
+                    </div>
+                    <div class="last-notifications-secondary-text">
+                      <span
+                        >Se el primero en informarte de lo más nuevo del sitio
+                      </span>
+                    </div>
+                    <div class="last-notifications-adventages dfc">
+                      <div class="last-notifications-adventage dfr">
+                        <i class="material-icons">check</i>
+                        Notificaciones de todo el seguimiento referente a tu
+                        caso
+                      </div>
+                      <div class="last-notifications-adventage dfr">
+                        <i class="material-icons">check</i>
+                        Nofiticaciones de nuestras ofertas más recientes
+                      </div>
+                    </div>
+                    <div class="last-notifications-trial-button dfc">
+                      <button
+                        class="try-premium-btn waves-effect waves-light btn gradient-45deg-dark-blue"
+                      >
+                        Probar Prime
+                      </button>
+                      <div class="inner-trial-text">
+                        <span
+                          >30 días de prueba gratis. Después $30
+                          mensuales.</span
+                        >
+                      </div>
+                    </div>
+                  </div>
+                  <div class="last-notifications-img">
+                    <img
+                      src="../../../assets/images/Haizen_Prime_Notification_Boy.png"
+                      alt=""
+                    />
+                  </div>
+                </div>
+              </mat-tab>
+
+              <mat-tab>
+                <ng-template mat-tab-label>
+                  <mat-icon class="example-tab-icon">star</mat-icon>
+                  Contenido exclusivo
+                </ng-template>
+                <div class="last-notifications-container dfr">
+                  <div class="last-notifications-texts dfc">
+                    <div class="last-notifications-main-text">
+                      <span
+                        >Descarga y accede gratis a todo lo que ofrece
+                        Haizen</span
+                      >
+                    </div>
+                    <div class="last-notifications-secondary-text">
+                      <span>Con tu membresía de Haizen Prime obtendrás: </span>
+                    </div>
+                    <div class="last-notifications-adventages dfc">
+                      <div class="last-notifications-adventage dfr">
+                        <i class="material-icons">check</i>
+                        Descargas ilimitadas de contratos inteligentes
+                        exclusivos
+                      </div>
+                      <div class="last-notifications-adventage dfr">
+                        <i class="material-icons">check</i>
+                        Acceso a secciones y artículos sólo para miembros prime
+                      </div>
+                    </div>
+                    <div class="last-notifications-trial-button dfc">
+                      <button
+                        class="try-premium-btn waves-effect waves-light btn gradient-45deg-dark-blue"
+                      >
+                        Probar Prime
+                      </button>
+                      <div class="inner-trial-text">
+                        <span
+                          >30 días de prueba gratis. Después $30
+                          mensuales.</span
+                        >
+                      </div>
+                    </div>
+                  </div>
+                  <div class="exclusive-content-img">
+                    <img
+                      src="../../../assets/images/Haizen_Prime_Exclusive_Content.png"
+                      alt=""
+                    />
+                  </div>
+                </div>
+              </mat-tab>
+
+              <mat-tab>
+                <ng-template mat-tab-label>
+                  <mat-icon class="example-tab-icon">chat_bubble</mat-icon>
+                  Chat & estado privilegiado
+                </ng-template>
+                <div class="last-notifications-container dfr">
+                  <div class="last-notifications-texts dfc">
+                    <div class="last-notifications-main-text">
+                      <span>Mejora tu estado y obtén opciones exclusivas</span>
+                    </div>
+                    <div class="last-notifications-secondary-text">
+                      <span
+                        >Haz de tu estancia en Haizen una mejor
+                        experiencia</span
+                      >
+                    </div>
+                    <div class="last-notifications-adventages dfc">
+                      <div class="last-notifications-adventage dfr">
+                        <i class="material-icons">check</i>
+                        Chat exclusivo con nuestro abogado personal
+                      </div>
+                      <div class="last-notifications-adventage dfr">
+                        <i class="material-icons">check</i>
+                        Banda de usuario privilegiado en tu estado y colores
+                        exclusivos en tus comentarios
+                      </div>
+                    </div>
+                    <div class="last-notifications-trial-button dfc">
+                      <button
+                        class="try-premium-btn waves-effect waves-light btn gradient-45deg-dark-blue"
+                      >
+                        Probar Prime
+                      </button>
+                      <div class="inner-trial-text">
+                        <span
+                          >30 días de prueba gratis. Después $30
+                          mensuales.</span
+                        >
+                      </div>
+                    </div>
+                  </div>
+                  <div class="chat-prime-status-img">
+                    <img
+                      src="../../../assets/images/Haizen_Prime_Chat.png"
+                      alt=""
+                    />
+                  </div>
+                </div>
+              </mat-tab>
+            </mat-tab-group>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

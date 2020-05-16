@@ -14,7 +14,11 @@
 
   <!-- WhatsApp Button Trigger -->
   <div
-    *ngIf="!this.router.url.includes('perfil')"
+    *ngIf="
+      !this.router.url.includes('perfil') &&
+      !this.router.url.includes('articulo-detalle') &&
+      this.router.url !== '/articulos'
+    "
     class="fixed-action-btn direction-top active"
     style="bottom: 54px; right: 19px; z-index: 997;"
   >
@@ -27,7 +31,11 @@
 
   <!-- WhatsApp Dialog Container -->
   <div
-    *ngIf="!this.router.url.includes('perfil')"
+    *ngIf="
+      !this.router.url.includes('perfil') &&
+      !this.router.url.includes('articulo-detalle') &&
+      this.router.url !== '/articulos'
+    "
     class="card horizontal whatsAppCard"
   >
     <div class="card-stacked">
@@ -76,3 +84,6 @@
     </div>
   </div>
 </div>
+
+<!-- Lawyer Contact Modal -->
+<app-lawyer-contact></app-lawyer-contact>

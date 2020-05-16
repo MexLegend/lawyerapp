@@ -75,7 +75,7 @@ export class PostsService {
     page: number = 0,
     perPage: number = 10,
     orderField: string = '',
-    orderType: string = '',
+    orderType: number = 0,
     filter: string = '',
     filterOpt: string = 'title',
     status: boolean = true

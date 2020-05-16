@@ -1,0 +1,140 @@
+<!-- Modal Structure -->
+<div
+  id="contactLawyer"
+  class="modal border-radius-6 modal-fixed-footer"
+  style="
+    z-index: 1003;
+    display: none;
+    opacity: 0;
+    top: 4%;
+    transform: scaleX(0.8) scaleY(0.8);
+  "
+>
+  <div class="modal-header">
+    <span><span class="article-action">Contactar</span> Abogado</span>
+  </div>
+
+  <div class="modal-content">
+    <div class="row" style="margin: 20px 0;">
+      <form
+        id="formArticulos"
+        class="col s12"
+        style="padding: 0 30px; height: 100%;"
+        ngNativeValidate
+      >
+        <!-- Inputs Container -->
+        <div class="inputs-container">
+          <div class="upload-img-container dfr">
+            <div class="upload-img centered-img-bg dfc">
+              <img src="../../../assets/images/user.jpg" />
+            </div>
+            <div class="lawyer-contact-data" style="width: 100%;">
+              <div class="dfr lawyer-data-container">
+                <div class="lawyer-data-title"><span>Nombre:</span></div>
+                <div class="lawyer-data-info"><span>Armando Lara</span></div>
+              </div>
+              <div class="dfr lawyer-data-container">
+                <div class="lawyer-data-title"><span>Número:</span></div>
+                <div class="lawyer-data-info"><span>348 109 1440</span></div>
+              </div>
+              <div class="dfr lawyer-data-container lawyer-data-about">
+                <div class="lawyer-data-title"><span>Sobre mi:</span></div>
+                <div class="lawyer-data-info lawyer-data-info-about">
+                  <p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
+                    congue blandit molestie. Morbi semper nibh ut ipsum
+                    dignissim luctus. Class aptent taciti sociosqu ad litora
+                    torquent per conubia nostra, per inceptos himenaeos. Ut non
+                    convallis mi. Morbi pellentesque risus ut felis
+                    pellentesque, sed placerat nisl porttitor. Cras pretium
+                    sollicitudin risus, at vehicula nulla auctor bibendum. Donec
+                    dolor quam, auctor in tempus nec, mollis quis metus. Donec
+                    est sem, viverra sed malesuada at, laoreet vel lorem.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- <div class="lawyer-contact dfc" style="width: 100%;"> -->
+          <mat-accordion
+            class="lawyer-contact-accordion dfc"
+            style="width: 100%;"
+          >
+            <mat-expansion-panel class="lawyer-contact-expansion-panel">
+              <mat-expansion-panel-header class="lawyer-contact-accordion-header">
+                <mat-panel-title class="lawyer-contact-accordion-title">
+                  Contactame
+                </mat-panel-title>
+                <mat-panel-description
+                  class="lawyer-contact-accordion-description"
+                >
+                  Ingresa tus datos de contacto
+                </mat-panel-description>
+              </mat-expansion-panel-header>
+
+              <div class="modal-input modal-input-pink">
+                <input
+                  id="client-contact-name"
+                  name="client-contact-name"
+                  formControlName="client-contact-name"
+                  placeholder=" "
+                  type="text"
+                  required
+                />
+                <div
+                  class="modal-input-placeholder modal-input-placeholder-pink"
+                >
+                  Nombre completo*
+                </div>
+              </div>
+              <div class="modal-input modal-input-pink">
+                <input
+                  id="client-contact-email"
+                  name="client-contact-email"
+                  formControlName="client-contact-email"
+                  placeholder=" "
+                  type="text"
+                  required
+                />
+                <div
+                  class="modal-input-placeholder modal-input-placeholder-pink"
+                >
+                  Email*
+                </div>
+              </div>
+              <div class="modal-input modal-input-blue">
+                <textarea
+                  id="client-contact-affair"
+                  name="client-contact-affair"
+                  formControlName="client-contact-affair"
+                  class="materialize-textarea contact-input"
+                  placeholder=" "
+                  required
+                ></textarea>
+                <div
+                  class="modal-input-placeholder modal-input-placeholder-blue"
+                >
+                  Asunto*
+                </div>
+              </div>
+            </mat-expansion-panel>
+          </mat-accordion>
+          <!-- </div> -->
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="modal-footer modal-actions">
+    <button
+      class="modal-close waves-effect waves-light btn modal-close-action perfil-close-action"
+    >
+      Cancelar
+    </button>
+    <button
+      type="submit"
+      class="waves-effect waves-light btn modal-submit-action"
+    >
+      Contactar
+    </button>
+  </div>
+</div>

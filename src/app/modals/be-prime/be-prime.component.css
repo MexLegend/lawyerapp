@@ -1,0 +1,160 @@
+/* Modal Styling */
+.modal-header {
+  height: 60px !important;
+  position: relative !important;
+  background: linear-gradient(45deg, #243393, #1976d2) !important;
+}
+
+.modal.modal-fixed-footer .modal-content {
+  height: calc(100% - 60px) !important;
+  position: relative !important;
+}
+
+/* Primum Account  */
+.upload-img-container {
+  width: 100%;
+}
+
+.premium-account-img {
+  background: inherit !important;
+  color: white;
+  width: 100%;
+  min-width: 100%;
+  min-height: 320px;
+  height: 320px;
+  border-radius: 0;
+  position: relative;
+  margin: 0;
+}
+
+.premium-account-inner-content {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  padding: 20px;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.2));
+}
+
+.premium-account-inner-logo {
+  max-width: 120px;
+  text-align: center;
+  line-height: 12px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.premium-account-inner-text {
+  margin-top: 25px;
+  color: rgba(255, 255, 255, 0.9);
+  text-align: center;
+}
+
+.inner-main-text {
+  font-size: 24px;
+}
+
+.inner-secondary-text {
+  width: 50%;
+  max-width: 50%;
+}
+
+.inner-trial-text {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 13px;
+  font-style: italic;
+  margin-top: 10px;
+}
+
+.premium-account-inner-logo img {
+  width: 100% !important;
+  height: auto !important;
+}
+
+.try-premium-btn {
+  text-transform: inherit;
+  width: 200px;
+  height: 40px;
+  font-weight: 600;
+  font-size: 18px;
+}
+
+.premium-account-tabs {
+  width: 100%;
+  height: 70px;
+  background: #020f3c;
+}
+
+.last-notifications-container {
+  width: 100%;
+  padding: 20px 50px;
+}
+
+.last-notifications-texts {
+  width: calc(100% - 150px);
+}
+
+.last-notifications-main-text {
+  font-size: 24px;
+  font-weight: bold;
+  color: white;
+  width: 100%;
+}
+
+.last-notifications-secondary-text {
+  font-size: 16px;
+  width: 100%;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.last-notifications-adventages {
+  width: 100%;
+  padding: 10px 20px;
+  margin-bottom: 15px;
+}
+
+.last-notifications-adventage {
+  color: rgba(255, 255, 255, 0.9);
+  width: 100%;
+  margin-top: 10px;
+}
+
+.last-notifications-adventage i {
+  color: #1976d2;
+  font-size: 16px;
+  font-weight: bold;
+  margin-right: 8px;
+}
+
+.last-notifications-trial-button {
+  width: 100%;
+  align-items: flex-start;
+}
+
+.last-notifications-trial-button .inner-trial-text {
+  font-style: normal;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.last-notifications-img {
+  width: 150px;
+  max-width: 150px;
+}
+
+.exclusive-content-img,
+.chat-prime-status-img {
+  width: 250px;
+  max-width: 250px;
+}
+
+.last-notifications-img img,
+.exclusive-content-img img,
+.chat-prime-status-img img {
+  width: 100%;
+  height: auto;
+}
+
+.premium-account-carousel {
+  font-size: 20px;
+}
