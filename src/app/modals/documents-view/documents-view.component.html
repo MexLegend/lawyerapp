@@ -1,0 +1,59 @@
+<mat-nav-list>
+  <a
+    class="dfr"
+    *ngFor="let doc of documents"
+    mat-list-item
+    (click)="open(doc.document)"
+  >
+    <span mat-line>
+      <div class="attached-file-icon dfc">
+        <img
+          *ngIf="doc.document.indexOf('pdf') >= 0"
+          src="../../../assets/images/pdf_icon.png"
+          alt=""
+        />
+        <img
+          *ngIf="
+            doc.document.indexOf('doc') >= 0 ||
+            doc.document.indexOf('docx') >= 0
+          "
+          src="../../../assets/images/word_icon.png"
+          alt=""
+        />
+        <!-- <i *ngIf="doc.document.indexOf('pdf') >= 0" class="fas fa-file-pdf"></i> -->
+        <!-- <i
+          *ngIf="
+            doc.document.indexOf('doc') >= 0 ||
+            doc.document.indexOf('docx') >= 0
+          "
+          class="fas fa-file-word"
+        ></i> -->
+      </div>
+    </span>
+    <span mat-line class="attached-file-info dfr">
+      <div class="attached-file-format dfc">
+        <div class="attached-file-name">
+          <span>{{ doc.document.split("uploads/")[1] }}</span>
+        </div>
+        <div
+          class="attached-file-format-text"
+          *ngIf="doc.document.indexOf('pdf') >= 0"
+        >
+          <span>PDF</span>
+        </div>
+        <div
+          class="attached-file-format-text"
+          *ngIf="
+            doc.document.indexOf('doc') >= 0 ||
+            doc.document.indexOf('docx') >= 0
+          "
+        >
+          <span>DOC</span>
+        </div>
+      </div>
+      <div class="attached-file-download dfc waves-effect waves-light">
+        <i class="material-icons">file_download</i>
+      </div>
+    </span>
+  </a>
+</mat-nav-list>

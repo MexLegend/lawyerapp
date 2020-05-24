@@ -22,11 +22,15 @@ import { LawyerContactComponent } from './lawyer-contact/lawyer-contact.componen
 import { BePrimeComponent } from './be-prime/be-prime.component';
 import { MatTabsModule } from '@angular/material/tabs';
 import {MatIconModule} from '@angular/material/icon';
+import { DocumentsViewComponent } from './documents-view/documents-view.component';
 
 @NgModule({
   declarations: [
+    BePrimeComponent,
+    DocumentsViewComponent,
     FileUploadComponent,
     FilesFormComponent,
+    LawyerContactComponent,
     LoginComponent,
     LoginFormComponent,
     NotificationsFormComponent,
@@ -35,20 +39,22 @@ import {MatIconModule} from '@angular/material/icon';
     SelectFileComponent,
     SelectUserComponent,
     UsersFormComponent,
-    LawyerContactComponent,
-    BePrimeComponent
+  ],
+  entryComponents: [
+    DocumentsViewComponent
   ],
   exports: [
+    BePrimeComponent,
+    DocumentsViewComponent,
     FileUploadComponent,
     FilesFormComponent,
+    LawyerContactComponent,
     LoginComponent,
     NotificationsFormComponent,
     PostsFormComponent,
     SelectFileComponent,
     SelectUserComponent,
     UsersFormComponent,
-    LawyerContactComponent,
-    BePrimeComponent
   ],
   imports: [
     AngularEditorModule,

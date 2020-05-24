@@ -12,7 +12,9 @@
                   <span>Clave Externa:</span>
                 </div>
                 <div class="expedienteSubtitle">
-                  <span>{{ file?.extKey !== null ? file?.extKey : "N/E" }}</span>
+                  <span>{{
+                    file?.extKey !== null ? file?.extKey : "N/E"
+                  }}</span>
                 </div>
               </div>
               <div class="expedienteDetailGroup">
@@ -94,13 +96,41 @@
               <tr *ngFor="let track of trackings">
                 <td>{{ track?.track }}</td>
                 <td>{{ track?.date | date }}</td>
-                <td>{{ track.comments[0].comment }}</td>
+                <td>
+                  <span *ngIf="!(track?.comments)[0]?.comment"
+                    >Sin comentarios</span
+                  >
+                  <span *ngIf="(track?.comments)[0]?.comment">{{
+                    (track?.comments)[0]?.comment
+                  }}</span>
+                </td>
                 <td>
                   <span *ngIf="track?.documents.length < 1">Ninguno</span>
-                  <span *ngIf="track?.documents.length >= 1">
-                    {{ track?.documents.length }} Archivos
-                    <i class="material-icons">visibility</i>
-                  </span>
+                  <div
+                    class="dfr attached-file-container"
+                    *ngIf="track?.documents.length >= 1"
+                  >
+                    <div class="hide-on-small-only">
+                      {{ track?.documents.length }}
+                      <span *ngIf="track?.documents.length === 1"
+                        >Archivo adjunto</span
+                      >
+                      <span *ngIf="track?.documents.length > 1"
+                        >Archivos adjuntos</span
+                      >
+                    </div>
+                    <div class="attached-file-actions">
+                      <button
+                        (click)="openDocuments(track?.documents)"
+                        class="attached-file-btn btn waves-effect waves-light gradient-45deg-dark-blue"
+                      >
+                        <i class="material-icons">attach_file</i>
+                      </button>
+                      <div class="attached-files-quantity dfc">
+                        {{ track?.documents.length }}
+                      </div>
+                    </div>
+                  </div>
                 </td>
               </tr>
             </tbody>

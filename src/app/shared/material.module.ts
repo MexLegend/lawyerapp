@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import {
+    MatBottomSheetModule,
     MatButtonModule,
     MatDatepickerModule,
     MatDividerModule,
@@ -16,6 +17,7 @@ import {
 } from '@angular/material';
 
 const exportedMatModule = [
+    MatBottomSheetModule,
     MatButtonModule,
     MatDatepickerModule,
     MatDividerModule,

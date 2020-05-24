@@ -14,6 +14,7 @@ export class Tracking {
         date?: Date;
         document: string;
         numV: number;
+        _id?: string
       }
     ],
     public status?: string,

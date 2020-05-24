@@ -5,47 +5,98 @@
   [selectedIndex]="selected.value"
   (selectedIndexChange)="selected.setValue($event)"
 >
+  <!-- File Tracking List Tab -->
   <mat-tab>
     <ng-template mat-tab-label>
       Tabla
     </ng-template>
-    <div class="card-content expedienteDetailContent">
-      <div class="row" style="margin: 0;">
-        <div class="col s12" style="padding: 0;">
-          <table
-            datatable
-            [dtOptions]="dtOptions"
-            class="row-border hover stripe"
-            style="width: 100%;"
+    <div class="tracking-list-container">
+      <mat-card class="tracking-list-container dfc">
+        <mat-card-header class="tracking-list-filter-container">
+          <mat-card class="tracking-list-filter-content dfr"
+            >Opciones de filtrado</mat-card
           >
-            <thead>
-              <tr>
-                <th class="all">#</th>
-                <th class="all">Fecha</th>
-                <th>Comentarios</th>
-                <th class="all">Archivos</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let track of trackings">
-                <td>{{ track?.track }}</td>
-                <td>{{ track?.date | date }}</td>
-                <td>{{ track.comments[0].comment }}</td>
-                <td>
-                  <span *ngIf="track?.documents.length < 1">Ninguno</span>
-                  <span *ngIf="track?.documents.length >= 1">
-                    {{ track?.documents.length }} Archivos
-                    <i class="material-icons">visibility</i>
-                  </span>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
+        </mat-card-header>
+        <mat-card-content class="tracking-list-content">
+          <mat-accordion
+            *ngFor="let file of filesAll"
+            class="tracking-item-container dfc"
+          >
+            <mat-expansion-panel class="tracking-item-content">
+              <mat-expansion-panel-header class="tracking-item-header">
+                <mat-panel-title class="tracking-item-title dfr">
+                  <div class="tracking-item-client-icon centered-img-bg">
+                    <img src="../../../assets/images/user_2.jpg" alt="" />
+                  </div>
+                  <div class="tracking-item-body">
+                    <div class="tracking-item-file-name">
+                      <span>{{ file?.affair }}</span>
+                    </div>
+                    <div class="tracking-item-client-data dfr">
+                      <span>Armando Lara</span>
+                    </div>
+                  </div>
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <!-- Tracking Cards -->
+              <mat-card
+                *ngFor="let track of file?.tracks"
+                class="tracking-file-container"
+              >
+                <div class="tracking-file-content dfr">
+                  <div class="tracking-file-data dfr">
+                    <div class="tracking-file-number-box dfc">
+                      <div class="tracking-file-main-title tracking-number dfc">
+                        <span>{{ track?.track }}</span>
+                      </div>
+                      <div class="tracking-date"><span>24/05/2020</span></div>
+                    </div>
+                    <div
+                      *ngFor="let com of track?.comments"
+                      class="tracking-file-comment-box dfr"
+                    >
+                      <div class="tracking-file-subtitle">
+                        <p>
+                          {{ com?.comment }}
+                        </p>
+                      </div>
+                    </div>
+                    <div
+                      *ngIf="track?.comments.comment === ''"
+                      class="tracking-file-comment-box dfr"
+                    >
+                      <div class="tracking-file-subtitle">
+                        <p>Sin comentarios</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="dfc">
+                    <button
+                      class="filetracking-btn btn waves-effect waves-light indigo darken-1 dfc"
+                    >
+                      <i class="material-icons">more_vert</i>
+                    </button>
+                    <button
+                      class="filetracking-btn btn waves-effect waves-light indigo darken-1 dfc"
+                    >
+                      <i class="material-icons">attach_file</i>
+                    </button>
+                  </div>
+                </div>
+              </mat-card>
+            </mat-expansion-panel>
+          </mat-accordion>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-button>Siguiente</button>
+          <button mat-button>Anterior</button>
+        </mat-card-actions>
+      </mat-card>
     </div>
   </mat-tab>
 
+  <!-- File Tracking Creation Tab -->
   <mat-tab>
     <ng-template mat-tab-label class="admin-tab-label">
       Seguimiento Expediente
@@ -57,6 +108,7 @@
           [selectedIndex]="selectedTrakingAction.value"
           (selectedIndexChange)="selectedTrakingAction.setValue($event)"
         >
+          <!-- Select Client Tab -->
           <mat-tab>
             <ng-template mat-tab-label>
               Seleccionar Cliente
@@ -141,6 +193,7 @@
               </div>
             </div>
           </mat-tab>
+          <!-- Select File Tab -->
           <mat-tab [disabled]="this.userData === '' || this.userData === null">
             <ng-template mat-tab-label>
               Seleccionar Expediente
@@ -388,8 +441,18 @@
                                   </div>
                                 </div>
                               </div>
-                              <div class="remove-file">
-                                <i class="material-icons">close</i>
+                              <div class="remove-file dfr">
+                                <div
+                                  class="watch-file"
+                                  (click)="open(tracking.document)"
+                                >
+                                  <span>Ver</span>
+                                </div>
+                                <i
+                                  class="remove-file-btn material-icons"
+                                  (click)="deleteDoc(tracking._id)"
+                                  >close</i
+                                >
                               </div>
                             </div>
                           </div>
@@ -397,7 +460,7 @@
                       </div>
                       <button
                         (click)="finish()"
-                        class="select-file-btn waves-effect waves-light indigo darken-1 dfc"
+                        class="select-file-btn send-file-btn waves-effect waves-light indigo darken-1 dfc"
                         [class.button-disabled]="this.trackingStorage === false"
                       >
                         Finalizar
@@ -414,7 +477,7 @@
   </mat-tab>
 </mat-tab-group>
 
-<!-- Create New User Modal Button Trigger -->
+<!-- New Tracking Tab Button Trigger -->
 <div
   [hidden]="selected.value === 1"
   style="bottom: 61px; right: 19px; z-index: 999;"
@@ -425,10 +488,11 @@
     style="border-radius: 50%;"
     (click)="selected.value = 1"
   >
-    <i class="material-icons">person_add</i>
+    <i class="material-icons">add</i>
   </a>
 </div>
 
+<!-- Trackings Tab Button Trigger -->
 <div
   [hidden]="selected.value === 0"
   style="bottom: 61px; right: 19px; z-index: 999;"

@@ -17,6 +17,8 @@ import { MaterialModule } from '../shared/material.module';
 import { SharedModule } from '../shared/shared.module';
 import { UsersComponent } from './users/users.component';
 import { MatTabsModule } from '@angular/material/tabs';
+import { MatCardModule } from '@angular/material/card';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 @NgModule({
   declarations: [
@@ -38,7 +40,9 @@ import { MatTabsModule } from '@angular/material/tabs';
     ModalsModule,
     PipesModule,
     SharedModule,
-    MatTabsModule
+    MatTabsModule,
+    MatCardModule,
+    MatExpansionModule
   ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA

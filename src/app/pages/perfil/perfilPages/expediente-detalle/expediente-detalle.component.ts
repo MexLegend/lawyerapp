@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import {
+  MatBottomSheet
+} from "@angular/material/bottom-sheet";
 import { ActivatedRoute } from '@angular/router';
 import { Subject } from 'rxjs/internal/Subject';
 
@@ -6,6 +9,7 @@ import { Files } from '../../../../models/Files';
 import { FilesService } from '../../../../services/files.service';
 import { TrackingService } from '../../../../services/tracking.service';
 import { Tracking } from '../../../../models/Tracking';
+import { DocumentsViewComponent } from '../../../../modals/documents-view/documents-view.component';
 
 @Component({
   selector: "app-expediente-detalle",
@@ -20,9 +24,10 @@ export class ExpedienteDetalleComponent implements OnInit {
 
   constructor(
     private activatedRoute: ActivatedRoute,
+    private bottomSheet: MatBottomSheet,
     public _filesS: FilesService,
     public _trackingS: TrackingService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.activatedRoute.params.subscribe((params) => {
@@ -40,10 +45,10 @@ export class ExpedienteDetalleComponent implements OnInit {
       lengthChange: false,
       bFilter: false,
       language: {
-        infoFiltered: "",
+        "infoFiltered": ""
       },
       scrollCollapse: true,
-      fixedColumns: true,
+      scrollY: "calc(100vh - 631px)"
     };
   }
 
@@ -62,6 +67,12 @@ export class ExpedienteDetalleComponent implements OnInit {
           this.trackings = resp.docs;
         });
       }
+    });
+  }
+
+  openDocuments(documents) {
+    this.bottomSheet.open(DocumentsViewComponent, {
+      data: { documents }
     });
   }
 }

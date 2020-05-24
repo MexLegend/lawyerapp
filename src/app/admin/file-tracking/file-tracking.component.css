@@ -198,7 +198,7 @@ i {
   box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.1);
 }
 
-/* Gneral Displaying */
+/* General Displaying */
 a,
 .seguimiento-expediente-actions,
 .seguimiento-expediente-options,
@@ -226,6 +226,215 @@ a,
 
 .expedient-tracking-content {
   padding: 10px 24px;
+}
+
+/* Tacking Card List Styling */
+
+.tracking-list-container,
+.tracking-list-filter-container,
+.tracking-list-filter-content,
+.tracking-list-content,
+.tracking-item-container,
+.tracking-item-content {
+  width: 100%;
+}
+
+.tracking-list-container {
+  height: 100%;
+  box-shadow: none;
+}
+
+.tracking-list-content {
+  margin-top: 15px;
+}
+
+.tracking-item-container {
+  margin-bottom: 10px;
+}
+
+.tracking-item-header {
+  height: 80px !important;
+  padding: 0 24px;
+}
+
+.tracking-item-header .mat-content,
+.tracking-item-title {
+  height: 100%;
+}
+
+.tracking-item-header:hover,
+.tracking-item-header.mat-expansion-panel-header.mat-expanded,
+.mat-expansion-panel
+  .mat-expansion-panel-header.cdk-keyboard-focused:not([aria-disabled="true"]),
+.mat-expansion-panel
+  .mat-expansion-panel-header.cdk-program-focused:not([aria-disabled="true"]),
+.mat-expansion-panel:not(.mat-expanded)
+  .mat-expansion-panel-header:hover:not([aria-disabled="true"]) {
+  background: #1976d2;
+}
+
+.tracking-item-header.mat-expansion-panel-header.mat-expanded:hover
+  .tracking-item-file-name,
+.tracking-item-header.mat-expansion-panel-header.mat-expanded
+  .tracking-item-file-name,
+.mat-expansion-panel
+  .mat-expansion-panel-header.cdk-keyboard-focused:not([aria-disabled="true"])
+  .tracking-item-file-name,
+.mat-expansion-panel
+  .mat-expansion-panel-header.cdk-program-focused:not([aria-disabled="true"])
+  .tracking-item-file-name,
+.mat-expansion-panel:not(.mat-expanded)
+  .mat-expansion-panel-header:hover:not([aria-disabled="true"])
+  .tracking-item-file-name {
+  color: white;
+}
+
+.tracking-item-header.mat-expansion-panel-header.mat-expanded:hover
+  .tracking-item-client-icon,
+.tracking-item-header.mat-expansion-panel-header.mat-expanded
+  .tracking-item-client-icon,
+.mat-expansion-panel
+  .mat-expansion-panel-header.cdk-keyboard-focused:not([aria-disabled="true"])
+  .tracking-item-client-icon,
+.mat-expansion-panel
+  .mat-expansion-panel-header.cdk-program-focused:not([aria-disabled="true"])
+  .tracking-item-client-icon,
+.mat-expansion-panel:not(.mat-expanded)
+  .mat-expansion-panel-header:hover:not([aria-disabled="true"])
+  .tracking-item-client-icon {
+  border-color: white;
+}
+
+.tracking-item-header.mat-expansion-panel-header.mat-expanded:hover
+  .tracking-item-client-data,
+.tracking-item-header.mat-expansion-panel-header.mat-expanded
+  .tracking-item-client-data,
+.mat-expansion-panel
+  .mat-expansion-panel-header.cdk-keyboard-focused:not([aria-disabled="true"])
+  .tracking-item-client-data,
+.mat-expansion-panel
+  .mat-expansion-panel-header.cdk-program-focused:not([aria-disabled="true"])
+  .tracking-item-client-data,
+.mat-expansion-panel:not(.mat-expanded)
+  .mat-expansion-panel-header:hover:not([aria-disabled="true"])
+  .tracking-item-client-data {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.tracking-item-title {
+  align-items: center;
+}
+
+.tracking-item-body {
+  max-width: calc(100% - 75px);
+}
+
+.tracking-item-file-name {
+  width: 100%;
+  font-size: 24px;
+  font-weight: 600;
+  color: #1e88e5;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.tracking-item-client-data {
+  width: 100%;
+  font-size: 18px;
+  text-transform: capitalize;
+  justify-content: flex-start;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.tracking-item-client-icon {
+  width: 60px;
+  height: 60px;
+  overflow: hidden;
+  margin-right: 10px;
+  border-radius: 50%;
+  border: 2px solid #1976d2;
+}
+
+.tracking-file-container {
+  box-shadow: none;
+}
+
+.tracking-file-content {
+  align-items: flex-start;
+}
+
+.tracking-item-content .tracking-file-container {
+  margin-bottom: 10px;
+  border: 1.3px solid rgba(0, 0, 0, 0.1);
+}
+
+.tracking-item-content .tracking-file-container .tracking-file-data {
+  width: calc(100% - 60px);
+  margin-right: 20px;
+  align-items: flex-start;
+}
+
+.tracking-file-number-box {
+  width: 70px;
+  min-width: 70px;
+  border-radius: 4px;
+  margin-right: 15px;
+}
+
+.tracking-date {
+  font-size: 12px;
+  margin-top: 10px;
+}
+
+.tracking-file-comment-box {
+  height: 80px;
+  max-height: 80px;
+  width: calc(100% - 85px);
+  border-radius: 4px;
+}
+
+.tracking-file-main-title {
+  color: white;
+  background: #1976d2;
+  font-size: 16px;
+  padding: 5px 10px;
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+}
+
+.tracking-number {
+  width: 20px;
+  min-width: 20px;
+  height: 25px;
+  border-radius: 4px;
+  justify-content: center;
+  font-weight: bold;
+}
+
+.tracking-file-subtitle {
+  padding: 5px 10px;
+  height: calc(100% - 10px);
+  width: 100%;
+}
+
+.tracking-file-subtitle p {
+  margin: 0;
+}
+
+.filetracking-btn {
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border-radius: 50%;
+  justify-content: center;
+  margin-bottom: 5px;
+}
+
+.filetracking-btn i {
+  margin: 0;
 }
 
 /* User Profile Card Styling */
@@ -421,16 +630,13 @@ a,
   height: 100%;
   width: 100%;
   border-radius: 5px;
-  border: 1px solid #80808057;
 }
 
 .file-box {
-  border-bottom: 1px solid #80808057;
+  border: 1px solid #80808057;
   position: relative;
-}
-
-.file-chooser-files div:last-child {
-  border-bottom: none;
+  border-radius: 5px;
+  margin-bottom: 10px;
 }
 
 .upload-file-btn {
@@ -442,14 +648,16 @@ a,
 }
 
 .select-file-btn {
-  color: white;
   width: 100%;
   margin: 15px 0;
   padding: 10px;
   border-radius: 5px;
   font-weight: 600;
-  border: 1px solid #58585878;
-  background: var(--message-button-bg);
+  border: 1px solid #80808057;
+}
+
+.send-file-btn {
+  color: white;
 }
 
 .file-size {
@@ -467,7 +675,6 @@ a,
   margin-right: 15px;
   border-top-left-radius: 5px;
   border-bottom-left-radius: 5px;
-  background: var(--message-button-bg);
   justify-content: center;
 }
 
@@ -477,7 +684,6 @@ a,
 }
 
 .file-format {
-  color: rgba(255, 255, 255, 0.8);
   font-size: 13px;
 }
 
@@ -492,8 +698,24 @@ a,
   font-weight: bolder;
   font-size: 18px;
   margin: 0;
+  padding: 3px;
+  border-radius: 2px;
   cursor: pointer;
-  color: #26c6da;
+  color: #ff5722;
+}
+
+.watch-file {
+  font-weight: 600;
+  font-size: 14px;
+  margin-right: 5px;
+  padding: 3px;
+  border-radius: 2px;
+  cursor: pointer;
+  color: var(--default-color);
+}
+
+.file-box:hover .watch-file {
+  color: #1e88e5;
 }
 
 .file-path-text {
@@ -506,4 +728,9 @@ a,
   word-wrap: break-word;
   white-space: normal;
   line-height: normal;
+}
+
+/* File Tracking Button */
+.btn-floating i {
+  margin: 0;
 }

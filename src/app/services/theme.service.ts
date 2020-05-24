@@ -19,6 +19,9 @@ export const darkTheme = {
     'tabs-bg': 'rgba(255, 255, 255, 0.1)',
     'whatsApp-bg': '#393939',
     'main-sidebar-bg': '#212121',
+    'attached-file-bg': 'rgba(214, 214, 214, 0.1)',
+    'attached-file-btn-bg': 'rgba(255, 255, 255, 0.1)',
+    'attached-file-comment': 'rgba(255, 255, 255, 0.1)',
     // Colors
     'white-color': '#ffffff',
     'alpha-white-color': 'rgba(255, 255, 255, 0.8)',
@@ -40,6 +43,7 @@ export const darkTheme = {
     'favorite-time-color': '#aaa',
     'sidebar-li-active': '#ffffff',
     'last-articles-color': '#9d9d9d',
+    'attached-file-btn-color': 'white',
     // Borders
     'medium-dark-border': '1px solid #212121',
     'dark-border': '1px solid #303030',
@@ -89,6 +93,9 @@ export const lightTheme = {
     'tabs-bg': 'rgb(244, 244, 244)',
     'whatsApp-bg': '#ffffff',
     'main-sidebar-bg': 'linear-gradient(45deg, #0288d1, #26c6da)',
+    'attached-file-bg': 'rgba(0, 0, 0, 0.1)',
+    'attached-file-btn-bg': 'transparent',
+    'attached-file-comment': 'rgba(0, 0, 0, 0.1)',
     // Colors
     'white-color': '#ffffff',
     'alpha-white-color': 'rgba(0, 0, 0, 0.85)',
@@ -110,6 +117,7 @@ export const lightTheme = {
     'favorite-time-color': '#6b6f82',
     'sidebar-li-active': '#08b0ec',
     'last-articles-color': '#606060',
+    'attached-file-btn-color': '#3949ab',
     // Borders
     'medium-dark-border': '1px solid #ddd',
     'dark-border': '1px solid rgb(211, 211, 211)',

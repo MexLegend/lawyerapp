@@ -150,7 +150,7 @@ export class FileUploadComponent implements OnInit {
   //   }
   // }
 
-  uploadFile(file?) {
+  uploadFile(file) {
     file.inProgress = true;
     this._updateDS.getFileData().subscribe((data: any) => {
 
@@ -175,8 +175,8 @@ export class FileUploadComponent implements OnInit {
                       (this.totalFiles / this.totalFiles) * 100
                     );
 
-                    if(this.progressT === 100) {
-                      $("#modal-File-Upload").modal('close');
+                    if (this.progressT === 100) {
+                      $("#modal-File-Upload").modal("close");
                     }
 
                     file.inProgress = false;
@@ -243,8 +243,13 @@ export class FileUploadComponent implements OnInit {
   }
 
   private uploadFiles() {
-    this._trackingS.files.forEach((file) => {
-      this.uploadFile(file);
-    });
+    console.log(this._trackingS.files);
+    // for (let index = 0; index < this._trackingS.files.length; index++) {
+
+    // }
+    // this._trackingS.files.map((file) => {
+    //   return;
+    // });
+      this.uploadFile(this._trackingS.files[0]);
   }
 }

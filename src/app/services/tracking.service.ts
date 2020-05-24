@@ -9,6 +9,8 @@ import { UsersService } from "./users.service";
 import { TrackingsPagination, Tracking } from "../models/Tracking";
 import { UpdateDataService } from "./updateData.service";
 
+import { saveAs } from "file-saver";
+
 declare var $: any;
 
 @Injectable({
@@ -35,6 +37,18 @@ export class TrackingService {
     return this.http
       .get<Tracking[]>(url, { headers })
       .pipe(map((resp: any) => resp.trackings));
+  }
+
+  getByLowyer(): Observable<any> {
+    const headers = new HttpHeaders({
+      "Content-Type": "application/json",
+      token: this._usersS.token,
+    });
+    const url = `${environment.URI}/api/tracking/lawyer/all`;
+
+    return this.http
+      .get(url, { headers })
+      .pipe(map((resp: any) => resp.files));
   }
 
   getTrackings(
@@ -93,19 +107,23 @@ export class TrackingService {
     });
     console.log(file);
     console.log(file.length);
-    console.log(typeof file)
+    console.log(typeof file);
     let data = new FormData();
     if (file.comment) {
-        console.log("COMMENT---");
+      console.log("COMMENT---");
       data.append("comment", file.comment);
-    } else if (file.length >= 1 && file.length !== undefined && typeof file === 'object') {
-        console.log("FILES---");
-        for (let index = 0; index < file.length; index++) {
+    } else if (
+      file.length >= 1 &&
+      file.length !== undefined &&
+      typeof file === "object"
+    ) {
+      console.log("FILES---");
+      for (let index = 0; index < file.length; index++) {
         data.append("files", file[index].data, file[index].data.name);
-        }
+      }
     } else if (file === "CLOSED" || file === "OPEN") {
-        console.log("STATUS---");
-        data.append("status", file);
+      console.log("STATUS---");
+      data.append("status", file);
     }
 
     const url = `${environment.URI}/api/tracking/${id}`;
@@ -117,14 +135,12 @@ export class TrackingService {
           this.files.splice(0, 1);
 
           if (resp.body) {
-
             this._updateDataS.setItemTrack(
               "trackingData",
               JSON.stringify(resp.body.tracking)
             );
 
             console.log("CREATED OKOKOKOKOKO!!!!");
-
           }
           return resp;
         }),
@@ -154,8 +170,12 @@ export class TrackingService {
     if (file.comment) {
       data.append("comment", file.comment);
     } else if (this.files.length >= 1 && this.files[0].data.name) {
-      for (let index = 0; index < file.length; index++) {
-        data.append("files", file[index].data, file[index].data.name);
+      for (let index = 0; index < this.files.length; index++) {
+        data.append(
+          "files",
+          this.files[index].data,
+          this.files[index].data.name
+        );
       }
     }
     if (localStorage.getItem("tracking")) {
@@ -176,7 +196,6 @@ export class TrackingService {
               "trackingData",
               JSON.stringify(resp.body.tracking)
             );
-
           }
           return resp;
         }),
@@ -197,29 +216,33 @@ export class TrackingService {
       );
   }
 
-  deleteTracking(id: string): Observable<Tracking> {
+  deleteTrackingDoc(id: string, idDoc: string): Observable<any> {
     const headers = new HttpHeaders({
       "Content-Type": "application/json",
       token: this._usersS.token,
     });
-    const url = `${environment.URI}/api/tracking/${id}`;
+    const url = `${environment.URI}/api/tracking/${id}/doc/${idDoc}`;
 
-    return this.http
-      .delete<Tracking>(url, { headers })
-      .pipe(
-        map((resp: any) => {
-          this._notificationsS.message(
-            "success",
-            "Eliminación correcta",
-            resp.message,
-            false,
-            false,
-            "",
-            "",
-            2000
-          );
-          return resp;
-        })
-      );
+    return this.http.delete(url, { headers }).pipe(
+      map((resp: any) => {
+        console.log(resp);
+        return resp;
+      })
+    );
+  }
+
+  downloadPDF(url) {
+
+      let headers = new HttpHeaders();
+      headers = headers.set("Accept", "application/pdf");
+      this.http.get(`http://${url}`, {
+        headers: headers,
+        responseType: "blob" as "blob",
+      }).subscribe((response: any) => {
+        console.log(response);
+        var blob = new Blob([response]);
+        var filename = url.split("uploads/")[1];
+        saveAs(blob, filename);
+      });
   }
 }

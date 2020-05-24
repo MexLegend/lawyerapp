@@ -30,8 +30,9 @@ export class FileTrackingComponent implements OnInit, AfterViewInit {
     private _updateDataS: UpdateDataService
   ) { }
 
-  dtOptions: any;
+  dtOptions: DataTables.Settings = {};
   public fileData: any = "";
+  filesAll: any = [];
   form: FormGroup;
   trackings: Tracking;
   public userData: any = "";
@@ -47,6 +48,7 @@ export class FileTrackingComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.initFileForm();
+    this.getByLowyer()
     this.trackingStorage = localStorage.getItem("trackingData") ? true : false;
     this.userStorage = localStorage.getItem("userData") ? true : false;
     this.fileStorage = localStorage.getItem("fileData") ? true : false;
@@ -62,7 +64,7 @@ export class FileTrackingComponent implements OnInit, AfterViewInit {
     } else {
       // Get UserData Subscription
       this._updateDataS.getUserData("seguimiento").subscribe((data) => {
-        if (data !== "" && data !== null) {
+        if (data !== "") {
           this._updateDataS.setItemUser("userData", JSON.stringify(data));
           this.userData = data;
         }
@@ -103,17 +105,19 @@ export class FileTrackingComponent implements OnInit, AfterViewInit {
       });
     }
 
+    // Datatable Options
     this.dtOptions = {
-      pagingType: "simple_numbers",
-      pageLength: 6,
+      pagingType: 'simple_numbers',
+      pageLength: 15,
       responsive: true,
       lengthChange: false,
-      bFilter: false,
       language: {
-        infoFiltered: "",
+        search: "",
+        "infoFiltered": "",
+        searchPlaceholder: "Buscar Users"
       },
-      scrollCollapse: true,
-      fixedColumns: true,
+      scrollY: "calc(100vh - 431px)",
+      scrollCollapse: true
     };
 
     $(document).ready(function () {
@@ -140,10 +144,6 @@ export class FileTrackingComponent implements OnInit, AfterViewInit {
     });
   }
 
-  example() {
-    console.log("Funciona");
-  }
-
   changeStatus(status: string) {
     let action = status === "CLOSED" ? "cerrar" : "reabrir";
 
@@ -168,6 +168,15 @@ export class FileTrackingComponent implements OnInit, AfterViewInit {
     });
   }
 
+  deleteDoc(id: string) {
+    // console.log(id)
+    this._trackingS.deleteTrackingDoc(localStorage.getItem('trackingDOC'), id)
+      .subscribe((resp: any) => {
+        this._updateDataS.setItemTrack('trackingData', JSON.stringify(resp.tracking))
+        // console.log(resp)
+      })
+  }
+
   finish() {
     this._notificationsS.message(
       "success",
@@ -182,7 +191,14 @@ export class FileTrackingComponent implements OnInit, AfterViewInit {
     this.fileStorage = false;
     this.userStorage = false;
     this.reset();
-    location.reload();
+
+  }
+
+  getByLowyer() {
+    this._trackingS.getByLowyer().subscribe((resp) => {
+      console.log(resp);
+      this.filesAll = resp;
+    });
   }
 
   private initFileForm() {
@@ -204,8 +220,9 @@ export class FileTrackingComponent implements OnInit, AfterViewInit {
     this._updateDataS.setFileData(null);
     this._updateDataS.setUserData(null);
 
+    console.log(this.userData);
+    console.log(this.fileData);
     console.log(this.trackingStorage);
-    console.log(this.userStorage);
 
 
   }
