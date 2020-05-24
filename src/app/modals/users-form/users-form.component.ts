@@ -165,7 +165,7 @@ export class UsersFormComponent implements OnInit, AfterViewChecked {
       if (this.imgData === null) {
         console.log("CREATE ONLY");
         // Create User
-        this._usersS.createUser(user, '').subscribe(() => {
+        this._usersS.createUser(user, '', localStorage.getItem('id')).subscribe(() => {
           this.form.reset();
           this._usersS.notifica.emit({ render: true });
         });
@@ -176,7 +176,7 @@ export class UsersFormComponent implements OnInit, AfterViewChecked {
         this.subscription = this._updateDS
           .getImg()
           .subscribe((data: { url: string; public_id: string }) => {
-            this._usersS.createUser(user, data).subscribe((resp) => {
+            this._usersS.createUser(user, data, localStorage.getItem('id')).subscribe((resp) => {
               console.log(resp);
               if (resp.ok) {
                 this.form.reset();

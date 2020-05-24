@@ -26,14 +26,20 @@
               <mat-expansion-panel-header class="tracking-item-header">
                 <mat-panel-title class="tracking-item-title dfr">
                   <div class="tracking-item-client-icon centered-img-bg">
-                    <img src="../../../assets/images/user_2.jpg" alt="" />
+                    <img
+                      [src]="(file?.assigned_client)[0]?.img | img: 'user':true"
+                      alt=""
+                    />
                   </div>
                   <div class="tracking-item-body">
                     <div class="tracking-item-file-name">
                       <span>{{ file?.affair }}</span>
                     </div>
-                    <div class="tracking-item-client-data dfr">
-                      <span>Armando Lara</span>
+                    <div class="tracking-item-client-data">
+                      <span
+                        >{{ (file?.assigned_client)[0].firstName }}
+                        {{ (file?.assigned_client)[0].lastName }}</span
+                      >
                     </div>
                   </div>
                 </mat-panel-title>
@@ -49,7 +55,15 @@
                       <div class="tracking-file-main-title tracking-number dfc">
                         <span>{{ track?.track }}</span>
                       </div>
-                      <div class="tracking-date"><span>24/05/2020</span></div>
+                      <div class="tracking-date">
+                        <span>{{
+                          (track?.date | date: "dd") +
+                            "/" +
+                            (track?.date | date: "MM") +
+                            "/" +
+                            (track?.date | date: "yyyy")
+                        }}</span>
+                      </div>
                     </div>
                     <div
                       *ngFor="let com of track?.comments"
@@ -62,7 +76,7 @@
                       </div>
                     </div>
                     <div
-                      *ngIf="track?.comments.comment === ''"
+                      *ngIf="track?.comments.length === 0"
                       class="tracking-file-comment-box dfr"
                     >
                       <div class="tracking-file-subtitle">
@@ -82,6 +96,16 @@
                     >
                       <i class="material-icons">attach_file</i>
                     </button>
+                  </div>
+                </div>
+              </mat-card>
+              <mat-card
+                *ngIf="file?.tracks.length === 0"
+                class="tracking-file-container"
+              >
+                <div class="tracking-file-content dfr">
+                  <div class="tracking-file-data dfr">
+                    <span>Ningún seguimiento realizado</span>
                   </div>
                 </div>
               </mat-card>

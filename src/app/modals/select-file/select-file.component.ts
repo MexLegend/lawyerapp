@@ -36,6 +36,7 @@ export class SelectFileComponent implements OnInit {
           : data._id;
 
         this._filesS.getAll(idFile).subscribe((resp) => {
+          console.log(resp)
           this.files = resp;
         });
       }

@@ -49,13 +49,14 @@ export class UsersService {
     );
   }
 
-  createUser(user: User, img?: any) {
+  createUser(user: User, img?: any, lawyer?: any) {
 
     const url = `${ environment.URI }/api/users`;
 
     this._webS.emitEvt('exist-user', user);
 
     const data = {
+      lawyer,
       user,
       img
     }

@@ -7,6 +7,7 @@ export class User {
         public password2?: string,
         public address?: string,
         public cellPhone?: string,
+        public lawyer?: string,
         public created_at?: string,
         public img?: string,
         public role?: string,
