@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 
 import { UsersService } from '../../services/users.service';
+import { MatDialog } from '@angular/material/dialog';
+import { BePrimeComponent } from '../../modals/be-prime/be-prime.component';
 
 declare var $: any;
 
@@ -12,12 +14,10 @@ declare var $: any;
 })
 export class PerfilComponent implements OnInit {
 
-  isfullscreen: boolean = false;
-  actSt: any = '';
-
   constructor(
     public router: Router,
-    public _usersS: UsersService
+    public _usersS: UsersService,
+    public dialog: MatDialog
   ) {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
@@ -26,13 +26,19 @@ export class PerfilComponent implements OnInit {
     })
   }
 
+  isfullscreen: boolean = false;
+  actSt: any = '';
+  // dialogRef: any = null;
+
   ngOnInit() {
     // Initialize Sidenav
     $('#perfil-sidebar').sidenav();
 
     $("#modal-File-Upload").modal();
+  }
 
-    $("#bePrime").modal();
+  openPrimeModal() {
+    this.dialog.open(BePrimeComponent, { autoFocus: false });
   }
 
   // Toggle Full Screen Function

@@ -606,6 +606,21 @@ button[disabled] {
   background-color: #1e88e5;
 }
 
+/* - - - - - - - - - - - - - - - - - |
+/*        PERFECT SCROLLBAR          |
+/* - - - - - - - - - - - - - - - - - |*/
+
+perfect-scrollbar > .ps.ps--scrolling-x > .ps__rail-x,
+perfect-scrollbar > .ps.ps--scrolling-y > .ps__rail-y,
+.ps .ps__rail-x.ps--clicking,
+.ps .ps__rail-x:focus,
+.ps .ps__rail-x:hover,
+.ps .ps__rail-y.ps--clicking,
+.ps .ps__rail-y:focus,
+.ps .ps__rail-y:hover {
+  background-color: transparent !important;
+}
+
 /* - - - - - - - - - - - - - - - - - - |
 /*          MAIN FOOTER STYLING        |
 /* - - - - - - - - - - - - - - - - - - |
@@ -1370,6 +1385,14 @@ table.dataTable > tbody > tr.child ul.dtr-details > li {
   text-overflow: ellipsis;
 }
 
+/* Min-Height DataTables */
+#users-tbl_wrapper .dataTables_scroll .dataTables_scrollBody,
+#articles-tbl_wrapper .dataTables_scroll .dataTables_scrollBody,
+#files-tbl_wrapper .dataTables_scroll .dataTables_scrollBody {
+  max-height: calc(100vh - 431px);
+  height: calc(100vh - 431px);
+}
+
 /* - - - - - - - - - - - - - - - - - -  - - - - |
 /*      GLOBAL TD AND TH DATATABLES STYLING     |
 /* - - - - - - - - - - - - - - - - - - - - - - -|
@@ -1512,10 +1535,6 @@ table.dataTable > tbody > tr.child ul.dtr-details > li {
 #chat-users-tbl_wrapper {
   height: 100%;
   width: calc(100% - 10px);
-  top: 0;
-  left: 0;
-  right: 0;
-  position: absolute;
 }
 
 /* - - - - - - - - - - - - - - - - - - |
@@ -1865,6 +1884,22 @@ span.badge.new:after {
 }
 
 /* - - - - - - - - - - - - - - - - - - |
+/*  ANGULAR MATERIAL MODALS STYLING    |
+/* - - - - - - - - - - - - - - - - - - |*/
+
+.mat-dialog-container {
+  padding: 0 !important;
+  border-radius: 6px !important;
+  width: 70vw !important;
+}
+
+.mat-dialog-content {
+  height: 65vh;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* - - - - - - - - - - - - - - - - - - |
 /*  ADMIN VIEW ANGULAR EDITOR STYLING  |
 /* - - - - - - - - - - - - - - - - - - |
 
@@ -1971,6 +2006,10 @@ span.badge.new:after {
 /* - - - - - - - - - - - - - - - - - - - - - |
 
 /* Tabs */
+.mat-tab-label-container {
+  z-index: 0 !important;
+}
+
 .mat-tab-group:not(.admin-tab)
   .mat-tab-header
   .mat-tab-label-container
@@ -1981,6 +2020,11 @@ span.badge.new:after {
   height: 70px !important;
   text-transform: uppercase;
   opacity: 1 !important;
+  padding: 0;
+}
+
+.mat-tab-group {
+  min-height: 390px;
 }
 
 .mat-tab-group.admin-tab .mat-tab-header {
@@ -2018,6 +2062,8 @@ span.badge.new:after {
   .mat-tab-label
   .mat-tab-label-content {
   color: var(--default-color) !important;
+  width: 100%;
+  height: 100%;
 }
 
 .mat-tab-group.admin-tab
@@ -2043,7 +2089,15 @@ span.badge.new:after {
 }
 
 .mat-tab-group.admin-tab .inner-admin-tab .mat-tab-body-content {
-  padding: 20px;
+  padding: 20px 2px;
+  max-height: calc(-336px + 100vh);
+}
+
+.mat-tab-group.admin-tab
+  .inner-admin-tab
+  .mat-tab-body-content
+  .inner-admin-scrollable-content {
+  padding: 0 2px;
 }
 
 .mat-tab-group.mat-primary .mat-ink-bar,
@@ -2071,12 +2125,18 @@ span.badge.new:after {
 
 .mat-tab-label-content {
   color: white;
+  width: 100%;
+  height: 100%;
 }
 
 .mat-tab-header,
 .mat-tab-nav-bar,
 .premium-account-tab {
   border-bottom: 1.6px solid #081955 !important;
+}
+
+.premium-account-tabs .mat-tab-body-wrapper {
+  z-index: 0;
 }
 
 /* - - - - - - - - - - - - - - - - - - - - - |
@@ -2142,6 +2202,24 @@ span.badge.new:after {
 /* - - - - - - - - - - - - - - - - - - |
 /*        DOCUMENT VIEW STYLING        |
 /* - - - - - - - - - - - - - - - - - - |*/
+
+.attached-file-actions {
+  position: relative;
+}
+
+.attached-files-quantity {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: #ff5722;
+  color: white;
+  justify-content: center;
+  font-size: 12px;
+  position: absolute;
+  top: -3px;
+  right: -6px;
+  z-index: 1;
+}
 
 .mat-list-base .mat-list-item .mat-list-text {
   flex-direction: row !important;
@@ -2271,7 +2349,7 @@ body {
 .collapsible,
 .sidenav {
   background: var(--medium-dark-bg) !important;
-  border: var(--medium-dark-border) !important;
+  border-right: var(--medium-dark-border) !important;
   color: var(--default-color) !important;
 }
 

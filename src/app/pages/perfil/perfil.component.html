@@ -223,8 +223,8 @@
   class="fixed-action-btn direction-top active"
 >
   <a
-    class="prime-account btn-floating btn-large primary-text gradient-shadow modal-trigger pulse"
-    href="#bePrime"
+    class="prime-account btn-floating btn-large primary-text gradient-shadow pulse"
+    (click)="openPrimeModal()"
   >
     <i class="fas fa-user-tie"></i>
     <!-- <i class="fas fa-user-tie"></i> -->
@@ -236,6 +236,3 @@
   typeImg="user"
   [idImg]="this._usersS.user._id"
 ></app-file-upload>
-
-<!-- Prime Account Modal -->
-<app-be-prime></app-be-prime>

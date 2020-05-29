@@ -195,6 +195,7 @@
 .chat-user-list {
   height: calc(100vh - 365px);
   position: relative;
+  overflow: auto;
 }
 
 tr {

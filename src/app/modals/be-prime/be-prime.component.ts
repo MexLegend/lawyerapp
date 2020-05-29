@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 
 @Component({
   selector: 'app-be-prime',
@@ -9,7 +10,16 @@ export class BePrimeComponent implements OnInit {
 
   constructor() { }
 
+  public config: PerfectScrollbarConfigInterface = {};
+
   ngOnInit() {
+  }
+
+  scrollTabClick() {
+    console.log("Hola");
+    // $('#bePrime').scrollTop(10000);
+    // $('#bePrime').scrollTo(0, 0);
+
   }
 
 }

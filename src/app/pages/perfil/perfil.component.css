@@ -72,6 +72,10 @@
   justify-content: space-around;
 }
 
+#perfil-sidebar {
+  border: none !important;
+}
+
 #perfil-sidebar-trigger {
   min-width: 40px;
   min-height: 40px;

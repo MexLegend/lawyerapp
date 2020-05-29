@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 
 @Component({
   selector: 'app-lawyer-contact',
@@ -10,6 +11,8 @@ export class LawyerContactComponent implements OnInit {
   panelOpenState = false;
 
   constructor() { }
+
+  public config: PerfectScrollbarConfigInterface = {};
 
   ngOnInit() {
   }

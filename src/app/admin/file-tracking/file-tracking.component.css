@@ -51,6 +51,19 @@
   .file-size {
     font-size: 12px !important;
   }
+  .tracking-item-content .tracking-file-container .tracking-file-data {
+    flex-direction: column !important;
+  }
+  .tracking-file-number-box {
+    margin: 0 0 10px 0 !important;
+    flex-direction: row !important;
+  }
+  .tracking-date {
+    margin: 0 0 0 10px !important;
+  }
+  .tracking-file-comment-box {
+    width: 100% !important;
+  }
 }
 
 @media (max-width: 480px) {
@@ -246,6 +259,12 @@ a,
 
 .tracking-list-content {
   margin-top: 15px;
+  max-height: calc(100vh - 375px);
+  overflow: auto;
+}
+
+.tracking-list-scroll-content {
+  padding: 0 2px;
 }
 
 .tracking-item-container {
@@ -417,11 +436,14 @@ a,
 }
 
 .tracking-file-subtitle {
-  padding: 5px 10px;
   height: calc(100% - 10px);
   max-height: calc(100% - 10px);
   width: 100%;
   overflow: auto;
+}
+
+.tracking-file-comment-scroll-content {
+  padding: 5px 10px;
 }
 
 .tracking-file-subtitle p {

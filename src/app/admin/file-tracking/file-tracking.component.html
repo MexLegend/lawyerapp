@@ -17,105 +17,140 @@
             >Opciones de filtrado</mat-card
           >
         </mat-card-header>
-        <mat-card-content class="tracking-list-content">
-          <mat-accordion
-            *ngFor="let file of filesAll"
-            class="tracking-item-container dfc"
-          >
-            <mat-expansion-panel class="tracking-item-content">
-              <mat-expansion-panel-header class="tracking-item-header">
-                <mat-panel-title class="tracking-item-title dfr">
-                  <div class="tracking-item-client-icon centered-img-bg">
-                    <img
-                      [src]="(file?.assigned_client)[0]?.img | img: 'user':true"
-                      alt=""
-                    />
-                  </div>
-                  <div class="tracking-item-body">
-                    <div class="tracking-item-file-name">
-                      <span>{{ file?.affair }}</span>
-                    </div>
-                    <div class="tracking-item-client-data">
-                      <span
-                        >{{ (file?.assigned_client)[0].firstName }}
-                        {{ (file?.assigned_client)[0].lastName }}</span
-                      >
-                    </div>
-                  </div>
-                </mat-panel-title>
-              </mat-expansion-panel-header>
-              <!-- Tracking Cards -->
-              <mat-card
-                *ngFor="let track of file?.tracks"
-                class="tracking-file-container"
-              >
-                <div class="tracking-file-content dfr">
-                  <div class="tracking-file-data dfr">
-                    <div class="tracking-file-number-box dfc">
-                      <div class="tracking-file-main-title tracking-number dfc">
-                        <span>{{ track?.track }}</span>
-                      </div>
-                      <div class="tracking-date">
-                        <span>{{
-                          (track?.date | date: "dd") +
-                            "/" +
-                            (track?.date | date: "MM") +
-                            "/" +
-                            (track?.date | date: "yyyy")
-                        }}</span>
-                      </div>
-                    </div>
-                    <div
-                      *ngFor="let com of track?.comments"
-                      class="tracking-file-comment-box dfr"
-                    >
-                      <div class="tracking-file-subtitle">
-                        <p>
-                          {{ com?.comment }}
-                        </p>
-                      </div>
-                    </div>
-                    <div
-                      *ngIf="track?.comments.length === 0"
-                      class="tracking-file-comment-box dfr"
-                    >
-                      <div class="tracking-file-subtitle">
-                        <p>Sin comentarios</p>
-                      </div>
-                    </div>
-                  </div>
 
-                  <div class="dfc">
-                    <button
-                      class="filetracking-btn btn waves-effect waves-light indigo darken-1 dfc"
-                    >
-                      <i class="material-icons">more_vert</i>
-                    </button>
-                    <button
-                      class="filetracking-btn btn waves-effect waves-light indigo darken-1 dfc"
-                    >
-                      <i class="material-icons">attach_file</i>
-                    </button>
-                  </div>
-                </div>
-              </mat-card>
-              <mat-card
-                *ngIf="file?.tracks.length === 0"
-                class="tracking-file-container"
+        <mat-card-content class="tracking-list-content">
+          <perfect-scrollbar
+            class="scroll-container"
+            fxFlex="auto"
+            [config]="config"
+            [scrollIndicators]="false"
+          >
+            <div class="scrollable-content tracking-list-scroll-content">
+              <mat-accordion
+                *ngFor="let file of filesAll"
+                class="tracking-item-container dfc"
               >
-                <div class="tracking-file-content dfr">
-                  <div class="tracking-file-data dfr">
-                    <span>Ningún seguimiento realizado</span>
-                  </div>
-                </div>
-              </mat-card>
-            </mat-expansion-panel>
-          </mat-accordion>
+                <mat-expansion-panel class="tracking-item-content">
+                  <mat-expansion-panel-header class="tracking-item-header">
+                    <mat-panel-title class="tracking-item-title dfr">
+                      <div class="tracking-item-client-icon centered-img-bg">
+                        <img
+                          [src]="
+                            (file?.assigned_client)[0]?.img | img: 'user':true
+                          "
+                          alt=""
+                        />
+                      </div>
+                      <div class="tracking-item-body">
+                        <div class="tracking-item-file-name">
+                          <span>{{ file?.affair }}</span>
+                        </div>
+                        <div class="tracking-item-client-data">
+                          <span
+                            >{{ (file?.assigned_client)[0].firstName }}
+                            {{ (file?.assigned_client)[0].lastName }}</span
+                          >
+                        </div>
+                      </div>
+                    </mat-panel-title>
+                  </mat-expansion-panel-header>
+                  <!-- Tracking Cards -->
+                  <mat-card
+                    *ngFor="let track of file?.tracks"
+                    class="tracking-file-container"
+                  >
+                    <div class="tracking-file-content dfr">
+                      <div class="tracking-file-data dfr">
+                        <div class="tracking-file-number-box dfc">
+                          <div
+                            class="tracking-file-main-title tracking-number dfc"
+                          >
+                            <span>{{ track?.track }}</span>
+                          </div>
+                          <div class="tracking-date">
+                            <span>{{
+                              (track?.date | date: "dd") +
+                                "/" +
+                                (track?.date | date: "MM") +
+                                "/" +
+                                (track?.date | date: "yyyy")
+                            }}</span>
+                          </div>
+                        </div>
+                        <div
+                          *ngFor="let com of track?.comments"
+                          class="tracking-file-comment-box dfr"
+                        >
+                          <div class="tracking-file-subtitle">
+                            <perfect-scrollbar
+                              class="scroll-container"
+                              fxFlex="auto"
+                              [config]="config"
+                              [scrollIndicators]="false"
+                            >
+                              <div
+                                class="scrollable-content tracking-file-comment-scroll-content"
+                              >
+                                <p>
+                                  {{ com?.comment }}
+                                </p>
+                              </div></perfect-scrollbar
+                            >
+                          </div>
+                        </div>
+                        <div
+                          *ngIf="track?.comments.length === 0"
+                          class="tracking-file-comment-box dfr"
+                        >
+                          <div class="tracking-file-subtitle">
+                            <p>Sin comentarios</p>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="dfc">
+                        <!-- File Tracking CRUD Button -->
+                        <button
+                          class="filetracking-btn btn waves-effect waves-light indigo darken-1 dfc"
+                        >
+                          <i class="material-icons">more_vert</i>
+                        </button>
+                        <!-- File Tracking Attached Documents Button -->
+                        <div class="attached-file-actions">
+                          <button
+                            (click)="openDocuments(track?.documents)"
+                            class="filetracking-btn btn waves-effect waves-light indigo darken-1 dfc"
+                          >
+                            <i class="material-icons">attach_file</i>
+                          </button>
+                          <div class="attached-files-quantity dfc">
+                            {{ track?.documents.length }}
+                          </div>
+                        </div>
+                        <!-- <button
+                          (click)="openDocuments(track?.documents)"
+                          class="filetracking-btn btn waves-effect waves-light indigo darken-1 dfc"
+                        >
+                          <i class="material-icons">attach_file</i>
+                        </button> -->
+                      </div>
+                    </div>
+                  </mat-card>
+                  <mat-card
+                    *ngIf="file?.tracks.length === 0"
+                    class="tracking-file-container"
+                  >
+                    <div class="tracking-file-content dfr">
+                      <div class="tracking-file-data dfr">
+                        <span>Ningún seguimiento realizado</span>
+                      </div>
+                    </div>
+                  </mat-card>
+                </mat-expansion-panel>
+              </mat-accordion>
+            </div>
+          </perfect-scrollbar>
         </mat-card-content>
-        <mat-card-actions>
-          <button mat-button>Siguiente</button>
-          <button mat-button>Anterior</button>
-        </mat-card-actions>
       </mat-card>
     </div>
   </mat-tab>
@@ -219,281 +254,305 @@
           </mat-tab>
           <!-- Select File Tab -->
           <mat-tab [disabled]="this.userData === '' || this.userData === null">
-            <ng-template mat-tab-label>
-              Seleccionar Expediente
-            </ng-template>
-            <div class="choose-option">
-              <a
-                class="btn-close btn-news waves-effect waves-light btn indigo darken-1 modal-trigger"
-                href="#selectFile"
-              >
-                <i class="material-icons">contact_mail</i>
-                Seleccionar Expediente
-              </a>
-            </div>
-            <!-- Files Card Container -->
-            <div
-              class="file-card-container"
-              *ngIf="
-                (this.fileData !== '' && this.fileData !== null) ||
-                fileStorage === true
-              "
+            <perfect-scrollbar
+              class="scroll-container"
+              fxFlex="auto"
+              [config]="config"
+              [scrollIndicators]="false"
             >
-              <div class="card horizontal user-card">
-                <div class="card-stacked">
-                  <!-- Files Content Container -->
-                  <div class="card-content" style="padding: 0px !important;">
-                    <!-- Files Header -->
-                    <div
-                      class="card-header card-header-expedient"
-                      style="justify-content: space-between;"
-                    >
-                      <div class="dfc">
-                        <span class="expedient-name"
-                          >{{ this.fileData?.affair }}
-                        </span>
-                        <span class="expedient-date">{{
-                          this.fileData?.start_date | date
-                        }}</span>
-                      </div>
-                      <div class="expediente-status">
-                        <div class="status-icon">
-                          <i class="material-icons mr-2">lock_open</i>
-                        </div>
-                        <span class="white-text">{{
-                          this.fileData?.intKey
-                        }}</span>
-                      </div>
-                    </div>
-                  </div>
-                  <!-- Files Information -->
-                  <div class="card-action" style="padding: 16px 0;">
-                    <div class="datos">
-                      <div class="dfr data-header-container">
-                        <div class="data-headers header-E">
-                          Clave Externa:
-                        </div>
-                        <span class="data-info">{{
-                          this.fileData?.extKey !== null
-                            ? this.fileData?.extKey
-                            : "N/E"
-                        }}</span>
-                      </div>
-                      <div class="dfr data-header-container">
-                        <div class="data-headers header-E">Cliente:</div>
-                        <span class="data-info">
-                          {{
-                            this.userData?.firstName +
-                              " " +
-                              this.userData?.lastName
-                          }}</span
-                        >
-                      </div>
-                      <div class="dfr data-header-container">
-                        <div class="data-headers header-E">Actor:</div>
-                        <span class="data-info">{{
-                          this.fileData?.actor
-                        }}</span>
-                      </div>
-                      <div class="dfr data-header-container">
-                        <span class="data-headers header-E">Demandado: </span>
-                        <span class="data-info">
-                          {{ this.fileData?.defendant }}</span
-                        >
-                      </div>
-                      <div class="dfr data-header-container">
-                        <div class="data-headers header-E">Terceros:</div>
-                        <span class="data-info">
-                          {{ this.fileData?.third }}</span
-                        >
-                      </div>
-                    </div>
-                  </div>
+              <div class="scrollable-content inner-admin-scrollable-content">
+                <ng-template mat-tab-label>
+                  Seleccionar Expediente
+                </ng-template>
+                <div class="choose-option">
+                  <a
+                    class="btn-close btn-news waves-effect waves-light btn indigo darken-1 modal-trigger"
+                    href="#selectFile"
+                  >
+                    <i class="material-icons">contact_mail</i>
+                    Seleccionar Expediente
+                  </a>
                 </div>
-              </div>
-              <!-- File Tracking Actions -->
-              <div class="card horizontal file-actions-card">
-                <div class="card-stacked">
-                  <div class="card-content expedient-tracking-content">
-                    <div
-                      class="card-header card-header-expedient"
-                      style="justify-content: space-between;"
-                    >
-                      <b>
-                        Expediente >
-                        <span style="color: #1e88e5;">Acciones</span>
-                      </b>
+                <!-- Files Card Container -->
+                <div
+                  class="file-card-container"
+                  *ngIf="
+                    (this.fileData !== '' && this.fileData !== null) ||
+                    fileStorage === true
+                  "
+                >
+                  <div class="card horizontal user-card">
+                    <div class="card-stacked">
+                      <!-- Files Content Container -->
+                      <div
+                        class="card-content"
+                        style="padding: 0px !important;"
+                      >
+                        <!-- Files Header -->
+                        <div
+                          class="card-header card-header-expedient"
+                          style="justify-content: space-between;"
+                        >
+                          <div class="dfc">
+                            <span class="expedient-name"
+                              >{{ this.fileData?.affair }}
+                            </span>
+                            <span class="expedient-date">{{
+                              this.fileData?.start_date | date
+                            }}</span>
+                          </div>
+                          <div class="expediente-status">
+                            <div class="status-icon">
+                              <i class="material-icons mr-2">lock_open</i>
+                            </div>
+                            <span class="white-text">{{
+                              this.fileData?.intKey
+                            }}</span>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- Files Information -->
+                      <div class="card-action" style="padding: 16px 0;">
+                        <div class="datos">
+                          <div class="dfr data-header-container">
+                            <div class="data-headers header-E">
+                              Clave Externa:
+                            </div>
+                            <span class="data-info">{{
+                              this.fileData?.extKey !== null
+                                ? this.fileData?.extKey
+                                : "N/E"
+                            }}</span>
+                          </div>
+                          <div class="dfr data-header-container">
+                            <div class="data-headers header-E">Cliente:</div>
+                            <span class="data-info">
+                              {{
+                                this.userData?.firstName +
+                                  " " +
+                                  this.userData?.lastName
+                              }}</span
+                            >
+                          </div>
+                          <div class="dfr data-header-container">
+                            <div class="data-headers header-E">Actor:</div>
+                            <span class="data-info">{{
+                              this.fileData?.actor
+                            }}</span>
+                          </div>
+                          <div class="dfr data-header-container">
+                            <span class="data-headers header-E"
+                              >Demandado:
+                            </span>
+                            <span class="data-info">
+                              {{ this.fileData?.defendant }}</span
+                            >
+                          </div>
+                          <div class="dfr data-header-container">
+                            <div class="data-headers header-E">Terceros:</div>
+                            <span class="data-info">
+                              {{ this.fileData?.third }}</span
+                            >
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                  <div class="card-action">
-                    <div class="seguimiento-expediente-actions">
-                      <div class="seguimiento-expediente-options right">
-                        <!-- <a
+                  <!-- File Tracking Actions -->
+                  <div class="card horizontal file-actions-card">
+                    <div class="card-stacked">
+                      <div class="card-content expedient-tracking-content">
+                        <div
+                          class="card-header card-header-expedient"
+                          style="justify-content: space-between;"
+                        >
+                          <b>
+                            Expediente >
+                            <span style="color: #1e88e5;">Acciones</span>
+                          </b>
+                        </div>
+                      </div>
+                      <div class="card-action">
+                        <div class="seguimiento-expediente-actions">
+                          <div class="seguimiento-expediente-options right">
+                            <!-- <a
                          class="btn-finish btn-news waves-effect waves-light btn indigo darken-1"
                          (click)="send()"
                        >
                          Agregar Tomo
                        </a> -->
-                        <a
-                          class="btn-finish btn-news waves-effect waves-light btn indigo darken-1"
-                          (click)="changeStatus('OPEN')"
-                        >
-                          Reabrir expediente
-                        </a>
-                        <a
-                          class="btn-close btn-news waves-effect waves-light btn indigo darken-1"
-                          (click)="changeStatus('CLOSED')"
-                        >
-                          Cerrar Expediente
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <!-- File Tracking File Upload & Commentary -->
-              <div class="card horizontal file-tracking-card">
-                <div class="card-stacked">
-                  <div class="card-content expedient-tracking-content">
-                    <div
-                      class="card-header card-header-expedient"
-                      style="justify-content: space-between;"
-                    >
-                      <b>
-                        Expediente >
-                        <span style="color: #1e88e5;">Avances</span>
-                      </b>
-                    </div>
-                  </div>
-                  <div class="card-action seguimiento-expediente-data">
-                    <div class="comment-progress">
-                      <form
-                        ngNativeValidate
-                        [formGroup]="form"
-                        style="width: 100%;"
-                      >
-                        <div class="comment-progress-content">
-                          <textarea
-                            class="materialize-textarea expediente-input ng-pristine ng-touched"
-                            name="commentProgress"
-                            formControlName="commentProgress"
-                            id="commentProgress"
-                            placeholder="Agregar comentario"
-                            required
-                          ></textarea>
-                          <div class="comment-progress-button dfc">
-                            <button
-                              [class.button-disabled]="!form.valid"
-                              (click)="send()"
-                              class="select-file-btn indigo darken-1 waves-effect waves-light dfc"
+                            <a
+                              class="btn-finish btn-news waves-effect waves-light btn indigo darken-1"
+                              (click)="changeStatus('OPEN')"
                             >
-                              <i class="material-icons">send</i>
-                            </button>
+                              Reabrir expediente
+                            </a>
+                            <a
+                              class="btn-close btn-news waves-effect waves-light btn indigo darken-1"
+                              (click)="changeStatus('CLOSED')"
+                            >
+                              Cerrar Expediente
+                            </a>
                           </div>
                         </div>
-                      </form>
-                    </div>
-                    <div class="choose-files-container dfc">
-                      <div class="choose-files-title dfr">
-                        <div class="main"><span>Tu trabajo</span></div>
-                        <div class="secondary"><span>Pendiente</span></div>
                       </div>
-                      <button
-                        href="#modal-File-Upload"
-                        class="select-file-btn waves-effect waves-light modal-trigger centered-img-bg dfc"
-                      >
-                        Agregar documento
-                      </button>
-                      <div
-                        *ngIf="this.trackings?.documents || trackingStorage"
-                        class="choose-files"
-                      >
-                        <div class="file-chooser-container">
-                          <div class="file-chooser-files">
-                            <div
-                              *ngFor="let tracking of this.trackings?.documents"
-                              class="file-chooser-file file-box"
-                            >
-                              <div class="file-name">
-                                <div
-                                  class="file-item dfr"
-                                  *ngIf="tracking.document.indexOf('pdf') >= 0"
-                                  (click)="open(tracking.document)"
+                    </div>
+                  </div>
+                  <!-- File Tracking File Upload & Commentary -->
+                  <div class="card horizontal file-tracking-card">
+                    <div class="card-stacked">
+                      <div class="card-content expedient-tracking-content">
+                        <div
+                          class="card-header card-header-expedient"
+                          style="justify-content: space-between;"
+                        >
+                          <b>
+                            Expediente >
+                            <span style="color: #1e88e5;">Avances</span>
+                          </b>
+                        </div>
+                      </div>
+                      <div class="card-action seguimiento-expediente-data">
+                        <div class="comment-progress">
+                          <form
+                            ngNativeValidate
+                            [formGroup]="form"
+                            style="width: 100%;"
+                          >
+                            <div class="comment-progress-content">
+                              <textarea
+                                class="materialize-textarea expediente-input ng-pristine ng-touched"
+                                name="commentProgress"
+                                formControlName="commentProgress"
+                                id="commentProgress"
+                                placeholder="Agregar comentario"
+                                required
+                              ></textarea>
+                              <div class="comment-progress-button dfc">
+                                <button
+                                  [class.button-disabled]="!form.valid"
+                                  (click)="send()"
+                                  class="select-file-btn indigo darken-1 waves-effect waves-light dfc"
                                 >
-                                  <div class="file-icon dfc">
-                                    <img
-                                      src="../../../assets/images/pdf_icon.png"
-                                      alt=""
-                                    />
-                                    <!-- <i class="fas fa-file-pdf"></i> -->
-                                  </div>
-                                  <div>
-                                    <span>
-                                      {{
-                                        tracking.document.split("uploads/")[1]
-                                      }}
-                                    </span>
-                                    <div class="file-format">
-                                      <span>PDF</span>
-                                    </div>
-                                  </div>
-                                </div>
-                                <div
-                                  class="file-item dfr"
-                                  *ngIf="
-                                    tracking.document.indexOf('doc') >= 0 ||
-                                    tracking.document.indexOf('docx') >= 0
-                                  "
-                                  (click)="open(tracking.document)"
-                                >
-                                  <div class="file-icon dfc">
-                                    <img
-                                      src="../../../assets/images/word_icon.png"
-                                      alt=""
-                                    />
-                                    <!-- <i class="fas fa-file-word"></i> -->
-                                  </div>
-                                  <div>
-                                    <span>
-                                      {{
-                                        tracking.document.split("uploads/")[1]
-                                      }}
-                                    </span>
-                                    <div class="file-format">
-                                      <span>DOC</span>
-                                    </div>
-                                  </div>
-                                </div>
+                                  <i class="material-icons">send</i>
+                                </button>
                               </div>
-                              <div class="remove-file dfr">
+                            </div>
+                          </form>
+                        </div>
+                        <div class="choose-files-container dfc">
+                          <div class="choose-files-title dfr">
+                            <div class="main"><span>Tu trabajo</span></div>
+                            <div class="secondary"><span>Pendiente</span></div>
+                          </div>
+                          <button
+                            href="#modal-File-Upload"
+                            class="select-file-btn waves-effect waves-light modal-trigger centered-img-bg dfc"
+                          >
+                            Agregar documento
+                          </button>
+                          <div
+                            *ngIf="this.trackings?.documents || trackingStorage"
+                            class="choose-files"
+                          >
+                            <div class="file-chooser-container">
+                              <div class="file-chooser-files">
                                 <div
-                                  class="watch-file"
-                                  (click)="open(tracking.document)"
+                                  *ngFor="
+                                    let tracking of this.trackings?.documents
+                                  "
+                                  class="file-chooser-file file-box"
                                 >
-                                  <span>Ver</span>
+                                  <div class="file-name">
+                                    <div
+                                      class="file-item dfr"
+                                      *ngIf="
+                                        tracking.document.indexOf('pdf') >= 0
+                                      "
+                                      (click)="open(tracking.document)"
+                                    >
+                                      <div class="file-icon dfc">
+                                        <img
+                                          src="../../../assets/images/pdf_icon.png"
+                                          alt=""
+                                        />
+                                        <!-- <i class="fas fa-file-pdf"></i> -->
+                                      </div>
+                                      <div>
+                                        <span>
+                                          {{
+                                            tracking.document.split(
+                                              "uploads/"
+                                            )[1]
+                                          }}
+                                        </span>
+                                        <div class="file-format">
+                                          <span>PDF</span>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div
+                                      class="file-item dfr"
+                                      *ngIf="
+                                        tracking.document.indexOf('doc') >= 0 ||
+                                        tracking.document.indexOf('docx') >= 0
+                                      "
+                                      (click)="open(tracking.document)"
+                                    >
+                                      <div class="file-icon dfc">
+                                        <img
+                                          src="../../../assets/images/word_icon.png"
+                                          alt=""
+                                        />
+                                        <!-- <i class="fas fa-file-word"></i> -->
+                                      </div>
+                                      <div>
+                                        <span>
+                                          {{
+                                            tracking.document.split(
+                                              "uploads/"
+                                            )[1]
+                                          }}
+                                        </span>
+                                        <div class="file-format">
+                                          <span>DOC</span>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="remove-file dfr">
+                                    <div
+                                      class="watch-file"
+                                      (click)="open(tracking.document)"
+                                    >
+                                      <span>Ver</span>
+                                    </div>
+                                    <i
+                                      class="remove-file-btn material-icons"
+                                      (click)="deleteDoc(tracking._id)"
+                                      >close</i
+                                    >
+                                  </div>
                                 </div>
-                                <i
-                                  class="remove-file-btn material-icons"
-                                  (click)="deleteDoc(tracking._id)"
-                                  >close</i
-                                >
                               </div>
                             </div>
                           </div>
+                          <button
+                            (click)="finish()"
+                            class="select-file-btn send-file-btn waves-effect waves-light indigo darken-1 dfc"
+                            [class.button-disabled]="
+                              this.trackingStorage === false
+                            "
+                          >
+                            Finalizar
+                          </button>
                         </div>
                       </div>
-                      <button
-                        (click)="finish()"
-                        class="select-file-btn send-file-btn waves-effect waves-light indigo darken-1 dfc"
-                        [class.button-disabled]="this.trackingStorage === false"
-                      >
-                        Finalizar
-                      </button>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
+            </perfect-scrollbar>
           </mat-tab>
         </mat-tab-group>
       </div>

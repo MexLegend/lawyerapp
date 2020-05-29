@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { MatDialogModule } from '@angular/material/dialog';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AngularEditorModule } from '@kolkov/angular-editor';
 import { DataTablesModule } from 'angular-datatables';
@@ -21,8 +22,16 @@ import { FileUploadModule } from "ng2-file-upload";
 import { LawyerContactComponent } from './lawyer-contact/lawyer-contact.component';
 import { BePrimeComponent } from './be-prime/be-prime.component';
 import { MatTabsModule } from '@angular/material/tabs';
-import {MatIconModule} from '@angular/material/icon';
+import { MatIconModule } from '@angular/material/icon';
 import { DocumentsViewComponent } from './documents-view/documents-view.component';
+import {
+  PerfectScrollbarModule, PerfectScrollbarConfigInterface,
+  PERFECT_SCROLLBAR_CONFIG
+} from 'ngx-perfect-scrollbar';
+
+const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
+  wheelPropagation: true
+};
 
 @NgModule({
   declarations: [
@@ -41,6 +50,7 @@ import { DocumentsViewComponent } from './documents-view/documents-view.componen
     UsersFormComponent,
   ],
   entryComponents: [
+    BePrimeComponent,
     DocumentsViewComponent
   ],
   exports: [
@@ -57,6 +67,7 @@ import { DocumentsViewComponent } from './documents-view/documents-view.componen
     UsersFormComponent,
   ],
   imports: [
+    MatDialogModule,
     AngularEditorModule,
     CommonModule,
     ComponentsModule,
@@ -67,7 +78,14 @@ import { DocumentsViewComponent } from './documents-view/documents-view.componen
     PipesModule,
     ReactiveFormsModule,
     MatTabsModule,
-    MatIconModule
-  ]
+    MatIconModule,
+    PerfectScrollbarModule
+  ],
+  providers: [
+    {
+      provide: PERFECT_SCROLLBAR_CONFIG,
+      useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG
+    }
+  ],
 })
 export class ModalsModule { }

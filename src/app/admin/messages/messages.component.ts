@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 
 @Component({
   selector: 'app-messages',
@@ -11,6 +12,8 @@ export class MessagesComponent implements OnInit {
   // dtTrigger: Subject<any> = new Subject();
 
   constructor() { }
+
+  public config: PerfectScrollbarConfigInterface = {};
 
   ngOnInit() {
     this.dtOptions = {

@@ -1,29 +1,17 @@
 <!-- Modal Structure -->
-<div
-  id="bePrime"
-  class="modal border-radius-6 modal-fixed-footer"
-  style="
-    z-index: 1003;
-    display: none;
-    opacity: 0;
-    top: 4%;
-    transform: scaleX(0.8) scaleY(0.8);
-  "
->
-  <div class="modal-header">
-    <span><span class="article-action">Haizen</span> Prime</span>
-  </div>
+<div mat-dialog-title class="modal-header">
+  <span><span class="article-action">Haizen</span> Prime</span>
+</div>
 
-  <div class="modal-content">
-    <div class="row">
-      <form
-        id="formArticulos"
-        class="col s12"
-        style="padding: 0; height: 100%;"
-        ngNativeValidate
+<mat-dialog-content class="mat-typography">
+  <div class="modal-content prime-modal-content">
+    <!-- Inputs Container -->
+    <div class="be-prime-container">
+      <perfect-scrollbar
+        class="scroll-container be-prime-scroll-content"
+        [config]="config"
       >
-        <!-- Inputs Container -->
-        <div class="inputs-container dfc">
+        <div class="scrollable-content">
           <div class="premium-account-img upload-img centered-img-bg dfc">
             <!-- <i class="fas fa-user-tie"></i> -->
             <div class="premium-account-inner-content dfc">
@@ -59,12 +47,15 @@
           </div>
           <div class="premium-account-tabs">
             <mat-tab-group>
+              <!-- Notifications Tab -->
               <mat-tab>
                 <ng-template mat-tab-label>
-                  <mat-icon class="example-tab-icon"
-                    >notifications_active</mat-icon
-                  >
-                  Notificaciones al instante
+                  <div class="dfc prime-tab-label" (click)="scrollTabClick()">
+                    <mat-icon class="example-tab-icon"
+                      >notifications_active</mat-icon
+                    >
+                    Notificaciones al instante
+                  </div>
                 </ng-template>
                 <div class="last-notifications-container dfr">
                   <div class="last-notifications-texts dfc">
@@ -112,10 +103,13 @@
                 </div>
               </mat-tab>
 
+              <!-- Exclusive Content Tab -->
               <mat-tab>
                 <ng-template mat-tab-label>
-                  <mat-icon class="example-tab-icon">star</mat-icon>
-                  Contenido exclusivo
+                  <div class="dfc prime-tab-label" (click)="scrollTabClick()">
+                    <mat-icon class="example-tab-icon">star</mat-icon>
+                    Contenido exclusivo
+                  </div>
                 </ng-template>
                 <div class="last-notifications-container dfr">
                   <div class="last-notifications-texts dfc">
@@ -162,10 +156,13 @@
                 </div>
               </mat-tab>
 
+              <!-- Prime Chat Tab -->
               <mat-tab>
                 <ng-template mat-tab-label>
-                  <mat-icon class="example-tab-icon">chat_bubble</mat-icon>
-                  Chat & estado privilegiado
+                  <div class="dfc prime-tab-label" (click)="scrollTabClick()">
+                    <mat-icon class="example-tab-icon">chat_bubble</mat-icon>
+                    Chat & estado privilegiado
+                  </div>
                 </ng-template>
                 <div class="last-notifications-container dfr">
                   <div class="last-notifications-texts dfc">
@@ -214,7 +211,7 @@
             </mat-tab-group>
           </div>
         </div>
-      </form>
+      </perfect-scrollbar>
     </div>
   </div>
-</div>
+</mat-dialog-content>

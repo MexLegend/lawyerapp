@@ -338,7 +338,7 @@
 /* SideNav */
 #admin-sidenav {
   box-shadow: none !important;
-  border: none !important;
+  border-left: none !important;
 }
 
 .sidenav {

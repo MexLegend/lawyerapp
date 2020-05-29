@@ -4,15 +4,19 @@ import {
   ChangeDetectorRef,
   AfterViewInit,
 } from "@angular/core";
+import {
+  MatBottomSheet
+} from "@angular/material/bottom-sheet";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import Swal from "sweetalert2";
-
 import { UpdateDataService } from "../../services/updateData.service";
-
 import { TrackingService } from "../../services/tracking.service";
 import { Tracking } from "../../models/Tracking";
 import { NotificationsService } from "../../services/notifications.service";
+import { DocumentsViewComponent } from '../../modals/documents-view/documents-view.component';
+
+import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 
 declare var $: any;
 
@@ -24,10 +28,10 @@ declare var $: any;
 export class FileTrackingComponent implements OnInit, AfterViewInit {
   constructor(
     private ref: ChangeDetectorRef,
-    private router: Router,
     public _notificationsS: NotificationsService,
     public _trackingS: TrackingService,
-    private _updateDataS: UpdateDataService
+    private _updateDataS: UpdateDataService,
+    private bottomSheet: MatBottomSheet,
   ) { }
 
   dtOptions: DataTables.Settings = {};
@@ -41,6 +45,7 @@ export class FileTrackingComponent implements OnInit, AfterViewInit {
   fileStorage: any;
   selected = new FormControl(0);
   selectedTrakingAction = new FormControl(0);
+  public config: PerfectScrollbarConfigInterface = {};
 
   ngAfterViewInit() {
     this.ref.detectChanges();
@@ -258,5 +263,11 @@ export class FileTrackingComponent implements OnInit, AfterViewInit {
   // Send Action to Update Data Service
   updateDataServiceAction() {
     this._updateDataS.dataServiceAction("seguimiento");
+  }
+
+  openDocuments(documents) {
+    this.bottomSheet.open(DocumentsViewComponent, {
+      data: { documents }
+    });
   }
 }

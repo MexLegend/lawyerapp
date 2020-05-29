@@ -44,6 +44,7 @@ export class UsersComponent implements OnInit {
         searchPlaceholder: "Buscar Users"
       },
       scrollY: "calc(100vh - 431px)",
+      
       scrollCollapse: true
     };
 

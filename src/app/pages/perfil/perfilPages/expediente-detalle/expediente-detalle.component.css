@@ -74,28 +74,10 @@
   justify-content: space-between;
 }
 
-.attached-file-actions {
-  position: relative;
-}
-
 .attached-file-btn {
   color: white;
   border-radius: 50%;
   min-width: 36px;
   padding: 0;
   margin-left: 10px;
-}
-
-.attached-files-quantity {
-  width: 15px;
-  height: 15px;
-  border-radius: 50%;
-  background: #ff5722;
-  color: white;
-  justify-content: center;
-  font-size: 12px;
-  position: absolute;
-  top: -3px;
-  right: -6px;
-  z-index: 1;
 }
