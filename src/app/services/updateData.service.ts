@@ -114,4 +114,8 @@ export class UpdateDataService {
     localStorage.setItem(key, data);
     this.storageUser.next(JSON.parse(data));
   }
+
+  setItemStorage(key: string, data: any) {
+    localStorage.setItem(key, data);
+  }
 }

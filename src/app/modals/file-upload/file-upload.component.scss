@@ -144,9 +144,10 @@
 
 .modal .modal-actions .modal-close-action:hover {
   background: linear-gradient(45deg, #243393, #1976d2) !important;
+  color: white !important;
 }
 
-.modal .modal-actions .modal-submit-action {
+.modal .modal-actions .modal-submit-action:not(.button-disabled) {
   background: linear-gradient(45deg, #243393, #1976d2) !important;
 }
 

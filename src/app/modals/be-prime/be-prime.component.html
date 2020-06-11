@@ -1,9 +1,14 @@
 <!-- Modal Structure -->
 <div mat-dialog-title class="modal-header">
   <span><span class="article-action">Haizen</span> Prime</span>
+  <i
+    mat-dialog-close
+    class="modal-exit material-icons pink accent-2 waves-effect waves-light dfr"
+    >close</i
+  >
 </div>
 
-<mat-dialog-content class="mat-typography">
+<mat-dialog-content class="mat-typography prime-modal-container">
   <div class="modal-content prime-modal-content">
     <!-- Inputs Container -->
     <div class="be-prime-container">
@@ -50,11 +55,13 @@
               <!-- Notifications Tab -->
               <mat-tab>
                 <ng-template mat-tab-label>
-                  <div class="dfc prime-tab-label" (click)="scrollTabClick()">
+                  <div class="dfc prime-tab-label">
                     <mat-icon class="example-tab-icon"
                       >notifications_active</mat-icon
                     >
-                    Notificaciones al instante
+                    <span class="exmaple-tab-text">
+                      Notificaciones al instante
+                    </span>
                   </div>
                 </ng-template>
                 <div class="last-notifications-container dfr">
@@ -106,9 +113,11 @@
               <!-- Exclusive Content Tab -->
               <mat-tab>
                 <ng-template mat-tab-label>
-                  <div class="dfc prime-tab-label" (click)="scrollTabClick()">
+                  <div class="dfc prime-tab-label">
                     <mat-icon class="example-tab-icon">star</mat-icon>
-                    Contenido exclusivo
+                    <span class="exmaple-tab-text">
+                      Contenido exclusivo
+                    </span>
                   </div>
                 </ng-template>
                 <div class="last-notifications-container dfr">
@@ -159,9 +168,11 @@
               <!-- Prime Chat Tab -->
               <mat-tab>
                 <ng-template mat-tab-label>
-                  <div class="dfc prime-tab-label" (click)="scrollTabClick()">
+                  <div class="dfc prime-tab-label">
                     <mat-icon class="example-tab-icon">chat_bubble</mat-icon>
-                    Chat & estado privilegiado
+                    <span class="exmaple-tab-text">
+                      Chat & estado privilegiado
+                    </span>
                   </div>
                 </ng-template>
                 <div class="last-notifications-container dfr">

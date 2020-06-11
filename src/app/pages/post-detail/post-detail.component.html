@@ -1,4 +1,4 @@
-<section id="noticias-main-container" class="pr pt-141">
+<section id="noticias-main-container" class="pr pt-111">
   <div id="noticias-content-container">
     <div class="noticias-data dfr">
       <!-- Detail Post Card -->
@@ -41,13 +41,18 @@
         </div>
         <div class="card-footer card-action">
           <div class="card-show-more">
-            <a
-              class="btn-news waves-effect waves-light btn gradient-45deg-dark-blue"
-              (click)="goBack()"
+            <div
+              class="card-author dfr"
+              style="justify-content: space-between; margin-left: 10px;"
             >
-              <i class="material-icons">reply</i>
-              <span>Regresar</span>
-            </a>
+              <button
+                class="author-contact-btn btn waves-effect waves-light gradient-45deg-dark-blue modal-trigger dfr"
+                href="#contactLawyer"
+              >
+                <i class="material-icons dfr">mail_outline</i>
+                <span>Contactar Autor</span>
+              </button>
+            </div>
           </div>
           <div class="card-social-network">
             <div class="like">

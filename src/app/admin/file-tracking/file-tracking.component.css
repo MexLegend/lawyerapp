@@ -1,3 +1,9 @@
+@media only screen and (max-width: 993px) {
+  .add-file-tracking-container {
+    width: calc(100vw - 117px) !important;
+  }
+}
+
 @media (max-width: 678px) {
   .seguimiento-expediente-options a {
     line-height: 15px;
@@ -21,6 +27,36 @@
     font-size: 16px !important;
     line-height: initial;
   }
+  .add-file-tracking-container {
+    flex-direction: column !important;
+    align-items: center !important;
+  }
+  .add-file-tracking-number-and-actions {
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+  .add-file-tracking-data {
+    align-items: center !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 15px 0 !important;
+  }
+  .seguimiento-expediente-actions,
+  .seguimiento-expediente-actions .seguimiento-expediente-options {
+    justify-content: center;
+  }
+  .seguimiento-expediente-data {
+    flex-direction: column !important ;
+  }
+  .comment-progress {
+    width: 100% !important;
+    margin-bottom: 15px;
+  }
+  .choose-files-container {
+    width: 100% !important;
+    margin: 0 !important;
+  }
 }
 
 @media (max-width: 520px) {
@@ -30,10 +66,6 @@
   .seguimiento-expediente-data {
     flex-direction: column !important;
     align-items: center !important;
-  }
-  .comment-progress {
-    width: 100% !important;
-    height: 120px !important;
   }
   .choose-files {
     width: 100% !important;
@@ -63,6 +95,17 @@
   }
   .tracking-file-comment-box {
     width: 100% !important;
+  }
+  .tracking-item-add-container {
+    top: 5px !important;
+    right: 14px !important;
+  }
+  .tracking-item-add-container .add-tracking-btn {
+    height: 25px !important;
+    width: 25px !important;
+  }
+  .tracking-item-add-container .add-tracking-btn i {
+    font-size: 16px;
   }
 }
 
@@ -95,6 +138,22 @@
   }
   a i {
     font-size: 14px;
+  }
+  .card-action.seguimiento-expediente-data {
+    padding: 10px !important;
+  }
+  .add-file-tracking-container {
+    width: 100% !important;
+  }
+  .add-file-tracking-number-and-actions {
+    height: 30px !important;
+    width: 30px !important;
+  }
+  .add-file-tracking-number {
+    height: 30px !important;
+    width: 30px !important;
+    border-radius: 50% !important;
+    font-size: 14px !important;
   }
 }
 
@@ -139,10 +198,15 @@ i {
   padding: 0;
   box-shadow: none;
   margin-top: 0;
+  width: 100%;
 }
 
 .card-content {
   padding: 24px 10px 1px 10px;
+}
+
+.card-action {
+  border: none;
 }
 
 .card-action.card-next {
@@ -197,8 +261,6 @@ i {
 }
 
 .user-card {
-  border: 1px solid rgba(0, 0, 0, 0.2);
-  box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.1);
   padding: 10px;
 }
 
@@ -206,9 +268,11 @@ i {
   margin-top: 0;
 }
 
+.user-card,
 .file-actions-card,
 .file-tracking-card {
   box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(160, 160, 160, 0.2) !important;
 }
 
 /* General Displaying */
@@ -226,6 +290,14 @@ a,
 
 .seguimiento-expediente-container {
   margin: 0 15px;
+  max-height: calc(100vh - 280px);
+  overflow: auto;
+  position: relative;
+  display: flex;
+}
+
+.seguimiento-expediente-container .inner-admin-scrollable-content {
+  padding: 0 3px;
 }
 
 .seguimiento-expediente-actions,
@@ -274,6 +346,7 @@ a,
 .tracking-item-header {
   height: 80px !important;
   padding: 0 24px;
+  position: relative;
 }
 
 .tracking-item-header .mat-content,
@@ -340,6 +413,22 @@ a,
   color: rgba(255, 255, 255, 0.8);
 }
 
+.tracking-item-header.mat-expansion-panel-header.mat-expanded:hover
+  .add-tracking-btn,
+.tracking-item-header.mat-expansion-panel-header.mat-expanded .add-tracking-btn,
+.mat-expansion-panel
+  .mat-expansion-panel-header.cdk-keyboard-focused:not([aria-disabled="true"])
+  .add-tracking-btn,
+.mat-expansion-panel
+  .mat-expansion-panel-header.cdk-program-focused:not([aria-disabled="true"])
+  .add-tracking-btn,
+.mat-expansion-panel:not(.mat-expanded)
+  .mat-expansion-panel-header:hover:not([aria-disabled="true"])
+  .add-tracking-btn {
+  color: #1976d2;
+  background: white !important;
+}
+
 .tracking-item-title {
   align-items: center;
   width: 100%;
@@ -377,6 +466,27 @@ a,
   margin-right: 10px;
   border-radius: 50%;
   border: 2px solid #1976d2;
+}
+
+.tracking-item-add-container {
+  position: absolute;
+  top: 22.5px;
+  right: 44.5px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.tracking-item-add-container .add-tracking-btn {
+  border-radius: 0%;
+  color: white;
+  height: 35px;
+  width: 35px;
+  justify-content: center;
+}
+
+.tracking-item-add-container .add-tracking-btn i {
+  margin: 0;
+  line-height: 40px !important;
 }
 
 .tracking-file-container {
@@ -538,7 +648,7 @@ a,
   width: 100%;
   font-size: 28px;
   font-weight: 600;
-  color: #1e88e5;
+  color: var(--default-color);
 }
 
 .expedient-date {
@@ -551,29 +661,30 @@ a,
   display: flex;
   flex-direction: row;
   align-items: center;
-  background: #1e88e5;
+  background: var(--nav-fixed-option-bg);
   border-radius: 5px;
-  padding: 5px;
+  padding: 5px 8px;
 }
 
 .status-icon {
   display: flex;
   flex-direction: row;
   align-items: center;
-  background: white;
+  background: var(--status-bg);
   border-radius: 50%;
-  margin-right: 3px;
+  margin-right: 8px;
 }
 
 .expediente-status .status-icon i {
-  color: #1e88e5;
+  color: var(--default-color);
   font-size: 18px;
   font-weight: 600;
-  padding: 2px;
+  padding: 5px;
 }
 
-.expediente-status span {
+.expediente-status .status-text {
   font-weight: 500;
+  color: var(--light-gray);
 }
 
 /* Tracking Expedient Styling */
@@ -587,8 +698,6 @@ a,
 
 .comment-progress {
   width: 50%;
-  height: 200px;
-  max-height: 200px;
   align-items: flex-start;
 }
 
@@ -602,7 +711,6 @@ a,
   padding: 10px;
   border-radius: 5px;
   margin: 0;
-  padding-right: 40px;
 }
 
 .comment-progress #commentProgress:focus {
@@ -619,7 +727,7 @@ a,
 
 .comment-progress-content .comment-progress-button button {
   background: transparent !important;
-  border: none;
+  border: none !important;
   color: #3949ab;
 }
 
@@ -679,7 +787,7 @@ a,
   padding: 10px;
   border-radius: 5px;
   font-weight: 600;
-  border: 1px solid #80808057;
+  border: 1px solid #80808057 !important;
 }
 
 .send-file-btn {
@@ -707,6 +815,14 @@ a,
 .file-icon img {
   width: 40px;
   max-width: 40px;
+}
+
+.file-name-and-format {
+  max-width: calc(100% - 145px);
+  width: calc(100% - 145px);
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .file-format {
@@ -759,4 +875,54 @@ a,
 /* File Tracking Button */
 .btn-floating i {
   margin: 0;
+}
+
+/* File Tracking Creation Styling */
+.add-file-tracking-container {
+  position: relative;
+  width: calc(100vw - 219px);
+  align-items: flex-start;
+}
+
+.add-file-tracking-img {
+  height: 180px;
+  width: 180px;
+  border-radius: 5px;
+}
+
+.add-file-tracking-data {
+  width: calc(100% - 290px);
+  max-width: calc(100% - 290px);
+  margin: 15px 30px;
+  align-items: flex-start;
+}
+
+.add-file-tracking-file-name,
+.add-file-tracking-file-client {
+  max-width: 100%;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.add-file-tracking-file-client {
+  color: var(--light-gray);
+  font-size: 16px;
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+
+.add-file-tracking-number-and-actions {
+  width: 50px;
+}
+
+.add-file-tracking-number {
+  width: 50px;
+  height: 50px;
+  background: var(--tracking-number-bg);
+  color: white;
+  border-radius: 8px;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: 600;
 }

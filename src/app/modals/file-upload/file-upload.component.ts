@@ -8,6 +8,7 @@ import { map, catchError } from "rxjs/operators";
 import { of } from "rxjs/internal/observable/of";
 import { NotificationsService } from "../../services/notifications.service";
 import { TrackingService } from "../../services/tracking.service";
+import { Subscription } from 'rxjs';
 
 declare var $: any;
 
@@ -22,7 +23,7 @@ export class FileUploadComponent implements OnInit {
     public _imgS: ImgService,
     public _notificationsS: NotificationsService,
     public _updateDS: UpdateDataService,
-    public _userS: UsersService
+    public _usersS: UsersService
   ) {}
 
   public uploader: FileUploader;
@@ -36,76 +37,31 @@ export class FileUploadComponent implements OnInit {
   @Input() idImg: string;
   progress: number = 0;
   progressT: number = 0;
+  subscription: Subscription;
 
-  public onFileSelected(event: any) {
-
-    let validExtensions = ["doc", "docx", "pdf"];
-
-    for (let index = 0; index < event.length; index++) {
-      let extension = event[index].name.split(".")[1];
-      if (validExtensions.indexOf(extension) < 0) {
-
-        this._notificationsS.message(
-          "error",
-          "Formato no valido",
-          `Sólo se permiten: ${validExtensions.join(", ")}`,
-          false,
-          false,
-          "",
-          "",
-          2000
-        );
-        return;
-      } else {
-        if (this._trackingS.files.length < 3) {
-          const file = event[index];
-          this._trackingS.files.push({
-            data: file,
-            inProgress: false,
-            progress: 0,
-          });
-        } else {
-          this._notificationsS.message(
-            "error",
-            "Limite de archivos exedido",
-            "Sólo se permiten 3 archivos",
-            false,
-            false,
-            "",
-            "",
-            2000
-          );
-          return;
-        }
-      }
-    }
-
+  ngOnInit() {
+    this._imgS.uploaderSend("user");
+    console.log(this.idImg);
   }
 
-  ngOnInit() {}
+  addDocuments() {
+    this._updateDS.setItemStorage(
+      "documents",
+      JSON.stringify(this._trackingS.files)
+    );
+    
+    this._trackingS.disableCancelUpload = true;
 
-  readBase64(file): Promise<any> {
-    var reader = new FileReader();
-    var future = new Promise((resolve, reject) => {
-      reader.addEventListener(
-        "load",
-        function () {
-          resolve(reader.result);
-        },
-        false
-      );
+    if (!localStorage.getItem("trackingData")) {
+      let idFile = localStorage.getItem("fileData")
+        ? JSON.parse(localStorage.getItem("fileData"))._id
+        : null;
+      this._trackingS.uploadDocs(idFile, null);
 
-      reader.addEventListener(
-        "error",
-        function (event) {
-          reject(event);
-        },
-        false
-      );
-
-      reader.readAsDataURL(file);
-    });
-    return future;
+    } else {
+      this._trackingS
+        .uploadDocs(null, JSON.parse(localStorage.getItem("trackingData"))._id);
+    }
   }
 
   /**
@@ -116,6 +72,10 @@ export class FileUploadComponent implements OnInit {
     this._trackingS.files.splice(index, 1);
   }
 
+  deleteImage() {
+    this.previewUrl = null;
+    this._trackingS.files = [];
+  }
 
   /**
    * format bytes
@@ -131,6 +91,132 @@ export class FileUploadComponent implements OnInit {
     const sizes = ["Bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
     const i = Math.floor(Math.log(bytes) / Math.log(k));
     return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + " " + sizes[i];
+  }
+
+  public onFileSelected(event: any) {
+    console.log(event);
+    console.log(this.typeImg);
+    console.log(this.idImg);
+
+    let validExtensions;
+
+    if (this.typeImg !== undefined && this.idImg !== undefined) {
+      validExtensions = ["png", "jpg", "gif"];
+
+      let extension = event[0].name.split(".")[1].toLowerCase();
+      console.log("EXT", extension);
+      if (validExtensions.indexOf(extension) < 0) {
+        this._notificationsS.message(
+          "error",
+          "Formato no valido",
+          `Sólo se permiten: ${validExtensions.join(", ")}`,
+          false,
+          false,
+          "",
+          "",
+          2000
+        );
+        return;
+      } else {
+        this.img = event[0];
+        this.preview();
+      }
+    } else {
+      console.log("FILES");
+      validExtensions = ["doc", "docx", "pdf"];
+
+      for (let index = 0; index < event.length; index++) {
+        let extension = event[index].name.split(".")[1];
+        if (validExtensions.indexOf(extension) < 0) {
+          this._notificationsS.message(
+            "error",
+            "Formato no valido",
+            `Sólo se permiten: ${validExtensions.join(", ")}`,
+            false,
+            false,
+            "",
+            "",
+            2000
+          );
+          return;
+        } else {
+          console.log(this._trackingS.files);
+          if (
+            this._trackingS.files.length < 3 ||
+            (localStorage.getItem("trackingData") &&
+              JSON.parse(localStorage.getItem("trackingData")).documents.length < 3)
+          ) {
+            const file = event[index];
+
+            if (
+              this._trackingS.files.length >= 1 ||
+              (localStorage.getItem("trackingData") &&
+                JSON.parse(localStorage.getItem("trackingData")).documents
+                  .length >= 1)
+            ) {
+              console.log(event);
+
+              let existA: number, existS: number;
+
+              existA = this._trackingS.files.findIndex(
+                (e) => e.data.name === event[index].name
+              );
+
+              if (localStorage.getItem("trackingData")) {
+                console.log("EXISTS");
+                existS = JSON.parse(
+                  localStorage.getItem("trackingData")
+                ).documents.findIndex(
+                  (e) => e.document.split("ads/")[1] === event[index].name
+                );
+              }
+
+              if (existA !== -1 || (localStorage.getItem("trackingData") && existS !== -1)) {
+                console.log("existe");
+                this._notificationsS.message(
+                  "error",
+                  "El archivo ya existe",
+                  "Agrega un documento diferente",
+                  false,
+                  false,
+                  "",
+                  "",
+                  2000
+                );
+                return;
+              } else {
+                this._trackingS.files.push({
+                  data: file,
+                  inProgress: false,
+                  progress: 0,
+                });
+              }
+
+              console.log(this._trackingS.files);
+            } else {
+              this._trackingS.files.push({
+                data: file,
+                inProgress: false,
+                progress: 0,
+              });
+            }
+            console.log(this._trackingS.files);
+          } else {
+            this._notificationsS.message(
+              "error",
+              "Limite de archivos exedido",
+              "Sólo se permiten 3 archivos",
+              false,
+              false,
+              "",
+              "",
+              2000
+            );
+            return;
+          }
+        }
+      }
+    }
   }
 
   preview() {
@@ -150,106 +236,23 @@ export class FileUploadComponent implements OnInit {
   //   }
   // }
 
-  uploadFile(file) {
-    file.inProgress = true;
-    this._updateDS.getFileData().subscribe((data: any) => {
+  uploadImg() {
+    console.log(this.img);
+    // return;
+    this._imgS.uploader.uploadAll();
 
-      if (data !== null) {
-        if (localStorage.getItem("tracking")) {
-          this._trackingS
-            .updateTracking(
-              localStorage.getItem("trackingDOC"),
-              this._trackingS.files
-            )
-            .pipe(
-              map((event) => {
-                switch (event.type) {
-                  case HttpEventType.UploadProgress:
-                    file.progress = Math.round(
-                      (event.loaded * 100) / event.total
-                    );
-                    break;
-                  case HttpEventType.Response:
-                    this.totalFiles += 1;
-                    this.progressT = Math.round(
-                      (this.totalFiles / this.totalFiles) * 100
-                    );
-
-                    if (this.progressT === 100) {
-                      $("#modal-File-Upload").modal("close");
-                    }
-
-                    file.inProgress = false;
-
-                    return event;
-                }
-              }),
-              catchError((error: HttpErrorResponse) => {
-                file.inProgress = false;
-                return of(`${file.data.name} upload failed.`);
-              })
-            )
-            .subscribe((event: any) => {
-              if (typeof event === "object") {
-              }
-            });
-        } else {
-
-          let idFile = localStorage.getItem("fileData")
-            ? JSON.parse(localStorage.getItem("fileData"))._id
-            : data._id;
-
-          this._trackingS
-            .createTracking(idFile, this._trackingS.files)
-            .pipe(
-              map((event) => {
-                switch (event.type) {
-                  case HttpEventType.UploadProgress:
-                    file.progress = Math.round(
-                      (event.loaded * 100) / event.total
-                    );
-                    break;
-                  case HttpEventType.Response:
-                    this.totalFiles += 1;
-                    this.progressT = Math.round(
-                      (this.totalFiles / this.totalFiles) * 100
-                    );
-
-                    if (this.progressT === 100) {
-                      $("#modal-File-Upload").modal("close");
-                    }
-
-                    file.inProgress = false;
-                    localStorage.setItem("tracking", JSON.stringify(true));
-
-                    return event;
-                }
-              }),
-              catchError((error: HttpErrorResponse) => {
-                file.inProgress = false;
-                return of(`${file.data.name} upload failed.`);
-              })
-            )
-            .subscribe((event: any) => {
-              if (typeof event === "object") {
-                if (event.body) {
-                  localStorage.setItem("trackingDOC", event.body.tracking._id);
-                }
-              }
-            });
-        }
-      }
-    });
-  }
-
-  private uploadFiles() {
-    console.log(this._trackingS.files);
-    // for (let index = 0; index < this._trackingS.files.length; index++) {
-
-    // }
-    // this._trackingS.files.map((file) => {
-    //   return;
-    // });
-      this.uploadFile(this._trackingS.files[0]);
+    this.subscription = this._updateDS
+      .getImg()
+      .subscribe((data: { url: string; public_id: string }) => {
+        this._usersS
+          .updateUser(localStorage.getItem("id"), null, data)
+          .subscribe((resp) => {
+            if (resp) {
+              this._imgS.fileUrl = this._usersS.user.img;
+              this.subscription.unsubscribe();
+              $("#modal-File-Upload").modal("close");
+            }
+          });
+      });
   }
 }

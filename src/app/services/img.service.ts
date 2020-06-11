@@ -145,7 +145,6 @@ export class ImgService {
           const url = data.url;
           const public_id = data.public_id;
           this._updateDS.sendImg(url, public_id);
-        console.log(data);
         // return;
         //   this.upload(img, typeImg, idImg).subscribe((r) => {
         //     this._userS.saveStorage(

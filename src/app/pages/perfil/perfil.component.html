@@ -143,7 +143,7 @@
         </button>
         <!-- Dropdown Content -->
         <mat-menu #beforeMenu="matMenu" xPosition="before">
-          <div class="perfilMenu">
+          <div class="perfilMenu" (click)="$event.stopPropagation()">
             <!-- Perfil Information -->
             <div class="perfil-info dfr">
               <div class="perfil-icon centered-img-bg">

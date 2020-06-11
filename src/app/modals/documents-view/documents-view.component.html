@@ -56,4 +56,7 @@
       </div>
     </span>
   </a>
+  <div *ngIf="documents.length < 1" class="no-attached-files">
+    <span>No hay archivos adjuntos</span>
+  </div>
 </mat-nav-list>

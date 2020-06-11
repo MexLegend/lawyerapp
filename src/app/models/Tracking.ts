@@ -1,13 +1,7 @@
 export class Tracking {
   constructor(
     public file: string,
-    public comments?: [
-      {
-        comment: string;
-        date: Date;
-        numV: number;
-      }
-    ],
+    public comment?: string,
     public date?: Date,
     public documents?: [
       {

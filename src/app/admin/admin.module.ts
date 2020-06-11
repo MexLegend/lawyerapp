@@ -6,6 +6,7 @@ import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 
 import { ADMIN_ROUTING } from './admin.routes';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { ComponentsModule } from '../components/components.module';
 import { FilesComponent } from './files/files.component';
 import { FileTrackingComponent } from './file-tracking/file-tracking.component';
 import { MessagesComponent } from './messages/messages.component';
@@ -16,16 +17,15 @@ import { PostsComponent } from './posts/posts.component';
 import { MaterialModule } from '../shared/material.module';
 import { SharedModule } from '../shared/shared.module';
 import { UsersComponent } from './users/users.component';
-import { MatTabsModule } from '@angular/material/tabs';
-import { MatCardModule } from '@angular/material/card';
-import { MatExpansionModule } from '@angular/material/expansion';
 import {
   PerfectScrollbarModule, PerfectScrollbarConfigInterface,
   PERFECT_SCROLLBAR_CONFIG
 } from 'ngx-perfect-scrollbar';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
-  wheelPropagation: true
+  wheelPropagation: true,
+  useBothWheelAxes: false,
+  suppressScrollX: true
 };
 
 @NgModule({
@@ -40,6 +40,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   ],
   imports: [
     CommonModule,
+    ComponentsModule,
     DataTablesModule,
     [SweetAlert2Module.forRoot()],
     ReactiveFormsModule,
@@ -48,9 +49,6 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     ModalsModule,
     PipesModule,
     SharedModule,
-    MatTabsModule,
-    MatCardModule,
-    MatExpansionModule,
     PerfectScrollbarModule
   ],
   providers: [

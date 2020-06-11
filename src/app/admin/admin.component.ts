@@ -71,6 +71,12 @@ export class AdminComponent implements OnInit, OnDestroy {
         alignment: "right"
       });
 
+      $('.dropdown-content').on('click', function (e) {
+        console.log("Hola");
+
+        e.stopPropagation();
+      });
+
       // Create New User Modal Init
       $("#modalUsers").modal({
         onCloseEnd: () => {
@@ -98,9 +104,8 @@ export class AdminComponent implements OnInit, OnDestroy {
       // Create New File Modal Init
       $("#modal-Expediente").modal({
         onCloseEnd: () => {
-          $("#formExpedientes")[0].reset();
+          // $("#formExpedientes")[0].reset();
         },
-        onOpenStart: () => { }
       });
 
       $("#selectUser").modal();

@@ -10,9 +10,6 @@
 <!-- Modal Formulario Articulos -->
 <app-posts-form></app-posts-form>
 
-<!-- Modal Formulario Expediente -->
-<app-files-form></app-files-form>
-
 <!-- Modal File Upload -->
 <app-file-upload></app-file-upload>
 
@@ -74,78 +71,74 @@
           </li>
           <!-- Perfil Option -->
           <li>
-            <!-- Perfil Dropdown Trigger -->
-            <a
-              class="waves-effect waves-block waves-light profile-button dropdown-trigger dfc"
-              href="javascript:void(0);"
-              data-target="profile-dropdown"
-              ><div class="avatar-status avatar-online">
-                <div class="centered-img-bg dfc">
-                  <img
-                    [src]="_usersS.user?.img | img: 'user':true"
-                    alt="avatar"
-                  />
+            <div class="waves-effect waves-light nav-perfil-button-trigger-container">
+              <!-- Button Triger -->
+              <button
+                class="nav-perfil-button-trigger"
+                mat-button
+                [matMenuTriggerFor]="beforeMenu"
+              >
+                <div class="avatar-status avatar-online">
+                  <div class="centered-img-bg dfc">
+                    <img
+                      [src]="_usersS.user?.img | img: 'user':true"
+                      alt="avatar"
+                    />
+                  </div>
+                  <i></i>
                 </div>
-                <i></i></div
-            ></a>
-            <!-- Perfil Dropdown Container -->
-            <ul class="dropdown-content" id="profile-dropdown">
-              <!-- Perfil Information -->
-              <li>
-                <div class="perfil-info dfr">
-                  <div class="perfil-icon centered-img-bg dfc">
-                    <img [src]="_usersS.user?.img | img: 'user':true" />
+              </button>
+              <!-- Dropdown Content -->
+              <mat-menu #beforeMenu="matMenu" xPosition="before">
+                <div class="perfilMenu" (click)="$event.stopPropagation()">
+                  <!-- Perfil Information -->
+                  <div class="perfil-info dfr">
+                    <div class="perfil-icon centered-img-bg">
+                      <img
+                        [src]="this._usersS.user.img | img: 'user':true"
+                        style="width: 100%;"
+                      />
+                    </div>
+                    <div class="perfil-text dfc">
+                      <span class="perfil-name ff-rr">{{
+                        this._usersS.user.firstName
+                          .split(" ")[0]
+                          .concat(" ", this._usersS.user.lastName.split(" ")[0])
+                      }}</span>
+                      <span class="perfil-email ff-rr">{{
+                        this._usersS.user.email
+                      }}</span>
+                    </div>
                   </div>
-                  <div class="perfil-text dfc">
-                    <span class="perfil-name ff-rr">{{
-                      this._usersS.user?.firstName
-                        .split(" ")[0]
-                        .concat(
-                          " ",
-                          (this._usersS.user?.lastName.split(" "))[0]
-                        )
-                    }}</span>
-                    <span class="perfil-email ff-rr">{{
-                      this._usersS.user?.email
-                    }}</span>
-                  </div>
+                  <div class="divider"></div>
+                  <button mat-menu-item routerLink="/perfil">
+                    <i class="material-icons">person_outline</i>Perfil
+                  </button>
+                  <!-- FAQ Option -->
+                  <!-- <button mat-menu-item>
+                  <i class="material-icons">help_outline</i>Ayuda
+                </button> -->
+                  <!-- Change Theme Option -->
+                  <button
+                    mat-menu-item
+                    class="dfr"
+                    style="justify-content: space-between;"
+                  >
+                    <div class="dfr">
+                      <i class="material-icons">brightness_4</i>Tema Oscuro
+                    </div>
+                    <app-theme-switch></app-theme-switch>
+                  </button>
+                  <div class="divider"></div>
+                  <!-- Logout Option -->
+                  <button mat-menu-item (click)="_usersS.logout()">
+                    <i class="material-icons">exit_to_app</i>Cerrar Sesión
+                  </button>
                 </div>
-              </li>
-              <li class="divider"></li>
-              <!-- Perfil Option -->
-              <li>
-                <a class="grey-text text-darken-1" routerLink="/perfil"
-                  ><i class="material-icons">person_outline</i> Perfil</a
-                >
-              </li>
-              <!-- FAQ Option -->
-              <!-- <li>
-                <a class="grey-text text-darken-1" href="page-faq.html"
-                  ><i class="material-icons">help_outline</i> Ayuda</a
-                >
-              </li> -->
-              <!-- Change Theme Option -->
-              <li>
-                <a
-                  class="grey-text text-darken-1 dfr"
-                  style="justify-content: space-between;"
-                  ><div class="dfr">
-                    <i class="material-icons" style="height: 0; line-height: 0;"
-                      >brightness_4</i
-                    >Tema Oscuro
-                  </div>
-                  <app-theme-switch></app-theme-switch>
-                </a>
-              </li>
-              <li class="divider"></li>
-              <!-- Logout Option -->
-              <li>
-                <a class="grey-text text-darken-1" (click)="_usersS.logout()"
-                  ><i class="material-icons">exit_to_app</i> Cerrar Sesión</a
-                >
-              </li>
-            </ul>
+              </mat-menu>
+            </div>
           </li>
+
           <!-- Messages Right Sidebar -->
           <!-- <li>
             <a
@@ -190,7 +183,7 @@
         <div class="dfr" style="width: 100%; position: relative;">
           <!-- Main Navbar Principal Options -->
           <ul class="main-sidenav-principal-options">
-            <li class="bold">
+            <!-- <li class="bold">
               <a
                 class="waves-effect waves-cyan dfc sidenav-close"
                 routerLink="/dashboard"
@@ -199,7 +192,7 @@
                 <i class="material-icons">pie_chart</i>
                 <span>Tablero</span>
               </a>
-            </li>
+            </li> -->
             <li class="bold">
               <a
                 class="waves-effect waves-cyan dfc sidenav-close"
@@ -252,7 +245,7 @@
                 <span>Seguimiento</span>
               </a>
             </li>
-            <li class="bold">
+            <!-- <li class="bold">
               <a
                 class="waves-effect waves-cyan dfc sidenav-close"
                 routerLink="/notificaciones"
@@ -271,7 +264,7 @@
                 <i class="material-icons">insert_invitation </i>
                 <span>Eventos</span>
               </a>
-            </li>
+            </li> -->
           </ul>
 
           <!-- Main Navbar Filter Options -->

@@ -38,7 +38,15 @@ export class PerfilComponent implements OnInit {
   }
 
   openPrimeModal() {
-    this.dialog.open(BePrimeComponent, { autoFocus: false });
+    let dialogRef = this.dialog.open(BePrimeComponent, { autoFocus: false });
+
+    dialogRef.afterOpened().subscribe(result => {
+      $('body').css('overflow', 'hidden');
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      $('body').css('overflow', '');
+    });
   }
 
   // Toggle Full Screen Function

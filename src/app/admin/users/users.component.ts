@@ -6,6 +6,7 @@ import Swal from 'sweetalert2';
 import { User } from '../../models/User';
 import { UpdateDataService } from '../../services/updateData.service';
 import { UsersService } from '../../services/users.service';
+import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 
 @Component({
   selector: 'app-users',
@@ -24,6 +25,7 @@ export class UsersComponent implements OnInit {
   dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<any> = new Subject();
   users: User[] = [];
+  public config: PerfectScrollbarConfigInterface = {};
 
   ngOnInit() {
     // Get Users Supcription
@@ -44,7 +46,6 @@ export class UsersComponent implements OnInit {
         searchPlaceholder: "Buscar Users"
       },
       scrollY: "calc(100vh - 431px)",
-      
       scrollCollapse: true
     };
 

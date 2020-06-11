@@ -7,6 +7,7 @@ import { ImgService } from '../../services/img.service';
 import { User } from '../../models/User';
 import { UsersService } from '../../services/users.service';
 import { UpdateDataService } from '../../services/updateData.service';
+import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 
 declare var $: any;
 
@@ -40,6 +41,7 @@ export class UsersFormComponent implements OnInit, AfterViewChecked {
   userEmail = new Subject<string>();
   userModalTitle: string;
   view: boolean;
+  public config: PerfectScrollbarConfigInterface = {};
 
   ngAfterViewChecked() {
     this.ref.detectChanges();
@@ -151,7 +153,7 @@ export class UsersFormComponent implements OnInit, AfterViewChecked {
           .getImg()
           .subscribe((data: { url: string; public_id: string }) => {
             this._usersS
-              .updateUser(this.form.value._id, user, data)
+              .updateUser(this.form.value._id, null, data)
               .subscribe((resp) => {
                 if (resp) {
                   this.imgData = null;

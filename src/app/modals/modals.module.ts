@@ -23,6 +23,7 @@ import { LawyerContactComponent } from './lawyer-contact/lawyer-contact.componen
 import { BePrimeComponent } from './be-prime/be-prime.component';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatIconModule } from '@angular/material/icon';
+import {MatRadioModule} from '@angular/material/radio'; 
 import { DocumentsViewComponent } from './documents-view/documents-view.component';
 import {
   PerfectScrollbarModule, PerfectScrollbarConfigInterface,
@@ -30,7 +31,9 @@ import {
 } from 'ngx-perfect-scrollbar';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
-  wheelPropagation: true
+  wheelPropagation: true,
+  useBothWheelAxes: false,
+  suppressScrollX: true
 };
 
 @NgModule({
@@ -51,7 +54,8 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   ],
   entryComponents: [
     BePrimeComponent,
-    DocumentsViewComponent
+    DocumentsViewComponent,
+    FilesFormComponent
   ],
   exports: [
     BePrimeComponent,
@@ -79,7 +83,8 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     ReactiveFormsModule,
     MatTabsModule,
     MatIconModule,
-    PerfectScrollbarModule
+    PerfectScrollbarModule,
+    MatRadioModule
   ],
   providers: [
     {

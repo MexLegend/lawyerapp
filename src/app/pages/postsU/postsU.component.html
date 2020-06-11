@@ -1,4 +1,4 @@
-<section id="noticias-main-container" class="pr pt-141 dfc">
+<section id="noticias-main-container" class="pr pt-111 dfc">
   <div id="noticias-main-menu">
     <div class="noticias-main-menu-container container">
       <div><span>Últimos Articulos</span></div>
@@ -70,17 +70,6 @@
               (click)="scrollToTop()"
               ><span class="card-title">{{ post?.title }}</span></a
             >
-            <div
-              class="card-author dfr"
-              style="justify-content: space-between; margin-left: 10px;"
-            >
-              <button
-                class="author-contact-btn btn waves-effect waves-light gradient-45deg-dark-blue modal-trigger dfr"
-                href="#contactLawyer"
-              >
-                <i class="material-icons dfr">mail_outline</i>
-              </button>
-            </div>
           </div>
           <div class="noticia-content" [innerHtml]="post?.content"></div>
         </div>

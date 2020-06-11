@@ -12,14 +12,6 @@ export class BePrimeComponent implements OnInit {
 
   public config: PerfectScrollbarConfigInterface = {};
 
-  ngOnInit() {
+  ngOnInit() {    
   }
-
-  scrollTabClick() {
-    console.log("Hola");
-    // $('#bePrime').scrollTop(10000);
-    // $('#bePrime').scrollTo(0, 0);
-
-  }
-
 }

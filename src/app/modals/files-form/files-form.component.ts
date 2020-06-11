@@ -7,6 +7,8 @@ import { User } from '../../models/User';
 import { FilesService } from '../../services/files.service';
 import { UpdateDataService } from '../../services/updateData.service';
 import { UsersService } from '../../services/users.service';
+import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
+import { MatDialogRef } from '@angular/material';
 
 declare var $: any;
 
@@ -18,6 +20,7 @@ declare var $: any;
 export class FilesFormComponent implements OnInit {
 
   constructor(
+    public dialogRef: MatDialogRef<FilesFormComponent>,
     public _filesS: FilesService,
     public _usersS: UsersService,
     public _updateData: UpdateDataService
@@ -25,23 +28,30 @@ export class FilesFormComponent implements OnInit {
 
   actor: any;
   affair: any;
+  fileCreation: boolean = true;
   client: any;
   defendant: any;
-  observations: any;
   extKey: any;
   fileModalTitle: string;
   form: FormGroup;
+  isChecked: boolean = false;
   name: any = '';
+  observations: any;
+  selectedRowData: any;
   subscription: Subscription;
   third: any;
   userData: any = '';
   users: User[];
+  selectedTab = new FormControl(0);
+  selectedClientIndex: any;
+  activeClientIndex: any;
+  public config: PerfectScrollbarConfigInterface = {};
 
   ngOnInit() {
 
     // Get UserData Subscription
     this._updateData.getUserData('expediente').subscribe((data: any) => {
-      if ( data !== '' && data !== null) {
+      if (data !== '' && data !== null) {
         this.userData = data;
         if (localStorage.getItem('userData')) {
           this.name =
@@ -94,7 +104,7 @@ export class FilesFormComponent implements OnInit {
     let observations = this.form.value.observations === '' ? null : this.form.value.observations;
     let third = this.form.value.third === '' ? null : this.form.value.third;
     let intKey = 'ryghery8her89yr8';
-    
+
     const file = new Files(
       this.form.value.actor,
       this.form.value.affair,
@@ -137,8 +147,43 @@ export class FilesFormComponent implements OnInit {
     });
   }
 
+  isCheckedFunction(data: any, index: any) {
+    if ((this.selectedClientIndex !== undefined && this.activeClientIndex !== undefined)
+      && this.activeClientIndex === index) {
+      this.isChecked = false;
+    } else {
+      this.isChecked = true;
+    }
+
+    this.selectedRowData = data;
+  }
+
   // Send Action to Update Data Service
   updateDataServiceAction() {
     this._updateData.dataServiceAction("expediente");
+  }
+
+  setData() {
+    if (this.selectedRowData !== '' && this.selectedRowData !== null) {
+      this._updateData.setItemUser(
+        "userData",
+        JSON.stringify(this.selectedRowData)
+      );
+      this._updateData.setUserData(this.selectedRowData);
+      this.activeClientIndex = this.selectedClientIndex;
+      this.changeButtons(true);
+    }
+  }
+
+  // Select file user buttons
+  changeButtons(isCreating) {
+    this.fileCreation = isCreating;
+    if (isCreating) {
+      this.selectedClientIndex = this.activeClientIndex;
+    } else {
+      if (this.selectedClientIndex === this.activeClientIndex) {
+        this.isChecked = false;
+      }
+    }
   }
 }

@@ -1,4 +1,9 @@
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import {
+  HttpClient,
+  HttpHeaders,
+  HttpEventType,
+  HttpErrorResponse,
+} from "@angular/common/http";
 import { EventEmitter, Injectable } from "@angular/core";
 import { Observable, throwError } from "rxjs";
 import { catchError, map } from "rxjs/operators";
@@ -10,6 +15,7 @@ import { TrackingsPagination, Tracking } from "../models/Tracking";
 import { UpdateDataService } from "./updateData.service";
 
 import { saveAs } from "file-saver";
+import { of } from "rxjs/internal/observable/of";
 
 declare var $: any;
 
@@ -24,8 +30,14 @@ export class TrackingService {
     private _usersS?: UsersService
   ) {}
 
+  disableCancelUpload: boolean = false;
+  public fileData: any = "";
   files: any[] = [];
+  fileStorage: any;
   public notifica = new EventEmitter<any>();
+  progressT: number = 0;
+  totalFiles: number = 0;
+  trackingStorage: any;
 
   getAll(id: string): Observable<Tracking[]> {
     const headers = new HttpHeaders({
@@ -46,9 +58,7 @@ export class TrackingService {
     });
     const url = `${environment.URI}/api/tracking/lawyer/all`;
 
-    return this.http
-      .get(url, { headers })
-      .pipe(map((resp: any) => resp.files));
+    return this.http.get(url, { headers }).pipe(map((resp: any) => resp.files));
   }
 
   getTrackings(
@@ -101,44 +111,70 @@ export class TrackingService {
       .pipe(map((resp: any) => resp.tracking));
   }
 
-  createTracking(id, file: any) {
+  createTracking(idFile) {
     const headers = new HttpHeaders({
       token: this._usersS.token,
     });
-    console.log(file);
-    console.log(file.length);
-    console.log(typeof file);
+
     let data = new FormData();
-    if (file.comment) {
+    if (localStorage.getItem("comment")) {
       console.log("COMMENT---");
-      data.append("comment", file.comment);
-    } else if (
-      file.length >= 1 &&
-      file.length !== undefined &&
-      typeof file === "object"
-    ) {
-      console.log("FILES---");
-      for (let index = 0; index < file.length; index++) {
-        data.append("files", file[index].data, file[index].data.name);
-      }
-    } else if (file === "CLOSED" || file === "OPEN") {
-      console.log("STATUS---");
-      data.append("status", file);
+      data.append("comment", localStorage.getItem("comment"));
     }
 
-    const url = `${environment.URI}/api/tracking/${id}`;
+    if (localStorage.getItem("documents")) {
+      console.log("DOCUMENTS---");
+      for (let index = 0; index < this.files.length; index++) {
+        data.append(
+          "documents",
+          this.files[index].data,
+          this.files[index].data.name
+        );
+      }
+    }
+
+    if (localStorage.getItem("status")) {
+      console.log("STATUS---");
+      data.append("status", localStorage.getItem("status"));
+    }
+
+    const url = `${environment.URI}/api/tracking/${idFile}`;
 
     return this.http
       .post(url, data, { headers, reportProgress: true, observe: "events" })
       .pipe(
         map((resp: any) => {
-          this.files.splice(0, 1);
+          // this.files.splice(0, 1);
 
           if (resp.body) {
+            console.log(resp.body);
             this._updateDataS.setItemTrack(
               "trackingData",
               JSON.stringify(resp.body.tracking)
             );
+            if (localStorage.getItem("documents")) {
+            } else {
+              // this._notificationsS.message(
+              //   "success",
+              //   `Seguimiento #${
+              //     JSON.parse(localStorage.getItem("fileData")).tracks.length + 1
+              //   } Finalizado`,
+              //   `Cliente: ${
+              //     JSON.parse(localStorage.getItem("fileData"))
+              //       .assigned_client[0].firstName
+              //   } ${
+              //     JSON.parse(localStorage.getItem("fileData"))
+              //       .assigned_client[0].lastName
+              //   }           Expediente: ${
+              //     JSON.parse(localStorage.getItem("fileData")).affair
+              //   }`,
+              //   false,
+              //   true,
+              //   "Aceptar",
+              //   ""
+              // );
+              // this.reset();
+            }
 
             console.log("CREATED OKOKOKOKOKO!!!!");
           }
@@ -161,42 +197,52 @@ export class TrackingService {
       );
   }
 
-  updateTracking(id, file: any) {
+  updateTracking(idTracking) {
     const headers = new HttpHeaders({
       token: this._usersS.token,
     });
 
     let data = new FormData();
-    if (file.comment) {
-      data.append("comment", file.comment);
-    } else if (this.files.length >= 1 && this.files[0].data.name) {
+
+    if (localStorage.getItem("comment")) {
+      console.log("COMMENT---");
+      data.append("comment", localStorage.getItem("comment"));
+    }
+
+    if (localStorage.getItem("documents")) {
+      console.log("DOCUMENTS---");
       for (let index = 0; index < this.files.length; index++) {
         data.append(
-          "files",
+          "documents",
           this.files[index].data,
           this.files[index].data.name
         );
       }
     }
-    if (localStorage.getItem("tracking")) {
-      data.append("tracking", JSON.parse(localStorage.getItem("tracking")));
+
+    if (localStorage.getItem("status")) {
+      console.log("STATUS---");
+      data.append("status", localStorage.getItem("status"));
     }
-    const url = `${environment.URI}/api/tracking/${id}`;
+
+    const url = `${environment.URI}/api/tracking/${idTracking}`;
 
     return this.http
       .put(url, data, { headers, reportProgress: true, observe: "events" })
       .pipe(
         map((resp: any) => {
-          this.files.splice(0, 1);
+          // this.files.splice(0, 1);
 
-          if (resp.body) {
-            console.log("UPDATED OKOKOKOKOKO!!!!");
-
+          if (resp.body && resp.body.tracking) {
             this._updateDataS.setItemTrack(
               "trackingData",
               JSON.stringify(resp.body.tracking)
             );
           }
+          //   console.log("UPDATED OKOKOKOKOKO!!!!");
+
+          // this.reset();
+
           return resp;
         }),
         catchError((err) => {
@@ -212,6 +258,23 @@ export class TrackingService {
             2000
           );
           return throwError(err);
+        })
+      );
+  }
+
+  deleteTracking(idTracking: string): Observable<any> {
+    const headers = new HttpHeaders({
+      "Content-Type": "application/json",
+      token: this._usersS.token,
+    });
+    const url = `${environment.URI}/api/tracking/${idTracking}`;
+
+    return this.http
+      .delete(url, { headers, reportProgress: true, observe: "events" })
+      .pipe(
+        map((resp: any) => {
+          console.log(resp);
+          return resp;
         })
       );
   }
@@ -232,17 +295,74 @@ export class TrackingService {
   }
 
   downloadPDF(url) {
-
-      let headers = new HttpHeaders();
-      headers = headers.set("Accept", "application/pdf");
-      this.http.get(`http://${url}`, {
+    let headers = new HttpHeaders();
+    headers = headers.set("Accept", "application/pdf");
+    this.http
+      .get(`http://${url}`, {
         headers: headers,
         responseType: "blob" as "blob",
-      }).subscribe((response: any) => {
+      })
+      .subscribe((response: any) => {
         console.log(response);
         var blob = new Blob([response]);
         var filename = url.split("uploads/")[1];
         saveAs(blob, filename);
       });
+  }
+
+  reset() {
+    localStorage.removeItem("comment");
+    localStorage.removeItem("documents");
+    localStorage.removeItem("fileData");
+    localStorage.removeItem("status");
+    localStorage.removeItem("trackingData");
+
+    this.trackingStorage = false;
+    this.fileStorage = false;
+    this.fileData = null;
+    this.files = [];
+  }
+
+  uploadDocs(idFile?, idTracking?) {
+    console.log("SUBIR ARCHIVO");
+
+    if (idFile !== null) {
+      this.createTracking(idFile).subscribe((res: any) => {
+        console.log(res);
+
+        if (res) {
+          // this.trackingStorage = true;
+          this.progressUpload(res);
+        }
+      });
+    } else {
+      this.updateTracking(idTracking).subscribe((res: any) => {
+        console.log(res);
+
+        if (res) {
+          // this.trackingStorage = true;
+          this.progressUpload(res);
+        }
+      });
+    }
+  }
+
+  progressUpload(res) {
+    if (res.loaded && res.total) {
+      this.progressT = Math.round(
+        (Number(res.loaded) / Number(res.total)) * 100
+      );
+      console.log(Math.round((Number(res.loaded) / Number(res.total)) * 100));
+    }
+
+    if (res.body) {
+      setTimeout(() => {
+        this.disableCancelUpload = false;
+        $("#modal-File-Upload").modal("close");
+        this.files = [];
+        this.progressT = 0;
+        localStorage.removeItem("documents");
+      }, 2000);
+    }
   }
 }

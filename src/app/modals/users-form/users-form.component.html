@@ -26,207 +26,242 @@
 
   <!-- Modal Content -->
   <div class="modal-content">
-    <div class="row" style="margin: 20px 0 0 0; height: calc(100% - 20px);">
-      <form
-        id="formUsers"
-        class="col s12"
-        style="padding: 0 30px; height: 100%;"
-        ngNativeValidate
-        [formGroup]="form"
-      >
-        <!-- Inputs Container -->
-        <div class="inputs-container">
-          <div class="upload-img-container dfr" style="margin-bottom: 10px;">
-            <div class="upload-img centered-img-bg dfc">
-              <img
-                *ngIf="this._imgS.image"
-                [attr.src]="
-                  this._imgS.image
-                    ? (this._imgS.image | img: 'user':true)
+    <perfect-scrollbar
+      class="scroll-container be-prime-scroll-content"
+      [config]="config"
+    >
+      <div class="scrollable-content">
+        <div class="row" style="margin: 20px 0 0 0; height: calc(100% - 20px);">
+          <form
+            id="formUsers"
+            class="col s12"
+            style="padding: 0 30px; height: 100%;"
+            ngNativeValidate
+            [formGroup]="form"
+          >
+            <!-- Inputs Container -->
+            <div class="inputs-container">
+              <div
+                class="upload-img-container dfr"
+                style="margin-bottom: 10px;"
+              >
+                <div class="upload-img centered-img-bg dfc">
+                  <img
+                    *ngIf="this._imgS.image"
+                    [attr.src]="
+                      this._imgS.image
+                        ? (this._imgS.image | img: 'user':true)
+                        : ''
+                    "
+                  />
+                  <div
+                    class="select-img dfr"
+                    [attr.data-active]="this._imgS.image ? 'on' : 'off'"
+                    (click)="userImg.click()"
+                  >
+                    <i
+                      class="material-icons"
+                      [attr.data-active]="this._imgS.image ? 'on' : 'off'"
+                      >camera_alt</i
+                    >
+                    <input
+                      #userImg
+                      type="file"
+                      ng2FileSelect
+                      [uploader]="this._imgS.uploader"
+                      style="display: none;"
+                      accept="image/png, image/jpg, image/jpeg"
+                      (change)="selectImg($event)"
+                    />
+                  </div>
+                </div>
+                <div class="dfc" style="width: 100%;">
+                  <!-- Email Input Field -->
+                  <div class="modal-input modal-input-pink">
+                    <input
+                      name="emailAdmin"
+                      formControlName="emailAdmin"
+                      type="email"
+                      placeholder=" "
+                      required
+                      (ngModelChange)="this.userEmail.next($event)"
+                    />
+                    <div
+                      class="modal-input-placeholder modal-input-placeholder-pink"
+                    >
+                      Email*
+                    </div>
+                  </div>
+                  <div
+                    class="emailError"
+                    [ngStyle]="errorEmail ? { height: '23px' } : ''"
+                  >
+                    <div
+                      *ngIf="errorEmail && this.form.value._id === null"
+                      style="margin-top: 5px;"
+                    >
+                      El email ya esta en uso
+                    </div>
+                  </div>
+                  <!-- First Name Input Field -->
+                  <div class="modal-input modal-input-pink">
+                    <input
+                      name="firstName"
+                      formControlName="firstName"
+                      type="text"
+                      placeholder=" "
+                      required
+                    />
+                    <div
+                      class="modal-input-placeholder modal-input-placeholder-pink"
+                    >
+                      Nombre(s)*
+                    </div>
+                  </div>
+                  <!-- Last Name Input Field -->
+                  <div class="modal-input modal-input-pink">
+                    <input
+                      name="lastName"
+                      formControlName="lastName"
+                      type="text"
+                      placeholder=" "
+                      required
+                    />
+                    <div
+                      class="modal-input-placeholder modal-input-placeholder-pink"
+                    >
+                      Apellido*
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- CellPhone Input Field -->
+              <div class="modal-input modal-input-pink">
+                <input
+                  name="cellPhone"
+                  formControlName="cellPhone"
+                  type="tel"
+                  placeholder=" "
+                />
+                <div
+                  class="modal-input-placeholder modal-input-placeholder-pink"
+                >
+                  Teléfono
+                </div>
+              </div>
+              <!-- Address Input Field -->
+              <div class="modal-input modal-input-pink">
+                <input
+                  name="address"
+                  formControlName="address"
+                  type="text"
+                  placeholder=" "
+                />
+                <div
+                  class="modal-input-placeholder modal-input-placeholder-pink"
+                >
+                  Domicilio
+                </div>
+              </div>
+              <!-- Password Input Field -->
+              <div
+                *ngIf="view"
+                id="userPassInput"
+                class="modal-input modal-input-pink"
+              >
+                <input
+                  id="userPassword"
+                  name="password"
+                  formControlName="password1"
+                  type="password"
+                  placeholder=" "
+                />
+                <div
+                  class="modal-input-placeholder modal-input-placeholder-pink"
+                >
+                  Contraseña*
+                </div>
+              </div>
+              <div
+                [ngStyle]="
+                  this.form.get('password1').errors?.minlength
+                    ? { height: '23px', margin: '-5px 0px 5px' }
                     : ''
                 "
-              />
-              <div
-                class="select-img dfr"
-                [attr.data-active]="this._imgS.image ? 'on' : 'off'"
-                (click)="userImg.click()"
+                class="form-control-feedback"
               >
-                <i
-                  class="material-icons"
-                  [attr.data-active]="this._imgS.image ? 'on' : 'off'"
-                  >camera_alt</i
-                >
-                <input
-                  #userImg
-                  type="file"
-                  ng2FileSelect
-                  [uploader]="this._imgS.uploader"
-                  style="display: none;"
-                  accept="image/png, image/jpg, image/jpeg"
-                  (change)="selectImg($event)"
-                />
+                Por lo menos 9 caracteres
               </div>
-            </div>
-            <div class="dfc" style="width: 100%;">
-              <!-- Email Input Field -->
-              <div class="modal-input modal-input-pink">
+              <!-- Password2 Input Field -->
+              <div
+                *ngIf="view"
+                id="userPassInput2"
+                class="modal-input modal-input-pink"
+              >
                 <input
-                  name="emailAdmin"
-                  formControlName="emailAdmin"
-                  type="email"
+                  id="userPassword2"
+                  name="password2"
+                  formControlName="password2"
+                  type="password"
                   placeholder=" "
-                  required
-                  (ngModelChange)="this.userEmail.next($event)"
                 />
                 <div
                   class="modal-input-placeholder modal-input-placeholder-pink"
                 >
-                  Email*
+                  Repetir la Contraseña*
                 </div>
               </div>
               <div
-                class="emailError"
-                [ngStyle]="errorEmail ? { height: '23px' } : ''"
+                *ngIf="this.form.get('password2').errors?.notEqual"
+                class="form-control-feedback"
               >
-                <div
-                  *ngIf="errorEmail && this.form.value._id === null"
-                  style="margin-top: 5px;"
-                >
-                  El email ya esta en uso
-                </div>
-              </div>
-              <!-- First Name Input Field -->
-              <div class="modal-input modal-input-pink">
-                <input
-                  name="firstName"
-                  formControlName="firstName"
-                  type="text"
-                  placeholder=" "
-                  required
-                />
-                <div
-                  class="modal-input-placeholder modal-input-placeholder-pink"
-                >
-                  Nombre(s)*
-                </div>
-              </div>
-              <!-- Last Name Input Field -->
-              <div class="modal-input modal-input-pink">
-                <input
-                  name="lastName"
-                  formControlName="lastName"
-                  type="text"
-                  placeholder=" "
-                  required
-                />
-                <div
-                  class="modal-input-placeholder modal-input-placeholder-pink"
-                >
-                  Apellido*
-                </div>
+                Las contraseñas deben ser iguales
               </div>
             </div>
-          </div>
-          <!-- CellPhone Input Field -->
-          <div class="modal-input modal-input-pink">
-            <input
-              name="cellPhone"
-              formControlName="cellPhone"
-              type="tel"
-              placeholder=" "
-            />
-            <div
-              class="modal-input-placeholder modal-input-placeholder-pink"
-            >
-              Teléfono
-            </div>
-          </div>
-          <!-- Address Input Field -->
-          <div class="modal-input modal-input-pink">
-            <input
-              name="address"
-              formControlName="address"
-              type="text"
-              placeholder=" "
-            />
-            <div
-              class="modal-input-placeholder modal-input-placeholder-pink"
-            >
-              Domicilio
-            </div>
-          </div>
-          <!-- Password Input Field -->
-          <div
-            *ngIf="view"
-            id="userPassInput"
-            class="modal-input modal-input-pink"
-          >
-            <input
-              id="userPassword"
-              name="password"
-              formControlName="password1"
-              type="password"
-              placeholder=" "
-            />
-            <div
-              class="modal-input-placeholder modal-input-placeholder-pink"
-            >
-              Contraseña*
-            </div>
-            <div
-              *ngIf="this.form.get('password1').errors?.minlength"
-              class="form-control-feedback"
-            >
-              Por lo menos 9 caracteres
-            </div>
-          </div>
-          <!-- Password2 Input Field -->
-          <div
-            *ngIf="view"
-            id="userPassInput2"
-            class="modal-input modal-input-pink"
-          >
-            <input
-              id="userPassword2"
-              name="password2"
-              formControlName="password2"
-              type="password"
-              placeholder=" "
-            />
-            <div
-              class="modal-input-placeholder modal-input-placeholder-pink"
-            >
-              Repetir la Contraseña*
-            </div>
-          </div>
-          <div
-            *ngIf="this.form.get('password2').errors?.notEqual"
-            class="form-control-feedback"
-          >
-            Las contraseñas deben ser iguales
+          </form>
+        </div>
+        <div
+          *ngIf="this._imgS.uploader?.isUploading"
+          class="upload-progress-container inner-progress dfc"
+        >
+          <div class="upload-progress modal-footer-upload-progress">
+            <app-progress
+              [progress]="this._imgS.uploader?.progress"
+            ></app-progress>
           </div>
         </div>
-      </form>
-    </div>
+      </div>
+    </perfect-scrollbar>
   </div>
   <div class="modal-footer modal-actions">
-    <div *ngIf="this._imgS.uploader?.isUploading" class="upload-progress">
-      <app-progress [progress]="this._imgS.uploader?.progress"></app-progress>
+    <div class="modal-actions-container dfr">
+      <div
+        *ngIf="this._imgS.uploader?.isUploading"
+        class="upload-progress-container dfc"
+      >
+        <div class="upload-progress modal-footer-upload-progress">
+          <app-progress
+            [progress]="this._imgS.uploader?.progress"
+          ></app-progress>
+        </div>
+      </div>
+      <div class="modal-actions-content">
+        <button
+          type="button"
+          class="modal-close waves-effect waves-light btn modal-close-action"
+          (click)="clearImg()"
+        >
+          Cancelar
+        </button>
+        <button
+          type="submit"
+          [class.button-disabled]="!form.valid || errorEmail === true"
+          class="waves-effect waves-light btn modal-submit-action"
+          (click)="create()"
+        >
+          Guardar
+        </button>
+      </div>
     </div>
-    <button
-      type="button"
-      class="modal-close waves-effect waves-light btn modal-close-action"
-      (click)="clearImg()"
-    >
-      Cancelar
-    </button>
-    <button
-      type="submit"
-      [class.button-disabled]="!form.valid || errorEmail === true"
-      class="waves-effect waves-light btn modal-submit-action"
-      (click)="create()"
-    >
-      Guardar
-    </button>
   </div>
 </div>

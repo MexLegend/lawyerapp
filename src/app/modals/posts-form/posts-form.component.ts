@@ -7,6 +7,7 @@ import { ImgService } from '../../services/img.service';
 import { Post } from '../../models/Post';
 import { PostsService } from '../../services/posts.service';
 import { UpdateDataService } from '../../services/updateData.service';
+import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 
 declare var $: any;
 
@@ -70,6 +71,7 @@ export class PostsFormComponent implements OnInit {
   postModalTitle: string;
   subscription: Subscription;
   titleLabel: any;
+  public config: PerfectScrollbarConfigInterface = {};
 
   ngOnInit() {
     this.initArticulosForm();

@@ -93,31 +93,34 @@
         ><img class="responsive-img" id="logo" src="/assets/images/logo.png"
       /></a>
     </div>
-    <div id="nav-menu-items">
+    <div id="nav-menu-items" class="dfr">
       <ul class="left">
         <li class="hide-on-med-and-down">
           <a
             class="waves-effect waves-light"
             routerLink="/inicio"
             (click)="scrollToTop()"
-            >Inicio</a
           >
+            <span>Inicio</span>
+          </a>
         </li>
         <li class="hide-on-med-and-down">
           <a
             class="waves-effect waves-light"
             routerLink="/contacto"
             (click)="scrollToTop()"
-            >Contacto</a
           >
+            <span>Contacto</span>
+          </a>
         </li>
         <li class="hide-on-med-and-down">
           <a
             class="waves-effect waves-light"
             routerLink="/articulos"
             (click)="scrollToTop()"
-            >Articulos</a
           >
+            <span>Articulos</span>
+          </a>
         </li>
         <!-- <li class="hide-on-med-and-down">
           <a
@@ -135,191 +138,181 @@
             ><div>Transparencia</div>
           </a>
         </li> -->
+      </ul>
+    </div>
+    <div class="nav-fixed-options-container dfr">
+      <!-- Notifications Dropdown -->
+      <ng-container *ngIf="this._usersS.isLogged()">
+        <div class="nav-fixed-option dfc">
+          <button mat-button [matMenuTriggerFor]="beforeMenu">
+            <i class="material-icons" style="width: fit-content;">
+              notifications_none
+            </i>
+            <small class="notification-badge dfc">5</small>
+          </button>
+          <mat-menu #beforeMenu="matMenu" xPosition="before">
+            <div class="notificationsMenu">
+              <button mat-menu-item>
+                <span style="text-transform: uppercase; font-size: 1.15rem;">
+                  Notificaciones
+                </span>
+                <span class="new badge">5</span>
+              </button>
+              <mat-divider></mat-divider>
+              <button routerLink="/perfil/general" mat-menu-item>
+                <div class="notificationMenu-item">
+                  <div class="notificationMenu-item-content">
+                    <span class="material-icons icon-bg-circle cyan small"
+                      >add_shopping_cart</span
+                    >
+                    A new order has been placed!
+                  </div>
+                  <time class="media-meta grey-text darken-2">2 hours ago</time>
+                </div>
+              </button>
+              <button routerLink="/perfil/general" mat-menu-item>
+                <div class="notificationMenu-item">
+                  <div class="notificationMenu-item-content">
+                    <span class="material-icons icon-bg-circle red small"
+                      >stars</span
+                    >
+                    Completed the task
+                  </div>
+                  <time class="media-meta grey-text darken-2">3 days ago</time>
+                </div>
+              </button>
+              <button routerLink="/perfil/general" mat-menu-item>
+                <div class="notificationMenu-item">
+                  <div class="notificationMenu-item-content">
+                    <span class="material-icons icon-bg-circle teal small"
+                      >settings</span
+                    >
+                    Settings updated
+                  </div>
+                  <time class="media-meta grey-text darken-2">4 days ago</time>
+                </div>
+              </button>
+              <button routerLink="/perfil/general" mat-menu-item>
+                <div class="notificationMenu-item">
+                  <div class="notificationMenu-item-content">
+                    <span
+                      class="material-icons icon-bg-circle deep-orange small"
+                      >today</span
+                    >
+                    Director meeting started
+                  </div>
+                  <time class="media-meta grey-text darken-2">6 days ago</time>
+                </div>
+              </button>
+              <button routerLink="/perfil/general" mat-menu-item>
+                <div class="notificationMenu-item">
+                  <div class="notificationMenu-item-content">
+                    <span class="material-icons icon-bg-circle amber small"
+                      >trending_up</span
+                    >
+                    Generate monthly report
+                  </div>
+                  <time class="media-meta grey-text darken-2">1 week ago</time>
+                </div>
+              </button>
+            </div>
+          </mat-menu>
+        </div>
+      </ng-container>
 
-        <!-- Notifications Dropdown -->
-        <ng-container *ngIf="this._usersS.isLogged()">
-          <li>
-            <button mat-button [matMenuTriggerFor]="beforeMenu">
-              <i class="material-icons" style="width: fit-content;"
-                >notifications_none<small class="notification-badge"
-                  >5</small
-                ></i
-              >
-            </button>
-            <mat-menu #beforeMenu="matMenu" xPosition="before">
-              <div class="notificationsMenu">
-                <button mat-menu-item>
-                  <span style="text-transform: uppercase; font-size: 1.15rem;"
-                    >Notificaciones</span
-                  >
-                  <span class="new badge">5</span>
-                </button>
-                <mat-divider></mat-divider>
-                <button routerLink="/perfil/general" mat-menu-item>
-                  <div class="notificationMenu-item">
-                    <div class="notificationMenu-item-content">
-                      <span class="material-icons icon-bg-circle cyan small"
-                        >add_shopping_cart</span
-                      >
-                      A new order has been placed!
-                    </div>
-                    <time class="media-meta grey-text darken-2"
-                      >2 hours ago</time
-                    >
-                  </div>
-                </button>
-                <button routerLink="/perfil/general" mat-menu-item>
-                  <div class="notificationMenu-item">
-                    <div class="notificationMenu-item-content">
-                      <span class="material-icons icon-bg-circle red small"
-                        >stars</span
-                      >
-                      Completed the task
-                    </div>
-                    <time class="media-meta grey-text darken-2"
-                      >3 days ago</time
-                    >
-                  </div>
-                </button>
-                <button routerLink="/perfil/general" mat-menu-item>
-                  <div class="notificationMenu-item">
-                    <div class="notificationMenu-item-content">
-                      <span class="material-icons icon-bg-circle teal small"
-                        >settings</span
-                      >
-                      Settings updated
-                    </div>
-                    <time class="media-meta grey-text darken-2"
-                      >4 days ago</time
-                    >
-                  </div>
-                </button>
-                <button routerLink="/perfil/general" mat-menu-item>
-                  <div class="notificationMenu-item">
-                    <div class="notificationMenu-item-content">
-                      <span
-                        class="material-icons icon-bg-circle deep-orange small"
-                        >today</span
-                      >
-                      Director meeting started
-                    </div>
-                    <time class="media-meta grey-text darken-2"
-                      >6 days ago</time
-                    >
-                  </div>
-                </button>
-                <button routerLink="/perfil/general" mat-menu-item>
-                  <div class="notificationMenu-item">
-                    <div class="notificationMenu-item-content">
-                      <span class="material-icons icon-bg-circle amber small"
-                        >trending_up</span
-                      >
-                      Generate monthly report
-                    </div>
-                    <time class="media-meta grey-text darken-2"
-                      >1 week ago</time
-                    >
-                  </div>
-                </button>
+      <!-- Perfil Dropdown -->
+      <ng-container *ngIf="this._usersS.isLogged()">
+        <div class="nav-fixed-option dfc">
+          <button mat-button [matMenuTriggerFor]="beforeMenu">
+            <div class="avatar-status avatar-online">
+              <div class="centered-img-bg dfc">
+                <img
+                  [src]="_usersS.user?.img | img: 'user':true"
+                  alt="avatar"
+                />
               </div>
-            </mat-menu>
-          </li>
-        </ng-container>
-
-        <!-- Perfil Dropdown -->
-        <ng-container *ngIf="this._usersS.isLogged()">
-          <li>
-            <button mat-button [matMenuTriggerFor]="beforeMenu">
-              <div class="avatar-status avatar-online">
-                <div class="centered-img-bg dfc">
+              <i></i>
+            </div>
+          </button>
+          <mat-menu #beforeMenu="matMenu" xPosition="before">
+            <div class="perfilMenu" (click)="$event.stopPropagation()">
+              <!-- Perfil Information -->
+              <div class="perfil-info dfr">
+                <div class="perfil-icon centered-img-bg dfc">
                   <img
                     [src]="_usersS.user?.img | img: 'user':true"
-                    alt="avatar"
+                    style="width: 100%;"
                   />
                 </div>
-                <i></i>
-              </div>
-            </button>
-            <mat-menu #beforeMenu="matMenu" xPosition="before">
-              <div class="perfilMenu">
-                <!-- Perfil Information -->
-                <div class="perfil-info dfr">
-                  <div class="perfil-icon centered-img-bg dfc">
-                    <img
-                      [src]="_usersS.user?.img | img: 'user':true"
-                      style="width: 100%;"
-                    />
-                  </div>
-                  <div class="perfil-text dfc">
-                    <span class="perfil-name ff-rr">{{
-                      this._usersS.user.firstName
-                        .split(" ")[0]
-                        .concat(" ", this._usersS.user.lastName.split(" ")[0])
-                    }}</span>
-                    <span class="perfil-email ff-rr">{{
-                      this._usersS.user.email
-                    }}</span>
-                  </div>
+                <div class="perfil-text dfc">
+                  <span class="perfil-name ff-rr">{{
+                    this._usersS.user.firstName
+                      .split(" ")[0]
+                      .concat(" ", this._usersS.user.lastName.split(" ")[0])
+                  }}</span>
+                  <span class="perfil-email ff-rr">{{
+                    this._usersS.user.email
+                  }}</span>
                 </div>
-                <mat-divider></mat-divider>
-                <!-- Editar Perfil Option -->
-                <button routerLink="/perfil/general" mat-menu-item>
-                  <i class="material-icons">person_outline</i>
-                  <span>Editar Perfil</span>
-                </button>
-                <!-- Expedientes Option -->
-                <button mat-menu-item routerLink="/perfil/expedientes">
-                  <i class="material-icons">contact_mail</i>
-                  <span>Expedientes</span>
-                </button>
-                <!-- Eventos Option -->
-                <button mat-menu-item routerLink="/perfil/eventos">
-                  <i class="material-icons">insert_invitation </i>
-                  <span>Eventos</span>
-                  <span class="badge badge pill perfil-badge mr-10">5</span>
-                </button>
-                <mat-divider></mat-divider>
-                <!-- FAQ Option -->
-                <!-- <button mat-menu-item>
+              </div>
+              <mat-divider></mat-divider>
+              <!-- Editar Perfil Option -->
+              <button routerLink="/perfil/general" mat-menu-item>
+                <i class="material-icons">person_outline</i>
+                <span>Editar Perfil</span>
+              </button>
+              <!-- Expedientes Option -->
+              <button mat-menu-item routerLink="/perfil/expedientes">
+                <i class="material-icons">contact_mail</i>
+                <span>Expedientes</span>
+              </button>
+              <!-- Eventos Option -->
+              <button mat-menu-item routerLink="/perfil/eventos">
+                <i class="material-icons">insert_invitation </i>
+                <span>Eventos</span>
+                <span class="badge badge pill perfil-badge mr-10">5</span>
+              </button>
+              <mat-divider></mat-divider>
+              <!-- FAQ Option -->
+              <!-- <button mat-menu-item>
                   <i class="material-icons">help_outline</i>Ayuda
                 </button> -->
-                <!-- Change Theme Option -->
-                <button
-                  mat-menu-item
-                  class="dfr"
-                  style="justify-content: space-between;"
-                >
-                  <div class="dfr">
-                    <i class="material-icons">brightness_4</i>Tema Oscuro
-                  </div>
-                  <app-theme-switch></app-theme-switch>
-                </button>
-                <mat-divider></mat-divider>
-                <!-- Logout Option -->
-                <button mat-menu-item (click)="_usersS.logout()">
-                  <i class="material-icons">exit_to_app</i>Cerrar Sesión
-                </button>
-              </div>
-            </mat-menu>
-          </li>
-        </ng-container>
-        <ng-container *ngIf="!this._usersS.isLogged()">
-          <li>
-            <a
-              class="login-btn modal-trigger"
-              (click)="form('login')"
-              href="#modalRegistro"
-              >Iniciar Sesion</a
-            >
-            <a
-              class="register-btn modal-trigger"
-              (click)="form('register')"
-              href="#modalRegistro"
-              >Registrarse</a
-            >
-          </li>
-        </ng-container>
-      </ul>
+              <!-- Change Theme Option -->
+              <button
+                mat-menu-item
+                class="dfr"
+                style="justify-content: space-between;"
+              >
+                <div class="dfr">
+                  <i class="material-icons">brightness_4</i>Tema Oscuro
+                </div>
+                <app-theme-switch></app-theme-switch>
+              </button>
+              <mat-divider></mat-divider>
+              <!-- Logout Option -->
+              <button mat-menu-item (click)="_usersS.logout()">
+                <i class="material-icons">exit_to_app</i>Cerrar Sesión
+              </button>
+            </div>
+          </mat-menu>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="!this._usersS.isLogged()">
+        <div class="nav-fixed-opcions-register-login-container dfr">
+          <a
+            class="nav-option-btn login-btn modal-trigger"
+            (click)="form('login')"
+            href="#modalRegistro"
+            >Iniciar Sesion</a
+          >
+          <a
+            class="nav-option-btn register-btn modal-trigger"
+            (click)="form('register')"
+            href="#modalRegistro"
+            >Registrarse</a
+          >
+        </div>
+      </ng-container>
     </div>
   </div>
 </nav>

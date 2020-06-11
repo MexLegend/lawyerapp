@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import {
     MatBottomSheetModule,
     MatButtonModule,
+    MatCardModule,
     MatDatepickerModule,
     MatDividerModule,
     MatExpansionModule,
@@ -13,12 +14,14 @@ import {
     MatNativeDateModule,
     MatProgressBarModule,
     MatSelectModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatTabsModule
 } from '@angular/material';
 
 const exportedMatModule = [
     MatBottomSheetModule,
     MatButtonModule,
+    MatCardModule,
     MatDatepickerModule,
     MatDividerModule,
     MatExpansionModule,
@@ -29,7 +32,8 @@ const exportedMatModule = [
     MatNativeDateModule,
     MatProgressBarModule,
     MatSelectModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatTabsModule
 ];
 
 @NgModule({

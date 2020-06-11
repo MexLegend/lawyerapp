@@ -90,9 +90,8 @@
   class="fixed-action-btn direction-top active"
 >
   <a
-    class="btn-floating btn-large primary-text gradient-pos-45deg-lighter-blue gradient-shadow modal-trigger"
-    href="#modal-Expediente"
-    (click)="sendId('', ' Crear')"
+    class="btn-floating btn-large primary-text gradient-pos-45deg-lighter-blue gradient-shadow"
+    (click)="sendId('', ' Crear'); openFilesModal()"
   >
     <i class="material-icons">add</i>
   </a>

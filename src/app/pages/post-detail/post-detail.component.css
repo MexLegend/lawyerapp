@@ -30,6 +30,10 @@
   .card-reveal-img {
     padding-right: 0 !important;
   }
+  .card-img {
+    width: 100% !important;
+    min-width: 100% !important;
+  }
   .card-data-container {
     width: 100% !important;
     padding: 0 !important;
@@ -133,6 +137,30 @@
   -webkit-box-orient: block-axis;
 }
 
+.author-contact-btn {
+  color: white;
+  text-transform: capitalize;
+  padding: 5px 10px;
+  height: 33px;
+  height: 33px;
+  border-radius: 5px;
+  line-height: initial;
+  justify-content: center;
+  white-space: nowrap;
+}
+
+.author-contact-btn i {
+  height: 23px;
+  width: 23px;
+  font-size: 19px;
+  line-height: 0;
+  border-radius: 50px;
+  padding: 5px;
+  margin-right: 3px;
+  justify-content: center;
+  flex-flow: 2;
+}
+
 .card-title-new > .card-title {
   font-size: 24px;
   color: #26aee4;
@@ -148,7 +176,8 @@
 .card-img {
   width: 300px;
   min-width: 300px;
-  max-height: 350px;
+  height: 300px;
+  max-height: 300px;
   float: left;
   margin: 0 15px 10px 0;
 }

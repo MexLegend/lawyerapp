@@ -2,10 +2,12 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { DataTableDirective } from 'angular-datatables/src/angular-datatables.directive';
 import { Subject } from 'rxjs';
 import Swal from 'sweetalert2';
+import { MatDialog } from '@angular/material/dialog';
 
 import { Files } from '../../models/Files';
 import { FilesService } from '../../services/files.service';
 import { UpdateDataService } from '../../services/updateData.service';
+import { FilesFormComponent } from '../../modals/files-form/files-form.component';
 
 @Component({
   selector: 'app-files',
@@ -16,9 +18,10 @@ export class FilesComponent implements OnInit {
 
   constructor(
     public _filesS: FilesService,
-    public _updateDS: UpdateDataService
+    public _updateDS: UpdateDataService,
+    public dialog: MatDialog
   ) { }
-  
+
   @ViewChild(DataTableDirective, { static: false })
   dtElement: DataTableDirective;
   dtOptions: DataTables.Settings = {};
@@ -48,15 +51,26 @@ export class FilesComponent implements OnInit {
     };
 
     this._filesS.notifica
-        .subscribe(r => {
-          this.load();
-          this.rerender()
-        }
-    )
+      .subscribe(r => {
+        this.load();
+        this.rerender()
+      }
+      )
   }
 
   ngOnDestroy() {
     this.dtTrigger.unsubscribe();
+  }
+
+  // Open Files Modal
+  openFilesModal() {
+    let dialogRef = this.dialog.open(FilesFormComponent, { autoFocus: false });
+
+    dialogRef.afterClosed().subscribe(result => {
+      localStorage.removeItem('userData');
+      localStorage.removeItem('fileData');
+      this._updateDS.setUserData(null);
+    });
   }
 
   delete(file: Files) {
@@ -106,13 +120,13 @@ export class FilesComponent implements OnInit {
   }
 
   // Update Datatable data after content changes
-  rerender(): void {    
+  rerender(): void {
     this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
       // Destroy the table first
       dtInstance.destroy();
       // Call the dtTrigger to rerender again
       this.dtTrigger.next();
-      
+
     });
   }
 

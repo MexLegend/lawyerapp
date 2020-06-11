@@ -21,8 +21,8 @@ export class UsersService {
   id: string;
   public notifica = new EventEmitter<any>();
   notifications: NotificationsPagination;
-  user: User;
   token: string;
+  user: User;
 
   constructor(
     private http: HttpClient,
@@ -194,10 +194,14 @@ export class UsersService {
     this.id = null;
     this.token = null;
 
-    localStorage.removeItem("notifications");
-    localStorage.removeItem('user');
+    localStorage.removeItem('comment');
+    localStorage.removeItem('fileData');
     localStorage.removeItem('id');
+    localStorage.removeItem('notifications');
+    localStorage.removeItem('status');
     localStorage.removeItem('token');
+    localStorage.removeItem('trackingData');
+    localStorage.removeItem('user');
 
     if ( $(".sidenav-overlay").css("display", "block") ) {
       $(".sidenav-overlay").css("display", "none");
@@ -246,6 +250,7 @@ export class UsersService {
   }
 
   updateUser(id, user: any, img?: any) {
+
     const url = `${ environment.URI }/api/users/${ id }`;
     const headers = new HttpHeaders({
       token: this.token

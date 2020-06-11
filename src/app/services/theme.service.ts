@@ -22,6 +22,9 @@ export const darkTheme = {
     'attached-file-bg': 'rgba(214, 214, 214, 0.1)',
     'attached-file-btn-bg': 'rgba(255, 255, 255, 0.1)',
     'attached-file-comment': 'rgba(255, 255, 255, 0.1)',
+    'nav-fixed-option-bg': 'rgba(255,255,255,.1',
+    'status-bg': 'rgba(255, 255, 255, 0.3)',
+    'tracking-number-bg': 'rgba(255, 255, 255, 0.3)',
     // Colors
     'white-color': '#ffffff',
     'alpha-white-color': 'rgba(255, 255, 255, 0.8)',
@@ -44,6 +47,7 @@ export const darkTheme = {
     'sidebar-li-active': '#ffffff',
     'last-articles-color': '#9d9d9d',
     'attached-file-btn-color': 'white',
+    'search-button-color': 'rgba(255, 255, 255, 0.7)',
     // Borders
     'medium-dark-border': '1px solid #212121',
     'dark-border': '1px solid #303030',
@@ -54,6 +58,8 @@ export const darkTheme = {
     'admin-modal-button-border': 'none',
     'perfil-modal-button-border': 'none',
     'lawyer-modal-border-color': 'rgba(255, 255, 255, 0.05)',
+    'search-button-border': '1.5px solid #545252',
+    'img-border': '1px solid rgba(0, 0, 0, 0.01)',
     // Box Shadow
     'dark-box-shadow': '0 0 4px 2px #3030304d',
     'dark-box-shadow-color': 'rgba(0, 0, 0, 0.3)',
@@ -65,6 +71,8 @@ export const darkTheme = {
     'medium-dark-bg-hover': '#393939',
     'dark-bg-odd-hover': 'rgba(214, 214, 214, 0.1)',
     'sidebar-li-hover': 'rgba(255, 255, 255, 0.1)',
+    'nav-fixed-option-bg-hover': 'rgba(255,255,255,0.1)',
+    'nav-fixed-option-bg-extended': 'rgba(255,255,255,0.1)',
     // Disabled 
     'dark-disabled-button-bg': 'rgba(255, 255, 255, 0.1)',
     'dark-disabled-button-bg-after': '#383838',
@@ -96,6 +104,9 @@ export const lightTheme = {
     'attached-file-bg': 'rgba(0, 0, 0, 0.1)',
     'attached-file-btn-bg': 'transparent',
     'attached-file-comment': 'rgba(0, 0, 0, 0.1)',
+    'nav-fixed-option-bg': '#e4e6eb',
+    'status-bg': 'rgba(0, 0, 0, 0.3)',
+    'tracking-number-bg': 'rgb(57, 73, 171)',
     // Colors
     'white-color': '#ffffff',
     'alpha-white-color': 'rgba(0, 0, 0, 0.85)',
@@ -118,6 +129,7 @@ export const lightTheme = {
     'sidebar-li-active': '#08b0ec',
     'last-articles-color': '#606060',
     'attached-file-btn-color': '#3949ab',
+    'search-button-color': '#606060',
     // Borders
     'medium-dark-border': '1px solid #ddd',
     'dark-border': '1px solid rgb(211, 211, 211)',
@@ -128,6 +140,8 @@ export const lightTheme = {
     'admin-modal-button-border': 'solid 3px #303f9f',
     'perfil-modal-button-border': 'solid 3px #303f9f',
     'lawyer-modal-border-color': 'rgba(0, 0, 0, 0.05)',
+    'search-button-border': '1.5px solid #9c9c9c',
+    'img-border': '1px solid rgba(255, 255, 255, 0.05)',
     // Box Shadow
     'dark-box-shadow': '0 0 4px 2px rgba(0, 0, 0, 0.1)',
     'dark-box-shadow-color': '',
@@ -139,6 +153,8 @@ export const lightTheme = {
     'medium-dark-bg-hover': '#eee',
     'dark-bg-odd-hover': '#f6f6f6',
     'sidebar-li-hover': 'rgba(0,0,0,0.05)',
+    'nav-fixed-option-bg-hover': 'rgba(0,0,0,0.15)',
+    'nav-fixed-option-bg-extended': '#e7f3ff',
     // Disabled 
     'dark-disabled-button-bg': 'rgba(255, 255, 255, 1)',
     'dark-disabled-button-bg-after': '#ffffff',
