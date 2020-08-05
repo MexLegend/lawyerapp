@@ -15,6 +15,7 @@ export class PostsUComponent implements OnInit {
 
   allowedChars = '@ # $ % ^ & * ( ) _ - ., ? < > { } [ ] ! +';
   currentPage: number = 1;
+  filterValue: string;
   posts: Post[] = [];
   text = '<b><i>Ejemplo-2</i></b>';
 
@@ -30,6 +31,13 @@ export class PostsUComponent implements OnInit {
       })
   }
 
+  filter(value: string) {
+    if(value.length >= 1 && value !== '')
+      this.filterValue = value;
+    else
+      this.filterValue = '';
+  }
+
   // Go to News Comments Section
   goToComments(id): void {
     this.router.navigate([`/articulo-detalle/${id}`]);
@@ -41,7 +49,7 @@ export class PostsUComponent implements OnInit {
       var scrolledY = window.scrollY;
 
       if (scrolledY) {
-        window.scroll(0, scrolledY - 145);
+        window.scroll(0, scrolledY - 100);
       }
     });
   }

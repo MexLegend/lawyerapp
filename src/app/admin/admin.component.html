@@ -1,327 +1,426 @@
-<!-- Modal Seleccionar Cliente -->
-<app-select-user></app-select-user>
-
-<!-- Modal Seleccionar Expediente -->
-<app-select-file></app-select-file>
-
-<!-- Modal Formulario User -->
-<app-users-form></app-users-form>
-
-<!-- Modal Formulario Articulos -->
-<app-posts-form></app-posts-form>
-
-<!-- Modal File Upload -->
-<app-file-upload></app-file-upload>
-
-<!-- Admin NavBar -->
-<header class="page-topbar" id="header">
-  <div class="navbar navbar-fixed">
-    <nav
-      class="navbar-main navbar-color nav-collapsible navbar-dark gradient-45deg-indigo-purple no-shadow sideNav-lock"
+<mat-sidenav-container class="sidenav-container admin-sidenav-container">
+  <!-- Main SideNav -->
+  <mat-sidenav
+    #adminSidenav
+    [mode]="sidenavMode"
+    [opened]="showSidenav"
+    class="main-admin-sidenav dfc"
+  >
+    <!-- Admin SideNav -->
+    <aside
+      class="sidenav-main nav-collapsible sidenav-light sidenav-active-square nav-lock"
     >
-      <div class="nav-wrapper">
-        <!-- Admin Navbar Container -->
-        <ul class="navbar-list right">
-          <!-- Toggle Full Screen Option -->
-          <li class="hide-on-med-and-down">
-            <a
-              class="waves-effect waves-block waves-light toggle-fullscreen"
-              (click)="!isfullscreen ? openfullscreen() : closefullscreen()"
-              href="javascript:void(0);"
-              ><i class="material-icons">settings_overscan</i></a
-            >
-          </li>
-          <!-- Notifications Option -->
-          <li>
-            <a
-              class="waves-effect waves-block waves-light notification-button dropdown-trigger"
-              href="javascript:void(0);"
-              data-target="notifications-dropdown"
-              ><i class="material-icons"
-                >notifications_none<small class="notification-badge">{{
-                  notifications?.total
-                }}</small></i
-              ></a
-            >
-            <!-- Notifications Dropdown -->
-            <ul
-              class="dropdown-content"
-              id="notifications-dropdown"
-              style="width: fit-content;"
-            >
-              <li>
-                <div class="notificaciones-header">
-                  <span class="notificaciones-header-title">NOTIFICACIONES</span
-                  ><span class="new badge">{{ notifications?.total }}</span>
-                </div>
-              </li>
-              <li class="divider"></li>
-              <li *ngFor="let notification of notifications?.docs">
-                <div class="notification-item">
-                  <span class="material-icons icon-bg-circle cyan small"
-                    >add_shopping_cart</span
-                  >
-                  {{ notification?.title }}
-                </div>
-                <time class="media-meta grey-text">{{
-                  notification?.created_at | date
-                }}</time>
-              </li>
-            </ul>
-          </li>
-          <!-- Perfil Option -->
-          <li>
-            <div class="waves-effect waves-light nav-perfil-button-trigger-container">
-              <!-- Button Triger -->
-              <button
-                class="nav-perfil-button-trigger"
-                mat-button
-                [matMenuTriggerFor]="beforeMenu"
-              >
-                <div class="avatar-status avatar-online">
-                  <div class="centered-img-bg dfc">
-                    <img
-                      [src]="_usersS.user?.img | img: 'user':true"
-                      alt="avatar"
-                    />
-                  </div>
-                  <i></i>
-                </div>
-              </button>
-              <!-- Dropdown Content -->
-              <mat-menu #beforeMenu="matMenu" xPosition="before">
-                <div class="perfilMenu" (click)="$event.stopPropagation()">
-                  <!-- Perfil Information -->
-                  <div class="perfil-info dfr">
-                    <div class="perfil-icon centered-img-bg">
-                      <img
-                        [src]="this._usersS.user.img | img: 'user':true"
-                        style="width: 100%;"
-                      />
-                    </div>
-                    <div class="perfil-text dfc">
-                      <span class="perfil-name ff-rr">{{
-                        this._usersS.user.firstName
-                          .split(" ")[0]
-                          .concat(" ", this._usersS.user.lastName.split(" ")[0])
-                      }}</span>
-                      <span class="perfil-email ff-rr">{{
-                        this._usersS.user.email
-                      }}</span>
-                    </div>
-                  </div>
-                  <div class="divider"></div>
-                  <button mat-menu-item routerLink="/perfil">
-                    <i class="material-icons">person_outline</i>Perfil
-                  </button>
-                  <!-- FAQ Option -->
-                  <!-- <button mat-menu-item>
-                  <i class="material-icons">help_outline</i>Ayuda
-                </button> -->
-                  <!-- Change Theme Option -->
-                  <button
-                    mat-menu-item
-                    class="dfr"
-                    style="justify-content: space-between;"
-                  >
-                    <div class="dfr">
-                      <i class="material-icons">brightness_4</i>Tema Oscuro
-                    </div>
-                    <app-theme-switch></app-theme-switch>
-                  </button>
-                  <div class="divider"></div>
-                  <!-- Logout Option -->
-                  <button mat-menu-item (click)="_usersS.logout()">
-                    <i class="material-icons">exit_to_app</i>Cerrar Sesión
-                  </button>
-                </div>
-              </mat-menu>
-            </div>
-          </li>
-
-          <!-- Messages Right Sidebar -->
-          <!-- <li>
-            <a
-              class="waves-effect waves-block waves-light sidenav-trigger"
-              data-target="slide-out-right"
-              ><i class="material-icons">format_indent_increase</i></a
-            >
-          </li> -->
-        </ul>
+      <!-- Main Navbar Brand -->
+      <div class="brand-sidebar">
+        <a
+          class="brand-logo darken-1"
+          routerLink="/inicio"
+          (click)="sidenavMode === 'push' ? adminSidenav.toggle() : ''"
+          ><img
+            [src]="
+              this._themeS.check
+                ? '../../../assets/images/brand.png'
+                : '../../../assets/images/brand_black.png'
+            "
+            alt="site logo"
+            style="width: 100%;"
+        /></a>
       </div>
-    </nav>
-  </div>
-</header>
 
-<!-- Admin SideNav -->
-<aside
-  class="sidenav-main nav-collapsible sidenav-light sidenav-active-square nav-lock"
->
-  <!-- Main Navbar Brand -->
-  <div class="brand-sidebar">
-    <a class="brand-logo darken-1" routerLink="/dashboard"
-      ><img
-        src="../../../assets/images/brand.png"
-        alt="site logo"
-        style="width: 100%;"
-    /></a>
-  </div>
-
-  <div id="admin-sidenav" class="sidenav collapsible dfc">
-    <!-- Inner Navbar Brand -->
-    <div class="inner-sidebar-brand dfr">
-      <a class="brand-logo darken-1 dfr sidenav-close" routerLink="/dashboard"
-        ><img
-          src="../../../assets/images/brand.png"
-          alt="site logo"
-          style="width: 100%;"
-      /></a>
-    </div>
-    <!-- Main Navbar Options Container -->
-    <div class="main-navbar-container-wrapper custom-scroll-y">
-      <div class="main-navbar-container dfc">
-        <div class="dfr" style="width: 100%; position: relative;">
-          <!-- Main Navbar Principal Options -->
-          <ul class="main-sidenav-principal-options">
-            <!-- <li class="bold">
-              <a
-                class="waves-effect waves-cyan dfc sidenav-close"
-                routerLink="/dashboard"
-                [attr.data-active]="actSt === '/dashboard' ? 'on' : 'off'"
-              >
-                <i class="material-icons">pie_chart</i>
-                <span>Tablero</span>
-              </a>
-            </li> -->
-            <li class="bold">
-              <a
-                class="waves-effect waves-cyan dfc sidenav-close"
-                routerLink="/mensajes"
-                [attr.data-active]="actSt === '/mensajes' ? 'on' : 'off'"
-              >
-                <i class="material-icons">mail_outline</i>
-                <span>Mensajes</span>
-              </a>
-            </li>
-            <li class="bold">
-              <a
-                class="waves-effect waves-cyan dfc sidenav-close"
-                routerLink="/usuarios"
-                [attr.data-active]="actSt === '/usuarios' ? 'on' : 'off'"
-              >
-                <i class="material-icons">perm_identity</i>
-                <span>Usuarios</span>
-              </a>
-            </li>
-            <li class="bold">
-              <a
-                class="waves-effect waves-cyan dfc sidenav-close"
-                routerLink="/posts"
-                [attr.data-active]="actSt === '/posts' ? 'on' : 'off'"
-              >
-                <i class="material-icons">import_contacts</i>
-                <span>Artículos</span>
-              </a>
-            </li>
-            <li class="bold">
-              <a
-                class="waves-effect waves-cyan dfc sidenav-close"
-                routerLink="/expedientes"
-                [attr.data-active]="actSt === '/expedientes' ? 'on' : 'off'"
-              >
-                <i class="fas fa-folder-open"></i>
-                <span>Expedientes</span>
-              </a>
-            </li>
-            <li class="bold">
-              <a
-                class="waves-effect waves-cyan dfc sidenav-close"
-                routerLink="/seguimiento-expediente"
-                [attr.data-active]="
-                  actSt === '/seguimiento-expediente' ? 'on' : 'off'
-                "
-              >
-                <i class="material-icons">visibility</i>
-                <span>Seguimiento</span>
-              </a>
-            </li>
-            <!-- <li class="bold">
-              <a
-                class="waves-effect waves-cyan dfc sidenav-close"
-                routerLink="/notificaciones"
-                [attr.data-active]="actSt === '/notificaciones' ? 'on' : 'off'"
-              >
-                <i class="material-icons">notifications_none</i>
-                <span>Notificaciones</span>
-              </a>
-            </li>
-            <li class="bold">
-              <a
-                class="waves-effect waves-cyan dfc sidenav-close"
-                routerLink="/posts"
-                [attr.data-active]="actSt === '/posts' ? 'on' : 'off'"
-              >
-                <i class="material-icons">insert_invitation </i>
-                <span>Eventos</span>
-              </a>
-            </li> -->
-          </ul>
-
-          <!-- Main Navbar Filter Options -->
-          <ul class="main-sidenav-filter-options"></ul>
+      <div id="admin-sidenav" class="sidenav collapsible dfc">
+        <!-- Main Navbar Options Container -->
+        <div class="main-navbar-container-wrapper custom-scroll-y">
+          <div class="main-navbar-container dfc">
+            <div class="dfr" style="width: 100%; position: relative;">
+              <!-- Main Navbar Principal Options -->
+              <ul class="main-sidenav-principal-options">
+                <!-- <li class="bold">
+                  <a
+                    class="waves-effect waves-cyan dfc"
+                    routerLink="/dashboard"
+                    [attr.data-active]="actSt === '/dashboard' ? 'on' : 'off'"
+                    (click)="sidenavMode === 'push' ? adminSidenav.toggle() : ''"
+                  >
+                    <i class="material-icons">pie_chart</i>
+                    <span>Tablero</span>
+                  </a>
+                </li> -->
+                <li class="bold">
+                  <a
+                    class="waves-effect waves-cyan dfc"
+                    routerLink="/mensajes"
+                    [attr.data-active]="actSt === '/mensajes' ? 'on' : 'off'"
+                    (click)="
+                      sidenavMode === 'push' ? adminSidenav.toggle() : ''
+                    "
+                  >
+                    <i class="far fa-comment"></i>
+                    <span>Mensajes</span>
+                  </a>
+                </li>
+                <li class="bold">
+                  <a
+                    class="waves-effect waves-cyan dfc"
+                    routerLink="/usuarios"
+                    [attr.data-active]="actSt === '/usuarios' ? 'on' : 'off'"
+                    (click)="
+                      sidenavMode === 'push' ? adminSidenav.toggle() : ''
+                    "
+                  >
+                    <i class="material-icons">perm_identity</i>
+                    <span>Usuarios</span>
+                  </a>
+                </li>
+                <li class="bold">
+                  <a
+                    class="waves-effect waves-cyan dfc"
+                    routerLink="/posts"
+                    [attr.data-active]="actSt === '/posts' ? 'on' : 'off'"
+                    (click)="
+                      sidenavMode === 'push' ? adminSidenav.toggle() : ''
+                    "
+                  >
+                    <i class="material-icons">import_contacts</i>
+                    <span>Artículos</span>
+                  </a>
+                </li>
+                <li class="bold">
+                  <a
+                    class="waves-effect waves-cyan dfc"
+                    routerLink="/casos"
+                    [attr.data-active]="actSt === '/casos' ? 'on' : 'off'"
+                    (click)="
+                      sidenavMode === 'push' ? adminSidenav.toggle() : ''
+                    "
+                  >
+                    <i class="fas fa-folder-open"></i>
+                    <span>Casos</span>
+                  </a>
+                </li>
+                <li class="bold">
+                  <a
+                    class="waves-effect waves-cyan dfc"
+                    routerLink="/seguimiento-caso"
+                    [attr.data-active]="
+                      actSt === '/seguimiento-caso' ? 'on' : 'off'
+                    "
+                    (click)="
+                      sidenavMode === 'push' ? adminSidenav.toggle() : ''
+                    "
+                  >
+                    <i class="fas fa-file-signature"></i>
+                    <span>Seguimiento</span>
+                  </a>
+                </li>
+                <!-- <li class="bold">
+                  <a
+                    class="waves-effect waves-cyan dfc"
+                    routerLink="/notificaciones"
+                    [attr.data-active]="actSt === '/notificaciones' ? 'on' : 'off'"
+                    (click)="sidenavMode === 'push' ? adminSidenav.toggle() : ''"
+                  >
+                    <i class="material-icons">notifications_none</i>
+                    <span>Notificaciones</span>
+                  </a>
+                </li>
+                <li class="bold">
+                  <a
+                    class="waves-effect waves-cyan dfc"
+                    routerLink="/posts"
+                    [attr.data-active]="actSt === '/posts' ? 'on' : 'off'"
+                    (click)="sidenavMode === 'push' ? adminSidenav.toggle() : ''"
+                  >
+                    <i class="material-icons">insert_invitation </i>
+                    <span>Eventos</span>
+                  </a>
+                </li> -->
+              </ul>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-  </div>
+    </aside>
+  </mat-sidenav>
 
-  <!-- Main Navbar Trigger Button -->
-  <a
-    id="main-sidenav-trigger"
-    class="sidenav-trigger btn-sidenav-toggle btn-floating btn-medium gradient-pos-45deg-lighter-blue waves-effect waves-light hide-on-large-only"
-    href="#"
-    data-target="admin-sidenav"
-    style="position: fixed;"
-    ><i class="material-icons">menu</i></a
+  <!-- Chat Sidenav -->
+  <mat-sidenav
+    #adminChatSidenav
+    mode="over"
+    position="end"
+    class="chat-sidenav"
   >
-</aside>
+    <app-chat-sidenav></app-chat-sidenav>
+  </mat-sidenav>
 
-<!-- Admin Main Content -->
-<div id="main">
-  <div class="row">
-    <div class="content-wrapper-before gradient-45deg-indigo-purple"></div>
-    <div class="col s12">
-      <div class="container">
-        <!-- Sidebar Area Starts -->
-        <div class="sidebar-left sidebar-fixed">
-          <div class="sidebar">
-            <div class="sidebar-content">
-              <div class="sidebar-header">
-                <div class="sidebar-details">
-                  <app-breadcrumbs class="sidebar-cuantity"></app-breadcrumbs>
+  <mat-sidenav-content>
+    <!-- Modal Seleccionar Cliente -->
+    <app-select-user></app-select-user>
+
+    <!-- Modal Seleccionar Expediente -->
+    <app-select-file></app-select-file>
+
+    <!-- Modal File Upload -->
+    <app-file-upload></app-file-upload>
+
+    <!-- Admin NavBar -->
+    <header class="page-topbar" id="header">
+      <div class="navbar navbar-fixed">
+        <!-- gradient-45deg-indigo-purple -->
+        <nav
+          class="navbar-main navbar-color nav-collapsible navbar-dark gradient-pos-45deg-dark-blue no-shadow sideNav-lock"
+        >
+          <div class="nav-wrapper dfr">
+            <!-- Main Navbar Trigger Button -->
+            <a
+              id="main-sidenav-trigger"
+              class="btn-sidenav-toggle btn-floating btn-medium gradient-45deg-orange waves-effect waves-light hide-on-large-only"
+              style="position: fixed;"
+              (click)="adminSidenav.toggle(); this.showSidenav = true"
+              matTooltip="Menú"
+              matTooltipPosition="below"
+              ><i class="material-icons">menu</i></a
+            >
+            <!-- Navbar Title Container -->
+            <div class="sidebar-fixed section-title">
+              <div class="sidebar">
+                <div class="sidebar-content">
+                  <div class="sidebar-header">
+                    <div class="sidebar-details">
+                      <app-breadcrumbs
+                        class="sidebar-cuantity"
+                      ></app-breadcrumbs>
+                    </div>
+                  </div>
                 </div>
+              </div>
+            </div>
+
+            <!-- Admin Navbar Options Container -->
+            <ul class="navbar-list right">
+              <!-- Toggle Full Screen Option -->
+              <li class="hide-on-med-and-down">
+                <div class="nav-option-container">
+                  <a
+                    class="waves-effect waves-block waves-light toggle-fullscreen dfc"
+                    (click)="
+                      !isfullscreen ? openfullscreen() : closefullscreen()
+                    "
+                    [matTooltip]="
+                      !isfullscreen
+                        ? 'Pantalla completa'
+                        : 'Salir de pantalla completa'
+                    "
+                    matTooltipPosition="below"
+                    ><i class="material-icons">settings_overscan</i></a
+                  >
+                </div>
+              </li>
+              <!-- Messages Option -->
+              <li>
+                <!-- Button Triger -->
+                <button
+                  class="nav-messages-button-trigger"
+                  mat-button
+                  (click)="adminChatSidenav.toggle()"
+                  matTooltip="Mensajes"
+                  matTooltipPosition="below"
+                >
+                  <div class="nav-option-container">
+                    <a
+                      class="waves-effect waves-block waves-light messages-button dropdown-trigger fa dfc"
+                      data-target="messages-dropdown"
+                    >
+                      <div>
+                        <i class="far fa-comment"></i>
+                      </div> </a
+                    ><small class="notification-badge admin dfc">{{
+                      notifications?.total
+                    }}</small>
+                  </div>
+                </button>
+              </li>
+              <!-- Notifications Option -->
+              <li>
+                <!-- Button Triger -->
+                <button
+                  class="nav-notifications-button-trigger"
+                  mat-button
+                  [matMenuTriggerFor]="notificationsMenu"
+                  matTooltip="Notificaciones"
+                  matTooltipPosition="below"
+                >
+                  <div class="nav-option-container">
+                    <a
+                      class="waves-effect waves-block waves-light notification-button dropdown-trigger dfc"
+                      href="javascript:void(0);"
+                      data-target="notifications-dropdown"
+                    >
+                      <div>
+                        <i class="material-icons">notifications_none</i>
+                      </div> </a
+                    ><small class="notification-badge admin dfc">{{
+                      notifications?.total
+                    }}</small>
+                  </div>
+                </button>
+                <!-- Dropdown Content -->
+                <mat-menu #notificationsMenu="matMenu" xPosition="before">
+                  <div
+                    class="notificationsMenu"
+                    (click)="$event.stopPropagation()"
+                  >
+                    <button mat-menu-item>
+                      <span
+                        style="text-transform: uppercase; font-size: 1.15rem;"
+                      >
+                        Notificaciones
+                      </span>
+                      <span class="new badge">{{ notifications?.total }}</span>
+                    </button>
+                    <mat-divider></mat-divider>
+                    <button
+                      *ngFor="let notification of notifications?.docs"
+                      mat-menu-item
+                    >
+                      <div class="notificationMenu-item">
+                        <div class="notificationMenu-item-content">
+                          <span
+                            class="material-icons icon-bg-circle light-blue small"
+                            >add_shopping_cart</span
+                          >
+                          {{ notification?.title }}
+                        </div>
+                        <time class="media-meta grey-text darken-2">{{
+                          notification?.created_at | date
+                        }}</time>
+                      </div>
+                    </button>
+                  </div>
+                </mat-menu>
+              </li>
+              <!-- Perfil Option -->
+              <li>
+                <div
+                  class="waves-effect waves-light nav-perfil-button-trigger-container"
+                >
+                  <!-- Button Triger -->
+                  <button
+                    class="nav-perfil-button-trigger"
+                    mat-button
+                    [matMenuTriggerFor]="beforeMenu"
+                    matTooltip="Cuenta"
+                    matTooltipPosition="below"
+                  >
+                    <div class="avatar-status avatar-online">
+                      <div class="centered-img-bg border-none dfc">
+                        <img
+                          [src]="_usersS.user?.img | img: 'user':true"
+                          alt="avatar"
+                        />
+                      </div>
+                    </div>
+                  </button>
+                  <!-- Dropdown Content -->
+                  <mat-menu #beforeMenu="matMenu" xPosition="before">
+                    <div class="perfilMenu" (click)="$event.stopPropagation()">
+                      <!-- Perfil Information -->
+                      <div class="perfil-info dfr">
+                        <div class="perfil-icon centered-img-bg">
+                          <img
+                            [src]="this._usersS.user.img | img: 'user':true"
+                            style="width: 100%;"
+                          />
+                        </div>
+                        <div class="perfil-text dfc">
+                          <span class="perfil-name ff-rr">{{
+                            this._usersS.user.firstName
+                              .split(" ")[0]
+                              .concat(
+                                " ",
+                                this._usersS.user.lastName.split(
+                                  "
+                            "
+                                )[0]
+                              )
+                          }}</span>
+                          <span class="perfil-email ff-rr">{{
+                            this._usersS.user.email
+                          }}</span>
+                        </div>
+                      </div>
+                      <div class="divider"></div>
+                      <button mat-menu-item routerLink="/perfil">
+                        <i class="material-icons">person_outline</i>Perfil
+                      </button>
+                      <!-- FAQ Option -->
+                      <!-- <button mat-menu-item>
+                    <i class="material-icons">help_outline</i>Ayuda
+                  </button> -->
+                      <!-- Change Theme Option -->
+                      <button
+                        mat-menu-item
+                        class="dfr"
+                        style="justify-content: space-between;"
+                        (click)="switch(); changeTheme()"
+                      >
+                        <div class="dfr">
+                          <i class="material-icons">brightness_4</i>Modo oscuro
+                        </div>
+                        <app-theme-switch></app-theme-switch>
+                      </button>
+                      <div class="divider"></div>
+                      <!-- Logout Option -->
+                      <button mat-menu-item (click)="_usersS.logout()">
+                        <i class="material-icons">exit_to_app</i>Cerrar sesión
+                      </button>
+                    </div>
+                  </mat-menu>
+                </div>
+              </li>
+
+              <!-- Messages Right Sidebar -->
+              <!-- <li>
+              <a
+                class="waves-effect waves-block waves-light sidenav-trigger"
+                data-target="slide-out-right"
+                ><i class="material-icons">format_indent_increase</i></a
+              >
+            </li> -->
+            </ul>
+          </div>
+        </nav>
+      </div>
+    </header>
+
+    <!-- Admin Main Content -->
+    <div id="main">
+      <div class="row">
+        <!-- gradient-45deg-indigo-purple -->
+        <div class="content-wrapper-before gradient-pos-45deg-dark-blue"></div>
+        <div class="col s12">
+          <div class="container">
+            <!-- Content Area Starts -->
+            <div class="content-area content-right">
+              <div class="table-content">
+                <router-outlet></router-outlet>
               </div>
             </div>
           </div>
         </div>
-
-        <!-- Content Area Starts -->
-        <div class="content-area content-right">
-          <div class="table-content">
-            <router-outlet></router-outlet>
-          </div>
-        </div>
       </div>
     </div>
-  </div>
-</div>
 
-<!-- Admin Footer -->
-<div class="admin-footer ff-ss gradient-45deg-indigo-purple dfr">
-  <span
-    >© 2020 <span class="footer-author">Haizen</span> All rights reserved.</span
-  >
-  <span class="hide-on-small-only"
-    >Designed and Developed by
-    <span class="footer-author">Armando Lara</span></span
-  >
-</div>
+    <!-- Admin Footer -->
+    <!-- gradient-45deg-indigo-purple -->
+    <div class="admin-footer ff-ss gradient-pos-45deg-dark-blue dfr">
+      <span
+        >© 2020 <span class="footer-author">Haizen</span> All rights
+        reserved.</span
+      >
+      <span class="hide-on-small-only"
+        >Designed and Developed by
+        <span class="footer-author">Armando Lara</span></span
+      >
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

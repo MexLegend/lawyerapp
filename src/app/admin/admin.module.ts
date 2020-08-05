@@ -1,8 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { DataTablesModule } from 'angular-datatables';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { AutosizeModule } from 'ngx-autosize';
 
 import { ADMIN_ROUTING } from './admin.routes';
 import { DashboardComponent } from './dashboard/dashboard.component';
@@ -17,16 +19,7 @@ import { PostsComponent } from './posts/posts.component';
 import { MaterialModule } from '../shared/material.module';
 import { SharedModule } from '../shared/shared.module';
 import { UsersComponent } from './users/users.component';
-import {
-  PerfectScrollbarModule, PerfectScrollbarConfigInterface,
-  PERFECT_SCROLLBAR_CONFIG
-} from 'ngx-perfect-scrollbar';
 
-const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
-  wheelPropagation: true,
-  useBothWheelAxes: false,
-  suppressScrollX: true
-};
 
 @NgModule({
   declarations: [
@@ -39,23 +32,19 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     UsersComponent
   ],
   imports: [
+    ADMIN_ROUTING,
     CommonModule,
     ComponentsModule,
     DataTablesModule,
-    [SweetAlert2Module.forRoot()],
+    FormsModule,
     ReactiveFormsModule,
-    ADMIN_ROUTING,
+    [SweetAlert2Module.forRoot()],
     MaterialModule,
     ModalsModule,
+    NgxPaginationModule,
     PipesModule,
     SharedModule,
-    PerfectScrollbarModule
-  ],
-  providers: [
-    {
-      provide: PERFECT_SCROLLBAR_CONFIG,
-      useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG
-    }
+    AutosizeModule
   ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA

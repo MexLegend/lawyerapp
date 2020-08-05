@@ -1,0 +1,230 @@
+<div class="item-list-container">
+  <mat-card class="item-list-container dfc">
+    <!-- File Notes Header  -->
+    <mat-card-header class="item-filter-container">
+      <mat-card class="item-filter-content list-files dfr">
+        <div
+          *ngIf="modeV === 'new'"
+          class="item-filter-back waves-effect waves-light dfc"
+          (click)="this.selected.setValue(0)"
+        >
+          <i class="material-icons">arrow_back</i>
+        </div>
+        <div class="item-acordion-title-left list-files dfr">
+          <div class="header-item-body dfc">
+            <div class="header-item-title dfr">
+              <div class="header-item-title-wrap">
+                <span>{{ fileData?.affair }}</span>
+              </div>
+            </div>
+            <div class="header-item-data">
+              <span>54 Notas</span>
+            </div>
+          </div>
+        </div>
+        <!-- Entries And Status Filters Container -->
+        <div class="entry-and-status-filters-container list-files dfr">
+          <!-- Entries Filter -->
+          <div class="show-entries-filter list-files dfr">
+            <span class="entries-filter-text list-files">Ver</span>
+            <div class="entries-filter-select list-files">
+              <mat-form-field>
+                <mat-select
+                  [value]="this.innerScreenWidth <= 940 ? 'Ver' : '5'"
+                  disableOptionCentering
+                >
+                  <mat-option
+                    value="Ver"
+                    style="display: none;"
+                    *ngIf="this.innerScreenWidth <= 940"
+                  >
+                    Ver
+                  </mat-option>
+                  <mat-option value="5">
+                    5
+                  </mat-option>
+                  <mat-option value="10">
+                    10
+                  </mat-option>
+                  <mat-option value="25">
+                    25
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <span class="entries-filter-text list-files">Resultados</span>
+          </div>
+          <!-- Status Filter -->
+          <div class="status-filter dfr">
+            <span class="status-filter-text file-type">Estado</span>
+            <div class="status-filter-select file-type">
+              <mat-form-field>
+                <mat-select
+                  [value]="this.innerScreenWidth <= 940 ? 'status' : 'all'"
+                  disableOptionCentering
+                >
+                  <mat-option
+                    value="status"
+                    style="display: none;"
+                    *ngIf="this.innerScreenWidth <= 940"
+                  >
+                    Estado
+                  </mat-option>
+                  <mat-option value="all">
+                    Todos
+                  </mat-option>
+                  <mat-option value="private">
+                    Privada
+                  </mat-option>
+                  <mat-option value="public">
+                    Pública
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+        <!-- Search Filter -->
+        <div class="search-filter list-files dfr">
+          <div class="search-input-filter list-files dfc">
+            <input placeholder="Filtrar por nombre" />
+          </div>
+          <div class="search-btn-filter list-files">
+            <button
+              class="filters-btn btn waves-effect waves-light dfc"
+              (click)="openFilters()"
+            >
+              <i class="fas fa-filter"></i>
+            </button>
+            <button
+              class="btn waves-effect waves-light dfc"
+              (click)="handleMobileFilter(true)"
+            >
+              <i class="material-icons">search</i>
+            </button>
+          </div>
+        </div>
+        <!-- Search Filter Mobile -->
+        <div
+          class="search-filter-mobile dfr"
+          [attr.isVisible]="this.mobileFilterActivated"
+        >
+          <div
+            class="go-back-filter-mobile waves-effect waves-light dfc"
+            *ngIf="this.mobileFilterActivated"
+            (click)="handleMobileFilter(false)"
+          >
+            <i class="material-icons">arrow_back</i>
+          </div>
+          <div
+            class="search-input-filter-mobile dfc"
+            *ngIf="this.mobileFilterActivated"
+          >
+            <input placeholder="Filtrar por nombre" />
+          </div>
+        </div>
+      </mat-card>
+    </mat-card-header>
+
+    <!-- File Notes List Container  -->
+    <mat-card-content class="item-list-content">
+      <perfect-scrollbar
+        class="scroll-container"
+        fxFlex="auto"
+        [config]="config"
+        [scrollIndicators]="false"
+      >
+        <div class="scrollable-content">
+          <!-- Evidence Item Cards -->
+          <mat-card class="item-container-notes">
+            <mat-accordion *ngIf="notes" class="item-container notes-list dfc">
+              <!-- Notes List -->
+              <mat-expansion-panel
+                class="item-content notes-list"
+                *ngFor="let note of notes"
+              >
+                <!-- File Expansion Header -->
+                <mat-expansion-panel-header
+                  class="item-acordion-header notes-list"
+                >
+                  <mat-panel-title class="item-acordion-title notes-list dfr">
+                    <div class="note-action-check dfc">
+                      <mat-checkbox
+                        *ngIf="modeV === 'select'"
+                        class="example-margin"
+                        (click)="moveDown($event)"
+                      ></mat-checkbox>
+                    </div>
+                    <div class="note-accordion-header dfr">
+                      <div class="note-accordion-header-data dfc">
+                        <div class="note-accordion-header-date dfr">
+                          <span>{{ note.date | date }}</span>
+                        </div>
+                        <div class="note-accordion-header-title">
+                          <span>{{ note.affair }}</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="dfr" *ngIf="modeV === 'new'">
+                      <!-- Edit Note Button Trigger -->
+                      <button
+                        class="note-action-btn btn waves-effect waves-light dfc"
+                        (click)="moveDown($event)"
+                        matTooltip="Editar"
+                        matTooltipPosition="above"
+                      >
+                        <i class="far fa-edit"></i>
+                      </button>
+                      <!-- Delete Note Button Trigger -->
+                      <button
+                        class="note-action-btn btn waves-effect waves-light dfc"
+                        (click)="moveDown($event)"
+                        matTooltip="Eliminar"
+                        matTooltipPosition="above"
+                      >
+                        <i class="material-icons">delete</i>
+                      </button>
+                      <!-- Lock/Unluck Note Button Trigger -->
+                      <button
+                        class="note-action-btn btn waves-effect waves-light dfc"
+                        (click)="moveDown($event)"
+                        matTooltip="Estado de la nota"
+                        matTooltipPosition="above"
+                      >
+                        <i class="material-icons">lock_outline</i>
+                      </button>
+                    </div>
+                  </mat-panel-title>
+                </mat-expansion-panel-header>
+                <!-- File Expansion Body -->
+                <mat-card class="item-body-data-container notes-list">
+                  <div>
+                    <span>{{ note.message }}</span>
+                  </div>
+                </mat-card>
+              </mat-expansion-panel>
+            </mat-accordion>
+          </mat-card>
+        </div>
+      </perfect-scrollbar>
+      <!-- Open Evidences Modal Button Trigger -->
+      <div class="item-add-container" *ngIf="modeV === 'new'">
+        <button
+          mat-icon-button
+          class="item-add-button primary-text gradient-45deg-orange gradient-shadow dfc"
+          (click)="openNotes()"
+          matTooltip="Crear nota"
+          matTooltipPosition="above"
+        >
+          <i class="material-icons">add</i>
+        </button>
+      </div>
+    </mat-card-content>
+
+    <!-- Notes Pagination -->
+    <mat-card-actions class="item-list-pagination-container dfr">
+      <button mat-button>1</button>
+      <button mat-button>2</button>
+    </mat-card-actions>
+  </mat-card>
+</div>

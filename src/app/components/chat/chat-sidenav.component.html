@@ -1,0 +1,880 @@
+<mat-tab-group
+  class="admin-tab chat"
+  [selectedIndex]="chatTab.value"
+  (selectedIndexChange)="chatTab.setValue($event)"
+>
+  <!-- Chat Messages Tab -->
+  <mat-tab>
+    <ng-template mat-tab-label>
+      Chat List
+    </ng-template>
+    <div class="chat-sidenav-content">
+      <!-- Chat List Header -->
+      <div class="chat-sidenav-header dfr">
+        <div class="chat-sidenav-header-text"><span>Mensajes</span></div>
+        <div class="chat-sidenav-header-options dfr">
+          <div
+            class="chat-sidenav-header-option waves-effect waves-light dfc"
+            matTooltip="Ver todo"
+            matTooltipPosition="below"
+          >
+            <i class="material-icons show-all-option">zoom_out_map</i>
+          </div>
+          <div
+            class="chat-sidenav-header-option waves-effect waves-light dfc"
+            matTooltip="Nuevo mensaje"
+            matTooltipPosition="below"
+          >
+            <i class="far fa-edit"></i>
+          </div>
+          <div
+            class="chat-sidenav-header-option waves-effect waves-light dfc"
+            (click)="toogleChatSidenav()"
+            matTooltip="Minimizar"
+            matTooltipPosition="below"
+          >
+            <i class="fas fa-minus"></i>
+          </div>
+        </div>
+      </div>
+      <!-- Chat List Filter -->
+      <div class="chat-sidenav-search dfr">
+        <div
+          class="chat-sidenav-search-return waves-effect waves-light dfc"
+          (click)="searchChatUser(false)"
+          [attr.data-search]="isSearchingUser ? 'true' : 'false'"
+        >
+          <i class="material-icons">arrow_back</i>
+        </div>
+        <div class="chat-sidenav-search-input-container dfr">
+          <label
+            for="search-user"
+            class="chat-sidenav-search-input-label dfr"
+            (click)="searchChatUser(true)"
+          >
+            <div class="chat-sidenav-search-icon dfc">
+              <i class="material-icons">search</i>
+            </div>
+            <div class="chat-sidenav-search-input dfc">
+              <input id="search-user" placeholder="Buscar Contacto" />
+            </div>
+          </label>
+        </div>
+      </div>
+      <!-- Chat List Body -->
+      <div
+        class="chat-sidenav-body"
+        [attr.data-search]="isSearchingUser ? 'true' : 'false'"
+      >
+        <perfect-scrollbar
+          class="scroll-container"
+          fxFlex="auto"
+          [config]="config"
+          [scrollIndicators]="false"
+        >
+          <div class="scrollable-content">
+            <mat-tab-group
+              class="admin-tab chat"
+              [selectedIndex]="usersTab.value"
+              (selectedIndexChange)="usersTab.setValue($event)"
+            >
+              <!-- Chat Messages Tab -->
+              <mat-tab>
+                <ng-template mat-tab-label>
+                  Lista Mensajes
+                </ng-template>
+                <div class="chat-messages-list-container">
+                  <div
+                    class="chat-message-item dfr"
+                    (click)="seeChatDetails(true)"
+                  >
+                    <div class="chat-message-image centered-img-bg dfc">
+                      <img
+                        src="../../assets/images/user_2.jpg"
+                        alt="userImage"
+                      />
+                    </div>
+                    <div class="chat-message-data dfc">
+                      <div class="chat-message-name">
+                        <span>Jennifer López</span>
+                      </div>
+                      <div class="chat-message-details dfr">
+                        <div class="chat-message-body">
+                          <span class="chat-message-owner">Tú: </span>
+                          <span>Sapp</span>
+                        </div>
+                        <div class="chat-message-separator">
+                          <span>.</span>
+                        </div>
+                        <span>2 sem</span>
+                      </div>
+                    </div>
+                    <div class="chat-message-new dfc">
+                      <div class="chat-message-no-read dfc"></div>
+                    </div>
+                  </div>
+                  <div
+                    class="chat-message-item dfr"
+                    (click)="seeChatDetails(true)"
+                  >
+                    <div class="chat-message-image centered-img-bg dfc">
+                      <img src="../../assets/images/user.jpg" alt="userImage" />
+                    </div>
+                    <div class="chat-message-data dfc">
+                      <div class="chat-message-name">
+                        <span>Armando Lara</span>
+                      </div>
+                      <div class="chat-message-details dfr">
+                        <span class="chat-message-body"
+                          >Hey bro have you seen the new movie of Resident
+                          Evil?</span
+                        >
+                        <div class="chat-message-separator">
+                          <span>.</span>
+                        </div>
+                        <span>1 sem</span>
+                      </div>
+                    </div>
+                    <div class="chat-message-new dfc">
+                      <div class="chat-message-no-read dfc"></div>
+                    </div>
+                  </div>
+                  <div class="chat-message-item dfr">
+                    <div class="chat-message-image centered-img-bg dfc">
+                      <img
+                        src="../../assets/images/user_2.jpg"
+                        alt="userImage"
+                      />
+                    </div>
+                    <div class="chat-message-data dfc">
+                      <div class="chat-message-name">
+                        <span>Jennifer López</span>
+                      </div>
+                      <div class="chat-message-details dfr">
+                        <div class="chat-message-body">
+                          <span class="chat-message-owner">Tú: </span>
+                          <span>Sapp</span>
+                        </div>
+                        <div class="chat-message-separator">
+                          <span>.</span>
+                        </div>
+                        <span>2 sem</span>
+                      </div>
+                    </div>
+                    <div class="chat-message-new dfc">
+                      <div class="chat-message-no-read dfc"></div>
+                    </div>
+                  </div>
+                  <div class="chat-message-item dfr">
+                    <div class="chat-message-image centered-img-bg dfc">
+                      <img src="../../assets/images/user.jpg" alt="userImage" />
+                    </div>
+                    <div class="chat-message-data dfc">
+                      <div class="chat-message-name">
+                        <span>Armando Lara</span>
+                      </div>
+                      <div class="chat-message-details dfr">
+                        <span class="chat-message-body"
+                          >Hey bro have you seen the new movie of Resident
+                          Evil?</span
+                        >
+                        <div class="chat-message-separator">
+                          <span>.</span>
+                        </div>
+                        <span>1 sem</span>
+                      </div>
+                    </div>
+                    <div class="chat-message-new dfc">
+                      <div class="chat-message-no-read dfc"></div>
+                    </div>
+                  </div>
+                  <div class="chat-message-item dfr">
+                    <div class="chat-message-image centered-img-bg dfc">
+                      <img
+                        src="../../assets/images/user_2.jpg"
+                        alt="userImage"
+                      />
+                    </div>
+                    <div class="chat-message-data dfc">
+                      <div class="chat-message-name">
+                        <span>Jennifer López</span>
+                      </div>
+                      <div class="chat-message-details dfr">
+                        <div class="chat-message-body">
+                          <span class="chat-message-owner">Tú: </span>
+                          <span>Sapp</span>
+                        </div>
+                        <div class="chat-message-separator">
+                          <span>.</span>
+                        </div>
+                        <span>2 sem</span>
+                      </div>
+                    </div>
+                    <div class="chat-message-new dfc">
+                      <div class="chat-message-no-read dfc"></div>
+                    </div>
+                  </div>
+                  <div class="chat-message-item dfr">
+                    <div class="chat-message-image centered-img-bg dfc">
+                      <img src="../../assets/images/user.jpg" alt="userImage" />
+                    </div>
+                    <div class="chat-message-data dfc">
+                      <div class="chat-message-name">
+                        <span>Armando Lara</span>
+                      </div>
+                      <div class="chat-message-details dfr">
+                        <span class="chat-message-body"
+                          >Hey bro have you seen the new movie of Resident
+                          Evil?</span
+                        >
+                        <div class="chat-message-separator">
+                          <span>.</span>
+                        </div>
+                        <span>1 sem</span>
+                      </div>
+                    </div>
+                    <div class="chat-message-new dfc">
+                      <div class="chat-message-no-read dfc"></div>
+                    </div>
+                  </div>
+                  <div class="chat-message-item dfr">
+                    <div class="chat-message-image centered-img-bg dfc">
+                      <img
+                        src="../../assets/images/user_2.jpg"
+                        alt="userImage"
+                      />
+                    </div>
+                    <div class="chat-message-data dfc">
+                      <div class="chat-message-name">
+                        <span>Jennifer López</span>
+                      </div>
+                      <div class="chat-message-details dfr">
+                        <div class="chat-message-body">
+                          <span class="chat-message-owner">Tú: </span>
+                          <span>Sapp</span>
+                        </div>
+                        <div class="chat-message-separator">
+                          <span>.</span>
+                        </div>
+                        <span>2 sem</span>
+                      </div>
+                    </div>
+                    <div class="chat-message-new dfc">
+                      <div class="chat-message-no-read dfc"></div>
+                    </div>
+                  </div>
+                  <div class="chat-message-item dfr">
+                    <div class="chat-message-image centered-img-bg dfc">
+                      <img src="../../assets/images/user.jpg" alt="userImage" />
+                    </div>
+                    <div class="chat-message-data dfc">
+                      <div class="chat-message-name">
+                        <span>Armando Lara</span>
+                      </div>
+                      <div class="chat-message-details dfr">
+                        <span class="chat-message-body"
+                          >Hey bro have you seen the new movie of Resident
+                          Evil?</span
+                        >
+                        <div class="chat-message-separator">
+                          <span>.</span>
+                        </div>
+                        <span>1 sem</span>
+                      </div>
+                    </div>
+                    <div class="chat-message-new dfc">
+                      <div class="chat-message-no-read dfc"></div>
+                    </div>
+                  </div>
+                  <div class="chat-message-item dfr">
+                    <div class="chat-message-image centered-img-bg dfc">
+                      <img
+                        src="../../assets/images/user_2.jpg"
+                        alt="userImage"
+                      />
+                    </div>
+                    <div class="chat-message-data dfc">
+                      <div class="chat-message-name">
+                        <span>Jennifer López</span>
+                      </div>
+                      <div class="chat-message-details dfr">
+                        <div class="chat-message-body">
+                          <span class="chat-message-owner">Tú: </span>
+                          <span>Sapp</span>
+                        </div>
+                        <div class="chat-message-separator">
+                          <span>.</span>
+                        </div>
+                        <span>2 sem</span>
+                      </div>
+                    </div>
+                    <div class="chat-message-new dfc">
+                      <div class="chat-message-no-read dfc"></div>
+                    </div>
+                  </div>
+                  <div class="chat-message-item dfr">
+                    <div class="chat-message-image centered-img-bg dfc">
+                      <img src="../../assets/images/user.jpg" alt="userImage" />
+                    </div>
+                    <div class="chat-message-data dfc">
+                      <div class="chat-message-name">
+                        <span>Armando Lara</span>
+                      </div>
+                      <div class="chat-message-details dfr">
+                        <span class="chat-message-body"
+                          >Hey bro have you seen the new movie of Resident
+                          Evil?</span
+                        >
+                        <div class="chat-message-separator">
+                          <span>.</span>
+                        </div>
+                        <span>1 sem</span>
+                      </div>
+                    </div>
+                    <div class="chat-message-new dfc">
+                      <div class="chat-message-no-read dfc"></div>
+                    </div>
+                  </div>
+                  <div class="chat-message-item dfr">
+                    <div class="chat-message-image centered-img-bg dfc">
+                      <img
+                        src="../../assets/images/user_2.jpg"
+                        alt="userImage"
+                      />
+                    </div>
+                    <div class="chat-message-data dfc">
+                      <div class="chat-message-name">
+                        <span>Jennifer López</span>
+                      </div>
+                      <div class="chat-message-details dfr">
+                        <div class="chat-message-body">
+                          <span class="chat-message-owner">Tú: </span>
+                          <span>Sapp</span>
+                        </div>
+                        <div class="chat-message-separator">
+                          <span>.</span>
+                        </div>
+                        <span>2 sem</span>
+                      </div>
+                    </div>
+                    <div class="chat-message-new dfc">
+                      <div class="chat-message-no-read dfc"></div>
+                    </div>
+                  </div>
+                  <div class="chat-message-item dfr">
+                    <div class="chat-message-image centered-img-bg dfc">
+                      <img src="../../assets/images/user.jpg" alt="userImage" />
+                    </div>
+                    <div class="chat-message-data dfc">
+                      <div class="chat-message-name">
+                        <span>Armando Lara</span>
+                      </div>
+                      <div class="chat-message-details dfr">
+                        <span class="chat-message-body"
+                          >Hey bro have you seen the new movie of Resident
+                          Evil?</span
+                        >
+                        <div class="chat-message-separator">
+                          <span>.</span>
+                        </div>
+                        <span>1 sem</span>
+                      </div>
+                    </div>
+                    <div class="chat-message-new dfc">
+                      <div class="chat-message-no-read dfc"></div>
+                    </div>
+                  </div>
+                  <div class="chat-message-item dfr">
+                    <div class="chat-message-image centered-img-bg dfc">
+                      <img
+                        src="../../assets/images/user_2.jpg"
+                        alt="userImage"
+                      />
+                    </div>
+                    <div class="chat-message-data dfc">
+                      <div class="chat-message-name">
+                        <span>Jennifer López</span>
+                      </div>
+                      <div class="chat-message-details dfr">
+                        <div class="chat-message-body">
+                          <span class="chat-message-owner">Tú: </span>
+                          <span>Sapp</span>
+                        </div>
+                        <div class="chat-message-separator">
+                          <span>.</span>
+                        </div>
+                        <span>2 sem</span>
+                      </div>
+                    </div>
+                    <div class="chat-message-new dfc">
+                      <div class="chat-message-no-read dfc"></div>
+                    </div>
+                  </div>
+                  <div class="chat-message-item dfr">
+                    <div class="chat-message-image centered-img-bg dfc">
+                      <img src="../../assets/images/user.jpg" alt="userImage" />
+                    </div>
+                    <div class="chat-message-data dfc">
+                      <div class="chat-message-name">
+                        <span>Armando Lara</span>
+                      </div>
+                      <div class="chat-message-details dfr">
+                        <span class="chat-message-body"
+                          >Hey bro have you seen the new movie of Resident
+                          Evil?</span
+                        >
+                        <div class="chat-message-separator">
+                          <span>.</span>
+                        </div>
+                        <span>1 sem</span>
+                      </div>
+                    </div>
+                    <div class="chat-message-new dfc">
+                      <div class="chat-message-no-read dfc"></div>
+                    </div>
+                  </div>
+                </div>
+              </mat-tab>
+              <!-- Chat Contacts Tab -->
+              <mat-tab>
+                <ng-template mat-tab-label>
+                  Contactos
+                </ng-template>
+                <div class="chat-contacts-list-container">
+                  <div
+                    class="chat-contact-item dfr"
+                    (click)="seeChatDetails(true)"
+                  >
+                    <div class="chat-contact-image centered-img-bg dfc">
+                      <img
+                        src="../../assets/images/user_2.jpg"
+                        alt="userImage"
+                      />
+                    </div>
+                    <div class="chat-contact-data dfc">
+                      <div class="chat-contact-name">
+                        <span>Jennifer López</span>
+                      </div>
+                      <div class="chat-contact-role">
+                        <span>Cliente</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="chat-contact-item dfr"
+                    (click)="seeChatDetails(true)"
+                  >
+                    <div class="chat-contact-image centered-img-bg dfc">
+                      <img src="../../assets/images/user.jpg" alt="userImage" />
+                    </div>
+                    <div class="chat-contact-data dfc">
+                      <div class="chat-contact-name">
+                        <span>Armando Lara</span>
+                      </div>
+                      <div class="chat-contact-role">
+                        <span>Asociado</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="chat-contact-item dfr">
+                    <div class="chat-contact-image centered-img-bg dfc">
+                      <img
+                        src="../../assets/images/user_2.jpg"
+                        alt="userImage"
+                      />
+                    </div>
+                    <div class="chat-contact-data dfc">
+                      <div class="chat-contact-name">
+                        <span>Jennifer López</span>
+                      </div>
+                      <div class="chat-contact-role">
+                        <span>Cliente</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="chat-contact-item dfr">
+                    <div class="chat-contact-image centered-img-bg dfc">
+                      <img src="../../assets/images/user.jpg" alt="userImage" />
+                    </div>
+                    <div class="chat-contact-data dfc">
+                      <div class="chat-contact-name">
+                        <span>Armando Lara</span>
+                      </div>
+                      <div class="chat-contact-role">
+                        <span>Asociado</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="chat-contact-item dfr">
+                    <div class="chat-contact-image centered-img-bg dfc">
+                      <img
+                        src="../../assets/images/user_2.jpg"
+                        alt="userImage"
+                      />
+                    </div>
+                    <div class="chat-contact-data dfc">
+                      <div class="chat-contact-name">
+                        <span>Jennifer López</span>
+                      </div>
+                      <div class="chat-contact-role">
+                        <span>Cliente</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="chat-contact-item dfr">
+                    <div class="chat-contact-image centered-img-bg dfc">
+                      <img src="../../assets/images/user.jpg" alt="userImage" />
+                    </div>
+                    <div class="chat-contact-data dfc">
+                      <div class="chat-contact-name">
+                        <span>Armando Lara</span>
+                      </div>
+                      <div class="chat-contact-role">
+                        <span>Asociado</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="chat-contact-item dfr">
+                    <div class="chat-contact-image centered-img-bg dfc">
+                      <img
+                        src="../../assets/images/user_2.jpg"
+                        alt="userImage"
+                      />
+                    </div>
+                    <div class="chat-contact-data dfc">
+                      <div class="chat-contact-name">
+                        <span>Jennifer López</span>
+                      </div>
+                      <div class="chat-contact-role">
+                        <span>Cliente</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="chat-contact-item dfr">
+                    <div class="chat-contact-image centered-img-bg dfc">
+                      <img src="../../assets/images/user.jpg" alt="userImage" />
+                    </div>
+                    <div class="chat-contact-data dfc">
+                      <div class="chat-contact-name">
+                        <span>Armando Lara</span>
+                      </div>
+                      <div class="chat-contact-role">
+                        <span>Asociado</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="chat-contact-item dfr">
+                    <div class="chat-contact-image centered-img-bg dfc">
+                      <img
+                        src="../../assets/images/user_2.jpg"
+                        alt="userImage"
+                      />
+                    </div>
+                    <div class="chat-contact-data dfc">
+                      <div class="chat-contact-name">
+                        <span>Jennifer López</span>
+                      </div>
+                      <div class="chat-contact-role">
+                        <span>Cliente</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="chat-contact-item dfr">
+                    <div class="chat-contact-image centered-img-bg dfc">
+                      <img src="../../assets/images/user.jpg" alt="userImage" />
+                    </div>
+                    <div class="chat-contact-data dfc">
+                      <div class="chat-contact-name">
+                        <span>Armando Lara</span>
+                      </div>
+                      <div class="chat-contact-role">
+                        <span>Asociado</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="chat-contact-item dfr">
+                    <div class="chat-contact-image centered-img-bg dfc">
+                      <img
+                        src="../../assets/images/user_2.jpg"
+                        alt="userImage"
+                      />
+                    </div>
+                    <div class="chat-contact-data dfc">
+                      <div class="chat-contact-name">
+                        <span>Jennifer López</span>
+                      </div>
+                      <div class="chat-contact-role">
+                        <span>Cliente</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="chat-contact-item dfr">
+                    <div class="chat-contact-image centered-img-bg dfc">
+                      <img src="../../assets/images/user.jpg" alt="userImage" />
+                    </div>
+                    <div class="chat-contact-data dfc">
+                      <div class="chat-contact-name">
+                        <span>Armando Lara</span>
+                      </div>
+                      <div class="chat-contact-role">
+                        <span>Asociado</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="chat-contact-item dfr">
+                    <div class="chat-contact-image centered-img-bg dfc">
+                      <img
+                        src="../../assets/images/user_2.jpg"
+                        alt="userImage"
+                      />
+                    </div>
+                    <div class="chat-contact-data dfc">
+                      <div class="chat-contact-name">
+                        <span>Jennifer López</span>
+                      </div>
+                      <div class="chat-contact-role">
+                        <span>Cliente</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="chat-contact-item dfr">
+                    <div class="chat-contact-image centered-img-bg dfc">
+                      <img src="../../assets/images/user.jpg" alt="userImage" />
+                    </div>
+                    <div class="chat-contact-data dfc">
+                      <div class="chat-contact-name">
+                        <span>Armando Lara</span>
+                      </div>
+                      <div class="chat-contact-role">
+                        <span>Asociado</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </mat-tab>
+            </mat-tab-group>
+          </div>
+        </perfect-scrollbar>
+      </div>
+      <!-- Chat List Footer -->
+      <div class="chat-sidenav-footer dfr" *ngIf="!isSearchingUser">
+        <span>Ver todo</span>
+      </div>
+    </div>
+  </mat-tab>
+  <!-- Chat Conversation Tab -->
+  <mat-tab>
+    <ng-template mat-tab-label>
+      Chat Details
+    </ng-template>
+    <div class="chat-sidenav-content">
+      <!-- Chat Details Header -->
+      <div class="chat-sidenav-header chat-conversation dfr">
+        <div class="chat-sidenav-header-details dfr">
+          <div
+            class="chat-sidenav-header-return waves-effect waves-light dfc"
+            (click)="seeChatDetails(false)"
+          >
+            <i class="material-icons">arrow_back</i>
+          </div>
+          <div
+            class="chat-sidenav-header-user-data waves-effect waves-light dfr"
+          >
+            <div class="chat-sidenav-header-image centered-img-bg">
+              <img src="../../assets/images/user.jpg" alt="userImage" />
+            </div>
+            <div class="chat-sidenav-header-name">
+              <span>Armando Lara</span>
+            </div>
+            <div class="dfc"><i class="material-icons">expand_more</i></div>
+          </div>
+        </div>
+        <div class="chat-sidenav-header-options dfr">
+          <div
+            class="chat-sidenav-header-option waves-effect waves-light dfc"
+            (click)="toogleChatSidenav()"
+            matTooltip="Minimizar"
+            matTooltipPosition="below"
+          >
+            <i class="fas fa-minus"></i>
+          </div>
+        </div>
+      </div>
+      <!-- Chat Details Body -->
+      <div
+        class="chat-sidenav-body chat-details"
+        [style.height]="
+          calculateTextAreaHeight(textareaContainer)
+            ? 'calc(100% - ' +
+              (calculateTextAreaHeight(textareaContainer) + 53) +
+              'px)'
+            : 'calc(100% - 107px)'
+        "
+      >
+        <perfect-scrollbar
+          class="scroll-container"
+          fxFlex="auto"
+          [config]="config"
+          [scrollIndicators]="false"
+        >
+          <div class="scrollable-content">
+            <div style="height: 100%;">
+              <div class="chat-convsersation ct">
+                <div class="chat chat-right dfr">
+                  <div class="chat-avatar">
+                    <img src="../../../assets/images/user.jpg" />
+                  </div>
+                  <div class="chat-body">
+                    <div class="chat-text dfr">
+                      <p>How can we help? We're here for you!</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="chat dfr">
+                  <div class="chat-avatar">
+                    <img src="../../../assets/images/user_2.jpg" />
+                  </div>
+                  <div class="chat-body">
+                    <div class="chat-text dfr">
+                      <p>
+                        Hey John, I am looking for the best admin template.
+                        Could you please help me to find it out?
+                      </p>
+                    </div>
+                    <div class="chat-text dfr">
+                      <p>It should be material css compatible.</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="chat chat-right dfr">
+                  <div class="chat-avatar">
+                    <img src="../../../assets/images/user.jpg" />
+                  </div>
+                  <div class="chat-body">
+                    <div class="chat-text dfr">
+                      <p>How can we help? We're here for you!</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="chat dfr">
+                  <div class="chat-avatar">
+                    <img src="../../../assets/images/user_2.jpg" />
+                  </div>
+                  <div class="chat-body">
+                    <div class="chat-text dfr">
+                      <p>
+                        Hey John, I am looking for the best admin template.
+                        Could you please help me to find it out?
+                      </p>
+                    </div>
+                    <div class="chat-text dfr">
+                      <p>It should be material css compatible.</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="chat chat-right dfr">
+                  <div class="chat-avatar">
+                    <img src="../../../assets/images/user.jpg" />
+                  </div>
+                  <div class="chat-body">
+                    <div class="chat-text dfr">
+                      <p>How can we help? We're here for you!</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="chat dfr">
+                  <div class="chat-avatar">
+                    <img src="../../../assets/images/user_2.jpg" />
+                  </div>
+                  <div class="chat-body">
+                    <div class="chat-text dfr">
+                      <p>
+                        Hey John, I am looking for the best admin template.
+                        Could you please help me to find it out?
+                      </p>
+                    </div>
+                    <div class="chat-text dfr">
+                      <p>It should be material css compatible.</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="chat chat-right dfr">
+                  <div class="chat-avatar">
+                    <img src="../../../assets/images/user.jpg" />
+                  </div>
+                  <div class="chat-body">
+                    <div class="chat-text dfr">
+                      <p>How can we help? We're here for you!</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="chat dfr">
+                  <div class="chat-avatar">
+                    <img src="../../../assets/images/user_2.jpg" />
+                  </div>
+                  <div class="chat-body">
+                    <div class="chat-text dfr">
+                      <p>
+                        Hey John, I am looking for the best admin template.
+                        Could you please help me to find it out?
+                      </p>
+                    </div>
+                    <div class="chat-text dfr">
+                      <p>It should be material css compatible.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </perfect-scrollbar>
+      </div>
+      <!-- Chat Details Footer -->
+      <div class="chat-sidenav-footer chat-conversation dfr" #textareaContainer>
+        <div class="chat-conversation-write-container dfr">
+          <form id="sendMessage" ngNativeValidate [formGroup]="sendMessageForm">
+            <textarea
+              id="messageField"
+              name="msgChat"
+              formControlName="msgChat"
+              [(ngModel)]="msgChat"
+              autosize
+              [minRows]="1"
+              [maxRows]="4"
+              placeholder="Escribir mensaje"
+            ></textarea>
+          </form>
+          <div
+            class="chat-conversation-actions dfr"
+            [style.width.px]="msgChat ? 32 : 64"
+          >
+            <div
+              class="chat-conversation-action-item waves-effect waves-light dfc"
+              matTooltip="Adjuntar documento"
+              matTooltipPosition="below"
+            >
+              <i class="material-icons">attach_file</i>
+            </div>
+            <div
+              class="chat-conversation-action-item waves-effect waves-light dfc"
+              *ngIf="!msgChat"
+              matTooltip="Adjuntar foto"
+              matTooltipPosition="below"
+            >
+              <i class="material-icons">photo_camera</i>
+            </div>
+          </div>
+        </div>
+        <div
+          class="chat-conversation-send-button waves-effect waves-light dfc"
+          (click)="sendMsgChat()"
+          [attr.data-disabled]="!msgChat ? 'true' : 'false'"
+          matTooltip="Enviar"
+          matTooltipPosition="below"
+        >
+          <i class="material-icons">send</i>
+        </div>
+      </div>
+    </div>
+  </mat-tab>
+</mat-tab-group>

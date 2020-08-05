@@ -5,27 +5,12 @@ export class Files {
         public assigned_client: any,
         public defendant: string,
         public intKey: string,
-        public comments?: {
-            comment: string,
-            date: Date,
-            numV: number
-        },
-        public documents?: {
-            date?: Date,
-            document: string,
-            numV: number
-        },
         public extKey?: string,
         public observations?: string,
-        public start_date?: string,
-        public status?: string,
         public third?: string,
+        public start_date?: any,
+        public status?: string,
         public user?: string,
-        public volumes?: {
-            date: Date,
-            num: number,
-            volume: string
-        },
         public _id?: string
     ) { }
 }

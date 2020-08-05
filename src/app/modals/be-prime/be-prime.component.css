@@ -80,6 +80,7 @@
   border-radius: 0;
   position: relative;
   margin: 0;
+  border: none;
 }
 
 .premium-account-inner-content {

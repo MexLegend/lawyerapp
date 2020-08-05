@@ -1,43 +1,34 @@
-<div
-  id="modalUsers"
-  class="modal border-radius-6 modal-fixed-footer"
-  style="
-    z-index: 1003;
-    display: none;
-    opacity: 0;
-    top: 4%;
-    transform: scaleX(0.8) scaleY(0.8);
-  "
->
-  <!--Modal Fixed Header-->
-  <div class="modal-header dfc">
-    <div class="modal-icon dfc">
-      <i class="material-icons">perm_identity</i>
-    </div>
-    <span
-      ><span class="client-action">{{ this.userModalTitle }}</span>
-      Cliente</span
-    >
-    <i
-      class="modal-close modal-exit material-icons pink accent-2 waves-effect waves-light dfr"
-      >close</i
-    >
+<!-- Modal Structure -->
+<div mat-dialog-title class="modal-header admin-modal-header dfc">
+  <div class="modal-icon dfc">
+    <i class="material-icons">contact_mail</i>
   </div>
+  <span
+    ><span class="client-action">{{ this.userModalTitle }}</span> Usuario</span
+  >
+  <i
+    mat-dialog-close
+    class="modal-exit material-icons pink accent-2 waves-effect waves-light dfr"
+    >close</i
+  >
+</div>
 
+<mat-dialog-content class="mat-typography admin-modal-container">
   <!-- Modal Content -->
-  <div class="modal-content">
+  <div class="modal-content admin-modal-content">
     <perfect-scrollbar
       class="scroll-container be-prime-scroll-content"
       [config]="config"
     >
       <div class="scrollable-content">
-        <div class="row" style="margin: 20px 0 0 0; height: calc(100% - 20px);">
+        <div class="row">
           <form
             id="formUsers"
             class="col s12"
             style="padding: 0 30px; height: 100%;"
             ngNativeValidate
             [formGroup]="form"
+            
           >
             <!-- Inputs Container -->
             <div class="inputs-container">
@@ -156,6 +147,7 @@
                   formControlName="address"
                   type="text"
                   placeholder=" "
+                  autocomplete="new-password"
                 />
                 <div
                   class="modal-input-placeholder modal-input-placeholder-pink"
@@ -165,7 +157,7 @@
               </div>
               <!-- Password Input Field -->
               <div
-                *ngIf="view"
+                *ngIf="this.data.action === 'Crear'"
                 id="userPassInput"
                 class="modal-input modal-input-pink"
               >
@@ -175,6 +167,7 @@
                   formControlName="password1"
                   type="password"
                   placeholder=" "
+                  autocomplete="new-password"
                 />
                 <div
                   class="modal-input-placeholder modal-input-placeholder-pink"
@@ -194,7 +187,7 @@
               </div>
               <!-- Password2 Input Field -->
               <div
-                *ngIf="view"
+                *ngIf="this.data.action === 'Crear'"
                 id="userPassInput2"
                 class="modal-input modal-input-pink"
               >
@@ -233,35 +226,39 @@
       </div>
     </perfect-scrollbar>
   </div>
-  <div class="modal-footer modal-actions">
-    <div class="modal-actions-container dfr">
-      <div
-        *ngIf="this._imgS.uploader?.isUploading"
-        class="upload-progress-container dfc"
-      >
-        <div class="upload-progress modal-footer-upload-progress">
-          <app-progress
-            [progress]="this._imgS.uploader?.progress"
-          ></app-progress>
+
+  <div class="modal-footer modal-actions admin-modal-footer">
+    <ng-container>
+      <div class="modal-actions-container dfr">
+        <div
+          *ngIf="this._imgS.uploader?.isUploading"
+          class="upload-progress-container dfc"
+        >
+          <div class="upload-progress modal-footer-upload-progress">
+            <app-progress
+              [progress]="this._imgS.uploader?.progress"
+            ></app-progress>
+          </div>
+        </div>
+        <div class="modal-actions-content">
+          <button
+            type="button"
+            class="mwaves-effect waves-light btn modal-close-action"
+            mat-dialog-close
+            (click)="clearImg()"
+          >
+            Cancelar
+          </button>
+          <button
+            type="submit"
+            [class.button-disabled]="!form.valid || errorEmail === true"
+            class="waves-effect waves-light btn modal-submit-action"
+            (click)="create()"
+          >
+            Guardar
+          </button>
         </div>
       </div>
-      <div class="modal-actions-content">
-        <button
-          type="button"
-          class="modal-close waves-effect waves-light btn modal-close-action"
-          (click)="clearImg()"
-        >
-          Cancelar
-        </button>
-        <button
-          type="submit"
-          [class.button-disabled]="!form.valid || errorEmail === true"
-          class="waves-effect waves-light btn modal-submit-action"
-          (click)="create()"
-        >
-          Guardar
-        </button>
-      </div>
-    </div>
+    </ng-container>
   </div>
-</div>
+</mat-dialog-content>

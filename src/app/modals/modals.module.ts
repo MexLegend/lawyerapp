@@ -6,6 +6,7 @@ import { AngularEditorModule } from '@kolkov/angular-editor';
 import { DataTablesModule } from 'angular-datatables';
 
 import { FilesFormComponent } from './files-form/files-form.component';
+import { FiltersComponent } from './filters/filters.component';
 import { LoginComponent } from './login/login.component';
 import { LoginFormComponent } from './login/login-form/login-form.component';
 import { RegisterFormComponent } from './login/register-form/register-form.component';
@@ -21,10 +22,15 @@ import { MaterialModule } from '../shared/material.module';
 import { FileUploadModule } from "ng2-file-upload";
 import { LawyerContactComponent } from './lawyer-contact/lawyer-contact.component';
 import { BePrimeComponent } from './be-prime/be-prime.component';
+import { ChatComponent } from './chat/chat.component';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatIconModule } from '@angular/material/icon';
-import {MatRadioModule} from '@angular/material/radio'; 
+import { MatRadioModule } from '@angular/material/radio';
 import { DocumentsViewComponent } from './documents-view/documents-view.component';
+import { WriteNoteComponent } from './write-note/write-note.component';
+import { SelectEvidenceComponent } from './select-evidence/select-evidence.component';
+import { SelectNotesComponent } from './select-notes/select-notes.component';
+
 import {
   PerfectScrollbarModule, PerfectScrollbarConfigInterface,
   PERFECT_SCROLLBAR_CONFIG
@@ -42,6 +48,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     DocumentsViewComponent,
     FileUploadComponent,
     FilesFormComponent,
+    FiltersComponent,
     LawyerContactComponent,
     LoginComponent,
     LoginFormComponent,
@@ -51,17 +58,29 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     SelectFileComponent,
     SelectUserComponent,
     UsersFormComponent,
+    ChatComponent,
+    SelectEvidenceComponent,
+    SelectNotesComponent,
+    WriteNoteComponent
   ],
   entryComponents: [
     BePrimeComponent,
+    ChatComponent,
     DocumentsViewComponent,
-    FilesFormComponent
+    FilesFormComponent,
+    FiltersComponent,
+    PostsFormComponent,
+    SelectEvidenceComponent,
+    SelectNotesComponent,
+    UsersFormComponent,
+    WriteNoteComponent
   ],
   exports: [
     BePrimeComponent,
     DocumentsViewComponent,
     FileUploadComponent,
     FilesFormComponent,
+    FiltersComponent,
     LawyerContactComponent,
     LoginComponent,
     NotificationsFormComponent,
@@ -69,6 +88,10 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     SelectFileComponent,
     SelectUserComponent,
     UsersFormComponent,
+    ChatComponent,
+    SelectEvidenceComponent,
+    SelectNotesComponent,
+    WriteNoteComponent
   ],
   imports: [
     MatDialogModule,

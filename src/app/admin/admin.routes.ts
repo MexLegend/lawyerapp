@@ -32,14 +32,14 @@ const ADMIN_ROUTES: Routes = [
         data: { titulo: 'Articulos' }
     },
     {
-        path: 'expedientes',
+        path: 'casos',
         component: FilesComponent,
-        data: { titulo: 'Expedientes' }
+        data: { titulo: 'Casos' }
     },
     {
-        path: 'seguimiento-expediente',
+        path: 'seguimiento-caso',
         component: FileTrackingComponent,
-        data: { titulo: 'Seguimiento Expediente' }
+        data: { titulo: 'Seguimiento Caso' }
     },
     {
         path: 'notificaciones',

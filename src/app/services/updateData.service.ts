@@ -16,6 +16,7 @@ export class UpdateDataService {
 
   private storageFile = new Subject<string>();
   private storageTrack = new Subject<string>();
+  private storageTracking = new Subject<string>();
   private storageUser = new Subject<string>();
 
   constructor() {}
@@ -104,6 +105,15 @@ export class UpdateDataService {
   setItemTrack(key: string, data: any) {
     localStorage.setItem(key, data);
     this.storageTrack.next(JSON.parse(data));
+  }
+
+  watchTrackingStorage(): Observable<any> {
+    return this.storageTracking.asObservable();
+  }
+
+  setItemTracking(key: string, data: any) {
+    localStorage.setItem(key, data);
+    this.storageTracking.next(JSON.parse(data));
   }
 
   watchUserStorage(): Observable<any> {

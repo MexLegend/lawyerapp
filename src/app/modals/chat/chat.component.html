@@ -1,0 +1,46 @@
+<!-- Modal Structure -->
+<div mat-dialog-title class="modal-header admin-modal-header dfc">
+  <div class="modal-icon dfc">
+    <i class="material-icons">contact_mail</i>
+  </div>
+  <span class="file-action">Mensajes</span>
+  <i
+    mat-dialog-close
+    class="modal-exit material-icons pink accent-2 waves-effect waves-light dfr"
+    >close</i
+  >
+</div>
+
+<mat-dialog-content class="mat-typography admin-modal-container">
+  <!-- Modal Content -->
+  <div class="modal-content admin-modal-content">
+    <perfect-scrollbar
+      class="scroll-container be-prime-scroll-content"
+      [config]="config"
+    >
+      <div class="scrollable-content">
+        <mat-tab-group
+          class="files-tab"
+          [selectedIndex]="selectedTab.value"
+          (selectedIndexChange)="selectedTab.setValue($event)"
+        >
+          <mat-tab>
+            <ng-template mat-tab-label>
+              Formulario expediente
+            </ng-template>
+          </mat-tab>
+
+          <mat-tab>
+            <ng-template mat-tab-label>
+              Seleccionar cliente
+            </ng-template>
+          </mat-tab>
+        </mat-tab-group>
+      </div>
+    </perfect-scrollbar>
+  </div>
+
+  <div class="modal-footer modal-actions admin-modal-footer">
+    <ng-container> </ng-container>
+  </div>
+</mat-dialog-content>

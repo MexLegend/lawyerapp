@@ -27,7 +27,7 @@ export class FilesService {
       "Content-Type": "application/json",
       token: this._usersS.token,
     });
-    const url = `${environment.URI}/api/files/all/${id}`;
+    const url = `${environment.URI}/api/cases/all/${id}`;
 
     return this.http
       .get<Files[]>(url, { headers })
@@ -41,14 +41,14 @@ export class FilesService {
     orderType: string = "",
     filter: string = "",
     filterOpt: string = "affair",
-    status: boolean = true
+    status: string = ""
   ): Observable<FilesPagination> {
     const headers = new HttpHeaders({
       "Content-Type": "application/json",
       token: this._usersS.token,
     });
 
-    let url = `${environment.URI}/api/files?status=${status}&page=${
+    let url = `${environment.URI}/api/cases?status=${status}&page=${
       page + 1
     }&perPage=${perPage}`;
 
@@ -66,7 +66,7 @@ export class FilesService {
 
     return this.http
       .get<FilesPagination>(url, { headers })
-      .pipe(map((resp: any) => resp.files));
+      .pipe(map((resp: any) => resp.cases));
   }
 
   getFile(id: string): Observable<Files> {
@@ -74,7 +74,7 @@ export class FilesService {
       "Content-Type": "application/json",
       token: this._usersS.token,
     });
-    const url = `${environment.URI}/api/files/${id}`;
+    const url = `${environment.URI}/api/cases/${id}`;
 
     return this.http
       .get<Files>(url, { headers })
@@ -87,7 +87,7 @@ export class FilesService {
       token: this._usersS.token,
     });
 
-    const url = `${environment.URI}/api/files`;
+    const url = `${environment.URI}/api/cases`;
 
     return this.http
       .post<Files>(url, file, { headers })
@@ -127,14 +127,14 @@ export class FilesService {
       );
   }
 
-  updateFile(id, file: Files) {
+  updateFile(id, file: any) {
     const headers = new HttpHeaders({
       "Content-Type": "application/json",
       token: this._usersS.token
     });
     console.log(file);
     
-    const url = `${environment.URI}/api/files/${id}`;
+    const url = `${environment.URI}/api/cases/${id}`;
 
     return this.http
       .put(url, file, { headers })
@@ -142,16 +142,7 @@ export class FilesService {
         map((resp: any) => {
           console.log(resp);
           $("#modal-Expediente").modal("close");
-          this._notificationsS.message(
-            "success",
-            "Actualización correcta",
-            resp.message,
-            false,
-            false,
-            "",
-            "",
-            2000
-          );
+          
           return resp;
         }),
         catchError((err) => {
@@ -176,7 +167,7 @@ export class FilesService {
       "Content-Type": "application/json",
       token: this._usersS.token,
     });
-    const url = `${environment.URI}/api/files/${id}`;
+    const url = `${environment.URI}/api/cases/${id}`;
 
     return this.http
       .delete<Files>(url, { headers })

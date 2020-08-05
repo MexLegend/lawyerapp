@@ -1,4 +1,4 @@
-<section id="noticias-main-container" class="pr pt-111 dfc">
+<section id="noticias-main-container" class="pr pt-71 dfc">
   <div id="noticias-main-menu">
     <div class="noticias-main-menu-container container">
       <div><span>Últimos Articulos</span></div>
@@ -7,6 +7,7 @@
           <form>
             <div class="input-field">
               <input
+                (keyup)="filter($event.target.value)"
                 id="search"
                 type="search"
                 placeholder="Buscar..."
@@ -29,7 +30,8 @@
     <div
       *ngFor="
         let post of posts
-          | paginate: { itemsPerPage: 16, currentPage: currentPage }
+          | filter: filterValue:'post'
+          | paginate: { itemsPerPage: 2, currentPage: currentPage }
       "
       class="card sticky-action"
       style="width: 100%;"
@@ -56,7 +58,7 @@
             class="card-img card-image centered-img-bg ff-ur waves-effect waves-block waves-light"
           >
             <img
-              [src]="post?.img | img: 'post':false"
+              [src]="post?.img | img: 'post':true"
               [routerLink]="['/articulo-detalle', post._id]"
               (click)="scrollToTop()"
             />
@@ -79,13 +81,13 @@
           <div class="like-dislike-comments-section dfr">
             <div class="dfr">
               <div class="like">
-                <a>
+                <a matTooltip="Me gusta" matTooltipPosition="above">
                   <i class="waves-effect material-icons new-like">thumb_up</i>
                   <span>201</span>
                 </a>
               </div>
               <div class="dislike">
-                <a>
+                <a matTooltip="No me gusta" matTooltipPosition="above">
                   <i class="waves-effect material-icons new-dislike"
                     >thumb_down</i
                   >
@@ -117,5 +119,7 @@
   <pagination-controls
     class="news-pagination"
     (pageChange)="currentPage = $event"
+    previousLabel="Anterior"
+    nextLabel="Siguiente"
   ></pagination-controls>
 </section>

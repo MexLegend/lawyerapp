@@ -1,0 +1,25 @@
+.user-role-indicator {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.user-role-indicator[data-rol="ADMIN"],
+.header-item-btn-select.users[data-rol="ADMIN"] {
+  background: #1976d2;
+}
+
+.user-role-indicator[data-rol="PARTNER"],
+.header-item-btn-select.users[data-rol="PARTNER"] {
+  background: #ff0054;
+}
+
+.user-role-indicator[data-rol="CLIENT"],
+.header-item-btn-select.users[data-rol="CLIENT"] {
+  background: #910cff;
+}
+
+.user-role-indicator[data-rol="USER"],
+.header-item-btn-select.users[data-rol="USER"] {
+  background: #00be91;
+}

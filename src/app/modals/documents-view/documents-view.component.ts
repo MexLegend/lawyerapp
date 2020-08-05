@@ -29,7 +29,7 @@ export class DocumentsViewComponent implements OnInit {
       this._trackingS.downloadPDF(url)
     } else {
       console.log('DOC')
-      window.open(`http://${url}`);
+      window.open(`https://${url}`);
     }
   }
 

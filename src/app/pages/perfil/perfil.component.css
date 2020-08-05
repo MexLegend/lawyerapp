@@ -31,17 +31,11 @@
   .contact-media {
     display: none !important;
   }
-  .perfil-navbar {
-    justify-content: space-between !important;
-  }
 }
 
 @media only screen and (min-width: 993px) {
-  #perfil-sidebar {
-    transform: translate(0%) !important;
-  }
-  #perfil-main-container {
-    padding-left: 260px;
+  .perfil-navbar {
+    justify-content: flex-end !important;
   }
   .perfil-footer {
     padding: 0 20px;
@@ -65,11 +59,11 @@
 /* Perfil Navbar Container */
 .perfil-navbar {
   width: 100%;
-  height: 64px;
+  min-height: 64px;
   padding: 0 20px;
   z-index: 2;
   color: white;
-  justify-content: space-around;
+  justify-content: space-between;
 }
 
 #perfil-sidebar {
@@ -109,10 +103,32 @@
   color: aquamarine;
 }
 
+/* Navbar Options */
+.navbar-options .navbar-option:not(:last-child) {
+  margin-right: 10px;
+}
+
+.navbar-options .navbar-option {
+  height: 40px;
+  border-radius: 50%;
+  /* background: #13287a; */
+  background: linear-gradient(45deg, #b72318 10%, #ff5722 62%) !important;
+  background: -moz-linear-gradient(45deg, #b72318 10%, #ff5722 62%) !important;
+}
+
+.navbar-options .navbar-option:hover {
+  /* background: #1a3499; */
+  background: linear-gradient(45deg, #9e1b12 10%, #cc4117 62%) !important;
+  background: -moz-linear-gradient(45deg, #9e1b12 10%, #cc4117 62%) !important;
+}
+
 /* Perfil Dropdown */
 .perfil-button-trigger {
   background: none;
-  height: 64px;
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+  padding: 0;
   border-radius: 0;
   font-weight: 300;
   font-size: 12px;
@@ -120,14 +136,19 @@
   color: #949ba1;
 }
 
+.perfil-button-trigger.fa i {
+  font-size: 21px;
+  color: white;
+}
+
 .avatar-status {
   position: relative;
-  width: 35px;
-  min-width: 35px;
-  max-width: 35px;
-  height: 35px;
-  min-height: 35px;
-  max-height: 35px;
+  width: 40px;
+  min-width: 40px;
+  max-width: 40px;
+  height: 40px;
+  min-height: 40px;
+  max-height: 40px;
 }
 
 .avatar-status .centered-img-bg {
@@ -152,7 +173,7 @@
 /* - - - - - - - - - - - - - - - - - - |
 
 /* SideBar Container */
-.sidebar {
+#perfil-sidebar {
   z-index: 999;
   position: fixed;
   left: 0;
@@ -164,6 +185,12 @@
   transition: 0.3s ease all;
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.01),
     0 3px 1px -2px rgba(0, 0, 0, 0.01), 0 1px 5px 0 rgba(0, 0, 0, 0.1);
+  transform: translateX(0);
+}
+
+.main-perfil-sidenav {
+  width: 260px;
+  min-width: 260px;
 }
 
 /* Sidebar Brand */
@@ -266,8 +293,9 @@
 #perfil-content-container {
   background: #ececec;
   width: 100%;
-  margin-top: -165px;
+  margin-top: -180px;
   height: 100vh;
+  max-height: calc(100vh - 119px);
 }
 
 #perfil-content-container .card .card-tabs ul {

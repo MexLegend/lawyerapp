@@ -9,27 +9,23 @@ import { ThemeService } from '../../services/theme.service';
 })
 export class ThemeSwitchComponent implements OnInit {
 
-  constructor(
-    public _themeS: ThemeService
-  ) {
-    if ( localStorage.getItem('dark') ) {
-      this.check = JSON.parse(localStorage.getItem('dark'))
-    }
+  constructor(public _themeS: ThemeService) {
+    this._themeS.checkStorage();
 
-    this.darkTheme.valueChanges.subscribe(value => {
-      console.log(value)
-      if (value) {
-        this._themeS.toggleDark();
-      } else {
-        this._themeS.toggleLight();
-      }
-    });
+    this._themeS.checkChanges();
   }
 
-  darkTheme = new FormControl(false);
-  check: any;
+  ngOnInit() {}
 
-  ngOnInit() {
+  // Change Theme Function
+  changeTheme() {
+    this._themeS.darkTheme.setValue(this._themeS.val);
+    this._themeS.checkStorage();
+    console.log(this._themeS.darkTheme);
+  }
+
+  switch() {
+    this._themeS.switchVal()
   }
 
 }

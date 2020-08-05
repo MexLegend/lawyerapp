@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { FormControl } from '@angular/forms';
 
 export const darkTheme = {
     // Backgrounds
@@ -12,7 +13,7 @@ export const darkTheme = {
     'dark-modal-footer': '#191919fc',
     'light-blue-bg': '#2196f3',
     'gradient-light-blue-bg': 'linear-gradient(45deg, #0288d1, #26c6da)',
-    'admin-modal-button-bg': 'linear-gradient(45deg, #303f9f, #7b1fa2)',
+    'admin-modal-button-bg': 'linear-gradient(45deg, #303f9f, #1976d2)',
     'perfil-modal-button-bg': 'linear-gradient(45deg, #243393, #1976d2)',
     'transparent-bg': 'transparent',
     'message-button-bg': 'rgba(255, 255, 255, 0.1)',
@@ -25,6 +26,14 @@ export const darkTheme = {
     'nav-fixed-option-bg': 'rgba(255,255,255,.1',
     'status-bg': 'rgba(255, 255, 255, 0.3)',
     'tracking-number-bg': 'rgba(255, 255, 255, 0.3)',
+    'tooltip-background': 'rgba(255, 255, 255, 0.8)',
+    'switch-bg': '#1e88e5',
+    'filters-container-bg': '#393939',
+    'search-input-filter-bg': '#212121',
+    'chat-message-bg': '#3e4042',
+    'evidence-box': '#666',
+    'evidence-box-header': '#605e5e',
+    'container-bg': '#212121',
     // Colors
     'white-color': '#ffffff',
     'alpha-white-color': 'rgba(255, 255, 255, 0.8)',
@@ -34,7 +43,7 @@ export const darkTheme = {
     'dark-disabled-button-color': '#aaa',
     'light-blue-color': '#2196f3',
     'medium-blue-color': '#26aee4',
-    'default-color': '#ffffff',
+    'default-color': '#e4e6eb',
     'default-hover-color': '#ffffff',
     'active-admin-sidenav-color': '#ffffff',
     'hover-admin-sidenav-color': '#212121',
@@ -48,18 +57,24 @@ export const darkTheme = {
     'last-articles-color': '#9d9d9d',
     'attached-file-btn-color': 'white',
     'search-button-color': 'rgba(255, 255, 255, 0.7)',
+    'primary-text': '#e4e6eb',
+    'secondary-text': '#b0b3b8',
+    'tooltip-color': 'rgba(0, 0, 0, 0.8)',
     // Borders
-    'medium-dark-border': '1px solid #212121',
-    'dark-border': '1px solid #303030',
-    'dark-bottom-border': '1px solid #3e3e3e',
-    'dark-top-border': '1px solid #3e3e3e',
-    'dark-right-border': '1px solid #3e3e3e',
+    'medium-dark-border': '#212121',
+    'dark-border': '#303030',
+    'dark-bottom-border': '#3e3e3e',
+    'dark-top-border': '#3e3e3e',
+    'dark-right-border': '#3e3e3e',
     'transparent-border': 'transparent',
     'admin-modal-button-border': 'none',
     'perfil-modal-button-border': 'none',
     'lawyer-modal-border-color': 'rgba(255, 255, 255, 0.05)',
-    'search-button-border': '1.5px solid #545252',
-    'img-border': '1px solid rgba(0, 0, 0, 0.01)',
+    'search-button-border': '#545252',
+    'img-border': 'rgba(255, 255, 255, 0.05)',
+    'cancel-modal-border': 'none',
+    'search-input-border': '#4e4e4e',
+    'sidenav-divider-border-color': '#605e5e',
     // Box Shadow
     'dark-box-shadow': '0 0 4px 2px #3030304d',
     'dark-box-shadow-color': 'rgba(0, 0, 0, 0.3)',
@@ -106,7 +121,15 @@ export const lightTheme = {
     'attached-file-comment': 'rgba(0, 0, 0, 0.1)',
     'nav-fixed-option-bg': '#e4e6eb',
     'status-bg': 'rgba(0, 0, 0, 0.3)',
-    'tracking-number-bg': 'rgb(57, 73, 171)',
+    'tracking-number-bg': '#1976d2',
+    'tooltip-background': 'rgba(0, 0, 0, 0.8)',
+    'switch-bg': '#a7a7a7',
+    'filters-container-bg': '#f9f9f9',
+    'search-input-filter-bg': '#f9f9f9',
+    'chat-message-bg': '#e4e6eb',
+    'evidence-box': '#757575',
+    'evidence-box-header': '#eee',
+    'container-bg': '#ffffff',
     // Colors
     'white-color': '#ffffff',
     'alpha-white-color': 'rgba(0, 0, 0, 0.85)',
@@ -130,18 +153,24 @@ export const lightTheme = {
     'last-articles-color': '#606060',
     'attached-file-btn-color': '#3949ab',
     'search-button-color': '#606060',
+    'primary-text': '#050505',
+    'secondary-text': '#65676b',
+    'tooltip-color': 'rgba(255, 255, 255, 0.8)',
     // Borders
-    'medium-dark-border': '1px solid #ddd',
-    'dark-border': '1px solid rgb(211, 211, 211)',
-    'dark-bottom-border': '1px solid #e0e0e0',
-    'dark-top-border': '1px solid #e0e0e0',
-    'dark-right-border': '1px solid #e0e0e0',
+    'medium-dark-border': '#ddd',
+    'dark-border': 'rgb(211, 211, 211)',
+    'dark-bottom-border': '#e0e0e0',
+    'dark-top-border': '#e0e0e0',
+    'dark-right-border': '#e0e0e0',
     'transparent-border': 'inherit',
-    'admin-modal-button-border': 'solid 3px #303f9f',
-    'perfil-modal-button-border': 'solid 3px #303f9f',
+    'admin-modal-button-border': '#303f9f',
+    'perfil-modal-button-border': '#303f9f',
     'lawyer-modal-border-color': 'rgba(0, 0, 0, 0.05)',
-    'search-button-border': '1.5px solid #9c9c9c',
-    'img-border': '1px solid rgba(255, 255, 255, 0.05)',
+    'search-button-border': '#9c9c9c',
+    'img-border': 'rgba(0, 0, 0, 0.05)',
+    'cancel-modal-border': '3px solid',
+    'search-input-border': '#ddd',
+    'sidenav-divider-border-color': '#d0d0d0',
     // Box Shadow
     'dark-box-shadow': '0 0 4px 2px rgba(0, 0, 0, 0.1)',
     'dark-box-shadow-color': '',
@@ -168,6 +197,38 @@ export const lightTheme = {
     providedIn: 'root'
 })
 export class ThemeService {
+
+    check: any;
+    darkTheme = new FormControl(false);
+    setVal: boolean = false;
+    val: any;
+
+    checkStorage() {
+        if (localStorage.getItem("dark")) {
+            this.check = JSON.parse(localStorage.getItem("dark"));
+        }
+    }
+
+    checkChanges(val?) {
+        this.darkTheme.valueChanges.subscribe((value) => {
+            if (value) {
+                this.toggleDark();
+            } else {
+                this.toggleLight();
+            }
+        });
+    }
+
+    setTheme(theme: {}) {
+        Object.keys(theme).forEach(k =>
+            document.documentElement.style.setProperty(`--${k}`, theme[k])
+        );
+    }
+
+    switchVal() {
+        this.val = !this.darkTheme.value;
+    }
+
     toggleDark() {
         localStorage.setItem("theme", JSON.stringify(darkTheme))
         localStorage.setItem("dark", "true")
@@ -178,11 +239,5 @@ export class ThemeService {
         localStorage.setItem("theme", JSON.stringify(lightTheme))
         localStorage.setItem("dark", "false")
         this.setTheme(lightTheme);
-    }
-
-    setTheme(theme: {}) {
-        Object.keys(theme).forEach(k =>
-            document.documentElement.style.setProperty(`--${k}`, theme[k])
-        );
     }
 }

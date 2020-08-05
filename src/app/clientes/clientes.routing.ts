@@ -6,8 +6,8 @@ import { HomeComponent } from '../pages/home/home.component';
 import { PerfilComponent } from '../pages/perfil/perfil.component';
 import { ConfGeneralComponent } from '../pages/perfil/perfilPages/conf-general/conf-general.component';
 import { EventosComponent } from '../pages/perfil/perfilPages/eventos/eventos.component';
-import { ExpedienteDetalleComponent } from '../pages/perfil/perfilPages/expediente-detalle/expediente-detalle.component';
-import { ExpedientesComponent } from '../pages/perfil/perfilPages/expedientes/expedientes.component';
+import { CasosDetalleComponent } from '../pages/perfil/perfilPages/casos-detalle/casos-detalle.component';
+import { MisCasosComponent } from '../pages/perfil/perfilPages/mis-casos/mis-casos.component';
 import { InformacionComponent } from '../pages/perfil/perfilPages/informacion/informacion.component';
 import { MensajesComponent } from '../pages/perfil/perfilPages/mensajes/mensajes.component';
 import { SeguridadComponent } from '../pages/perfil/perfilPages/seguridad/seguridad.component';
@@ -49,12 +49,12 @@ const PAGES_ROUTES: Routes = [
                 component: EventosComponent
             },
             {
-                path: 'expediente-detalle/:id',
-                component: ExpedienteDetalleComponent
+                path: 'caso-detalle/:id',
+                component: CasosDetalleComponent
             },
             {
-                path: 'expedientes',
-                component: ExpedientesComponent
+                path: 'mis-casos',
+                component: MisCasosComponent
             },
             {
                 path: 'informacion',

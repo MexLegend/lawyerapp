@@ -1,13 +1,8 @@
-<h5 class="m-0 sidebar-title">
-  <i class="material-icons app-header-icon text-top">perm_identity</i>
-  {{ label }}
+<h5 class="m-0 sidebar-title dfc">
+    {{ label }}
 </h5>
-<div
-  class="sidebar-cuantity-text"
-  style="display: flex;"
-  *ngIf="
+<div class="sidebar-cuantity-text" style="display: flex;" *ngIf="
     this.router.url !== '/dashboard' &&
     this.router.url !== '/mensajes' &&
     this.router.url !== '/seguimiento-expediente'
-  "
-></div>
+  "></div>

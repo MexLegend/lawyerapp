@@ -1,92 +1,15 @@
 <!-- NavBar Container -->
 <nav class="nav-extended text-grey darken-3 navbar-fixed">
-  <!-- Second NavBar -->
-  <div id="secondNavbar" class="nav-wrapper">
-    <div
-      class="container"
-      style="display: flex; justify-content: space-between;"
-    >
-      <!-- Navbar Number Contact -->
-      <div class="contact-media">
-        <i class="material-icons hide-on-med-and-down" style="padding: 0 5px;"
-          >phone_in_talk</i
-        >
-        <span id="telefonos">
-          <a>348 196 1337</a>
-          <span style="margin: 0 5px;">|</span>
-          <a>348 162 1446</a>
-        </span>
-      </div>
-      <!-- Navbar Mail Contact -->
-      <div class="contact-media">
-        <i class="material-icons hide-on-med-and-down" style="padding: 0 5px;"
-          >email</i
-        >
-        <span id="mail">
-          <a href="mailto:rorofernando@yahoo.com.mx"
-            >rorofernando@yahoo.com.mx</a
-          >
-        </span>
-      </div>
-      <div class="contact-media social-network hide-on-med-and-down">
-        <div
-          id="Facebook"
-          class="social-media-item btn tooltipped"
-          data-position="bottom"
-          data-tooltip="Facebook"
-          data-html="true"
-        >
-          <a><i class="fab fa-facebook-f"></i></a>
-          <a><i class="social-hidden fab fa-facebook-f"></i></a>
-        </div>
-        <div
-          id="Twitter"
-          class="social-media-item btn tooltipped"
-          data-position="bottom"
-          data-tooltip="Twitter"
-          data-html="true"
-        >
-          <a><i class="fab fa-twitter"></i></a>
-          <a><i class="social-hidden fab fa-twitter"></i></a>
-        </div>
-        <div
-          id="LinkedIn"
-          class="social-media-item btn tooltipped"
-          data-position="bottom"
-          data-tooltip="LinkedIn"
-          data-html="true"
-        >
-          <a><i class="fab fa-linkedin-in"></i></a>
-          <a><i class="social-hidden fab fa-linkedin-in"></i></a>
-        </div>
-        <div
-          id="Google"
-          class="social-media-item btn tooltipped"
-          data-position="bottom"
-          data-tooltip="Google"
-          data-html="true"
-        >
-          <a> <i class="fab fa-google-plus-g"></i></a>
-          <a> <i class="social-hidden fab fa-google-plus-g"></i></a>
-        </div>
-        <div
-          id="Youtube"
-          class="social-media-item btn tooltipped"
-          data-position="bottom"
-          data-tooltip="Facebook"
-          data-html="true"
-        >
-          <a> <i class="fab fa-youtube"></i></a>
-          <a> <i class="social-hidden fab fa-youtube"></i></a>
-        </div>
-      </div>
-    </div>
-  </div>
   <!-- Main Navbar -->
   <div id="mainNavbar" class="nav-wrapper container">
     <div id="nav-menu-logo">
       <!-- Main Client Sidebar Button Trigger -->
-      <a href="#" data-target="main-client-sidebar" class="sidenav-trigger"
+      <a
+        href="#"
+        data-target="main-client-sidebar"
+        class="sidenav-trigger"
+        matTooltip="Menú"
+        matTooltipPosition="below"
         ><i class="material-icons">menu</i></a
       >
       <a routerLink="/inicio" class="brand-logo dfr" (click)="scrollToTop()"
@@ -94,33 +17,90 @@
       /></a>
     </div>
     <div id="nav-menu-items" class="dfr">
-      <ul class="left">
-        <li class="hide-on-med-and-down">
+      <ul class="left dfr">
+        <li
+          class="hide-on-med-and-down"
+          [attr.data-active]="this.router.url === '/inicio' ? 'on' : 'off'"
+        >
           <a
-            class="waves-effect waves-light"
             routerLink="/inicio"
             (click)="scrollToTop()"
+            [attr.data-active]="this.router.url === '/inicio' ? 'on' : 'off'"
           >
             <span>Inicio</span>
           </a>
         </li>
-        <li class="hide-on-med-and-down">
+        <li
+          class="hide-on-med-and-down"
+          [attr.data-active]="this.router.url === '/articulos' ? 'on' : 'off'"
+        >
           <a
-            class="waves-effect waves-light"
+            routerLink="/articulos"
+            (click)="scrollToTop()"
+            [attr.data-active]="this.router.url === '/articulos' ? 'on' : 'off'"
+          >
+            <span>Articulos</span>
+          </a>
+        </li>
+        <li
+          class="hide-on-med-and-down"
+          [attr.data-active]="this.router.url === '/contacto' ? 'on' : 'off'"
+        >
+          <a
             routerLink="/contacto"
             (click)="scrollToTop()"
+            [attr.data-active]="this.router.url === '/contacto' ? 'on' : 'off'"
           >
             <span>Contacto</span>
           </a>
         </li>
-        <li class="hide-on-med-and-down">
+        <li
+          class="hide-on-med-and-down"
+          [attr.data-active]="this.router.url === '/nosotros' ? 'on' : 'off'"
+        >
           <a
-            class="waves-effect waves-light"
-            routerLink="/articulos"
             (click)="scrollToTop()"
+            [matMenuTriggerFor]="usMenu"
+            [attr.data-active]="this.router.url === '/nosotros' ? 'on' : 'off'"
           >
-            <span>Articulos</span>
+            <span>Nosotros</span>
           </a>
+          <!-- Dropdown Content -->
+          <mat-menu #usMenu="matMenu" xPosition="before">
+            <div
+              class="notificationsMenu us"
+              (click)="$event.stopPropagation()"
+            >
+              <button mat-menu-item>
+                <div class="notificationMenu-item">
+                  <div class="notificationMenu-item-content">
+                    <span
+                      class="fas fa-bullseye icon-bg-circle small dfc"
+                    ></span>
+                    <!-- <i class="fas fa-bullseye icon-bg-circle teal small"></i> -->
+                    Misión
+                  </div>
+                </div>
+              </button>
+              <button mat-menu-item>
+                <div class="notificationMenu-item">
+                  <div class="notificationMenu-item-content">
+                    <span class="far fa-eye icon-bg-circle small dfc"></span>
+                    Visión
+                  </div>
+                </div>
+              </button>
+              <button mat-menu-item>
+                <div class="notificationMenu-item">
+                  <div class="notificationMenu-item-content">
+                    <span class="fas fa-hands icon-bg-circle small dfc"></span>
+
+                    Valores
+                  </div>
+                </div>
+              </button>
+            </div>
+          </mat-menu>
         </li>
         <!-- <li class="hide-on-med-and-down">
           <a
@@ -141,17 +121,37 @@
       </ul>
     </div>
     <div class="nav-fixed-options-container dfr">
+      <!-- Chat Button Trigger -->
+      <ng-container *ngIf="this._usersS.isLogged()">
+        <div class="nav-fixed-option dfc">
+          <button
+            mat-button
+            matTooltip="Mensajes"
+            matTooltipPosition="below"
+            (click)="toogleChatSidenav()"
+          >
+            <i class="far fa-comment"></i>
+            <small class="notification-badge dfc">2</small>
+          </button>
+        </div>
+      </ng-container>
       <!-- Notifications Dropdown -->
       <ng-container *ngIf="this._usersS.isLogged()">
         <div class="nav-fixed-option dfc">
-          <button mat-button [matMenuTriggerFor]="beforeMenu">
+          <button
+            mat-button
+            [matMenuTriggerFor]="beforeMenu"
+            matTooltip="Notificaciones"
+            matTooltipPosition="below"
+          >
             <i class="material-icons" style="width: fit-content;">
               notifications_none
             </i>
             <small class="notification-badge dfc">5</small>
           </button>
+          <!-- Dropdown Content -->
           <mat-menu #beforeMenu="matMenu" xPosition="before">
-            <div class="notificationsMenu">
+            <div class="notificationsMenu" (click)="$event.stopPropagation()">
               <button mat-menu-item>
                 <span style="text-transform: uppercase; font-size: 1.15rem;">
                   Notificaciones
@@ -162,7 +162,7 @@
               <button routerLink="/perfil/general" mat-menu-item>
                 <div class="notificationMenu-item">
                   <div class="notificationMenu-item-content">
-                    <span class="material-icons icon-bg-circle cyan small"
+                    <span class="material-icons icon-bg-circle light-blue small"
                       >add_shopping_cart</span
                     >
                     A new order has been placed!
@@ -223,15 +223,19 @@
       <!-- Perfil Dropdown -->
       <ng-container *ngIf="this._usersS.isLogged()">
         <div class="nav-fixed-option dfc">
-          <button mat-button [matMenuTriggerFor]="beforeMenu">
+          <button
+            mat-button
+            [matMenuTriggerFor]="beforeMenu"
+            matTooltip="Cuenta"
+            matTooltipPosition="below"
+          >
             <div class="avatar-status avatar-online">
-              <div class="centered-img-bg dfc">
+              <div class="centered-img-bg border-none dfc">
                 <img
                   [src]="_usersS.user?.img | img: 'user':true"
                   alt="avatar"
                 />
               </div>
-              <i></i>
             </div>
           </button>
           <mat-menu #beforeMenu="matMenu" xPosition="before">
@@ -259,19 +263,19 @@
               <!-- Editar Perfil Option -->
               <button routerLink="/perfil/general" mat-menu-item>
                 <i class="material-icons">person_outline</i>
-                <span>Editar Perfil</span>
+                <span>Editar perfil</span>
               </button>
-              <!-- Expedientes Option -->
-              <button mat-menu-item routerLink="/perfil/expedientes">
+              <!-- Casos Option -->
+              <button mat-menu-item routerLink="/perfil/mis-casos">
                 <i class="material-icons">contact_mail</i>
-                <span>Expedientes</span>
+                <span>Mis casos</span>
               </button>
               <!-- Eventos Option -->
-              <button mat-menu-item routerLink="/perfil/eventos">
+              <!-- <button mat-menu-item routerLink="/perfil/eventos">
                 <i class="material-icons">insert_invitation </i>
                 <span>Eventos</span>
                 <span class="badge badge pill perfil-badge mr-10">5</span>
-              </button>
+              </button> -->
               <mat-divider></mat-divider>
               <!-- FAQ Option -->
               <!-- <button mat-menu-item>
@@ -282,16 +286,17 @@
                 mat-menu-item
                 class="dfr"
                 style="justify-content: space-between;"
+                (click)="switch(); changeTheme()"
               >
                 <div class="dfr">
-                  <i class="material-icons">brightness_4</i>Tema Oscuro
+                  <i class="material-icons">brightness_4</i>Modo oscuro
                 </div>
                 <app-theme-switch></app-theme-switch>
               </button>
               <mat-divider></mat-divider>
               <!-- Logout Option -->
               <button mat-menu-item (click)="_usersS.logout()">
-                <i class="material-icons">exit_to_app</i>Cerrar Sesión
+                <i class="material-icons">exit_to_app</i>Cerrar sesión
               </button>
             </div>
           </mat-menu>
@@ -341,12 +346,6 @@
       >
     </li>
     <!-- Sidebar Option -->
-    <li [attr.data-active]="this.router.url === '/contacto' ? 'on' : 'off'">
-      <a routerLink="/contacto" class="sidenav-close" (click)="scrollToTop()"
-        >Contacto</a
-      >
-    </li>
-    <!-- Sidebar Option -->
     <li
       [attr.data-active]="
         this.router.url === '/articulos' ||
@@ -357,6 +356,18 @@
     >
       <a routerLink="/articulos" class="sidenav-close" (click)="scrollToTop()"
         >Articulos</a
+      >
+    </li>
+    <!-- Sidebar Option -->
+    <li [attr.data-active]="this.router.url === '/contacto' ? 'on' : 'off'">
+      <a routerLink="/contacto" class="sidenav-close" (click)="scrollToTop()"
+        >Contacto</a
+      >
+    </li>
+    <!-- Sidebar Option -->
+    <li [attr.data-active]="this.router.url === '/nosotros' ? 'on' : 'off'">
+      <a routerLink="/nosotros" class="sidenav-close" (click)="scrollToTop()"
+        >Nosotros</a
       >
     </li>
     <!-- Sidebar Option -->

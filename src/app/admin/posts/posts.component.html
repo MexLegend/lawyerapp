@@ -1,103 +1,324 @@
-<!-- Tabla Listado Users -->
-<div class="ct custom-scroll-xy">
-  <table
-    datatable
-    id="articles-tbl"
-    [dtOptions]="dtOptions"
-    [dtTrigger]="dtTrigger"
-    class="row-border hover stripe"
-    style="width: 100%; height: 100%;"
-  >
-    <thead>
-      <tr>
-        <th class="articles-tbl-img-th all no-sort">Imagen</th>
-        <th class="articles-tbl-title-th">Titulo</th>
-        <th class="articles-tbl-author-th all">Fuentes Externas</th>
-        <th class="articles-tbl-date-th">Fecha</th>
-        <th class="articles-tbl-content-th">Contenido</th>
-        <th class="articles-tbl-acc-th all no-sort">Acciones</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let post of posts">
-        <!-- Article Image -->
-        <td class="articles-tbl-img-td" style="justify-content: center;">
-          <div class="tbl-article-image centered-img-bg dfc">
-            <img [src]="post?.img | img: 'post':true" />
-          </div>
-        </td>
-        <!-- Article Title -->
-        <td class="articles-tbl-title-td t-o-h">
-          {{ post?.title }}
-        </td>
-        <!-- Article Author -->
-        <td class="articles-tbl-author-td t-o-h">
-          {{ post?.external_sources }}
-        </td>
-        <!-- Article Date -->
-        <td class="articles-tbl-date-td t-o-h">
-          {{
-            (post?.created_at | date: "d") +
-              "/" +
-              (post?.created_at | date: "MM") +
-              "/" +
-              (post?.created_at | date: "yyyy")
-          }}
-        </td>
-        <!-- Article Content -->
-        <td class="articles-tbl-content-td t-o-h" [innerHtml]="post?.content">
-          {{ post?.content }}
-        </td>
-        <!-- Article Actions -->
-        <td class="articles-tbl-acc-td">
-          <!-- Actions Dropdown Trigger -->
-          <button
-            class="btn tbl-action-button waves-effect waves-light indigo darken-1"
-            mat-icon-button
-            [matMenuTriggerFor]="actionsMenu"
-          >
-            <i class="material-icons">more_vert</i>
-          </button>
-          <!-- Actions Dropdown -->
-          <mat-menu #actionsMenu="matMenu" xPosition="before">
-            <ng-template matMenuContent>
-              <div class="dfc">
-                <button
-                  class="modal-trigger"
-                  mat-menu-item
-                  href="#modal-Articulo"
-                  (click)="sendId(post?._id, 'Actualizar')"
+<!-- Contenedor Listado Articulos -->
+<div class="item-list-container">
+  <mat-card class="item-list-container dfc">
+    <!-- Files Filters Container  -->
+    <mat-card-header class="item-filter-container">
+      <mat-card
+        class="item-filter-content dfr"
+        [style.height]="this.mobileFilterActivated ? '43px' : '100%'"
+      >
+        <!-- Entries And Status Filters Container -->
+        <div class="entry-and-status-filters-container dfr">
+          <!-- Entries Filter -->
+          <div class="show-entries-filter dfr">
+            <span class="entries-filter-text">Ver</span>
+            <div class="entries-filter-select">
+              <mat-form-field>
+                <mat-select
+                  disableOptionCentering
+                  [(ngModel)]="selectedEntry"
+                  (ngModelChange)="changeEntry($event)"
                 >
-                  <i class="material-icons" style="color: #3949ab;">edit</i>
-                  <span>Editar</span>
-                </button>
-                <button mat-menu-item (click)="delete(post)">
-                  <i class="material-icons" style="color: #3949ab;">delete</i>
-                  <span>Eliminar</span>
-                </button>
-                <button mat-menu-item>
-                  <i class="material-icons" style="color: #3949ab;"
-                    >star_border</i
+                  <mat-option
+                    *ngFor="let entry of entriesFilter"
+                    [value]="entry"
+                    [selected]="entry === 5"
                   >
-                  <span>Favorito</span>
-                </button>
-              </div>
-            </ng-template>
-          </mat-menu>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-<div
-  style="bottom: 61px; right: 19px; z-index: 999;"
-  class="fixed-action-btn direction-top active"
->
-  <a
-    class="btn-floating btn-large primary-text gradient-pos-45deg-lighter-blue gradient-shadow modal-trigger"
-    href="#modal-Articulo"
-    (click)="sendId('', 'Crear')"
-  >
-    <i class="material-icons">add</i>
-  </a>
+                    {{ entry }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <span class="entries-filter-text">Resultados</span>
+          </div>
+          <!-- Status Filter -->
+          <div class="status-filter dfr">
+            <span class="status-filter-text">Fecha</span>
+            <div class="status-filter-select">
+              <mat-form-field>
+                <mat-select
+                  [value]="this.innerScreenWidth <= 810 ? 'date' : 'any'"
+                  disableOptionCentering
+                >
+                  <mat-option
+                    value="date"
+                    style="display: none;"
+                    *ngIf="this.innerScreenWidth <= 810"
+                  >
+                    Fecha
+                  </mat-option>
+                  <mat-option value="any">
+                    Cualquiera
+                  </mat-option>
+                  <mat-option value="recent">
+                    Reciente
+                  </mat-option>
+                  <mat-option value="old">
+                    Antiguo
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+        <!-- Search Filter -->
+        <div class="search-filter dfr">
+          <div class="search-input-filter dfc">
+            <input
+              (keyup)="filter($event.target.value)"
+              placeholder="Filtrar por nombre"
+            />
+          </div>
+          <div class="search-btn-filter">
+            <button
+              class="btn waves-effect waves-light dfc"
+              (click)="handleMobileFilter(true)"
+            >
+              <i class="material-icons">search</i>
+            </button>
+          </div>
+        </div>
+        <!-- Search Filter Mobile -->
+        <div
+          class="search-filter-mobile dfr"
+          [attr.isVisible]="this.mobileFilterActivated"
+        >
+          <div
+            class="go-back-filter-mobile waves-effect waves-light dfc"
+            *ngIf="this.mobileFilterActivated"
+            (click)="handleMobileFilter(false)"
+          >
+            <i class="material-icons">arrow_back</i>
+          </div>
+          <div
+            class="search-input-filter-mobile dfc"
+            *ngIf="this.mobileFilterActivated"
+          >
+            <input placeholder="Filtrar por nombre" />
+          </div>
+        </div>
+      </mat-card>
+    </mat-card-header>
+
+    <!-- Posts List Container  -->
+    <mat-card-content class="item-list-content">
+      <perfect-scrollbar
+        class="scroll-container"
+        fxFlex="auto"
+        [config]="config"
+        [scrollIndicators]="false"
+      >
+        <div class="scrollable-content">
+          <mat-accordion class="item-container dfc">
+            <mat-expansion-panel
+              class="item-content"
+              *ngFor="
+                let post of posts
+                  | filter: filterValue:'post'
+                  | paginate
+                    : {
+                        itemsPerPage: selectedEntry,
+                        currentPage: currentPage
+                      }
+              "
+            >
+              <!-- Post Expansion Header -->
+              <mat-expansion-panel-header class="item-acordion-header">
+                <mat-panel-title class="item-acordion-title dfr">
+                  <div class="header-item-icon centered-img-bg">
+                    <img [src]="post?.img | img: 'post':true" alt="" />
+                  </div>
+                  <div class="item-acordion-title-left general posts dfr">
+                    <div class="header-item-body dfc">
+                      <div class="header-item-title dfr">
+                        <div class="header-item-title-wrap">
+                          <span>{{ post?.title }}</span>
+                        </div>
+                      </div>
+                      <div class="header-item-data">
+                        <span>{{
+                          post.user?.firstName + " " + post.user?.lastName
+                        }}</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="header-item-actions general dfr">
+                    <!-- Posts Status Select -->
+                    <div>
+                      <mat-form-field
+                        class="header-item-btn-select posts waves-effect waves-light dfr"
+                        floatLabel="never"
+                        (click)="moveDown($event)"
+                        matTooltip="Estado del artículo"
+                        matTooltipPosition="above"
+                      >
+                        <mat-select
+                          disableOptionCentering
+                          value="review"
+                          class="custom-select"
+                        >
+                          <mat-option
+                            value="review"
+                            class="custom-select-icon dfr"
+                          >
+                            <i class="fas fa-search"></i>
+                            En revisión
+                          </mat-option>
+                          <mat-option
+                            value="publish"
+                            class="custom-select-icon dfr"
+                          >
+                            <i class="fas fa-upload"></i>
+                            Publicar
+                          </mat-option>
+                          <mat-option
+                            value="reject"
+                            class="custom-select-icon dfr"
+                          >
+                            <i class="fas fa-times-circle"></i>
+                            Rechazar
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </div>
+                    <!-- Post Chat Button Trigger -->
+                    <button
+                      class="header-item-btn btn posts-btn waves-effect waves-light light-blue dfc"
+                      mat-icon-button
+                      (click)="moveDown($event)"
+                      matTooltip="Mensajes"
+                      matTooltipPosition="above"
+                    >
+                      <i class="far fa-comment"></i>
+                    </button>
+                    <!-- Post CRUD Button Trigger -->
+                    <button
+                      class="header-item-btn btn waves-effect waves-light light-blue dfc"
+                      mat-icon-button
+                      [matMenuTriggerFor]="actionsMenu"
+                      (click)="moveDown($event)"
+                      matTooltip="Más acciones"
+                      matTooltipPosition="above"
+                    >
+                      <i class="material-icons">more_vert</i>
+                    </button>
+                    <!-- Post CRUD Menu Content -->
+                    <mat-menu #actionsMenu="matMenu" xPosition="before">
+                      <ng-template matMenuContent>
+                        <div class="dfc select-content-container">
+                          <!-- Evidences Option -->
+                          <button mat-menu-item class="mobile">
+                            <i class="far fa-comment"></i>
+                            <span>Observaciones</span>
+                          </button>
+                          <!-- Status Option -->
+                          <button
+                            mat-menu-item
+                            class="mobile"
+                            [matMenuTriggerFor]="statusMenu"
+                          >
+                            <span class="select-btn-item">Estado</span>
+                          </button>
+                          <!-- Status CRUD Menu Content -->
+                          <mat-menu #statusMenu="matMenu">
+                            <ng-template matMenuContent>
+                              <div class="dfc select-content-container">
+                                <!-- Review Option -->
+                                <button mat-menu-item>
+                                  <i class="fas fa-search"></i>
+                                  En revisión
+                                </button>
+                                <!-- Publish Option -->
+                                <button mat-menu-item>
+                                  <i class="fas fa-upload"></i>
+                                  Publicar
+                                </button>
+                                <!-- Reject Option -->
+                                <button mat-menu-item>
+                                  <i class="fas fa-times-circle"></i>
+                                  Rechazar
+                                </button>
+                              </div>
+                            </ng-template>
+                          </mat-menu>
+                          <mat-divider class="mobile"></mat-divider>
+                          <!-- Edit Option -->
+                          <button
+                            mat-menu-item
+                            (click)="openPostsModal(post._id)"
+                          >
+                            <i class="material-icons">edit</i>
+                            <span>Editar</span>
+                          </button>
+                          <!-- Delete Option -->
+                          <button mat-menu-item (click)="delete(post)">
+                            <i class="material-icons">delete</i>
+                            <span>Eliminar</span>
+                          </button>
+                          <!-- Favorite Option -->
+                          <button mat-menu-item>
+                            <i class="material-icons">star_border</i>
+                            <span>Favorito</span>
+                          </button>
+                        </div>
+                      </ng-template>
+                    </mat-menu>
+                  </div>
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <!-- Post Expansion Body -->
+              <mat-card class="item-body-data-container">
+                <div class="item-body-data-content dfc">
+                  <div class="item-body-row dfr">
+                    <span class="item-body-title">Fecha</span>
+                    <span class="item-body-subtitle">{{
+                      post?.created_at
+                        ? (post?.created_at | date: "dd") +
+                          "/" +
+                          (post?.created_at | date: "MM") +
+                          "/" +
+                          (post?.created_at | date: "yyyy")
+                        : "N/E"
+                    }}</span>
+                  </div>
+                  <div class="item-body-row dfr">
+                    <span class="item-body-title">Fuentes</span>
+                    <span class="item-body-subtitle">{{
+                      post.external_sources ? post.external_sources : "N/E"
+                    }}</span>
+                  </div>
+                  <div class="item-body-row dfr">
+                    <span class="item-body-title">Contenido</span>
+                    <span class="item-body-subtitle">{{
+                      post.content ? post.content : "N/E"
+                    }}</span>
+                  </div>
+                </div>
+              </mat-card>
+            </mat-expansion-panel>
+          </mat-accordion>
+        </div>
+      </perfect-scrollbar>
+      <!-- Open Post Creation Modal Button Trigger -->
+      <div class="item-add-container">
+        <button
+          mat-icon-button
+          class="item-add-button primary-text gradient-45deg-orange gradient-shadow dfc"
+          (click)="openPostsModal()"
+          matTooltip="Escribir artículo"
+          matTooltipPosition="above"
+        >
+          <i class="material-icons">add</i>
+        </button>
+      </div>
+    </mat-card-content>
+
+    <!-- Posts List Pagination -->
+    <mat-card-actions class="item-list-pagination-container dfr">
+      <pagination-controls
+        class="news-pagination"
+        (pageChange)="currentPage = $event"
+      ></pagination-controls>
+    </mat-card-actions>
+  </mat-card>
 </div>

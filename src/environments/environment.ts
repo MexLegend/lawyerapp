@@ -5,6 +5,7 @@
 export const environment = {
   production: false,
   URI: 'http://localhost:3000'
+  // URI: 'https://lawyer-api.herokuapp.com'
 };
 
 /*

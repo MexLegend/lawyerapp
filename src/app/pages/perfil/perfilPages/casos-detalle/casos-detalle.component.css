@@ -1,4 +1,7 @@
 @media only screen and (max-width: 800px) {
+  .expedienteDetailGroup {
+    font-size: 12px;
+  }
   .expedienteKeys {
     flex-direction: column !important;
   }
@@ -16,11 +19,8 @@
   .expedienteData .expedienteSubtitle {
     min-width: 100% !important;
   }
-}
-
-@media only screen and (min-width: 601px) {
-  .attached-files-quantity {
-    display: none !important;
+  .perfil-card .card-stacked .card-content {
+    padding: 10px 15px !important;
   }
 }
 
@@ -49,7 +49,7 @@
 }
 
 .expedienteData .expedienteDetailGroup {
-  margin: 10px 0;
+  margin: 3px 0;
 }
 
 .expedienteKeys {
@@ -63,7 +63,7 @@
 
 .expedienteData .expedienteSubtitle {
   font-weight: 100;
-  padding: 5px 10px;
+  padding: 3px 10px;
   min-width: 200px;
   background: #26aee41c;
   border-radius: 5px;

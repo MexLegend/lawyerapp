@@ -45,7 +45,7 @@
                   id="file-upload"
                   type="file"
                   style="display: none;"
-                  (change)="onFileSelected($event.target.files)"
+                  (change)="onFileSelected($event)"
                   ng2FileSelect
                   [uploader]="this._imgS.uploader"
                 />
@@ -64,7 +64,7 @@
                   id="file-upload2"
                   type="file"
                   style="display: none;"
-                  (change)="onFileSelected($event.target.files)"
+                  (change)="onFileSelected($event)"
                   multiple
                 />
               </ng-container>
@@ -183,9 +183,9 @@
       <!-- General Upload Progress Bar -->
       <div class="general-upload-progress-bar">
         <app-progress
-          *ngIf="totalFiles > 0 && progressT !== 100"
-          [progress]="progressT"
-        ></app-progress>
+        *ngIf="this._trackingS.progressF >= 1"
+        [progress]="this._trackingS.progressF"
+      ></app-progress>
       </div>
     </div>
   </div>

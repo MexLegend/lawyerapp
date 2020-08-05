@@ -129,7 +129,7 @@
   height: 20px;
   font-size: 12px;
   border-radius: 50%;
-  background: #26c6da;
+  background: #1976d2;
   color: white;
   font-weight: 600;
 }
@@ -176,7 +176,7 @@
   width: 38px;
   height: 38px;
   color: white;
-  background: linear-gradient(45deg, #0288d1, #26c6da) !important;
+  background: l#1976d2 !important;
   border-radius: 50%;
   margin-left: 15px;
   justify-content: center;
@@ -209,12 +209,12 @@ td {
 }
 
 td.active {
-  border-right: 2px solid #26c6da !important;
+  border-right: 2px solid #1976d2 !important;
   background-color: #eceff1;
 }
 
 td:focus {
-  border-right: 2px solid #26c6da !important;
+  border-right: 2px solid #1976d2 !important;
   background-color: #eceff1;
   outline: none !important;
 }
@@ -290,7 +290,7 @@ td:focus {
   height: 14px;
   transform: rotate(45deg);
   transform-origin: 4px -3px;
-  background: #1e88e5;
+  background: #1976d2;
   box-shadow: 2px -2px 4px -2px rgba(0, 0, 0, 0.4);
 }
 
@@ -325,7 +325,7 @@ td:focus {
 
 .chat.chat-right .chat-text p {
   color: #fff;
-  background-color: #1e88e5;
+  background-color: #1976d2;
 }
 
 /* Chat Avatar */
@@ -375,5 +375,5 @@ td:focus {
   padding: 0.3rem 2.3rem;
   border-radius: 0.25rem;
   text-transform: capitalize;
-  background: linear-gradient(45deg, #0288d1, #26c6da) !important;
+  background: #1976d2 !important;
 }

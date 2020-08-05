@@ -1,0 +1,104 @@
+<!-- Modal Structure -->
+<div mat-dialog-title class="modal-header admin-modal-header dfc">
+  <div class="modal-icon dfc">
+    <i class="fas fa-file-alt"></i>
+  </div>
+  <span class="client-action">Crear Nota</span>
+  <i
+    mat-dialog-close
+    class="modal-exit material-icons pink accent-2 waves-effect waves-light dfr"
+    >close</i
+  >
+</div>
+
+<mat-dialog-content class="mat-typography admin-modal-container">
+  <!-- Modal Content -->
+  <div class="modal-content admin-modal-content">
+    <perfect-scrollbar
+      class="scroll-container be-prime-scroll-content"
+      [config]="config"
+    >
+      <div class="scrollable-content">
+        <div class="row">
+          <form
+            id="formUsers"
+            class="col s12"
+            style="padding: 0 30px; height: 100%;"
+            ngNativeValidate
+            [formGroup]="form"
+          >
+            <!-- Inputs Container -->
+            <div class="inputs-container">
+              <!-- Note Affair Input Field -->
+              <div class="modal-input modal-input-pink">
+                <input
+                  name="noteAffair"
+                  formControlName="noteAffair"
+                  type="text"
+                  placeholder=" "
+                />
+                <div
+                  class="modal-input-placeholder modal-input-placeholder-pink"
+                >
+                  Asunto
+                </div>
+              </div>
+              <!-- Note Status Select Field -->
+              <div class="modal-input modal-input-pink">
+                <mat-form-field>
+                  <mat-select name="noteStatus" formControlName="noteStatus" disableOptionCentering>
+                    <mat-option *ngFor="let status of statusList" [value]="status.value">
+                      {{ status.viewValue }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <!-- Note Message Input Field -->
+              <div class="modal-input modal-input-pink notes-text-area">
+                <textarea
+                  class="materialize-textarea expediente-input ng-pristine ng-touched"
+                  name="noteMessage"
+                  formControlName="noteMessage"
+                  id="noteMessage"
+                  placeholder=" "
+                  autosize
+                  [minRows]="4"
+                  [maxRows]="8"
+                  required
+                ></textarea>
+                <div
+                  class="modal-input-placeholder modal-input-placeholder-pink"
+                >
+                  Escribir nota
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </perfect-scrollbar>
+  </div>
+
+  <div class="modal-footer modal-actions admin-modal-footer">
+    <ng-container>
+      <div class="modal-actions-container dfr">
+        <div class="modal-actions-content">
+          <button
+            type="button"
+            class="mwaves-effect waves-light btn modal-close-action"
+            mat-dialog-close
+          >
+            Cancelar
+          </button>
+          <button
+            type="submit"
+            class="waves-effect waves-light btn modal-submit-action"
+            (click)="new()"
+          >
+            Guardar
+          </button>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</mat-dialog-content>

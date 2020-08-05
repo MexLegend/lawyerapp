@@ -14,15 +14,14 @@ import { ThemeService, lightTheme } from './theme.service';
 declare var $: any;
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class UsersService {
-
   id: string;
   public notifica = new EventEmitter<any>();
   notifications: NotificationsPagination;
-  token: string;
   user: User;
+  token: string;
 
   constructor(
     private http: HttpClient,
@@ -30,17 +29,16 @@ export class UsersService {
     public _notificationsS: NotificationsService,
     public _themeS: ThemeService,
     public _webS: WebSocketService
-  )
-  // public _subirIS: SubirImagenService
+  ) // public _subirIS: SubirImagenService
   {
     this.loadStorage();
   }
 
   checkEmail(email: string) {
-    const url = `${ environment.URI }/api/users/check/email`;
+    const url = `${environment.URI}/api/users/check/email`;
     const body = {
-      email
-    }
+      email,
+    };
 
     return this.http.post(url, body).pipe(
       map((resp: any) => {
@@ -50,27 +48,44 @@ export class UsersService {
   }
 
   createUser(user: User, img?: any, lawyer?: any) {
+    const url = `${environment.URI}/api/users`;
 
-    const url = `${ environment.URI }/api/users`;
-
-    this._webS.emitEvt('exist-user', user);
+    this._webS.emitEvt("exist-user", user);
 
     const data = {
       lawyer,
       user,
-      img
-    }
+      img,
+    };
 
     return this.http.post(url, data).pipe(
       map((resp: any) => {
         $("#modalUsers").modal("close");
-        this._notificationsS.message('success', 'Creación correcta', resp.message, false, false, '', '', 2000)
+        this._notificationsS.message(
+          "success",
+          "Creación correcta",
+          resp.message,
+          false,
+          false,
+          "",
+          "",
+          2000
+        );
 
-        return resp.users;
+        return resp;
       }),
-      catchError(err => {
+      catchError((err) => {
         $("#modalUsers").modal("close");
-        this._notificationsS.message('error', 'Creación fallida', err.error.message, false, false, '', '', 2000)
+        this._notificationsS.message(
+          "error",
+          "Creación fallida",
+          err.error.message,
+          false,
+          false,
+          "",
+          "",
+          2000
+        );
         return throwError(err);
       })
     );
@@ -78,16 +93,28 @@ export class UsersService {
 
   deleteUser(id: string): Observable<User> {
     const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      token: this.token
+      "Content-Type": "application/json",
+      token: this.token,
     });
-    const url = `${ environment.URI }/api/users/${ id }`;
+    const url = `${environment.URI}/api/users/${id}`;
 
-    return this.http.delete<User>(url, { headers }).pipe(map((resp: any) => {
-      this._notificationsS.message('success', 'Eliminación correcta', resp.message, false, false, '', '', 2000);
-      return resp;
-    })
-    );
+    return this.http
+      .delete<User>(url, { headers })
+      .pipe(
+        map((resp: any) => {
+          this._notificationsS.message(
+            "success",
+            "Eliminación correcta",
+            resp.message,
+            false,
+            false,
+            "",
+            "",
+            2000
+          );
+          return resp;
+        })
+      );
   }
 
   isLogged() {
@@ -99,46 +126,49 @@ export class UsersService {
   }
 
   getToken() {
-    return localStorage.getItem('token');
+    return localStorage.getItem("token");
   }
 
   getUser(id: string): Observable<User> {
     const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      token: this.token
+      "Content-Type": "application/json",
+      token: this.token,
     });
-    const url = `${ environment.URI }/api/users/${ id }`;
+    const url = `${environment.URI}/api/users/${id}`;
 
-    return this.http.get<User>(url, { headers }).pipe(map((resp: any) => resp.user));
+    return this.http
+      .get<User>(url, { headers })
+      .pipe(map((resp: any) => resp.user));
   }
 
   getUsers(
     page: number = 0,
     perPage: number = 10,
-    orderField: string = '',
-    orderType: string = '',
-    filter: string = '',
-    filterOpt: string = 'firstName',
+    orderField: string = "",
+    orderType: string = "",
+    filter: string = "",
+    filterOpt: string = "firstName",
     status: boolean = true
   ): Observable<UsersPagination> {
     const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      token: this.token
+      "Content-Type": "application/json",
+      token: this.token,
     });
 
-    let url = `${ environment.URI }/api/users?status=${ status }&page=${ page  +
-      1}&perPage=${ perPage }`;
+    let url = `${environment.URI}/api/users?status=${status}&page=${
+      page + 1
+    }&perPage=${perPage}`;
 
-    if ( orderField && orderType ) {
-      url = `${ url }&orderField=${ orderField }&orderType=${ orderType }`;
+    if (orderField && orderType) {
+      url = `${url}&orderField=${orderField}&orderType=${orderType}`;
     }
 
-    if ( filterOpt ) {
-      url = `${ url }&filterOpt=${ filterOpt }`;
+    if (filterOpt) {
+      url = `${url}&filterOpt=${filterOpt}`;
     }
 
-    if ( filter ) {
-      url = `${ url }&filter=${ filter }`;
+    if (filter) {
+      url = `${url}&filter=${filter}`;
     }
 
     return this.http
@@ -147,43 +177,51 @@ export class UsersService {
   }
 
   loadStorage() {
-    if ( localStorage.getItem('token') ) {
-      this.id = localStorage.getItem('id');
-      this.token = localStorage.getItem('token');
-      this.user = JSON.parse(localStorage.getItem('user'));
-      this._themeS.setTheme(JSON.parse(localStorage.getItem("theme")))
+    if (localStorage.getItem("token")) {
+      this.id = localStorage.getItem("id");
+      this.token = localStorage.getItem("token");
+      this.user = JSON.parse(localStorage.getItem("user"));
+      this._themeS.setTheme(JSON.parse(localStorage.getItem("theme")));
     } else {
-      this.id = '';
-      this.token = '';
+      this.id = "";
+      this.token = "";
       this.user = null;
       this.notifications = null;
-      localStorage.removeItem('notifications');
+      localStorage.removeItem("notifications");
     }
   }
 
   login(user: User, remember: boolean = false) {
-    if ( remember ) {
-      localStorage.setItem('email', user.email);
+    if (remember) {
+      localStorage.setItem("email", user.email);
     } else {
-      localStorage.removeItem('email');
+      localStorage.removeItem("email");
     }
 
-    const url = `${ environment.URI }/api/login`;
+    const url = `${environment.URI}/api/login`;
 
     return this.http.post(url, user).pipe(
       map((resp: any) => {
-        
-        if ( localStorage.getItem("theme") ) {
-          this._themeS.setTheme(JSON.parse(localStorage.getItem("theme")))
+        if (localStorage.getItem("theme")) {
+          this._themeS.setTheme(JSON.parse(localStorage.getItem("theme")));
         } else {
-          localStorage.setItem("theme", JSON.stringify(lightTheme))
-          localStorage.setItem("dark", "false")
+          localStorage.setItem("theme", JSON.stringify(lightTheme));
+          localStorage.setItem("dark", "false");
         }
         this.saveStorage(resp.user._id, resp.token, resp.user);
         return true;
       }),
-      catchError(err => {
-        this._notificationsS.message('error', 'Credenciales incorrectas', err.error.message, true, false, '', 'Cerrar', 4000)
+      catchError((err) => {
+        this._notificationsS.message(
+          "error",
+          "Credenciales incorrectas",
+          err.error.message,
+          true,
+          false,
+          "",
+          "Cerrar",
+          4000
+        );
         return throwError(err);
       })
     );
@@ -194,26 +232,26 @@ export class UsersService {
     this.id = null;
     this.token = null;
 
-    localStorage.removeItem('comment');
-    localStorage.removeItem('fileData');
-    localStorage.removeItem('id');
-    localStorage.removeItem('notifications');
-    localStorage.removeItem('status');
-    localStorage.removeItem('token');
-    localStorage.removeItem('trackingData');
-    localStorage.removeItem('user');
+    localStorage.removeItem("comment");
+    localStorage.removeItem("fileData");
+    localStorage.removeItem("id");
+    localStorage.removeItem("notifications");
+    localStorage.removeItem("status");
+    localStorage.removeItem("token");
+    localStorage.removeItem("trackingData");
+    localStorage.removeItem("user");
 
-    if ( $(".sidenav-overlay").css("display", "block") ) {
+    if ($(".sidenav-overlay").css("display", "block")) {
       $(".sidenav-overlay").css("display", "none");
     }
 
-    this.router.navigate(['/inicio']);
+    this.router.navigate(["/inicio"]);
   }
 
   saveStorage(id: string, token: string, user: User) {
-    localStorage.setItem('id', id);
-    localStorage.setItem('token', token);
-    localStorage.setItem('user', JSON.stringify(user));
+    localStorage.setItem("id", id);
+    localStorage.setItem("token", token);
+    localStorage.setItem("user", JSON.stringify(user));
 
     this.id = id;
     this.user = user;
@@ -221,39 +259,64 @@ export class UsersService {
   }
 
   updatePassword(id, user: any) {
-    
-    const url = `${ environment.URI }/api/users/change-pass/${ id }`;
+    const url = `${environment.URI}/api/users/change-pass/${id}`;
     const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      token: this.token
+      "Content-Type": "application/json",
+      token: this.token,
     });
 
     return this.http.put(url, user, { headers }).pipe(
       map((resp: any) => {
-        if ( resp.ok ) {
-          if ( id === this.id ) {
+        if (resp.ok) {
+          if (id === this.id) {
             this.saveStorage(resp.user._id, this.token, resp.user);
           }
 
-          this._notificationsS.message('success', 'Actualización correcta', resp.message, false, false, '', '', 2000);
+          this._notificationsS.message(
+            "success",
+            "Actualización correcta",
+            resp.message,
+            false,
+            false,
+            "",
+            "",
+            2000
+          );
         } else {
-          this._notificationsS.message('error', 'Actualización fallida', resp.message, false, false, '', '', 2000)
+          this._notificationsS.message(
+            "error",
+            "Actualización fallida",
+            resp.message,
+            false,
+            false,
+            "",
+            "",
+            2000
+          );
         }
 
         return resp;
       }),
-      catchError(err => {
-        this._notificationsS.message('error', 'Actualización fallida', err.message, false, false, '', '', 2000)
+      catchError((err) => {
+        this._notificationsS.message(
+          "error",
+          "Actualización fallida",
+          err.message,
+          false,
+          false,
+          "",
+          "",
+          2000
+        );
         return throwError(err);
       })
     );
   }
 
   updateUser(id, user: any, img?: any) {
-
-    const url = `${ environment.URI }/api/users/${ id }`;
+    const url = `${environment.URI}/api/users/${id}`;
     const headers = new HttpHeaders({
-      token: this.token
+      token: this.token,
     });
 
     const data = {
@@ -263,21 +326,62 @@ export class UsersService {
 
     return this.http.put(url, data, { headers }).pipe(
       map((resp: any) => {
-        if ( id === this.id ) {
+        if (id === this.id) {
           this.saveStorage(resp.user._id, this.token, resp.user);
         }
 
         $("#modalUsers").modal("close");
-        
-        this._notificationsS.message('success', 'Actualización correcta', resp.message, false, false, '', '', 2000)
-        
+
+        this._notificationsS.message(
+          "success",
+          "Actualización correcta",
+          resp.message,
+          false,
+          false,
+          "",
+          "",
+          2000
+        );
+
         return true;
       }),
-      catchError(err => {
+      catchError((err) => {
         $("#modalUsers").modal("close");
-        
-        this._notificationsS.message('error', 'Actualización fallida', err.message, false, false, '', '', 2000);
-        
+
+        this._notificationsS.message(
+          "error",
+          "Actualización fallida",
+          err.message,
+          false,
+          false,
+          "",
+          "",
+          2000
+        );
+
+        return throwError(err);
+      })
+    );
+  }
+
+  updateRol(id, rol: string) {
+    const url = `${environment.URI}/api/users/rol/${id}`;
+    const headers = new HttpHeaders({
+      token: this.token,
+    });
+
+    const data = {
+      rol
+    }
+
+    return this.http.put(url, data, { headers }).pipe(
+      map((resp: any) => {
+        console.log(resp)
+
+        return resp;
+      }),
+      catchError((err) => {
+
         return throwError(err);
       })
     );

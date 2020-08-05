@@ -1,0 +1,62 @@
+<!-- Modal Structure -->
+<div mat-dialog-title class="modal-header admin-modal-header dfc">
+  <div class="modal-icon dfc">
+    <i class="fas fa-filter filter-icon"></i>
+  </div>
+  <span class="client-action">Filtrar Contenido</span>
+  <i
+    mat-dialog-close
+    class="modal-exit material-icons pink accent-2 waves-effect waves-light dfr"
+    >close</i
+  >
+</div>
+
+<mat-dialog-content class="mat-typography admin-modal-container">
+  <!-- Modal Content -->
+  <div class="modal-content admin-modal-content modal-content-filters">
+    <perfect-scrollbar
+      class="scroll-container be-prime-scroll-content"
+      [config]="config"
+    >
+      <div class="scrollable-content">
+        <div class="row">
+          <div class="filters-container dfc">
+            <mat-radio-group
+              aria-labelledby="example-radio-group-label"
+              class="item-card-list-group"
+            >
+              <div class="filter-item dfr">
+                <div class="card-item-radio-container dfc">
+                  <mat-radio-button class="card-item-radio-item" value="1">
+                    <span class="filter-item-text">Primer registro creado</span>
+                  </mat-radio-button>
+                </div>
+              </div>
+              <div class="filter-item dfr">
+                <div class="card-item-radio-container dfc">
+                  <mat-radio-button class="card-item-radio-item" value="2">
+                    <span class="filter-item-text">Último registro creado</span>
+                  </mat-radio-button>
+                </div>
+              </div>
+              <div class="filter-item dfr">
+                <div class="card-item-radio-container dfc">
+                  <mat-radio-button class="card-item-radio-item" value="3">
+                    <span class="filter-item-text">Ordenar por nombre de la A a la Z</span>
+                  </mat-radio-button>
+                </div>
+              </div>
+              <div class="filter-item dfr">
+                <div class="card-item-radio-container dfc">
+                  <mat-radio-button class="card-item-radio-item" value="4">
+                    <span class="filter-item-text">Ordenar por nombre de la Z a la A</span>
+                  </mat-radio-button>
+                </div>
+              </div>
+            </mat-radio-group>
+          </div>
+        </div>
+      </div>
+    </perfect-scrollbar>
+  </div>
+</mat-dialog-content>

@@ -1,6 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Subscription } from 'rxjs';
 
 import { Files } from '../../models/Files';
 import { User } from '../../models/User';
@@ -8,7 +7,8 @@ import { FilesService } from '../../services/files.service';
 import { UpdateDataService } from '../../services/updateData.service';
 import { UsersService } from '../../services/users.service';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
-import { MatDialogRef } from '@angular/material';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { NotificationsService } from '../../services/notifications.service';
 
 declare var $: any;
 
@@ -20,8 +20,10 @@ declare var $: any;
 export class FilesFormComponent implements OnInit {
 
   constructor(
+    @Inject(MAT_DIALOG_DATA) public data: any,
     public dialogRef: MatDialogRef<FilesFormComponent>,
     public _filesS: FilesService,
+    public _notificationsS: NotificationsService,
     public _usersS: UsersService,
     public _updateData: UpdateDataService
   ) { }
@@ -38,7 +40,6 @@ export class FilesFormComponent implements OnInit {
   name: any = '';
   observations: any;
   selectedRowData: any;
-  subscription: Subscription;
   third: any;
   userData: any = '';
   users: User[];
@@ -48,7 +49,6 @@ export class FilesFormComponent implements OnInit {
   public config: PerfectScrollbarConfigInterface = {};
 
   ngOnInit() {
-
     // Get UserData Subscription
     this._updateData.getUserData('expediente').subscribe((data: any) => {
       if (data !== '' && data !== null) {
@@ -72,38 +72,42 @@ export class FilesFormComponent implements OnInit {
 
     this.initFilesForm();
 
-    // Create / Update Subscription
-    this.subscription = this._updateData.getFileId().subscribe((data: { id: string, action: string }) => {
-      this._filesS.getFile(data.id).subscribe(file => {
-        this.fileModalTitle = data.action;
-        if (data.id !== '') {
-          let nameClient = `${file.assigned_client.firstName} ${file.assigned_client.lastName}`;
-          this.form.patchValue({
-            actor: file.actor,
-            affair: file.affair,
-            assigned_client: nameClient,
-            defendant: file.defendant,
-            extKey: file.extKey,
-            observations: file.observations,
-            third: file.third,
-            _id: file._id
-          })
-        } else {
-          this.form.reset();
-        }
-      })
-    })
+    if (this.data) {
+      this.fileModalTitle = this.data.action;
+      if(this.data.idFile && this.data.idFile !== "") {
+
+        this._filesS.getFile(this.data.idFile).subscribe((file) => {
+  
+            let nameClient = `${file.assigned_client.firstName} ${file.assigned_client.lastName}`;
+            this.form.patchValue({
+              actor: file.actor,
+              affair: file.affair,
+              assigned_client: nameClient,
+              defendant: file.defendant,
+              extKey: file.extKey,
+              observations: file.observations,
+              third: file.third,
+              _id: file._id,
+            });
+          
+        });
+      } else {
+        this.form.reset();
+      }
+    }
+
   }
 
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
+  closeModal() {
+    this.dialogRef.close()
   }
 
   create() {
-    let extKey = this.form.value.extKey === '' ? null : this.form.value.extKey;
-    let observations = this.form.value.observations === '' ? null : this.form.value.observations;
-    let third = this.form.value.third === '' ? null : this.form.value.third;
-    let intKey = 'ryghery8her89yr8';
+    let extKey = this.form.value.extKey === "" || this.form.value.extKey === null ? "" : this.form.value.extKey;
+    let observations =
+      this.form.value.observations === "" || this.form.value.observations === null ? "" : this.form.value.observations;
+    let third = this.form.value.third === "" || this.form.value.third === null ? "" : this.form.value.third;
+    let intKey = "ryghery8her89yr8";
 
     const file = new Files(
       this.form.value.actor,
@@ -111,26 +115,34 @@ export class FilesFormComponent implements OnInit {
       this.userData._id,
       this.form.value.defendant,
       intKey,
-      null,
-      null,
       extKey,
       observations,
-      "",
-      "",
       third
     );
 
     if (this.form.value._id !== null) {
       // Update File
-      this._filesS.updateFile(this.form.value._id, file).subscribe(() => {
-        this._filesS.notifica.emit({ render: true })
+      this._filesS.updateFile(this.form.value._id, file).subscribe((resp) => {
+        this._notificationsS.message(
+          "success",
+          "Actualización correcta",
+          resp.message,
+          false,
+          false,
+          "",
+          "",
+          2000
+        );
+        this._filesS.notifica.emit({ render: true });
+        this.closeModal();
       });
     } else {
       // Create File
       this._filesS.createFile(file).subscribe(() => {
         this.form.reset();
-        this._filesS.notifica.emit({ render: true })
-      })
+        this._filesS.notifica.emit({ render: true });
+        this.closeModal();
+      });
     }
   }
 

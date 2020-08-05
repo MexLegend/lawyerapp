@@ -1,6 +1,6 @@
-import { Component, OnInit, ChangeDetectorRef, AfterViewChecked } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, AfterViewChecked, Inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Subject, Subscription } from 'rxjs';
+import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 import { ImgService } from '../../services/img.service';
@@ -8,6 +8,7 @@ import { User } from '../../models/User';
 import { UsersService } from '../../services/users.service';
 import { UpdateDataService } from '../../services/updateData.service';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 
 declare var $: any;
 
@@ -19,6 +20,8 @@ declare var $: any;
 export class UsersFormComponent implements OnInit, AfterViewChecked {
 
   constructor(
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    public dialogRef: MatDialogRef<UsersFormComponent>,
     private ref: ChangeDetectorRef,
     public _imgS: ImgService,
     public _updateDS: UpdateDataService,
@@ -36,11 +39,9 @@ export class UsersFormComponent implements OnInit, AfterViewChecked {
   nameLabel: any;
   passwordLabel: any;
   passwordLabel2: any;
-  subscription: Subscription;
   telephoneLabel: any;
   userEmail = new Subject<string>();
   userModalTitle: string;
-  view: boolean;
   public config: PerfectScrollbarConfigInterface = {};
 
   ngAfterViewChecked() {
@@ -51,34 +52,14 @@ export class UsersFormComponent implements OnInit, AfterViewChecked {
     this.initRegisterForm();
     this._imgS.uploaderSend("user");
 
-    // Create / Update Subscription
-    this.subscription = this._updateDS.getUserId().subscribe((data: { id: string, view: boolean }) => {
-      this.view = data.view;
+    // Create / Update
+    if (this.data) {
 
-      if (data.view) {
-        this.form.controls['password1'].setValidators([
-          Validators.required, Validators.minLength(9)
-        ]);
-        this.form.controls['password2'].setValidators([
-          Validators.required,
-          this.notEqual.bind(this.form)
-        ]);
+      this.userModalTitle = this.data.action;
+      if (this.data.idUser && this.data.idUser !== "") {
 
-        this.userModalTitle = 'Crear';
-        this._imgS.image = 'no_image';
-        // this.fileUrl = '';
-      } else {
-        this.form.get('password1').clearValidators();
-        this.form.get('password1').updateValueAndValidity();
-        this.form.get('password2').clearValidators();
-        this.form.get('password2').updateValueAndValidity();
-        this.userModalTitle = 'Actualizar';
-      }
-
-      if (data.id && data.id !== '') {
-
-        this._usersS.getUser(data.id).subscribe(user => {
-          this.requiredPass(data.id);
+        this._usersS.getUser(this.data.idUser).subscribe(user => {
+          this.requiredPass(this.data.idUser);
 
           this._imgS.image = user.img;
           this.form.patchValue({
@@ -91,12 +72,23 @@ export class UsersFormComponent implements OnInit, AfterViewChecked {
             _id: user._id
           });
         })
-      }
-    })
-  }
+        this.form.get('password1').clearValidators();
+        this.form.get('password1').updateValueAndValidity();
+        this.form.get('password2').clearValidators();
+        this.form.get('password2').updateValueAndValidity();
 
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
+      } else {
+        this._imgS.image = 'no_image';
+        this.form.controls['password1'].setValidators([
+          Validators.required, Validators.minLength(9)
+        ]);
+        this.form.controls['password2'].setValidators([
+          Validators.required,
+          this.notEqual.bind(this.form)
+        ]);
+        this.form.reset();
+      }
+    }
   }
 
   check() {
@@ -125,6 +117,10 @@ export class UsersFormComponent implements OnInit, AfterViewChecked {
     this._imgS.image = null;
   }
 
+  closeModal() {
+    this.dialogRef.close()
+  }
+
   create() {
     let addressS = (this.form.value.address === undefined || this.form.value.address === null || this.form.value.address === '') ? '' : this.form.value.address;
     let cellPhoneS = (this.form.value.cellPhone === undefined || this.form.value.cellPhone === null || this.form.value.cellPhone === '') ? '' : this.form.value.cellPhone;
@@ -140,50 +136,49 @@ export class UsersFormComponent implements OnInit, AfterViewChecked {
 
     if (this.form.value._id !== null) {
       if (this.imgData === null) {
-        console.log("UPDATE ONLY");
         // Update User
         this._usersS.updateUser(this.form.value._id, user, "").subscribe(() => {
           this._usersS.notifica.emit({ render: true });
+          this.closeModal();
         });
       } else {
         this._imgS.uploader.uploadAll();
-        console.log("UPDATE IMAGE");
 
-        this.subscription = this._updateDS
+        this._updateDS
           .getImg()
           .subscribe((data: { url: string; public_id: string }) => {
             this._usersS
-              .updateUser(this.form.value._id, null, data)
+              .updateUser(this.form.value._id, user, data)
               .subscribe((resp) => {
                 if (resp) {
                   this.imgData = null;
                   this._usersS.notifica.emit({ render: true });
-                  this.subscription.unsubscribe();
+                  this.closeModal();
                 }
               });
           });
       }
     } else {
       if (this.imgData === null) {
-        console.log("CREATE ONLY");
         // Create User
         this._usersS.createUser(user, '', localStorage.getItem('id')).subscribe(() => {
           this.form.reset();
           this._usersS.notifica.emit({ render: true });
+          this.closeModal();
         });
       } else {
-        console.log("CRETE");
         this._imgS.uploader.uploadAll();
 
-        this.subscription = this._updateDS
+        this._updateDS
           .getImg()
           .subscribe((data: { url: string; public_id: string }) => {
             this._usersS.createUser(user, data, localStorage.getItem('id')).subscribe((resp) => {
               console.log(resp);
-              if (resp.ok) {
+              if (resp && resp.ok) {
                 this.form.reset();
                 this.imgData = null;
                 this._usersS.notifica.emit({ render: true });
+                this.closeModal();
               }
             });
           });

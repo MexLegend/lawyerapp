@@ -1,98 +1,394 @@
-<!-- Tabla Listado Expedientes -->
-<table
-  datatable
-  id="files-tbl"
-  [dtOptions]="dtOptions"
-  [dtTrigger]="dtTrigger"
-  class="row-border hover stripe"
-  style="width: 100%;"
+<!-- Contenedor Listado Expedientes -->
+<mat-tab-group
+  class="admin-tab"
+  [selectedIndex]="selected.value"
+  (selectedIndexChange)="selected.setValue($event)"
 >
-  <thead>
-    <tr>
-      <th class="files-tbl-intKey-th">Clave Interna</th>
-      <th class="files-tbl-extKey-th">Clave Externa</th>
-      <th class="files-tbl-client-th">Cliente Asignado</th>
-      <th class="files-tbl-affair-th">Asunto</th>
-      <th class="files-tbl-actor-th">Actor(es)</th>
-      <th class="files-tbl-defendant-th">Demandado(s)</th>
-      <th class="files-tbl-third-th">Terceros</th>
-      <th class="files-tbl-acc-th all no-sort">Acciones</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let file of files">
-      <!-- Files IntKey -->
-      <td class="files-tbl-intKey-td t-o-h">{{ file?.intKey }}</td>
-      <!-- Files ExtKey -->
-      <td class="files-tbl-extKey-td t-o-h">
-        {{ file?.extKey !== "" ? file?.extKey : "N/E" }}
-      </td>
-      <!-- Files Assigned Client -->
-      <td class="files-tbl-client-td t-o-h">
-        {{
-          file?.assigned_client?.firstName +
-            " " +
-            file?.assigned_client?.lastName
-        }}
-      </td>
-      <!-- Files Affair -->
-      <td class="files-tbl-affair-td">{{ file?.affair }}</td>
-      <!-- Files Actor -->
-      <td class="files-tbl-actor-td">{{ file?.actor }}</td>
-      <!-- Files Defendant -->
-      <td class="files-tbl-defendant-td">{{ file?.defendant }}</td>
-      <!-- Files Thirds -->
-      <td class="files-tbl-third-td">{{ file?.third }}</td>
-      <!-- Files Actions -->
-      <td class="files-tbl-acc-td">
-        <!-- Actions Dropdown Trigger -->
-        <button
-          class="btn tbl-action-button waves-effect waves-light indigo darken-1"
-          mat-icon-button
-          [matMenuTriggerFor]="actionsMenu"
-        >
-          <i class="material-icons">more_vert</i>
-        </button>
-        <!-- Actions Dropdown -->
-        <mat-menu #actionsMenu="matMenu" xPosition="before">
-          <ng-template matMenuContent>
-            <div class="dfc">
-              <button
-                class="modal-trigger"
-                mat-menu-item
-                href="#modal-Expediente"
-                (click)="sendId(file?._id, 'Actualizar')"
-              >
-                <i class="material-icons" style="color: #3949ab;">edit</i>
-                <span>Editar</span>
-              </button>
-              <button mat-menu-item (click)="delete(file)">
-                <i class="material-icons" style="color: #3949ab;">delete</i>
-                <span>Eliminar</span>
-              </button>
-              <button mat-menu-item>
-                <i class="material-icons" style="color: #3949ab;"
-                  >star_border</i
-                >
-                <span>Favorito</span>
-              </button>
+  <!-- Files List Tab -->
+  <mat-tab>
+    <ng-template mat-tab-label>
+      Files List
+    </ng-template>
+    <div class="item-list-container">
+      <mat-card class="item-list-container dfc">
+        <!-- Files Filters Container  -->
+        <mat-card-header class="item-filter-container">
+          <mat-card
+            class="item-filter-content dfr"
+            [style.height]="this.mobileFilterActivated ? '43px' : '100%'"
+          >
+            <!-- Entries And Status Filters Container -->
+            <div class="entry-and-status-filters-container dfr">
+              <!-- Entries Filter -->
+              <div class="show-entries-filter dfr">
+                <span class="entries-filter-text">Ver</span>
+                <div class="entries-filter-select">
+                  <mat-form-field>
+                    <mat-select
+                      disableOptionCentering
+                      [(ngModel)]="selectedEntry"
+                      (ngModelChange)="changeEntry($event)"
+                    >
+                      <mat-option
+                        *ngFor="let entry of entriesFilter"
+                        [value]="entry"
+                        [selected]="entry === 5"
+                      >
+                        {{ entry }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <span class="entries-filter-text">Resultados</span>
+              </div>
+              <!-- Status Filter -->
+              <div class="status-filter dfr">
+                <span class="status-filter-text">Estado</span>
+                <div class="status-filter-select">
+                  <mat-form-field>
+                    <mat-select
+                      [value]="this.innerScreenWidth <= 810 ? 'Estado' : 'all'"
+                      disableOptionCentering
+                    >
+                      <mat-option
+                        value="Estado"
+                        style="display: none;"
+                        *ngIf="this.innerScreenWidth <= 810"
+                      >
+                        Estado
+                      </mat-option>
+                      <mat-option value="all">
+                        Todos
+                      </mat-option>
+                      <mat-option value="Activo">
+                        Activo
+                      </mat-option>
+                      <mat-option value="Archivado">
+                        Archivado
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div>
             </div>
-          </ng-template>
-        </mat-menu>
-      </td>
-    </tr>
-  </tbody>
-</table>
+            <!-- Search Filter -->
+            <div class="search-filter dfr">
+              <div class="search-input-filter dfc">
+                <input
+                  (keyup)="filter($event.target.value)"
+                  placeholder="Filtrar por nombre"
+                />
+              </div>
+              <div class="search-btn-filter">
+                <button
+                  class="btn waves-effect waves-light dfc"
+                  (click)="handleMobileFilter(true)"
+                >
+                  <i class="material-icons">search</i>
+                </button>
+              </div>
+            </div>
+            <!-- Search Filter Mobile -->
+            <div
+              class="search-filter-mobile dfr"
+              [attr.isVisible]="this.mobileFilterActivated"
+            >
+              <div
+                class="go-back-filter-mobile waves-effect waves-light dfc"
+                *ngIf="this.mobileFilterActivated"
+                (click)="handleMobileFilter(false)"
+              >
+                <i class="material-icons">arrow_back</i>
+              </div>
+              <div
+                class="search-input-filter-mobile dfc"
+                *ngIf="this.mobileFilterActivated"
+              >
+                <input placeholder="Filtrar por nombre" />
+              </div>
+            </div>
+          </mat-card>
+        </mat-card-header>
 
-<!-- Open Modal Button Trigger -->
-<div
-  style="bottom: 61px; right: 19px; z-index: 999;"
-  class="fixed-action-btn direction-top active"
->
-  <a
-    class="btn-floating btn-large primary-text gradient-pos-45deg-lighter-blue gradient-shadow"
-    (click)="sendId('', ' Crear'); openFilesModal()"
-  >
-    <i class="material-icons">add</i>
-  </a>
-</div>
+        <!-- Files List Container  -->
+        <mat-card-content class="item-list-content">
+          <perfect-scrollbar
+            class="scroll-container"
+            fxFlex="auto"
+            [config]="config"
+            [scrollIndicators]="false"
+          >
+            <div class="scrollable-content">
+              <mat-accordion class="item-container dfc">
+                <mat-expansion-panel
+                  class="item-content"
+                  *ngFor="
+                    let file of files
+                      | filter: filterValue:'case'
+                      | paginate
+                        : {
+                            itemsPerPage: selectedEntry,
+                            currentPage: currentPage
+                          }
+                  "
+                >
+                  <!-- File Expansion Header -->
+                  <mat-expansion-panel-header class="item-acordion-header">
+                    <mat-panel-title class="item-acordion-title dfr">
+                      <div class="item-acordion-title-left dfr">
+                        <div class="header-item-body dfc">
+                          <div class="header-item-title dfr">
+                            <div class="header-item-title-wrap">
+                              <span>{{ file?.affair }}</span>
+                            </div>
+                            <div class="header-item-int-key dfr">
+                              <span>({{ file.intKey }})</span>
+                            </div>
+                          </div>
+                          <div class="header-item-data">
+                            <span
+                              >{{ file?.assigned_client?.firstName }}
+                              {{ file?.assigned_client?.lastName }}</span
+                            >
+                          </div>
+                        </div>
+                      </div>
+                      <div class="header-item-actions general dfr">
+                        <!-- File Status Select -->
+                        <div>
+                          <mat-form-field
+                            class="header-item-btn-select files waves-effect waves-light dfr"
+                            floatLabel="never"
+                            (click)="moveDown($event)"
+                            matTooltip="Estado del caso"
+                            matTooltipPosition="above"
+                          >
+                            <mat-select
+                              disableOptionCentering
+                              value="unarchive"
+                              class="custom-select"
+                            >
+                              <mat-option
+                                value="store"
+                                class="custom-select-icon dfr"
+                              >
+                                Archivar
+                              </mat-option>
+                              <mat-option
+                                value="unarchive"
+                                class="custom-select-icon dfr"
+                              >
+                                Desarchivar
+                              </mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                        </div>
+                        <!-- File Evidences Button Trigger -->
+                        <button
+                          (click)="
+                            this.viewFilesList(file);
+                            this.selected.setValue(1);
+                            moveDown($event)
+                          "
+                          matTooltip="Evidencias"
+                          matTooltipPosition="above"
+                          class="header-item-btn mobile btn waves-effect waves-light light-blue dfc"
+                        >
+                          <i class="fas fa-paperclip"></i>
+                        </button>
+                        <!-- File Notes Button Trigger -->
+                        <button
+                          (click)="
+                            this.viewFilesList(file);
+                            this.selected.setValue(2);
+                            moveDown($event)
+                          "
+                          matTooltip="Notas"
+                          matTooltipPosition="above"
+                          class="header-item-btn mobile btn waves-effect waves-light light-blue dfc"
+                        >
+                          <i class="fas fa-file-alt"></i>
+                        </button>
+                        <!-- File CRUD Button Trigger -->
+                        <button
+                          class="header-item-btn btn waves-effect waves-light light-blue dfc"
+                          mat-icon-button
+                          [matMenuTriggerFor]="actionsMenu"
+                          (click)="moveDown($event)"
+                          matTooltip="Más acciones"
+                          matTooltipPosition="above"
+                        >
+                          <i class="material-icons">more_vert</i>
+                        </button>
+                        <!-- File CRUD Menu Content -->
+                        <mat-menu #actionsMenu="matMenu" xPosition="before">
+                          <ng-template matMenuContent>
+                            <div class="dfc select-content-container">
+                              <!-- Evidences Option -->
+                              <button
+                                mat-menu-item
+                                class="mobile"
+                                (click)="
+                                  viewFilesList(file); this.selected.setValue(1)
+                                "
+                              >
+                                <i class="fas fa-paperclip"></i>
+                                <span>Evidencias</span>
+                              </button>
+                              <!-- Notes Option -->
+                              <button
+                                mat-menu-item
+                                class="mobile"
+                                (click)="
+                                  viewFilesList(file); this.selected.setValue(2)
+                                "
+                              >
+                                <i class="fas fa-file-alt"></i>
+                                <span>Notas</span>
+                              </button>
+                              <!-- Status Option -->
+                              <button
+                                mat-menu-item
+                                class="mobile"
+                                [matMenuTriggerFor]="statusMenu"
+                              >
+                                <span class="select-btn-item">Estado</span>
+                              </button>
+                              <!-- Status CRUD Menu Content -->
+                              <mat-menu #statusMenu="matMenu">
+                                <ng-template matMenuContent>
+                                  <div class="dfc select-content-container">
+                                    <!-- Archive Option -->
+                                    <button
+                                      mat-menu-item
+                                      (click)="delete(file)"
+                                    >
+                                      <i class="material-icons">archive</i>
+                                      Archivar
+                                    </button>
+                                    <!-- Unarchive Option -->
+                                    <button
+                                      mat-menu-item
+                                      (click)="openFilesModal(file._id)"
+                                    >
+                                      <i class="material-icons">unarchive</i>
+                                      Desarchivar
+                                    </button>
+                                  </div>
+                                </ng-template>
+                              </mat-menu>
+                              <mat-divider class="mobile"></mat-divider>
+                              <!-- Edit Option -->
+                              <button
+                                mat-menu-item
+                                (click)="openFilesModal(file._id)"
+                              >
+                                <i class="material-icons">edit</i>
+                                <span>Editar</span>
+                              </button>
+                              <!-- Delete Option -->
+                              <button mat-menu-item (click)="delete(file)">
+                                <i class="material-icons">delete</i>
+                                <span>Eliminar</span>
+                              </button>
+                              <!-- Favorite Option -->
+                              <button mat-menu-item>
+                                <i class="material-icons">star_border</i>
+                                <span>Favorito</span>
+                              </button>
+                            </div>
+                          </ng-template>
+                        </mat-menu>
+                      </div>
+                    </mat-panel-title>
+                  </mat-expansion-panel-header>
+                  <!-- File Expansion Body -->
+                  <mat-card class="item-body-data-container">
+                    <div class="item-body-data-content dfc">
+                      <div class="item-body-row dfr">
+                        <span class="item-body-title">Fecha</span>
+                        <span class="item-body-subtitle">{{
+                          file?.start_date
+                            ? (file?.start_date | date: "dd") +
+                              "/" +
+                              (file?.start_date | date: "MM") +
+                              "/" +
+                              (file?.start_date | date: "yyyy")
+                            : "N/E"
+                        }}</span>
+                      </div>
+                      <div class="item-body-row mobile dfr">
+                        <span class="item-body-title">Clave Interna</span>
+                        <span class="item-body-subtitle">{{
+                          file.intKey ? file.intKey : "N/E"
+                        }}</span>
+                      </div>
+                      <div class="item-body-row dfr">
+                        <span class="item-body-title">Clave Externa</span>
+                        <span class="item-body-subtitle">{{
+                          file.extKey ? file.extKey : "N/E"
+                        }}</span>
+                      </div>
+                      <div class="item-body-row dfr">
+                        <span class="item-body-title">Actor(es)</span>
+                        <span class="item-body-subtitle">{{ file.actor }}</span>
+                      </div>
+                      <div class="item-body-row dfr">
+                        <span class="item-body-title">Demandado(s)</span>
+                        <span class="item-body-subtitle">{{
+                          file.defendant
+                        }}</span>
+                      </div>
+                      <div class="item-body-row dfr">
+                        <span class="item-body-title">Terceros</span>
+                        <span class="item-body-subtitle">{{
+                          file.third ? file.third : "N/E"
+                        }}</span>
+                      </div>
+                    </div>
+                  </mat-card>
+                </mat-expansion-panel>
+              </mat-accordion>
+            </div>
+          </perfect-scrollbar>
+          <!-- Open File Creation Modal Button Trigger -->
+          <div class="item-add-container">
+            <button
+              mat-icon-button
+              class="item-add-button primary-text gradient-45deg-orange gradient-shadow dfc"
+              (click)="openFilesModal()"
+              matTooltip="Abrir caso"
+              matTooltipPosition="above"
+            >
+              <i class="material-icons">add</i>
+            </button>
+          </div>
+        </mat-card-content>
+
+        <!-- Files List Pagination -->
+        <mat-card-actions class="item-list-pagination-container dfr">
+          <pagination-controls
+            class="news-pagination"
+            (pageChange)="currentPage = $event"
+          ></pagination-controls>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </mat-tab>
+
+  <!-- Evidences List Tab -->
+  <mat-tab>
+    <ng-template mat-tab-label>
+      Evidences List
+    </ng-template>
+    <app-evidences></app-evidences>
+  </mat-tab>
+
+  <!-- Notes List Tab -->
+  <mat-tab>
+    <ng-template mat-tab-label>
+      Notes List
+    </ng-template>
+    <app-notes modeV="new" [notes]="notes"></app-notes>
+  </mat-tab>
+</mat-tab-group>

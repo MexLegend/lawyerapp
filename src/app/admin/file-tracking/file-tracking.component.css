@@ -1,9 +1,3 @@
-@media only screen and (max-width: 993px) {
-  .add-file-tracking-container {
-    width: calc(100vw - 117px) !important;
-  }
-}
-
 @media (max-width: 678px) {
   .seguimiento-expediente-options a {
     line-height: 15px;
@@ -27,9 +21,24 @@
     font-size: 16px !important;
     line-height: initial;
   }
+  .card-header-expedient {
+    padding-bottom: 0 !important;
+  }
+  .add-file-tracking-img {
+    height: 110px !important;
+    width: 120px !important;
+    margin: 0 !important;
+  }
   .add-file-tracking-container {
     flex-direction: column !important;
     align-items: center !important;
+  }
+  .add-file-tracking-file-name span {
+    font-size: 18px !important;
+  }
+  .add-file-tracking-file-client {
+    font-size: 13px !important;
+    margin-bottom: 5px !important;
   }
   .add-file-tracking-number-and-actions {
     position: absolute;
@@ -40,7 +49,94 @@
     align-items: center !important;
     width: 100% !important;
     max-width: 100% !important;
-    margin: 15px 0 !important;
+    margin: 5px 0 !important;
+  }
+  .expediente-status {
+    display: none !important;
+  }
+  .add-file-tracking-file-actions {
+    margin-top: 5px !important;
+  }
+  .tracking-item-add-container.volumes {
+    min-width: 35px !important;
+    width: 35px !important;
+    height: 100% !important;
+    bottom: 0 !important;
+    flex-direction: column !important;
+    justify-content: center;
+  }
+  .tracking-item-add-container.volumes .add-tracking-btn {
+    min-width: 30px !important;
+    height: 30px !important;
+    width: 30px;
+  }
+  .tracking-item-add-container.volumes .add-tracking-btn:last-child {
+    margin-left: 0 !important;
+    margin-top: 4px;
+  }
+  .tracking-list-container {
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    overflow: hidden;
+  }
+  .card.file-tracking-card {
+    flex-direction: column !important;
+    max-height: calc(100% - 240px) !important;
+    margin-bottom: 0;
+  }
+  .file-tracking-card .file-tracking-sidenav {
+    flex-direction: row !important;
+    width: 100% !important;
+    min-width: 100% !important;
+    max-width: 100% !important;
+    min-height: 40px !important;
+    max-height: 40px !important;
+    border-top-left-radius: 10px !important;
+    border-bottom-left-radius: 0 !important;
+    border-top-right-radius: 10px !important;
+  }
+  .file-tracking-card .file-tracking-sidenav-item {
+    padding: 0 10px !important;
+    height: 30px !important;
+    margin: 0 !important;
+    justify-content: center !important;
+  }
+  .file-tracking-card .file-tracking-sidenav-item i {
+    display: none !important;
+  }
+  .file-tracking-sidenav .file-sidenav-divider {
+    height: 100%;
+    width: 1px !important;
+    margin: 0 5px !important;
+    border-bottom-width: 0 !important;
+    border-bottom-style: none !important;
+    border-bottom-color: transparent !important;
+    border-right-width: 1px;
+    border-right-style: solid;
+    border-right-color: var(--sidenav-divider-border-color);
+  }
+
+  .file-tracking-card .file-tracking-content {
+    height: calc(100vh - 487px) !important;
+    min-height: calc(100vh - 487px) !important;
+    max-height: calc(100vh - 487px) !important;
+  }
+  .mat-tab-group.admin-tab:not(.chat).tracking {
+    height: calc(100% - 45px) !important;
+    min-height: calc(100% - 45px) !important;
+    max-height: calc(100vh - 45px) !important;
+  }
+
+  .add-tracking-header-actions-container {
+    height: 45px !important;
+    min-height: 45px !important;
+  }
+  .add-tracking-header-actions-container .select-file-btn {
+    padding: 4px 7px 7px 7px !important;
+    width: 120px !important;
+    justify-content: center;
+    line-height: 0;
+    height: 30px;
   }
   .seguimiento-expediente-actions,
   .seguimiento-expediente-actions .seguimiento-expediente-options {
@@ -49,13 +145,23 @@
   .seguimiento-expediente-data {
     flex-direction: column !important ;
   }
-  .comment-progress {
-    width: 100% !important;
-    margin-bottom: 15px;
-  }
   .choose-files-container {
     width: 100% !important;
     margin: 0 !important;
+  }
+  .file-box {
+    height: 45px !important;
+  }
+  .file-icon {
+    width: 50px !important;
+    height: 45px !important;
+  }
+  .file-icon img {
+    width: 30px !important;
+    max-width: 30px !important;
+  }
+  .comment-progress #commentProgress {
+    min-height: calc(100vh - 545px) !important;
   }
 }
 
@@ -63,9 +169,59 @@
   .tabs .tab a {
     font-size: 12px !important;
   }
+  .tracking-item-header {
+    padding: 0 8px !important;
+  }
+  .tracking-item-title-content .tracking-item-back {
+    position: absolute;
+    min-width: 30px !important;
+    min-height: 30px !important;
+    top: 8px;
+  }
+  .add-file-tracking-return {
+    min-width: 30px !important;
+    min-height: 30px !important;
+  }
+  .tracking-item-client-icon.mobile {
+    margin-left: 10px;
+  }
+  .tracking-item-title-content .tracking-item-file-name,
+  .tracking-item-file-name.volumes {
+    font-size: 20px !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+  }
+  .tracking-item-file-name-text {
+    width: 100% !important;
+  }
+  .tracking-item-file-volume,
+  .tracking-item-file-status {
+    margin: 0 !important;
+    font-size: 14px !important;
+  }
+  .tracking-item-file-volume {
+    width: 100px !important;
+  }
+  .tracking-item-file-volume.type {
+    width: 172px !important;
+    margin-left: 5px !important;
+  }
+  .tracking-item-client-data {
+    line-height: 16px !important;
+    font-size: 14px !important;
+  }
+  .tracking-list-content.case-tracking {
+    max-height: calc(100vh - 347px) !important;
+    min-height: calc(100vh - 347px) !important;
+  }
+  .filetracking-btn.mobile {
+    margin-bottom: 0 !important;
+    margin-left: 5px;
+  }
   .seguimiento-expediente-data {
     flex-direction: column !important;
     align-items: center !important;
+    padding: 10px !important;
   }
   .choose-files {
     width: 100% !important;
@@ -83,28 +239,36 @@
   .file-size {
     font-size: 12px !important;
   }
-  .tracking-item-content .tracking-file-container .tracking-file-data {
+  .tracking-item-body.mobile {
+    width: calc(100% - 75px) !important;
+    max-width: calc(100% - 75px) !important;
+  }
+  .tracking-file-container .tracking-file-data {
     flex-direction: column !important;
+    margin: 0 !important;
+    width: 100% !important;
   }
   .tracking-file-number-box {
     margin: 0 0 10px 0 !important;
     flex-direction: row !important;
+    width: 100% !important;
   }
   .tracking-date {
     margin: 0 0 0 10px !important;
+    width: calc(100% - 130px);
   }
   .tracking-file-comment-box {
     width: 100% !important;
   }
-  .tracking-item-add-container {
-    top: 5px !important;
-    right: 14px !important;
+  .tracking-item-add-container:not(.case-tracking-add):not(.volumes) {
+    top: 12px !important;
+    right: 18px !important;
   }
-  .tracking-item-add-container .add-tracking-btn {
-    height: 25px !important;
-    width: 25px !important;
+  .tracking-item-add-container:not(.volumes) .add-tracking-btn {
+    height: 20px !important;
+    width: 20px !important;
   }
-  .tracking-item-add-container .add-tracking-btn i {
+  .tracking-item-add-container:not(.volumes) .add-tracking-btn i {
     font-size: 16px;
   }
 }
@@ -142,9 +306,6 @@
   .card-action.seguimiento-expediente-data {
     padding: 10px !important;
   }
-  .add-file-tracking-container {
-    width: 100% !important;
-  }
   .add-file-tracking-number-and-actions {
     height: 30px !important;
     width: 30px !important;
@@ -154,6 +315,21 @@
     width: 30px !important;
     border-radius: 50% !important;
     font-size: 14px !important;
+  }
+  .user-card {
+    padding-bottom: 5px !important;
+  }
+  .file-tracking-card .file-tracking-content {
+    height: calc(100vh - 471px) !important;
+    min-height: calc(100vh - 471px) !important;
+    max-height: calc(100vh - 471px) !important;
+  }
+  .card.file-tracking-card {
+    max-height: calc(100% - 224px) !important;
+  }
+  .file-chooser-files .scrollable-content {
+    grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)) !important;
+    padding: 10px 5px !important;
   }
 }
 
@@ -168,9 +344,6 @@
     flex-direction: column !important;
     align-items: center !important;
     padding-bottom: 10px;
-  }
-  .expediente-status {
-    margin-top: 10px;
   }
 }
 
@@ -262,6 +435,7 @@ i {
 
 .user-card {
   padding: 10px;
+  max-height: max-content !important;
 }
 
 .file-actions-card {
@@ -273,6 +447,67 @@ i {
 .file-tracking-card {
   box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.1);
   border: 1px solid rgba(160, 160, 160, 0.2) !important;
+  /* max-height: calc(100vh - 521px); */
+  width: 100%;
+  margin-top: 0;
+}
+
+.file-tracking-card {
+  max-height: calc(100% - 250px);
+}
+
+.file-tracking-card .card-stacked {
+  display: contents !important;
+}
+
+/* Sidenav */
+.file-tracking-card .file-tracking-sidenav {
+  height: 100%;
+  width: 150px;
+  min-width: 150px;
+  max-width: 150px;
+  justify-content: flex-start;
+  background: var(--filters-container-bg);
+  padding: 5px;
+  border-right-width: 1px;
+  border-right-style: solid;
+  border-right-color: var(--dark-divider);
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  overflow: hidden;
+}
+
+.file-tracking-card .file-tracking-sidenav-item {
+  height: 60px;
+  width: 100%;
+  justify-content: flex-start;
+  padding: 10px 15px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.file-tracking-card .file-tracking-sidenav-item:hover {
+  background: var(--search-input-filter-bg);
+}
+
+.file-tracking-sidenav .file-sidenav-divider {
+  width: 100%;
+  margin: 5px 0;
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+  border-bottom-color: var(--sidenav-divider-border-color);
+}
+
+/* Content */
+
+.file-tracking-card .file-tracking-content {
+  height: calc(100vh - 460px);
+  min-height: calc(100vh - 460px);
+  max-height: calc(100vh - 460px);
+  width: 100%;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+  overflow: hidden;
 }
 
 /* General Displaying */
@@ -289,11 +524,16 @@ a,
 }
 
 .seguimiento-expediente-container {
-  margin: 0 15px;
-  max-height: calc(100vh - 280px);
+  margin: 15px;
+  max-height: calc(100vh - 236px);
+  min-height: calc(100% - 30px);
   overflow: auto;
   position: relative;
   display: flex;
+}
+
+.seguimiento-expediente-container .card-container {
+  margin: 0;
 }
 
 .seguimiento-expediente-container .inner-admin-scrollable-content {
@@ -329,10 +569,32 @@ a,
   box-shadow: none;
 }
 
+.tracking-list-container .add-tracking {
+  justify-content: flex-start;
+  padding: 0 !important;
+}
+
+.add-tracking-header-actions-container {
+  width: 100%;
+  height: 50px;
+  min-height: 50px;
+  justify-content: space-between;
+  padding: 0 10px;
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+  border-bottom-color: var(--dark-divider);
+}
+
 .tracking-list-content {
-  margin-top: 15px;
-  max-height: calc(100vh - 375px);
+  margin: 10px 0;
+  max-height: calc(100vh - 347px);
+  min-height: calc(100vh - 347px);
   overflow: auto;
+  position: relative;
+}
+
+.tracking-list-content .scrollable-content:not(.tracking-list-scroll-content) {
+  margin-bottom: 65px;
 }
 
 .tracking-list-scroll-content {
@@ -344,41 +606,33 @@ a,
 }
 
 .tracking-item-header {
-  height: 80px !important;
+  height: 60px !important;
   padding: 0 24px;
   position: relative;
 }
 
+.tracking-item-header.case-tracking {
+  width: 100%;
+  padding: 0;
+}
+
 .tracking-item-header .mat-content,
-.tracking-item-title {
+.tracking-item-title,
+.tracking-item-title-content,
+.tracking-item-title-mobile {
   height: 100%;
 }
 
-.tracking-item-header:hover,
+.tracking-item-title.tracking-list {
+  margin: 0;
+}
+
+.tracking-item-header:not(.case-tracking):hover,
 .tracking-item-header.mat-expansion-panel-header.mat-expanded,
-.mat-expansion-panel
-  .mat-expansion-panel-header.cdk-keyboard-focused:not([aria-disabled="true"]),
-.mat-expansion-panel
-  .mat-expansion-panel-header.cdk-program-focused:not([aria-disabled="true"]),
-.mat-expansion-panel:not(.mat-expanded)
-  .mat-expansion-panel-header:hover:not([aria-disabled="true"]) {
-  background: #1976d2;
-}
-
-.tracking-item-header.mat-expansion-panel-header.mat-expanded:hover
-  .tracking-item-file-name,
-.tracking-item-header.mat-expansion-panel-header.mat-expanded
-  .tracking-item-file-name,
-.mat-expansion-panel
-  .mat-expansion-panel-header.cdk-keyboard-focused:not([aria-disabled="true"])
-  .tracking-item-file-name,
-.mat-expansion-panel
-  .mat-expansion-panel-header.cdk-program-focused:not([aria-disabled="true"])
-  .tracking-item-file-name,
-.mat-expansion-panel:not(.mat-expanded)
-  .mat-expansion-panel-header:hover:not([aria-disabled="true"])
-  .tracking-item-file-name {
-  color: white;
+.mat-expansion-panel .mat-expansion-panel-header.cdk-keyboard-focused,
+.mat-expansion-panel .mat-expansion-panel-header.cdk-program-focused,
+.mat-expansion-panel:not(.mat-expanded) .mat-expansion-panel-header:hover {
+  background: var(--light-dark-bg-hover) !important;
 }
 
 .tracking-item-header.mat-expansion-panel-header.mat-expanded:hover
@@ -386,82 +640,125 @@ a,
 .tracking-item-header.mat-expansion-panel-header.mat-expanded
   .tracking-item-client-icon,
 .mat-expansion-panel
-  .mat-expansion-panel-header.cdk-keyboard-focused:not([aria-disabled="true"])
+  .mat-expansion-panel-header.cdk-keyboard-focused
   .tracking-item-client-icon,
 .mat-expansion-panel
-  .mat-expansion-panel-header.cdk-program-focused:not([aria-disabled="true"])
+  .mat-expansion-panel-header.cdk-program-focused
   .tracking-item-client-icon,
 .mat-expansion-panel:not(.mat-expanded)
-  .mat-expansion-panel-header:hover:not([aria-disabled="true"])
+  .mat-expansion-panel-header:hover
   .tracking-item-client-icon {
   border-color: white;
 }
 
-.tracking-item-header.mat-expansion-panel-header.mat-expanded:hover
-  .tracking-item-client-data,
-.tracking-item-header.mat-expansion-panel-header.mat-expanded
-  .tracking-item-client-data,
-.mat-expansion-panel
-  .mat-expansion-panel-header.cdk-keyboard-focused:not([aria-disabled="true"])
-  .tracking-item-client-data,
-.mat-expansion-panel
-  .mat-expansion-panel-header.cdk-program-focused:not([aria-disabled="true"])
-  .tracking-item-client-data,
-.mat-expansion-panel:not(.mat-expanded)
-  .mat-expansion-panel-header:hover:not([aria-disabled="true"])
-  .tracking-item-client-data {
-  color: rgba(255, 255, 255, 0.8);
-}
-
-.tracking-item-header.mat-expansion-panel-header.mat-expanded:hover
-  .add-tracking-btn,
-.tracking-item-header.mat-expansion-panel-header.mat-expanded .add-tracking-btn,
-.mat-expansion-panel
-  .mat-expansion-panel-header.cdk-keyboard-focused:not([aria-disabled="true"])
-  .add-tracking-btn,
-.mat-expansion-panel
-  .mat-expansion-panel-header.cdk-program-focused:not([aria-disabled="true"])
-  .add-tracking-btn,
-.mat-expansion-panel:not(.mat-expanded)
-  .mat-expansion-panel-header:hover:not([aria-disabled="true"])
-  .add-tracking-btn {
-  color: #1976d2;
-  background: white !important;
-}
-
-.tracking-item-title {
+.tracking-item-title,
+.tracking-item-title-content,
+.tracking-item-title-mobile {
   align-items: center;
   width: 100%;
 }
 
+.tracking-item-title-mobile {
+  padding-right: 10px;
+}
+
 .tracking-item-body {
-  max-width: calc(100% - 75px);
+  width: calc(100% - 114px);
+  max-width: calc(100% - 114px);
+  margin-right: 10px;
+}
+
+.tracking-item-back {
+  min-width: 40px;
+  min-height: 40px;
+  border-radius: 50%;
+  color: white !important;
+  background: #1976d2 !important;
+  margin-right: 4px;
+  justify-content: center;
+}
+
+.tracking-item-back.mobile {
+  min-width: 30px;
+  min-height: 30px;
+  margin-right: 30px;
+}
+
+.tracking-item-back i {
+  margin: 0;
 }
 
 .tracking-item-file-name {
   width: 100%;
   max-width: 100%;
-  font-size: 24px;
+  font-size: 20px;
   font-weight: 600;
   color: #1e88e5;
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
+  line-height: normal;
 }
 
-.tracking-item-client-data {
-  width: 100%;
+.tracking-item-file-name-text {
   max-width: 100%;
-  font-size: 18px;
-  text-transform: capitalize;
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
 }
 
+.tracking-item-file-name-text.volumes {
+  width: calc(100% - 110px);
+}
+
+.tracking-item-file-volume,
+.tracking-item-file-status {
+  font-size: 16px;
+  font-weight: 500;
+  margin-left: 5px;
+  color: #fff;
+  background-color: #ff5722;
+  padding: 0px 5px;
+  border-radius: 4px;
+}
+
+.tracking-item-file-volume,
+.tracking-item-file-volume.type {
+  cursor: pointer;
+  background-color: #1976d2;
+}
+
+.tracking-item-file-volume {
+  width: 110px;
+}
+
+.tracking-item-file-volume.type {
+  width: 192px;
+}
+
+.tracking-item-file-volume:hover,
+.tracking-item-file-volume.mat-focused {
+  background-color: #4d95dd;
+}
+
+.tracking-item-file-volume i {
+  margin: 0;
+}
+
+.tracking-item-client-data {
+  width: 100%;
+  max-width: 100%;
+  font-size: 15px;
+  text-transform: capitalize;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  line-height: normal;
+}
+
 .tracking-item-client-icon {
-  width: 60px;
-  height: 60px;
+  width: 50px;
+  height: 50px;
   overflow: hidden;
   margin-right: 10px;
   border-radius: 50%;
@@ -470,10 +767,32 @@ a,
 
 .tracking-item-add-container {
   position: absolute;
-  top: 22.5px;
-  right: 44.5px;
+  height: 50px;
+  width: 50px;
+  right: 8px;
+  bottom: 8px;
   border-radius: 50%;
   overflow: hidden;
+  z-index: 1;
+}
+
+.tracking-item-add-container.volumes {
+  position: relative;
+  height: 40px;
+  width: 40px;
+  min-width: 40px;
+  right: auto;
+  bottom: auto;
+  overflow: hidden;
+  border-radius: 0;
+  z-index: 1;
+}
+
+.tracking-item-add-container.mobile {
+  position: relative;
+  top: 0 !important;
+  right: 0 !important;
+  margin-left: 10px;
 }
 
 .tracking-item-add-container .add-tracking-btn {
@@ -484,9 +803,40 @@ a,
   justify-content: center;
 }
 
+.tracking-item-add-container.case-tracking-add .add-tracking-btn {
+  height: 50px !important;
+  width: 50px !important;
+}
+
+.tracking-item-add-container.volumes .add-tracking-btn {
+  min-width: 40px;
+  height: 40px;
+  font-size: 12px;
+  border-radius: 50%;
+  white-space: break-spaces;
+}
+
+.tracking-item-add-container.mobile .add-tracking-btn {
+  height: 40px !important;
+  width: 40px !important;
+}
+
 .tracking-item-add-container .add-tracking-btn i {
   margin: 0;
   line-height: 40px !important;
+}
+
+/* .tracking-item-add-container.volumes .add-tracking-btn i {
+  display: none;
+}
+
+.tracking-item-add-container.volumes .add-tracking-btn span {
+  display: block;
+  line-height: initial;
+} */
+
+.tracking-item-status.mobile {
+  width: calc(100% - 110px);
 }
 
 .tracking-file-container {
@@ -497,12 +847,12 @@ a,
   align-items: flex-start;
 }
 
-.tracking-item-content .tracking-file-container {
+.tracking-file-container {
   margin-bottom: 10px;
   border: 1.3px solid rgba(0, 0, 0, 0.1);
 }
 
-.tracking-item-content .tracking-file-container .tracking-file-data {
+.tracking-file-container .tracking-file-data {
   width: calc(100% - 60px);
   margin-right: 20px;
   align-items: flex-start;
@@ -537,12 +887,14 @@ a,
 }
 
 .tracking-number {
-  width: 20px;
-  min-width: 20px;
-  height: 25px;
+  width: 40px;
+  min-width: 40px;
+  height: 35px;
+  min-height: 35px;
   border-radius: 4px;
   justify-content: center;
   font-weight: bold;
+  padding: 0 !important;
 }
 
 .tracking-file-subtitle {
@@ -567,6 +919,7 @@ a,
   border-radius: 50%;
   justify-content: center;
   margin-bottom: 5px;
+  color: var(--white-color);
 }
 
 .filetracking-btn i {
@@ -648,7 +1001,7 @@ a,
   width: 100%;
   font-size: 28px;
   font-weight: 600;
-  color: var(--default-color);
+  color: #1e88e5;
 }
 
 .expedient-date {
@@ -688,34 +1041,44 @@ a,
 }
 
 /* Tracking Expedient Styling */
+.file-card-container {
+  height: 100%;
+}
+
 .seguimiento-expediente-data {
   display: flex;
   flex-direction: row;
   align-items: flex-start;
   justify-content: space-between;
   height: 100%;
+  width: 100%;
 }
 
 .comment-progress {
-  width: 50%;
+  width: 100%;
   align-items: flex-start;
 }
 
 .comment-progress-content {
   position: relative;
+  width: 100%;
+}
+
+.comment-progress-content:focus-within {
+  border-color: #1976d2 !important;
+  box-shadow: none;
+  border-width: 2px !important;
 }
 
 .comment-progress #commentProgress {
-  height: 100%;
-  border: 1.5px solid #80808057 !important;
+  min-height: calc(100vh - 523px);
+  width: 100%;
   padding: 10px;
-  border-radius: 5px;
   margin: 0;
-}
-
-.comment-progress #commentProgress:focus {
-  border-color: #3949ab !important;
-  box-shadow: none;
+  line-height: 1.3333;
+  font-size: 15px;
+  border: none !important;
+  box-shadow: none !important;
 }
 
 .comment-progress-content .comment-progress-button {
@@ -766,11 +1129,36 @@ a,
   border-radius: 5px;
 }
 
+.file-chooser-files {
+  width: 100%;
+  max-height: calc(100vh - 510px);
+  padding-bottom: 8px;
+  overflow: auto;
+}
+
+.file-comments {
+  width: 100%;
+  height: 100%;
+  max-height: calc(100vh - 510px);
+  padding-bottom: 12px;
+  overflow: auto;
+}
+
+.file-chooser-files .scrollable-content {
+  width: 100%;
+  padding: 10px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-gap: 10px;
+}
+
 .file-box {
-  border: 1px solid #80808057;
   position: relative;
   border-radius: 5px;
-  margin-bottom: 10px;
+  overflow: hidden;
+  width: 100%;
+  height: 61px;
+  max-height: 61px;
 }
 
 .upload-file-btn {
@@ -782,12 +1170,13 @@ a,
 }
 
 .select-file-btn {
-  width: 100%;
-  margin: 15px 0;
+  width: 150px;
   padding: 10px;
   border-radius: 5px;
   font-weight: 600;
-  border: 1px solid #80808057 !important;
+  border: none;
+  background: #1976d2 !important;
+  color: var(--white-color);
 }
 
 .send-file-btn {
@@ -801,6 +1190,13 @@ a,
 
 .file-item {
   cursor: pointer;
+  height: 100%;
+  background: var(--attached-file-btn-bg);
+  border-radius: 5px;
+  overflow: hidden;
+  border-width: 1px;
+  border-style: solid;
+  border-color: var(--dark-divider);
 }
 
 .file-icon {
@@ -823,6 +1219,17 @@ a,
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
+  color: var(--default-color);
+}
+
+.file-name-and-format.notes {
+  max-width: calc(100% - 60px);
+  width: calc(100% - 60px);
+  padding: 0 10px;
+}
+
+.file-name {
+  height: 100%;
 }
 
 .file-format {
@@ -843,7 +1250,12 @@ a,
   padding: 3px;
   border-radius: 2px;
   cursor: pointer;
-  color: #ff5722;
+  color: #757575;
+}
+
+.remove-file-btn:hover {
+  color: var(--white-color) !important;
+  background: var(--tracking-number-bg);
 }
 
 .watch-file {
@@ -853,11 +1265,12 @@ a,
   padding: 3px;
   border-radius: 2px;
   cursor: pointer;
-  color: var(--default-color);
+  color: #757575;
 }
 
-.file-box:hover .watch-file {
-  color: #1e88e5;
+.watch-file:hover {
+  color: var(--white-color);
+  background: var(--tracking-number-bg);
 }
 
 .file-path-text {
@@ -880,14 +1293,31 @@ a,
 /* File Tracking Creation Styling */
 .add-file-tracking-container {
   position: relative;
-  width: calc(100vw - 219px);
+  width: 100%;
   align-items: flex-start;
+}
+
+.add-file-tracking-return {
+  min-width: 40px;
+  min-height: 40px;
+  border-radius: 50%;
+  color: white !important;
+  background: #1976d2 !important;
+  justify-content: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.add-file-tracking-return i {
+  margin: 0;
 }
 
 .add-file-tracking-img {
   height: 180px;
   width: 180px;
   border-radius: 5px;
+  margin-left: 10px;
 }
 
 .add-file-tracking-data {
@@ -906,7 +1336,7 @@ a,
 }
 
 .add-file-tracking-file-client {
-  color: var(--light-gray);
+  color: var(--default-color);
   font-size: 16px;
   font-weight: 500;
   margin-bottom: 10px;
@@ -925,4 +1355,8 @@ a,
   justify-content: center;
   font-size: 18px;
   font-weight: 600;
+}
+
+.add-file-tracking-file-actions {
+  margin-top: 10px;
 }

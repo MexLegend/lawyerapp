@@ -1,5 +1,5 @@
 import { Injectable, Injector } from '@angular/core';
-import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpErrorResponse } from '@angular/common/http';
+import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpErrorResponse, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { UsersService } from '../services/users.service';
@@ -11,8 +11,9 @@ export class ErrorInterceptorService implements HttpInterceptor {
 
   constructor(
     public injector: Injector
-  ) { }
-  
+  ) {
+  }
+
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const _usersS = this.injector.get(UsersService);
@@ -20,15 +21,15 @@ export class ErrorInterceptorService implements HttpInterceptor {
     if (_usersS) {
       req = req.clone({
         setHeaders: {
-          token: `${ _usersS.getToken() }`
+          token: `${_usersS.getToken()}`
         }
       });
     }
 
     return next
-      .handle( req )
+      .handle(req)
       .pipe(
-        catchError( error => {
+        catchError(error => {
           if (error instanceof HttpErrorResponse && error.status === 0) {
             console.log('Check Your Internet Connection And Try again Later');
           } else if (error instanceof HttpErrorResponse && error.status === 401) {
@@ -54,3 +55,4 @@ export class ErrorInterceptorService implements HttpInterceptor {
   //   return throwError(error)
   // }
 }
+

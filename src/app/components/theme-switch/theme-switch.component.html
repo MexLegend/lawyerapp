@@ -4,8 +4,8 @@
       name="remember"
       type="checkbox"
       class="ng-valid ng-dirty ng-touched"
-      [formControl]="darkTheme"
-      [checked]="this.check"
+      (click)="switch(); changeTheme()"
+      [checked]="this._themeS.check"
     />
     <span class="lever"> </span>
   </label>

@@ -4,11 +4,11 @@
     <i class="material-icons">contact_mail</i>
   </div>
   <span
-    ><span class="file-action">{{ this.fileModalTitle }}</span> Expediente</span
+    ><span class="file-action">{{ this.fileModalTitle }}</span> Caso</span
   >
   <i
     mat-dialog-close
-    class="modal-exit material-icons pink accent-2 waves-effect waves-light dfr"
+    class="modal-exit material-icons normal-orange waves-effect waves-light dfr"
     >close</i
   >
 </div>
@@ -19,6 +19,8 @@
     <perfect-scrollbar
       class="scroll-container be-prime-scroll-content"
       [config]="config"
+      fxFlex="auto"
+      [scrollIndicators]="false"
     >
       <div class="scrollable-content">
         <mat-tab-group
@@ -59,7 +61,7 @@
                         required
                         placeholder=" "
                         [(ngModel)]="this.name"
-                        (click)="selectedTab.value = 1; changeButtons(false)"
+                        (click)="selectedTab.setValue(1); changeButtons(false)"
                       />
                       <div
                         class="modal-input-placeholder modal-input-placeholder-pink"
@@ -69,8 +71,8 @@
                     </div>
                     <button
                       type="button"
-                      class="waves-effect dfc waves-light btn modal-select-action gradient-pos-45deg-lighter-blue"
-                      (click)="selectedTab.value = 1; changeButtons(false)"
+                      class="waves-effect dfc waves-light btn modal-select-action light-blue"
+                      (click)="selectedTab.setValue(1); changeButtons(false)"
                     >
                       <i class="material-icons">person_add</i>
                     </button>
@@ -153,21 +155,6 @@
                       Asunto*
                     </div>
                   </div>
-                  <!-- Observations Input Field -->
-                  <div class="modal-input modal-input-pink">
-                    <input
-                      id="observations"
-                      name="observations"
-                      formControlName="observations"
-                      placeholder=" "
-                      type="text"
-                    />
-                    <div
-                      class="modal-input-placeholder modal-input-placeholder-pink"
-                    >
-                      Observaciones
-                    </div>
-                  </div>
                 </div>
                 <!-- Modal Actions -->
               </form>
@@ -191,9 +178,7 @@
                     />
                   </div>
                   <div class="item-card-search-button">
-                    <button
-                      class="btn waves-effect waves-light gradient-pos-45deg-lighter-blue dfc"
-                    >
+                    <button class="btn waves-effect waves-light light-blue dfc">
                       <i class="material-icons">search</i>
                     </button>
                   </div>
@@ -215,24 +200,18 @@
                         class="card-item-radio-item"
                         [value]="i"
                       >
+                        <div class="card-item-img centered-img-bg">
+                          <img [src]="user?.img | img: 'user':true" alt="" />
+                        </div>
+                        <div class="card-item-data dfc">
+                          <div class="card-item-title">
+                            {{ user?.firstName + " " + user?.lastName }}
+                          </div>
+                          <div class="card-item-subtitle">
+                            {{ user?.email }}
+                          </div>
+                        </div>
                       </mat-radio-button>
-                      <!-- <label class="custom-checkbox dfr">
-                        <input
-                          name="userGroup"
-                          type="radio"
-                          (click)="this.isCheckedFunction(user)"
-                        />
-                        <span></span>
-                      </label> -->
-                    </div>
-                    <div class="card-item-img centered-img-bg">
-                      <img [src]="user?.img | img: 'user':true" alt="" />
-                    </div>
-                    <div class="card-item-data dfc">
-                      <div class="card-item-title">
-                        {{ user?.firstName + " " + user?.lastName }}
-                      </div>
-                      <div class="card-item-subtitle">{{ user?.email }}</div>
                     </div>
                   </div>
                 </mat-radio-group>
@@ -267,7 +246,7 @@
       <button
         type="button"
         class="waves-effect waves-light btn modal-close-action"
-        (click)="selectedTab.value = 0; changeButtons(true)"
+        (click)="selectedTab.setValue(0); changeButtons(true)"
       >
         Cancelar
       </button>
@@ -276,7 +255,7 @@
         type="submit"
         [class.button-disabled]="!this.isChecked"
         class="waves-effect waves-light btn modal-submit-action"
-        (click)="selectedTab.value = 0; this.setData()"
+        (click)="selectedTab.setValue(0); this.setData()"
       >
         Seleccionar
       </button>

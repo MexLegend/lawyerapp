@@ -13,6 +13,24 @@
   }
 }
 
+@media only screen and (max-width: 767px) {
+  .file-details-btn {
+    min-width: 40px !important;
+    max-width: 40px;
+    min-height: 40px;
+    max-height: 40px;
+    border-radius: 50%;
+    padding: 0 !important;
+  }
+  .file-details-btn span {
+    display: none !important;
+  }
+  .file-details-btn i.perfil {
+    display: flex !important;
+    font-size: 20px;
+  }
+}
+
 .card-stacked {
   width: 100%;
 }
@@ -112,4 +130,8 @@
 .file-details-btn {
   text-transform: capitalize;
   min-width: calc(100% - 30px);
+}
+
+.file-details-btn i.perfil {
+  display: none;
 }

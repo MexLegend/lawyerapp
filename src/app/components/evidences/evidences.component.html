@@ -1,0 +1,493 @@
+<div class="item-list-container">
+  <mat-card class="item-list-container dfc">
+    <!-- File Evidences Header  -->
+    <mat-card-header class="item-filter-container">
+      <mat-card class="item-filter-content list-files dfr">
+        <div
+          class="item-filter-back waves-effect waves-light dfc"
+          (click)="this.selected.setValue(0)"
+        >
+          <i class="material-icons">arrow_back</i>
+        </div>
+        <div class="item-acordion-title-left list-files dfr">
+          <div class="header-item-body dfc">
+            <div class="header-item-title dfr">
+              <div class="header-item-title-wrap">
+                <span>{{ fileData?.affair }}</span>
+              </div>
+            </div>
+            <div class="header-item-data">
+              <span>54 Documentos</span>
+            </div>
+          </div>
+        </div>
+        <!-- Entries And Status Filters Container -->
+        <div class="entry-and-status-filters-container list-files dfr">
+          <!-- Entries Filter -->
+          <div class="show-entries-filter list-files dfr">
+            <span class="entries-filter-text list-files">Ver</span>
+            <div class="entries-filter-select list-files">
+              <mat-form-field>
+                <mat-select
+                  [value]="this.innerScreenWidth <= 940 ? 'Ver' : '5'"
+                  disableOptionCentering
+                >
+                  <mat-option
+                    value="Ver"
+                    style="display: none;"
+                    *ngIf="this.innerScreenWidth <= 940"
+                  >
+                    Ver
+                  </mat-option>
+                  <mat-option value="5">
+                    5
+                  </mat-option>
+                  <mat-option value="10">
+                    10
+                  </mat-option>
+                  <mat-option value="25">
+                    25
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <span class="entries-filter-text list-files">Resultados</span>
+          </div>
+          <!-- Status Filter -->
+          <div class="status-filter dfr">
+            <span class="status-filter-text file-type">Formato</span>
+            <div class="status-filter-select file-type">
+              <mat-form-field>
+                <mat-select
+                  [value]="this.innerScreenWidth <= 940 ? 'Formato' : 'Todos'"
+                  disableOptionCentering
+                >
+                  <mat-option
+                    value="Formato"
+                    style="display: none;"
+                    *ngIf="this.innerScreenWidth <= 940"
+                  >
+                    Formato
+                  </mat-option>
+                  <mat-option value="Todos">
+                    Todos
+                  </mat-option>
+                  <mat-option value="pdf">
+                    PDF
+                  </mat-option>
+                  <mat-option value="word">
+                    Word
+                  </mat-option>
+                  <mat-option value="image">
+                    Imagen
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+        <!-- Search Filter -->
+        <div class="search-filter list-files dfr">
+          <div class="search-input-filter list-files dfc">
+            <input placeholder="Filtrar por nombre" />
+          </div>
+          <div class="search-btn-filter list-files">
+            <button class="filters-btn btn waves-effect waves-light dfc">
+              <i class="fas fa-filter"></i>
+            </button>
+            <button
+              class="btn waves-effect waves-light dfc"
+              (click)="handleMobileFilter(true)"
+            >
+              <i class="material-icons">search</i>
+            </button>
+          </div>
+        </div>
+        <!-- Search Filter Mobile -->
+        <div
+          class="search-filter-mobile dfr"
+          [attr.isVisible]="this.mobileFilterActivated"
+        >
+          <div
+            class="go-back-filter-mobile waves-effect waves-light dfc"
+            *ngIf="this.mobileFilterActivated"
+            (click)="handleMobileFilter(false)"
+          >
+            <i class="material-icons">arrow_back</i>
+          </div>
+          <div
+            class="search-input-filter-mobile dfc"
+            *ngIf="this.mobileFilterActivated"
+          >
+            <input placeholder="Filtrar por nombre" />
+          </div>
+        </div>
+      </mat-card>
+    </mat-card-header>
+
+    <!-- File Evidences List Container  -->
+    <mat-card-content class="item-list-content">
+      <perfect-scrollbar
+        class="scroll-container"
+        fxFlex="auto"
+        [config]="config"
+        [scrollIndicators]="false"
+      >
+        <div class="scrollable-content">
+          <!-- Evidence Item Cards -->
+          <mat-card class="item-container-evidences">
+            <div class="item-evidence-box dfc">
+              <div class="item-evidence-box-header centered-img-bg dfr">
+                <div class="item-evidence-box-data dfr">
+                  <div class="item-evidence-box-date">
+                    <span>10/09/2020</span>
+                  </div>
+                  <div class="item-evidence-box-size">
+                    <span>20Kb</span>
+                  </div>
+                </div>
+                <img src="../../../assets/images/Slide_4.jpg" alt="" />
+              </div>
+              <div class="item-evidence-box-body dfc">
+                <div class="item-evidence-box-name">
+                  <span>Documentacion_Final</span>
+                </div>
+                <div class="item-evidence-box-actions dfr">
+                  <div
+                    class="item-evidence-box-action waves-effect waves-light dfc"
+                    matTooltip="Eliminar"
+                    matTooltipPosition="above"
+                  >
+                    <i class="material-icons">delete</i>
+                  </div>
+                  <div
+                    class="item-evidence-box-action waves-effect waves-light dfc"
+                    matTooltip="Ver"
+                    matTooltipPosition="above"
+                  >
+                    <i class="material-icons">visibility</i>
+                  </div>
+                  <div
+                    class="item-evidence-box-action waves-effect waves-light dfc"
+                    matTooltip="Estado del archivo"
+                    matTooltipPosition="above"
+                  >
+                    <i class="material-icons">lock_outline</i>
+                  </div>
+                </div>
+                <div class="evidence-action-check dfc">
+                  <mat-checkbox
+                    class="example-margin"
+                    (click)="moveDown($event)"
+                  ></mat-checkbox>
+                </div>
+              </div>
+            </div>
+            <div class="item-evidence-box dfc">
+              <div class="item-evidence-box-header document-format-icon dfr">
+                <div class="item-evidence-box-data dfr">
+                  <div class="item-evidence-box-date">
+                    <span>10/11/2020</span>
+                  </div>
+                  <div class="item-evidence-box-size">
+                    <span>20Kb</span>
+                  </div>
+                </div>
+                <img src="../../../assets/images/word_icon.png" alt="" />
+              </div>
+              <div class="item-evidence-box-body dfc">
+                <div class="item-evidence-box-name">
+                  <span
+                    >Este_Es_Un_Ejemplo_De_Un_Text_Wrap_Para_Ver_Si_Realmente_Funciona_Esta_Wea</span
+                  >
+                </div>
+                <div class="item-evidence-box-actions dfr">
+                  <div
+                    class="item-evidence-box-action waves-effect waves-light dfc"
+                  >
+                    <i class="material-icons">delete</i>
+                  </div>
+                  <div
+                    class="item-evidence-box-action waves-effect waves-light dfc"
+                  >
+                    <i class="material-icons">visibility</i>
+                  </div>
+                  <div
+                    class="item-evidence-box-action waves-effect waves-light dfc"
+                  >
+                    <i class="material-icons">lock_outline</i>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="item-evidence-box dfc">
+              <div class="item-evidence-box-header document-format-icon dfr">
+                <div class="item-evidence-box-data dfr">
+                  <div class="item-evidence-box-date">
+                    <span>10/10/2020</span>
+                  </div>
+                  <div class="item-evidence-box-size">
+                    <span>20Kb</span>
+                  </div>
+                </div>
+                <img src="../../../assets/images/pdf_icon.png" alt="" />
+              </div>
+              <div class="item-evidence-box-body dfc">
+                <div class="item-evidence-box-name">
+                  <span>Acta_De_Nacimeinto</span>
+                </div>
+                <div class="item-evidence-box-actions dfr">
+                  <div
+                    class="item-evidence-box-action waves-effect waves-light dfc"
+                  >
+                    <i class="material-icons">delete</i>
+                  </div>
+                  <div
+                    class="item-evidence-box-action waves-effect waves-light dfc"
+                  >
+                    <i class="material-icons">visibility</i>
+                  </div>
+                  <div
+                    class="item-evidence-box-action waves-effect waves-light dfc"
+                  >
+                    <i class="material-icons">lock_outline</i>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="item-evidence-box dfc">
+              <div class="item-evidence-box-header centered-img-bg dfr">
+                <div class="item-evidence-box-data dfr">
+                  <div class="item-evidence-box-date">
+                    <span>10/09/2020</span>
+                  </div>
+                  <div class="item-evidence-box-size">
+                    <span>20Kb</span>
+                  </div>
+                </div>
+                <img src="../../../assets/images/Slide_4.jpg" alt="" />
+              </div>
+              <div class="item-evidence-box-body dfc">
+                <div class="item-evidence-box-name">
+                  <span>Documentacion_Final</span>
+                </div>
+                <div class="item-evidence-box-actions dfr">
+                  <div
+                    class="item-evidence-box-action waves-effect waves-light dfc"
+                  >
+                    <i class="material-icons">delete</i>
+                  </div>
+                  <div
+                    class="item-evidence-box-action waves-effect waves-light dfc"
+                  >
+                    <i class="material-icons">visibility</i>
+                  </div>
+                  <div
+                    class="item-evidence-box-action waves-effect waves-light dfc"
+                  >
+                    <i class="material-icons">lock_outline</i>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="item-evidence-box dfc">
+              <div class="item-evidence-box-header centered-img-bg dfr">
+                <div class="item-evidence-box-data dfr">
+                  <div class="item-evidence-box-date">
+                    <span>10/09/2020</span>
+                  </div>
+                  <div class="item-evidence-box-size">
+                    <span>20Kb</span>
+                  </div>
+                </div>
+                <img src="../../../assets/images/Slide_4.jpg" alt="" />
+              </div>
+              <div class="item-evidence-box-body dfc">
+                <div class="item-evidence-box-name">
+                  <span>Documentacion_Final</span>
+                </div>
+                <div class="item-evidence-box-actions dfr">
+                  <div
+                    class="item-evidence-box-action waves-effect waves-light dfc"
+                  >
+                    <i class="material-icons">delete</i>
+                  </div>
+                  <div
+                    class="item-evidence-box-action waves-effect waves-light dfc"
+                  >
+                    <i class="material-icons">visibility</i>
+                  </div>
+                  <div
+                    class="item-evidence-box-action waves-effect waves-light dfc"
+                  >
+                    <i class="material-icons">lock_outline</i>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="item-evidence-box dfc">
+              <div class="item-evidence-box-header document-format-icon dfr">
+                <div class="item-evidence-box-data dfr">
+                  <div class="item-evidence-box-date">
+                    <span>10/11/2020</span>
+                  </div>
+                  <div class="item-evidence-box-size">
+                    <span>20Kb</span>
+                  </div>
+                </div>
+                <img src="../../../assets/images/word_icon.png" alt="" />
+              </div>
+              <div class="item-evidence-box-body dfc">
+                <div class="item-evidence-box-name">
+                  <span
+                    >Este_Es_Un_Ejemplo_De_Un_Text_Wrap_Para_Ver_Si_Realmente_Funciona_Esta_Wea</span
+                  >
+                </div>
+                <div class="item-evidence-box-actions dfr">
+                  <div
+                    class="item-evidence-box-action waves-effect waves-light dfc"
+                  >
+                    <i class="material-icons">delete</i>
+                  </div>
+                  <div
+                    class="item-evidence-box-action waves-effect waves-light dfc"
+                  >
+                    <i class="material-icons">visibility</i>
+                  </div>
+                  <div
+                    class="item-evidence-box-action waves-effect waves-light dfc"
+                  >
+                    <i class="material-icons">lock_outline</i>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="item-evidence-box dfc">
+              <div class="item-evidence-box-header document-format-icon dfr">
+                <div class="item-evidence-box-data dfr">
+                  <div class="item-evidence-box-date">
+                    <span>10/10/2020</span>
+                  </div>
+                  <div class="item-evidence-box-size">
+                    <span>20Kb</span>
+                  </div>
+                </div>
+                <img src="../../../assets/images/pdf_icon.png" alt="" />
+              </div>
+              <div class="item-evidence-box-body dfc">
+                <div class="item-evidence-box-name">
+                  <span>Acta_De_Nacimeinto</span>
+                </div>
+                <div class="item-evidence-box-actions dfr">
+                  <div
+                    class="item-evidence-box-action waves-effect waves-light dfc"
+                  >
+                    <i class="material-icons">delete</i>
+                  </div>
+                  <div
+                    class="item-evidence-box-action waves-effect waves-light dfc"
+                  >
+                    <i class="material-icons">visibility</i>
+                  </div>
+                  <div
+                    class="item-evidence-box-action waves-effect waves-light dfc"
+                  >
+                    <i class="material-icons">lock_outline</i>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="item-evidence-box dfc">
+              <div class="item-evidence-box-header document-format-icon dfr">
+                <div class="item-evidence-box-data dfr">
+                  <div class="item-evidence-box-date">
+                    <span>10/11/2020</span>
+                  </div>
+                  <div class="item-evidence-box-size">
+                    <span>20Kb</span>
+                  </div>
+                </div>
+                <img src="../../../assets/images/word_icon.png" alt="" />
+              </div>
+              <div class="item-evidence-box-body dfc">
+                <div class="item-evidence-box-name">
+                  <span
+                    >Este_Es_Un_Ejemplo_De_Un_Text_Wrap_Para_Ver_Si_Realmente_Funciona_Esta_Wea</span
+                  >
+                </div>
+                <div class="item-evidence-box-actions dfr">
+                  <div
+                    class="item-evidence-box-action waves-effect waves-light dfc"
+                  >
+                    <i class="material-icons">delete</i>
+                  </div>
+                  <div
+                    class="item-evidence-box-action waves-effect waves-light dfc"
+                  >
+                    <i class="material-icons">visibility</i>
+                  </div>
+                  <div
+                    class="item-evidence-box-action waves-effect waves-light dfc"
+                  >
+                    <i class="material-icons">lock_outline</i>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="item-evidence-box dfc">
+              <div class="item-evidence-box-header document-format-icon dfr">
+                <div class="item-evidence-box-data dfr">
+                  <div class="item-evidence-box-date">
+                    <span>10/10/2020</span>
+                  </div>
+                  <div class="item-evidence-box-size">
+                    <span>20Kb</span>
+                  </div>
+                </div>
+                <img src="../../../assets/images/pdf_icon.png" alt="" />
+              </div>
+              <div class="item-evidence-box-body dfc">
+                <div class="item-evidence-box-name">
+                  <span>Acta_De_Nacimeinto</span>
+                </div>
+                <div class="item-evidence-box-actions dfr">
+                  <div
+                    class="item-evidence-box-action waves-effect waves-light dfc"
+                  >
+                    <i class="material-icons">delete</i>
+                  </div>
+                  <div
+                    class="item-evidence-box-action waves-effect waves-light dfc"
+                  >
+                    <i class="material-icons">visibility</i>
+                  </div>
+                  <div
+                    class="item-evidence-box-action waves-effect waves-light dfc"
+                  >
+                    <i class="material-icons">lock_outline</i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </mat-card>
+        </div>
+      </perfect-scrollbar>
+      <!-- Open Evidences Modal Button Trigger -->
+      <div class="item-add-container">
+        <button
+          mat-icon-button
+          class="item-add-button primary-text gradient-45deg-orange gradient-shadow dfc"
+          matTooltip="Agregar evidencia"
+          matTooltipPosition="above"
+        >
+          <i class="material-icons">add</i>
+        </button>
+      </div>
+    </mat-card-content>
+    <!-- Evidences Pagination -->
+    <mat-card-actions class="item-list-pagination-container dfr">
+      <button mat-button>1</button>
+      <button mat-button>2</button>
+    </mat-card-actions>
+  </mat-card>
+</div>

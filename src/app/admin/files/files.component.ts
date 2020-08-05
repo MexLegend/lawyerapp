@@ -1,13 +1,15 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { DataTableDirective } from 'angular-datatables/src/angular-datatables.directive';
-import { Subject } from 'rxjs';
+import {
+  Component, OnInit, HostListener, ChangeDetectorRef
+} from '@angular/core';
 import Swal from 'sweetalert2';
 import { MatDialog } from '@angular/material/dialog';
-
+import { FormControl } from "@angular/forms";
 import { Files } from '../../models/Files';
 import { FilesService } from '../../services/files.service';
 import { UpdateDataService } from '../../services/updateData.service';
 import { FilesFormComponent } from '../../modals/files-form/files-form.component';
+import { PerfectScrollbarConfigInterface } from "ngx-perfect-scrollbar";
+import { NotesService } from '../../services/notes.service';
 
 @Component({
   selector: 'app-files',
@@ -17,60 +19,59 @@ import { FilesFormComponent } from '../../modals/files-form/files-form.component
 export class FilesComponent implements OnInit {
 
   constructor(
+    public dialog: MatDialog,
     public _filesS: FilesService,
+    public _notesS: NotesService,
     public _updateDS: UpdateDataService,
-    public dialog: MatDialog
+    private ref: ChangeDetectorRef,
   ) { }
 
-  @ViewChild(DataTableDirective, { static: false })
-  dtElement: DataTableDirective;
-  dtOptions: DataTables.Settings = {};
-  dtTrigger: Subject<any> = new Subject();
+  currentPage: number = 1;
+  entriesFilter: any[] = [5, 10, 20, 50, 100, 200];
   files: Files[] = [];
+  fileData: any;
+  filterValue: string;
+  notes: any;
+  selected = new FormControl(0);
+  selectedEntry: number = 5;
+
+  public innerScreenWidth: any;
+  public mobileFilterActivated: boolean = false;
+  public config: PerfectScrollbarConfigInterface = {};
+
+  // Detect Real Screen Size
+  @HostListener('window:resize', ['$event'])
+  onResize(event) {
+    this.innerScreenWidth = window.innerWidth;
+    if (this.innerScreenWidth > 520) {
+      this.mobileFilterActivated = false;
+    }
+  }
 
   ngOnInit() {
+    // Get Screen Size
+    this.innerScreenWidth = window.innerWidth;
+
     this._filesS.getFiles().subscribe(resp => {
       console.log(resp)
       this.files = resp.docs;
-      this.dtTrigger.next();
     });
-
-    this.dtOptions = {
-      pagingType: 'simple_numbers',
-      pageLength: 15,
-      responsive: true,
-      lengthChange: false,
-      "destroy": true,
-      language: {
-        search: "",
-        "infoFiltered": "",
-        searchPlaceholder: "Buscar expedientes"
-      },
-      scrollY: "calc(100vh - 431px)",
-      scrollCollapse: true
-    };
 
     this._filesS.notifica
       .subscribe(r => {
         this.load();
-        this.rerender()
       }
       )
   }
 
-  ngOnDestroy() {
-    this.dtTrigger.unsubscribe();
+  ngAfterViewInit() {
+    this.ref.detectChanges();
   }
 
-  // Open Files Modal
-  openFilesModal() {
-    let dialogRef = this.dialog.open(FilesFormComponent, { autoFocus: false });
-
-    dialogRef.afterClosed().subscribe(result => {
-      localStorage.removeItem('userData');
-      localStorage.removeItem('fileData');
-      this._updateDS.setUserData(null);
-    });
+  // Change Current Pagination Page
+  changeEntry($event) {
+    this.selectedEntry = $event;
+    this.currentPage = 1;
   }
 
   delete(file: Files) {
@@ -89,10 +90,16 @@ export class FilesComponent implements OnInit {
         if (result.value) {
           this._filesS.deleteFile(file._id).subscribe(() => {
             this.load();
-            this.rerender();
           })
         }
       })
+  }
+
+  filter(value: string) {
+    if (value.length >= 1 && value !== '')
+      this.filterValue = value;
+    else
+      this.filterValue = '';
   }
 
   generateKey() {
@@ -113,24 +120,52 @@ export class FilesComponent implements OnInit {
 
   }
 
+  // Handle Mobile Filter
+  handleMobileFilter(flag: any) {
+    if (this.innerScreenWidth <= 520) {
+      this.mobileFilterActivated = flag;
+    }
+  }
+
   load() {
     this._filesS.getFiles().subscribe(resp => {
+      console.log(resp.docs)
       this.files = resp.docs;
     })
   }
 
-  // Update Datatable data after content changes
-  rerender(): void {
-    this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
-      // Destroy the table first
-      dtInstance.destroy();
-      // Call the dtTrigger to rerender again
-      this.dtTrigger.next();
+  loadNotes(caseId: string) {
+    this._notesS.getNotes(caseId).subscribe((resp) => {
+      console.log(resp);
+      this.notes = resp.docs.length >= 1 ? resp.docs[0].notes : [];
+    });
+  }
 
+  // Avoid to Open Accordion on Create Button
+  moveDown(event: any) {
+    event.stopPropagation();
+  }
+
+  // Open Files Modal
+  openFilesModal(idFile?: any) {
+    let dialogRef = idFile && idFile !== '' ? this.dialog.open(FilesFormComponent, { data: { idFile, action: 'Editar' }, autoFocus: false }) : this.dialog.open(FilesFormComponent, { data: { action: 'Abrir' }, autoFocus: false });
+
+    dialogRef.afterClosed().subscribe(result => {
+      localStorage.removeItem('userData');
+      localStorage.removeItem('fileData');
+      this._updateDS.setUserData(null);
     });
   }
 
   sendId(id: string, action: string) {
     this._updateDS.sendFileId(id, action)
   }
+
+  // View Files List Function
+  viewFilesList(data: any) {
+    this.fileData = data;
+    this._notesS.caseId = data._id;
+    this.loadNotes(data._id);
+  }
+
 }

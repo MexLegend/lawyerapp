@@ -26,22 +26,32 @@ export class FileUploadComponent implements OnInit {
     public _usersS: UsersService
   ) {}
 
-  public uploader: FileUploader;
   public hasBaseDropZoneOver = false;
+  public uploader: FileUploader;
 
+  @Input() idImg: string;
+  @Input() typeImg: string;
   file: File;
-  totalFiles: number = 0;
   img: File = null;
   previewUrl: any = null;
-  @Input() typeImg: string;
-  @Input() idImg: string;
   progress: number = 0;
   progressT: number = 0;
   subscription: Subscription;
 
   ngOnInit() {
     this._imgS.uploaderSend("user");
-    console.log(this.idImg);
+    
+    if (localStorage.getItem("trackingData")) {
+      // Get Storage Subscription
+      this._updateDS.watchTrackStorage().subscribe((data: any) => {
+        this._trackingS.trackingStorage = true;
+      });
+    } else {
+      // Get Storage Subscription
+      this._updateDS.watchTrackStorage().subscribe((data: any) => {
+        this._trackingS.trackingStorage = true;
+      });
+    }
   }
 
   addDocuments() {
@@ -74,7 +84,7 @@ export class FileUploadComponent implements OnInit {
 
   deleteImage() {
     this.previewUrl = null;
-    this._trackingS.files = [];
+    this._imgS.clearQueue();
   }
 
   /**
@@ -93,40 +103,20 @@ export class FileUploadComponent implements OnInit {
     return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + " " + sizes[i];
   }
 
-  public onFileSelected(event: any) {
-    console.log(event);
+  public onFileSelected($event: any) {
+    console.log($event.target.files);
     console.log(this.typeImg);
     console.log(this.idImg);
 
     let validExtensions;
 
-    if (this.typeImg !== undefined && this.idImg !== undefined) {
-      validExtensions = ["png", "jpg", "gif"];
+    if ($event.target.files && $event.target.files[0]) {
+      let event = $event.target.files;
+      if (this.typeImg !== undefined && this.idImg !== undefined) {
+        validExtensions = ["png", "jpg", "gif"];
 
-      let extension = event[0].name.split(".")[1].toLowerCase();
-      console.log("EXT", extension);
-      if (validExtensions.indexOf(extension) < 0) {
-        this._notificationsS.message(
-          "error",
-          "Formato no valido",
-          `Sólo se permiten: ${validExtensions.join(", ")}`,
-          false,
-          false,
-          "",
-          "",
-          2000
-        );
-        return;
-      } else {
-        this.img = event[0];
-        this.preview();
-      }
-    } else {
-      console.log("FILES");
-      validExtensions = ["doc", "docx", "pdf"];
-
-      for (let index = 0; index < event.length; index++) {
-        let extension = event[index].name.split(".")[1];
+        let extension = event[0].name.split(".")[1].toLowerCase();
+        console.log("EXT", extension);
         if (validExtensions.indexOf(extension) < 0) {
           this._notificationsS.message(
             "error",
@@ -138,74 +128,23 @@ export class FileUploadComponent implements OnInit {
             "",
             2000
           );
+          this._imgS.clearQueue();
           return;
         } else {
-          console.log(this._trackingS.files);
-          if (
-            this._trackingS.files.length < 3 ||
-            (localStorage.getItem("trackingData") &&
-              JSON.parse(localStorage.getItem("trackingData")).documents.length < 3)
-          ) {
-            const file = event[index];
+          this.img = event[0];
+          this.preview();
+        }
+      } else {
+        console.log("FILES");
+        validExtensions = ["doc", "docx", "pdf"];
 
-            if (
-              this._trackingS.files.length >= 1 ||
-              (localStorage.getItem("trackingData") &&
-                JSON.parse(localStorage.getItem("trackingData")).documents
-                  .length >= 1)
-            ) {
-              console.log(event);
-
-              let existA: number, existS: number;
-
-              existA = this._trackingS.files.findIndex(
-                (e) => e.data.name === event[index].name
-              );
-
-              if (localStorage.getItem("trackingData")) {
-                console.log("EXISTS");
-                existS = JSON.parse(
-                  localStorage.getItem("trackingData")
-                ).documents.findIndex(
-                  (e) => e.document.split("ads/")[1] === event[index].name
-                );
-              }
-
-              if (existA !== -1 || (localStorage.getItem("trackingData") && existS !== -1)) {
-                console.log("existe");
-                this._notificationsS.message(
-                  "error",
-                  "El archivo ya existe",
-                  "Agrega un documento diferente",
-                  false,
-                  false,
-                  "",
-                  "",
-                  2000
-                );
-                return;
-              } else {
-                this._trackingS.files.push({
-                  data: file,
-                  inProgress: false,
-                  progress: 0,
-                });
-              }
-
-              console.log(this._trackingS.files);
-            } else {
-              this._trackingS.files.push({
-                data: file,
-                inProgress: false,
-                progress: 0,
-              });
-            }
-            console.log(this._trackingS.files);
-          } else {
+        for (let index = 0; index < event.length; index++) {
+          let extension = event[index].name.split(".")[1];
+          if (validExtensions.indexOf(extension) < 0) {
             this._notificationsS.message(
               "error",
-              "Limite de archivos exedido",
-              "Sólo se permiten 3 archivos",
+              "Formato no valido",
+              `Sólo se permiten: ${validExtensions.join(", ")}`,
               false,
               false,
               "",
@@ -213,10 +152,97 @@ export class FileUploadComponent implements OnInit {
               2000
             );
             return;
+          } else {
+            console.log(this._trackingS.files);
+            if (
+              !localStorage.getItem("trackingData") ||
+              (this._trackingS.trackingStorage &&
+                JSON.parse(localStorage.getItem("trackingData")).documents
+                  .length < 3)
+            ) {
+              const file = event[index];
+
+              if (
+                this._trackingS.trackingStorage &&
+                JSON.parse(localStorage.getItem("trackingData")).documents
+                  .length >= 1
+              ) {
+                console.log(this._trackingS.trackingStorage);
+                console.log(
+                  JSON.parse(localStorage.getItem("trackingData")).documents
+                    .length
+                );
+
+                let existA: number, existS: number;
+
+                existA = this._trackingS.files.findIndex(
+                  (e) => e.data.name === event[index].name
+                );
+
+                if (localStorage.getItem("trackingData")) {
+                  console.log("EXISTS");
+                  existS = JSON.parse(
+                    localStorage.getItem("trackingData")
+                  ).documents.findIndex(
+                    (e) => {
+                      let doc: string = e.document.split("ads/")[1];
+                      let docF = `${doc.split("+@+")[0]}.${doc.split(".")[1]}`;
+                      return docF === event[index].name;
+                    }
+                  );
+                }
+
+                if (
+                  existA !== -1 ||
+                  (localStorage.getItem("trackingData") && existS !== -1)
+                ) {
+                  console.log("existe");
+                  this._notificationsS.message(
+                    "error",
+                    "El archivo ya existe",
+                    "Agrega un documento diferente",
+                    false,
+                    false,
+                    "",
+                    "",
+                    2000
+                  );
+                  return;
+                } else {
+                  this._trackingS.files.push({
+                    data: file,
+                    inProgress: false,
+                    progress: 0,
+                  });
+                }
+
+                console.log(this._trackingS.files);
+              } else {
+                this._trackingS.files.push({
+                  data: file,
+                  inProgress: false,
+                  progress: 0,
+                });
+              }
+              console.log(this._trackingS.files);
+            } else {
+              this._notificationsS.message(
+                "error",
+                "Limite de archivos exedido",
+                "Sólo se permiten 3 archivos",
+                false,
+                false,
+                "",
+                "",
+                2000
+              );
+              return;
+            }
           }
         }
       }
     }
+
   }
 
   preview() {
@@ -250,6 +276,7 @@ export class FileUploadComponent implements OnInit {
             if (resp) {
               this._imgS.fileUrl = this._usersS.user.img;
               this.subscription.unsubscribe();
+              this.deleteImage();
               $("#modal-File-Upload").modal("close");
             }
           });

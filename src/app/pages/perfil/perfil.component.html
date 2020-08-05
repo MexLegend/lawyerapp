@@ -1,238 +1,270 @@
-<!-- Perfil Sidebar -->
-<div id="perfil-sidebar" class="sidenav sidebar sidebar-fixed collapsible">
-  <!-- Sidebar Brand -->
-  <div class="brand-sidebar">
-    <a
-      class="brand-logo darken-1 dfr sidenav-close"
-      routerlink="/inicio"
-      href="#/inicio"
+<mat-sidenav-container class="sidenav-container">
+  <!-- Main SideNav -->
+  <mat-sidenav
+    #perfilSidenav
+    [mode]="sidenavMode"
+    [opened]="showSidenav"
+    class="main-perfil-sidenav dfc"
+  >
+    <!-- Perfil SideNav -->
+    <aside
+      id="perfil-sidebar"
+      class="sidenav collapsible nav-collapsible sidenav-light sidenav-active-square nav-lock"
     >
-      <img
-        alt="site logo"
-        src="../../../assets/images/logo.png"
-        style="width: 60%;"
-      />
-    </a>
-  </div>
-
-  <!-- Sidebar Content -->
-  <ul class="perfil-sidebar-options display-grid">
-    <!-- Files Option -->
-    <li class="perfil-menu-option">
-      <a
-        class="text-sub sidenav-close"
-        [attr.data-active]="
-          actSt === '/perfil/expedientes' ||
-          actSt.includes('expediente-detalle')
-            ? 'on'
-            : 'off'
-        "
-        routerLink="/perfil/expedientes"
-        ><i class="material-icons"> contact_mail </i> Expedientes</a
-      >
-    </li>
-    <!-- Messages Option -->
-    <!-- <li class="perfil-menu-option">
-      <a
-        class="text-sub sidenav-close"
-        [attr.data-active]="actSt === '/perfil/mensajes' ? 'on' : 'off'"
-        routerLink="/perfil/mensajes"
-        ><i class="material-icons"> question_answer </i> Mensajes</a
-      >
-    </li> -->
-    <!-- Events Option -->
-    <!-- <li class="perfil-menu-option">
-      <a
-        class="text-sub sidenav-close"
-        [attr.data-active]="actSt === '/perfil/eventos' ? 'on' : 'off'"
-        routerLink="/perfil/eventos"
-        ><i class="material-icons"> insert_invitation </i> Eventos</a
-      >
-    </li> -->
-    <!-- General Option -->
-    <li class="perfil-menu-option">
-      <a
-        class="text-sub sidenav-close"
-        [attr.data-active]="
-          actSt === '/perfil/general' || actSt === '/perfil' ? 'on' : 'off'
-        "
-        routerLink="/perfil/general"
-        ><i class="material-icons"> person_outline </i> Perfil</a
-      >
-    </li>
-    <!-- Information Option -->
-    <!-- <li class="perfil-menu-option">
-      <a
-        class="text-sub sidenav-close"
-        [attr.data-active]="actSt === '/perfil/informacion' ? 'on' : 'off'"
-        routerLink="/perfil/informacion"
-        ><i class="material-icons"> error_outline </i> Información</a
-      >
-    </li> -->
-    <!-- Security Option -->
-    <li class="perfil-menu-option">
-      <a
-        class="text-sub sidenav-close"
-        [attr.data-active]="actSt === '/perfil/seguridad' ? 'on' : 'off'"
-        routerLink="/perfil/seguridad"
-        ><i class="material-icons"> lock_open </i> Seguridad y privacidad</a
-      >
-    </li>
-  </ul>
-</div>
-
-<!-- Perfil Main Container -->
-<section id="perfil-main-container" class="pr dfc">
-  <!-- Perfil NavBar Container -->
-  <div class="perfil-navbar gradient-pos-45deg-dark-blue dfr">
-    <!-- Perfil Sidebar Button Trigger -->
-    <a
-      class="sidenav-trigger btn-sidenav-toggle btn-floating btn-medium waves-effect waves-light hide-on-large-only"
-      data-target="perfil-sidebar"
-      href="#"
-      id="perfil-sidebar-trigger"
-      ><i class="material-icons">menu</i></a
-    >
-    <!-- Site Contact Phones -->
-    <div class="contact-media dfr">
-      <i class="material-icons" style="padding: 0 5px;">phone_in_talk</i>
-      <span id="telefonos">
-        <a>348 196 1337</a>
-        <span style="margin: 0 5px;">|</span>
-        <a>348 162 1446</a>
-      </span>
-    </div>
-    <!-- Site Contact Email -->
-    <div class="contact-media dfr">
-      <i class="material-icons" style="padding: 0 5px;">email</i>
-      <span id="mail">
-        <a href="mailto:rorofernando@yahoo.com.mx" style="letter-spacing: 2px;"
-          >rorofernando@yahoo.com.mx</a
+      <!-- Sidebar Brand -->
+      <div class="brand-sidebar">
+        <a
+          class="brand-logo darken-1 dfr sidenav-close"
+          routerlink="/inicio"
+          href="#/inicio"
+          (click)="sidenavMode === 'push' ? perfilSidenav.toggle() : ''"
         >
-      </span>
-    </div>
-    <!-- Navbar Options -->
-    <div class="navbar-options">
-      <!-- Toogle Full Screen -->
-      <div class="waves-effect waves-light hide-on-med-and-down">
-        <button
-          class="perfil-button-trigger"
-          mat-button
-          (click)="!isfullscreen ? openfullscreen() : closefullscreen()"
-        >
-          <i class="material-icons white-text">settings_overscan</i>
-        </button>
+          <img
+            alt="site logo"
+            src="../../../assets/images/logo.png"
+            style="width: 60%;"
+          />
+        </a>
       </div>
-      <!-- Perfil Dropdown -->
-      <div class="waves-effect waves-light">
-        <!-- Button Triger -->
-        <button
-          class="perfil-button-trigger"
-          mat-button
-          [matMenuTriggerFor]="beforeMenu"
+
+      <!-- Sidebar Content -->
+      <ul class="perfil-sidebar-options display-grid">
+        <!-- Cases Option -->
+        <li class="perfil-menu-option">
+          <a
+            class="text-sub sidenav-close"
+            (click)="sidenavMode === 'push' ? perfilSidenav.toggle() : ''"
+            [attr.data-active]="
+              actSt === '/perfil/mis-casos' || actSt.includes('caso-detalle')
+                ? 'on'
+                : 'off'
+            "
+            routerLink="/perfil/mis-casos"
+            ><i class="material-icons"> contact_mail </i> Mis Casos</a
+          >
+        </li>
+        <!-- Messages Option -->
+        <!-- <li class="perfil-menu-option">
+          <a
+            class="text-sub sidenav-close"
+            [attr.data-active]="actSt === '/perfil/mensajes' ? 'on' : 'off'"
+            routerLink="/perfil/mensajes"
+            ><i class="material-icons"> question_answer </i> Mensajes</a
+          >
+        </li> -->
+        <!-- Events Option -->
+        <!-- <li class="perfil-menu-option">
+          <a
+            class="text-sub sidenav-close"
+            [attr.data-active]="actSt === '/perfil/eventos' ? 'on' : 'off'"
+            routerLink="/perfil/eventos"
+            ><i class="material-icons"> insert_invitation </i> Eventos</a
+          >
+        </li> -->
+        <!-- General Option -->
+        <li class="perfil-menu-option">
+          <a
+            class="text-sub sidenav-close"
+            (click)="sidenavMode === 'push' ? perfilSidenav.toggle() : ''"
+            [attr.data-active]="
+              actSt === '/perfil/general' || actSt === '/perfil' ? 'on' : 'off'
+            "
+            routerLink="/perfil/general"
+            ><i class="material-icons"> person_outline </i> Perfil</a
+          >
+        </li>
+        <!-- Information Option -->
+        <!-- <li class="perfil-menu-option">
+          <a
+            class="text-sub sidenav-close"
+            [attr.data-active]="actSt === '/perfil/informacion' ? 'on' : 'off'"
+            routerLink="/perfil/informacion"
+            ><i class="material-icons"> error_outline </i> Información</a
+          >
+        </li> -->
+        <!-- Security Option -->
+        <li class="perfil-menu-option">
+          <a
+            class="text-sub sidenav-close"
+            (click)="sidenavMode === 'push' ? perfilSidenav.toggle() : ''"
+            [attr.data-active]="actSt === '/perfil/seguridad' ? 'on' : 'off'"
+            routerLink="/perfil/seguridad"
+            ><i class="material-icons"> lock_open </i> Seguridad y privacidad</a
+          >
+        </li>
+      </ul>
+    </aside>
+  </mat-sidenav>
+
+  <!-- Chat Sidenav -->
+  <mat-sidenav
+    #perfilChatSidenav
+    mode="over"
+    position="end"
+    class="chat-sidenav"
+  >
+    <app-chat-sidenav></app-chat-sidenav>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <!-- Modal Subir Archivos -->
+    <app-file-upload
+      typeImg="user"
+      [idImg]="this._usersS.user._id"
+    ></app-file-upload>
+
+    <!-- Perfil Main Container -->
+    <section id="perfil-main-container" class="pr dfc">
+      <!-- Perfil NavBar Container -->
+      <div class="perfil-navbar gradient-pos-45deg-dark-blue dfr">
+        <!-- Perfil Sidebar Button Trigger -->
+        <a
+          class="btn-sidenav-toggle btn-floating btn-medium waves-effect waves-light hide-on-large-only"
+          id="perfil-sidebar-trigger"
+          (click)="sidenavMode === 'push' ? perfilSidenav.toggle() : ''"
+          matTooltip="Menú"
+          matTooltipPosition="below"
+          ><i class="material-icons">menu</i></a
         >
-          <div class="avatar-status avatar-online">
-            <div class="centered-img-bg dfc">
-              <img
-                [src]="this._usersS.user.img | img: 'user':true"
-                alt="avatar"
-              />
-            </div>
-            <i></i>
-          </div>
-        </button>
-        <!-- Dropdown Content -->
-        <mat-menu #beforeMenu="matMenu" xPosition="before">
-          <div class="perfilMenu" (click)="$event.stopPropagation()">
-            <!-- Perfil Information -->
-            <div class="perfil-info dfr">
-              <div class="perfil-icon centered-img-bg">
-                <img
-                  [src]="this._usersS.user.img | img: 'user':true"
-                  style="width: 100%;"
-                />
-              </div>
-              <div class="perfil-text dfc">
-                <span class="perfil-name ff-rr">{{
-                  this._usersS.user.firstName
-                    .split(" ")[0]
-                    .concat(" ", this._usersS.user.lastName.split(" ")[0])
-                }}</span>
-                <span class="perfil-email ff-rr">{{
-                  this._usersS.user.email
-                }}</span>
-              </div>
-            </div>
-            <div class="divider"></div>
-            <!-- FAQ Option -->
-            <!-- <button mat-menu-item>
-              <i class="material-icons">help_outline</i>Ayuda
-            </button> -->
-            <!-- Change Theme Option -->
+        <!-- Navbar Options -->
+        <div class="navbar-options">
+          <!-- Toogle Full Screen -->
+          <div
+            class="navbar-option waves-effect waves-light hide-on-med-and-down"
+          >
             <button
-              mat-menu-item
-              class="dfr"
-              style="justify-content: space-between;"
+              class="perfil-button-trigger"
+              mat-button
+              (click)="!isfullscreen ? openfullscreen() : closefullscreen()"
+              [matTooltip]="
+                !isfullscreen
+                  ? 'Pantalla completa'
+                  : 'Salir de pantalla completa'
+              "
+              matTooltipPosition="below"
             >
-              <div class="dfr">
-                <i class="material-icons">brightness_4</i>Tema Oscuro
-              </div>
-              <app-theme-switch></app-theme-switch>
-            </button>
-            <div class="divider"></div>
-            <!-- Logout Option -->
-            <button mat-menu-item (click)="_usersS.logout()">
-              <i class="material-icons">exit_to_app</i>Cerrar Sesión
+              <i class="material-icons white-text">settings_overscan</i>
             </button>
           </div>
-        </mat-menu>
-      </div>
-    </div>
-  </div>
-  <!-- Perfil Fake Background -->
-  <div class="perfil-fake-bg"></div>
-
-  <!-- Perfil Content Container -->
-  <div id="perfil-content-container">
-    <div class="row">
-      <div class="col s12">
-        <div class="container">
-          <router-outlet></router-outlet>
+          <!-- Messages -->
+          <div class="navbar-option waves-effect waves-light">
+            <button
+              class="perfil-button-trigger fa"
+              mat-button
+              (click)="perfilChatSidenav.toggle()"
+              matTooltip="Mensajes"
+              matTooltipPosition="below"
+            >
+              <i class="far fa-comment"></i>
+            </button>
+          </div>
+          <!-- Perfil Dropdown -->
+          <div class="navbar-option waves-effect waves-light">
+            <!-- Button Triger -->
+            <button
+              class="perfil-button-trigger"
+              mat-button
+              [matMenuTriggerFor]="beforeMenu"
+              matTooltip="Cuenta"
+              matTooltipPosition="below"
+            >
+              <div class="avatar-status avatar-online">
+                <div class="centered-img-bg border-none dfc">
+                  <img
+                    [src]="this._usersS.user.img | img: 'user':true"
+                    alt="avatar"
+                  />
+                </div>
+              </div>
+            </button>
+            <!-- Dropdown Content -->
+            <mat-menu #beforeMenu="matMenu" xPosition="before">
+              <div class="perfilMenu" (click)="$event.stopPropagation()">
+                <!-- Perfil Information -->
+                <div class="perfil-info dfr">
+                  <div class="perfil-icon centered-img-bg">
+                    <img
+                      [src]="this._usersS.user.img | img: 'user':true"
+                      style="width: 100%;"
+                    />
+                  </div>
+                  <div class="perfil-text dfc">
+                    <span class="perfil-name ff-rr">{{
+                      this._usersS.user.firstName
+                        .split(" ")[0]
+                        .concat(" ", this._usersS.user.lastName.split(" ")[0])
+                    }}</span>
+                    <span class="perfil-email ff-rr">{{
+                      this._usersS.user.email
+                    }}</span>
+                  </div>
+                </div>
+                <div class="divider"></div>
+                <!-- FAQ Option -->
+                <!-- <button mat-menu-item>
+                   <i class="material-icons">help_outline</i>Ayuda
+                </button> -->
+                <!-- Change Theme Option -->
+                <button
+                  mat-menu-item
+                  class="dfr"
+                  style="justify-content: space-between;"
+                  (click)="switch(); changeTheme()"
+                >
+                  <div class="dfr">
+                    <i class="material-icons">brightness_4</i>Modo oscuro
+                  </div>
+                  <app-theme-switch></app-theme-switch>
+                </button>
+                <div class="divider"></div>
+                <!-- Logout Option -->
+                <button mat-menu-item (click)="_usersS.logout()">
+                  <i class="material-icons">exit_to_app</i>Cerrar sesión
+                </button>
+              </div>
+            </mat-menu>
+          </div>
         </div>
       </div>
-    </div>
-  </div>
+      <!-- Perfil Fake Background -->
+      <div class="perfil-fake-bg"></div>
 
-  <!-- Perfil Footer -->
-  <div class="perfil-footer ff-ss gradient-pos-45deg-dark-blue dfr">
-    <span>
-      © 2020
-      <span class="footer-author"> Haizen</span>
-      All rights reserved.
-    </span>
-    <span class="hide-on-small-only">
-      Designed and Developed by
-      <span class="footer-author">Armando Lara</span>
-    </span>
-  </div>
-</section>
+      <!-- Perfil Content Container -->
+      <div id="perfil-content-container">
+        <div class="row">
+          <div class="col s12">
+            <div class="container">
+              <router-outlet></router-outlet>
+            </div>
+          </div>
+        </div>
+      </div>
 
-<!-- Prime Account Button -->
-<div
-  style="bottom: 65px; right: 19px; z-index: 999;"
-  class="fixed-action-btn direction-top active"
->
-  <a
-    class="prime-account btn-floating btn-large primary-text gradient-shadow pulse"
-    (click)="openPrimeModal()"
-  >
-    <i class="fas fa-user-tie"></i>
-    <!-- <i class="fas fa-user-tie"></i> -->
-  </a>
-</div>
+      <!-- Perfil Footer -->
+      <div class="perfil-footer ff-ss gradient-pos-45deg-dark-blue dfr">
+        <span>
+          © 2020
+          <span class="footer-author"> Haizen</span>
+          All rights reserved.
+        </span>
+        <span class="hide-on-small-only">
+          Designed and Developed by
+          <span class="footer-author">Armando Lara</span>
+        </span>
+      </div>
+    </section>
 
-<!-- Modal Subir Archivos -->
-<app-file-upload
-  typeImg="user"
-  [idImg]="this._usersS.user._id"
-></app-file-upload>
+    <!-- Prime Account Button -->
+    <!-- <div
+      style="bottom: 65px; right: 19px; z-index: 999;"
+      class="fixed-action-btn direction-top active"
+    >
+      <a
+        class="prime-account btn-floating btn-large primary-text gradient-shadow gradient-45deg-orange"
+        (click)="openPrimeModal()"
+      >
+        <i class="fas fa-user-tie"></i>
+      </a>
+    </div> -->
+  </mat-sidenav-content>
+</mat-sidenav-container>

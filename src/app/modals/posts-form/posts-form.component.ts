@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Inject } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { AngularEditorConfig } from '@kolkov/angular-editor';
 import { Subscription } from 'rxjs';
@@ -8,6 +8,7 @@ import { Post } from '../../models/Post';
 import { PostsService } from '../../services/posts.service';
 import { UpdateDataService } from '../../services/updateData.service';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 
 declare var $: any;
 
@@ -19,6 +20,8 @@ declare var $: any;
 export class PostsFormComponent implements OnInit {
 
   constructor(
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    public dialogRef: MatDialogRef<PostsFormComponent>,
     public _imgS: ImgService,
     private _postsS: PostsService,
     public _updateDS: UpdateDataService
@@ -69,7 +72,7 @@ export class PostsFormComponent implements OnInit {
   form: FormGroup;
   imgData: any = null;
   postModalTitle: string;
-  subscription: Subscription;
+  
   titleLabel: any;
   public config: PerfectScrollbarConfigInterface = {};
 
@@ -77,38 +80,36 @@ export class PostsFormComponent implements OnInit {
     this.initArticulosForm();
     this._imgS.uploaderSend("post");
 
-    // Create / Update Subscription
-    this.subscription = this._updateDS.getArticleId()
-      .subscribe((data: { id: string, action: string }) => {
-        this.postModalTitle = data.action;
-        
-        if ( data.action === 'Crear' ) {
-          this._imgS.image = 'no_image';
-        }
-        
-        if (data.id && data.id !== '') {
-          this._postsS.getPost(data.id).subscribe((post: Post) => {
+    // Create / Update
+    if (this.data) {
+      this.postModalTitle = this.data.action;
+      if (this.data.idPost && this.data.idPost !== "") {
 
-            this._imgS.image = post.img;
-            this.form.patchValue({
-              content: post.content,
-              title: post.title,
-              external_sources: post.external_sources,
-              _id: post._id
-            })
+        this._postsS.getPost(this.data.idPost).subscribe((post: Post) => {
+  
+          this._imgS.image = post.img;
+          this.form.patchValue({
+            content: post.content,
+            title: post.title,
+            external_sources: post.external_sources,
+            _id: post._id
           })
-        } else {
-          this.form.reset();
-        }
-    })
+        })
+      } else {
+        this._imgS.image = 'no_image';
+        this.form.reset();
+      }
+    }
   }
 
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
-  }
+  ngOnDestroy() {}
 
   clearImg() {
     this._imgS.image = null;
+  }
+
+  closeModal() {
+    this.dialogRef.close()
   }
 
   create() {
@@ -132,12 +133,13 @@ export class PostsFormComponent implements OnInit {
         // Update Article
         this._postsS.updatePost(this.form.value._id, post, "").subscribe(() => {
           this._postsS.notifica.emit({ render: true });
+          this.closeModal();
         });
       } else {
         this._imgS.uploader.uploadAll();
         console.log("UPDATE IMAGE");
 
-        this.subscription = this._updateDS
+        this._updateDS
           .getImg()
           .subscribe((data: { url: string; public_id: string }) => {
             this._postsS
@@ -146,7 +148,7 @@ export class PostsFormComponent implements OnInit {
                 if (resp) {
                   this.imgData = null;
                   this._postsS.notifica.emit({ render: true });
-                  this.subscription.unsubscribe();
+                  this.closeModal();
                 }
               });
           });
@@ -158,13 +160,15 @@ export class PostsFormComponent implements OnInit {
         this._postsS.createPost(post, '').subscribe(() => {
           this.form.reset();
           this._postsS.notifica.emit({ render: true });
+          this.closeModal();
         });
       } else {
         console.log("CRETE");
         // return;
         this._imgS.uploader.uploadAll();
 
-        this.subscription = this._updateDS
+        
+        this._updateDS
           .getImg()
           .subscribe((data: { url: string; public_id: string }) => {
             this._postsS.createPost(post, data).subscribe((resp) => {
@@ -172,6 +176,7 @@ export class PostsFormComponent implements OnInit {
                 this.form.reset();
                 this.imgData = null;
                 this._postsS.notifica.emit({ render: true });
+                this.closeModal();
               }
             });
           });
