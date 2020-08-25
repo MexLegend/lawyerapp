@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit, HostListener, ViewChild } from '@angular/
 import { NavigationEnd, Router } from '@angular/router';
 import { Subject, Subscription } from 'rxjs';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatSidenav } from '@angular/material';
+import { MatSidenav, MatMenuTrigger } from '@angular/material';
 import { PerfectScrollbarConfigInterface } from "ngx-perfect-scrollbar";
 
 import { NotificationsPagination } from '../models/Notification';
@@ -78,6 +78,7 @@ export class AdminComponent implements OnInit, OnDestroy {
 
   // Chat
   @ViewChild('adminChatSidenav', null) public sidenavChat: MatSidenav;
+  @ViewChild('beforeMenu', null) adminMenu: MatMenuTrigger;
 
   ngOnInit() {
     // Get Screen Size
@@ -193,6 +194,11 @@ export class AdminComponent implements OnInit, OnDestroy {
       docWithBrowsersExitFunctions.msExitFullscreen();
     }
     this.isfullscreen = false;
+  }
+
+  closeMenu() {
+    console.log("Hola");
+    this.adminMenu.closeMenu();
   }
 
   // Toggle Full Screen Function

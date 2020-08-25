@@ -10,7 +10,6 @@ import { CasosDetalleComponent } from '../pages/perfil/perfilPages/casos-detalle
 import { MisCasosComponent } from '../pages/perfil/perfilPages/mis-casos/mis-casos.component';
 import { InformacionComponent } from '../pages/perfil/perfilPages/informacion/informacion.component';
 import { MensajesComponent } from '../pages/perfil/perfilPages/mensajes/mensajes.component';
-import { SeguridadComponent } from '../pages/perfil/perfilPages/seguridad/seguridad.component';
 import { PostDetailComponent } from '../pages/post-detail/post-detail.component';
 import { PostsUComponent } from '../pages/postsU/postsU.component';
 
@@ -53,7 +52,7 @@ const PAGES_ROUTES: Routes = [
                 component: CasosDetalleComponent
             },
             {
-                path: 'mis-casos',
+                path: 'casos',
                 component: MisCasosComponent
             },
             {
@@ -63,10 +62,6 @@ const PAGES_ROUTES: Routes = [
             {
                 path: 'mensajes',
                 component: MensajesComponent
-            },
-            {
-                path: 'seguridad',
-                component: SeguridadComponent
             },
         ]
     },

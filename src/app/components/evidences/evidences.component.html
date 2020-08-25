@@ -169,7 +169,7 @@
                   </div>
                   <div
                     class="item-evidence-box-action waves-effect waves-light dfc"
-                    matTooltip="Estado del archivo"
+                    matTooltip="Cambiar estado"
                     matTooltipPosition="above"
                   >
                     <i class="material-icons">lock_outline</i>
@@ -479,6 +479,7 @@
           class="item-add-button primary-text gradient-45deg-orange gradient-shadow dfc"
           matTooltip="Agregar evidencia"
           matTooltipPosition="above"
+          (click)="openFileUploadModal()"
         >
           <i class="material-icons">add</i>
         </button>

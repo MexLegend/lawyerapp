@@ -749,12 +749,13 @@
                     </div>
                     <div class="add-file-tracking-number-and-actions dfc">
                       <div class="add-file-tracking-number dfc">
-                        <span>{{
-                          "#" +
-                            (updating
+                        <span
+                          >#{{
+                            updating
                               ? noTrack
-                              : this._trackingS.fileData?.tracks?.length + 1)
-                        }}</span>
+                              : this._trackingS.fileData?.tracks?.length + 1
+                          }}</span
+                        >
                       </div>
                     </div>
                   </div>
@@ -859,9 +860,6 @@
                                 </div>
                               </div>
                               <div class="remove-file dfr">
-                                <div class="watch-file">
-                                  <span>Ver</span>
-                                </div>
                                 <i
                                   class="remove-file-btn material-icons"
                                   matTooltip="Eliminar"
@@ -890,9 +888,6 @@
                                 </div>
                               </div>
                               <div class="remove-file dfr">
-                                <div class="watch-file">
-                                  <span>Ver</span>
-                                </div>
                                 <i class="remove-file-btn material-icons"
                                   >close</i
                                 >
@@ -918,9 +913,6 @@
                                 </div>
                               </div>
                               <div class="remove-file dfr">
-                                <div class="watch-file">
-                                  <span>Ver</span>
-                                </div>
                                 <i class="remove-file-btn material-icons"
                                   >close</i
                                 >
@@ -946,9 +938,6 @@
                                 </div>
                               </div>
                               <div class="remove-file dfr">
-                                <div class="watch-file">
-                                  <span>Ver</span>
-                                </div>
                                 <i class="remove-file-btn material-icons"
                                   >close</i
                                 >
@@ -974,9 +963,6 @@
                                 </div>
                               </div>
                               <div class="remove-file dfr">
-                                <div class="watch-file">
-                                  <span>Ver</span>
-                                </div>
                                 <i class="remove-file-btn material-icons"
                                   >close</i
                                 >
@@ -1003,93 +989,28 @@
                           [scrollIndicators]="false"
                         >
                           <div class="scrollable-content">
-                            <div class="file-chooser-file file-box">
+                            <div
+                              class="file-chooser-file file-box"
+                              *ngFor="let note of notesSelect"
+                            >
                               <div class="file-name">
                                 <div class="file-item dfr">
                                   <div class="file-name-and-format notes">
                                     <span>
-                                      Nota_#1
+                                      {{ note?.affair }}
                                     </span>
                                     <div class="file-format">
-                                      <span>10/08/2020</span>
+                                      <span>{{ note?.date | date }}</span>
                                     </div>
                                   </div>
                                 </div>
                               </div>
                               <div class="remove-file dfr">
-                                <div class="watch-file">
-                                  <span>Ver</span>
-                                </div>
                                 <i
+                                  (click)="this.deleteListedNotes(note._id)"
                                   class="remove-file-btn material-icons"
                                   matTooltip="Eliminar"
                                   matTooltipPosition="above"
-                                  >close</i
-                                >
-                              </div>
-                            </div>
-                            <div class="file-chooser-file file-box">
-                              <div class="file-name">
-                                <div class="file-item dfr">
-                                  <div class="file-name-and-format notes">
-                                    <span>
-                                      Nota_#2
-                                    </span>
-                                    <div class="file-format">
-                                      <span>19/09/2020</span>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                              <div class="remove-file dfr">
-                                <div class="watch-file">
-                                  <span>Ver</span>
-                                </div>
-                                <i class="remove-file-btn material-icons"
-                                  >close</i
-                                >
-                              </div>
-                            </div>
-                            <div class="file-chooser-file file-box">
-                              <div class="file-name">
-                                <div class="file-item dfr">
-                                  <div class="file-name-and-format notes">
-                                    <span>
-                                      Nota_#3
-                                    </span>
-                                    <div class="file-format">
-                                      <span>28/09/2020</span>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                              <div class="remove-file dfr">
-                                <div class="watch-file">
-                                  <span>Ver</span>
-                                </div>
-                                <i class="remove-file-btn material-icons"
-                                  >close</i
-                                >
-                              </div>
-                            </div>
-                            <div class="file-chooser-file file-box">
-                              <div class="file-name">
-                                <div class="file-item dfr">
-                                  <div class="file-name-and-format notes">
-                                    <span>
-                                      Nota_#4
-                                    </span>
-                                    <div class="file-format">
-                                      <span>06/11/2020</span>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                              <div class="remove-file dfr">
-                                <div class="watch-file">
-                                  <span>Ver</span>
-                                </div>
-                                <i class="remove-file-btn material-icons"
                                   >close</i
                                 >
                               </div>

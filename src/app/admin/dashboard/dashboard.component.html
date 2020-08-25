@@ -1,10 +1,271 @@
 <!-- Main Dashboard Container -->
 <div class="dashboard-container dfc">
   <!-- Superior Graphics Container -->
-  <div class="superior-graphic-container">
-    <div class="graphic-box"><div></div></div>
-    <div class="graphic-box"><span>Grafica 2</span></div>
-    <div class="graphic-box"><span>Grafica 3</span></div>
+  <div class="superior-dashboard-container">
+    <perfect-scrollbar
+      class="scroll-container"
+      fxFlex="auto"
+      [config]="config"
+      [scrollIndicators]="false"
+    >
+      <div class="scrollable-content">
+        <div class="dashboard-box users dashboard-box">
+          <div class="dashboard-content dfc">
+            <div class="dashboard-box-header dfc">
+              <i class="material-icons">perm_identity</i>
+              <span>Usuarios</span>
+            </div>
+            <div class="dashboard-box-divider"></div>
+            <div class="dashboard-box-body dfc">
+              <div class="dashboard-box-item waves-effect waves-light dfr">
+                <i class="fas fa-users-cog"></i>
+                <span class="dashboard-box-item-title">Administradores</span>
+                <span class="dashboard-box-item-quantity">2</span>
+                <div
+                  class="dashboard-box-item-watch dfc"
+                  matTooltip="Ver"
+                  matTooltipPosition="below"
+                >
+                  <i class="material-icons">visibility</i>
+                </div>
+              </div>
+              <div class="dashboard-box-item waves-effect waves-light dfr">
+                <i class="fas fa-user-tie"></i>
+                <span class="dashboard-box-item-title">Asociados</span>
+                <span class="dashboard-box-item-quantity">5</span>
+                <div
+                  class="dashboard-box-item-watch dfc"
+                  matTooltip="Ver"
+                  matTooltipPosition="below"
+                >
+                  <i class="material-icons">visibility</i>
+                </div>
+              </div>
+              <div class="dashboard-box-item waves-effect waves-light dfr">
+                <i class="fas fa-user-tag"></i>
+                <span class="dashboard-box-item-title">Clientes</span>
+                <span class="dashboard-box-item-quantity">9</span>
+                <div
+                  class="dashboard-box-item-watch dfc"
+                  matTooltip="Ver"
+                  matTooltipPosition="below"
+                >
+                  <i class="material-icons">visibility</i>
+                </div>
+              </div>
+              <div class="dashboard-box-item waves-effect waves-light dfr">
+                <i class="fas fa-user-plus"></i>
+                <span class="dashboard-box-item-title">Nuevos</span>
+                <span class="dashboard-box-item-quantity">12</span>
+                <div
+                  class="dashboard-box-item-watch dfc"
+                  matTooltip="Ver"
+                  matTooltipPosition="below"
+                >
+                  <i class="material-icons">visibility</i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="dashboard-box articles dashboard-box">
+          <div class="dashboard-content dfc">
+            <div class="dashboard-box-header dfc">
+              <i class="material-icons">import_contacts</i>
+              <span>Artículos</span>
+            </div>
+            <div class="dashboard-box-divider"></div>
+            <div class="dashboard-box-body dfc">
+              <div class="dashboard-box-item waves-effect waves-light dfr">
+                <i class="fas fa-search"></i>
+                <span class="dashboard-box-item-title">En revisión</span>
+                <span class="dashboard-box-item-quantity">4</span>
+                <div
+                  class="dashboard-box-item-watch dfc"
+                  matTooltip="Ver"
+                  matTooltipPosition="below"
+                >
+                  <i class="material-icons">visibility</i>
+                </div>
+              </div>
+              <div class="dashboard-box-item waves-effect waves-light dfr">
+                <i class="fas fa-upload"></i>
+                <span class="dashboard-box-item-title">Publicados</span>
+                <span class="dashboard-box-item-quantity">20</span>
+                <div
+                  class="dashboard-box-item-watch dfc"
+                  matTooltip="Ver"
+                  matTooltipPosition="below"
+                >
+                  <i class="material-icons">visibility</i>
+                </div>
+              </div>
+              <div class="dashboard-box-item waves-effect waves-light dfr">
+                <i class="fas fa-times-circle"></i>
+                <span class="dashboard-box-item-title">Rechazados</span>
+                <span class="dashboard-box-item-quantity">2</span>
+                <div
+                  class="dashboard-box-item-watch dfc"
+                  matTooltip="Ver"
+                  matTooltipPosition="below"
+                >
+                  <i class="material-icons">visibility</i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="dashboard-box cases dashboard-box">
+          <div class="dashboard-content dfc">
+            <div class="dashboard-box-header dfc">
+              <i class="fas fa-folder-open"></i>
+              <span>Casos</span>
+            </div>
+            <div class="dashboard-box-divider"></div>
+            <div class="dashboard-box-body cases dfc">
+              <div class="dashboard-box-item waves-effect waves-light dfr">
+                <i class="material-icons">unarchive</i>
+                <span class="dashboard-box-item-title">Activos</span>
+                <span class="dashboard-box-item-quantity">10</span>
+                <div
+                  class="dashboard-box-item-watch dfc"
+                  matTooltip="Ver"
+                  matTooltipPosition="below"
+                >
+                  <i class="material-icons">visibility</i>
+                </div>
+              </div>
+              <div class="dashboard-box-item waves-effect waves-light dfr">
+                <i class="material-icons">archive</i>
+                <span class="dashboard-box-item-title">Archivados</span>
+                <span class="dashboard-box-item-quantity">3</span>
+                <div
+                  class="dashboard-box-item-watch dfc"
+                  matTooltip="Ver"
+                  matTooltipPosition="below"
+                >
+                  <i class="material-icons">visibility</i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- <div class="dashboard-box schedule">
+      <div class="dashboard-content dfc">
+        <div class="dashboard-box-header dfc">
+          <i class="material-icons">home</i>
+          <span>Agenda</span>
+        </div>
+        <div class="dashboard-box-divider"></div>
+        <div class="dashboard-box-body dfc">Body</div>
+      </div>
+    </div> -->
+        <div class="dashboard-box files dashboard-box">
+          <div class="dashboard-content dfc">
+            <div class="dashboard-box-header dfc">
+              <i class="fas fa-paperclip"></i>
+              <span>Archivos</span>
+            </div>
+            <div class="dashboard-box-divider"></div>
+            <div class="dashboard-box-body files dfc">
+              <div class="dashboard-box-item waves-effect waves-light dfr">
+                <i class="fas fa-search"></i>
+                <span class="dashboard-box-item-title">PDF</span>
+                <span class="dashboard-box-item-quantity">24</span>
+                <div
+                  class="dashboard-box-item-watch dfc"
+                  matTooltip="Ver"
+                  matTooltipPosition="below"
+                >
+                  <i class="material-icons">visibility</i>
+                </div>
+              </div>
+              <div class="dashboard-box-item waves-effect waves-light dfr">
+                <i class="fas fa-upload"></i>
+                <span class="dashboard-box-item-title">WORD</span>
+                <span class="dashboard-box-item-quantity">10</span>
+                <div
+                  class="dashboard-box-item-watch dfc"
+                  matTooltip="Ver"
+                  matTooltipPosition="below"
+                >
+                  <i class="material-icons">visibility</i>
+                </div>
+              </div>
+              <div class="dashboard-box-item waves-effect waves-light dfr">
+                <i class="fas fa-times-circle"></i>
+                <span class="dashboard-box-item-title">Imagenes</span>
+                <span class="dashboard-box-item-quantity">32</span>
+                <div
+                  class="dashboard-box-item-watch dfc"
+                  matTooltip="Ver"
+                  matTooltipPosition="below"
+                >
+                  <i class="material-icons">visibility</i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="dashboard-box comments dashboard-box">
+          <div class="dashboard-content dfc">
+            <div class="dashboard-box-header last-comments dfr">
+              <i class="material-icons">forum</i>
+              <span>Comentarios recientes de los artículos</span>
+            </div>
+            <div class="dashboard-box-divider"></div>
+            <div class="dashboard-box-body large-box cases dfc">
+              <div class="dashboard-box-comments-container dfc">
+                <perfect-scrollbar
+                  class="scroll-container"
+                  fxFlex="auto"
+                  [config]="config"
+                  [scrollIndicators]="false"
+                >
+                  <div class="scrollable-content comments">
+                    <!-- Comments -->
+                    <div
+                      class="dashboard-box-comment dfr"
+                      *ngFor="let comment of comments"
+                    >
+                      <div class="dashboard-box-comment-img centered-img-bg">
+                        <img src="../../../assets/images/user_2.jpg" alt="" />
+                      </div>
+                      <div class="dashboard-box-comment-body dfc">
+                        <span class="dashboard-box-comment-name-date">
+                          <span class="dashboard-box-comment-name">
+                            Jossline Flores
+                          </span>
+                          <span class="dashboard-box-comment-date"
+                            >11/03/2020</span
+                          >
+                        </span>
+                        <span class="dashboard-box-comment-text"
+                          >Lorem ipsum dolor sit amet, consectetur adipiscing
+                          elit. Ut at feugiat neque. Morbi at malesuada elit, a
+                          sagittis nunc. Nulla tortor metus, molestie sed
+                          eleifend id, ultricies eu nulla. Nam elit nulla,
+                          suscipit vel mauris vel, pellentesque varius sapien.
+                        </span>
+                      </div>
+                      <div
+                        class="dashboard-box-comment-reply"
+                        (click)="openReplyModal()"
+                      >
+                        <span>Responder</span>
+                      </div>
+                    </div>
+                  </div>
+                </perfect-scrollbar>
+              </div>
+              <div class="dashboard-box-see-all dfr">
+                <span>Ver todo</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </perfect-scrollbar>
   </div>
   <!-- Middle Graphics Container -->
   <div class="middle-graphic-container"></div>

@@ -1214,8 +1214,8 @@ a,
 }
 
 .file-name-and-format {
-  max-width: calc(100% - 145px);
-  width: calc(100% - 145px);
+  max-width: calc(100% - 108px);
+  width: calc(100% - 108px);
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
@@ -1223,8 +1223,8 @@ a,
 }
 
 .file-name-and-format.notes {
-  max-width: calc(100% - 60px);
-  width: calc(100% - 60px);
+  max-width: calc(100% - 30px);
+  width: calc(100% - 30px);
   padding: 0 10px;
 }
 

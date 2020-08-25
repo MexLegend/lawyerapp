@@ -2,25 +2,139 @@
 <app-lawyer-contact></app-lawyer-contact>
 
 <mat-sidenav-container class="sidenav-container">
-  <!-- Main SideNav -->
-  <!-- <mat-sidenav
-    #perfilSidenav
-    [mode]="sidenavMode"
-    [opened]="showSidenav"
-    class="main-perfil-sidenav dfc"
-  >
-  </mat-sidenav> -->
+  <!-- Main Site SideNav -->
+  <mat-sidenav #mainSidenav mode="push" class="main-site-sidenav dfc">
+    <ul class="sidenav-main nav-collapsible" id="main-client-sidebar">
+      <!-- Sidebar Logo -->
+      <li class="sidenav-logo dfc">
+        <div class="sidenav-logo-after"></div>
+        <div class="sidenav-logo-wrapper">
+          <a
+            class="brand-logo darken-1 dfc"
+            routerLink="/inicio"
+            (click)="scrollToTop(); toogleMainSidenav()"
+          >
+            <img
+              [src]="
+                this._themeS.check
+                  ? '../../../assets/images/brand.png'
+                  : '../../../assets/images/brand_black.png'
+              "
+              alt="site logo"
+            />
+          </a>
+        </div>
+      </li>
+      <div class="sidenav-options-container">
+        <!-- Sidebar Option -->
+        <li [attr.data-active]="this.router.url === '/inicio' ? 'on' : 'off'">
+          <a
+            routerLink="/inicio"
+            class="sidenav-option"
+            (click)="scrollToTop(); toogleMainSidenav()"
+          >
+            <i class="material-icons">home</i>
+            <span>Inicio</span>
+          </a>
+        </li>
+        <!-- Sidebar Option -->
+        <li
+          [attr.data-active]="
+            this.router.url === '/articulos' ||
+            this.router.url.includes('articulo-detalle')
+              ? 'on'
+              : 'off'
+          "
+        >
+          <a
+            routerLink="/articulos"
+            class="sidenav-option"
+            (click)="scrollToTop(); toogleMainSidenav()"
+          >
+            <i class="material-icons">import_contacts</i>
+            <span>Articulos</span>
+          </a>
+        </li>
+        <!-- Sidebar Option -->
+        <li [attr.data-active]="this.router.url === '/contacto' ? 'on' : 'off'">
+          <a
+            routerLink="/contacto"
+            class="sidenav-option"
+            (click)="scrollToTop(); toogleMainSidenav()"
+          >
+            <i class="material-icons">contact_phone</i>
+            <span>Contacto</span>
+          </a>
+        </li>
+        <!-- Sidebar Option -->
+        <li [attr.data-active]="this.router.url === '/nosotros' ? 'on' : 'off'">
+          <a class="sidenav-option" [matMenuTriggerFor]="mobileUsMenu">
+            <i class="fas fa-users"></i>
+            <span>Nosotros</span>
+          </a>
+          <!-- Dropdown Content -->
+          <mat-menu class="mainMenu" #mobileUsMenu="matMenu" xPosition="after">
+            <div
+              class="notificationsMenu us normalMenu"
+              (click)="$event.stopPropagation()"
+            >
+              <button mat-menu-item>
+                <div class="notificationMenu-item">
+                  <div class="notificationMenu-item-content">
+                    <span
+                      class="fas fa-bullseye icon-bg-circle small dfc"
+                    ></span>
+                    <!-- <i class="fas fa-bullseye icon-bg-circle teal small"></i> -->
+                    Misión
+                  </div>
+                </div>
+              </button>
+              <button mat-menu-item>
+                <div class="notificationMenu-item">
+                  <div class="notificationMenu-item-content">
+                    <span class="far fa-eye icon-bg-circle small dfc"></span>
+                    Visión
+                  </div>
+                </div>
+              </button>
+              <button mat-menu-item>
+                <div class="notificationMenu-item">
+                  <div class="notificationMenu-item-content">
+                    <span class="fas fa-hands icon-bg-circle small dfc"></span>
+
+                    Valores
+                  </div>
+                </div>
+              </button>
+            </div>
+          </mat-menu>
+        </li>
+        <!-- Sidebar Option -->
+        <!-- <li [attr.data-active]="this.router.url === '/blog' ? 'on' : 'off'">
+           <a routerLink="/blog" class="sidenav-close" (click)="scrollToTop()"
+            >Blog</a>
+        </li> -->
+        <!-- Sidebar Option -->
+        <!-- <li
+          [attr.data-active]="this.router.url === '/transparencia' ? 'on' : 'off'"
+          >
+          <a
+            routerLink="/transparencia"
+            class="sidenav-close"
+            (click)="scrollToTop()"
+            >Transparencia</a
+          >
+        </li> -->
+      </div>
+    </ul>
+  </mat-sidenav>
 
   <!-- Chat Sidenav -->
-  <mat-sidenav
-    #mainChatSidenav
-    mode="over"
-    position="end"
-    class="chat-sidenav"
-  >
+  <mat-sidenav #mainChatSidenav mode="over" position="end" class="chat-sidenav">
     <app-chat-sidenav></app-chat-sidenav>
   </mat-sidenav>
 
+  <!-- Main Site Content -->
   <mat-sidenav-content>
     <!-- Client View NavBar Container -->
     <app-navbar *ngIf="!this.router.url.includes('perfil')"></app-navbar>

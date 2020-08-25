@@ -64,6 +64,12 @@ export class NavbarComponent implements OnInit {
     this._themeS.switchVal()
   }
 
+  // Open Main Sidenav
+  toogleMainSidenav() {
+    this._chatS.toggleMainSidenav();
+  }
+
+  // Open Chat Sidenav
   toogleChatSidenav() {
     this._chatS.toggleChat();
   }

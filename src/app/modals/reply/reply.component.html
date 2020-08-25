@@ -1,0 +1,86 @@
+<!-- Modal Structure -->
+<div mat-dialog-title class="modal-header admin-modal-header dfc">
+  <div class="modal-icon dfc">
+    <i class="material-icons">forum</i>
+  </div>
+  <span class="client-action">Nuevo comentario</span>
+  <i
+    mat-dialog-close
+    class="modal-exit material-icons pink accent-2 waves-effect waves-light dfr"
+    >close</i
+  >
+</div>
+
+<mat-dialog-content class="mat-typography admin-modal-container">
+  <!-- Modal Content -->
+  <div class="modal-content admin-modal-content reply">
+    <div class="row">
+      <form
+        id="commentForm"
+        class="col s12"
+        style="padding: 0 30px; height: 100%;"
+        ngNativeValidate
+        [formGroup]="form"
+      >
+        <div class="comment-remitent">
+          <span>Para:</span>
+        </div>
+        <div class="comment-divider"></div>
+        <div class="comment-data dfr">
+          <div class="comment-data-img centered-img-bg">
+            <img src="../../../assets/images/user.jpg" alt="" />
+          </div>
+          <div class="comment-data-info dfc">
+            <div class="comment-data-name"><span>Armando Lara</span></div>
+            <div class="comment-data-rol"><span>CLIENTE</span></div>
+            <div class="comment-data-email">
+              <span>armandoskate2011@hotmail.com</span>
+            </div>
+          </div>
+        </div>
+        <!-- Inputs Container -->
+        <div class="inputs-container">
+          <!-- Comment Input Field -->
+          <div class="modal-input modal-input-pink notes-text-area">
+            <textarea
+              class="materialize-textarea expediente-input ng-pristine ng-touched"
+              name="comment"
+              formControlName="comment"
+              id="Comment"
+              placeholder=" "
+              autosize
+              [minRows]="4"
+              [maxRows]="8"
+              required
+            ></textarea>
+            <div class="modal-input-placeholder modal-input-placeholder-pink">
+              Escribir comentario
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal-footer modal-actions admin-modal-footer">
+    <ng-container>
+      <div class="modal-actions-container dfr">
+        <div class="modal-actions-content">
+          <button
+            type="button"
+            class="mwaves-effect waves-light btn modal-close-action"
+            mat-dialog-close
+          >
+            Cancelar
+          </button>
+          <button
+            type="submit"
+            class="waves-effect waves-light btn modal-submit-action"
+          >
+            Envíar
+          </button>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</mat-dialog-content>

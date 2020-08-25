@@ -1,6 +1,5 @@
-import { Component, OnInit, HostListener, ViewChild } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
-import { MatSidenav } from '@angular/material';
 
 import { UsersService } from '../../services/users.service';
 import { MatDialog } from '@angular/material/dialog';
@@ -64,9 +63,6 @@ export class PerfilComponent implements OnInit {
     }
   }
 
-  // Chat
-  @ViewChild('perfilChatSidenav', null) public sidenavChat: MatSidenav;
-
   ngOnInit() {
     // Get Screen Size
     this.innerScreenWidth = window.innerWidth;
@@ -81,10 +77,6 @@ export class PerfilComponent implements OnInit {
     }
 
     $("#modal-File-Upload").modal();
-  }
-
-  ngAfterViewInit(): void {
-    this._chatS.setChatSidenav(this.sidenavChat);
   }
 
   // Change Theme Function
@@ -148,4 +140,10 @@ export class PerfilComponent implements OnInit {
   switch() {
     this._themeS.switchVal()
   }
+
+  // Open Chat Sidenav
+  toogleChatSidenav() {
+    this._chatS.toggleChat();
+  }
+
 }

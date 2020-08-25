@@ -1,37 +1,33 @@
 <!-- Config General Container -->
 <div class="card horizontal perfil-card">
   <div class="card-stacked">
-    <form
-      ngNativeValidate
-      #f="ngForm"
-      (ngSubmit)="update(f.value)"
-      class="col s12"
-    >
-      <div class="card-content">
-        <div class="row">
-          <div class="input-field perfil-input-field col s12 dfr">
+    <div class="profile-container">
+      <perfect-scrollbar
+        class="scroll-container"
+        fxFlex="auto"
+        [config]="config"
+        [scrollIndicators]="false"
+      >
+        <div class="scrollable-content dfr">
+          <div class="profile-personal-data-container profile-card dfc">
             <div
-              href="#modal-File-Upload"
-              class="upload-img modal-trigger centered-img-bg dfc"
+              class="profile-image-container"
+              matTooltip="Cambiar imagen de perfil"
+              matTooltipPosition="below"
             >
-              <img
-                [src]="
-                  this._imgS.fileUrl
-                    ? (this._imgS.fileUrl | img: 'user':true)
-                    : ''
-                "
-                alt=""
-              />
-
               <div
-                class="select-img dfr"
-                [attr.data-active]="this._imgS.file ? 'on' : 'off'"
-              >
-                <i
-                  class="material-icons"
-                  [attr.data-active]="this._imgS.file ? 'on' : 'off'"
-                  >camera_alt</i
-                >
+                class="profile-image-fake-bg"
+                (click)="openFileUploadModal()"
+              ></div>
+              <div class="profile-image centered-img-bg">
+                <img
+                  [src]="
+                    this._imgS.fileUrl
+                      ? (this._imgS.fileUrl | img: 'user':true)
+                      : ''
+                  "
+                  alt=""
+                />
                 <input
                   #userImg
                   type="file"
@@ -40,107 +36,244 @@
                   (change)="imageValidation($event)"
                 />
               </div>
+              <div
+                class="profile-image-upload dfc modal-trigger"
+                href="#modal-File-Upload"
+              >
+                <i class="material-icons">camera_alt</i>
+              </div>
             </div>
-            <div
-              class="perfil-input-field-content dfc"
-              style="width: calc(100% - 190px);"
+            <div class="profile-info dfc">
+              <div class="profile-role">
+                <span>
+                  {{
+                    user?.role === "ADMIN"
+                      ? "Administrador"
+                      : user?.role === "PARTNER"
+                      ? "Asociado"
+                      : user?.role === "USER"
+                      ? "Cliente"
+                      : "Nuevo"
+                  }}
+                </span>
+              </div>
+              <div class="profile-more-info dfr">
+                <div class="profile-more-box dfc">
+                  <span>Clientes</span
+                  ><span class="profile-box-quantity">18</span>
+                </div>
+                <div class="profile-more-box dfc">
+                  <span>Artículos</span
+                  ><span class="profile-box-quantity">13</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="profile-data-inputs-container dfc">
+            <form
+              ngNativeValidate
+              #f="ngForm"
+              (ngSubmit)="update(f.value)"
+              class="col s12"
             >
-              <div class="modal-input modal-input-blue">
-                <input
-                  id="emailU"
-                  name="emailU"
-                  [ngModel]="user.email"
-                  placeholder=" "
-                  email="ngModel"
-                  type="email"
-                  class="validate"
-                  required
-                />
-                <div
-                  class="modal-input-placeholder modal-input-placeholder-blue"
-                >
-                  Email*
+              <div class="profile-data-inputs-content client profile-card dfc">
+                <div class="profile-data-header dfr">
+                  <i class="fas fa-user-edit"></i>
+                  <span>Información personal</span>
+                </div>
+                <div class="row">
+                  <div class="input-field col s12">
+                    <div class="modal-input modal-input-blue">
+                      <input
+                        placeholder=" "
+                        id="firstName"
+                        name="firstName"
+                        [ngModel]="user?.firstName"
+                        type="text"
+                        class="validate"
+                        required
+                      />
+                      <div
+                        class="modal-input-placeholder modal-input-placeholder-blue"
+                      >
+                        Nombre(s)*
+                      </div>
+                    </div>
+                  </div>
+                  <div class="input-field col s12">
+                    <div class="modal-input modal-input-blue">
+                      <input
+                        placeholder=" "
+                        id="lastName"
+                        name="lastName"
+                        [ngModel]="user?.lastName"
+                        type="text"
+                        class="validate"
+                        required
+                      />
+                      <div
+                        class="modal-input-placeholder modal-input-placeholder-blue"
+                      >
+                        Apellidos*
+                      </div>
+                    </div>
+                  </div>
+                  <div class="input-field col s12">
+                    <div class="modal-input modal-input-blue">
+                      <input
+                        id="emailU"
+                        name="emailU"
+                        [ngModel]="user.email"
+                        placeholder=" "
+                        email="ngModel"
+                        type="email"
+                        class="validate"
+                        required
+                      />
+                      <div
+                        class="modal-input-placeholder modal-input-placeholder-blue"
+                      >
+                        Email*
+                      </div>
+                    </div>
+                  </div>
+                  <div class="input-field col s12">
+                    <div class="modal-input modal-input-blue">
+                      <input
+                        placeholder=" "
+                        id="cellPhone"
+                        name="cellPhone"
+                        [ngModel]="user?.cellPhone"
+                        type="text"
+                        class="validate"
+                      />
+                      <div
+                        class="modal-input-placeholder modal-input-placeholder-blue"
+                      >
+                        Telefono
+                      </div>
+                    </div>
+                  </div>
+                  <div class="input-field col s12">
+                    <div class="modal-input modal-input-blue">
+                      <input
+                        placeholder=" "
+                        id="address"
+                        name="address"
+                        [ngModel]="user?.address"
+                        type="text"
+                        class="validate"
+                      />
+                      <div
+                        class="modal-input-placeholder modal-input-placeholder-blue"
+                      >
+                        Domicilio
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!--Save Data Button -->
+                <div class="item-add-container profile-data-save-container">
+                  <button
+                    mat-icon-button
+                    type="submit"
+                    name="action"
+                    class="item-add-button primary-text gradient-45deg-orange gradient-shadow dfc"
+                    [class.button-disabled]="!f.valid"
+                    matTooltip="Guardar cambios"
+                    matTooltipPosition="above"
+                  >
+                    <i class="material-icons">save</i>
+                  </button>
                 </div>
               </div>
-              <div class="modal-input modal-input-blue">
-                <input
-                  placeholder=" "
-                  id="firstName"
-                  name="firstName"
-                  [ngModel]="user?.firstName"
-                  type="text"
-                  class="validate"
-                  required
-                />
-                <div
-                  class="modal-input-placeholder modal-input-placeholder-blue"
-                >
-                  Nombre(s)*
+            </form>
+            <form
+              ngNativeValidate
+              #fA="ngForm"
+              (ngSubmit)="updatePass(fA)"
+              class="col s12"
+            >
+              <div class="profile-data-inputs-content client profile-card dfc">
+                <div class="profile-data-header dfr">
+                  <i class="fas fa-user-lock"></i>
+                  <span>Seguridad</span>
+                </div>
+                <div class="row">
+                  <div class="input-field col s12">
+                    <div class="modal-input modal-input-blue">
+                      <input
+                        id="passAct"
+                        name="passAct"
+                        [ngModel]="passAct"
+                        type="password"
+                        class="validate"
+                        placeholder=" "
+                        required
+                      />
+                      <div
+                        class="modal-input-placeholder modal-input-placeholder-blue"
+                      >
+                        Contraseña actual*
+                      </div>
+                    </div>
+                  </div>
+                  <div class="input-field col s12">
+                    <div class="modal-input modal-input-blue">
+                      <input
+                        id="passNew"
+                        name="passNew"
+                        [ngModel]="passNew"
+                        type="password"
+                        class="validate"
+                        placeholder=" "
+                        required
+                      />
+                      <div
+                        class="modal-input-placeholder modal-input-placeholder-blue"
+                      >
+                        Contraseña nueva*
+                      </div>
+                    </div>
+                  </div>
+                  <div class="input-field col s12">
+                    <div class="modal-input modal-input-blue">
+                      <input
+                        id="passNewR"
+                        name="passNewR"
+                        [ngModel]="passNewR"
+                        type="password"
+                        class="validate"
+                        placeholder=" "
+                        required
+                      />
+                      <div
+                        class="modal-input-placeholder modal-input-placeholder-blue"
+                      >
+                        Repetir contraseña nueva*
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!--Save Data Button -->
+                <div class="item-add-container profile-data-save-container">
+                  <button
+                    type="submit"
+                    name="action"
+                    mat-icon-button
+                    class="item-add-button primary-text gradient-45deg-orange gradient-shadow dfc"
+                    [class.button-disabled]="!fA.valid"
+                    matTooltip="Guardar cambios"
+                    matTooltipPosition="above"
+                  >
+                    <i class="material-icons">save</i>
+                  </button>
                 </div>
               </div>
-              <div class="modal-input modal-input-blue">
-                <input
-                  placeholder=" "
-                  id="lastName"
-                  name="lastName"
-                  [ngModel]="user?.lastName"
-                  type="text"
-                  class="validate"
-                  required
-                />
-                <div
-                  class="modal-input-placeholder modal-input-placeholder-blue"
-                >
-                  Apellidos*
-                </div>
-              </div>
-            </div>
-          </div>
-          <!-- <div class="input-field col s12"></div> -->
-          <!-- <div class="input-field col s12"></div> -->
-          <div class="input-field col s12">
-            <div class="modal-input modal-input-blue">
-              <input
-                placeholder=" "
-                id="cellPhone"
-                name="cellPhone"
-                [ngModel]="user?.cellPhone"
-                type="text"
-                class="validate"
-              />
-              <div class="modal-input-placeholder modal-input-placeholder-blue">
-                Telefono
-              </div>
-            </div>
-          </div>
-          <div class="input-field col s12">
-            <div class="modal-input modal-input-blue">
-              <input
-                placeholder=" "
-                id="address"
-                name="address"
-                [ngModel]="user?.address"
-                type="text"
-                class="validate"
-              />
-              <div class="modal-input-placeholder modal-input-placeholder-blue">
-                Domicilio
-              </div>
-            </div>
+            </form>
           </div>
         </div>
-      </div>
-      <div class="card-action perfil-card-action">
-        <button
-          class="btn waves-effect waves-light gradient-45deg-dark-blue"
-          type="submit"
-          name="action"
-          [class.button-disabled]="!f.valid"
-        >
-          Guardar Cambios
-          <i class="material-icons right">send</i>
-        </button>
-      </div>
-    </form>
+      </perfect-scrollbar>
+    </div>
   </div>
 </div>

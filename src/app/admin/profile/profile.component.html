@@ -1,0 +1,218 @@
+<div class="profile-container dfr">
+  <perfect-scrollbar
+    class="scroll-container"
+    fxFlex="auto"
+    [config]="config"
+    [scrollIndicators]="false"
+  >
+    <div class="scrollable-content dfr">
+      <div class="profile-personal-data-container profile-card dfc">
+        <div
+          class="profile-image-container"
+          matTooltip="Cambiar imagen de perfil"
+          matTooltipPosition="below"
+        >
+          <div class="profile-image-fake-bg"></div>
+          <div class="profile-image centered-img-bg">
+            <img src="../../../assets/images/user.jpg" alt="" />
+          </div>
+          <div class="profile-image-upload dfc">
+            <i class="material-icons">camera_alt</i>
+          </div>
+        </div>
+        <div class="profile-info dfc">
+          <div class="profile-role"><span>Administrador</span></div>
+          <div class="profile-more-info dfr">
+            <div class="profile-more-box dfc">
+              <span>Clientes</span><span class="profile-box-quantity">18</span>
+            </div>
+            <div class="profile-more-box dfc">
+              <span>Artículos</span><span class="profile-box-quantity">13</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="profile-data-inputs-container dfc">
+        <form ngNativeValidate #fA="ngForm" class="col s12">
+          <div class="profile-data-inputs-content profile-card dfc">
+            <div class="profile-data-header dfr">
+              <i class="fas fa-user-edit"></i>
+              <span>Información personal</span>
+            </div>
+            <div class="row">
+              <div class="input-field col s12">
+                <div class="modal-input modal-input-blue">
+                  <input
+                    id="adminName"
+                    name="adminName"
+                    type="text"
+                    class="validate"
+                    placeholder=" "
+                  />
+                  <div
+                    class="modal-input-placeholder modal-input-placeholder-blue"
+                  >
+                    Nombre
+                  </div>
+                </div>
+              </div>
+              <div class="input-field col s12">
+                <div class="modal-input modal-input-blue">
+                  <input
+                    id="adminLastName"
+                    name="adminLastName"
+                    type="text"
+                    class="validate"
+                    placeholder=" "
+                  />
+                  <div
+                    class="modal-input-placeholder modal-input-placeholder-blue"
+                  >
+                    Apellido
+                  </div>
+                </div>
+              </div>
+              <div class="input-field col s12">
+                <div class="modal-input modal-input-blue">
+                  <input
+                    id="adminEmail"
+                    name="adminEmail"
+                    type="text"
+                    class="validate"
+                    placeholder=" "
+                  />
+                  <div
+                    class="modal-input-placeholder modal-input-placeholder-blue"
+                  >
+                    Correo
+                  </div>
+                </div>
+              </div>
+              <div class="input-field col s12">
+                <div class="modal-input modal-input-blue">
+                  <input
+                    id="adminNumber"
+                    name="adminNumber"
+                    type="text"
+                    class="validate"
+                    placeholder=" "
+                  />
+                  <div
+                    class="modal-input-placeholder modal-input-placeholder-blue"
+                  >
+                    Número
+                  </div>
+                </div>
+              </div>
+              <div class="input-field col s12">
+                <div class="modal-input modal-input-blue">
+                  <input
+                    id="adminAddress"
+                    name="adminAddress"
+                    type="text"
+                    class="validate"
+                    placeholder=" "
+                  />
+                  <div
+                    class="modal-input-placeholder modal-input-placeholder-blue"
+                  >
+                    Dirección
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!--Save Data Button -->
+            <div class="item-add-container profile-data-save-container">
+              <button
+                mat-icon-button
+                class="item-add-button primary-text gradient-45deg-orange gradient-shadow dfc"
+                matTooltip="Guardar cambios"
+                matTooltipPosition="above"
+              >
+                <i class="material-icons">save</i>
+              </button>
+            </div>
+          </div>
+          <div class="profile-data-inputs-content profile-card dfc">
+            <div class="profile-data-header dfr">
+              <i class="fas fa-user-tie"></i>
+              <span>Información profesional</span>
+            </div>
+            <div class="row">
+              <div class="input-field col s12">
+                <div class="modal-input modal-input-blue">
+                  <input
+                    id="adminExperience"
+                    name="adminExperience"
+                    type="text"
+                    class="validate"
+                    placeholder=" "
+                  />
+                  <div
+                    class="modal-input-placeholder modal-input-placeholder-blue"
+                  >
+                    Experiencia
+                  </div>
+                </div>
+              </div>
+              <div class="input-field col s12">
+                <div class="modal-input modal-input-blue">
+                  <input
+                    id="adminSpecialty"
+                    name="adminSpecialty"
+                    type="text"
+                    class="validate"
+                    placeholder=" "
+                  />
+                  <div
+                    class="modal-input-placeholder modal-input-placeholder-blue"
+                  >
+                    Especialidad
+                  </div>
+                </div>
+              </div>
+              <div class="input-field col s12">
+                <div class="modal-input modal-input-blue">
+                  <input
+                    id="adminBiography"
+                    name="adminBiography"
+                    type="text"
+                    class="validate"
+                    placeholder=" "
+                  />
+                  <div
+                    class="modal-input-placeholder modal-input-placeholder-blue"
+                  >
+                    Biografía
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!--Save Data Button -->
+            <div class="item-add-container profile-data-save-container">
+              <button
+                mat-icon-button
+                class="item-add-button primary-text gradient-45deg-orange gradient-shadow dfc"
+                matTooltip="Guardar cambios"
+                matTooltipPosition="above"
+              >
+                <i class="material-icons">save</i>
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </perfect-scrollbar>
+  <!-- <div class="profile-data-save-container">
+    <button
+      class="btn waves-effect waves-light"
+      type="submit"
+      name="action"
+      [class.button-disabled]="!fA.valid"
+    >
+      Guardar cambios
+      <i class="material-icons right">send</i>
+    </button>
+  </div> -->
+</div>

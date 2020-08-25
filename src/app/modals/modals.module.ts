@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { MatDialogModule } from '@angular/material/dialog';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AngularEditorModule } from '@kolkov/angular-editor';
@@ -35,6 +35,7 @@ import {
   PerfectScrollbarModule, PerfectScrollbarConfigInterface,
   PERFECT_SCROLLBAR_CONFIG
 } from 'ngx-perfect-scrollbar';
+import { ReplyComponent } from './reply/reply.component';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   wheelPropagation: true,
@@ -55,13 +56,14 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     NotificationsFormComponent,
     PostsFormComponent,
     RegisterFormComponent,
+    ReplyComponent,
     SelectFileComponent,
     SelectUserComponent,
     UsersFormComponent,
     ChatComponent,
     SelectEvidenceComponent,
     SelectNotesComponent,
-    WriteNoteComponent
+    WriteNoteComponent,
   ],
   entryComponents: [
     BePrimeComponent,
@@ -69,7 +71,9 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     DocumentsViewComponent,
     FilesFormComponent,
     FiltersComponent,
+    FileUploadComponent,
     PostsFormComponent,
+    ReplyComponent,
     SelectEvidenceComponent,
     SelectNotesComponent,
     UsersFormComponent,
@@ -85,6 +89,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     LoginComponent,
     NotificationsFormComponent,
     PostsFormComponent,
+    ReplyComponent,
     SelectFileComponent,
     SelectUserComponent,
     UsersFormComponent,
@@ -115,5 +120,6 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
       useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG
     }
   ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class ModalsModule { }

@@ -8,12 +8,18 @@ import { MessagesComponent } from './messages/messages.component';
 import { NotificationsComponent } from './notifications/notifications.component';
 import { PostsComponent } from './posts/posts.component';
 import { UsersComponent } from './users/users.component';
+import { ProfileComponent } from './profile/profile.component';
 
 const ADMIN_ROUTES: Routes = [
     {
+        path: 'profile',
+        component: ProfileComponent,
+        data: { titulo: 'Perfil' }
+    },
+    {
         path: 'dashboard',
         component: DashboardComponent,
-        data: { titulo: 'Dashboard' },
+        data: { titulo: 'Tablero' },
         canActivate: [AdminGuard]
     },
     {

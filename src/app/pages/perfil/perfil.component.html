@@ -35,12 +35,12 @@
             class="text-sub sidenav-close"
             (click)="sidenavMode === 'push' ? perfilSidenav.toggle() : ''"
             [attr.data-active]="
-              actSt === '/perfil/mis-casos' || actSt.includes('caso-detalle')
+              actSt === '/perfil/casos' || actSt.includes('caso-detalle')
                 ? 'on'
                 : 'off'
             "
-            routerLink="/perfil/mis-casos"
-            ><i class="material-icons"> contact_mail </i> Mis Casos</a
+            routerLink="/perfil/casos"
+            ><i class="fas fa-folder-open"></i> Casos</a
           >
         </li>
         <!-- Messages Option -->
@@ -82,37 +82,11 @@
             ><i class="material-icons"> error_outline </i> Información</a
           >
         </li> -->
-        <!-- Security Option -->
-        <li class="perfil-menu-option">
-          <a
-            class="text-sub sidenav-close"
-            (click)="sidenavMode === 'push' ? perfilSidenav.toggle() : ''"
-            [attr.data-active]="actSt === '/perfil/seguridad' ? 'on' : 'off'"
-            routerLink="/perfil/seguridad"
-            ><i class="material-icons"> lock_open </i> Seguridad y privacidad</a
-          >
-        </li>
       </ul>
     </aside>
   </mat-sidenav>
 
-  <!-- Chat Sidenav -->
-  <mat-sidenav
-    #perfilChatSidenav
-    mode="over"
-    position="end"
-    class="chat-sidenav"
-  >
-    <app-chat-sidenav></app-chat-sidenav>
-  </mat-sidenav>
-
   <mat-sidenav-content>
-    <!-- Modal Subir Archivos -->
-    <app-file-upload
-      typeImg="user"
-      [idImg]="this._usersS.user._id"
-    ></app-file-upload>
-
     <!-- Perfil Main Container -->
     <section id="perfil-main-container" class="pr dfc">
       <!-- Perfil NavBar Container -->
@@ -151,7 +125,7 @@
             <button
               class="perfil-button-trigger fa"
               mat-button
-              (click)="perfilChatSidenav.toggle()"
+              (click)="toogleChatSidenav()"
               matTooltip="Mensajes"
               matTooltipPosition="below"
             >
@@ -216,7 +190,6 @@
                   </div>
                   <app-theme-switch></app-theme-switch>
                 </button>
-                <div class="divider"></div>
                 <!-- Logout Option -->
                 <button mat-menu-item (click)="_usersS.logout()">
                   <i class="material-icons">exit_to_app</i>Cerrar sesión

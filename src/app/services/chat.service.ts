@@ -7,9 +7,14 @@ import { MatSidenav } from '@angular/material';
 export class ChatService {
 
     private sidenavChat: MatSidenav;
+    private mainSidenav: MatSidenav;
 
     public setChatSidenav(sidenav: MatSidenav) {
         this.sidenavChat = sidenav;
+    }
+
+    public setMainSidenav(sidenav: MatSidenav) {
+        this.mainSidenav = sidenav;
     }
 
     public openChat() {
@@ -22,5 +27,9 @@ export class ChatService {
 
     public toggleChat(): void {
         this.sidenavChat.toggle();
+    }
+
+    public toggleMainSidenav(): void {
+        this.mainSidenav.toggle();
     }
 }

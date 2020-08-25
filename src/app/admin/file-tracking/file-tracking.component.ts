@@ -19,6 +19,7 @@ import { UpdateDataService } from "../../services/updateData.service";
 import { FilesService } from '../../services/files.service';
 import { SelectEvidenceComponent } from '../../modals/select-evidence/select-evidence.component';
 import { SelectNotesComponent } from '../../modals/select-notes/select-notes.component';
+import { NotesService } from '../../services/notes.service';
 
 declare var $: any;
 
@@ -33,6 +34,7 @@ export class FileTrackingComponent implements OnInit, AfterViewInit {
     private bottomSheet: MatBottomSheet,
     private ref: ChangeDetectorRef,
     public _fileS: FilesService,
+    public _notesS: NotesService,
     public _notificationsS: NotificationsService,
     public _trackingS: TrackingService,
     private _updateDataS: UpdateDataService,
@@ -53,6 +55,8 @@ export class FileTrackingComponent implements OnInit, AfterViewInit {
   trackings: Tracking;
   trakingActionTab = new FormControl(0);
   updating: boolean;
+
+  notesSelect: any[] = [];
 
   public config: PerfectScrollbarConfigInterface = {};
   public innerScreenWidth: any;
@@ -128,6 +132,33 @@ export class FileTrackingComponent implements OnInit, AfterViewInit {
         this._trackingS.trackingStorage = true;
       });
     }
+
+    if (localStorage.getItem("notes")) {
+      this.notesSelect = JSON.parse(localStorage.getItem("notes"));
+    }
+
+    this._notesS.notificaNote.subscribe((r) => {
+      if (localStorage.getItem("notes")) {
+        this.notesSelect = JSON.parse(localStorage.getItem("notes"));
+
+        if (r.notesShow) {
+          this._notesS.setNoteSub("notes");
+          this._notesS.watchNoteSub().subscribe((data) => {
+            console.log(data);
+            this.notesSelect = JSON.parse(localStorage.getItem("notes"));
+          });
+        }
+      } else {
+        if (r.notesShow) {
+          this._notesS.setNoteSub("notes");
+          this._notesS.watchNoteSub().subscribe((data) => {
+            console.log(data);
+            // this.notesSelect.push(data);
+            this.notesSelect = JSON.parse(localStorage.getItem("notes"));
+          });
+        }
+      }
+    });
 
     $(document).ready(function () {
       // Tabs Initiation
@@ -291,12 +322,17 @@ export class FileTrackingComponent implements OnInit, AfterViewInit {
           "trackingData",
           JSON.stringify(resp.tracking)
         );
-        // console.log(resp)
       });
   }
 
   deleteFile(index: number) {
     this._trackingS.files.splice(index, 1);
+  }
+
+  deleteListedNotes(idNote: string) {
+    this._notesS.notesSlc = this._notesS.deleteListedNote(idNote);
+    this.notesSelect = this._notesS.deleteListedNote(idNote);
+    this._notesS.setNoteSub("notes");
   }
 
   deleteTrack(id: string) {
@@ -393,7 +429,9 @@ export class FileTrackingComponent implements OnInit, AfterViewInit {
   }
 
   openSelectNotes(notes) {
-    let dialogRef = this.dialog.open(SelectNotesComponent, { data: {}, autoFocus: false });
+    let dialogRef = this.dialog.open(SelectNotesComponent, { data: {}, autoFocus: false }).afterOpened().subscribe(() => {
+      this._notesS.setCaseIdSub("select", this.caseTracking._id);
+    })
 
     // dialogRef.afterClosed().subscribe(result => {
     // });

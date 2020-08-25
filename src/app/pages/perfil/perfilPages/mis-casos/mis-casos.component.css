@@ -31,14 +31,6 @@
   }
 }
 
-.card-stacked {
-  width: 100%;
-}
-
-.card-content {
-  padding: 0;
-}
-
 /* Buscardor Styling */
 .filtros {
   display: flex;

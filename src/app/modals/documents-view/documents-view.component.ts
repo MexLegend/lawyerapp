@@ -17,7 +17,6 @@ export class DocumentsViewComponent implements OnInit {
   documents: any;
 
   ngOnInit() {
-    console.log(this.data);
     if(this.data !== null) {
       this.documents = this.data.documents;
     }
@@ -32,5 +31,4 @@ export class DocumentsViewComponent implements OnInit {
       window.open(`https://${url}`);
     }
   }
-
 }

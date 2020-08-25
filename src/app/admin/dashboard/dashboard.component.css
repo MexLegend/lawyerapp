@@ -1,31 +1,324 @@
 /* - - - - - - - - - - - - - - - - - |
+/*           MEDIA QUERIES           |
+/* - - - - - - - - - - - - - - - - - |*/
+
+@media only screen and (max-width: 1000px) {
+  .superior-dashboard-container .scrollable-content {
+    grid-template-columns: 1fr 1fr 1fr !important;
+    grid-template-areas:
+      "users articles cases"
+      "files comments comments" !important;
+  }
+  .dashboard-box-comments-container .scrollable-content {
+    flex-wrap: nowrap !important;
+  }
+  .dashboard-box-comment {
+    width: 100% !important;
+  }
+}
+
+@media only screen and (max-width: 750px) {
+  .superior-dashboard-container .scrollable-content {
+    grid-template-columns: 1fr 1fr !important;
+    grid-template-areas:
+      "users articles"
+      "cases files"
+      "comments comments" !important;
+  }
+}
+
+@media only screen and (max-width: 520px) {
+  .dashboard-container {
+    padding: 10px !important;
+  }
+  .superior-dashboard-container {
+    max-height: calc(100vh - 175px) !important  ;
+  }
+  .superior-dashboard-container .scrollable-content {
+    grid-template-columns: repeat(auto-fill, minmax(100%, 1fr)) !important;
+    grid-template-rows: 5fr min-content !important;
+    grid-template-areas:
+      "users"
+      "articles"
+      "cases"
+      "files"
+      "comments" !important;
+  }
+}
+
+/* - - - - - - - - - - - - - - - - - |
 /*      MAIN CONTAINER STYLING       |
 /* - - - - - - - - - - - - - - - - - |*/
 
 .dashboard-container {
-  padding: 5px 15px 15px 15px;
+  padding: 30px;
 }
 
 /* Main Content */
 
 /* - - - - - - - - - - - - - - - - - |
-/*   SUPERIOR GRAPHICS CONTAINER     |
+/*        SUPERIOR CONTAINER         |
 /* - - - - - - - - - - - - - - - - - |*/
 
-/* Superior Graphics Container */
-.superior-graphic-container {
+/* Box Container */
+.dashboard-box {
+  box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.1);
+}
+
+/* Superior Container */
+.superior-dashboard-container {
+  width: 100%;
+  max-height: calc(100vh - 230px);
+  overflow: auto;
+}
+
+.superior-dashboard-container .scrollable-content:not(.comments) {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-rows: 2fr min-content;
+  grid-template-areas:
+    "users articles cases files"
+    "comments comments comments comments";
   grid-gap: 20px;
   width: 100%;
 }
 
-.graphic-box {
+.dashboard-box {
+  color: var(--default-color);
+  background: var(--medium-dark-bg-hover);
   width: 100%;
   height: 200px;
-  padding: 10px;
-  box-shadow: 0 0 4px 2px rgba(0, 0, 0, 0.1);
-  border-radius: 10px;
-  background: white;
+  padding: 10px 15px;
+  border-radius: 8px;
+  border: 1px solid;
+  border-color: var(--dark-border) !important;
   justify-self: center;
+}
+
+.dashboard-content {
+  height: 100%;
+}
+
+.dashboard-box-header {
+  width: 100%;
+  height: 60px;
+}
+
+.dashboard-box-header.last-comments {
+  height: 35px;
+}
+
+.dashboard-box-header i {
+  font-size: 34px;
+  color: var(--light-gray);
+}
+
+.dashboard-box-header.last-comments i {
+  margin-right: 10px;
+}
+
+.dashboard-box-header span {
+  letter-spacing: 1px;
+}
+
+.dashboard-box-body {
+  width: 100%;
+  height: calc(100% - 70px);
+  justify-content: space-between;
+}
+
+.dashboard-box-body.large-box {
+  width: 100%;
+  height: calc(100% - 46px);
+  justify-content: flex-start !important;
+}
+
+.dashboard-box-comments-container {
+  width: 100%;
+  height: calc(100% - 22.5px);
+  max-height: calc(100% - 22.5px);
+  overflow: auto;
+}
+
+.dashboard-box-comments-container .scrollable-content {
+  width: 100%;
+  height: 100%;
+  max-height: 100%;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start !important;
+  flex-wrap: wrap;
+}
+
+.dashboard-box-body.cases,
+.dashboard-box-body.files {
+  justify-content: space-around;
+}
+
+.dashboard-box-item {
+  width: 100%;
+  justify-content: left;
+  border-radius: 4px;
+  padding: 3px 5px;
+  cursor: pointer;
+  position: relative;
+}
+
+.dashboard-box-item:hover {
+  background: var(--comments-bg-hover);
+}
+
+.dashboard-box-item i {
+  width: 30px;
+  font-size: 17px;
+  text-align: left;
+}
+
+.dashboard-box-item i:not(.fa):not(.fas):not(.far) {
+  font-size: 22px;
+}
+
+.dashboard-box-item-title {
+  width: calc(100% - 56px);
+}
+
+.dashboard-box-item-quantity {
+  width: 26px;
+  text-align: right;
+}
+
+.dashboard-box-item-watch {
+  width: 23px;
+  height: 23px;
+  background: var(--watch-item-bg);
+  color: var(--default-color);
+  justify-content: center;
+  position: absolute;
+  right: 3px;
+  top: calc(50% - 11.5px);
+  border-radius: 50%;
+  overflow: hidden;
+  display: none !important;
+}
+
+.dashboard-box-item:hover .dashboard-box-item-watch {
+  display: flex !important;
+}
+
+.dashboard-box-item-watch i {
+  width: auto;
+  font-size: 18px !important;
+}
+
+.dashboard-box-divider {
+  width: 100%;
+  border-bottom: 1px solid;
+  border-bottom-color: var(--search-input-border);
+  margin: 5px 0;
+}
+
+.dashboard-box-comment {
+  width: 50%;
+  padding: 3px 5px;
+  margin-bottom: 2px;
+  border-radius: 8px;
+  position: relative;
+}
+
+.dashboard-box-comment:hover {
+  background: var(--comments-bg-hover);
+}
+
+.dashboard-box-comment-img {
+  height: 40px;
+  min-height: 40px;
+  width: 40px;
+  min-width: 40px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-right: 10px;
+}
+
+.dashboard-box-comment-body {
+  align-items: flex-start;
+  width: calc(100% - 50px);
+  max-width: calc(100% - 50px);
+  line-height: normal;
+}
+
+.dashboard-box-comment-name {
+  font-weight: 500;
+}
+
+.dashboard-box-comment-date {
+  font-size: 12px;
+}
+
+.dashboard-box-comment-text {
+  color: var(--secondary-text);
+  max-width: 100%;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.dashboard-box-comment-reply {
+  height: 18px;
+  width: max-content;
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  color: var(--default-color);
+  font-size: 12px;
+  cursor: pointer;
+  display: none;
+}
+
+.dashboard-box-comment:hover .dashboard-box-comment-reply {
+  display: block;
+}
+
+.dashboard-box-comment-reply:hover {
+  text-decoration: underline;
+}
+
+.dashboard-box-see-all {
+  width: 100%;
+  justify-content: center;
+}
+
+.dashboard-box-see-all span {
+  padding: 0 5px;
+  cursor: pointer;
+}
+
+.dashboard-box-see-all span:hover {
+  text-decoration: underline;
+}
+
+.users {
+  grid-area: users;
+}
+
+.articles {
+  grid-area: articles;
+}
+
+.cases {
+  grid-area: cases;
+}
+
+/* .schedule {
+  grid-area: schedule;
+} */
+
+.files {
+  grid-area: files;
+}
+
+.comments {
+  grid-area: comments;
+  height: 290px;
 }

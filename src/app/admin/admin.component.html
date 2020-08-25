@@ -34,17 +34,19 @@
             <div class="dfr" style="width: 100%; position: relative;">
               <!-- Main Navbar Principal Options -->
               <ul class="main-sidenav-principal-options">
-                <!-- <li class="bold">
+                <li class="bold">
                   <a
                     class="waves-effect waves-cyan dfc"
                     routerLink="/dashboard"
                     [attr.data-active]="actSt === '/dashboard' ? 'on' : 'off'"
-                    (click)="sidenavMode === 'push' ? adminSidenav.toggle() : ''"
+                    (click)="
+                      sidenavMode === 'push' ? adminSidenav.toggle() : ''
+                    "
                   >
-                    <i class="material-icons">pie_chart</i>
+                    <i class="material-icons">dashboard</i>
                     <span>Tablero</span>
                   </a>
-                </li> -->
+                </li>
                 <li class="bold">
                   <a
                     class="waves-effect waves-cyan dfc"
@@ -158,9 +160,6 @@
 
     <!-- Modal Seleccionar Expediente -->
     <app-select-file></app-select-file>
-
-    <!-- Modal File Upload -->
-    <app-file-upload></app-file-upload>
 
     <!-- Admin NavBar -->
     <header class="page-topbar" id="header">
@@ -322,9 +321,12 @@
                   </button>
                   <!-- Dropdown Content -->
                   <mat-menu #beforeMenu="matMenu" xPosition="before">
-                    <div class="perfilMenu" (click)="$event.stopPropagation()">
+                    <div class="perfilMenu">
                       <!-- Perfil Information -->
-                      <div class="perfil-info dfr">
+                      <div
+                        class="perfil-info dfr"
+                        (click)="$event.stopPropagation()"
+                      >
                         <div class="perfil-icon centered-img-bg">
                           <img
                             [src]="this._usersS.user.img | img: 'user':true"
@@ -348,8 +350,11 @@
                           }}</span>
                         </div>
                       </div>
-                      <div class="divider"></div>
-                      <button mat-menu-item routerLink="/perfil">
+                      <div
+                        class="divider"
+                        (click)="$event.stopPropagation()"
+                      ></div>
+                      <button mat-menu-item routerLink="/profile">
                         <i class="material-icons">person_outline</i>Perfil
                       </button>
                       <!-- FAQ Option -->
@@ -361,16 +366,20 @@
                         mat-menu-item
                         class="dfr"
                         style="justify-content: space-between;"
-                        (click)="switch(); changeTheme()"
+                        (click)="
+                          switch(); changeTheme(); $event.stopPropagation()
+                        "
                       >
                         <div class="dfr">
                           <i class="material-icons">brightness_4</i>Modo oscuro
                         </div>
                         <app-theme-switch></app-theme-switch>
                       </button>
-                      <div class="divider"></div>
                       <!-- Logout Option -->
-                      <button mat-menu-item (click)="_usersS.logout()">
+                      <button
+                        mat-menu-item
+                        (click)="_usersS.logout(); $event.stopPropagation()"
+                      >
                         <i class="material-icons">exit_to_app</i>Cerrar sesión
                       </button>
                     </div>

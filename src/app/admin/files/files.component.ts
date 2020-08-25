@@ -23,7 +23,7 @@ export class FilesComponent implements OnInit {
     public _filesS: FilesService,
     public _notesS: NotesService,
     public _updateDS: UpdateDataService,
-    private ref: ChangeDetectorRef,
+    private ref: ChangeDetectorRef
   ) { }
 
   currentPage: number = 1;
@@ -31,16 +31,17 @@ export class FilesComponent implements OnInit {
   files: Files[] = [];
   fileData: any;
   filterValue: string;
-  notes: any;
   selected = new FormControl(0);
   selectedEntry: number = 5;
+
+  notes: any;
 
   public innerScreenWidth: any;
   public mobileFilterActivated: boolean = false;
   public config: PerfectScrollbarConfigInterface = {};
 
   // Detect Real Screen Size
-  @HostListener('window:resize', ['$event'])
+  @HostListener("window:resize", ["$event"])
   onResize(event) {
     this.innerScreenWidth = window.innerWidth;
     if (this.innerScreenWidth > 520) {
@@ -52,16 +53,21 @@ export class FilesComponent implements OnInit {
     // Get Screen Size
     this.innerScreenWidth = window.innerWidth;
 
-    this._filesS.getFiles().subscribe(resp => {
-      console.log(resp)
+    this._filesS.getFiles().subscribe((resp) => {
+      console.log(resp);
       this.files = resp.docs;
     });
 
-    this._filesS.notifica
-      .subscribe(r => {
-        this.load();
+    this._filesS.notifica.subscribe((r) => {
+      this.load();
+    });
+
+    this._notesS.notificaNote.subscribe((resp) => {
+
+      if (resp.tab) {
+        this.selected.setValue(0);
       }
-      )
+    })
   }
 
   ngAfterViewInit() {
@@ -74,32 +80,33 @@ export class FilesComponent implements OnInit {
     this.currentPage = 1;
   }
 
+  clicked(tabChangeEvent: any): void {
+    console.log(tabChangeEvent.index);
+  }
+
   delete(file: Files) {
     Swal.fire({
-      icon: 'warning',
-      title: '¿Esta seguro?',
-      text: 'Esta a punto de borrar el expediente ' + file.affair,
+      icon: "warning",
+      title: "¿Esta seguro?",
+      text: "Esta a punto de borrar el expediente " + file.affair,
       showCancelButton: true,
       showConfirmButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Si',
-      cancelButtonText: 'No'
-    })
-      .then((result) => {
-        if (result.value) {
-          this._filesS.deleteFile(file._id).subscribe(() => {
-            this.load();
-          })
-        }
-      })
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Si",
+      cancelButtonText: "No",
+    }).then((result) => {
+      if (result.value) {
+        this._filesS.deleteFile(file._id).subscribe(() => {
+          this.load();
+        });
+      }
+    });
   }
 
   filter(value: string) {
-    if (value.length >= 1 && value !== '')
-      this.filterValue = value;
-    else
-      this.filterValue = '';
+    if (value.length >= 1 && value !== "") this.filterValue = value;
+    else this.filterValue = "";
   }
 
   generateKey() {
@@ -112,12 +119,14 @@ export class FilesComponent implements OnInit {
 
     const generator = (base, len) => {
       return [...Array(len)]
-        .map(i => base[Math.random() * base.length | 0])
-        .join('');
+        .map((i) => base[(Math.random() * base.length) | 0])
+        .join("");
     };
 
-    document.getElementsByClassName("clave-generada")[0].innerHTML = generator(base, 12);
-
+    document.getElementsByClassName("clave-generada")[0].innerHTML = generator(
+      base,
+      12
+    );
   }
 
   // Handle Mobile Filter
@@ -128,16 +137,9 @@ export class FilesComponent implements OnInit {
   }
 
   load() {
-    this._filesS.getFiles().subscribe(resp => {
-      console.log(resp.docs)
+    this._filesS.getFiles().subscribe((resp) => {
+      console.log(resp.docs);
       this.files = resp.docs;
-    })
-  }
-
-  loadNotes(caseId: string) {
-    this._notesS.getNotes(caseId).subscribe((resp) => {
-      console.log(resp);
-      this.notes = resp.docs.length >= 1 ? resp.docs[0].notes : [];
     });
   }
 
@@ -148,24 +150,39 @@ export class FilesComponent implements OnInit {
 
   // Open Files Modal
   openFilesModal(idFile?: any) {
-    let dialogRef = idFile && idFile !== '' ? this.dialog.open(FilesFormComponent, { data: { idFile, action: 'Editar' }, autoFocus: false }) : this.dialog.open(FilesFormComponent, { data: { action: 'Abrir' }, autoFocus: false });
+    let dialogRef =
+      idFile && idFile !== ""
+        ? this.dialog.open(FilesFormComponent, {
+          data: { idFile, action: "Actualizar" },
+          autoFocus: false,
+        })
+        : this.dialog.open(FilesFormComponent, {
+          data: { action: "Crear" },
+          autoFocus: false,
+        });
 
-    dialogRef.afterClosed().subscribe(result => {
-      localStorage.removeItem('userData');
-      localStorage.removeItem('fileData');
+    dialogRef.afterClosed().subscribe((result) => {
+      localStorage.removeItem("userData");
+      localStorage.removeItem("fileData");
       this._updateDS.setUserData(null);
     });
   }
 
   sendId(id: string, action: string) {
-    this._updateDS.sendFileId(id, action)
+    this._updateDS.sendFileId(id, action);
   }
 
   // View Files List Function
   viewFilesList(data: any) {
+    console.log(data)
     this.fileData = data;
     this._notesS.caseId = data._id;
-    this.loadNotes(data._id);
+    this._updateDS.setItemFile('fileData', JSON.stringify(data))
   }
 
+  setCaseId(idCase: string) {
+    console.log(idCase);
+
+    this._notesS.setCaseIdSub("new", idCase);
+  }
 }

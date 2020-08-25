@@ -1,14 +1,12 @@
-import { Component, OnInit, Input } from "@angular/core";
+import { Component, OnInit, Input, Inject } from "@angular/core";
 import { ImgService } from "../../services/img.service";
-import { HttpEventType, HttpErrorResponse } from "@angular/common/http";
 import { FileUploader } from "ng2-file-upload";
 import { UsersService } from "../../services/users.service";
 import { UpdateDataService } from "../../services/updateData.service";
-import { map, catchError } from "rxjs/operators";
-import { of } from "rxjs/internal/observable/of";
 import { NotificationsService } from "../../services/notifications.service";
 import { TrackingService } from "../../services/tracking.service";
 import { Subscription } from 'rxjs';
+import { MAT_DIALOG_DATA } from '@angular/material';
 
 declare var $: any;
 
@@ -23,14 +21,13 @@ export class FileUploadComponent implements OnInit {
     public _imgS: ImgService,
     public _notificationsS: NotificationsService,
     public _updateDS: UpdateDataService,
-    public _usersS: UsersService
-  ) {}
+    public _usersS: UsersService,
+    @Inject(MAT_DIALOG_DATA) public dataFile: any,
+  ) { }
 
   public hasBaseDropZoneOver = false;
   public uploader: FileUploader;
 
-  @Input() idImg: string;
-  @Input() typeImg: string;
   file: File;
   img: File = null;
   previewUrl: any = null;
@@ -40,7 +37,7 @@ export class FileUploadComponent implements OnInit {
 
   ngOnInit() {
     this._imgS.uploaderSend("user");
-    
+
     if (localStorage.getItem("trackingData")) {
       // Get Storage Subscription
       this._updateDS.watchTrackStorage().subscribe((data: any) => {
@@ -59,7 +56,7 @@ export class FileUploadComponent implements OnInit {
       "documents",
       JSON.stringify(this._trackingS.files)
     );
-    
+
     this._trackingS.disableCancelUpload = true;
 
     if (!localStorage.getItem("trackingData")) {
@@ -104,19 +101,13 @@ export class FileUploadComponent implements OnInit {
   }
 
   public onFileSelected($event: any) {
-    console.log($event.target.files);
-    console.log(this.typeImg);
-    console.log(this.idImg);
-
     let validExtensions;
 
     if ($event.target.files && $event.target.files[0]) {
       let event = $event.target.files;
-      if (this.typeImg !== undefined && this.idImg !== undefined) {
+      if (this.dataFile) {
         validExtensions = ["png", "jpg", "gif"];
-
         let extension = event[0].name.split(".")[1].toLowerCase();
-        console.log("EXT", extension);
         if (validExtensions.indexOf(extension) < 0) {
           this._notificationsS.message(
             "error",
@@ -135,8 +126,9 @@ export class FileUploadComponent implements OnInit {
           this.preview();
         }
       } else {
-        console.log("FILES");
         validExtensions = ["doc", "docx", "pdf"];
+        console.log("Hola");
+
 
         for (let index = 0; index < event.length; index++) {
           let extension = event[index].name.split(".")[1];
@@ -153,7 +145,6 @@ export class FileUploadComponent implements OnInit {
             );
             return;
           } else {
-            console.log(this._trackingS.files);
             if (
               !localStorage.getItem("trackingData") ||
               (this._trackingS.trackingStorage &&
@@ -167,20 +158,16 @@ export class FileUploadComponent implements OnInit {
                 JSON.parse(localStorage.getItem("trackingData")).documents
                   .length >= 1
               ) {
-                console.log(this._trackingS.trackingStorage);
-                console.log(
-                  JSON.parse(localStorage.getItem("trackingData")).documents
-                    .length
-                );
-
                 let existA: number, existS: number;
 
                 existA = this._trackingS.files.findIndex(
                   (e) => e.data.name === event[index].name
                 );
 
+                console.log(this._trackingS.files);
+
+
                 if (localStorage.getItem("trackingData")) {
-                  console.log("EXISTS");
                   existS = JSON.parse(
                     localStorage.getItem("trackingData")
                   ).documents.findIndex(
@@ -196,7 +183,6 @@ export class FileUploadComponent implements OnInit {
                   existA !== -1 ||
                   (localStorage.getItem("trackingData") && existS !== -1)
                 ) {
-                  console.log("existe");
                   this._notificationsS.message(
                     "error",
                     "El archivo ya existe",
@@ -215,8 +201,6 @@ export class FileUploadComponent implements OnInit {
                     progress: 0,
                   });
                 }
-
-                console.log(this._trackingS.files);
               } else {
                 this._trackingS.files.push({
                   data: file,
@@ -224,7 +208,6 @@ export class FileUploadComponent implements OnInit {
                   progress: 0,
                 });
               }
-              console.log(this._trackingS.files);
             } else {
               this._notificationsS.message(
                 "error",
@@ -263,7 +246,6 @@ export class FileUploadComponent implements OnInit {
   // }
 
   uploadImg() {
-    console.log(this.img);
     // return;
     this._imgS.uploader.uploadAll();
 

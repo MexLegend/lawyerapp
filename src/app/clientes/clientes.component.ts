@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { UsersService } from '../services/users.service';
 import { WhatsappService } from '../services/whatsapp.service';
 import { ChatService } from '../services/chat.service';
+import { ThemeService } from '../services/theme.service';
 
 @Component({
   selector: 'app-clientes',
@@ -17,14 +18,20 @@ export class ClientesComponent implements OnInit {
   constructor(
     public _chatS: ChatService,
     public router: Router,
+    public _themeS: ThemeService,
     public _usersS: UsersService,
     public _whatsappS: WhatsappService
-  ) { }
+  ) {
+    this._themeS.checkStorage();
+
+    this._themeS.checkChanges();
+  }
 
   form: FormGroup;
 
   // Chat
   @ViewChild('mainChatSidenav', null) public sidenavChat: MatSidenav;
+  @ViewChild('mainSidenav', null) public mainSidenav: MatSidenav;
 
   ngOnInit() {
     this.initWhatsappForm();
@@ -44,6 +51,13 @@ export class ClientesComponent implements OnInit {
 
   ngAfterViewInit(): void {
     this._chatS.setChatSidenav(this.sidenavChat);
+    this._chatS.setMainSidenav(this.mainSidenav);
+  }
+
+  initWhatsappForm() {
+    this.form = new FormGroup({
+      message: new FormControl(null, Validators.required)
+    });
   }
 
   sendM() {
@@ -53,9 +67,14 @@ export class ClientesComponent implements OnInit {
     })
   }
 
-  private initWhatsappForm() {
-    this.form = new FormGroup({
-      message: new FormControl(null, Validators.required)
-    });
+  // Scroll to Top Function
+  scrollToTop() {
+    window.scrollTo(0, 0);
   }
+
+  // Open Main Sidenav
+  toogleMainSidenav() {
+    this._chatS.toggleMainSidenav();
+  }
+
 }

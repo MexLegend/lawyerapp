@@ -6,7 +6,6 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 
 import { ConfGeneralComponent } from './perfilPages/conf-general/conf-general.component';
-import { SeguridadComponent } from './perfilPages/seguridad/seguridad.component';
 import { InformacionComponent } from './perfilPages/informacion/informacion.component';
 import { MensajesComponent } from './perfilPages/mensajes/mensajes.component';
 import { MisCasosComponent } from './perfilPages/mis-casos/mis-casos.component';
@@ -19,7 +18,6 @@ import { MaterialModule } from '../../shared/material.module';
 @NgModule({
   declarations: [
     ConfGeneralComponent,
-    SeguridadComponent,
     InformacionComponent,
     MensajesComponent,
     MisCasosComponent,

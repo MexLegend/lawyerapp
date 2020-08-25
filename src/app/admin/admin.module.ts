@@ -19,6 +19,7 @@ import { PostsComponent } from './posts/posts.component';
 import { MaterialModule } from '../shared/material.module';
 import { SharedModule } from '../shared/shared.module';
 import { UsersComponent } from './users/users.component';
+import { ProfileComponent } from './profile/profile.component';
 
 
 @NgModule({
@@ -29,7 +30,8 @@ import { UsersComponent } from './users/users.component';
     MessagesComponent,
     NotificationsComponent,
     PostsComponent,
-    UsersComponent
+    UsersComponent,
+    ProfileComponent
   ],
   imports: [
     ADMIN_ROUTING,

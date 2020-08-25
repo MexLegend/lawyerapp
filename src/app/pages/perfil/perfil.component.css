@@ -235,7 +235,6 @@
 }
 
 .perfil-sidebar-options .perfil-menu-option:hover {
-  /* background: rgba(0, 0, 0, 0.2); */
   background: #26c5da9e;
 }
 
@@ -253,6 +252,10 @@
 
 .perfil-sidebar-options .perfil-menu-option a i {
   margin-right: 15px;
+  font-size: 2.1rem;
+  width: 35px;
+  display: flex;
+  justify-content: center;
 }
 
 .perfil-sidebar-options .perfil-menu-option:hover > a {

@@ -1,170 +1,179 @@
 <!-- Contenedor Listado Articulos -->
-<div class="item-list-container">
-  <mat-card class="item-list-container perfil dfc">
-    <!-- Files Filters Container  -->
-    <mat-card-header class="item-filter-container">
-      <mat-card
-        class="item-filter-content dfr"
-        [style.height]="this.mobileFilterActivated ? '43px' : '100%'"
-      >
-        <!-- Entries And Status Filters Container -->
-        <div class="entry-and-status-filters-container dfr">
-          <!-- Entries Filter -->
-          <div class="show-entries-filter dfr">
-            <span class="entries-filter-text">Ver</span>
-            <div class="entries-filter-select">
-              <mat-form-field>
-                <mat-select
-                  disableOptionCentering
-                  [(ngModel)]="selectedEntry"
-                  (ngModelChange)="changeEntry($event)"
-                >
-                  <mat-option
-                    *ngFor="let entry of entriesFilter"
-                    [value]="entry"
-                    [selected]="entry === 5"
-                  >
-                    {{ entry }}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
+<div class="card horizontal perfil-card">
+  <div class="card-stacked">
+    <div class="item-list-container">
+      <mat-card class="item-list-container perfil dfc">
+        <!-- Files Filters Container  -->
+        <mat-card-header class="item-filter-container">
+          <mat-card
+            class="item-filter-content dfr"
+            [style.height]="this.mobileFilterActivated ? '43px' : '100%'"
+          >
+            <!-- Entries And Status Filters Container -->
+            <div class="entry-and-status-filters-container dfr">
+              <!-- Entries Filter -->
+              <div class="show-entries-filter dfr">
+                <span class="entries-filter-text">Ver</span>
+                <div class="entries-filter-select">
+                  <mat-form-field>
+                    <mat-select
+                      disableOptionCentering
+                      [(ngModel)]="selectedEntry"
+                      (ngModelChange)="changeEntry($event)"
+                    >
+                      <mat-option
+                        *ngFor="let entry of entriesFilter"
+                        [value]="entry"
+                        [selected]="entry === 5"
+                      >
+                        {{ entry }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <span class="entries-filter-text">Resultados</span>
+              </div>
+              <!-- Status Filter -->
+              <div class="status-filter dfr">
+                <span class="status-filter-text">Fecha</span>
+                <div class="status-filter-select perfil">
+                  <mat-form-field>
+                    <mat-select
+                      [value]="this.innerScreenWidth <= 810 ? 'date' : 'any'"
+                      disableOptionCentering
+                    >
+                      <mat-option
+                        value="date"
+                        style="display: none;"
+                        *ngIf="this.innerScreenWidth <= 810"
+                      >
+                        Fecha
+                      </mat-option>
+                      <mat-option value="any">
+                        Cualquiera
+                      </mat-option>
+                      <mat-option value="recent">
+                        Reciente
+                      </mat-option>
+                      <mat-option value="old">
+                        Antiguo
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div>
             </div>
-            <span class="entries-filter-text">Resultados</span>
-          </div>
-          <!-- Status Filter -->
-          <div class="status-filter dfr">
-            <span class="status-filter-text">Fecha</span>
-            <div class="status-filter-select perfil">
-              <mat-form-field>
-                <mat-select
-                  [value]="this.innerScreenWidth <= 810 ? 'date' : 'any'"
-                  disableOptionCentering
+            <!-- Search Filter -->
+            <div class="search-filter dfr">
+              <div class="search-input-filter dfc">
+                <input
+                  (keyup)="filter($event.target.value)"
+                  placeholder="Filtrar por nombre"
+                />
+              </div>
+              <div class="search-btn-filter">
+                <button
+                  class="btn waves-effect waves-light dfc"
+                  (click)="handleMobileFilter(true)"
                 >
-                  <mat-option
-                    value="date"
-                    style="display: none;"
-                    *ngIf="this.innerScreenWidth <= 810"
-                  >
-                    Fecha
-                  </mat-option>
-                  <mat-option value="any">
-                    Cualquiera
-                  </mat-option>
-                  <mat-option value="recent">
-                    Reciente
-                  </mat-option>
-                  <mat-option value="old">
-                    Antiguo
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
+                  <i class="material-icons">search</i>
+                </button>
+              </div>
             </div>
-          </div>
-        </div>
-        <!-- Search Filter -->
-        <div class="search-filter dfr">
-          <div class="search-input-filter dfc">
-            <input (keyup)="filter($event.target.value)" placeholder="Filtrar por nombre" />
-          </div>
-          <div class="search-btn-filter">
-            <button
-              class="btn waves-effect waves-light dfc"
-              (click)="handleMobileFilter(true)"
+            <!-- Search Filter Mobile -->
+            <div
+              class="search-filter-mobile dfr"
+              [attr.isVisible]="this.mobileFilterActivated"
             >
-              <i class="material-icons">search</i>
-            </button>
-          </div>
-        </div>
-        <!-- Search Filter Mobile -->
-        <div
-          class="search-filter-mobile dfr"
-          [attr.isVisible]="this.mobileFilterActivated"
-        >
-          <div
-            class="go-back-filter-mobile waves-effect waves-light dfc"
-            *ngIf="this.mobileFilterActivated"
-            (click)="handleMobileFilter(false)"
-          >
-            <i class="material-icons">arrow_back</i>
-          </div>
-          <div
-            class="search-input-filter-mobile dfc"
-            *ngIf="this.mobileFilterActivated"
-          >
-            <input placeholder="Filtrar por nombre" />
-          </div>
-        </div>
-      </mat-card>
-    </mat-card-header>
+              <div
+                class="go-back-filter-mobile waves-effect waves-light dfc"
+                *ngIf="this.mobileFilterActivated"
+                (click)="handleMobileFilter(false)"
+              >
+                <i class="material-icons">arrow_back</i>
+              </div>
+              <div
+                class="search-input-filter-mobile dfc"
+                *ngIf="this.mobileFilterActivated"
+              >
+                <input placeholder="Filtrar por nombre" />
+              </div>
+            </div>
+          </mat-card>
+        </mat-card-header>
 
-    <!-- Posts List Container  -->
-    <mat-card-content class="item-list-content perfil">
-      <perfect-scrollbar
-        class="scroll-container"
-        fxFlex="auto"
-        [config]="config"
-        [scrollIndicators]="false"
-      >
-        <div class="scrollable-content">
-          <mat-accordion class="item-container dfc">
-            <mat-expansion-panel
-              class="item-content"
-              *ngFor="
-                let file of files
-                  | filter: filterValue:'case'
-                  | paginate
-                    : {
-                        itemsPerPage: selectedEntry,
-                        currentPage: currentPage
-                      }
-              "
-              disabled
-            >
-              <!-- Post Expansion Header -->
-              <mat-expansion-panel-header class="item-acordion-header">
-                <mat-panel-title class="item-acordion-title perfil dfr">
-                  <div class="item-acordion-title-left perfil dfr">
-                    <div class="header-item-body dfc">
-                      <div class="header-item-title dfr">
-                        <div class="header-item-title-wrap">
-                          <span>{{ file?.affair }}</span>
+        <!-- Posts List Container  -->
+        <mat-card-content class="item-list-content perfil">
+          <perfect-scrollbar
+            class="scroll-container"
+            fxFlex="auto"
+            [config]="config"
+            [scrollIndicators]="false"
+          >
+            <div class="scrollable-content">
+              <mat-accordion class="item-container dfc">
+                <mat-expansion-panel
+                  class="item-content"
+                  *ngFor="
+                    let file of files
+                      | filter: filterValue:'case'
+                      | paginate
+                        : {
+                            itemsPerPage: selectedEntry,
+                            currentPage: currentPage
+                          }
+                  "
+                  disabled
+                >
+                  <!-- Post Expansion Header -->
+                  <mat-expansion-panel-header class="item-acordion-header">
+                    <mat-panel-title class="item-acordion-title perfil dfr">
+                      <div class="item-acordion-title-left perfil dfr">
+                        <div class="header-item-body dfc">
+                          <div class="header-item-title dfr">
+                            <div class="header-item-title-wrap">
+                              <span>{{ file?.affair }}</span>
+                            </div>
+                          </div>
+                          <div class="header-item-data">
+                            <span>{{ file.intKey }}</span>
+                          </div>
                         </div>
                       </div>
-                      <div class="header-item-data">
-                        <span>{{ file.intKey }}</span>
+                      <div
+                        class="header-item-actions general perfil-card-action dfr"
+                      >
+                        <!-- File More Details Button Trigger -->
+                        <button
+                          class="btn waves-effect waves-light file-details-btn"
+                          (click)="goToFile(file?._id)"
+                        >
+                          <span>
+                            Más detalles
+                          </span>
+                          <i class="material-icons perfil dfc">visibility</i>
+                        </button>
                       </div>
-                    </div>
-                  </div>
-                  <div class="header-item-actions general dfr">
-                    <!-- File More Details Button Trigger -->
-                    <button
-                      class="btn waves-effect waves-light file-details-btn gradient-45deg-dark-blue"
-                      (click)="goToFile(file?._id)"
-                    >
-                      <span>
-                        Más Detalles
-                      </span>
-                      <i class="material-icons perfil dfc">visibility</i>
-                    </button>
-                  </div>
-                </mat-panel-title>
-              </mat-expansion-panel-header>
-              <!-- Post Expansion Body -->
-              <mat-card class="item-body-data-container">
-                <div class="item-body-data-content dfc"></div>
-              </mat-card>
-            </mat-expansion-panel>
-          </mat-accordion>
-        </div>
-      </perfect-scrollbar>
-    </mat-card-content>
+                    </mat-panel-title>
+                  </mat-expansion-panel-header>
+                  <!-- Post Expansion Body -->
+                  <mat-card class="item-body-data-container">
+                    <div class="item-body-data-content dfc"></div>
+                  </mat-card>
+                </mat-expansion-panel>
+              </mat-accordion>
+            </div>
+          </perfect-scrollbar>
+        </mat-card-content>
 
-    <!-- Users List Pagination -->
-    <mat-card-actions class="item-list-pagination-container dfr">
-      <pagination-controls
-        class="news-pagination"
-        (pageChange)="currentPage = $event"
-      ></pagination-controls>
-    </mat-card-actions>
-  </mat-card>
+        <!-- Users List Pagination -->
+        <mat-card-actions class="item-list-pagination-container dfr">
+          <pagination-controls
+            class="news-pagination"
+            (pageChange)="currentPage = $event"
+          ></pagination-controls>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </div>
 </div>

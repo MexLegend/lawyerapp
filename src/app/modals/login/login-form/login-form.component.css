@@ -80,21 +80,6 @@
   line-height: 0;
 }
 
-.switch label {
-  font-size: 0.8rem;
-  font-weight: bolder;
-  font-family: sans-serif;
-  color: black;
-}
-
-.switch label input[type="checkbox"]:checked + .lever {
-  background-color: #82cfee;
-}
-
-.switch label input[type="checkbox"]:checked + .lever:after {
-  background-color: #23aad3;
-}
-
 #login-button {
   width: 100%;
   color: white;

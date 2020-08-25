@@ -199,7 +199,7 @@
                         <!-- File Notes Button Trigger -->
                         <button
                           (click)="
-                            this.viewFilesList(file);
+                            this.setCaseId(file._id);
                             this.selected.setValue(2);
                             moveDown($event)
                           "
@@ -240,7 +240,7 @@
                                 mat-menu-item
                                 class="mobile"
                                 (click)="
-                                  viewFilesList(file); this.selected.setValue(2)
+                                setCaseId(file._id); this.selected.setValue(2)
                                 "
                               >
                                 <i class="fas fa-file-alt"></i>
@@ -389,6 +389,6 @@
     <ng-template mat-tab-label>
       Notes List
     </ng-template>
-    <app-notes modeV="new" [notes]="notes"></app-notes>
+    <app-notes modeV="new"></app-notes>
   </mat-tab>
 </mat-tab-group>

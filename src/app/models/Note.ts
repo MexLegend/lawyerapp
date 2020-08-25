@@ -2,7 +2,8 @@ export class Note {
   constructor(
     public notes: [{
             affair: string,
-            message: string
+            message: string,
+            status: string
     }],
     public status: string,
     public date?: Date,

@@ -2,6 +2,8 @@ import { Component, OnInit, HostListener } from '@angular/core';
 import { PerfectScrollbarConfigInterface } from "ngx-perfect-scrollbar";
 import { FormControl } from "@angular/forms";
 import { Files } from '../../models/Files';
+import { FileUploadComponent } from '../../modals/file-upload/file-upload.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-evidences',
@@ -10,7 +12,7 @@ import { Files } from '../../models/Files';
 })
 export class EvidencesComponent implements OnInit {
 
-  constructor() { }
+  constructor(public dialog: MatDialog) { }
 
   files: Files[] = [];
   fileData: any;
@@ -44,6 +46,19 @@ export class EvidencesComponent implements OnInit {
     if (this.innerScreenWidth <= 520) {
       this.mobileFilterActivated = flag;
     }
+  }
+
+  // Open Files Upload Modal
+  openFileUploadModal() {
+    let dialogRef = this.dialog.open(FileUploadComponent, { autoFocus: false });
+
+    dialogRef.afterOpened().subscribe(result => {
+      $('body').css('overflow', 'hidden');
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      $('body').css('overflow', '');
+    });
   }
 
   // View Files List Function

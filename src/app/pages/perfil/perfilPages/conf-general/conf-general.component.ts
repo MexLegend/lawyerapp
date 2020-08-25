@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { SwPush, SwUpdate } from '@angular/service-worker';
 import { Subscription } from 'rxjs';
 
@@ -6,6 +7,9 @@ import { User } from '../../../../models/User';
 import { UsersService } from '../../../../services/users.service';
 import { WebPushNotificationsService } from '../../../../services/webPushNotifications.service';
 import { ImgService } from '../../../../services/img.service';
+import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
+import { FileUploadComponent } from '../../../../modals/file-upload/file-upload.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-conf-general',
@@ -15,6 +19,7 @@ import { ImgService } from '../../../../services/img.service';
 export class ConfGeneralComponent implements OnInit, OnDestroy {
 
   constructor(
+    public dialog: MatDialog,
     private swPush: SwPush,
     private swUpdate: SwUpdate,
     public _imgS: ImgService,
@@ -23,10 +28,17 @@ export class ConfGeneralComponent implements OnInit, OnDestroy {
   ) {
     this.user = this._usersS.user;
   }
-  
+
   notificationsSubs: Subscription;
+
   user: User;
   readonly VAPID_PUBLIC_KEY = 'BFzRa32U-hCa5uiD2nHyiJx_OBHj3v2q9C_-sjyA_xMy2N6E62Uw8GFfGzMa5bQOgxGceTgajzejbTExleHbMXM';
+
+  passAct: string = '';
+  passNew: string = '';
+  passNewR: string = '';
+
+  public config: PerfectScrollbarConfigInterface = {};
 
   ngOnInit() {
     this.reloadCache()
@@ -41,7 +53,7 @@ export class ConfGeneralComponent implements OnInit, OnDestroy {
             })
         }
       });
-      this._imgS.fileUrl = this.user.img;
+    this._imgS.fileUrl = this.user.img;
   }
 
   ngOnDestroy() {
@@ -52,10 +64,22 @@ export class ConfGeneralComponent implements OnInit, OnDestroy {
     this._imgS.imageValidation($event)
   }
 
+  openFileUploadModal() {
+    let dialogRef = this.dialog.open(FileUploadComponent, { data: { typeImg: "user", idImg: this._usersS.user._id }, autoFocus: false });
+
+    dialogRef.afterOpened().subscribe(result => {
+      $('body').css('overflow', 'hidden');
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      $('body').css('overflow', '');
+    });
+  }
+
   reloadCache() {
-    if ( this.swUpdate.isEnabled ) {
+    if (this.swUpdate.isEnabled) {
       this.swUpdate.available.subscribe(() => {
-        if ( confirm("Hay una nueva version, desea actualizar?") ) {
+        if (confirm("Hay una nueva version, desea actualizar?")) {
           window.location.reload()
         }
       })
@@ -63,7 +87,7 @@ export class ConfGeneralComponent implements OnInit, OnDestroy {
   }
 
   subscribeToNotification(name: string) {
-    if ( this.swPush.isEnabled ) {
+    if (this.swPush.isEnabled) {
       this.swPush.requestSubscription({
         serverPublicKey: this.VAPID_PUBLIC_KEY
       })
@@ -85,7 +109,7 @@ export class ConfGeneralComponent implements OnInit, OnDestroy {
     this.user.email = user.emailU;
     this.user.firstName = user.firstName;
     this.user.lastName = user.lastName;
-    if( this._imgS.file !== undefined ) {
+    if (this._imgS.file !== undefined) {
       this.user.img = this._imgS.file
     }
 
@@ -94,5 +118,21 @@ export class ConfGeneralComponent implements OnInit, OnDestroy {
         console.log(resp)
         this.subscribeToNotification(this.user.firstName);
       });
+  }
+
+  updatePass(f: NgForm) {
+
+    const data = {
+      passAct: f.value.passAct,
+      passNew: f.value.passNew,
+      passNewR: f.value.passNewR
+    }
+
+    this._usersS.updatePassword(this._usersS.user._id, data)
+      .subscribe(resp => {
+        if (resp.ok) {
+          f.reset()
+        }
+      })
   }
 }

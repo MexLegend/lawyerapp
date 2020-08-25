@@ -21,29 +21,6 @@
   .navbar-main .section-title {
     margin-left: 55px;
   }
-  /* .sidenav-main {
-    width: auto !important;
-    height: 0 !important;
-  }
-  .sidenav-main .btn-sidenav-toggle {
-    position: relative;
-    top: 10px;
-    left: 10px;
-  }
-  .brand-sidebar {
-    background: transparent !important;
-    box-shadow: none !important;
-    left: 50px !important;
-  }
-  .sidenav-main .brand-sidebar .logo-wrapper {
-    padding: 0 !important;
-  }
-  .brand-sidebar .brand-logo {
-    padding: 10px !important;
-  }
-  .brand-sidebar .brand-logo img {
-    width: 50px !important;
-  } */
 }
 
 @media only screen and (max-width: 992px) {
@@ -596,21 +573,25 @@ nav .sidenav-trigger {
 
 .sidenav li {
   position: relative;
-  padding: 1px 0;
+  padding-bottom: 2px;
+}
+
+.sidenav li:first-child {
+  padding-top: 1px;
 }
 
 .sidenav li > a {
   font-weight: 400;
   line-height: 44px;
   padding: 0;
-  width: 100px;
+  width: 98px;
   height: 65px;
   justify-content: center;
   border-radius: 4px;
+  margin: 0 1px;
 }
 
 .sidenav li > a:hover {
-  /* background: #8100dc; */
   background: #1a74d0;
   color: white;
 }
@@ -621,9 +602,6 @@ nav .sidenav-trigger {
 
 .sidenav li > a[data-active="on"] {
   background: #303f9f;
-  /* background: -webkit-linear-gradient(45deg, #303f9f, #7b1fa2) !important;
-  background: -o-linear-gradient(45deg, #303f9f, #7b1fa2) !important;
-  background: linear-gradient(45deg, #303f9f, #7b1fa2) !important; */
   background: -webkit-linear-gradient(45deg, #303f9f, #1976d2) !important;
   background: -o-linear-gradient(45deg, #303f9f, #1976d2) !important;
   background: linear-gradient(45deg, #303f9f, #1976d2) !important;

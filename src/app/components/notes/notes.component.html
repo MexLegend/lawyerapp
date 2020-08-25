@@ -6,7 +6,7 @@
         <div
           *ngIf="modeV === 'new'"
           class="item-filter-back waves-effect waves-light dfc"
-          (click)="this.selected.setValue(0)"
+          (click)="return()"
         >
           <i class="material-icons">arrow_back</i>
         </div>
@@ -18,7 +18,7 @@
               </div>
             </div>
             <div class="header-item-data">
-              <span>54 Notas</span>
+              <span>{{ notes?.length }} Notas</span>
             </div>
           </div>
         </div>
@@ -30,24 +30,16 @@
             <div class="entries-filter-select list-files">
               <mat-form-field>
                 <mat-select
-                  [value]="this.innerScreenWidth <= 940 ? 'Ver' : '5'"
                   disableOptionCentering
+                  [(ngModel)]="selectedEntry"
+                  (ngModelChange)="changeEntry($event)"
                 >
                   <mat-option
-                    value="Ver"
-                    style="display: none;"
-                    *ngIf="this.innerScreenWidth <= 940"
+                    *ngFor="let entry of entriesFilter"
+                    [value]="entry"
+                    [selected]="entry === 5"
                   >
-                    Ver
-                  </mat-option>
-                  <mat-option value="5">
-                    5
-                  </mat-option>
-                  <mat-option value="10">
-                    10
-                  </mat-option>
-                  <mat-option value="25">
-                    25
+                    {{ entry }}
                   </mat-option>
                 </mat-select>
               </mat-form-field>
@@ -55,13 +47,14 @@
             <span class="entries-filter-text list-files">Resultados</span>
           </div>
           <!-- Status Filter -->
-          <div class="status-filter dfr">
+          <div *ngIf="modeV === 'new'" class="status-filter dfr">
             <span class="status-filter-text file-type">Estado</span>
             <div class="status-filter-select file-type">
               <mat-form-field>
                 <mat-select
-                  [value]="this.innerScreenWidth <= 940 ? 'status' : 'all'"
                   disableOptionCentering
+                  (valueChange)="change($event)"
+                  value="all"
                 >
                   <mat-option
                     value="status"
@@ -87,7 +80,10 @@
         <!-- Search Filter -->
         <div class="search-filter list-files dfr">
           <div class="search-input-filter list-files dfc">
-            <input placeholder="Filtrar por nombre" />
+            <input
+              (keyup)="filter($event.target.value)"
+              placeholder="Filtrar por nombre"
+            />
           </div>
           <div class="search-btn-filter list-files">
             <button
@@ -137,11 +133,22 @@
         <div class="scrollable-content">
           <!-- Evidence Item Cards -->
           <mat-card class="item-container-notes">
-            <mat-accordion *ngIf="notes" class="item-container notes-list dfc">
-              <!-- Notes List -->
+            <mat-accordion
+              class="item-container notes-list dfc"
+              *ngIf="notes !== []"
+            >
+              <!-- Note #1 -->
               <mat-expansion-panel
+                *ngFor="
+                  let note of notes
+                    | filter: filterValue:'note':statusNote
+                    | paginate
+                      : {
+                          itemsPerPage: selectedEntry,
+                          currentPage: currentPage
+                        }
+                "
                 class="item-content notes-list"
-                *ngFor="let note of notes"
               >
                 <!-- File Expansion Header -->
                 <mat-expansion-panel-header
@@ -153,6 +160,8 @@
                         *ngIf="modeV === 'select'"
                         class="example-margin"
                         (click)="moveDown($event)"
+                        (change)="slc($event, note)"
+                        [checked]="isNoteChecked(note._id) ? true : false"
                       ></mat-checkbox>
                     </div>
                     <div class="note-accordion-header dfr">
@@ -165,33 +174,51 @@
                         </div>
                       </div>
                     </div>
-                    <div class="dfr" *ngIf="modeV === 'new'">
+                    <div *ngIf="modeV === 'new'" class="dfr">
                       <!-- Edit Note Button Trigger -->
                       <button
                         class="note-action-btn btn waves-effect waves-light dfc"
-                        (click)="moveDown($event)"
+                        (click)="
+                          moveDown($event); openNotes(note._id); editNote(note)
+                        "
                         matTooltip="Editar"
-                        matTooltipPosition="above"
+                        matTooltipPosition="below"
                       >
                         <i class="far fa-edit"></i>
                       </button>
                       <!-- Delete Note Button Trigger -->
                       <button
                         class="note-action-btn btn waves-effect waves-light dfc"
-                        (click)="moveDown($event)"
+                        (click)="
+                          moveDown($event); changeStatus(note._id, 'DELETED')
+                        "
                         matTooltip="Eliminar"
-                        matTooltipPosition="above"
+                        matTooltipPosition="below"
                       >
                         <i class="material-icons">delete</i>
                       </button>
                       <!-- Lock/Unluck Note Button Trigger -->
                       <button
+                        *ngIf="note.status === 'PRIVATE'"
                         class="note-action-btn btn waves-effect waves-light dfc"
-                        (click)="moveDown($event)"
-                        matTooltip="Estado de la nota"
-                        matTooltipPosition="above"
+                        (click)="
+                          moveDown($event); changeStatus(note._id, note.status)
+                        "
+                        matTooltip="Cambiar estado"
+                        matTooltipPosition="below"
                       >
-                        <i class="material-icons">lock_outline</i>
+                        <i class="material-icons">visibility_off</i>
+                      </button>
+                      <button
+                        *ngIf="note.status === 'PUBLIC'"
+                        class="note-action-btn btn waves-effect waves-light dfc"
+                        (click)="
+                          moveDown($event); changeStatus(note._id, note.status)
+                        "
+                        matTooltip="Cambiar estado"
+                        matTooltipPosition="below"
+                      >
+                        <i class="material-icons">visibility</i>
                       </button>
                     </div>
                   </mat-panel-title>
@@ -204,11 +231,14 @@
                 </mat-card>
               </mat-expansion-panel>
             </mat-accordion>
+            <span class="no-exist" *ngIf="notes?.docs?.length === 0"
+              >No hay Notes</span
+            >
           </mat-card>
         </div>
       </perfect-scrollbar>
       <!-- Open Evidences Modal Button Trigger -->
-      <div class="item-add-container" *ngIf="modeV === 'new'">
+      <div *ngIf="modeV === 'new'" class="item-add-container">
         <button
           mat-icon-button
           class="item-add-button primary-text gradient-45deg-orange gradient-shadow dfc"
@@ -219,12 +249,26 @@
           <i class="material-icons">add</i>
         </button>
       </div>
+      <!-- Open File Creation Modal Button Trigger -->
+      <div *ngIf="modeV === 'select'" class="item-add-container">
+        <button
+          mat-icon-button
+          class="item-add-button primary-text light-blue dfc"
+          (click)="addNotes()"
+          matTooltip="Incluir seleccionadas"
+          matTooltipPosition="above"
+        >
+          <i class="material-icons">add</i>
+        </button>
+      </div>
     </mat-card-content>
 
     <!-- Notes Pagination -->
     <mat-card-actions class="item-list-pagination-container dfr">
-      <button mat-button>1</button>
-      <button mat-button>2</button>
+      <pagination-controls
+        class="news-pagination"
+        (pageChange)="currentPage = $event"
+      ></pagination-controls>
     </mat-card-actions>
   </mat-card>
 </div>
