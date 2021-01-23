@@ -1,20 +1,22 @@
-import { Component, OnInit } from '@angular/core';
-import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
+import { Component, OnInit } from "@angular/core";
+import { MatDialogRef } from "@angular/material";
+import { PerfectScrollbarConfigInterface } from "ngx-perfect-scrollbar";
 
 @Component({
-  selector: 'app-lawyer-contact',
-  templateUrl: './lawyer-contact.component.html',
-  styleUrls: ['./lawyer-contact.component.css']
+  selector: "app-lawyer-contact",
+  templateUrl: "./lawyer-contact.component.html",
+  styleUrls: ["./lawyer-contact.component.css"],
 })
 export class LawyerContactComponent implements OnInit {
-
   panelOpenState = false;
 
-  constructor() { }
+  constructor(public dialogRef: MatDialogRef<LawyerContactComponent>) {}
 
   public config: PerfectScrollbarConfigInterface = {};
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
+  closeModal() {
+    this.dialogRef.close();
+  }
 }

@@ -1,22 +1,20 @@
 export class Tracking {
   constructor(
-    public file: string,
-    public comment?: string,
+    public volume: string,
     public date?: Date,
-    public documents?: [
+    public evidenceId?: string,
+    public evidences?: [
       {
-        date?: Date;
-        document: string;
-        numV: number;
-        _id?: string
+        evidence: string;
+        _id?: string;
       }
     ],
-    public status?: string,
-    public track?: number,
-    public volumes?: [
+    public message?: string,
+    public noteId?: string,
+    public notes?: [
       {
-        date: Date;
-        num: number;
+        note: string;
+        _id?: string;
       }
     ],
     public _id?: string

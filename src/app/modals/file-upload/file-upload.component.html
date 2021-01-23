@@ -1,251 +1,43 @@
 <!-- Modal Structure -->
-<!-- <div
-  id="modal-File-Upload"
-  class="modal border-radius-6 modal-fixed-footer"
-  style="
-    z-index: 1003;
-    display: none;
-    opacity: 0;
-    top: 4%;
-    transform: scaleX(0.8) scaleY(0.8);
-  "
->
-  <div class="modal-header">
-    <span><span class="article-action">Subir</span> Imágen</span>
-  </div>
-
-  <div class="modal-content">
-    <div class="upload-container">
-      <div
-        class="upload-inner-container dfc"
-        [hidden]="this.previewUrl || this._trackingS.files.length >= 1"
-      >
-        <div class="upload-content dfc">
-          <div
-            appDragNDrop
-            (onFileDropped)="onFileSelected($event)"
-            class="well my-drop-zone dfc"
-          >
-            <i class="material-icons">cloud_upload</i>
-            Arrastrar y soltar archivos aquí
-            <span class="file-upload-or" style="color: black;">O</span>
-            <div class="input-file-button" style="width: 30%;">
-              <ng-container *ngIf="this.idImg !== undefined">
-                <button
-                  class="waves-effect waves-light btn modal-upload-action"
-                  (click)="uploadButton.click()"
-                >
-                  Buscar
-                </button>
-
-                <input
-                  #uploadButton
-                  name="uploadButton"
-                  id="file-upload"
-                  type="file"
-                  style="display: none;"
-                  (change)="onFileSelected($event)"
-                  ng2FileSelect
-                  [uploader]="this._imgS.uploader"
-                />
-              </ng-container>
-
-              <ng-container *ngIf="this.idImg === undefined">
-                <button
-                  class="waves-effect waves-light btn modal-upload-action"
-                  (click)="uploadF.click()"
-                >
-                  Buscar
-                </button>
-                <input
-                  #uploadF
-                  name="uploadF"
-                  id="file-upload2"
-                  type="file"
-                  style="display: none;"
-                  (change)="onFileSelected($event)"
-                  multiple
-                />
-              </ng-container>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div
-        *ngIf="this._trackingS.files.length > 0"
-        class="files-list-container"
-      >
-        <div
-          class="tracking-file-item-container dfr"
-          *ngFor="let file of this._trackingS.files; let i = index"
-        >
-          <div class="tracking-file-item-content dfr">
-            <div class="tracking-file-item-image">
-              <img
-                [src]="
-                  file?.data.name.split('.')[1].indexOf('doc') >= 0 ||
-                  file?.data.name.split('.')[1].indexOf('docx') >= 0
-                    ? '../../../assets/images/word_icon.png'
-                    : '../../../assets/images/pdf_icon.png'
-                "
-                alt=""
-              />
-            </div>
-            <div class="tracking-file-data-and-progress-container dfr">
-              <div class="tracking-file-item-data dfc">
-                <div class="tracking-file-item-name">
-                  <span id="file-label">{{ file?.data.name }}</span>
-                </div>
-                <div class="tracking-file-item-size">
-                  <span id="file-label">{{
-                    this.formatBytes(file?.data.size)
-                  }}</span>
-                </div>
-              </div>
-              <div class="file-progress-bar-container">
-                <app-progress
-                  *ngIf="this._trackingS.progressT >= 1"
-                  [progress]="this._trackingS.progressT"
-                ></app-progress>
-              </div>
-            </div>
-
-            <div
-              class="tracking-file-item-delete dfc waves-effect waves-light"
-              (click)="deleteFile(i)"
-            >
-              <i class="material-icons">close</i>
-            </div>
-          </div>
-        </div>
-
-        <ng-container>
-          <div class="file-add-button-container dfc">
-            <button
-              class="btn waves-effect waves-light"
-              (click)="uploadMoreFiles.click()"
-            >
-              Agregar más archivos
-            </button>
-          </div>
-          <input
-            #uploadMoreFiles
-            name="uploadMoreFiles"
-            id="upload-more-files"
-            type="file"
-            style="display: none;"
-            (change)="onFileSelected($event.target.files)"
-            multiple
-          />
-        </ng-container>
-      </div>
-
-      <div *ngIf="this.previewUrl" class="upload-img-preview centered-img-bg">
-        <img [src]="this.previewUrl" />
-        <div class="img-delete-button">
-          <div
-            (click)="deleteImage()"
-            class="img-delete waves-effect waves-light dfr"
-          >
-            <i class="material-icons">close</i>
-          </div>
-        </div>
-        <div class="img-details dfc">
-          <div class="top-img-details">
-            <div class="img-name">
-              {{
-                (this.img?.name.split("."))[0] +
-                  "." +
-                  (this.img?.name.split("."))[1] | uppercase
-              }}
-            </div>
-          </div>
-          <div class="bottom-img-details">
-            <div class="img-type">
-              <i class="material-icons">image</i>
-              {{ (this.img?.name.split("."))[1] | uppercase }}
-            </div>
-            <div class="img-size">
-              {{ this.formatBytes(this.img?.size) }}
-            </div>
-          </div>
-          <div class="file-progress-container">
-            <app-progress
-              [progress]="this._imgS.uploader.progress"
-            ></app-progress>
-          </div>
-        </div>
-      </div>
-
-      <div class="general-upload-progress-bar">
-        <app-progress
-          *ngIf="this._trackingS.progressF >= 1"
-          [progress]="this._trackingS.progressF"
-        ></app-progress>
-      </div>
-    </div>
-  </div>
-  <div class="modal-footer modal-actions">
-    <button
-      (click)="deleteImage()"
-      class="modal-close waves-effect waves-light btn modal-close-action perfil-close-action"
-      [disabled]="this._trackingS.disableCancelUpload"
-    >
-      Cancelar
-    </button>
-    <button
-      type="submit"
-      (click)="
-        this.typeImg !== undefined && this.idImg !== undefined
-          ? uploadImg()
-          : addDocuments()
-      "
-      class="waves-effect waves-light btn modal-submit-action"
-      [class.button-disabled]="
-        this._trackingS.files.length <= 0 && !this.previewUrl
-      "
-    >
-      {{
-        this.typeImg !== undefined && this.idImg !== undefined
-          ? "Subir"
-          : "Agregar"
-      }}
-    </button>
-  </div>
-</div> -->
-
-<!-- Modal Structure -->
 <div mat-dialog-title class="modal-header admin-modal-header dfc">
   <div class="modal-icon dfc">
     <i class="fas fa-filter filter-icon"></i>
   </div>
-  <span class="client-action">Subir imágen</span>
+  <span class="client-action">
+    {{
+      this.dataFile?.typeUpload === "img"
+        ? "Subir Imágen"
+        : "Agregar Evidencias"
+    }}</span
+  >
   <i
     mat-dialog-close
     class="modal-exit material-icons pink accent-2 waves-effect waves-light dfr"
     >close</i
   >
 </div>
-<mat-dialog-content class="mat-typography admin-modal-container">
+<mat-dialog-content class="mat-typography admin-modal-container file-upload">
   <!-- Modal Content -->
   <div class="modal-content admin-modal-content">
     <div class="upload-container">
-      <!-- Files Upload Container -->
+      <!-- General Files Upload Container -->
       <div
         class="upload-inner-container dfc"
-        [hidden]="this.previewUrl || this._trackingS.files.length >= 1"
+        [hidden]="
+          this.previewUrl || this._cloudinaryS.uploader.queue.length > 0
+        "
       >
         <div class="upload-content dfc">
           <div
-            appDragNDrop
-            (onFileDropped)="onFileSelected($event)"
+            ng2FileDrop
+            [uploader]="this._cloudinaryS.uploader"
             class="well my-drop-zone dfc"
           >
             <i class="material-icons">cloud_upload</i>
             Arrastrar y soltar archivos aquí
-            <span class="file-upload-or" style="color: black;">O</span>
+            <span class="file-upload-or" style="color: black">O</span>
             <div class="input-file-button">
+              <!-- Images Upload Container -->
               <ng-container *ngIf="this.dataFile?.idImg">
                 <button
                   class="waves-effect waves-light btn modal-upload-action"
@@ -259,13 +51,13 @@
                   name="uploadButton"
                   id="file-upload"
                   type="file"
-                  style="display: none;"
+                  style="display: none"
                   (change)="onFileSelected($event)"
                   ng2FileSelect
-                  [uploader]="this._imgS.uploader"
+                  [uploader]="this._cloudinaryS.uploader"
                 />
               </ng-container>
-
+              <!-- Files Upload Container -->
               <ng-container *ngIf="!this.dataFile?.idImg">
                 <button
                   class="waves-effect waves-light btn modal-upload-action"
@@ -278,8 +70,10 @@
                   name="uploadF"
                   id="file-upload2"
                   type="file"
-                  style="display: none;"
-                  (change)="onFileSelected($event)"
+                  style="display: none"
+                  ng2FileSelect
+                  [uploader]="this._cloudinaryS.uploader"
+                  (onFileSelected)="this.onFileSelected($event)"
                   multiple
                 />
               </ng-container>
@@ -289,41 +83,61 @@
       </div>
       <!-- Files List Container -->
       <div
-        *ngIf="this._trackingS.files.length > 0"
+        *ngIf="this._cloudinaryS.uploader.queue.length > 0"
         class="files-list-container"
       >
         <!-- File Item -->
         <div
           class="tracking-file-item-container dfr"
-          *ngFor="let file of this._trackingS.files; let i = index"
+          *ngFor="let file of this._cloudinaryS.uploader.queue; let i = index"
         >
           <div class="tracking-file-item-content dfr">
-            <div class="tracking-file-item-image">
-              <img
-                [src]="
-                  file?.data.name.split('.')[1].indexOf('doc') >= 0 ||
-                  file?.data.name.split('.')[1].indexOf('docx') >= 0
-                    ? '../../../assets/images/word_icon.png'
-                    : '../../../assets/images/pdf_icon.png'
-                "
-                alt=""
-              />
+            <div
+              class="tracking-file-item-image dfr"
+              [attr.data-format]="
+                this._evidencesS.formatType(file?.file.name.split('.').pop())
+              "
+            >
+              <div class="tracking-file-item-image-inner centered-img-bg">
+                <img
+                  *ngIf="
+                    this._evidencesS.formatType(
+                      file?.file.name.split('.').pop()
+                    ) !== 'image'
+                  "
+                  [src]="
+                    file?.file.name.split('.')[1].indexOf('doc') >= 0 ||
+                    file?.file.name.split('.')[1].indexOf('docx') >= 0
+                      ? '../../../assets/images/word_icon_2.png'
+                      : '../../../assets/images/pdf_icon_2.png'
+                  "
+                />
+                <img
+                  *ngIf="
+                    this._evidencesS.formatType(
+                      file?.file.name.split('.').pop()
+                    ) === 'image'
+                  "
+                  [src]="'../../../assets/images/img_icon.png'"
+                  [alt]="file?.file?.name"
+                />
+              </div>
             </div>
             <div class="tracking-file-data-and-progress-container dfr">
               <div class="tracking-file-item-data dfc">
                 <div class="tracking-file-item-name">
-                  <span id="file-label">{{ file?.data.name }}</span>
+                  <span id="file-label">{{ file?.file.name }}</span>
                 </div>
                 <div class="tracking-file-item-size">
                   <span id="file-label">{{
-                    this.formatBytes(file?.data.size)
+                    this._evidencesS.formatBytes(file?.file.size)
                   }}</span>
                 </div>
               </div>
               <div class="file-progress-bar-container">
                 <app-progress
-                  *ngIf="this._trackingS.progressT >= 1"
-                  [progress]="this._trackingS.progressT"
+                  *ngIf="this._evidencesS.progressT >= 1"
+                  [progress]="this._evidencesS.progressT"
                 ></app-progress>
               </div>
             </div>
@@ -351,15 +165,17 @@
             name="uploadMoreFiles"
             id="upload-more-files"
             type="file"
-            style="display: none;"
-            (change)="onFileSelected($event)"
+            style="display: none"
+            ng2FileSelect
+            [uploader]="this._cloudinaryS.uploader"
+            (onFileSelected)="this.onFileSelected($event)"
             multiple
           />
         </ng-container>
       </div>
       <!-- Image Preview Container -->
       <div *ngIf="this.previewUrl" class="upload-img-preview centered-img-bg">
-        <img [src]="this.previewUrl" />
+        <img [src]="this.previewUrl | img: 'file'" />
         <div class="img-delete-button">
           <div
             (click)="deleteImage()"
@@ -372,25 +188,25 @@
           <div class="top-img-details">
             <div class="img-name">
               {{
-                (this.img?.name.split("."))[0] +
+                (this.img?.file?.name.split("."))[0] +
                   "." +
-                  (this.img?.name.split("."))[1] | uppercase
+                  (this.img?.file?.name.split("."))[1] | uppercase
               }}
             </div>
           </div>
           <div class="bottom-img-details">
             <div class="img-type">
               <i class="material-icons">image</i>
-              {{ (this.img?.name.split("."))[1] | uppercase }}
+              {{ (this.img?.file?.name.split("."))[1] | uppercase }}
             </div>
             <div class="img-size">
-              {{ this.formatBytes(this.img?.size) }}
+              {{ this._evidencesS.formatBytes(this.img?.file?.size) }}
             </div>
           </div>
           <div class="file-progress-container">
-            <!-- *ngIf="this._imgS.uploader.isUploading" -->
+            <!-- *ngIf="this._cloudinaryS.uploader.isUploading" -->
             <app-progress
-              [progress]="this._imgS.uploader.progress"
+              [progress]="this._cloudinaryS.uploader.progress"
             ></app-progress>
           </div>
         </div>
@@ -398,8 +214,8 @@
       <!-- General Upload Progress Bar -->
       <div class="general-upload-progress-bar">
         <app-progress
-          *ngIf="this._trackingS.progressF >= 1"
-          [progress]="this._trackingS.progressF"
+          *ngIf="this._evidencesS.progressF >= 1"
+          [progress]="this._evidencesS.progressF"
         ></app-progress>
       </div>
     </div>
@@ -421,7 +237,7 @@
       "
       class="waves-effect waves-light btn modal-submit-action"
       [class.button-disabled]="
-        this._trackingS.files.length <= 0 && !this.previewUrl
+        this._evidencesS.evidences.length <= 0 && !this.previewUrl
       "
     >
       {{
@@ -438,7 +254,7 @@
           <button
             type="button"
             class="waves-effect waves-light btn modal-close-action"
-            [disabled]="this._trackingS.disableCancelUpload"
+            [disabled]="this._evidencesS.disableCancelUpload"
             mat-dialog-close
             (click)="deleteImage()"
           >
@@ -449,20 +265,20 @@
             type="submit"
             class="waves-effect waves-light btn modal-submit-action"
             [class.button-disabled]="
-              this._trackingS.files.length <= 0 && !this.previewUrl
+              this._cloudinaryS.uploader.queue.length <= 0 && !this.previewUrl
             "
             (click)="
-              this.dataFile.typeImg !== undefined &&
-              this.dataFile.idImg !== undefined
-                ? uploadImg()
-                : addDocuments()
+              this.dataFile?.typeUpload !== undefined &&
+              this.dataFile?.typeUpload === 'evidences'
+                ? addDocuments()
+                : uploadImg()
             "
           >
             {{
-              this.dataFile.typeImg !== undefined &&
-              this.dataFile.idImg !== undefined
-                ? "Subir"
-                : "Agregar"
+              this.dataFile?.typeUpload !== undefined &&
+              this.dataFile?.typeUpload === "evidences"
+                ? "Guardar"
+                : "Subir"
             }}
           </button>
         </div>

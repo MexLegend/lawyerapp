@@ -28,23 +28,20 @@
 
   <div class="modal-content">
     <!-- Table List Container -->
-    <div class="row" style="margin: 20px 0 0 0;">
+    <div class="row" style="margin: 20px 0 0 0">
       <div class="col s12">
         <div class="card horizontal">
           <div class="card-stacked">
             <div class="card-content">
               <table
-                datatable
                 id="select-users-tbl"
-                [dtOptions]="dtOptions"
-                [dtTrigger]="dtTrigger"
                 class="row-border hover stripe"
-                style="width: 100% !important;"
+                style="width: 100% !important"
               >
                 <thead>
                   <tr>
                     <th class="th-custom-checkbox no-sort all"></th>
-                    <th class="all no-sort" style="max-width: 68px !important;">
+                    <th class="all no-sort" style="max-width: 68px !important">
                       User
                     </th>
                     <th>Email</th>
@@ -54,7 +51,7 @@
                 </thead>
                 <tbody>
                   <tr *ngFor="let user of users">
-                    <td class="dfr" style="width: fit-content;">
+                    <td class="dfr" style="width: fit-content">
                       <label class="custom-checkbox dfr">
                         <input
                           name="userGroup"
@@ -71,7 +68,7 @@
                       "
                     >
                       <div class="tbl-user-icon centered-img-bg">
-                        <img [src]="user?.img | img: 'user':true" />
+                        <img [src]="user?.img | img: 'user'" />
                       </div>
                     </td>
                     <td>{{ user?.email }}</td>

@@ -1,8 +1,9 @@
-import { Component, OnInit, Inject } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
-import { NotesService } from '../../services/notes.service';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import { Component, OnInit, Inject } from "@angular/core";
+import { FormGroup, FormControl, Validators } from "@angular/forms";
+import { PerfectScrollbarConfigInterface } from "ngx-perfect-scrollbar";
+import { NotesService } from "../../services/notes.service";
+import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material";
+import { Subscription } from "rxjs";
 
 @Component({
   selector: "app-write-note",
@@ -16,7 +17,10 @@ export class WriteNoteComponent implements OnInit {
     public _notesS: NotesService
   ) {}
 
+  subscriptionsArray: Subscription[] = [];
+
   public config: PerfectScrollbarConfigInterface = {};
+  currentCaseId: string;
   form: FormGroup;
   noteModalTitle: any;
   statusList = [
@@ -29,14 +33,13 @@ export class WriteNoteComponent implements OnInit {
 
     if (this.data) {
       this.noteModalTitle = this.data.action;
-      console.log(this.data);
 
+      // Set Input Values If The Note Is Updating 
       if (
         this.data.idNote &&
         this.data.idNote !== "" &&
         this._notesS.noteSelected !== null
       ) {
-        console.log(this._notesS.noteSelected);
         const { affair, message, status, _id } = this._notesS.noteSelected;
         this.form.patchValue({
           noteAffair: affair,
@@ -45,7 +48,6 @@ export class WriteNoteComponent implements OnInit {
           _id,
         });
       } else {
-        // this.form.get("noteStatus").setValue("PUBLIC");
         this.form.patchValue({
           noteStatus: "PUBLIC",
         });
@@ -53,6 +55,12 @@ export class WriteNoteComponent implements OnInit {
     }
   }
 
+  // Unsubscribe Any Subscription
+  ngOnDestroy() {
+    this.subscriptionsArray.map((subscription) => subscription.unsubscribe());
+  }
+
+  // Init Notes Form
   private initNotesForm() {
     this.form = new FormGroup({
       noteAffair: new FormControl(null, Validators.required),
@@ -66,22 +74,33 @@ export class WriteNoteComponent implements OnInit {
     this.dialogRef.close();
   }
 
+  // Write / Update Note
   new() {
     if (this.noteModalTitle === "Crear") {
-      this._notesS.createNote(this.form.value).subscribe((r) => {
-        this._notesS.notificaNote.emit({ render: true });
-        this._notesS.setCaseIdSub("new", this._notesS.caseId);
-        this.closeModal();
-      });
+      this.subscriptionsArray.push(
+        this._notesS
+          .createNote(
+            JSON.parse(localStorage.getItem("caseData"))._id,
+            this.form.value
+          )
+          .subscribe((returnedNote) => {
+            this._notesS.setListedNotesSub("list", returnedNote.note.notes);
+            this.closeModal();
+          })
+      );
     } else {
-      this._notesS
-        .updateNote(this._notesS.caseId, this.form.value)
-        .subscribe((r) => {
-          this._notesS.notificaNote.emit({ render: true });
-          this._notesS.setCaseIdSub("new", this._notesS.caseId);
-          this._notesS.noteSelected = null;
-          this.closeModal();
-        });
+      this.subscriptionsArray.push(
+        this._notesS
+          .updateNote(
+            JSON.parse(localStorage.getItem("caseData"))._id,
+            this.form.value
+          )
+          .subscribe((returnedNote) => {
+            this._notesS.setListedNotesSub("list", returnedNote.note.notes);
+            this._notesS.noteSelected = null;
+            this.closeModal();
+          })
+      );
     }
   }
 }

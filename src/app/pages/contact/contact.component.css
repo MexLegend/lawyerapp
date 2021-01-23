@@ -90,7 +90,7 @@
 /* Top Main Info Styling */
 .main-info {
   width: 100%;
-  color: #26aee4;
+  color:  #1e88e5;
   font-size: 14px;
   background: transparent;
   text-align: center;
@@ -199,7 +199,7 @@
 
 #contact-location > span > i {
   padding-right: 10px;
-  color: #26aee4;
+  color:  #1e88e5;
 }
 
 .contact-content-info span span {
@@ -213,7 +213,7 @@
   background: white;
   display: flex;
   align-items: center;
-  color: #26aee4;
+  color:  #1e88e5;
   font-size: 18px;
 }
 

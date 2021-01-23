@@ -2,7 +2,7 @@
   <div id="noticias-content-container">
     <div class="noticias-data dfr">
       <!-- Detail Post Card -->
-      <div class="card sticky-action" style="width: calc(100% - 430px);">
+      <div class="card sticky-action" style="width: calc(100% - 430px)">
         <div class="card-header card-content">
           <div class="card-date">
             <div class="card-day">
@@ -23,10 +23,8 @@
           class="card-body-container card-body card-content grey lighten-4 dfc"
         >
           <div class="card-data">
-            <div
-              class="card-img centered-img-bg card-image waves-effect waves-block waves-light"
-            >
-              <img [src]="post?.img | img: 'post':true" />
+            <div class="card-img centered-img-bg card-image">
+              <img [src]="post?.img | img: 'post'" />
             </div>
             <span class="card-data-container">
               <span class="card-information" [innerHTML]="post?.content"></span>
@@ -34,46 +32,93 @@
                 *ngIf="post?.external_sources"
                 class="card-external-sources"
               >
-                {{ post?.external_sources }}
+                Fuente: {{ post?.external_sources }}
               </span>
             </span>
           </div>
         </div>
         <div class="card-footer card-action">
-          <div class="card-show-more">
-            <div
-              class="card-author dfr"
-              style="justify-content: space-between; margin-left: 10px;"
+          <div class="item-acordion-body-actions dfr">
+            <!-- Post Contact Author By Email Button Trigger -->
+            <button
+              class="header-item-btn btn action-button dfc"
+              mat-icon-button
+              matTooltip="Contactar por correo"
+              matTooltipPosition="above"
+              (click)="openReplyModal(post.user)"
             >
+              <i class="far fa-envelope"></i>
+            </button>
+            <!-- Post Contact Author By Message Button Trigger -->
+            <button
+              *ngIf="_usersS.isLogged()"
+              class="header-item-btn btn action-button important-action dfc"
+              mat-icon-button
+              matTooltip="Contactar por mensaje"
+              matTooltipPosition="above"
+              (click)="openChat(post.user)"
+            >
+              <i class="far fa-comment"></i>
+            </button>
+            <div class="action-button-with-text-container dfc">
+              <!-- Post Like Button Trigger -->
               <button
-                class="author-contact-btn btn waves-effect waves-light gradient-45deg-dark-blue modal-trigger dfr"
-                href="#contactLawyer"
+                class="header-item-btn btn posts-btn action-button dfc"
+                mat-icon-button
+                matTooltip="Me gusta"
+                matTooltipPosition="above"
+                (click)="
+                  this._usersS.isLogged()
+                    ? updatePostReactions('like')
+                    : showAlertModal('like')
+                "
+                [attr.data-active]="
+                  postAnalyticsReaction === 'like' ? true : false
+                "
               >
-                <i class="material-icons dfr">mail_outline</i>
-                <span>Contactar Autor</span>
-              </button>
-            </div>
-          </div>
-          <div class="card-social-network">
-            <div class="like">
-              <a matTooltip="Me gusta" matTooltipPosition="above">
                 <i class="waves-effect material-icons new-like">thumb_up</i>
-                <span>201</span>
-              </a>
+              </button>
+              <span
+                class="action-counter"
+                [attr.data-active]="
+                  postAnalyticsReaction === 'like' ? true : false
+                "
+                >{{ postAnalytics?.likes }}</span
+              >
             </div>
-            <div class="dislike">
-              <a matTooltip="No me gusta" matTooltipPosition="above">
-                <i class="waves-effect material-icons new-dislike"
-                  >thumb_down</i
-                >
-                <span style="margin-top: -5px;">23</span>
-              </a>
+            <div class="action-button-with-text-container dfc">
+              <!-- Post Dislike Button Trigger -->
+              <button
+                class="header-item-btn btn posts-btn action-button dfc"
+                mat-icon-button
+                matTooltip="No me gusta"
+                matTooltipPosition="above"
+                (click)="
+                  this._usersS.isLogged()
+                    ? updatePostReactions('dislike')
+                    : showAlertModal('dislike')
+                "
+                [attr.data-active]="
+                  postAnalyticsReaction === 'dislike' ? true : false
+                "
+              >
+                <i class="waves-effect material-icons new-dislike">
+                  thumb_down
+                </i>
+              </button>
+              <span
+                class="action-counter"
+                [attr.data-active]="
+                  postAnalyticsReaction === 'dislike' ? true : false
+                "
+                >{{ postAnalytics?.dislikes }}</span
+              >
             </div>
           </div>
         </div>
       </div>
       <!-- Last Posts Card -->
-      <div class="card sticky-action" style="width: 400px; margin-left: 30px;">
+      <div class="card sticky-action" style="width: 400px; margin-left: 30px">
         <div class="card-header last-articles-title card-content">
           <span>Últimos Artículos</span>
         </div>
@@ -82,7 +127,10 @@
         >
           <!-- Last Articles List -->
           <div class="card-data-container dfc">
-            <div *ngFor="let post of lastposts" class="article-container dfr">
+            <div
+              *ngFor="let post of filteredLastPosts"
+              class="article-container dfr"
+            >
               <a
                 class="article-content dfr"
                 [routerLink]="['/articulo-detalle', post._id]"
@@ -104,12 +152,22 @@
                     >
                   </div>
                   <div class="last-article-rm dfr">
-                    <span>Leer más</span>
-
+                    <span>Leer artículo</span>
                     <i class="material-icons">chevron_right</i>
                   </div>
                 </div>
               </a>
+            </div>
+            <div
+              *ngIf="filteredLastPosts?.length === 0"
+              class="article-container no-data dfr"
+            >
+              <div class="card-no-data-icon dfc">
+                <span>i</span>
+              </div>
+              <div class="card-no-data-information">
+                <span> No se han publicado artículos recientemente</span>
+              </div>
             </div>
           </div>
         </div>
@@ -118,7 +176,7 @@
     </div>
 
     <!-- Comments Card -->
-    <div class="col s12 m7" id="comments-box">
+    <div class="col s12 m7" id="comments-box" name="comments-box">
       <div class="card horizontal">
         <div class="card-stacked">
           <div class="comment-card-header card-content">
@@ -128,7 +186,7 @@
           <div class="card-comment card-content">
             <div
               class="card-comment-content dfr"
-              style="align-items: flex-start;"
+              style="align-items: flex-start"
             >
               <div class="user-icon">
                 <img src="../../../assets/images/user.jpg" />
@@ -141,7 +199,9 @@
                   required
                   [readonly]="!this._usersS.isLogged()"
                   (click)="
-                    this._usersS.isLogged() ? showCommentButtons() : showM()
+                    this._usersS.isLogged()
+                      ? showCommentButtons()
+                      : showLoginModal()
                   "
                 />
                 <label class="comment-label" for="comment"
@@ -166,7 +226,7 @@
             </div>
           </div>
           <!-- Comments Card Content -->
-          <app-comments></app-comments>
+          <app-comments [comments]="postAnalytics?.comments"></app-comments>
         </div>
       </div>
     </div>

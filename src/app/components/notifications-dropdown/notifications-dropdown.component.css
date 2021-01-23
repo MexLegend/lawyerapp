@@ -1,0 +1,43 @@
+.nav-fixed-option {
+  width: 40px;
+  height: 70px;
+  margin-right: 8px;
+  justify-content: center;
+}
+
+.nav-fixed-option button {
+  width: 40px;
+  min-width: 40px;
+  height: 40px;
+  padding: 0;
+  margin: 0;
+  border-radius: 50%;
+  background: var(--nav-fixed-option-bg) !important;
+}
+
+.nav-fixed-option button[aria-expanded="true"] {
+  background: rgb(45 136 255 / 0.2) !important;
+  color: #1e88e5;
+}
+
+.nav-fixed-option[data-color="true"] button {
+  background: linear-gradient(45deg, #b72318 10%, #ff5722 62%) !important;
+  color: var(--white-color);
+}
+
+.nav-fixed-option[data-color="true"] button:hover {
+  background: linear-gradient(45deg, #9e1b12 10%, #cc4117 62%) !important;
+}
+
+.nav-fixed-option[data-color="true"] button[aria-expanded="true"] {
+  background: linear-gradient(45deg, #f45e55 10%, #f99678 62%) !important;
+}
+
+.notifications-menu-title {
+  padding: 8px 16px;
+  font-size: 1.15rem;
+  color: var(--default-color);
+  letter-spacing: 1.4px;
+  font-weight: 800;
+  font-size: 22px;
+}

@@ -1,7 +1,7 @@
 <!-- NavBar Container -->
 <nav class="nav-extended text-grey darken-3 navbar-fixed">
   <!-- Main Navbar -->
-  <div id="mainNavbar" class="nav-wrapper container">
+  <div id="mainNavbar" class="nav-wrapper">
     <div id="nav-menu-logo">
       <!-- Main Client Sidebar Button Trigger -->
       <a
@@ -12,7 +12,14 @@
         ><i class="material-icons">menu</i></a
       >
       <a routerLink="/inicio" class="brand-logo dfr" (click)="scrollToTop()"
-        ><img class="responsive-img" id="logo" src="/assets/images/logo.png"
+        ><img
+          class="responsive-img"
+          id="logo"
+          [src]="
+            this.isDarkThemeActive
+              ? '/assets/images/logo.png'
+              : '/assets/images/logo_dark.png'
+          "
       /></a>
     </div>
     <div id="nav-menu-items" class="dfr">
@@ -31,12 +38,22 @@
         </li>
         <li
           class="hide-on-med-and-down"
-          [attr.data-active]="this.router.url === '/articulos' ? 'on' : 'off'"
+          [attr.data-active]="
+            this.router.url === '/articulos' ||
+            this.router.url.includes('/articulo-detalle')
+              ? 'on'
+              : 'off'
+          "
         >
           <a
             routerLink="/articulos"
             (click)="scrollToTop()"
-            [attr.data-active]="this.router.url === '/articulos' ? 'on' : 'off'"
+            [attr.data-active]="
+              this.router.url === '/articulos' ||
+              this.router.url.includes('/articulo-detalle')
+                ? 'on'
+                : 'off'
+            "
           >
             <span>Articulos</span>
           </a>
@@ -58,7 +75,6 @@
           [attr.data-active]="this.router.url === '/nosotros' ? 'on' : 'off'"
         >
           <a
-            (click)="scrollToTop()"
             [matMenuTriggerFor]="usMenu"
             [attr.data-active]="this.router.url === '/nosotros' ? 'on' : 'off'"
           >
@@ -76,8 +92,7 @@
                     <span
                       class="fas fa-bullseye icon-bg-circle small dfc"
                     ></span>
-                    <!-- <i class="fas fa-bullseye icon-bg-circle teal small"></i> -->
-                    Misión
+                    <span>Misión</span>
                   </div>
                 </div>
               </button>
@@ -85,7 +100,7 @@
                 <div class="notificationMenu-item">
                   <div class="notificationMenu-item-content">
                     <span class="far fa-eye icon-bg-circle small dfc"></span>
-                    Visión
+                    <span>Visión</span>
                   </div>
                 </div>
               </button>
@@ -93,8 +108,7 @@
                 <div class="notificationMenu-item">
                   <div class="notificationMenu-item-content">
                     <span class="fas fa-hands icon-bg-circle small dfc"></span>
-
-                    Valores
+                    <span>Valores</span>
                   </div>
                 </div>
               </button>
@@ -136,104 +150,27 @@
       </ng-container>
       <!-- Notifications Dropdown -->
       <ng-container *ngIf="this._usersS.isLogged()">
-        <div class="nav-fixed-option dfc">
-          <button
-            mat-button
-            [matMenuTriggerFor]="beforeMenu"
-            matTooltip="Notificaciones"
-            matTooltipPosition="below"
-          >
-            <i class="material-icons" style="width: fit-content;">
-              notifications_none
-            </i>
-            <small class="notification-badge dfc">5</small>
-          </button>
-          <!-- Dropdown Content -->
-          <mat-menu #beforeMenu="matMenu" xPosition="before">
-            <div class="notificationsMenu" (click)="$event.stopPropagation()">
-              <button mat-menu-item>
-                <span style="text-transform: uppercase; font-size: 1.15rem;">
-                  Notificaciones
-                </span>
-                <span class="new badge">5</span>
-              </button>
-              <mat-divider></mat-divider>
-              <button routerLink="/perfil/general" mat-menu-item>
-                <div class="notificationMenu-item">
-                  <div class="notificationMenu-item-content">
-                    <span class="material-icons icon-bg-circle light-blue small"
-                      >add_shopping_cart</span
-                    >
-                    A new order has been placed!
-                  </div>
-                  <time class="media-meta grey-text darken-2">2 hours ago</time>
-                </div>
-              </button>
-              <button routerLink="/perfil/general" mat-menu-item>
-                <div class="notificationMenu-item">
-                  <div class="notificationMenu-item-content">
-                    <span class="material-icons icon-bg-circle red small"
-                      >stars</span
-                    >
-                    Completed the task
-                  </div>
-                  <time class="media-meta grey-text darken-2">3 days ago</time>
-                </div>
-              </button>
-              <button routerLink="/perfil/general" mat-menu-item>
-                <div class="notificationMenu-item">
-                  <div class="notificationMenu-item-content">
-                    <span class="material-icons icon-bg-circle teal small"
-                      >settings</span
-                    >
-                    Settings updated
-                  </div>
-                  <time class="media-meta grey-text darken-2">4 days ago</time>
-                </div>
-              </button>
-              <button routerLink="/perfil/general" mat-menu-item>
-                <div class="notificationMenu-item">
-                  <div class="notificationMenu-item-content">
-                    <span
-                      class="material-icons icon-bg-circle deep-orange small"
-                      >today</span
-                    >
-                    Director meeting started
-                  </div>
-                  <time class="media-meta grey-text darken-2">6 days ago</time>
-                </div>
-              </button>
-              <button routerLink="/perfil/general" mat-menu-item>
-                <div class="notificationMenu-item">
-                  <div class="notificationMenu-item-content">
-                    <span class="material-icons icon-bg-circle amber small"
-                      >trending_up</span
-                    >
-                    Generate monthly report
-                  </div>
-                  <time class="media-meta grey-text darken-2">1 week ago</time>
-                </div>
-              </button>
-            </div>
-          </mat-menu>
-        </div>
+        <app-notifications-dropdown></app-notifications-dropdown>
       </ng-container>
-
       <!-- Perfil Dropdown -->
       <ng-container *ngIf="this._usersS.isLogged()">
-        <div class="nav-fixed-option dfc">
+        <div class="nav-fixed-option accout-option dfc">
           <button
             mat-button
             [matMenuTriggerFor]="beforeMenu"
             matTooltip="Cuenta"
             matTooltipPosition="below"
+            class="accout-button"
           >
-            <div class="avatar-status avatar-online">
+            <div class="avatar-status avatar-online dfr">
               <div class="centered-img-bg border-none dfc">
                 <img
                   [src]="_usersS.user?.img | img: 'user':true"
                   alt="avatar"
                 />
+              </div>
+              <div class="avatar-name">
+                <span>{{ _usersS.user.firstName.split(" ")[0] }}</span>
               </div>
             </div>
           </button>
@@ -244,7 +181,7 @@
                 <div class="perfil-icon centered-img-bg dfc">
                   <img
                     [src]="_usersS.user?.img | img: 'user':true"
-                    style="width: 100%;"
+                    style="width: 100%"
                   />
                 </div>
                 <div class="perfil-text dfc">
@@ -271,20 +208,20 @@
               </button>
               <!-- Eventos Option -->
               <!-- <button mat-menu-item routerLink="/perfil/eventos">
-                <i class="material-icons">insert_invitation </i>
-                <span>Eventos</span>
-                <span class="badge badge pill perfil-badge mr-10">5</span>
-              </button> -->
+                      <i class="material-icons">insert_invitation </i>
+                      <span>Eventos</span>
+                      <span class="badge badge pill perfil-badge mr-10">5</span>
+                    </button> -->
               <!-- FAQ Option -->
               <!-- <button mat-menu-item>
-                  <i class="material-icons">help_outline</i>Ayuda
-                </button> -->
+                        <i class="material-icons">help_outline</i>Ayuda
+                      </button> -->
               <!-- Change Theme Option -->
               <button
                 mat-menu-item
                 class="dfr"
-                style="justify-content: space-between;"
-                (click)="switch(); changeTheme()"
+                style="justify-content: space-between"
+                (click)="changeTheme()"
               >
                 <div class="dfr">
                   <i class="material-icons">brightness_4</i>Modo oscuro
@@ -292,7 +229,7 @@
                 <app-theme-switch></app-theme-switch>
               </button>
               <!-- Logout Option -->
-              <button mat-menu-item (click)="_usersS.logout()">
+              <button mat-menu-item (click)="_usersS.logout(router.url)">
                 <i class="material-icons">exit_to_app</i>Cerrar sesión
               </button>
             </div>

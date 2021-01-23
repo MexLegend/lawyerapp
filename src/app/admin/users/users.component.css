@@ -4,22 +4,52 @@
   border-radius: 50%;
 }
 
-.user-role-indicator[data-rol="ADMIN"],
-.header-item-btn-select.users[data-rol="ADMIN"] {
-  background: #1976d2;
+.header-item-subtitle[data-role="ADMIN"] {
+  background: #9c19d2;
+  color: var(--white-color);
 }
 
-.user-role-indicator[data-rol="PARTNER"],
-.header-item-btn-select.users[data-rol="PARTNER"] {
+.item-body-subtitle[data-role="ADMIN"] {
+  color: #b83bec;
+  font-weight: 600;
+}
+
+.header-item-subtitle[data-role="ASSOCIATED"] {
   background: #ff0054;
+  color: var(--white-color);
 }
 
-.user-role-indicator[data-rol="CLIENT"],
-.header-item-btn-select.users[data-rol="CLIENT"] {
-  background: #910cff;
+.item-body-subtitle[data-role="ASSOCIATED"] {
+  color: #ff0054;
+  font-weight: 600;
 }
 
-.user-role-indicator[data-rol="USER"],
-.header-item-btn-select.users[data-rol="USER"] {
-  background: #00be91;
+.header-item-subtitle[data-role="CLIENT"] {
+  background: #ff6347;
+  color: var(--white-color);
+}
+
+.item-body-subtitle[data-role="CLIENT"] {
+  color: #ff6347;
+  font-weight: 600;
+}
+
+.header-item-subtitle[data-role="EXTERNAL-CLIENT"] {
+  background: #9c0297;
+  color: var(--white-color);
+}
+
+.item-body-subtitle[data-role="EXTERNAL-CLIENT"] {
+  color: #9c0297;
+  font-weight: 600;
+}
+
+.header-item-subtitle[data-role="NEW"] {
+  background: #008b8b;
+  color: var(--white-color);
+}
+
+.item-body-subtitle[data-role="NEW"] {
+  color: #008b8b;
+  font-weight: 600;
 }

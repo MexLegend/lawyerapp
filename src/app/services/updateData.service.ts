@@ -10,11 +10,10 @@ export class UpdateDataService {
   private expedienteSeguimientoAction = String("");
   private fileData = new BehaviorSubject("");
   private fileSubject = new Subject<any>();
-  private imgSubject = new Subject<any>();
   private seguimientoData = new BehaviorSubject("");
   private userSubject = new Subject<any>();
 
-  private storageFile = new Subject<string>();
+  private caseSub = new Subject<string>();
   private storageTrack = new Subject<string>();
   private storageTracking = new Subject<string>();
   private storageUser = new Subject<string>();
@@ -35,14 +34,6 @@ export class UpdateDataService {
 
   validateUserPass(id: string) {
     this.userSubject.next(id);
-  }
-
-  getImg(): Observable<any> {
-    return this.imgSubject.asObservable();
-  }
-
-  sendImg(url: string, public_id: string) {
-    this.imgSubject.next({ url, public_id });
   }
 
   getUserId(): Observable<any> {
@@ -89,13 +80,13 @@ export class UpdateDataService {
     this.fileData.next(receivedFileData);
   }
 
-  watchFileStorage(): Observable<any> {
-    return this.storageFile.asObservable();
+  getCaseSub(): Observable<any> {
+    return this.caseSub.asObservable();
   }
 
-  setItemFile(key: string, data: any) {
-    localStorage.setItem(key, data);
-    this.storageFile.next(JSON.parse(data));
+  setCaseSub(key: string, data: any) {
+    localStorage.setItem(key, JSON.stringify(data));
+    this.caseSub.next(data);
   }
 
   watchTrackStorage(): Observable<any> {

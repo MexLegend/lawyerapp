@@ -1,12 +1,13 @@
 import { Component, OnInit, Input, Inject } from "@angular/core";
-import { ImgService } from "../../services/img.service";
+import { CloudinaryService } from "../../services/cloudinary.service";
 import { FileUploader } from "ng2-file-upload";
 import { UsersService } from "../../services/users.service";
 import { UpdateDataService } from "../../services/updateData.service";
 import { NotificationsService } from "../../services/notifications.service";
 import { TrackingService } from "../../services/tracking.service";
-import { Subscription } from 'rxjs';
-import { MAT_DIALOG_DATA } from '@angular/material';
+import { Subscription } from "rxjs";
+import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material";
+import { EvidencesService } from "../../services/evidences.service";
 
 declare var $: any;
 
@@ -17,58 +18,124 @@ declare var $: any;
 })
 export class FileUploadComponent implements OnInit {
   constructor(
+    public dialogRef: MatDialogRef<FileUploadComponent>,
+    public _evidencesS: EvidencesService,
     public _trackingS: TrackingService,
-    public _imgS: ImgService,
+    public _cloudinaryS: CloudinaryService,
     public _notificationsS: NotificationsService,
     public _updateDS: UpdateDataService,
     public _usersS: UsersService,
-    @Inject(MAT_DIALOG_DATA) public dataFile: any,
-  ) { }
+    @Inject(MAT_DIALOG_DATA) public dataFile: any
+  ) {}
+
+  subscriptionsArray: Subscription[] = [];
 
   public hasBaseDropZoneOver = false;
-  public uploader: FileUploader;
 
   file: File;
-  img: File = null;
+  fileData: any = [];
+  img: any = null;
+  isFormatValid: boolean = true;
   previewUrl: any = null;
   progress: number = 0;
   progressT: number = 0;
+  queuedFile: any;
   subscription: Subscription;
 
-  ngOnInit() {
-    this._imgS.uploaderSend("user");
+  cloudinaryEvidencesQueue: any[] = [];
 
-    if (localStorage.getItem("trackingData")) {
-      // Get Storage Subscription
-      this._updateDS.watchTrackStorage().subscribe((data: any) => {
-        this._trackingS.trackingStorage = true;
-      });
-    } else {
-      // Get Storage Subscription
-      this._updateDS.watchTrackStorage().subscribe((data: any) => {
-        this._trackingS.trackingStorage = true;
-      });
+  ngOnInit() {
+    // Init Cloudinary Uploader Options - Img / Evidences
+    this._cloudinaryS.uploaderSend(this.dataFile.typeUpload);
+    // Get Cloudinary File Uploaded Response
+    this.subscriptionsArray.push(
+      this._cloudinaryS
+        .getFile()
+        .subscribe(({ url, public_id, size, name }) => {
+          this.createEvidence([{ data: { url, public_id, size, name } }]);
+        })
+    );
+
+    // Validate Duplicated Queue Files
+    this._cloudinaryS.uploader.onAfterAddingFile = (item) => {
+      item.remove();
+      if (
+        this._cloudinaryS.uploader.queue.filter(
+          (f) => f._file.name == item._file.name
+        ).length == 0
+      ) {
+        this._cloudinaryS.uploader.queue.push(item);
+      } else {
+        this._cloudinaryS.duplicatedFileError(item._file.name);
+      }
+    };
+
+    // Validate Invalid Format Files
+    this._cloudinaryS.uploader.onWhenAddingFileFailed = (item, filter) => {
+      // let message = '';
+      // switch (filter.name) {
+      //   case 'queueLimit':
+      //     message = 'Permitido o envio de no máximo ' + queueLimit + ' arquivos';
+      //     break;
+      //   case 'fileSize':
+      //     message = 'O arquivo ' + item.name + ' possui ' + formatBytes(item.size) + ' que ultrapassa o tamanho máximo permitido de ' + formatBytes(maxFileSize);
+      //     break;
+      //   default:
+      //     message = 'Erro tentar incluir o arquivo';
+      //     break;
+
+      this._cloudinaryS.formatInvalidError(this.dataFile.typeUpload);
+    };
+
+    this.subscriptionsArray.push(
+      this._updateDS.watchTrackStorage().subscribe()
+    );
+  }
+
+  // Unsubscribe Any Subscription
+  ngOnDestroy() {
+    this.subscriptionsArray.map((subscription) => subscription.unsubscribe());
+  }
+
+  // Send Queued Files
+  addDocuments() {
+    if (this._cloudinaryS.uploader.queue.length > 0) {
+      this.uploadFilesCloudinary();
     }
   }
 
-  addDocuments() {
-    this._updateDS.setItemStorage(
-      "documents",
-      JSON.stringify(this._trackingS.files)
-    );
+  createEvidence(evidence: any) {
+    this._evidencesS.disableCancelUpload = true;
 
-    this._trackingS.disableCancelUpload = true;
+    this.cloudinaryEvidencesQueue = [
+      ...this.cloudinaryEvidencesQueue,
+      evidence[0],
+    ];
 
-    if (!localStorage.getItem("trackingData")) {
-      let idFile = localStorage.getItem("fileData")
-        ? JSON.parse(localStorage.getItem("fileData"))._id
+    if (this._cloudinaryS.uploader.getNotUploadedItems().length === 0) {
+      let idCase = localStorage.getItem("caseData")
+        ? JSON.parse(localStorage.getItem("caseData"))._id
         : null;
-      this._trackingS.uploadDocs(idFile, null);
 
-    } else {
-      this._trackingS
-        .uploadDocs(null, JSON.parse(localStorage.getItem("trackingData"))._id);
+      this.subscriptionsArray.push(
+        this._evidencesS
+          .createEvidence(idCase, this.cloudinaryEvidencesQueue)
+          .subscribe(() => {
+            this._evidencesS.setCaseIdSub(
+              "new",
+              "caseData",
+              JSON.parse(localStorage.getItem("caseData"))
+            );
+            this.closeModal();
+            this.cloudinaryEvidencesQueue = [];
+          })
+      );
     }
+  }
+
+  closeModal() {
+    this._cloudinaryS.uploader.clearQueue();
+    this.dialogRef.close();
   }
 
   /**
@@ -76,156 +143,16 @@ export class FileUploadComponent implements OnInit {
    * @param index (File index)
    */
   deleteFile(index: number) {
-    this._trackingS.files.splice(index, 1);
+    this._cloudinaryS.uploader.queue.splice(index, 1);
   }
 
   deleteImage() {
     this.previewUrl = null;
-    this._imgS.clearQueue();
+    this._cloudinaryS.clearQueue();
   }
 
-  /**
-   * format bytes
-   * @param bytes (File size in bytes)
-   * @param decimals (Decimals point)
-   */
-  formatBytes(bytes, decimals?) {
-    if (bytes === 0) {
-      return "0 Bytes";
-    }
-    const k = 1024;
-    const dm = decimals <= 0 ? 0 : decimals || 2;
-    const sizes = ["Bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
-    const i = Math.floor(Math.log(bytes) / Math.log(k));
-    return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + " " + sizes[i];
-  }
-
-  public onFileSelected($event: any) {
-    let validExtensions;
-
-    if ($event.target.files && $event.target.files[0]) {
-      let event = $event.target.files;
-      if (this.dataFile) {
-        validExtensions = ["png", "jpg", "gif"];
-        let extension = event[0].name.split(".")[1].toLowerCase();
-        if (validExtensions.indexOf(extension) < 0) {
-          this._notificationsS.message(
-            "error",
-            "Formato no valido",
-            `Sólo se permiten: ${validExtensions.join(", ")}`,
-            false,
-            false,
-            "",
-            "",
-            2000
-          );
-          this._imgS.clearQueue();
-          return;
-        } else {
-          this.img = event[0];
-          this.preview();
-        }
-      } else {
-        validExtensions = ["doc", "docx", "pdf"];
-        console.log("Hola");
-
-
-        for (let index = 0; index < event.length; index++) {
-          let extension = event[index].name.split(".")[1];
-          if (validExtensions.indexOf(extension) < 0) {
-            this._notificationsS.message(
-              "error",
-              "Formato no valido",
-              `Sólo se permiten: ${validExtensions.join(", ")}`,
-              false,
-              false,
-              "",
-              "",
-              2000
-            );
-            return;
-          } else {
-            if (
-              !localStorage.getItem("trackingData") ||
-              (this._trackingS.trackingStorage &&
-                JSON.parse(localStorage.getItem("trackingData")).documents
-                  .length < 3)
-            ) {
-              const file = event[index];
-
-              if (
-                this._trackingS.trackingStorage &&
-                JSON.parse(localStorage.getItem("trackingData")).documents
-                  .length >= 1
-              ) {
-                let existA: number, existS: number;
-
-                existA = this._trackingS.files.findIndex(
-                  (e) => e.data.name === event[index].name
-                );
-
-                console.log(this._trackingS.files);
-
-
-                if (localStorage.getItem("trackingData")) {
-                  existS = JSON.parse(
-                    localStorage.getItem("trackingData")
-                  ).documents.findIndex(
-                    (e) => {
-                      let doc: string = e.document.split("ads/")[1];
-                      let docF = `${doc.split("+@+")[0]}.${doc.split(".")[1]}`;
-                      return docF === event[index].name;
-                    }
-                  );
-                }
-
-                if (
-                  existA !== -1 ||
-                  (localStorage.getItem("trackingData") && existS !== -1)
-                ) {
-                  this._notificationsS.message(
-                    "error",
-                    "El archivo ya existe",
-                    "Agrega un documento diferente",
-                    false,
-                    false,
-                    "",
-                    "",
-                    2000
-                  );
-                  return;
-                } else {
-                  this._trackingS.files.push({
-                    data: file,
-                    inProgress: false,
-                    progress: 0,
-                  });
-                }
-              } else {
-                this._trackingS.files.push({
-                  data: file,
-                  inProgress: false,
-                  progress: 0,
-                });
-              }
-            } else {
-              this._notificationsS.message(
-                "error",
-                "Limite de archivos exedido",
-                "Sólo se permiten 3 archivos",
-                false,
-                false,
-                "",
-                "",
-                2000
-              );
-              return;
-            }
-          }
-        }
-      }
-    }
-
+  public onFileSelected($event) {
+    return;
   }
 
   preview() {
@@ -236,32 +163,30 @@ export class FileUploadComponent implements OnInit {
     };
   }
 
-  // typeFile(files: any) {
-  //   if (files[0].type.match(/image\/*/) === null) {
-  //     this.prepareFilesList(files);
-  //   } else {
-  //     this.img = files[0];
-  //     this.preview();
-  //   }
-  // }
+  uploadFilesCloudinary() {
+    this._cloudinaryS.setFileType("file");
+    this._cloudinaryS.uploader.uploadAll();
+  }
 
   uploadImg() {
-    // return;
-    this._imgS.uploader.uploadAll();
+    this._cloudinaryS.setFileType("user");
+    this._cloudinaryS.uploader.uploadAll();
 
-    this.subscription = this._updateDS
-      .getImg()
-      .subscribe((data: { url: string; public_id: string }) => {
-        this._usersS
-          .updateUser(localStorage.getItem("id"), null, data)
-          .subscribe((resp) => {
-            if (resp) {
-              this._imgS.fileUrl = this._usersS.user.img;
-              this.subscription.unsubscribe();
-              this.deleteImage();
-              $("#modal-File-Upload").modal("close");
-            }
-          });
-      });
+    this.subscriptionsArray.push(
+      this._cloudinaryS
+        .getImg()
+        .subscribe((data: { url: string; public_id: string }) => {
+          this.subscriptionsArray.push(
+            this._usersS
+              .updateUser(localStorage.getItem("id"), null, data)
+              .subscribe((resp) => {
+                if (resp) {
+                  this._cloudinaryS.fileUrl = this._usersS.user.img;
+                  this.deleteImage();
+                }
+              })
+          );
+        })
+    );
   }
 }

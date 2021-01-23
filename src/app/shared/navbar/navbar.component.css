@@ -9,6 +9,23 @@
     flex-direction: row;
     align-items: center;
   }
+
+  .nav-fixed-options-container .nav-fixed-option button.accout-button {
+    padding: 0 !important;
+  }
+
+  .nav-fixed-options-container .avatar-name {
+    display: none;
+  }
+
+  .nav-fixed-options-container .avatar-status .centered-img-bg {
+    height: 40px !important;
+    width: 40px !important;
+  }
+
+  .nav-fixed-option button.accout-button span {
+    height: 40px !important;
+  }
 }
 
 @media only screen and (max-width: 992px) {
@@ -36,7 +53,7 @@
   #telefonos a,
   #mail a {
     color: white !important;
-    background: #26ade4;
+    background: #1e88e5;
     font-size: 12px;
     border-radius: 3px;
     padding: 5px;
@@ -119,20 +136,11 @@
   font-size: 20px;
 }
 
-/* Telephone Options*/
-#telefonos > a,
-#mail > a {
-  color: #949ba1;
-}
-
-#mail > a:hover {
-  color: #26ade4;
-}
-
 /* Main & Second Navbar styling */
 
 #nav-menu-logo {
-  width: 250px;
+  width: 190px;
+  min-width: 190px;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -150,15 +158,16 @@
 
 #nav-menu-items {
   text-transform: uppercase;
-  width: 80%;
-  justify-content: flex-start;
+  width: 100%;
+  justify-content: center;
+  margin: 0 25px;
 }
 
 #nav-menu-items > ul > li {
   height: 60px;
   margin-left: 5px;
-  min-width: 90px;
-  max-width: 90px;
+  min-width: 110px;
+  max-width: 110px;
   text-align: center;
   display: flex;
 }
@@ -171,6 +180,7 @@
 
 .nav-fixed-options-container {
   justify-content: center;
+  min-width: max-content;
 }
 
 .nav-fixed-options-container .nav-fixed-option {
@@ -178,6 +188,10 @@
   height: 70px;
   margin-right: 8px;
   justify-content: center;
+}
+
+.nav-fixed-options-container .nav-fixed-option.accout-option {
+  width: max-content;
 }
 
 .nav-fixed-options-container .nav-fixed-option button {
@@ -188,6 +202,14 @@
   margin: 0;
   border-radius: 50%;
   background: var(--nav-fixed-option-bg) !important;
+}
+
+.nav-fixed-options-container .nav-fixed-option button.accout-button {
+  width: max-content;
+  min-width: max-content;
+  border-radius: 40px;
+  padding: 2px 5px;
+  background: transparent !important;
 }
 
 .nav-fixed-options-container .nav-fixed-option button:hover {
@@ -216,18 +238,34 @@
   line-height: 0px;
   position: relative;
   display: inline-block;
-  width: 40px;
-  min-width: 40px;
-  max-width: 40px;
+  width: max-content;
+  min-width: max-content;
+  max-width: max-content;
   height: 40px;
   min-height: 40px;
   max-height: 40px;
 }
 
 .nav-fixed-options-container .avatar-status .centered-img-bg {
-  width: inherit;
-  height: inherit;
+  width: 30px;
+  height: 30px;
   border-radius: 50px;
+}
+
+.nav-fixed-options-container .avatar-name {
+  width: max-content;
+  max-width: 140px;
+  margin: 0 5px;
+}
+
+.nav-fixed-options-container .avatar-name span {
+  max-width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  color: var(--default-color);
+  display: block;
+  line-height: 36px;
 }
 
 #nav-menu-items > ul > li > a {
@@ -259,7 +297,7 @@
 
 #nav-menu-items > ul > li > ul > li > a {
   font-size: 12px;
-  color: #26ade4;
+  color: #1e88e5;
 }
 
 nav .sidenav-btn {
@@ -288,6 +326,7 @@ nav .sidenav-btn i {
   color: #949ba1;
   display: flex;
   flex-direction: row;
+  margin: 0 15px;
 }
 
 #secondNavbar {
@@ -325,7 +364,7 @@ nav .sidenav-btn i {
 }
 
 .register-btn {
-  background-color: #26ade4;
+  background-color: #1e88e5;
   color: white !important;
   outline: none;
   border-radius: 5px;
@@ -348,7 +387,7 @@ nav .sidenav-btn i {
   min-width: -webkit-fit-content;
   min-width: -moz-fit-content;
   min-width: fit-content;
-  background-color: #26ade4;
+  background-color: #1e88e5;
   position: absolute;
   right: 16px;
 }

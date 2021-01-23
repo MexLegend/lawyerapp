@@ -1,9 +1,11 @@
 .comment-remitent {
   margin-bottom: 5px;
+  color: var(--secondary-text);
 }
 
 .comment-data {
   margin: 10px 0;
+  align-items: flex-start;
 }
 
 .comment-data-img {
@@ -18,11 +20,12 @@
 
 .comment-data-info {
   width: calc(100% - 90px);
-  justify-content: flex-start;
+  height: 65px;
+  justify-content: space-around;
 }
 
 .comment-data-name,
-.comment-data-rol,
+.comment-data-number,
 .comment-data-email {
   width: 100%;
   max-width: 100%;
@@ -38,11 +41,13 @@
   color: var(--default-color);
 }
 
-.comment-data-rol {
-  font-size: 11px;
-  font-weight: 600;
-  color: #ff5722;
+.comment-data-number {
+  color: var(--secondary-text);
   letter-spacing: 1.2px;
+}
+
+.comment-data-email {
+  color: var(--secondary-text);
 }
 
 .comment-divider {

@@ -22,6 +22,10 @@
   .perfil-card .card-stacked .card-content {
     padding: 10px 15px !important;
   }
+  .item-list-content.perfil-details {
+    min-height: calc(100vh - 510px) !important;
+    max-height: calc(100vh - 510px) !important;
+  }
 }
 
 .card-stacked {

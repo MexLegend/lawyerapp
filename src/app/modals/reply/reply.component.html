@@ -1,9 +1,23 @@
 <!-- Modal Structure -->
 <div mat-dialog-title class="modal-header admin-modal-header dfc">
   <div class="modal-icon dfc">
-    <i class="material-icons">forum</i>
+    <i
+      *ngIf="to.role === 'ADMIN' || to.role === 'ASSOCIATED'"
+      class="far fa-envelope"
+    ></i>
+    <i
+      *ngIf="to.role !== 'ADMIN' && to.role !== 'ASSOCIATED'"
+      class="material-icons"
+      >forum</i
+    >
   </div>
-  <span class="client-action">Nuevo comentario</span>
+  <span class="client-action">
+    {{
+      to.role === "ADMIN" || to.role === "ASSOCIATED"
+        ? action + " Mensaje"
+        : action + " Comentario"
+    }}
+  </span>
   <i
     mat-dialog-close
     class="modal-exit material-icons pink accent-2 waves-effect waves-light dfr"
@@ -18,7 +32,7 @@
       <form
         id="commentForm"
         class="col s12"
-        style="padding: 0 30px; height: 100%;"
+        style="padding: 0 30px; height: 100%"
         ngNativeValidate
         [formGroup]="form"
       >
@@ -28,13 +42,28 @@
         <div class="comment-divider"></div>
         <div class="comment-data dfr">
           <div class="comment-data-img centered-img-bg">
-            <img src="../../../assets/images/user.jpg" alt="" />
+            <img [src]="to.img | img: 'user'" alt="" />
           </div>
           <div class="comment-data-info dfc">
-            <div class="comment-data-name"><span>Armando Lara</span></div>
-            <div class="comment-data-rol"><span>CLIENTE</span></div>
+            <div class="comment-data-name">
+              <span>
+                {{
+                  to.role === "ADMIN" || to.role === "ASSOCIATED" ? "Lic" : null
+                }}
+                {{ to.firstName + " " + to.lastName }}
+              </span>
+            </div>
             <div class="comment-data-email">
-              <span>armandoskate2011@hotmail.com</span>
+              <span>{{ to.email }}</span>
+            </div>
+            <div class="comment-data-number">
+              <span>
+                {{
+                  to.role === "ADMIN" || to.role === "ASSOCIATED"
+                    ? to.cellPhone
+                    : _usersS.getUserRole(to, "list")
+                }}
+              </span>
             </div>
           </div>
         </div>
@@ -54,7 +83,7 @@
               required
             ></textarea>
             <div class="modal-input-placeholder modal-input-placeholder-pink">
-              Escribir comentario
+              Escribir mensaje
             </div>
           </div>
         </div>
@@ -76,6 +105,7 @@
           <button
             type="submit"
             class="waves-effect waves-light btn modal-submit-action"
+            [class.button-disabled]="!form.valid"
           >
             Envíar
           </button>

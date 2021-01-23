@@ -10,6 +10,10 @@
       >
         <div class="scrollable-content dfr">
           <div class="profile-personal-data-container profile-card dfc">
+            <div class="profile-data-header dfr">
+              <i class="fas fa-user-circle big-icon"></i>
+              <span>Imágen de perfil</span>
+            </div>
             <div
               class="profile-image-container"
               matTooltip="Cambiar imagen de perfil"
@@ -17,63 +21,38 @@
             >
               <div
                 class="profile-image-fake-bg"
-                (click)="openFileUploadModal()"
+                (click)="userProfileClientImg.click()"
               ></div>
               <div class="profile-image centered-img-bg">
-                <img
-                  [src]="
-                    this._imgS.fileUrl
-                      ? (this._imgS.fileUrl | img: 'user':true)
-                      : ''
-                  "
-                  alt=""
-                />
-                <input
-                  #userImg
-                  type="file"
-                  style="display: none;"
-                  accept="image/png, image/jpg, image/jpeg"
-                  (change)="imageValidation($event)"
-                />
+                <img [src]="user?.img | img: 'user'" />
               </div>
               <div
-                class="profile-image-upload dfc modal-trigger"
-                href="#modal-File-Upload"
+                class="profile-image-upload dfc"
+                [attr.data-active]="this._cloudinaryS.image ? 'on' : 'off'"
+                (click)="userProfileClientImg.click()"
               >
-                <i class="material-icons">camera_alt</i>
-              </div>
-            </div>
-            <div class="profile-info dfc">
-              <div class="profile-role">
-                <span>
-                  {{
-                    user?.role === "ADMIN"
-                      ? "Administrador"
-                      : user?.role === "PARTNER"
-                      ? "Asociado"
-                      : user?.role === "USER"
-                      ? "Cliente"
-                      : "Nuevo"
-                  }}
-                </span>
-              </div>
-              <div class="profile-more-info dfr">
-                <div class="profile-more-box dfc">
-                  <span>Clientes</span
-                  ><span class="profile-box-quantity">18</span>
-                </div>
-                <div class="profile-more-box dfc">
-                  <span>Artículos</span
-                  ><span class="profile-box-quantity">13</span>
-                </div>
+                <i
+                  class="material-icons"
+                  [attr.data-active]="this._cloudinaryS.image ? 'on' : 'off'"
+                  >camera_alt</i
+                >
+                <input
+                  #userProfileClientImg
+                  type="file"
+                  ng2FileSelect
+                  [uploader]="this._cloudinaryS.uploader"
+                  style="display: none"
+                  accept="image/png, image/jpg, image/jpeg"
+                  (onFileSelected)="this.updateImage()"
+                />
               </div>
             </div>
           </div>
           <div class="profile-data-inputs-container dfc">
             <form
               ngNativeValidate
-              #f="ngForm"
-              (ngSubmit)="update(f.value)"
+              #fClient="ngForm"
+              (ngSubmit)="updateClient(fClient.value)"
               class="col s12"
             >
               <div class="profile-data-inputs-content client profile-card dfc">
@@ -123,7 +102,7 @@
                       <input
                         id="emailU"
                         name="emailU"
-                        [ngModel]="user.email"
+                        [ngModel]="user?.email"
                         placeholder=" "
                         email="ngModel"
                         type="email"
@@ -179,7 +158,7 @@
                     type="submit"
                     name="action"
                     class="item-add-button primary-text gradient-45deg-orange gradient-shadow dfc"
-                    [class.button-disabled]="!f.valid"
+                    [class.button-disabled]="!fClient.valid"
                     matTooltip="Guardar cambios"
                     matTooltipPosition="above"
                   >

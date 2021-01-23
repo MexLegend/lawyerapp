@@ -35,32 +35,27 @@
               <div class="upload-img-container dfr">
                 <div class="upload-img centered-img-bg dfc">
                   <img
-                    *ngIf="this._imgS.image"
-                    [attr.src]="
-                      this._imgS.image
-                        ? (this._imgS.image | img: 'post':true)
-                        : ''
-                    "
+                    *ngIf="this._cloudinaryS.image"
+                    [src]="this._cloudinaryS.image | img: 'post'"
                   />
                   <div
                     id="articleImgSelect"
                     class="select-img dfr"
-                    [attr.data-active]="this._imgS.image ? 'on' : 'off'"
+                    [attr.data-active]="this._cloudinaryS.image ? 'on' : 'off'"
                     (click)="articleImg.click()"
                   >
                     <i
                       class="material-icons"
-                      [attr.data-active]="this._imgS.image ? 'on' : 'off'"
+                      [attr.data-active]="this._cloudinaryS.image ? 'on' : 'off'"
                       >camera_alt</i
                     >
                     <input
                       #articleImg
                       ng2FileSelect
                       type="file"
-                      [uploader]="this._imgS.uploader"
+                      [uploader]="this._cloudinaryS.uploader"
                       style="display: none;"
                       accept="image/png, image/jpg, image/jpeg"
-                      (change)="selectImg($event)"
                     />
                   </div>
                 </div>
@@ -109,12 +104,12 @@
           </form>
         </div>
         <div
-          *ngIf="this._imgS.uploader?.isUploading"
+          *ngIf="this._cloudinaryS.uploader?.isUploading"
           class="upload-progress-container inner-progress dfc"
         >
           <div class="upload-progress modal-footer-upload-progress">
             <app-progress
-              [progress]="this._imgS.uploader?.progress"
+              [progress]="this._cloudinaryS.uploader?.progress"
             ></app-progress>
           </div>
         </div>
@@ -126,12 +121,12 @@
     <ng-container>
       <div class="modal-actions-container dfr">
         <div
-          *ngIf="this._imgS.uploader?.isUploading"
+          *ngIf="this._cloudinaryS.uploader?.isUploading"
           class="upload-progress-container dfc"
         >
           <div class="upload-progress modal-footer-upload-progress">
             <app-progress
-              [progress]="this._imgS.uploader?.progress"
+              [progress]="this._cloudinaryS.uploader?.progress"
             ></app-progress>
           </div>
         </div>

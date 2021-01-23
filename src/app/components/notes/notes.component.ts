@@ -4,12 +4,14 @@ import { MatDialog } from "@angular/material/dialog";
 
 import Swal from "sweetalert2";
 
-import { Files } from "../../models/Files";
 import { WriteNoteComponent } from "../../modals/write-note/write-note.component";
 
 import { PerfectScrollbarConfigInterface } from "ngx-perfect-scrollbar";
 import { FiltersComponent } from "src/app/modals/filters/filters.component";
 import { NotesService } from "../../services/notes.service";
+import { LocalStorageService } from "src/app/services/local-storage.service";
+import { TrackingService } from "src/app/services/tracking.service";
+import { CasesService } from "../../services/cases.service";
 
 @Component({
   selector: "app-notes",
@@ -17,29 +19,33 @@ import { NotesService } from "../../services/notes.service";
   styleUrls: ["./notes.component.css"],
 })
 export class NotesComponent implements OnInit {
-  constructor(public dialog: MatDialog, public _notesS: NotesService) {}
+  constructor(
+    public dialog: MatDialog,
+    private _casesS: CasesService,
+    public _localStorageS: LocalStorageService,
+    public _notesS: NotesService,
+    public _trackingS: TrackingService
+  ) {}
 
-  files: Files[] = [];
-  fileData: any;
   @Input() modeV: string;
   @Input() idCase: string;
-  notes: any = [];
 
-  notesTemp: any[] = [];
-
-  existS: number;
-  notesStorage: any;
-
-  filterValue: string;
-  selectedEntry: number = 5;
-  currentPage: number = 1;
-  entriesFilter: any[] = [5, 10, 20, 50, 100, 200];
-  statusNote: any;
-
-  selected = new FormControl(0);
+  public config: PerfectScrollbarConfigInterface = {};
   public innerScreenWidth: any;
   public mobileFilterActivated: boolean = false;
-  public config: PerfectScrollbarConfigInterface = {};
+
+  currentPage: number = 1;
+  entriesFilter: any[] = [5, 10, 20, 50, 100, 200];
+  existS: number;
+  fileData: any;
+  filterValue: string;
+  isCaseArchived: boolean = false;
+  notes: any = [];
+  notesStorage: any;
+
+  selected = new FormControl(0);
+  selectedEntry: number = 5;
+  statusNote: any;
 
   // Detect Real Screen Size
   @HostListener("window:resize", ["$event"])
@@ -51,52 +57,44 @@ export class NotesComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.notesStorage);
-
     // Get Screen Size
     this.innerScreenWidth = window.innerWidth;
 
-    this._notesS.getCaseIdSub().subscribe(({ caseId }) => {
-      this.notes = [];
-      this.loadNotes(caseId);
+    // Validate If Evidences Case Is Archived
+    this._casesS.getIsCaseArchived().subscribe((isArchived) => {
+      this.isCaseArchived = isArchived;
     });
+
+    // Get Notes Data Subscription
+    this._notesS.getListedNotesSub().subscribe((data) => {
+      this.returnNotDeletedNotes(data.action, data.data).then((notesArray) => {
+        if (data.action === "create") {
+          this.notes = [];
+          this.loadNotes(data.data);
+        } else if (data.action === "list") {
+          this.notes = notesArray;
+        } else {
+          this.notes = [];
+          this.notes = notesArray;
+        }
+      });
+    });
+
+    // Load Current Checked Notes
+    this._notesS.getCurrentCheckedNotes();
   }
 
   addNotes() {
-   
-    let existS: number;
+    this._notesS.setShowingListedNotes();
+    this._notesS.notificaNote.emit({ closeModal: true });
+  }
 
-    // return;
-    if (this.notesTemp.length >= 1) {
-      if (localStorage.getItem("notes")) {
-    console.log(this.notesTemp)
-        this.notesTemp.map(note => {
-
-          existS = JSON.parse(localStorage.getItem("notes")).findIndex((noteS) => {
-            return noteS._id === note._id;
-          });
-          if (existS === -1) {
-            if (JSON.parse(localStorage.getItem("notes")).length >= 1) {
-              this._notesS.notesSlc = [
-                ...JSON.parse(localStorage.getItem("notes")),
-                note,
-              ];
-            }
-            this._notesS.setNoteSub("notes", note);
-             this._notesS.notificaNote.emit({ notesShow: true });
-             this.notesTemp = [];
-          }
-        })
-      } else {
-        console.log('NO STORAGE NOTES: ',this.notesTemp)
-        this.notesTemp.map(note => {
-
-        this._notesS.notesSlc.push(note);
-        this._notesS.setNoteSub("notes", note);
-         this._notesS.notificaNote.emit({ notesShow: true });
-         this.notesTemp = [];
-        })
-      }
+  // Add checked notes to array
+  addCheckedNotes($event, note) {
+    if ($event.checked) {
+      this._notesS.setCheckNotes(note, "check");
+    } else {
+      this._notesS.setCheckNotes(note, "uncheck");
     }
   }
 
@@ -138,20 +136,19 @@ export class NotesComponent implements OnInit {
 
   // Change Current Pagination Page
   change(value) {
-    console.log(value);
     this.statusNote = `status.${value}`;
   }
 
   changeStatus(idNote: string, statusN: string) {
     this._notesS
-      .changeStatusNote(this._notesS.caseId, idNote, statusN)
-      .subscribe(() => {
-        if(localStorage.getItem('notes') && statusN === 'PUBLIC') {
-          this._notesS.notesSlc = this._notesS.deleteListedNote(idNote);
-          this._notesS.setNoteSub("notes");
-        }
+      .changeStatusNote(
+        JSON.parse(localStorage.getItem("caseData"))._id,
+        idNote,
+        statusN
+      )
+      .subscribe((returnedNote) => {
         this._notesS.notificaNote.emit({ render: true });
-        this._notesS.setCaseIdSub("new", this._notesS.caseId);
+        this._notesS.setListedNotesSub("delete", returnedNote.notes);
       });
   }
 
@@ -160,22 +157,34 @@ export class NotesComponent implements OnInit {
     else this.filterValue = "";
   }
 
+  // Compare Local Storage Checked Notes With Existing Ones
+  isNoteChecked(idNote: any): boolean {
+    let isChecked: boolean;
+
+    isChecked =
+      this._notesS.getShowingCheckedNotes().length >= 1
+        ? this._notesS
+            .getShowingCheckedNotes()
+            .some((note: any) => note._id === idNote)
+        : false;
+
+    return isChecked;
+  }
+
   loadNotes(caseId: string) {
-    console.log(caseId);
-    this._notesS.caseId = caseId;
+    // this._notesS.caseId = caseId;
     this._notesS.getNotes(caseId).subscribe((resp) => {
-      console.log(resp);
       if (resp.docs.length >= 1 && resp.docs[0].notes.length >= 1) {
         resp.docs[0].notes.filter((note) => {
           if (this.modeV === "new" && note.status !== "DELETED") {
             this.notes.push(note);
           } else if (this.modeV === "select" && note.status === "PUBLIC") {
+            this._localStorageS.addLocalStorageItem("noteId", resp.docs[0]._id);
             this.notes.push(note);
           }
         });
       } else {
         this.notes = [];
-        console.log("no se puede");
       }
     });
   }
@@ -188,10 +197,6 @@ export class NotesComponent implements OnInit {
           return noteS._id === note._id;
         });
       });
-
-      // if (existS === -1) {
-      //   this._notesS.notesSlc.push(note);
-      // }
     }
   }
 
@@ -207,33 +212,12 @@ export class NotesComponent implements OnInit {
     }
   }
 
-  // Compare Local Storage Checked Notes With Existing Ones
-  isNoteChecked(idNote: any): boolean {
-    let isChecked: boolean;
-    if (
-      localStorage.getItem("notes") &&
-      JSON.parse(localStorage.getItem("notes")).length >= 1
-    ) {
-      this.notesStorage = JSON.parse(localStorage.getItem("notes"));
-      isChecked =
-        localStorage.getItem("notes") &&
-        JSON.parse(localStorage.getItem("notes")).length >= 1
-          ? this.notesStorage.some((note: any) => note._id === idNote)
-          : false;
-    }
-
-    return isChecked;
-  }
-
   // Open Note Creation Modal
   openFilters(filters) {
     let dialogRef = this.dialog.open(FiltersComponent, {
       data: {},
       autoFocus: false,
     });
-
-    // dialogRef.afterClosed().subscribe(result => {
-    // });
   }
 
   // Open Note Creation Modal
@@ -248,28 +232,23 @@ export class NotesComponent implements OnInit {
             data: { action: "Crear" },
             autoFocus: false,
           });
-
-    // dialogRef.afterClosed().subscribe(result => {
-    // });
   }
 
   return() {
-    this._notesS.notificaNote.emit({ tab: true });
+    this._trackingS.setActiveCaseTabSub(0);
   }
 
-  slc($event, note) {
-    if ($event.checked) {
-      this.notesTemp.push(note)
-      
-    } else {
-      this.notesTemp.filter(noteT => {
-        return noteT._id !== note._id
-      })
-      // if (localStorage.getItem("notes")) {
-      //   this._notesS.notesSlc = this.deleteListedNote(note._id);
-      //   this._notesS.setNoteSub("notes", note);
-      // }
-    }
+  async returnNotDeletedNotes(action: string, notesArray: any): Promise<any> {
+    let obtainedNotes: any[] = [];
+    action !== "create"
+      ? notesArray.map((note) => {
+          note.status !== "DELETED"
+            ? (obtainedNotes = [...obtainedNotes, note])
+            : null;
+        })
+      : null;
+
+    return new Promise((resolve, reject) => resolve(obtainedNotes));
   }
 
   // View Files List Function

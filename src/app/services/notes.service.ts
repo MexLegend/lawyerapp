@@ -1,11 +1,12 @@
-import { Injectable, Input, EventEmitter } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { UsersService } from './users.service';
-import { environment } from '../../environments/environment';
-import { Observable, throwError, Subject } from 'rxjs';
-import { Note, NotesPagination } from '../models/Note';
-import { map, catchError } from 'rxjs/operators';
-import { NotificationsService } from './notifications.service';
+import { Injectable, Input, EventEmitter } from "@angular/core";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { UsersService } from "./users.service";
+import { environment } from "../../environments/environment";
+import { Observable, throwError, Subject } from "rxjs";
+import { Note, NotesPagination } from "../models/Note";
+import { map, catchError } from "rxjs/operators";
+import { NotificationsService } from "./notifications.service";
+import { LocalStorageService } from "./local-storage.service";
 
 @Injectable({
   providedIn: "root",
@@ -13,33 +14,111 @@ import { NotificationsService } from './notifications.service';
 export class NotesService {
   constructor(
     private http: HttpClient,
+    public _localStorageS: LocalStorageService,
     public _notificationsS: NotificationsService,
     private _usersS: UsersService
   ) {}
 
+  private checkNotes = new Array<any>();
+  private selectedNotes: any[] = [];
   caseId: string;
   noteSelected: any;
-  notesSlc: any[] = [];
+  tempCheckedNotes: any[] = [];
+
   public notificaNote = new EventEmitter<any>();
 
-  private noteSub = new Subject<any>();
   private caseIdSub = new Subject<any>();
-  watchNoteSub(): Observable<any> {
-    return this.noteSub.asObservable();
+  private noteIdSub = new Subject<any>();
+  private listedNotesSub = new Subject<any>();
+  private selectedNotesSub = new Subject<any>();
+
+  // Get checked notes after handler button clicked
+  getShowingCheckedNotes(): any[] {
+    return this.selectedNotes;
   }
 
-  setNoteSub(key: string, note?: any) {
-    localStorage.setItem(key, JSON.stringify(this.notesSlc));
-    this.noteSub.next(note);
+  // Set checked notes after handler button clicked
+  setShowingListedNotes(isInLocalStorage?: boolean) {
+    this.setSelectedNotesSub(this.checkNotes);
+    this.selectedNotes = this.checkNotes;
+    if (!isInLocalStorage && this.checkNotes.length > 0) {
+      this._localStorageS.addLocalStorageItem("notes", this.checkNotes);
+    } else if (this.checkNotes.length === 0) {
+      this._localStorageS.deleteLocalStorageProperty(["notes"]);
+    }
+
+    this.tempCheckedNotes = this.checkNotes;
+  }
+
+  // Get listed notes subscription
+  getListedNotesSub(): Observable<any> {
+    return this.listedNotesSub.asObservable();
+  }
+
+  // Set listed notes subscription
+  setListedNotesSub(action: string, data: any) {
+    action === "create"
+      ? this.listedNotesSub.next({ action: action, data })
+      : this.listedNotesSub.next({ action: action, data });
+  }
+
+  // Get checked/selected notes subscription
+  getSelectedNotesSub(): Observable<any> {
+    return this.selectedNotesSub.asObservable();
+  }
+
+  // Set checked/selected notes subscription
+  setSelectedNotesSub(checkedNotes: any) {
+    this.selectedNotesSub.next(checkedNotes);
+  }
+
+  // Get Checked Notes When Notes Component Its Called
+  getCurrentCheckedNotes() {
+    this.tempCheckedNotes = this.checkNotes;
+  }
+
+  // Update existing checked notes
+  setCheckNotes(noteObteined: any, action: string) {
+    if (action === "check") {
+      this.checkNotes = [...this.checkNotes, noteObteined];
+    } else {
+      const tempSelectedNotes = this.checkNotes.filter((note) => {
+        return note._id !== noteObteined._id;
+      });
+      this.checkNotes = tempSelectedNotes;
+    }
+  }
+
+  // Add Checked Notes To Array From Local Storage
+  setCheckNotesFromStorage(notesArrayObteined: any[]) {
+    const tempNotesArrayObteined = notesArrayObteined.map(
+      (evidenceObteined) => {
+        return evidenceObteined;
+      }
+    );
+
+    this.checkNotes = tempNotesArrayObteined;
+  }
+
+  getNoteIdSub(): Observable<any> {
+    return this.noteIdSub.asObservable();
+  }
+
+  setNoteIdSub(key: string, idNote: any) {
+    localStorage.setItem(key, idNote);
+    this.noteIdSub.next(idNote);
   }
 
   getCaseIdSub(): Observable<any> {
     return this.caseIdSub.asObservable();
   }
 
-  setCaseIdSub(modeV: string, caseId: string) {
-    this.caseIdSub.next({modeV, caseId});
+  setCaseIdSub(modeV: string, key?: string, caseData?: any) {
+    localStorage.setItem(key, JSON.stringify(caseData));
+    this.caseIdSub.next({ modeV, caseId: caseData._id });
   }
+
+  // Normal Functions
 
   changeStatusNote(
     idCase: string,
@@ -75,13 +154,22 @@ export class NotesService {
             "",
             2000
           );
-          return resp;
+          return resp.note;
         })
       );
   }
 
-  createNote(note: any): Observable<any> {
-    const url = `${environment.URI}/api/notes/${this.caseId}`;
+  clearCheckNotes() {
+    this.checkNotes = [];
+    this.setShowingListedNotes();
+  }
+
+  clearNotListedNotes() {
+    this.checkNotes = this.tempCheckedNotes;
+  }
+
+  createNote(idCase: string, note: any): Observable<any> {
+    const url = `${environment.URI}/api/notes/${idCase}`;
     const headers = new HttpHeaders({
       token: this._usersS.token,
     });
@@ -162,7 +250,7 @@ export class NotesService {
     orderType?: number,
     filter?: string,
     filterOpt?: string,
-    status?: string
+    status: string = "PUBLIC"
   ): Observable<NotesPagination> {
     let url = `${
       environment.URI
@@ -211,7 +299,7 @@ export class NotesService {
           "",
           2000
         );
-        return true;
+        return resp;
       }),
       catchError((err) => {
         return throwError(err);

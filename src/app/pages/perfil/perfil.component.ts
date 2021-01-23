@@ -1,42 +1,42 @@
-import { Component, OnInit, HostListener } from '@angular/core';
-import { Router, NavigationEnd } from '@angular/router';
+import { Component, OnInit, HostListener } from "@angular/core";
+import { Router, NavigationEnd } from "@angular/router";
 
-import { UsersService } from '../../services/users.service';
-import { MatDialog } from '@angular/material/dialog';
-import { BePrimeComponent } from '../../modals/be-prime/be-prime.component';
-import { ThemeService } from '../../services/theme.service';
+import { UsersService } from "../../services/users.service";
+import { MatDialog } from "@angular/material/dialog";
+import { BePrimeComponent } from "../../modals/be-prime/be-prime.component";
+import { ThemeService } from "../../services/theme.service";
 import { PerfectScrollbarConfigInterface } from "ngx-perfect-scrollbar";
-import { ChatService } from '../../services/chat.service';
+import { ChatService } from "../../services/chat.service";
+import { Subscription } from "rxjs";
 
 declare var $: any;
 
 @Component({
-  selector: 'app-perfil',
-  templateUrl: './perfil.component.html',
-  styleUrls: ['./perfil.component.css']
+  selector: "app-perfil",
+  templateUrl: "./perfil.component.html",
+  styleUrls: ["./perfil.component.css"],
 })
 export class PerfilComponent implements OnInit {
-
   constructor(
     public _chatS: ChatService,
     public dialog: MatDialog,
     public router: Router,
     public _themeS: ThemeService,
-    public _usersS: UsersService,
+    public _usersS: UsersService
   ) {
-    this.router.events.subscribe(event => {
-      if (event instanceof NavigationEnd) {
-        this.actSt = this.router.url;
-      }
-    })
-
-    this._themeS.checkStorage();
-
-    this._themeS.checkChanges();
+    this.subscriptionsArray.push(
+      this.router.events.subscribe((event) => {
+        if (event instanceof NavigationEnd) {
+          this.actSt = this.router.url;
+        }
+      })
+    );
   }
 
-  isfullscreen: boolean = false;
-  actSt: any = '';
+  subscriptionsArray: Subscription[] = [];
+
+  isDarkThemeActive: boolean = false;
+  actSt: any = "";
 
   // Screen Size Variable
   public innerScreenWidth: any;
@@ -49,15 +49,14 @@ export class PerfilComponent implements OnInit {
   public config: PerfectScrollbarConfigInterface = {};
 
   // Detect Real Screen Size
-  @HostListener('window:resize', ['$event'])
+  @HostListener("window:resize", ["$event"])
   onResize(event) {
     this.innerScreenWidth = window.innerWidth;
 
     if (this.innerScreenWidth > 993) {
       this.showSidenav = true;
       this.sidenavMode = "side";
-    }
-    else {
+    } else {
       this.showSidenav = false;
       this.sidenavMode = "push";
     }
@@ -76,74 +75,47 @@ export class PerfilComponent implements OnInit {
       this.sidenavMode = "push";
     }
 
-    $("#modal-File-Upload").modal();
+    // Get Initial Theme From Local Storage
+    this._themeS.seCurrentTheme("get").then((isDarkThemeActive) => {
+      this.isDarkThemeActive = isDarkThemeActive;
+    });
+
+    // Get New Theme After Been Updated
+    this.subscriptionsArray.push(
+      this._themeS.getSwitchValue().subscribe((isDarkThemeActive) => {
+        this.isDarkThemeActive = isDarkThemeActive;
+      })
+    );
+  }
+
+  // Unsubscribe Any Subscription
+  ngOnDestroy() {
+    this.subscriptionsArray.map((subscription) => subscription.unsubscribe());
   }
 
   // Change Theme Function
   changeTheme() {
-    this._themeS.darkTheme.setValue(this._themeS.val);
-    this._themeS.checkStorage();
-  }
-
-  // Close Full Screen Function
-  closefullscreen() {
-    const docWithBrowsersExitFunctions = document as Document & {
-      mozCancelFullScreen(): Promise<void>;
-      webkitExitFullscreen(): Promise<void>;
-      msExitFullscreen(): Promise<void>;
-    };
-    if (docWithBrowsersExitFunctions.exitFullscreen) {
-      docWithBrowsersExitFunctions.exitFullscreen();
-    } else if (docWithBrowsersExitFunctions.mozCancelFullScreen) { /* Firefox */
-      docWithBrowsersExitFunctions.mozCancelFullScreen();
-    } else if (docWithBrowsersExitFunctions.webkitExitFullscreen) { /* Chrome, Safari and Opera */
-      docWithBrowsersExitFunctions.webkitExitFullscreen();
-    } else if (docWithBrowsersExitFunctions.msExitFullscreen) { /* IE/Edge */
-      docWithBrowsersExitFunctions.msExitFullscreen();
-    }
-    this.isfullscreen = false;
+    this._themeS.seCurrentTheme("update");
   }
 
   openPrimeModal() {
     let dialogRef = this.dialog.open(BePrimeComponent, { autoFocus: false });
 
-    dialogRef.afterOpened().subscribe(result => {
-      $('body').css('overflow', 'hidden');
-    });
+    this.subscriptionsArray.push(
+      dialogRef.afterOpened().subscribe(() => {
+        $("body").css("overflow", "hidden");
+      })
+    );
 
-    dialogRef.afterClosed().subscribe(result => {
-      $('body').css('overflow', '');
-    });
-  }
-
-  // Toggle Full Screen Function
-  openfullscreen() {
-    // Trigger fullscreen
-    const docElmWithBrowsersFullScreenFunctions = document.documentElement as HTMLElement & {
-      mozRequestFullScreen(): Promise<void>;
-      webkitRequestFullscreen(): Promise<void>;
-      msRequestFullscreen(): Promise<void>;
-    };
-
-    if (docElmWithBrowsersFullScreenFunctions.requestFullscreen) {
-      docElmWithBrowsersFullScreenFunctions.requestFullscreen();
-    } else if (docElmWithBrowsersFullScreenFunctions.mozRequestFullScreen) { /* Firefox */
-      docElmWithBrowsersFullScreenFunctions.mozRequestFullScreen();
-    } else if (docElmWithBrowsersFullScreenFunctions.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
-      docElmWithBrowsersFullScreenFunctions.webkitRequestFullscreen();
-    } else if (docElmWithBrowsersFullScreenFunctions.msRequestFullscreen) { /* IE/Edge */
-      docElmWithBrowsersFullScreenFunctions.msRequestFullscreen();
-    }
-    this.isfullscreen = true;
-  }
-
-  switch() {
-    this._themeS.switchVal()
+    this.subscriptionsArray.push(
+      dialogRef.afterClosed().subscribe(() => {
+        $("body").css("overflow", "");
+      })
+    );
   }
 
   // Open Chat Sidenav
   toogleChatSidenav() {
     this._chatS.toggleChat();
   }
-
 }

@@ -1,6 +1,3 @@
-<!-- Lawyer Contact Modal -->
-<app-lawyer-contact></app-lawyer-contact>
-
 <mat-sidenav-container class="sidenav-container">
   <!-- Main Site SideNav -->
   <mat-sidenav #mainSidenav mode="push" class="main-site-sidenav dfc">
@@ -16,7 +13,7 @@
           >
             <img
               [src]="
-                this._themeS.check
+                this.isDarkThemeActive
                   ? '../../../assets/images/brand.png'
                   : '../../../assets/images/brand_black.png'
               "
@@ -84,8 +81,7 @@
                     <span
                       class="fas fa-bullseye icon-bg-circle small dfc"
                     ></span>
-                    <!-- <i class="fas fa-bullseye icon-bg-circle teal small"></i> -->
-                    Misión
+                    <span> Misión </span>
                   </div>
                 </div>
               </button>
@@ -93,7 +89,7 @@
                 <div class="notificationMenu-item">
                   <div class="notificationMenu-item-content">
                     <span class="far fa-eye icon-bg-circle small dfc"></span>
-                    Visión
+                    <span>Visión</span>
                   </div>
                 </div>
               </button>
@@ -101,8 +97,7 @@
                 <div class="notificationMenu-item">
                   <div class="notificationMenu-item-content">
                     <span class="fas fa-hands icon-bg-circle small dfc"></span>
-
-                    Valores
+                    <span>Valores</span>
                   </div>
                 </div>
               </button>
@@ -131,7 +126,7 @@
 
   <!-- Chat Sidenav -->
   <mat-sidenav #mainChatSidenav mode="over" position="end" class="chat-sidenav">
-    <app-chat-sidenav></app-chat-sidenav>
+    <app-chat-sidenav *ngIf="this._usersS.isLogged()"></app-chat-sidenav>
   </mat-sidenav>
 
   <!-- Main Site Content -->
@@ -157,7 +152,7 @@
         this.router.url !== '/articulos'
       "
       class="fixed-action-btn direction-top active"
-      style="bottom: 54px; right: 19px; z-index: 997;"
+      style="bottom: 54px; right: 19px; z-index: 997"
     >
       <a
         id="btn-whatsapp"
@@ -186,13 +181,6 @@
           <form [formGroup]="form" (ngSubmit)="sendM()">
             <div class="row">
               <div class="input-field col s12 whatsAppMessage">
-                <!-- <input
-                id="message"
-                type="text"
-                name="message"
-                formControlName="message"
-                class="validate"
-              /> -->
                 <textarea
                   class="materialize-textarea whatsApp-input ng-pristine ng-touched"
                   formcontrolname="message"

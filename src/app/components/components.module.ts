@@ -9,6 +9,10 @@ import { NotesComponent } from './notes/notes.component';
 import { ChatSidenavComponent } from './chat/chat-sidenav.component';
 import { PipesModule } from '../pipes/pipes.module';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { MAT_DIALOG_DATA } from '@angular/material';
+import { FilePreviewComponent } from '../modals/file-preview/file-preview.component';
+import { NotificationsDropdownComponent } from './notifications-dropdown/notifications-dropdown.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -16,14 +20,19 @@ import { NgxPaginationModule } from 'ngx-pagination';
     ThemeSwitchComponent,
     EvidencesComponent,
     NotesComponent,
-    ChatSidenavComponent
+    ChatSidenavComponent,
+    NotificationsDropdownComponent
+  ],
+  entryComponents: [
+    FilePreviewComponent
   ],
   exports: [
     ProgressComponent,
     ThemeSwitchComponent,
     EvidencesComponent,
     NotesComponent,
-    ChatSidenavComponent
+    ChatSidenavComponent,
+    NotificationsDropdownComponent
   ],
   imports: [
     CommonModule,
@@ -31,8 +40,10 @@ import { NgxPaginationModule } from 'ngx-pagination';
     MaterialModule,
     NgxPaginationModule,
     PipesModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    RouterModule
   ],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  providers: [{ provide: MAT_DIALOG_DATA, useValue: [] }],
 })
-export class ComponentsModule { }
+export class ComponentsModule {}

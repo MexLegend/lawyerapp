@@ -4,14 +4,12 @@
   [selectedIndex]="selected.value"
   (selectedIndexChange)="selected.setValue($event)"
 >
-  <!-- Files List Tab -->
+  <!-- Cases List Tab -->
   <mat-tab>
-    <ng-template mat-tab-label>
-      Files List
-    </ng-template>
+    <ng-template mat-tab-label> Cases List </ng-template>
     <div class="item-list-container">
       <mat-card class="item-list-container dfc">
-        <!-- Files Filters Container  -->
+        <!-- Cases Filters Container  -->
         <mat-card-header class="item-filter-container">
           <mat-card
             class="item-filter-content dfr"
@@ -52,20 +50,14 @@
                     >
                       <mat-option
                         value="Estado"
-                        style="display: none;"
+                        style="display: none"
                         *ngIf="this.innerScreenWidth <= 810"
                       >
                         Estado
                       </mat-option>
-                      <mat-option value="all">
-                        Todos
-                      </mat-option>
-                      <mat-option value="Activo">
-                        Activo
-                      </mat-option>
-                      <mat-option value="Archivado">
-                        Archivado
-                      </mat-option>
+                      <mat-option value="all"> Todos </mat-option>
+                      <mat-option value="Activo"> Activo </mat-option>
+                      <mat-option value="Archivado"> Archivado </mat-option>
                     </mat-select>
                   </mat-form-field>
                 </div>
@@ -110,9 +102,10 @@
           </mat-card>
         </mat-card-header>
 
-        <!-- Files List Container  -->
+        <!-- Cases List Container  -->
         <mat-card-content class="item-list-content">
           <perfect-scrollbar
+            *ngIf="cases.length > 0"
             class="scroll-container"
             fxFlex="auto"
             [config]="config"
@@ -123,13 +116,14 @@
                 <mat-expansion-panel
                   class="item-content"
                   *ngFor="
-                    let file of files
+                    let caseData of cases
                       | filter: filterValue:'case'
                       | paginate
                         : {
                             itemsPerPage: selectedEntry,
                             currentPage: currentPage
-                          }
+                          };
+                    trackBy: trackItem
                   "
                 >
                   <!-- File Expansion Header -->
@@ -139,54 +133,73 @@
                         <div class="header-item-body dfc">
                           <div class="header-item-title dfr">
                             <div class="header-item-title-wrap">
-                              <span>{{ file?.affair }}</span>
+                              <span>{{ caseData?.affair }}</span>
                             </div>
                             <div class="header-item-int-key dfr">
-                              <span>({{ file.intKey }})</span>
+                              <span>({{ caseData?.intKey }})</span>
                             </div>
                           </div>
-                          <div class="header-item-data">
+                          <div class="header-item-data dfr">
                             <span
-                              >{{ file?.assigned_client?.firstName }}
-                              {{ file?.assigned_client?.lastName }}</span
+                              >{{ (caseData?.assigned_client)[0].firstName }}
+                              {{
+                                (caseData?.assigned_client)[0].lastName
+                              }}</span
                             >
+                            <div
+                              class="tracking-item-file-header-status dfr"
+                              [attr.data-status]="caseData?.status"
+                            >
+                              <span>{{
+                                caseData?.status === "ACTIVE"
+                                  ? "Activo"
+                                  : "Archivado"
+                              }}</span>
+                            </div>
                           </div>
                         </div>
                       </div>
                       <div class="header-item-actions general dfr">
-                        <!-- File Status Select -->
-                        <div>
-                          <mat-form-field
-                            class="header-item-btn-select files waves-effect waves-light dfr"
-                            floatLabel="never"
-                            (click)="moveDown($event)"
-                            matTooltip="Estado del caso"
-                            matTooltipPosition="above"
-                          >
-                            <mat-select
-                              disableOptionCentering
-                              value="unarchive"
-                              class="custom-select"
-                            >
-                              <mat-option
-                                value="store"
-                                class="custom-select-icon dfr"
-                              >
-                                Archivar
-                              </mat-option>
-                              <mat-option
-                                value="unarchive"
-                                class="custom-select-icon dfr"
-                              >
-                                Desarchivar
-                              </mat-option>
-                            </mat-select>
-                          </mat-form-field>
-                        </div>
+                        <!-- File Status Button Trigger -->
+                        <button
+                          class="header-item-btn btn waves-effect waves-light mobile light-blue dfc"
+                          *ngIf="caseData.status !== 'ARCHIVED'"
+                          (click)="
+                            changeCaseStatus(caseData, 'ARCHIVED');
+                            moveDown($event)
+                          "
+                          matTooltip="Archivar caso"
+                          matTooltipPosition="above"
+                        >
+                          <i class="far fa-folder"></i>
+                        </button>
+                        <button
+                          class="header-item-btn btn waves-effect waves-light mobile light-blue dfc"
+                          *ngIf="caseData.status !== 'ACTIVE'"
+                          (click)="
+                            changeCaseStatus(caseData, 'ACTIVE');
+                            moveDown($event)
+                          "
+                          matTooltip="Activar caso"
+                          matTooltipPosition="above"
+                        >
+                          <i class="far fa-folder-open"></i>
+                        </button>
+                        <!-- Events Button Trigger -->
+                        <button
+                          (click)="
+                            viewCaseTrackingList(caseData); moveDown($event)
+                          "
+                          class="header-item-btn mobile btn waves-effect waves-light mobile light-blue dfc"
+                          matTooltip="Ver lista de eventos"
+                          matTooltipPosition="above"
+                        >
+                          <i class="material-icons">visibility</i>
+                        </button>
                         <!-- File Evidences Button Trigger -->
                         <button
                           (click)="
-                            this.viewFilesList(file);
+                            viewEvidencesList(caseData);
                             this.selected.setValue(1);
                             moveDown($event)
                           "
@@ -199,7 +212,7 @@
                         <!-- File Notes Button Trigger -->
                         <button
                           (click)="
-                            this.setCaseId(file._id);
+                            viewNotesList(caseData);
                             this.selected.setValue(2);
                             moveDown($event)
                           "
@@ -211,12 +224,13 @@
                         </button>
                         <!-- File CRUD Button Trigger -->
                         <button
-                          class="header-item-btn btn waves-effect waves-light light-blue dfc"
+                          class="header-item-btn important-action btn waves-effect waves-light light-blue dfc"
                           mat-icon-button
                           [matMenuTriggerFor]="actionsMenu"
                           (click)="moveDown($event)"
                           matTooltip="Más acciones"
                           matTooltipPosition="above"
+                          *ngIf="caseData.status === 'ACTIVE'"
                         >
                           <i class="material-icons">more_vert</i>
                         </button>
@@ -224,27 +238,38 @@
                         <mat-menu #actionsMenu="matMenu" xPosition="before">
                           <ng-template matMenuContent>
                             <div class="dfc select-content-container">
-                              <!-- Evidences Option -->
-                              <button
-                                mat-menu-item
-                                class="mobile"
-                                (click)="
-                                  viewFilesList(file); this.selected.setValue(1)
-                                "
-                              >
-                                <i class="fas fa-paperclip"></i>
-                                <span>Evidencias</span>
-                              </button>
                               <!-- Notes Option -->
                               <button
                                 mat-menu-item
                                 class="mobile"
                                 (click)="
-                                setCaseId(file._id); this.selected.setValue(2)
+                                  viewNotesList(caseData);
+                                  this.selected.setValue(2)
                                 "
                               >
                                 <i class="fas fa-file-alt"></i>
                                 <span>Notas</span>
+                              </button>
+                              <!-- Evidences Option -->
+                              <button
+                                mat-menu-item
+                                class="mobile"
+                                (click)="
+                                  viewEvidencesList(caseData);
+                                  this.selected.setValue(1)
+                                "
+                              >
+                                <i class="fas fa-paperclip"></i>
+                                <span>Evidencias</span>
+                              </button>
+                              <!-- Events Option -->
+                              <button
+                                mat-menu-item
+                                class="mobile"
+                                (click)="viewCaseTrackingList(caseData)"
+                              >
+                                <i class="material-icons">visibility</i>
+                                <span>Eventos</span>
                               </button>
                               <!-- Status Option -->
                               <button
@@ -260,19 +285,25 @@
                                   <div class="dfc select-content-container">
                                     <!-- Archive Option -->
                                     <button
+                                      *ngIf="caseData.status === 'ACTIVE'"
                                       mat-menu-item
-                                      (click)="delete(file)"
+                                      (click)="
+                                        changeCaseStatus(caseData, 'ARCHIVED')
+                                      "
                                     >
-                                      <i class="material-icons">archive</i>
+                                      <i class="far fa-folder"></i>
                                       Archivar
                                     </button>
-                                    <!-- Unarchive Option -->
+                                    <!-- Active Option -->
                                     <button
+                                      *ngIf="caseData.status === 'ARCHIVED'"
                                       mat-menu-item
-                                      (click)="openFilesModal(file._id)"
+                                      (click)="
+                                        changeCaseStatus(caseData, 'ACTIVE')
+                                      "
                                     >
-                                      <i class="material-icons">unarchive</i>
-                                      Desarchivar
+                                      <i class="far fa-folder-open"></i>
+                                      Activar
                                     </button>
                                   </div>
                                 </ng-template>
@@ -281,21 +312,109 @@
                               <!-- Edit Option -->
                               <button
                                 mat-menu-item
-                                (click)="openFilesModal(file._id)"
+                                (click)="openCasesModal(caseData)"
                               >
                                 <i class="material-icons">edit</i>
                                 <span>Editar</span>
                               </button>
                               <!-- Delete Option -->
-                              <button mat-menu-item (click)="delete(file)">
+                              <button mat-menu-item (click)="delete(caseData)">
                                 <i class="material-icons">delete</i>
                                 <span>Eliminar</span>
                               </button>
                               <!-- Favorite Option -->
-                              <button mat-menu-item>
+                              <!-- <button mat-menu-item>
                                 <i class="material-icons">star_border</i>
                                 <span>Favorito</span>
+                              </button> -->
+                            </div>
+                          </ng-template>
+                        </mat-menu>
+                        <!-- File Details Button Trigger -->
+                        <button
+                          *ngIf="caseData.status === 'ARCHIVED'"
+                          class="header-item-btn important-action show-on-mobile btn waves-effect waves-light light-blue dfc"
+                          [matMenuTriggerFor]="detailsMenu"
+                          (click)="moveDown($event)"
+                          matTooltip="Más acciones"
+                          matTooltipPosition="above"
+                        >
+                          <i class="material-icons">expand_more</i>
+                        </button>
+                        <!-- File Details Menu Content -->
+                        <mat-menu #detailsMenu="matMenu" xPosition="before">
+                          <ng-template matMenuContent>
+                            <div class="dfc select-content-container">
+                              <!-- Notes Option -->
+                              <button
+                                mat-menu-item
+                                class="mobile"
+                                (click)="
+                                  viewNotesList(caseData);
+                                  this.selected.setValue(2)
+                                "
+                              >
+                                <i class="fas fa-file-alt"></i>
+                                <span>Notas</span>
                               </button>
+                              <!-- Evidences Option -->
+                              <button
+                                mat-menu-item
+                                class="mobile"
+                                (click)="
+                                  viewEvidencesList(caseData);
+                                  this.selected.setValue(1)
+                                "
+                              >
+                                <i class="fas fa-paperclip"></i>
+                                <span>Evidencias</span>
+                              </button>
+                              <!-- Events Option -->
+                              <button
+                                mat-menu-item
+                                class="mobile"
+                                (click)="viewCaseTrackingList(caseData)"
+                              >
+                                <i class="material-icons">visibility</i>
+                                <span>Eventos</span>
+                              </button>
+                              <!-- Status Option -->
+                              <button
+                                mat-menu-item
+                                class="mobile"
+                                [matMenuTriggerFor]="statusMenuDetails"
+                              >
+                                <span class="select-btn-item">Estado</span>
+                              </button>
+                              <!-- Status CRUD Menu Content -->
+                              <mat-menu #statusMenuDetails="matMenu">
+                                <ng-template matMenuContent>
+                                  <div class="dfc select-content-container">
+                                    <!-- Archive Option -->
+                                    <button
+                                      *ngIf="caseData.status === 'ACTIVE'"
+                                      mat-menu-item
+                                      (click)="
+                                        changeCaseStatus(caseData, 'ARCHIVED')
+                                      "
+                                    >
+                                      <i class="far fa-folder"></i>
+                                      Archivar
+                                    </button>
+                                    <!-- Active Option -->
+                                    <button
+                                      *ngIf="caseData.status === 'ARCHIVED'"
+                                      mat-menu-item
+                                      (click)="
+                                        changeCaseStatus(caseData, 'ACTIVE')
+                                      "
+                                    >
+                                      <i class="far fa-folder-open"></i>
+                                      Activar
+                                    </button>
+                                  </div>
+                                </ng-template>
+                              </mat-menu>
                             </div>
                           </ng-template>
                         </mat-menu>
@@ -308,41 +427,43 @@
                       <div class="item-body-row dfr">
                         <span class="item-body-title">Fecha</span>
                         <span class="item-body-subtitle">{{
-                          file?.start_date
-                            ? (file?.start_date | date: "dd") +
+                          caseData?.start_date
+                            ? (caseData?.start_date | date: "dd") +
                               "/" +
-                              (file?.start_date | date: "MM") +
+                              (caseData?.start_date | date: "MM") +
                               "/" +
-                              (file?.start_date | date: "yyyy")
+                              (caseData?.start_date | date: "yyyy")
                             : "N/E"
                         }}</span>
                       </div>
                       <div class="item-body-row mobile dfr">
                         <span class="item-body-title">Clave Interna</span>
                         <span class="item-body-subtitle">{{
-                          file.intKey ? file.intKey : "N/E"
+                          caseData.intKey ? caseData.intKey : "N/E"
                         }}</span>
                       </div>
                       <div class="item-body-row dfr">
                         <span class="item-body-title">Clave Externa</span>
                         <span class="item-body-subtitle">{{
-                          file.extKey ? file.extKey : "N/E"
+                          caseData.extKey ? caseData.extKey : "N/E"
                         }}</span>
                       </div>
                       <div class="item-body-row dfr">
                         <span class="item-body-title">Actor(es)</span>
-                        <span class="item-body-subtitle">{{ file.actor }}</span>
+                        <span class="item-body-subtitle">{{
+                          caseData.actor
+                        }}</span>
                       </div>
                       <div class="item-body-row dfr">
                         <span class="item-body-title">Demandado(s)</span>
                         <span class="item-body-subtitle">{{
-                          file.defendant
+                          caseData.defendant
                         }}</span>
                       </div>
                       <div class="item-body-row dfr">
                         <span class="item-body-title">Terceros</span>
                         <span class="item-body-subtitle">{{
-                          file.third ? file.third : "N/E"
+                          caseData.third ? caseData.third : "N/E"
                         }}</span>
                       </div>
                     </div>
@@ -351,12 +472,58 @@
               </mat-accordion>
             </div>
           </perfect-scrollbar>
+          <div
+            *ngIf="cases.length === 0 && this.userClientExist"
+            class="no-data-container"
+          >
+            <div class="card sticky-action" style="width: 100%">
+              <div class="card-body card-content no-data dfr">
+                <div class="card-no-data-icon dfc">
+                  <span>i</span>
+                </div>
+                <div class="card-no-data-information">
+                  <span> No hay casos creados</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            *ngIf="cases.length === 0 && !this.userClientExist"
+            class="no-data-container"
+          >
+            <div class="card sticky-action" style="width: 100%">
+              <div class="card-body card-content no-data dfr">
+                <div class="card-no-data-icon dfc">
+                  <span>i</span>
+                </div>
+                <div class="card-no-data-information dfr">
+                  <div class="card-no-data-information-text">
+                    <span>
+                      Para abrir nuevos casos es necesario crear clientes
+                      primero. Puedes crear nuevos clientes o actualizar el rol
+                      de un usuario existente en la sección de
+                    </span>
+
+                    <span class="card-no-data-information-subtext">
+                      "Usuarios"</span
+                    >
+                  </div>
+                  <button
+                    routerLink="/usuarios"
+                    class="btn waves-effect waves-light light-blue"
+                  >
+                    Crear o actualizar
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
           <!-- Open File Creation Modal Button Trigger -->
-          <div class="item-add-container">
+          <div class="item-add-container" *ngIf="this.userClientExist">
             <button
               mat-icon-button
               class="item-add-button primary-text gradient-45deg-orange gradient-shadow dfc"
-              (click)="openFilesModal()"
+              (click)="openCasesModal()"
               matTooltip="Abrir caso"
               matTooltipPosition="above"
             >
@@ -365,8 +532,11 @@
           </div>
         </mat-card-content>
 
-        <!-- Files List Pagination -->
-        <mat-card-actions class="item-list-pagination-container dfr">
+        <!-- Cases List Pagination -->
+        <mat-card-actions
+          *ngIf="cases.length > 0"
+          class="item-list-pagination-container dfr"
+        >
           <pagination-controls
             class="news-pagination"
             (pageChange)="currentPage = $event"
@@ -378,17 +548,654 @@
 
   <!-- Evidences List Tab -->
   <mat-tab>
-    <ng-template mat-tab-label>
-      Evidences List
-    </ng-template>
-    <app-evidences></app-evidences>
+    <ng-template mat-tab-label> Evidences List </ng-template>
+    <app-evidences modeV="new"></app-evidences>
   </mat-tab>
 
   <!-- Notes List Tab -->
   <mat-tab>
-    <ng-template mat-tab-label>
-      Notes List
-    </ng-template>
+    <ng-template mat-tab-label> Notes List </ng-template>
     <app-notes modeV="new"></app-notes>
+  </mat-tab>
+
+  <!-- Case Trackings List -->
+  <mat-tab *ngIf="this.currentCaseData">
+    <ng-template mat-tab-label> Tracking Details </ng-template>
+    <div class="tracking-list-container">
+      <mat-card class="tracking-list-container dfc">
+        <!-- Case Tracking Header  -->
+        <mat-card-header class="tracking-list-filter-container">
+          <mat-card
+            class="tracking-list-filter-content case-tracking dfr"
+            [style.height]="this.mobileFilterActivated ? '43px' : '100%'"
+          >
+            <div class="tracking-item-header case-tracking">
+              <div class="tracking-item-title case-tracking-title dfc">
+                <div class="tracking-item-title-content dfr">
+                  <div
+                    class="tracking-item-back waves-effect waves-light dfc"
+                    (click)="this.selected.setValue(0)"
+                  >
+                    <i class="material-icons">arrow_back</i>
+                  </div>
+                  <div class="tracking-item-client-icon centered-img-bg mobile">
+                    <img
+                      *ngIf="this.currentCaseData?.assigned_client"
+                      [src]="
+                        this.currentCaseData?.assigned_client[0]?.img
+                          | img: 'user':true
+                      "
+                      alt=""
+                    />
+                  </div>
+                  <div class="tracking-item-body mobile">
+                    <div class="tracking-item-file-name dfr">
+                      <div class="tracking-item-file-name-text volumes dfr">
+                        <span>{{ this.currentCaseData?.affair }}</span>
+                      </div>
+                      <!-- Volume Select -->
+                      <mat-form-field
+                        class="tracking-item-file-volume waves-effect waves-light dfr"
+                        floatLabel="never"
+                        matTooltip="Tomos"
+                        matTooltipPosition="below"
+                      >
+                        <mat-select
+                          disableOptionCentering
+                          value="tomo#1"
+                          class="custom-select"
+                          [(value)]="lastVolume"
+                        >
+                          <mat-option
+                            *ngFor="let volume of volumes; let i = index"
+                            [value]="volume._id"
+                            class="custom-select-icon dfr"
+                          >
+                            <i class="fas fa-book"></i>
+                            Tomo {{ i + 1 }}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </div>
+                    <div
+                      *ngIf="this.currentCaseData?.assigned_client"
+                      class="tracking-item-client-data"
+                    >
+                      <span
+                        >{{
+                          (this.currentCaseData?.assigned_client)[0].firstName
+                        }}
+                        {{
+                          (this.currentCaseData?.assigned_client)[0].lastName
+                        }}</span
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </mat-card>
+        </mat-card-header>
+
+        <!-- Case Tracking List Container  -->
+        <mat-card-content class="tracking-list-content case-tracking">
+          <perfect-scrollbar
+            *ngIf="tracksList.length > 0"
+            class="scroll-container"
+            fxFlex="auto"
+            [config]="config"
+            [scrollIndicators]="false"
+          >
+            <div class="scrollable-content">
+              <!-- Tracking Cards -->
+              <mat-card
+                *ngFor="
+                  let track of tracksList
+                    | paginate
+                      : {
+                          itemsPerPage: 2,
+                          currentPage: currentPage3,
+                          id: 'tracking-pagination3'
+                        };
+                  let i = index
+                "
+                class="tracking-table-container dfr"
+                [attr.data-show-more]="
+                  showMoreIndex === track?.index ? 'true' : 'false'
+                "
+              >
+                <div class="tracking-table-content dfr">
+                  <div class="tracking-table-data dfr">
+                    <div class="tracking-table-number dfc">
+                      <span class="tracking-table-number-title">Evento</span>
+                      <span>{{ track?.index }}</span>
+                    </div>
+                    <div class="tracking-table-body dfc">
+                      <div class="tracking-table-data-item">
+                        <span>{{ track?.date | date }}</span>
+                      </div>
+                      <div class="tracking-table-data-item dfr">
+                        <div
+                          *ngIf="tracksList.length > 0"
+                          class="tracking-table-comment dfr"
+                        >
+                          <p>
+                            {{ track?.message }}
+                            <span
+                              class="read-less"
+                              (click)="_utilitiesS.setShowMoreIndexSub(null)"
+                            >
+                              Ver menos
+                            </span>
+                          </p>
+                          <span
+                            class="read-more"
+                            (click)="
+                              _utilitiesS.setShowMoreIndexSub(track?.index)
+                            "
+                          >
+                            Ver más
+                          </span>
+                        </div>
+                        <div *ngIf="tracksList.length === 0">
+                          <p>Sin comentarios</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- File Tracking Actions -->
+                  <div class="header-item-actions general dfr">
+                    <!-- File Tracking Details Button -->
+                    <button
+                      class="header-item-btn mobile btn waves-effect waves-light light-blue dfc"
+                      (click)="
+                        moveDown($event);
+                        this.openSelectEvidences('trackingDetails', track)
+                      "
+                      [attr.data-archived]="
+                        currentCaseData.status === 'ARCHIVED' ? 'true' : 'false'
+                      "
+                      matTooltip="Ver más detalles"
+                      matTooltipPosition="above"
+                    >
+                      <i class="material-icons">expand_more</i>
+                    </button>
+                    <!-- File Tracking CRUD Button Trigger -->
+                    <button
+                      *ngIf="currentCaseData.status === 'ACTIVE'"
+                      class="header-item-btn important-action btn waves-effect waves-light light-blue dfc"
+                      [matMenuTriggerFor]="actionsMenuT"
+                      matTooltip="Más acciones"
+                      matTooltipPosition="above"
+                    >
+                      <i class="material-icons">more_vert</i>
+                    </button>
+                    <!-- File Tracking CRUD Menu Content -->
+                    <mat-menu #actionsMenuT="matMenu" xPosition="before">
+                      <ng-template matMenuContent>
+                        <div class="dfc select-content-container">
+                          <!-- File Tracking Details Button -->
+                          <button
+                            mat-menu-item
+                            class="mobile"
+                            (click)="
+                              this.openSelectEvidences('trackingDetails', track)
+                            "
+                          >
+                            <i class="material-icons">expand_more</i>
+                            <span>Más detalles</span>
+                          </button>
+                        </div>
+                      </ng-template>
+                      <button mat-menu-item (click)="editTrack(track)">
+                        <i class="material-icons">edit</i>
+                        <span>Editar</span>
+                      </button>
+                      <button
+                        mat-menu-item
+                        (click)="changeStatus('DELETED', track)"
+                      >
+                        <i class="material-icons">delete</i>
+                        <span>Eliminar</span>
+                      </button>
+                    </mat-menu>
+                  </div>
+                </div>
+              </mat-card>
+            </div>
+          </perfect-scrollbar>
+          <div *ngIf="tracksList.length === 0" class="no-data-container">
+            <div class="card sticky-action" style="width: 100%">
+              <div class="card-body card-content no-data dfr">
+                <div class="card-no-data-icon dfc">
+                  <span>i</span>
+                </div>
+                <div class="card-no-data-information">
+                  <span> No hay seguimientos realizados en este caso </span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Create Tracking Tab Handler -->
+          <div class="tracking-item-add-container case-tracking-add">
+            <button
+              *ngIf="currentCaseData.status === 'ACTIVE'"
+              mat-icon-button
+              class="add-tracking-btn primary-text gradient-45deg-orange gradient-shadow dfc"
+              (click)="createTracking(); moveDown($event)"
+              matTooltip="Nuevo seguimiento"
+              matTooltipPosition="above"
+            >
+              <i class="material-icons">add</i>
+            </button>
+          </div>
+        </mat-card-content>
+
+        <!-- Case Tracking Pagination -->
+        <mat-card-actions
+          *ngIf="tracksList.length > 0"
+          class="item-list-pagination-container dfr"
+        >
+          <pagination-controls
+            *ngIf="tracksList?.length >= 1"
+            class="news-pagination"
+            (pageChange)="currentPage3 = $event"
+            id="tracking-pagination3"
+          ></pagination-controls>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </mat-tab>
+
+  <!-- Case Tracking Creation Tab -->
+  <mat-tab *ngIf="this.currentCaseData">
+    <ng-template mat-tab-label class="admin-tab-label">
+      Seguimiento Expediente
+    </ng-template>
+    <div class="seguimiento-expediente-container">
+      <div class="card card-container">
+        <!-- Cases Card Container -->
+        <div class="file-card-container dfc">
+          <div class="card horizontal user-card">
+            <div class="card-stacked" style="max-width: 100%">
+              <!-- Cases Content Container -->
+              <div class="card-content" style="padding: 0px !important">
+                <!-- Cases Header -->
+                <div
+                  class="card-header card-header-expedient"
+                  style="justify-content: space-between"
+                >
+                  <div class="add-file-tracking-container dfr">
+                    <div
+                      class="add-file-tracking-return waves-effect waves-light dfc"
+                      (click)="selected.setValue(3)"
+                    >
+                      <i class="material-icons">arrow_back</i>
+                    </div>
+                    <div class="add-file-tracking-img centered-img-bg">
+                      <img
+                        [src]="
+                          (this.currentCaseData?.assigned_client)[0]?.img
+                            | img: 'user':true
+                        "
+                        alt=""
+                      />
+                    </div>
+                    <div class="add-file-tracking-data dfc">
+                      <div class="add-file-tracking-file-name">
+                        <span class="expedient-name"
+                          >{{ this.currentCaseData?.affair }}
+                        </span>
+                      </div>
+                      <div class="add-file-tracking-file-client">
+                        <span
+                          >{{
+                            (this.currentCaseData?.assigned_client)[0]
+                              ?.firstName
+                          }}
+                          {{
+                            (this.currentCaseData?.assigned_client)[0]?.lastName
+                          }}</span
+                        >
+                      </div>
+                      <div class="add-file-tracking-file-key expediente-status">
+                        <div class="status-icon">
+                          <i class="material-icons mr-2">lock_open</i>
+                        </div>
+                        <span class="status-text">{{
+                          this.currentCaseData?.intKey
+                        }}</span>
+                      </div>
+                      <div class="add-file-tracking-file-actions dfr">
+                        <!-- Volume Select -->
+                        <mat-form-field
+                          class="tracking-item-file-volume waves-effect waves-light dfr"
+                          floatLabel="never"
+                          matTooltip="Tomos"
+                          matTooltipPosition="below"
+                        >
+                          <mat-select
+                            disableOptionCentering
+                            value="tomo#1"
+                            class="custom-select"
+                            [(value)]="lastVolume"
+                          >
+                            <mat-option
+                              *ngFor="
+                                let volume of this.currentCaseData.volumes;
+                                let i = index
+                              "
+                              [value]="volume._id"
+                              class="custom-select-icon dfr"
+                            >
+                              <i class="fas fa-book"></i>
+                              Tomo {{ i + 1 }}
+                            </mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                        <!-- Tracking Type Select -->
+                        <mat-form-field
+                          class="tracking-item-file-volume type waves-effect waves-light dfr"
+                          floatLabel="never"
+                          matTooltip="Tipo de seguimiento"
+                          matTooltipPosition="below"
+                        >
+                          <mat-select
+                            disableOptionCentering
+                            value="tomo#1"
+                            class="custom-select"
+                          >
+                            <mat-option
+                              value="tomo#1"
+                              class="custom-select-icon dfr"
+                            >
+                              <i class="fas fa-square"></i>
+                              Evento Simple
+                            </mat-option>
+                            <mat-option
+                              value="tomo#2"
+                              class="custom-select-icon dfr"
+                            >
+                              <i class="fas fa-clone"></i>
+                              Evento Múltiple
+                            </mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                    <div class="add-file-tracking-number-and-actions dfc">
+                      <div class="add-file-tracking-number dfc">
+                        <span class="add-file-tracking-number-title"
+                          >Evento</span
+                        >
+                        <span
+                          >#{{
+                            this.caseTrackingIndex
+                              ? this.caseTrackingIndex
+                              : this.currentCaseData?.tracks?.length + 1
+                          }}</span
+                        >
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- File Tracking File Upload & Commentary -->
+          <div
+            class="card horizontal file-tracking-card dfr"
+            *ngIf="this.currentCaseData?.status === 'ACTIVE'"
+          >
+            <!-- File Tracking Sidenav -->
+            <div class="file-tracking-sidenav dfc">
+              <div
+                class="file-tracking-sidenav-item dfr"
+                (click)="trakingActionTab.setValue(0)"
+              >
+                <i class="fas fa-paperclip"></i>
+                <span>Evidencias</span>
+              </div>
+              <div class="file-sidenav-divider"></div>
+              <div
+                class="file-tracking-sidenav-item dfr"
+                (click)="trakingActionTab.setValue(1)"
+              >
+                <i class="fas fa-file-alt"></i>
+                <span>Notas</span>
+              </div>
+              <div class="file-sidenav-divider"></div>
+              <div
+                class="file-tracking-sidenav-item dfr"
+                (click)="trakingActionTab.setValue(2)"
+              >
+                <i class="far fa-comment"></i>
+                <span>Mensaje</span>
+              </div>
+            </div>
+            <!-- File Tracking Content -->
+            <div class="file-tracking-content dfc">
+              <div
+                class="add-tracking-header-actions-container dfr"
+                [style.justify-content]="
+                  trakingActionTab.value === 2 ? 'flex-end' : ''
+                "
+              >
+                <button
+                  class="select-file-btn waves-effect waves-light dfc"
+                  (click)="openSelectEvidences()"
+                  *ngIf="trakingActionTab.value === 0"
+                >
+                  Incluir evidencia
+                </button>
+                <button
+                  class="select-file-btn waves-effect waves-light dfc"
+                  (click)="openSelectNotes()"
+                  *ngIf="trakingActionTab.value === 1"
+                >
+                  Incluir notas
+                </button>
+                <button
+                  class="select-file-btn waves-effect waves-light dfc"
+                  (click)="finish()"
+                >
+                  Enviar
+                </button>
+              </div>
+              <mat-tab-group
+                class="admin-tab tracking"
+                [selectedIndex]="trakingActionTab.value"
+                (selectedIndexChange)="trakingActionTab.setValue($event)"
+              >
+                <!-- Evidences Tab -->
+                <mat-tab>
+                  <ng-template mat-tab-label> Evidences </ng-template>
+                  <div class="tracking-list-container">
+                    <mat-card class="tracking-list-container add-tracking dfc">
+                      <div
+                        *ngIf="this.selectedEvidences.length > 0"
+                        class="file-chooser-files"
+                      >
+                        <perfect-scrollbar
+                          class="scroll-container"
+                          fxFlex="auto"
+                          [config]="config"
+                          [scrollIndicators]="false"
+                        >
+                          <div class="scrollable-content">
+                            <div
+                              class="file-chooser-file file-box"
+                              *ngFor="let evidence of selectedEvidences"
+                            >
+                              <div class="file-name">
+                                <div class="file-item dfr">
+                                  <div class="file-icon dfc">
+                                    <img
+                                      src="../../../assets/images/word_icon.png"
+                                      alt=""
+                                    />
+                                  </div>
+                                  <div class="file-name-and-format">
+                                    <span>
+                                      {{ evidence?.name }}
+                                    </span>
+                                    <div class="file-format">
+                                      <span>{{
+                                        evidence?.path
+                                          .split(".")
+                                          .pop()
+                                          .toUpperCase()
+                                      }}</span>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="remove-file dfr">
+                                <i
+                                  (click)="this.updateListedEvidences(evidence)"
+                                  class="remove-file-btn material-icons"
+                                  matTooltip="Eliminar"
+                                  matTooltipPosition="above"
+                                  >close</i
+                                >
+                              </div>
+                            </div>
+                          </div>
+                        </perfect-scrollbar>
+                      </div>
+                      <div
+                        *ngIf="this.selectedEvidences.length === 0"
+                        class="no-data-container"
+                      >
+                        <div class="card sticky-action no-data">
+                          <div class="card-body card-content no-data dfr">
+                            <div class="card-no-data-icon dfc">
+                              <span>i</span>
+                            </div>
+                            <div class="card-no-data-information">
+                              <span>
+                                No hay evidencias incluidas en este evento</span
+                              >
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </mat-card>
+                  </div>
+                </mat-tab>
+                <!-- Notes Tab -->
+                <mat-tab>
+                  <ng-template mat-tab-label> Notes </ng-template>
+                  <div class="tracking-list-container">
+                    <mat-card class="tracking-list-container add-tracking dfc">
+                      <div
+                        *ngIf="selectedNotes?.length > 0"
+                        class="file-chooser-files"
+                      >
+                        <perfect-scrollbar
+                          class="scroll-container"
+                          fxFlex="auto"
+                          [config]="config"
+                          [scrollIndicators]="false"
+                        >
+                          <div class="scrollable-content">
+                            <div
+                              class="file-chooser-file file-box"
+                              *ngFor="let note of selectedNotes"
+                            >
+                              <div class="file-name">
+                                <div class="file-item dfr">
+                                  <div class="file-name-and-format notes">
+                                    <span>
+                                      {{ note?.affair }}
+                                    </span>
+                                    <div class="file-format">
+                                      <span>{{ note?.date | date }}</span>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="remove-file dfr">
+                                <i
+                                  (click)="this.updateListedNotes(note)"
+                                  class="remove-file-btn material-icons"
+                                  matTooltip="Eliminar"
+                                  matTooltipPosition="above"
+                                  >close</i
+                                >
+                              </div>
+                            </div>
+                          </div>
+                        </perfect-scrollbar>
+                      </div>
+                      <div
+                        *ngIf="
+                          selectedNotes?.length === 0 || selectedNotes === null
+                        "
+                        class="no-data-container"
+                      >
+                        <div
+                          class="card sticky-action no-data"
+                          style="width: 100%"
+                        >
+                          <div class="card-body card-content no-data dfr">
+                            <div class="card-no-data-icon dfc">
+                              <span>i</span>
+                            </div>
+                            <div class="card-no-data-information">
+                              <span>
+                                No hay notas incluidas en este evento</span
+                              >
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </mat-card>
+                  </div>
+                </mat-tab>
+                <!-- Comments Tab -->
+                <mat-tab>
+                  <ng-template mat-tab-label> Comments </ng-template>
+                  <div class="tracking-list-container">
+                    <mat-card class="tracking-list-container add-tracking dfc">
+                      <div class="file-comments">
+                        <perfect-scrollbar
+                          class="scroll-container"
+                          fxFlex="auto"
+                          [config]="config"
+                          [scrollIndicators]="false"
+                        >
+                          <div class="scrollable-content">
+                            <div class="comment-progress">
+                              <div class="comment-progress-content">
+                                <form
+                                  ngNativeValidate
+                                  [formGroup]="form"
+                                  style="width: 100%"
+                                >
+                                  <textarea
+                                    class="materialize-textarea expediente-input ng-pristine ng-touched"
+                                    name="message"
+                                    formControlName="message"
+                                    id="message"
+                                    placeholder="Escribir mensaje..."
+                                    (blur)="addMessage()"
+                                    required
+                                  ></textarea>
+                                </form>
+                              </div>
+                            </div>
+                          </div>
+                        </perfect-scrollbar>
+                      </div>
+                    </mat-card>
+                  </div>
+                </mat-tab>
+              </mat-tab-group>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </mat-tab>
 </mat-tab-group>

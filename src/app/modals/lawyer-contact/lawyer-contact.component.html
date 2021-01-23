@@ -1,30 +1,21 @@
 <!-- Modal Structure -->
-<div
-  id="contactLawyer"
-  class="modal border-radius-6 modal-fixed-footer"
-  style="
-    z-index: 1003;
-    display: none;
-    opacity: 0;
-    top: 4%;
-    transform: scaleX(0.8) scaleY(0.8);
-  "
->
-  <div class="modal-header">
-    <span><span class="article-action">Contactar</span> Abogado</span>
-  </div>
+<div mat-dialog-title class="modal-header admin-modal-header">
+  <span><span class="article-action">Contactar</span> Abogado</span>
+</div>
 
-  <div class="modal-content">
+<mat-dialog-content class="mat-typography admin-modal-container">
+  <!-- Modal Content -->
+  <div class="modal-content admin-modal-content">
     <perfect-scrollbar
       class="scroll-container be-prime-scroll-content"
       [config]="config"
     >
       <div class="scrollable-content">
-        <div class="row" style="margin: 20px 0;">
+        <div class="row" style="margin: 20px 0">
           <form
             id="formArticulos"
             class="col s12"
-            style="padding: 0 30px; height: 100%;"
+            style="padding: 0 30px; height: 100%"
           >
             <!-- Inputs Container -->
             <div class="inputs-container">
@@ -32,7 +23,7 @@
                 <div class="upload-img centered-img-bg dfc">
                   <img src="../../../assets/images/user.jpg" />
                 </div>
-                <div class="lawyer-contact-data" style="width: 100%;">
+                <div class="lawyer-contact-data" style="width: 100%">
                   <div class="dfr lawyer-data-container">
                     <div class="lawyer-data-title"><span>Nombre:</span></div>
                     <div class="lawyer-data-info">
@@ -75,7 +66,7 @@
               <!-- <div class="lawyer-contact dfc" style="width: 100%;"> -->
               <mat-accordion
                 class="lawyer-contact-accordion dfc"
-                style="width: 100%;"
+                style="width: 100%"
               >
                 <mat-expansion-panel class="lawyer-contact-expansion-panel">
                   <mat-expansion-panel-header
@@ -138,17 +129,26 @@
       </div>
     </perfect-scrollbar>
   </div>
-  <div class="modal-footer modal-actions">
-    <button
-      class="modal-close waves-effect waves-light btn modal-close-action perfil-close-action"
-    >
-      Cancelar
-    </button>
-    <button
-      type="submit"
-      class="waves-effect waves-light btn modal-submit-action"
-    >
-      Contactar
-    </button>
+
+  <div class="modal-footer modal-actions admin-modal-footer">
+    <ng-container>
+      <div class="modal-actions-container dfr">
+        <div class="modal-actions-content">
+          <button
+            type="button"
+            class="mwaves-effect waves-light btn modal-close-action"
+            (click)="closeModal()"
+          >
+            Cancelar
+          </button>
+          <button
+            type="submit"
+            class="waves-effect waves-light btn modal-submit-action"
+          >
+            Contactar
+          </button>
+        </div>
+      </div>
+    </ng-container>
   </div>
-</div>
+</mat-dialog-content>

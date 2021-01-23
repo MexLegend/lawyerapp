@@ -3,8 +3,8 @@
   <div class="card-image"></div>
   <div class="card-stacked">
     <div class="card-content">
-      <div class="row" style="margin: 0;">
-        <div class="col s12" style="padding: 0;">
+      <div class="row" style="margin: 0">
+        <div class="col s12" style="padding: 0">
           <div class="expedienteData">
             <div class="expedienteKeys">
               <div class="expedienteDetailGroup">
@@ -12,7 +12,7 @@
                   <span>Asunto:</span>
                 </div>
                 <div class="expedienteSubtitle">
-                  <span>{{ file?.affair }}</span>
+                  <span>{{ caseData?.affair }}</span>
                 </div>
               </div>
               <div class="expedienteDetailGroup">
@@ -20,7 +20,7 @@
                   <span>Clave Interna:</span>
                 </div>
                 <div class="expedienteSubtitle">
-                  <span>{{ file?.intKey }}</span>
+                  <span>{{ caseData?.intKey }}</span>
                 </div>
               </div>
             </div>
@@ -29,11 +29,14 @@
                 <div class="expedienteTitle">
                   <span>Cliente:</span>
                 </div>
-                <div class="expedienteSubtitle">
+                <div
+                  *ngIf="caseData?.assigned_client"
+                  class="expedienteSubtitle"
+                >
                   <span>{{
-                    file?.assigned_client?.firstName +
+                    caseData?.assigned_client[0]?.firstName +
                       " " +
-                      file?.assigned_client?.lastName
+                      caseData?.assigned_client[0]?.lastName
                   }}</span>
                 </div>
               </div>
@@ -42,7 +45,7 @@
                   <span>Actor(es):</span>
                 </div>
                 <div class="expedienteSubtitle">
-                  <span>{{ file?.actor }}</span>
+                  <span>{{ caseData?.actor }}</span>
                 </div>
               </div>
               <div class="expedienteDetailGroup">
@@ -50,7 +53,9 @@
                   <span>Demandado(s):</span>
                 </div>
                 <div class="expedienteSubtitle">
-                  <span>{{ file?.defendant }}</span>
+                  <span>{{
+                    caseData?.defendant ? caseData?.defendant : "N/E"
+                  }}</span>
                 </div>
               </div>
               <div class="expedienteDetailGroup">
@@ -58,7 +63,7 @@
                   <span>Terceros:</span>
                 </div>
                 <div class="expedienteSubtitle">
-                  <span>{{ file?.third !== null ? file?.third : "N/E" }}</span>
+                  <span>{{ caseData?.third ? caseData?.third : "N/E" }}</span>
                 </div>
               </div>
             </div>
@@ -69,73 +74,7 @@
   </div>
 </div>
 
-<!-- Expediente Contenido -->
-<!-- <div class="card horizontal perfil-card">
-  <div class="card-image"></div>
-  <div class="card-stacked">
-    <div class="card-content expedienteDetailContent">
-      <div class="row" style="margin: 0;">
-        <div class="col s12" style="padding: 0;">
-          <table
-            datatable
-            [dtOptions]="dtOptions"
-            class="row-border hover stripe"
-            style="width: 100%;"
-          >
-            <thead>
-              <tr>
-                <th class="all">#</th>
-                <th class="all">Fecha</th>
-                <th>Comentarios</th>
-                <th class="all">Archivos</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let track of trackings">
-                <td>{{ track?.track }}</td>
-                <td>{{ track?.date | date }}</td>
-                <td>
-                  <span *ngIf="!track?.comment">Sin comentarios</span>
-                  <span *ngIf="track?.comment">{{ track?.comment }}</span>
-                </td>
-                <td>
-                  <span *ngIf="track?.documents?.length < 1">Ninguno</span>
-                  <div
-                    class="dfr attached-file-container"
-                    *ngIf="track?.documents?.length >= 1"
-                  >
-                    <div class="hide-on-small-only">
-                      {{ track?.documents?.length }}
-                      <span *ngIf="track?.documents?.length === 1"
-                        >Archivo adjunto</span
-                      >
-                      <span *ngIf="track?.documents?.length > 1"
-                        >Archivos adjuntos</span
-                      >
-                    </div>
-                    <div class="attached-file-actions">
-                      <button
-                        (click)="openDocuments(track?.documents)"
-                        class="attached-file-btn btn waves-effect waves-light gradient-45deg-dark-blue"
-                      >
-                        <i class="material-icons">attach_file</i>
-                      </button>
-                      <div class="attached-files-quantity dfc">
-                        {{ track?.documents?.length }}
-                      </div>
-                    </div>
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  </div>
-</div> -->
-
-<!-- Contenedor Listado Articulos -->
+<!-- Contenedor Listado Seguimientos -->
 <div class="item-list-container">
   <mat-card class="item-list-container dfc">
     <!-- Posts List Container  -->
@@ -147,81 +86,107 @@
         [scrollIndicators]="false"
       >
         <div class="scrollable-content">
-          <mat-accordion class="item-container dfc">
-            <mat-expansion-panel class="item-content">
-              <!-- Post Expansion Header -->
-              <mat-expansion-panel-header class="item-acordion-header perfil">
-                <mat-panel-title class="item-acordion-title perfil dfr">
-                  <div
-                    class="item-acordion-title-left general perfil details dfr"
-                  >
-                    <div class="header-item-number dfc">
-                      <span>1</span>
-                    </div>
-                    <div class="header-item-body perfil dfc">
-                      <div class="header-item-data perfil">
-                        <span>03/10/2020</span>
-                      </div>
-                      <div class="header-item-data">
+          <!-- Tracking Cards -->
+          <mat-card
+            *ngFor="
+              let track of tracksList
+                | paginate
+                  : {
+                      itemsPerPage: 2,
+                      currentPage: currentPage,
+                      id: 'tracking-pagination-detail'
+                    };
+              let i = index
+            "
+            class="tracking-table-container dfr"
+            [attr.data-show-more]="
+              showMoreIndex === track?.index ? 'true' : 'false'
+            "
+          >
+            <div class="tracking-table-content dfr">
+              <div class="tracking-table-data dfr">
+                <div class="tracking-table-number dfc">
+                  <span>{{ track?.index }}</span>
+                </div>
+                <div class="tracking-table-body dfc">
+                  <div class="tracking-table-data-item">
+                    <span>{{ track?.date | date }}</span>
+                  </div>
+                  <div class="tracking-table-data-item dfr">
+                    <div
+                      *ngIf="tracksList.length > 0"
+                      class="tracking-table-comment dfr"
+                    >
+                      <p>
+                        {{ track?.message }}
                         <span
-                          >Comentario adjunto<span class="read-dots"
-                            >...</span
-                          ></span
+                          class="read-less"
+                          (click)="_utilitiesS.setClientShowMoreIndexSub(null)"
                         >
-                        <span class="read-more">Leer</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="header-item-actions general perfil details dfr">
-                    <div class="header-item-action dfr">
-                      <button
-                        class="attached-file-btn btn waves-effect waves-light gradient-45deg-dark-blue"
-                        (click)="moveDown($event)"
-                        matTooltip="Notas adjuntas"
-                        matTooltipPosition="above"
+                          Ver menos
+                        </span>
+                      </p>
+                      <span
+                        class="read-more"
+                        (click)="
+                          _utilitiesS.setClientShowMoreIndexSub(track?.index)
+                        "
                       >
-                        <i class="fas fa-file-alt"></i>
-                      </button>
-                      <div class="attached-files-quantity dfc">
-                        2
-                      </div>
+                        Ver más
+                      </span>
                     </div>
-                    <div class="header-item-action dfr">
-                      <button
-                        class="attached-file-btn btn waves-effect waves-light gradient-45deg-dark-blue"
-                        (click)="moveDown($event)"
-                        matTooltip="Archivos adjuntos"
-                        matTooltipPosition="above"
-                      >
-                        <i class="fas fa-paperclip"></i>
-                      </button>
-                      <div class="attached-files-quantity dfc">
-                        1
-                      </div>
+                    <div *ngIf="tracksList.length === 0">
+                      <p>Sin comentarios</p>
                     </div>
-                  </div>
-                </mat-panel-title>
-              </mat-expansion-panel-header>
-              <!-- Post Expansion Body -->
-              <mat-card class="item-body-data-container">
-                <div class="item-body-data-content dfc">
-                  <div class="item-body-row dfr">
-                    <span class="item-body-subtitle">
-                      Este es un ejemplo de un comentario de seguimiento
-                    </span>
                   </div>
                 </div>
-              </mat-card>
-            </mat-expansion-panel>
-          </mat-accordion>
+              </div>
+              <!-- File Tracking Actions -->
+              <div class="header-item-actions general perfil-card-action dfr">
+                <button
+                  mat-icon-button
+                  class="header-item-btn btn waves-effect waves-light dfc"
+                  (click)="
+                    moveDown($event);
+                    openSelectEvidences('trackingDetails', track)
+                  "
+                  matTooltip="Ver más detalles"
+                  matTooltipPosition="above"
+                >
+                  <i class="material-icons">expand_more</i>
+                </button>
+              </div>
+              <!-- File Tracking Attached Documents Button -->
+            </div>
+          </mat-card>
         </div>
       </perfect-scrollbar>
+      <div *ngIf="tracksList?.length === 0" class="no-data-container">
+        <div class="card sticky-action no-data">
+          <div class="card-body card-content no-data dfr">
+            <div class="card-no-data-icon dfc">
+              <span>i</span>
+            </div>
+            <div class="card-no-data-information">
+              <span>
+                No hay seguimientos realizados en este caso por el momento</span
+              >
+            </div>
+          </div>
+        </div>
+      </div>
     </mat-card-content>
 
     <!-- Case List Pagination -->
-    <mat-card-actions class="item-list-pagination-container dfr">
-      <button mat-button>1</button>
-      <button mat-button>2</button>
+    <mat-card-actions
+      *ngIf="tracksList?.length > 0"
+      class="item-list-pagination-container dfr"
+    >
+      <pagination-controls
+        class="news-pagination"
+        (pageChange)="currentPage = $event"
+        id="tracking-pagination-detail"
+      ></pagination-controls>
     </mat-card-actions>
   </mat-card>
 </div>

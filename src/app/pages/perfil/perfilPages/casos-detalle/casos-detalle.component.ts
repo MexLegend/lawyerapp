@@ -1,16 +1,17 @@
-import { Component, OnInit, HostListener } from '@angular/core';
-import {
-  MatBottomSheet
-} from "@angular/material/bottom-sheet";
-import { ActivatedRoute } from '@angular/router';
-import { Subject } from 'rxjs/internal/Subject';
+import { Component, OnInit, HostListener } from "@angular/core";
+import { MatBottomSheet } from "@angular/material/bottom-sheet";
+import { MatDialog } from "@angular/material/dialog";
+import { ActivatedRoute } from "@angular/router";
 
-import { Files } from '../../../../models/Files';
-import { FilesService } from '../../../../services/files.service';
-import { TrackingService } from '../../../../services/tracking.service';
-import { Tracking } from '../../../../models/Tracking';
-import { DocumentsViewComponent } from '../../../../modals/documents-view/documents-view.component';
-import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
+import { CasesService } from "../../../../services/cases.service";
+import { TrackingService } from "../../../../services/tracking.service";
+import { Tracking } from "../../../../models/Tracking";
+import { DocumentsViewComponent } from "../../../../modals/documents-view/documents-view.component";
+import { PerfectScrollbarConfigInterface } from "ngx-perfect-scrollbar";
+import { UtilitiesService } from "src/app/services/utilities.service";
+import { Cases } from "../../../../models/Cases";
+import { SelectEvidenceComponent } from "src/app/modals/select-evidence/select-evidence.component";
+import { Subscription } from "rxjs";
 
 @Component({
   selector: "app-casos-detalle",
@@ -18,25 +19,30 @@ import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
   styleUrls: ["./casos-detalle.component.css"],
 })
 export class CasosDetalleComponent implements OnInit {
-
   constructor(
     private activatedRoute: ActivatedRoute,
     private bottomSheet: MatBottomSheet,
-    public _filesS: FilesService,
-    public _trackingS: TrackingService
-  ) { }
+    private dialog: MatDialog,
+    public _casesS: CasesService,
+    public _trackingS: TrackingService,
+    public _utilitiesS: UtilitiesService
+  ) {}
 
-  file: Files;
-  dtOptions: any;
-  dtTrigger: Subject<any> = new Subject();
+  subscriptionsArray: Subscription[] = [];
+
+  currentPage: number = 1;
+  caseData: any = [];
+  currentCaseData: any;
+  showMoreIndex: number = null;
   trackings: Tracking[] = [];
+  tracksList: any;
 
   public innerScreenWidth: any;
   public mobileFilterActivated: boolean = false;
   public config: PerfectScrollbarConfigInterface = {};
 
   // Detect Real Screen Size
-  @HostListener('window:resize', ['$event'])
+  @HostListener("window:resize", ["$event"])
   onResize(event) {
     this.innerScreenWidth = window.innerWidth;
     if (this.innerScreenWidth > 520) {
@@ -48,44 +54,35 @@ export class CasosDetalleComponent implements OnInit {
     // Get Screen Size
     this.innerScreenWidth = window.innerWidth;
 
-    this.activatedRoute.params.subscribe((params) => {
-      const id = params["id"];
-      this.dtTrigger.next();
-      if (id !== "new") {
-        this.load(id);
-      }
-    });
+    this.subscriptionsArray.push(
+      this.activatedRoute.params.subscribe((params) => {
+        const id = params["id"];
+        if (id !== "new") {
+          this.load(id.split("-")[0], id.split("-")[1]);
+        }
+      })
+    );
 
-    // this.dtOptions = {
-    //   pagingType: "simple_numbers",
-    //   pageLength: 6,
-    //   responsive: true,
-    //   lengthChange: false,
-    //   bFilter: false,
-    //   language: {
-    //     "infoFiltered": ""
-    //   },
-    //   scrollCollapse: true,
-    //   scrollY: "calc(100vh - 631px)"
-    // };
+    // Get Active Read More Index Subscription
+    this.subscriptionsArray.push(
+      this._utilitiesS.getClientShowMoreIndexSub().subscribe((index) => {
+        this.showMoreIndex = index;
+      })
+    );
   }
 
+  // Unsubscribe Any Subscription
   ngOnDestroy() {
-    this.dtTrigger.unsubscribe();
+    this.subscriptionsArray.map((subscription) => subscription.unsubscribe());
   }
 
-  load(id: string) {
-    this._filesS.getFile(id).subscribe((file: Files) => {
-      console.log(file);
-      this.file = file;
-
-      if (file && file !== null) {
-        this._trackingS.getTrackings(file._id).subscribe((resp) => {
-          console.log(resp.docs);
-          this.trackings = resp.docs;
-        });
-      }
-    });
+  load(idCase: string, idClient: string) {
+    this.subscriptionsArray.push(
+      this._trackingS.getByClient(idCase, idClient).subscribe((resp) => {
+        this.caseData = resp[0];
+        this.tracksList = this.reorderTrackingIndex(resp[0].tracks, "list");
+      })
+    );
   }
 
   // Handle Mobile Filter
@@ -100,9 +97,52 @@ export class CasosDetalleComponent implements OnInit {
     event.stopPropagation();
   }
 
-  openDocuments(documents) {
+  openDocuments(evidences) {
+    let evidencesN = [];
+    if (evidences !== null) {
+      evidences.map((evi) => {
+        evidencesN.push(evi.evidence);
+      });
+    } else {
+      evidencesN = [];
+    }
     this.bottomSheet.open(DocumentsViewComponent, {
-      data: { documents }
+      data: { evidences: evidencesN },
     });
+  }
+
+  openSelectEvidences(viewDetails?: string, trackingData?: any) {
+    const caseData = JSON.parse(localStorage.getItem("trackingCaseData"));
+    let dialogRef = this.dialog.open(SelectEvidenceComponent, {
+      data: { viewDetails, trackingData, caseData },
+      autoFocus: false,
+      panelClass: "evidences-view-modal",
+    });
+
+    // dialogRef.afterOpened().subscribe();
+
+    // dialogRef.afterClosed().subscribe();
+  }
+
+  reorderTrackingIndex(tracks: any, action: string, track?: any): any {
+    if (action === "new") {
+      // const [first] = tracks[0];
+      let newTrack;
+      if (tracks.length >= 1) {
+        newTrack = Object.assign({ index: tracks[0].index + 1 }, track);
+      } else {
+        newTrack = Object.assign({ index: 1 }, track);
+      }
+      return [newTrack, ...tracks];
+    } else if (action === "list") {
+      return tracks.map((track, idx) =>
+        Object.assign({ index: tracks.length - idx }, track)
+      );
+    } else {
+      return tracks.map((track, idx) => {
+        track.index = tracks.length - idx;
+        return track;
+      });
+    }
   }
 }

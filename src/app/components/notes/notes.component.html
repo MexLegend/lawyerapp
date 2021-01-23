@@ -18,7 +18,13 @@
               </div>
             </div>
             <div class="header-item-data">
-              <span>{{ notes?.length }} Notas</span>
+              <span>
+                {{
+                  notes?.length === 1
+                    ? notes?.length + " Nota"
+                    : notes?.length + " Notas"
+                }}
+              </span>
             </div>
           </div>
         </div>
@@ -58,20 +64,14 @@
                 >
                   <mat-option
                     value="status"
-                    style="display: none;"
+                    style="display: none"
                     *ngIf="this.innerScreenWidth <= 940"
                   >
                     Estado
                   </mat-option>
-                  <mat-option value="all">
-                    Todos
-                  </mat-option>
-                  <mat-option value="private">
-                    Privada
-                  </mat-option>
-                  <mat-option value="public">
-                    Pública
-                  </mat-option>
+                  <mat-option value="all"> Todos </mat-option>
+                  <mat-option value="private"> Privada </mat-option>
+                  <mat-option value="public"> Pública </mat-option>
                 </mat-select>
               </mat-form-field>
             </div>
@@ -123,122 +123,170 @@
     </mat-card-header>
 
     <!-- File Notes List Container  -->
-    <mat-card-content class="item-list-content">
+    <mat-card-content
+      class="item-list-content"
+      [attr.data-details]="modeV === 'select' ? 'true' : 'false'"
+    >
       <perfect-scrollbar
+        *ngIf="notes?.length > 0"
         class="scroll-container"
         fxFlex="auto"
         [config]="config"
         [scrollIndicators]="false"
       >
         <div class="scrollable-content">
-          <!-- Evidence Item Cards -->
-          <mat-card class="item-container-notes">
-            <mat-accordion
-              class="item-container notes-list dfc"
-              *ngIf="notes !== []"
+          <!-- Note Item Cards -->
+          <div class="item-acordion-card-container">
+            <div
+              class="item-acordion-card-box dfc"
+              *ngFor="
+                let note of notes
+                  | filter: filterValue:'note':statusNote
+                  | paginate
+                    : {
+                        itemsPerPage: selectedEntry,
+                        currentPage: currentPage
+                      }
+              "
             >
-              <!-- Note #1 -->
-              <mat-expansion-panel
-                *ngFor="
-                  let note of notes
-                    | filter: filterValue:'note':statusNote
-                    | paginate
-                      : {
-                          itemsPerPage: selectedEntry,
-                          currentPage: currentPage
-                        }
-                "
-                class="item-content notes-list"
+              <!-- Note Card Header -->
+              <div
+                class="item-acordion-card-header dfr"
+                [attr.data-type]="modeV !== 'new' ? 'DETAILS' : 'LIST'"
               >
-                <!-- File Expansion Header -->
-                <mat-expansion-panel-header
-                  class="item-acordion-header notes-list"
+                <div
+                  class="item-acordion-card-header-data note-card-header dfc"
                 >
-                  <mat-panel-title class="item-acordion-title notes-list dfr">
-                    <div class="note-action-check dfc">
-                      <mat-checkbox
-                        *ngIf="modeV === 'select'"
-                        class="example-margin"
-                        (click)="moveDown($event)"
-                        (change)="slc($event, note)"
-                        [checked]="isNoteChecked(note._id) ? true : false"
-                      ></mat-checkbox>
-                    </div>
-                    <div class="note-accordion-header dfr">
-                      <div class="note-accordion-header-data dfc">
-                        <div class="note-accordion-header-date dfr">
-                          <span>{{ note.date | date }}</span>
-                        </div>
-                        <div class="note-accordion-header-title">
-                          <span>{{ note.affair }}</span>
-                        </div>
-                      </div>
-                    </div>
-                    <div *ngIf="modeV === 'new'" class="dfr">
-                      <!-- Edit Note Button Trigger -->
-                      <button
-                        class="note-action-btn btn waves-effect waves-light dfc"
-                        (click)="
-                          moveDown($event); openNotes(note._id); editNote(note)
-                        "
-                        matTooltip="Editar"
-                        matTooltipPosition="below"
-                      >
-                        <i class="far fa-edit"></i>
-                      </button>
-                      <!-- Delete Note Button Trigger -->
-                      <button
-                        class="note-action-btn btn waves-effect waves-light dfc"
-                        (click)="
-                          moveDown($event); changeStatus(note._id, 'DELETED')
-                        "
-                        matTooltip="Eliminar"
-                        matTooltipPosition="below"
-                      >
-                        <i class="material-icons">delete</i>
-                      </button>
-                      <!-- Lock/Unluck Note Button Trigger -->
-                      <button
-                        *ngIf="note.status === 'PRIVATE'"
-                        class="note-action-btn btn waves-effect waves-light dfc"
-                        (click)="
-                          moveDown($event); changeStatus(note._id, note.status)
-                        "
-                        matTooltip="Cambiar estado"
-                        matTooltipPosition="below"
-                      >
-                        <i class="material-icons">visibility_off</i>
-                      </button>
-                      <button
-                        *ngIf="note.status === 'PUBLIC'"
-                        class="note-action-btn btn waves-effect waves-light dfc"
-                        (click)="
-                          moveDown($event); changeStatus(note._id, note.status)
-                        "
-                        matTooltip="Cambiar estado"
-                        matTooltipPosition="below"
-                      >
-                        <i class="material-icons">visibility</i>
-                      </button>
-                    </div>
-                  </mat-panel-title>
-                </mat-expansion-panel-header>
-                <!-- File Expansion Body -->
-                <mat-card class="item-body-data-container notes-list">
-                  <div>
-                    <span>{{ note.message }}</span>
+                  <div
+                    class="note-action-check dfc"
+                    [attr.data-added]="isNoteChecked(note._id) ? 'on' : 'off'"
+                  >
+                    <mat-checkbox
+                      *ngIf="modeV === 'select'"
+                      class="example-margin"
+                      (click)="moveDown($event)"
+                      (change)="addCheckedNotes($event, note)"
+                      [checked]="isNoteChecked(note._id) ? true : false"
+                    ></mat-checkbox>
                   </div>
-                </mat-card>
-              </mat-expansion-panel>
-            </mat-accordion>
-            <span class="no-exist" *ngIf="notes?.docs?.length === 0"
-              >No hay Notes</span
-            >
-          </mat-card>
+                  <div
+                    *ngIf="modeV === 'select'"
+                    [attr.data-state]="
+                      isNoteChecked(note._id) ? 'NOTE' : 'NOT-ADDED'
+                    "
+                    class="item-acordion-card-state"
+                  >
+                    <span>Incluida</span>
+                  </div>
+                  <div
+                    class="item-acordion-card-header-left dfr"
+                    [attr.data-state]="
+                      isNoteChecked(note._id) ? 'NOTE' : 'NOT-ADDED'
+                    "
+                  >
+                    <div class="item-acordion-card-name color">
+                      <span>{{ note.affair }}</span>
+                    </div>
+                    <div class="item-acordion-card-date">
+                      <span>{{ note.date | date }}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Note Card Body -->
+              <div
+                class="item-acordion-card-body dfr"
+                [attr.data-note-details]="modeV !== 'new' ? 'true' : 'false'"
+              >
+                <div class="item-acordion-card-body-data note-card dfc">
+                  <div
+                    class="item-acordion-card-body-content note-card-content"
+                  >
+                    <perfect-scrollbar
+                      *ngIf="notes?.length > 0"
+                      class="scroll-container"
+                      fxFlex="auto"
+                      [config]="config"
+                      [scrollIndicators]="false"
+                    >
+                      <div class="scrollable-content not-margin">
+                        <span>{{ note.message }}</span>
+                      </div>
+                    </perfect-scrollbar>
+                  </div>
+                </div>
+              </div>
+              <!-- Note Card Actions -->
+              <div
+                *ngIf="modeV === 'new' && !isCaseArchived"
+                class="item-acordion-body-actions dfr"
+              >
+                <!-- Edit Note Button Trigger -->
+                <button
+                  class="header-item-btn btn action-button dfc"
+                  mat-icon-button
+                  matTooltip="Editar"
+                  matTooltipPosition="above"
+                  (click)="
+                    moveDown($event); openNotes(note._id); editNote(note)
+                  "
+                >
+                  <i class="far fa-edit"></i>
+                </button>
+                <!-- Delete Note Button Trigger -->
+                <button
+                  class="header-item-btn btn action-button dfc"
+                  mat-icon-button
+                  matTooltip="Eliminar"
+                  matTooltipPosition="above"
+                  (click)="moveDown($event); changeStatus(note._id, 'DELETED')"
+                >
+                  <i class="material-icons">delete</i>
+                </button>
+                <!-- Lock/Unluck Note Button Trigger -->
+                <button
+                  *ngIf="note.status === 'PRIVATE'"
+                  class="header-item-btn btn action-button dfc"
+                  mat-icon-button
+                  matTooltip="Cambiar estado"
+                  matTooltipPosition="above"
+                  (click)="
+                    moveDown($event); changeStatus(note._id, note.status)
+                  "
+                >
+                  <i class="material-icons">visibility_off</i>
+                </button>
+                <button
+                  *ngIf="note.status === 'PUBLIC'"
+                  class="header-item-btn btn action-button dfc"
+                  mat-icon-button
+                  matTooltip="Cambiar estado"
+                  matTooltipPosition="above"
+                  (click)="
+                    moveDown($event); changeStatus(note._id, note.status)
+                  "
+                >
+                  <i class="material-icons">visibility</i>
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       </perfect-scrollbar>
-      <!-- Open Evidences Modal Button Trigger -->
-      <div *ngIf="modeV === 'new'" class="item-add-container">
+      <div *ngIf="notes?.length === 0" class="no-data-container">
+        <div class="card sticky-action" style="width: 100%">
+          <div class="card-body card-content no-data dfr">
+            <div class="card-no-data-icon dfc">
+              <span>i</span>
+            </div>
+            <div class="card-no-data-information">
+              <span> No hay notas agregadas en este caso</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Open Notes Modal Button Trigger -->
+      <div *ngIf="modeV === 'new' && !isCaseArchived" class="item-add-container">
         <button
           mat-icon-button
           class="item-add-button primary-text gradient-45deg-orange gradient-shadow dfc"
@@ -249,8 +297,11 @@
           <i class="material-icons">add</i>
         </button>
       </div>
-      <!-- Open File Creation Modal Button Trigger -->
-      <div *ngIf="modeV === 'select'" class="item-add-container">
+      <!-- Open Note Creation Modal Button Trigger -->
+      <div
+        *ngIf="modeV === 'select' && notes.length > 0"
+        class="item-add-container"
+      >
         <button
           mat-icon-button
           class="item-add-button primary-text light-blue dfc"
@@ -264,7 +315,10 @@
     </mat-card-content>
 
     <!-- Notes Pagination -->
-    <mat-card-actions class="item-list-pagination-container dfr">
+    <mat-card-actions
+      *ngIf="notes?.length > 0"
+      class="item-list-pagination-container dfr"
+    >
       <pagination-controls
         class="news-pagination"
         (pageChange)="currentPage = $event"

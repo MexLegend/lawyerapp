@@ -1,7 +1,7 @@
-<!-- Contenedor Listado Articulos -->
+<!-- Contenedor Listado Usuarios -->
 <div class="item-list-container">
   <mat-card class="item-list-container dfc">
-    <!-- Files Filters Container  -->
+    <!-- Users Filters Container  -->
     <mat-card-header class="item-filter-container">
       <mat-card
         class="item-filter-content dfr"
@@ -32,7 +32,7 @@
             <span class="entries-filter-text">Resultados</span>
           </div>
           <!-- Status Filter -->
-          <div class="status-filter dfr">
+          <div *ngIf="_usersS.user.role === 'ADMIN'" class="status-filter dfr">
             <span class="status-filter-text rol">Rol</span>
             <div class="status-filter-select">
               <mat-form-field>
@@ -42,26 +42,16 @@
                 >
                   <mat-option
                     value="role"
-                    style="display: none;"
+                    style="display: none"
                     *ngIf="this.innerScreenWidth <= 810"
                   >
                     Rol
                   </mat-option>
-                  <mat-option value="all">
-                    Todos
-                  </mat-option>
-                  <mat-option value="admin">
-                    Administrador
-                  </mat-option>
-                  <mat-option value="partner">
-                    Asociado
-                  </mat-option>
-                  <mat-option value="client">
-                    Cliente
-                  </mat-option>
-                  <mat-option value="new">
-                    Nuevo
-                  </mat-option>
+                  <mat-option value="all"> Todos </mat-option>
+                  <mat-option value="admin"> Administrador </mat-option>
+                  <mat-option value="partner"> Asociado </mat-option>
+                  <mat-option value="client"> Cliente </mat-option>
+                  <mat-option value="new"> Nuevo </mat-option>
                 </mat-select>
               </mat-form-field>
             </div>
@@ -106,9 +96,10 @@
       </mat-card>
     </mat-card-header>
 
-    <!-- Posts List Container  -->
+    <!-- Users List Container  -->
     <mat-card-content class="item-list-content">
       <perfect-scrollbar
+        *ngIf="users.length > 0"
         class="scroll-container"
         fxFlex="auto"
         [config]="config"
@@ -128,11 +119,11 @@
                       }
               "
             >
-              <!-- Post Expansion Header -->
+              <!-- Users Expansion Header -->
               <mat-expansion-panel-header class="item-acordion-header">
                 <mat-panel-title class="item-acordion-title dfr">
                   <div class="header-item-icon centered-img-bg">
-                    <img [src]="user?.img | img: 'post':true" alt="" />
+                    <img [src]="user.img | img: 'user'" alt="" />
                   </div>
                   <div class="item-acordion-title-left general users dfr">
                     <div class="header-item-body dfc">
@@ -142,39 +133,63 @@
                             user?.firstName + " " + user?.lastName
                           }}</span>
                         </div>
+                        <div
+                          *ngIf="this._usersS.user.role === 'ADMIN'"
+                          class="header-item-subtitle dfr"
+                          [attr.data-role]="
+                            this._usersS.isExteralClient(user)
+                              ? 'EXTERNAL-CLIENT'
+                              : user.role
+                          "
+                        >
+                          <span>{{
+                            this._usersS.getUserRole(user, "list")
+                          }}</span>
+                        </div>
                       </div>
-                      <div class="header-item-data">
-                        <span>{{ user.email }}</span>
+                      <div class="header-item-data dfr">
+                        <span class="header-item-email">{{ user.email }}</span>
                       </div>
                     </div>
                   </div>
-                  <div class="header-item-actions general dfr">
-                    <mat-form-field
-                      class="header-item-btn-select users waves-effect waves-light dfr"
-                      [attr.data-rol]="user.role"
-                      floatLabel="never"
+                  <div
+                    *ngIf="!this._usersS.isExteralClient(user)"
+                    class="header-item-actions general dfr"
+                  >
+                    <!-- Users Role Button Trigger -->
+                    <button
+                      *ngIf="_usersS.user.role === 'ADMIN'"
+                      class="header-item-btn btn waves-effect mobile waves-light light-blue dfc"
+                      mat-icon-button
+                      [matMenuTriggerFor]="roleMenu"
                       (click)="moveDown($event)"
                       matTooltip="Rol del usuario"
                       matTooltipPosition="above"
                     >
-                      <mat-select
-                        (valueChange)="changeRol(user._id, $event)"
-                        [(value)]="user.role"
-                        name="role"
-                        class="custom-select"
-                      >
-                        <mat-option
-                          *ngFor="let rol of role"
-                          [value]="rol.value"
-                          class="custom-select-icon dfr"
-                        >
-                          <span> {{ rol.viewValue }}</span>
-                        </mat-option>
-                      </mat-select>
-                    </mat-form-field>
-                    <!-- File CRUD Button Trigger -->
+                      <i class="fas fa-cogs"></i>
+                    </button>
+                    <!-- Users Role Menu Content -->
+                    <mat-menu #roleMenu="matMenu" xPosition="before">
+                      <ng-template matMenuContent>
+                        <div class="dfc select-content-container">
+                          <!-- Role Options -->
+                          <button
+                            mat-menu-item
+                            *ngFor="let rol of role"
+                            [attr.data-active]="
+                              user.role === rol.value ? 'true' : 'false'
+                            "
+                            (click)="changeRol(user._id, rol.value)"
+                          >
+                            <i [class]="rol.icon"></i>
+                            <span> {{ rol.viewValue }}</span>
+                          </button>
+                        </div>
+                      </ng-template>
+                    </mat-menu>
+                    <!-- Users CRUD Button Trigger -->
                     <button
-                      class="header-item-btn btn waves-effect waves-light light-blue dfc"
+                      class="header-item-btn important-action btn waves-effect waves-light light-blue dfc"
                       mat-icon-button
                       [matMenuTriggerFor]="actionsMenu"
                       (click)="moveDown($event)"
@@ -183,7 +198,7 @@
                     >
                       <i class="material-icons">more_vert</i>
                     </button>
-                    <!-- File CRUD Menu Content -->
+                    <!-- Users CRUD Menu Content -->
                     <mat-menu #actionsMenu="matMenu" xPosition="before">
                       <ng-template matMenuContent>
                         <div class="dfc select-content-container">
@@ -203,8 +218,8 @@
                                 <button
                                   mat-menu-item
                                   *ngFor="let rol of role"
-                                  [style.color]="
-                                    user.role === rol.value ? 'white' : ''
+                                  [attr.data-active]="
+                                    user.role === rol.value ? 'true' : 'false'
                                   "
                                   (click)="changeRol(user._id, rol.value)"
                                 >
@@ -215,7 +230,6 @@
                             </ng-template>
                           </mat-menu>
                           <mat-divider class="mobile"></mat-divider>
-
                           <!-- Edit Option -->
                           <button
                             mat-menu-item
@@ -230,19 +244,27 @@
                             <span>Eliminar</span>
                           </button>
                           <!-- Favorite Option -->
-                          <button mat-menu-item>
+                          <!-- <button mat-menu-item>
                             <i class="material-icons">star_border</i>
                             <span>Favorito</span>
-                          </button>
+                          </button> -->
                         </div>
                       </ng-template>
                     </mat-menu>
                   </div>
                 </mat-panel-title>
               </mat-expansion-panel-header>
-              <!-- Post Expansion Body -->
+              <!-- Users Expansion Body -->
               <mat-card class="item-body-data-container">
                 <div class="item-body-data-content dfc">
+                  <div class="item-body-row mobile dfr">
+                    <span class="item-body-title">Rol</span>
+                    <span
+                      class="item-body-subtitle"
+                      [attr.data-role]="user.role"
+                      >{{ this._usersS.getUserRole(user, "list") }}</span
+                    >
+                  </div>
                   <div class="item-body-row dfr">
                     <span class="item-body-title">Fecha</span>
                     <span class="item-body-subtitle">{{
@@ -273,13 +295,32 @@
           </mat-accordion>
         </div>
       </perfect-scrollbar>
+      <!-- Not Users / Clients Registered Message -->
+      <div *ngIf="users.length === 0" class="no-data-container">
+        <div class="card sticky-action" style="width: 100%">
+          <div class="card-body card-content no-data dfr">
+            <div class="card-no-data-icon dfc">
+              <span>i</span>
+            </div>
+            <div class="card-no-data-information">
+              <span>
+                No hay
+                {{ _usersS.user.role === "ADMIN" ? "usuarios" : "clientes" }}
+                registrados
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
       <!-- Open User Creation Modal Button Trigger -->
       <div class="item-add-container">
         <button
           mat-icon-button
           class="item-add-button primary-text gradient-45deg-orange gradient-shadow dfc"
           (click)="openUsersModal()"
-          matTooltip="Crear usuario"
+          [matTooltip]="
+            _usersS.user.role === 'ADMIN' ? 'Crear usuario' : 'Crear cliente'
+          "
           matTooltipPosition="above"
         >
           <i class="material-icons">add</i>
@@ -288,7 +329,10 @@
     </mat-card-content>
 
     <!-- Users List Pagination -->
-    <mat-card-actions class="item-list-pagination-container dfr">
+    <mat-card-actions
+      *ngIf="users.length > 0"
+      class="item-list-pagination-container dfr"
+    >
       <pagination-controls
         class="news-pagination"
         (pageChange)="currentPage = $event"

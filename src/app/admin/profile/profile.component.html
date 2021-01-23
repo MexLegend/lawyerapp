@@ -7,33 +7,46 @@
   >
     <div class="scrollable-content dfr">
       <div class="profile-personal-data-container profile-card dfc">
+        <div class="profile-data-header dfr">
+          <i class="fas fa-user-circle big-icon"></i>
+          <span>Imágen de perfil</span>
+        </div>
         <div
           class="profile-image-container"
           matTooltip="Cambiar imagen de perfil"
           matTooltipPosition="below"
         >
-          <div class="profile-image-fake-bg"></div>
+          <div
+            class="profile-image-fake-bg"
+            (click)="userProfileAdminImg.click()"
+          ></div>
           <div class="profile-image centered-img-bg">
-            <img src="../../../assets/images/user.jpg" alt="" />
+            <img [src]="this._usersS.user.img | img: 'user'" />
           </div>
-          <div class="profile-image-upload dfc">
-            <i class="material-icons">camera_alt</i>
-          </div>
-        </div>
-        <div class="profile-info dfc">
-          <div class="profile-role"><span>Administrador</span></div>
-          <div class="profile-more-info dfr">
-            <div class="profile-more-box dfc">
-              <span>Clientes</span><span class="profile-box-quantity">18</span>
-            </div>
-            <div class="profile-more-box dfc">
-              <span>Artículos</span><span class="profile-box-quantity">13</span>
-            </div>
+          <div
+            class="profile-image-upload dfc"
+            [attr.data-active]="this._cloudinaryS.image ? 'on' : 'off'"
+            (click)="userProfileAdminImg.click()"
+          >
+            <i
+              class="material-icons"
+              [attr.data-active]="this._cloudinaryS.image ? 'on' : 'off'"
+              >camera_alt</i
+            >
+            <input
+              #userProfileAdminImg
+              type="file"
+              ng2FileSelect
+              [uploader]="this._cloudinaryS.uploader"
+              style="display: none"
+              accept="image/png, image/jpg, image/jpeg"
+              (onFileSelected)="this.onFileSelected($event)"
+            />
           </div>
         </div>
       </div>
       <div class="profile-data-inputs-container dfc">
-        <form ngNativeValidate #fA="ngForm" class="col s12">
+        <form ngNativeValidate #fAdmin="ngForm" class="col s12">
           <div class="profile-data-inputs-content profile-card dfc">
             <div class="profile-data-header dfr">
               <i class="fas fa-user-edit"></i>
@@ -43,8 +56,9 @@
               <div class="input-field col s12">
                 <div class="modal-input modal-input-blue">
                   <input
-                    id="adminName"
-                    name="adminName"
+                    id="adminFirstName"
+                    name="adminFirstName"
+                    [ngModel]="user?.firstName"
                     type="text"
                     class="validate"
                     placeholder=" "
@@ -52,7 +66,7 @@
                   <div
                     class="modal-input-placeholder modal-input-placeholder-blue"
                   >
-                    Nombre
+                    Nombre(s)*
                   </div>
                 </div>
               </div>
@@ -61,6 +75,7 @@
                   <input
                     id="adminLastName"
                     name="adminLastName"
+                    [ngModel]="user?.lastName"
                     type="text"
                     class="validate"
                     placeholder=" "
@@ -68,7 +83,7 @@
                   <div
                     class="modal-input-placeholder modal-input-placeholder-blue"
                   >
-                    Apellido
+                    Apellidos*
                   </div>
                 </div>
               </div>
@@ -77,6 +92,7 @@
                   <input
                     id="adminEmail"
                     name="adminEmail"
+                    [ngModel]="user?.email"
                     type="text"
                     class="validate"
                     placeholder=" "
@@ -84,15 +100,16 @@
                   <div
                     class="modal-input-placeholder modal-input-placeholder-blue"
                   >
-                    Correo
+                    Email*
                   </div>
                 </div>
               </div>
               <div class="input-field col s12">
                 <div class="modal-input modal-input-blue">
                   <input
-                    id="adminNumber"
-                    name="adminNumber"
+                    id="adminCellPhone"
+                    name="adminCellPhone"
+                    [ngModel]="user?.cellPhone"
                     type="text"
                     class="validate"
                     placeholder=" "
@@ -100,7 +117,7 @@
                   <div
                     class="modal-input-placeholder modal-input-placeholder-blue"
                   >
-                    Número
+                    Telefono
                   </div>
                 </div>
               </div>
@@ -109,6 +126,7 @@
                   <input
                     id="adminAddress"
                     name="adminAddress"
+                    [ngModel]="user?.address"
                     type="text"
                     class="validate"
                     placeholder=" "
@@ -116,7 +134,23 @@
                   <div
                     class="modal-input-placeholder modal-input-placeholder-blue"
                   >
-                    Dirección
+                    Domicilio
+                  </div>
+                </div>
+              </div>
+              <div class="input-field col s12">
+                <div class="modal-input modal-input-blue biography-textarea">
+                  <textarea
+                    id="biography"
+                    name="biography"
+                    [ngModel]="user?.biography"
+                    class="materialize-textarea contact-input"
+                    placeholder=" "
+                  ></textarea>
+                  <div
+                    class="modal-input-placeholder modal-input-placeholder-blue"
+                  >
+                    Biografia
                   </div>
                 </div>
               </div>
@@ -126,8 +160,10 @@
               <button
                 mat-icon-button
                 class="item-add-button primary-text gradient-45deg-orange gradient-shadow dfc"
+                [class.button-disabled]="!fAdmin.valid"
                 matTooltip="Guardar cambios"
                 matTooltipPosition="above"
+                (click)="updateAdmin(fAdmin.value)"
               >
                 <i class="material-icons">save</i>
               </button>

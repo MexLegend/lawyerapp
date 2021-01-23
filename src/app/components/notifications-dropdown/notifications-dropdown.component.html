@@ -1,0 +1,104 @@
+<div class="nav-fixed-option dfc" [attr.data-color]="color ? 'true' : 'false'">
+  <button
+    mat-button
+    [matMenuTriggerFor]="beforeMenu"
+    matTooltip="Notificaciones"
+    matTooltipPosition="below"
+  >
+    <i class="material-icons" style="width: fit-content">
+      notifications_none
+    </i>
+    <small class="notification-badge dfc">{{
+      notificationsArray.length
+    }}</small>
+  </button>
+  <!-- Dropdown Content -->
+  <mat-menu #beforeMenu="matMenu" xPosition="before">
+    <div class="notificationsMenu">
+      <div class="notifications-menu-title" (click)="$event.stopPropagation()">
+        <span> Notificaciones </span>
+      </div>
+      <mat-divider></mat-divider>
+      <button
+        *ngFor="let notification of notificationsArray"
+        (click)="navigateToUrl(notification.url_path)"
+        mat-menu-item
+      >
+        <div class="notificationMenu-item">
+          <div class="notificationMenu-item-content">
+            <div class="img-container dfc centered-img-bg border-none">
+              <div class="img-content dfc">
+                <img [src]="notification.image | img: 'user'" alt="" />
+              </div>
+            </div>
+            <div class="notificationMenu-item-body dfc">
+              <span class="notificationMenu-item-body-text">
+                <span class="notificationMenu-item-body-text-bold">
+                  <span class="notificationMenu-item-body-text-bold before">{{
+                    getNotificationAuthorRole(notification.user_actor_role)
+                  }}</span>
+                  {{ notification.user_actor + " " }} </span
+                >{{ notification.title }}</span
+              >
+              <time class="media-meta grey-text darken-2">
+                {{
+                  (notification?.created_at | date: "dd") +
+                    " " +
+                    (notification?.created_at | date: "MMM") +
+                    ", " +
+                    (notification?.created_at | date: "yyyy")
+                }}
+              </time>
+            </div>
+            <div class="chat-message-new dfc">
+              <div class="chat-message-no-read dfc"></div>
+            </div>
+          </div>
+        </div>
+      </button>
+    </div>
+  </mat-menu>
+</div>
+
+<!-- <button routerLink="/perfil/general" mat-menu-item>
+    <div class="notificationMenu-item">
+      <div class="notificationMenu-item-content">
+        <span class="material-icons icon-bg-circle red small">stars</span>
+        Completed the task
+      </div>
+      <time class="media-meta grey-text darken-2">3 days ago</time>
+    </div>
+  </button>
+  <button routerLink="/perfil/general" mat-menu-item>
+    <div class="notificationMenu-item">
+      <div class="notificationMenu-item-content">
+        <span class="material-icons icon-bg-circle teal small"
+          >settings</span
+        >
+        Settings updated
+      </div>
+      <time class="media-meta grey-text darken-2">4 days ago</time>
+    </div>
+  </button>
+  <button routerLink="/perfil/general" mat-menu-item>
+    <div class="notificationMenu-item">
+      <div class="notificationMenu-item-content">
+        <span class="material-icons icon-bg-circle deep-orange small"
+          >today</span
+        >
+        Director meeting started
+      </div>
+      <time class="media-meta grey-text darken-2">6 days ago</time>
+    </div>
+  </button>
+  <button routerLink="/perfil/general" mat-menu-item>
+    <div class="notificationMenu-item">
+      <div class="notificationMenu-item-content">
+        <span class="material-icons icon-bg-circle amber small"
+          >trending_up</span
+        >
+        Generate monthly report
+      </div>
+      <time class="media-meta grey-text darken-2">1 week ago</time>
+    </div>
+  </button> -->

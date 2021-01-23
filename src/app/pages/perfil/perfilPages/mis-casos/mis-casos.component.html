@@ -44,20 +44,14 @@
                     >
                       <mat-option
                         value="date"
-                        style="display: none;"
+                        style="display: none"
                         *ngIf="this.innerScreenWidth <= 810"
                       >
                         Fecha
                       </mat-option>
-                      <mat-option value="any">
-                        Cualquiera
-                      </mat-option>
-                      <mat-option value="recent">
-                        Reciente
-                      </mat-option>
-                      <mat-option value="old">
-                        Antiguo
-                      </mat-option>
+                      <mat-option value="any"> Cualquiera </mat-option>
+                      <mat-option value="recent"> Reciente </mat-option>
+                      <mat-option value="old"> Antiguo </mat-option>
                     </mat-select>
                   </mat-form-field>
                 </div>
@@ -102,9 +96,10 @@
           </mat-card>
         </mat-card-header>
 
-        <!-- Posts List Container  -->
+        <!-- Cases List Container  -->
         <mat-card-content class="item-list-content perfil">
           <perfect-scrollbar
+            *ngIf="cases.length > 0"
             class="scroll-container"
             fxFlex="auto"
             [config]="config"
@@ -115,7 +110,7 @@
                 <mat-expansion-panel
                   class="item-content"
                   *ngFor="
-                    let file of files
+                    let file of cases
                       | filter: filterValue:'case'
                       | paginate
                         : {
@@ -125,7 +120,7 @@
                   "
                   disabled
                 >
-                  <!-- Post Expansion Header -->
+                  <!-- Case Expansion Header -->
                   <mat-expansion-panel-header class="item-acordion-header">
                     <mat-panel-title class="item-acordion-title perfil dfr">
                       <div class="item-acordion-title-left perfil dfr">
@@ -133,6 +128,16 @@
                           <div class="header-item-title dfr">
                             <div class="header-item-title-wrap">
                               <span>{{ file?.affair }}</span>
+                            </div>
+                            <div
+                              class="tracking-item-file-header-status dfr"
+                              [attr.data-status]="file?.status"
+                            >
+                              <span>{{
+                                file?.status === "ACTIVE"
+                                  ? "Activo"
+                                  : "Archivado"
+                              }}</span>
                             </div>
                           </div>
                           <div class="header-item-data">
@@ -143,20 +148,23 @@
                       <div
                         class="header-item-actions general perfil-card-action dfr"
                       >
-                        <!-- File More Details Button Trigger -->
+                        <!-- Case More Details Button Trigger -->
                         <button
-                          class="btn waves-effect waves-light file-details-btn"
-                          (click)="goToFile(file?._id)"
+                          *ngIf="file?.status === 'ACTIVE'"
+                          class="header-item-btn btn waves-effect waves-light dfc"
+                          mat-icon-button
+                          (click)="
+                            goToFile(file?._id, file?.assigned_client?._id)
+                          "
+                          matTooltip="Más detalles"
+                          matTooltipPosition="above"
                         >
-                          <span>
-                            Más detalles
-                          </span>
-                          <i class="material-icons perfil dfc">visibility</i>
+                          <i class="material-icons">visibility</i>
                         </button>
                       </div>
                     </mat-panel-title>
                   </mat-expansion-panel-header>
-                  <!-- Post Expansion Body -->
+                  <!-- Case Expansion Body -->
                   <mat-card class="item-body-data-container">
                     <div class="item-body-data-content dfc"></div>
                   </mat-card>
@@ -164,10 +172,25 @@
               </mat-accordion>
             </div>
           </perfect-scrollbar>
+          <div *ngIf="cases.length === 0" class="no-data-container">
+            <div class="card sticky-action" style="width: 100%">
+              <div class="card-body card-content no-data dfr">
+                <div class="card-no-data-icon dfc">
+                  <span>i</span>
+                </div>
+                <div class="card-no-data-information">
+                  <span> No tienes casos asignados por el momento</span>
+                </div>
+              </div>
+            </div>
+          </div>
         </mat-card-content>
 
-        <!-- Users List Pagination -->
-        <mat-card-actions class="item-list-pagination-container dfr">
+        <!-- Cases List Pagination -->
+        <mat-card-actions
+          *ngIf="cases.length > 0"
+          class="item-list-pagination-container dfr"
+        >
           <pagination-controls
             class="news-pagination"
             (pageChange)="currentPage = $event"

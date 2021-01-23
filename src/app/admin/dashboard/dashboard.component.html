@@ -11,8 +11,8 @@
       <div class="scrollable-content">
         <div class="dashboard-box users dashboard-box">
           <div class="dashboard-content dfc">
-            <div class="dashboard-box-header dfc">
-              <i class="material-icons">perm_identity</i>
+            <div class="dashboard-box-header dfr">
+              <i class="material-icons users-icon">perm_identity</i>
               <span>Usuarios</span>
             </div>
             <div class="dashboard-box-divider"></div>
@@ -20,7 +20,9 @@
               <div class="dashboard-box-item waves-effect waves-light dfr">
                 <i class="fas fa-users-cog"></i>
                 <span class="dashboard-box-item-title">Administradores</span>
-                <span class="dashboard-box-item-quantity">2</span>
+                <span class="dashboard-box-item-quantity">
+                  {{ this.usersCount.admin }}
+                </span>
                 <div
                   class="dashboard-box-item-watch dfc"
                   matTooltip="Ver"
@@ -32,7 +34,9 @@
               <div class="dashboard-box-item waves-effect waves-light dfr">
                 <i class="fas fa-user-tie"></i>
                 <span class="dashboard-box-item-title">Asociados</span>
-                <span class="dashboard-box-item-quantity">5</span>
+                <span class="dashboard-box-item-quantity">
+                  {{ this.usersCount.associated }}
+                </span>
                 <div
                   class="dashboard-box-item-watch dfc"
                   matTooltip="Ver"
@@ -44,7 +48,9 @@
               <div class="dashboard-box-item waves-effect waves-light dfr">
                 <i class="fas fa-user-tag"></i>
                 <span class="dashboard-box-item-title">Clientes</span>
-                <span class="dashboard-box-item-quantity">9</span>
+                <span class="dashboard-box-item-quantity">
+                  {{ this.usersCount.client }}
+                </span>
                 <div
                   class="dashboard-box-item-watch dfc"
                   matTooltip="Ver"
@@ -56,7 +62,9 @@
               <div class="dashboard-box-item waves-effect waves-light dfr">
                 <i class="fas fa-user-plus"></i>
                 <span class="dashboard-box-item-title">Nuevos</span>
-                <span class="dashboard-box-item-quantity">12</span>
+                <span class="dashboard-box-item-quantity">
+                  {{ this.usersCount.new }}
+                </span>
                 <div
                   class="dashboard-box-item-watch dfc"
                   matTooltip="Ver"
@@ -70,8 +78,8 @@
         </div>
         <div class="dashboard-box articles dashboard-box">
           <div class="dashboard-content dfc">
-            <div class="dashboard-box-header dfc">
-              <i class="material-icons">import_contacts</i>
+            <div class="dashboard-box-header dfr">
+              <i class="material-icons posts-icon">import_contacts</i>
               <span>Artículos</span>
             </div>
             <div class="dashboard-box-divider"></div>
@@ -79,7 +87,9 @@
               <div class="dashboard-box-item waves-effect waves-light dfr">
                 <i class="fas fa-search"></i>
                 <span class="dashboard-box-item-title">En revisión</span>
-                <span class="dashboard-box-item-quantity">4</span>
+                <span class="dashboard-box-item-quantity">
+                  {{ this.postsCount.reviewing }}
+                </span>
                 <div
                   class="dashboard-box-item-watch dfc"
                   matTooltip="Ver"
@@ -89,9 +99,11 @@
                 </div>
               </div>
               <div class="dashboard-box-item waves-effect waves-light dfr">
-                <i class="fas fa-upload"></i>
+                <i class="fas fa-check-circle"></i>
                 <span class="dashboard-box-item-title">Publicados</span>
-                <span class="dashboard-box-item-quantity">20</span>
+                <span class="dashboard-box-item-quantity">
+                  {{ this.postsCount.publish }}
+                </span>
                 <div
                   class="dashboard-box-item-watch dfc"
                   matTooltip="Ver"
@@ -103,7 +115,9 @@
               <div class="dashboard-box-item waves-effect waves-light dfr">
                 <i class="fas fa-times-circle"></i>
                 <span class="dashboard-box-item-title">Rechazados</span>
-                <span class="dashboard-box-item-quantity">2</span>
+                <span class="dashboard-box-item-quantity">
+                  {{ this.postsCount.rejected }}
+                </span>
                 <div
                   class="dashboard-box-item-watch dfc"
                   matTooltip="Ver"
@@ -117,16 +131,18 @@
         </div>
         <div class="dashboard-box cases dashboard-box">
           <div class="dashboard-content dfc">
-            <div class="dashboard-box-header dfc">
-              <i class="fas fa-folder-open"></i>
+            <div class="dashboard-box-header dfr">
+              <i class="fas fa-folder-open cases-icon"></i>
               <span>Casos</span>
             </div>
             <div class="dashboard-box-divider"></div>
             <div class="dashboard-box-body cases dfc">
               <div class="dashboard-box-item waves-effect waves-light dfr">
-                <i class="material-icons">unarchive</i>
+                <i class="far fa-folder-open"></i>
                 <span class="dashboard-box-item-title">Activos</span>
-                <span class="dashboard-box-item-quantity">10</span>
+                <span class="dashboard-box-item-quantity">
+                  {{ this.casesCount.active }}
+                </span>
                 <div
                   class="dashboard-box-item-watch dfc"
                   matTooltip="Ver"
@@ -136,9 +152,11 @@
                 </div>
               </div>
               <div class="dashboard-box-item waves-effect waves-light dfr">
-                <i class="material-icons">archive</i>
+                <i class="far fa-folder"></i>
                 <span class="dashboard-box-item-title">Archivados</span>
-                <span class="dashboard-box-item-quantity">3</span>
+                <span class="dashboard-box-item-quantity">
+                  {{ this.casesCount.archived }}
+                </span>
                 <div
                   class="dashboard-box-item-watch dfc"
                   matTooltip="Ver"
@@ -162,14 +180,14 @@
     </div> -->
         <div class="dashboard-box files dashboard-box">
           <div class="dashboard-content dfc">
-            <div class="dashboard-box-header dfc">
-              <i class="fas fa-paperclip"></i>
+            <div class="dashboard-box-header dfr">
+              <i class="fas fa-paperclip files-icon"></i>
               <span>Archivos</span>
             </div>
             <div class="dashboard-box-divider"></div>
             <div class="dashboard-box-body files dfc">
               <div class="dashboard-box-item waves-effect waves-light dfr">
-                <i class="fas fa-search"></i>
+                <i class="fas fa-search files-icon"></i>
                 <span class="dashboard-box-item-title">PDF</span>
                 <span class="dashboard-box-item-quantity">24</span>
                 <div
@@ -210,7 +228,7 @@
         <div class="dashboard-box comments dashboard-box">
           <div class="dashboard-content dfc">
             <div class="dashboard-box-header last-comments dfr">
-              <i class="material-icons">forum</i>
+              <i class="material-icons comments-icon">forum</i>
               <span>Comentarios recientes de los artículos</span>
             </div>
             <div class="dashboard-box-divider"></div>

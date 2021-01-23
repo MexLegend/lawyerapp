@@ -18,12 +18,12 @@
           (click)="sidenavMode === 'push' ? adminSidenav.toggle() : ''"
           ><img
             [src]="
-              this._themeS.check
+              this.isDarkThemeActive
                 ? '../../../assets/images/brand.png'
                 : '../../../assets/images/brand_black.png'
             "
             alt="site logo"
-            style="width: 100%;"
+            style="width: 86%"
         /></a>
       </div>
 
@@ -31,9 +31,10 @@
         <!-- Main Navbar Options Container -->
         <div class="main-navbar-container-wrapper custom-scroll-y">
           <div class="main-navbar-container dfc">
-            <div class="dfr" style="width: 100%; position: relative;">
+            <div class="dfr" style="width: 100%; position: relative">
               <!-- Main Navbar Principal Options -->
               <ul class="main-sidenav-principal-options">
+                <!-- DashBoard -->
                 <li class="bold">
                   <a
                     class="waves-effect waves-cyan dfc"
@@ -47,7 +48,8 @@
                     <span>Tablero</span>
                   </a>
                 </li>
-                <li class="bold">
+                <!-- Messages -->
+                <!-- <li class="bold">
                   <a
                     class="waves-effect waves-cyan dfc"
                     routerLink="/mensajes"
@@ -59,7 +61,8 @@
                     <i class="far fa-comment"></i>
                     <span>Mensajes</span>
                   </a>
-                </li>
+                </li> -->
+                <!-- Users -->
                 <li class="bold">
                   <a
                     class="waves-effect waves-cyan dfc"
@@ -73,6 +76,7 @@
                     <span>Usuarios</span>
                   </a>
                 </li>
+                <!-- Posts -->
                 <li class="bold">
                   <a
                     class="waves-effect waves-cyan dfc"
@@ -86,6 +90,7 @@
                     <span>Artículos</span>
                   </a>
                 </li>
+                <!-- Cases -->
                 <li class="bold">
                   <a
                     class="waves-effect waves-cyan dfc"
@@ -97,21 +102,6 @@
                   >
                     <i class="fas fa-folder-open"></i>
                     <span>Casos</span>
-                  </a>
-                </li>
-                <li class="bold">
-                  <a
-                    class="waves-effect waves-cyan dfc"
-                    routerLink="/seguimiento-caso"
-                    [attr.data-active]="
-                      actSt === '/seguimiento-caso' ? 'on' : 'off'
-                    "
-                    (click)="
-                      sidenavMode === 'push' ? adminSidenav.toggle() : ''
-                    "
-                  >
-                    <i class="fas fa-file-signature"></i>
-                    <span>Seguimiento</span>
                   </a>
                 </li>
                 <!-- <li class="bold">
@@ -151,7 +141,7 @@
     position="end"
     class="chat-sidenav"
   >
-    <app-chat-sidenav></app-chat-sidenav>
+    <app-chat-sidenav *ngIf="this._usersS.isLogged()"></app-chat-sidenav>
   </mat-sidenav>
 
   <mat-sidenav-content>
@@ -173,7 +163,7 @@
             <a
               id="main-sidenav-trigger"
               class="btn-sidenav-toggle btn-floating btn-medium gradient-45deg-orange waves-effect waves-light hide-on-large-only"
-              style="position: fixed;"
+              style="position: fixed"
               (click)="adminSidenav.toggle(); this.showSidenav = true"
               matTooltip="Menú"
               matTooltipPosition="below"
@@ -193,34 +183,15 @@
                 </div>
               </div>
             </div>
-
             <!-- Admin Navbar Options Container -->
             <ul class="navbar-list right">
-              <!-- Toggle Full Screen Option -->
-              <li class="hide-on-med-and-down">
-                <div class="nav-option-container">
-                  <a
-                    class="waves-effect waves-block waves-light toggle-fullscreen dfc"
-                    (click)="
-                      !isfullscreen ? openfullscreen() : closefullscreen()
-                    "
-                    [matTooltip]="
-                      !isfullscreen
-                        ? 'Pantalla completa'
-                        : 'Salir de pantalla completa'
-                    "
-                    matTooltipPosition="below"
-                    ><i class="material-icons">settings_overscan</i></a
-                  >
-                </div>
-              </li>
               <!-- Messages Option -->
               <li>
                 <!-- Button Triger -->
                 <button
                   class="nav-messages-button-trigger"
                   mat-button
-                  (click)="adminChatSidenav.toggle()"
+                  (click)="this._chatS.toggleChat(false)"
                   matTooltip="Mensajes"
                   matTooltipPosition="below"
                 >
@@ -232,70 +203,15 @@
                       <div>
                         <i class="far fa-comment"></i>
                       </div> </a
-                    ><small class="notification-badge admin dfc">{{
-                      notifications?.total
-                    }}</small>
+                    ><small class="notification-badge admin dfc">2</small>
                   </div>
                 </button>
               </li>
               <!-- Notifications Option -->
               <li>
-                <!-- Button Triger -->
-                <button
-                  class="nav-notifications-button-trigger"
-                  mat-button
-                  [matMenuTriggerFor]="notificationsMenu"
-                  matTooltip="Notificaciones"
-                  matTooltipPosition="below"
-                >
-                  <div class="nav-option-container">
-                    <a
-                      class="waves-effect waves-block waves-light notification-button dropdown-trigger dfc"
-                      href="javascript:void(0);"
-                      data-target="notifications-dropdown"
-                    >
-                      <div>
-                        <i class="material-icons">notifications_none</i>
-                      </div> </a
-                    ><small class="notification-badge admin dfc">{{
-                      notifications?.total
-                    }}</small>
-                  </div>
-                </button>
-                <!-- Dropdown Content -->
-                <mat-menu #notificationsMenu="matMenu" xPosition="before">
-                  <div
-                    class="notificationsMenu"
-                    (click)="$event.stopPropagation()"
-                  >
-                    <button mat-menu-item>
-                      <span
-                        style="text-transform: uppercase; font-size: 1.15rem;"
-                      >
-                        Notificaciones
-                      </span>
-                      <span class="new badge">{{ notifications?.total }}</span>
-                    </button>
-                    <mat-divider></mat-divider>
-                    <button
-                      *ngFor="let notification of notifications?.docs"
-                      mat-menu-item
-                    >
-                      <div class="notificationMenu-item">
-                        <div class="notificationMenu-item-content">
-                          <span
-                            class="material-icons icon-bg-circle light-blue small"
-                            >add_shopping_cart</span
-                          >
-                          {{ notification?.title }}
-                        </div>
-                        <time class="media-meta grey-text darken-2">{{
-                          notification?.created_at | date
-                        }}</time>
-                      </div>
-                    </button>
-                  </div>
-                </mat-menu>
+                <app-notifications-dropdown
+                  [color]="true"
+                ></app-notifications-dropdown>
               </li>
               <!-- Perfil Option -->
               <li>
@@ -313,7 +229,8 @@
                     <div class="avatar-status avatar-online">
                       <div class="centered-img-bg border-none dfc">
                         <img
-                          [src]="_usersS.user?.img | img: 'user':true"
+                          *ngIf="this._usersS.user"
+                          [src]="this._usersS.user?.img | img: 'user':true"
                           alt="avatar"
                         />
                       </div>
@@ -329,24 +246,25 @@
                       >
                         <div class="perfil-icon centered-img-bg">
                           <img
-                            [src]="this._usersS.user.img | img: 'user':true"
-                            style="width: 100%;"
+                            *ngIf="this._usersS.user"
+                            [src]="this._usersS.user?.img | img: 'user':true"
+                            style="width: 100%"
                           />
                         </div>
                         <div class="perfil-text dfc">
                           <span class="perfil-name ff-rr">{{
-                            this._usersS.user.firstName
+                            this._usersS.user?.firstName
                               .split(" ")[0]
                               .concat(
                                 " ",
-                                this._usersS.user.lastName.split(
+                                this._usersS.user?.lastName.split(
                                   "
                             "
                                 )[0]
                               )
                           }}</span>
                           <span class="perfil-email ff-rr">{{
-                            this._usersS.user.email
+                            this._usersS.user?.email
                           }}</span>
                         </div>
                       </div>
@@ -365,15 +283,15 @@
                       <button
                         mat-menu-item
                         class="dfr"
-                        style="justify-content: space-between;"
-                        (click)="
-                          switch(); changeTheme(); $event.stopPropagation()
-                        "
+                        style="justify-content: space-between"
+                        (click)="changeTheme(); $event.stopPropagation()"
                       >
                         <div class="dfr">
                           <i class="material-icons">brightness_4</i>Modo oscuro
                         </div>
-                        <app-theme-switch></app-theme-switch>
+                        <app-theme-switch
+                          [obtainedTheme]="this.isDarkThemeActive"
+                        ></app-theme-switch>
                       </button>
                       <!-- Logout Option -->
                       <button

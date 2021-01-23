@@ -2,6 +2,27 @@
 /*         PERFIL MEDIA QUERIES        |
 /* - - - - - - - - - - - - - - - - - - |*/
 
+@media only screen and (max-width: 1105px) {
+  .account-button {
+    padding: 0 !important;
+  }
+
+  .avatar-status .avatar-name {
+    display: none;
+  }
+
+  .avatar-status .centered-img-bg {
+    height: 40px !important;
+    width: 40px !important;
+  }
+
+  .avatar-status {
+    height: 40px !important;
+    min-height: 40px !important;
+    max-height: 40px !important;
+  }
+}
+
 @media only screen and (max-width: 992px) {
   .perfil-footer {
     font-size: 14px !important;
@@ -116,6 +137,12 @@
   background: -moz-linear-gradient(45deg, #b72318 10%, #ff5722 62%) !important;
 }
 
+.navbar-options .navbar-option.account-option {
+  width: max-content;
+  background: transparent !important;
+  border-radius: 40px;
+}
+
 .navbar-options .navbar-option:hover {
   /* background: #1a3499; */
   background: linear-gradient(45deg, #9e1b12 10%, #cc4117 62%) !important;
@@ -136,6 +163,14 @@
   color: #949ba1;
 }
 
+.account-button {
+  width: max-content;
+  min-width: max-content;
+  border-radius: 40px;
+  padding: 2px 5px;
+  background: transparent !important;
+}
+
 .perfil-button-trigger.fa i {
   font-size: 21px;
   color: white;
@@ -143,18 +178,19 @@
 
 .avatar-status {
   position: relative;
-  width: 40px;
-  min-width: 40px;
-  max-width: 40px;
-  height: 40px;
-  min-height: 40px;
-  max-height: 40px;
+  width: max-content;
+  min-width: max-content;
+  max-width: max-content;
+  height: 36px;
+  min-height: 36px;
+  max-height: 36px;
+  z-index: 1;
 }
 
 .avatar-status .centered-img-bg {
-  width: inherit;
-  height: inherit;
-  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  border-radius: 50px;
 }
 
 .avatar-status i {
@@ -166,6 +202,26 @@
   height: 10px !important;
   border: 1px solid #fff;
   border-radius: 100%;
+}
+
+.avatar-status .avatar-name {
+  width: max-content;
+  max-width: 140px;
+  margin: 0 5px;
+  text-transform: capitalize;
+  color: white;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.avatar-status .avatar-name span {
+  max-width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  color: var(--white-color);
+  display: block;
+  line-height: 36px;
 }
 
 /* - - - - - - - - - - - - - - - - - - |

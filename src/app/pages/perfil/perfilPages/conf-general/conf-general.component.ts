@@ -1,138 +1,177 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
-import { SwPush, SwUpdate } from '@angular/service-worker';
-import { Subscription } from 'rxjs';
+import { Component, OnDestroy, OnInit } from "@angular/core";
+import { NgForm } from "@angular/forms";
+import { SwPush, SwUpdate } from "@angular/service-worker";
+import { Subscription } from "rxjs";
 
-import { User } from '../../../../models/User';
-import { UsersService } from '../../../../services/users.service';
-import { WebPushNotificationsService } from '../../../../services/webPushNotifications.service';
-import { ImgService } from '../../../../services/img.service';
-import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
-import { FileUploadComponent } from '../../../../modals/file-upload/file-upload.component';
-import { MatDialog } from '@angular/material/dialog';
+import { CloudinaryService } from "../../../../services/cloudinary.service";
+import { MatDialog } from "@angular/material/dialog";
+import { PerfectScrollbarConfigInterface } from "ngx-perfect-scrollbar";
+import { User } from "../../../../models/User";
+import { UsersService } from "../../../../services/users.service";
+import { WebPushNotificationsService } from "../../../../services/webPushNotifications.service";
 
 @Component({
-  selector: 'app-conf-general',
-  templateUrl: './conf-general.component.html',
-  styleUrls: ['./conf-general.component.css']
+  selector: "app-conf-general",
+  templateUrl: "./conf-general.component.html",
+  styleUrls: ["./conf-general.component.css"],
 })
 export class ConfGeneralComponent implements OnInit, OnDestroy {
-
   constructor(
     public dialog: MatDialog,
-    private swPush: SwPush,
     private swUpdate: SwUpdate,
-    public _imgS: ImgService,
+    public _cloudinaryS: CloudinaryService,
     public _usersS: UsersService,
-    public _webPN: WebPushNotificationsService
-  ) {
-    this.user = this._usersS.user;
-  }
+    public _webPushNotificationsS: WebPushNotificationsService
+  ) {}
 
-  notificationsSubs: Subscription;
+  subscriptionsArray: Subscription[] = [];
 
   user: User;
-  readonly VAPID_PUBLIC_KEY = 'BFzRa32U-hCa5uiD2nHyiJx_OBHj3v2q9C_-sjyA_xMy2N6E62Uw8GFfGzMa5bQOgxGceTgajzejbTExleHbMXM';
+  readonly VAPID_PUBLIC_KEY =
+    "BFzRa32U-hCa5uiD2nHyiJx_OBHj3v2q9C_-sjyA_xMy2N6E62Uw8GFfGzMa5bQOgxGceTgajzejbTExleHbMXM";
 
-  passAct: string = '';
-  passNew: string = '';
-  passNewR: string = '';
+  passAct: string = "";
+  passNew: string = "";
+  passNewR: string = "";
 
   public config: PerfectScrollbarConfigInterface = {};
 
   ngOnInit() {
-    this.reloadCache()
-    this.notificationsSubs = this._webPN.getNotifications()
-      .subscribe(notification => {
-        console.log(this._usersS.user.role);
-        if (notification) {
-          console.log('Notification: ' + notification)
-          this._webPN.get()
-            .subscribe(resp => {
-              console.log('Resp: ' + resp)
-            })
-        }
-      });
-    this._imgS.fileUrl = this.user.img;
+    this.reloadCache();
+
+    this._cloudinaryS.uploaderSend("image");
+
+    // Get User Data Subscription
+    this.subscriptionsArray.push(
+      this._usersS
+        .getUser(this._usersS.user._id)
+        .subscribe((user) => (this.user = user))
+    );
+
+    // Validate Invalid Format Files
+    this._cloudinaryS.uploader.onWhenAddingFileFailed = (item, filter) => {
+      // let message = '';
+      // switch (filter.name) {
+      //   case 'queueLimit':
+      //     message = 'Permitido o envio de no máximo ' + queueLimit + ' arquivos';
+      //     break;
+      //   case 'fileSize':
+      //     message = 'O arquivo ' + item.name + ' possui ' + formatBytes(item.size) + ' que ultrapassa o tamanho máximo permitido de ' + formatBytes(maxFileSize);
+      //     break;
+      //   default:
+      //     message = 'Erro tentar incluir o arquivo';
+      //     break;
+
+      this._cloudinaryS.formatInvalidError("img");
+    };
+
+    // Get Cloudinary File Uploaded Response
+    this.subscriptionsArray.push(
+      this._cloudinaryS.getFile().subscribe(({ url, public_id }) => {
+        this.updateImage({ url, public_id });
+      })
+    );
   }
 
+  // Unsubscribe Any Subscription
   ngOnDestroy() {
-    this.notificationsSubs.unsubscribe();
+    this.subscriptionsArray.map((subscription) => subscription.unsubscribe());
   }
 
-  imageValidation($event) {
-    this._imgS.imageValidation($event)
-  }
+  updateImage(image: Object) {
+    this._cloudinaryS.setFileType("user");
+    this._cloudinaryS.uploader.uploadAll();
 
-  openFileUploadModal() {
-    let dialogRef = this.dialog.open(FileUploadComponent, { data: { typeImg: "user", idImg: this._usersS.user._id }, autoFocus: false });
-
-    dialogRef.afterOpened().subscribe(result => {
-      $('body').css('overflow', 'hidden');
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      $('body').css('overflow', '');
-    });
+    this.subscriptionsArray.push(
+      this._usersS.updateImage(this._usersS.user._id, image).subscribe()
+    );
   }
 
   reloadCache() {
     if (this.swUpdate.isEnabled) {
-      this.swUpdate.available.subscribe(() => {
-        if (confirm("Hay una nueva version, desea actualizar?")) {
-          window.location.reload()
-        }
-      })
-    }
-  }
-
-  subscribeToNotification(name: string) {
-    if (this.swPush.isEnabled) {
-      this.swPush.requestSubscription({
-        serverPublicKey: this.VAPID_PUBLIC_KEY
-      })
-        .then(sub => {
-
-          this._webPN.postSubscription(sub, name)
-            .subscribe(resp => {
-              console.log('Resp PostSubs: ' + resp)
-            })
+      this.subscriptionsArray.push(
+        this.swUpdate.available.subscribe(() => {
+          if (confirm("Hay una nueva version, desea actualizar?")) {
+            window.location.reload();
+          }
         })
-        .catch(console.log)
+      );
     }
   }
 
-  update(user: any) {
-    console.log(this._imgS.file)
+  updateClient(user: any) {
     this.user.address = user.address;
     this.user.cellPhone = user.cellPhone;
     this.user.email = user.emailU;
     this.user.firstName = user.firstName;
     this.user.lastName = user.lastName;
-    if (this._imgS.file !== undefined) {
-      this.user.img = this._imgS.file
-    }
 
-    this._usersS.updateUser(this.user._id, this.user)
-      .subscribe(resp => {
-        console.log(resp)
-        this.subscribeToNotification(this.user.firstName);
-      });
+    this.subscriptionsArray.push(
+      this._usersS.updateUser(this.user._id, this.user).subscribe(() => {
+        if (this.user.role === "CLIENT") {
+          // Set Notification Data
+          this._webPushNotificationsS
+            .createNotificationObject(
+              this.user.img,
+              "actualizó su perfil",
+              "user",
+              `usuarios`,
+              this.user._id,
+              this._usersS.getCurrentUserName(),
+              this.user.role,
+              null,
+              ["ADMIN"]
+            )
+            .then((notificationObject) => {
+              // Create Notification With The Specified Data
+              const notificationCreatedSub = this._webPushNotificationsS
+                .createNotification(notificationObject)
+                .subscribe(() => {
+                  notificationCreatedSub.unsubscribe();
+                });
+            });
+        } else {
+          // Set Notification Data
+          this._webPushNotificationsS
+            .createNotificationObject(
+              this.user.img,
+              "actualizó su perfil",
+              "user",
+              `usuarios`,
+              this.user._id,
+              this._usersS.getCurrentUserName(),
+              this.user.role,
+              null,
+              ["ADMIN"]
+            )
+            .then((notificationObject) => {
+              // Create Notification With The Specified Data
+              const notificationCreatedSub = this._webPushNotificationsS
+                .createNotification(notificationObject)
+                .subscribe(() => {
+                  notificationCreatedSub.unsubscribe();
+                });
+            });
+        }
+      })
+    );
   }
 
   updatePass(f: NgForm) {
-
     const data = {
       passAct: f.value.passAct,
       passNew: f.value.passNew,
-      passNewR: f.value.passNewR
-    }
+      passNewR: f.value.passNewR,
+    };
 
-    this._usersS.updatePassword(this._usersS.user._id, data)
-      .subscribe(resp => {
-        if (resp.ok) {
-          f.reset()
-        }
-      })
+    this.subscriptionsArray.push(
+      this._usersS
+        .updatePassword(this._usersS.user._id, data)
+        .subscribe((resp) => {
+          if (resp.ok) {
+            f.reset();
+          }
+        })
+    );
   }
 }

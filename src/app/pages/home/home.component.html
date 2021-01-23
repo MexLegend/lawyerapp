@@ -1,20 +1,15 @@
 <section id="index-container" class="pr pt-71">
   <!-- Inicio Carousel Principal-->
-  <div
-    id="carouselPrincipal"
-    class="carousel carousel-slider center "
-    data-indicators="true"
-  >
-    <hr class="carousel-progress-bar-timer animate" />
+  <div id="carouselPrincipal" class="carousel carousel-slider center">
     <div
       class="carousel-fixed-item center middle-indicator"
-      style="height: fit-content;"
+      style="height: fit-content"
     >
       <div class="left">
         <a
           href="Previo"
           class="movePrevCarousel middle-indicator-text waves-effect waves-light content-indicator"
-          ><i class="material-icons left  middle-indicator-text"
+          ><i class="material-icons left middle-indicator-text"
             >chevron_left</i
           ></a
         >
@@ -23,139 +18,222 @@
       <div class="right">
         <a
           href="Siguiente"
-          class=" moveNextCarousel middle-indicator-text waves-effect waves-light content-indicator"
+          class="moveNextCarousel middle-indicator-text waves-effect waves-light content-indicator"
           ><i class="material-icons right middle-indicator-text"
             >chevron_right</i
           ></a
         >
       </div>
     </div>
-    <div id="slideOne" class="carousel-item red white-text" href="#one!">
+    <div id="main-slide" class="carousel-item dfr">
+      <div class="main-slide-box-shadow"></div>
+      <div class="centered-img-bg border-none dfc">
+        <img src="../../../assets/images/carouselPartners/slide_1.png" alt="" />
+      </div>
       <div class="container carousel-content">
-        <h2>First Slide Text Example</h2>
-        <p class="white-text gradient-neg-45deg-light-blue">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras pulvinar
-          <br />
-          erat risus, eget sagittis dui mollis ac. Proin pellentesque, sapien
-          vel
-          <br />
-          sollicitudin eleifend, leo quam pretium arcu, a luctus nibh leo quis
-          tellus.
-        </p>
-        <span>First Text</span>
-        <span>Second Text</span>
-        <span>Third Text</span>
-        <span>Fourth Text</span>
-        <span>Fifth Text</span>
-        <a class="waves-effect waves-light btn gradient-45deg-dark-blue"
-          >Más información</a
+        <h2>"Precio justo, servicio extraordinario"</h2>
+        <!-- <span>First Text</span> -->
+        <a
+          class="waves-effect waves-light btn gradient-45deg-dark-blue"
+          routerLink="/contacto"
+          (click)="this._utilitiesS.scrollToTop()"
         >
-      </div>
-    </div>
-    <div id="slideTwo" class="carousel-item amber white-text" href="#two!">
-      <div class="container carousel-content" style="align-items: center;">
-        <h2>Second Slide Text Example</h2>
-        <p class="white-text gradient-neg-45deg-light-blue">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras pulvinar
-          <br />
-          erat risus, eget sagittis dui mollis ac. Proin pellentesque, sapien
-          vel
-          <br />
-          sollicitudin eleifend, leo quam pretium arcu, a luctus nibh leo quis
-          tellus.
-        </p>
-        <span>First Text</span>
-        <span>Second Text</span>
-        <span>Third Text</span>
-        <span>Fourth Text</span>
-        <span>Fifth Text</span>
-        <a class="waves-effect waves-light btn gradient-45deg-dark-blue"
-          >Más Información</a
-        >
-      </div>
-    </div>
-    <div id="slideThree" class="carousel-item green white-text" href="#three!">
-      <div class="container carousel-content" style="align-items: flex-end;">
-        <h2>Third Slide Text Example</h2>
-        <p class="white-text gradient-neg-45deg-light-blue">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras pulvinar
-          <br />
-          erat risus, eget sagittis dui mollis ac. Proin pellentesque, sapien
-          vel
-          <br />
-          sollicitudin eleifend, leo quam pretium arcu, a luctus nibh leo quis
-          tellus.
-        </p>
-        <span>First Text</span>
-        <span>Second Text</span>
-        <span>Third Text</span>
-        <span>Fourth Text</span>
-        <span>Fifth Text</span>
-        <a class="waves-effect waves-light btn gradient-45deg-dark-blue"
-          >Más información</a
-        >
-      </div>
-    </div>
-    <div
-      id="slideFour"
-      class="carousel-item cyan accent-3 white-text"
-      href="#four!"
-    >
-      <div class="container carousel-content" style="align-items: center;">
-        <h2>Fourth Slide Text Example</h2>
-        <p class="white-text gradient-neg-45deg-light-blue">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras pulvinar
-          <br />
-          erat risus, eget sagittis dui mollis ac. Proin pellentesque, sapien
-          vel
-          <br />
-          sollicitudin eleifend, leo quam pretium arcu, a luctus nibh leo quis
-          tellus.
-        </p>
-        <span>First Text</span>
-        <span>Second Text</span>
-        <span>Third Text</span>
-        <span>Fourth Text</span>
-        <span>Fifth Text</span>
-        <a class="waves-effect waves-light btn gradient-45deg-dark-blue"
-          >Más información</a
-        >
+          <span>Contactanos</span>
+        </a>
       </div>
     </div>
   </div>
   <!-- Fin Carousel Principal-->
 
   <!-- Inicio Carousel Partners-->
-  <div class="container">
-    <div id="partnersText">
-      <span>Partners</span>
-    </div>
+  <div *ngIf="lawyers.length > 0" id="partners-carousel-container" class="dfc">
     <div id="carousel-Partners" class="carousel carousel-slider">
-      <a class="carousel-item" href="#one!">
-        <img src="../../../assets/images/Slide_1.png" />
-        <div class="carousel-Parters-Title"><span>Titulo</span></div>
-      </a>
-      <a class="carousel-item" href="#two!">
-        <img src="../../../assets/images/Slide_2.jpg" />
-        <div class="carousel-Parters-Title"><span>Titulo</span></div>
-      </a>
-      <a class="carousel-item" href="#three!">
-        <img src="../../../assets/images/Slide_3.jpg" />
-        <div class="carousel-Parters-Title"><span>Titulo</span></div>
-      </a>
-      <a class="carousel-item" href="#four!">
-        <img src="../../../assets/images/Slide_4.jpg" />
-        <div class="carousel-Parters-Title"><span>Titulo</span></div>
-      </a>
-      <a class="carousel-item" href="#four!">
-        <img src="../../../assets/images/Slide_2.jpg" />
-        <div class="carousel-Parters-Title"><span>Titulo</span></div>
-      </a>
-      <a class="carousel-item" href="#four!">
-        <img src="../../../assets/images/Slide_3.jpg" />
-        <div class="carousel-Parters-Title"><span>Titulo</span></div>
-      </a>
+      <mat-card-content class="item-list-content tracking-details">
+        <div id="partnersText" class="item-list-content-title dfr">
+          <span>Abogados Asociados</span>
+          <div class="item-list-content-controls partners-controls dfr"></div>
+        </div>
+        <!-- Partners Item Cards -->
+        <div class="partners-carousel-item item-acordion-card-container dfr">
+          <!-- Partners Left Arrow Indicator -->
+          <div class="item-acordion-card-left-indicator partners-row-indicator">
+            <button
+              (click)="scrollCarouselToLeft('partners', '.partners-controls')"
+            >
+              <i class="fas fa-angle-left"></i>
+            </button>
+          </div>
+          <!-- Partners Cards -->
+          <div class="item-acordion-card-carousel" #partenersCarousel>
+            <div
+              class="item-acordion-card-box evidence-card-box partnersArray dfc"
+              *ngFor="let lawyer of lawyers"
+              #partnersArray
+            >
+              <!-- Partner Card Header -->
+              <div class="item-acordion-card-header dfr">
+                <div
+                  class="item-acordion-card-header-data note-card-header dfc"
+                >
+                  <div class="item-acordion-card-header-left dfr">
+                    <div class="item-acordion-card-name lawyer-name">
+                      <span
+                        >Lic.
+                        {{ lawyer.firstName + " " + lawyer.lastName }}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Partner Card Body -->
+              <div class="item-acordion-card-body dfr" data-note-details="true">
+                <div
+                  class="item-acordion-card-body-data lawyer-acordion-body dfc"
+                >
+                  <div
+                    class="item-acordion-card-body-content lawyer-acordion-content"
+                  >
+                    <span>
+                      {{
+                        lawyer.biography ? lawyer.biography : "Sin biografía"
+                      }}
+                    </span>
+                  </div>
+                </div>
+                <div class="item-acordion-card-body-image centered-img-bg dfr">
+                  <img [src]="lawyer.img | img: 'user'" />
+                </div>
+              </div>
+              <!-- Partner Card Actions -->
+              <div class="item-acordion-body-actions dfr">
+                <!-- Partner Button Trigger -->
+                <button
+                  class="header-item-btn btn action-button dfc"
+                  mat-icon-button
+                  matTooltip="Contactar por correo"
+                  matTooltipPosition="above"
+                  (click)="openReplyModal(lawyer)"
+                >
+                  <i class="far fa-envelope"></i>
+                </button>
+                <!-- Partner Button Trigger -->
+                <button
+                  *ngIf="_usersS.isLogged()"
+                  class="header-item-btn btn action-button important-action dfc"
+                  mat-icon-button
+                  matTooltip="Contactar por mensaje"
+                  matTooltipPosition="above"
+                  (click)="openChat(lawyer)"
+                >
+                  <i class="far fa-comment"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+          <!-- Partners Right Arrow Indicator -->
+          <div
+            class="item-acordion-card-right-indicator partners-row-indicator"
+          >
+            <button
+              (click)="scrollCarouselToRight('partners', '.partners-controls')"
+            >
+              <i class="fas fa-angle-right"></i>
+            </button>
+          </div>
+        </div>
+      </mat-card-content>
     </div>
   </div>
   <!-- Fin Carousel Partners-->
+
+  <!-- Inicio Carousel Posts-->
+  <div *ngIf="posts.length > 0" id="partners-carousel-container" class="dfc">
+    <div id="carousel-Partners" class="carousel carousel-slider">
+      <mat-card-content class="item-list-content tracking-details">
+        <div id="partnersText" class="item-list-content-title dfr">
+          <span>Últimos Artículos</span>
+          <div class="item-list-content-controls posts-controls dfr"></div>
+        </div>
+        <!-- Posts Item Cards -->
+        <div class="partners-carousel-item item-acordion-card-container dfr">
+          <!-- Post Left Arrow Indicator -->
+          <div class="item-acordion-card-left-indicator posts-row-indicator">
+            <button (click)="scrollCarouselToLeft('posts', '.posts-controls')">
+              <i class="fas fa-angle-left"></i>
+            </button>
+          </div>
+          <!-- Posts Cards -->
+          <div class="item-acordion-card-carousel" #postsCarousel>
+            <div
+              class="item-acordion-card-box evidence-card-box dfc"
+              *ngFor="
+                let post of posts
+                  | paginate: { itemsPerPage: 10, currentPage: currentPage }
+              "
+              #postsArray
+            >
+              <!-- Post Card Header -->
+              <div class="item-acordion-card-header dfr">
+                <div
+                  class="item-acordion-card-header-data note-card-header dfc"
+                >
+                  <div class="item-acordion-card-header-left dfr">
+                    <div class="item-acordion-card-name lawyer-name">
+                      <span>{{ post?.title }}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Post Card Body -->
+              <div class="item-acordion-card-body dfr">
+                <div
+                  class="item-acordion-card-body-data lawyer-acordion-body dfc"
+                >
+                  <div
+                    class="item-acordion-card-body-content lawyer-acordion-content"
+                  >
+                    <span [innerHtml]="post?.content"></span>
+                  </div>
+                </div>
+                <div class="item-acordion-card-body-image centered-img-bg dfr">
+                  <img [src]="post?.img | img: 'post'" />
+                </div>
+              </div>
+              <!-- Post Card Actions -->
+              <div class="item-acordion-body-actions dfr">
+                <!-- Post Button Trigger -->
+                <button
+                  class="header-item-btn btn action-button dfc"
+                  mat-icon-button
+                  matTooltip="Ver Comentarios"
+                  matTooltipPosition="above"
+                  (click)="goToComments(post._id)"
+                >
+                  <i class="material-icons">forum</i>
+                </button>
+                <!-- Post Button Trigger -->
+                <button
+                  class="header-item-btn btn action-button important-action dfc"
+                  mat-icon-button
+                  matTooltip="Leer Artículo"
+                  matTooltipPosition="above"
+                  [routerLink]="['/articulo-detalle', post._id]"
+                  (click)="this._utilitiesS.scrollToTop()"
+                >
+                  <i class="far fa-eye"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+          <!-- Posts Right Arrow Indicator -->
+          <div class="item-acordion-card-right-indicator posts-row-indicator">
+            <button (click)="scrollCarouselToRight('posts', '.posts-controls')">
+              <i class="fas fa-angle-right"></i>
+            </button>
+          </div>
+        </div>
+      </mat-card-content>
+    </div>
+  </div>
+  <!-- Fin Carousel Posts-->
 </section>

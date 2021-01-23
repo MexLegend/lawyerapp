@@ -1,29 +1,34 @@
-import { Component, OnInit, HostListener } from '@angular/core';
-import { Router } from '@angular/router';
-import { Subject } from 'rxjs/internal/Subject';
+import { Component, OnInit, HostListener } from "@angular/core";
+import { Router } from "@angular/router";
+import { Subject } from "rxjs/internal/Subject";
 
-import { Files } from '../../../../models/Files';
-import { FilesService } from '../../../../services/files.service';
-import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
+import { Cases } from "../../../../models/Cases";
+import { CasesService } from "../../../../services/cases.service";
+import { PerfectScrollbarConfigInterface } from "ngx-perfect-scrollbar";
+import { TrackingService } from "src/app/services/tracking.service";
+import { LocalStorageService } from "src/app/services/local-storage.service";
+import { Subscription } from "rxjs";
 
 declare var $: any;
 
 @Component({
-  selector: 'app-mis-casos',
-  templateUrl: './mis-casos.component.html',
-  styleUrls: ['./mis-casos.component.css']
+  selector: "app-mis-casos",
+  templateUrl: "./mis-casos.component.html",
+  styleUrls: ["./mis-casos.component.css"],
 })
 export class MisCasosComponent implements OnInit {
-
   constructor(
     private router: Router,
-    public _filesS: FilesService
-  ) { }
+    public _casesS: CasesService,
+    public _localStorageS: LocalStorageService
+  ) {}
+
+  subscriptionsArray: Subscription[] = [];
 
   // Pagination Variables
   currentPage: number = 1;
   entriesFilter: any[] = [5, 10, 20, 50, 100, 200];
-  files: Files[];
+  cases: Cases[] = [];
   filterValue: string;
   selectedEntry: number = 5;
 
@@ -32,7 +37,7 @@ export class MisCasosComponent implements OnInit {
   public mobileFilterActivated: boolean = false;
 
   // Detect Real Screen Size
-  @HostListener('window:resize', ['$event'])
+  @HostListener("window:resize", ["$event"])
   onResize(event) {
     this.innerScreenWidth = window.innerWidth;
     if (this.innerScreenWidth > 520) {
@@ -44,10 +49,20 @@ export class MisCasosComponent implements OnInit {
     // Get Screen Size
     this.innerScreenWidth = window.innerWidth;
 
-    this._filesS.getFiles()
-      .subscribe((resp) => {
-        this.files = resp.docs;
+    // Get Cases Supcription
+    this.subscriptionsArray.push(this._casesS.getCases().subscribe());
+
+    // List Cases Subscription
+    this.subscriptionsArray.push(
+      this._casesS.getCasesData().subscribe((cases) => {
+        this.cases = cases.docs;
       })
+    );
+  }
+
+  // Unsubscribe Any Subscription
+  ngOnDestroy() {
+    this.subscriptionsArray.map((subscription) => subscription.unsubscribe());
   }
 
   // Change Current Pagination Page
@@ -57,16 +72,14 @@ export class MisCasosComponent implements OnInit {
   }
 
   filter(value: string) {
-    if(value.length >= 1 && value !== '')
-      this.filterValue = value;
-    else
-      this.filterValue = '';
+    if (value.length >= 1 && value !== "") this.filterValue = value;
+    else this.filterValue = "";
   }
 
   // Navigate To Case Datail
-  goToFile(route: any) {
-    const url = `/perfil/caso-detalle/${route}`;
-    this.router.navigateByUrl(url)
+  goToFile(idCase: any, idClient: any) {
+    const url = `/perfil/caso-detalle/${idCase}-${idClient}`;
+    this.router.navigateByUrl(url);
   }
 
   // Handle Mobile Filter
@@ -81,4 +94,7 @@ export class MisCasosComponent implements OnInit {
     event.stopPropagation();
   }
 
+  setCurrentCaseData(currentCase: any) {
+    this._localStorageS.addLocalStorageItem("trackingCaseData", currentCase);
+  }
 }

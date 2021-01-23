@@ -42,20 +42,14 @@
                 >
                   <mat-option
                     value="date"
-                    style="display: none;"
+                    style="display: none"
                     *ngIf="this.innerScreenWidth <= 810"
                   >
                     Fecha
                   </mat-option>
-                  <mat-option value="any">
-                    Cualquiera
-                  </mat-option>
-                  <mat-option value="recent">
-                    Reciente
-                  </mat-option>
-                  <mat-option value="old">
-                    Antiguo
-                  </mat-option>
+                  <mat-option value="any"> Cualquiera </mat-option>
+                  <mat-option value="recent"> Reciente </mat-option>
+                  <mat-option value="old"> Antiguo </mat-option>
                 </mat-select>
               </mat-form-field>
             </div>
@@ -103,15 +97,16 @@
     <!-- Posts List Container  -->
     <mat-card-content class="item-list-content">
       <perfect-scrollbar
+        *ngIf="posts.length > 0"
         class="scroll-container"
         fxFlex="auto"
         [config]="config"
         [scrollIndicators]="false"
       >
         <div class="scrollable-content">
-          <mat-accordion class="item-container dfc">
-            <mat-expansion-panel
-              class="item-content"
+          <div class="item-acordion-card-container">
+            <div
+              class="item-acordion-card-box dfc"
               *ngFor="
                 let post of posts
                   | filter: filterValue:'post'
@@ -122,183 +117,157 @@
                       }
               "
             >
-              <!-- Post Expansion Header -->
-              <mat-expansion-panel-header class="item-acordion-header">
-                <mat-panel-title class="item-acordion-title dfr">
-                  <div class="header-item-icon centered-img-bg">
-                    <img [src]="post?.img | img: 'post':true" alt="" />
+              <div class="item-acordion-card-header dfr">
+                <div class="item-acordion-card-header-icon centered-img-bg">
+                  <img [src]="post.user?.img | img: 'post'" alt="" />
+                </div>
+                <div class="item-acordion-card-header-data dfc">
+                  <div
+                    class="item-acordion-card-state"
+                    [attr.data-state]="post.processState"
+                  >
+                    <span>{{ this.getPostState(post?.processState) }}</span>
                   </div>
-                  <div class="item-acordion-title-left general posts dfr">
-                    <div class="header-item-body dfc">
-                      <div class="header-item-title dfr">
-                        <div class="header-item-title-wrap">
-                          <span>{{ post?.title }}</span>
-                        </div>
-                      </div>
-                      <div class="header-item-data">
-                        <span>{{
-                          post.user?.firstName + " " + post.user?.lastName
-                        }}</span>
-                      </div>
+                  <div class="item-acordion-card-header-left dfr">
+                    <div class="item-acordion-card-name">
+                      <span>{{
+                        post.user?.firstName + " " + post.user?.lastName
+                      }}</span>
                     </div>
-                  </div>
-                  <div class="header-item-actions general dfr">
-                    <!-- Posts Status Select -->
-                    <div>
-                      <mat-form-field
-                        class="header-item-btn-select posts waves-effect waves-light dfr"
-                        floatLabel="never"
-                        (click)="moveDown($event)"
-                        matTooltip="Estado del artículo"
-                        matTooltipPosition="above"
+                    <div class="item-acordion-card-date">
+                      <span>
+                        {{
+                          post?.created_at
+                            ? (post?.created_at | date: "dd") +
+                              "/" +
+                              (post?.created_at | date: "MM") +
+                              "/" +
+                              (post?.created_at | date: "yyyy")
+                            : "N/E"
+                        }}</span
                       >
-                        <mat-select
-                          disableOptionCentering
-                          value="review"
-                          class="custom-select"
-                        >
-                          <mat-option
-                            value="review"
-                            class="custom-select-icon dfr"
-                          >
-                            <i class="fas fa-search"></i>
-                            En revisión
-                          </mat-option>
-                          <mat-option
-                            value="publish"
-                            class="custom-select-icon dfr"
-                          >
-                            <i class="fas fa-upload"></i>
-                            Publicar
-                          </mat-option>
-                          <mat-option
-                            value="reject"
-                            class="custom-select-icon dfr"
-                          >
-                            <i class="fas fa-times-circle"></i>
-                            Rechazar
-                          </mat-option>
-                        </mat-select>
-                      </mat-form-field>
                     </div>
-                    <!-- Post Chat Button Trigger -->
-                    <button
-                      class="header-item-btn btn posts-btn waves-effect waves-light light-blue dfc"
-                      mat-icon-button
-                      (click)="moveDown($event)"
-                      matTooltip="Mensajes"
-                      matTooltipPosition="above"
-                    >
-                      <i class="far fa-comment"></i>
-                    </button>
-                    <!-- Post CRUD Button Trigger -->
-                    <button
-                      class="header-item-btn btn waves-effect waves-light light-blue dfc"
-                      mat-icon-button
-                      [matMenuTriggerFor]="actionsMenu"
-                      (click)="moveDown($event)"
-                      matTooltip="Más acciones"
-                      matTooltipPosition="above"
-                    >
-                      <i class="material-icons">more_vert</i>
-                    </button>
-                    <!-- Post CRUD Menu Content -->
-                    <mat-menu #actionsMenu="matMenu" xPosition="before">
-                      <ng-template matMenuContent>
-                        <div class="dfc select-content-container">
-                          <!-- Evidences Option -->
-                          <button mat-menu-item class="mobile">
-                            <i class="far fa-comment"></i>
-                            <span>Observaciones</span>
-                          </button>
-                          <!-- Status Option -->
-                          <button
-                            mat-menu-item
-                            class="mobile"
-                            [matMenuTriggerFor]="statusMenu"
-                          >
-                            <span class="select-btn-item">Estado</span>
-                          </button>
-                          <!-- Status CRUD Menu Content -->
-                          <mat-menu #statusMenu="matMenu">
-                            <ng-template matMenuContent>
-                              <div class="dfc select-content-container">
-                                <!-- Review Option -->
-                                <button mat-menu-item>
-                                  <i class="fas fa-search"></i>
-                                  En revisión
-                                </button>
-                                <!-- Publish Option -->
-                                <button mat-menu-item>
-                                  <i class="fas fa-upload"></i>
-                                  Publicar
-                                </button>
-                                <!-- Reject Option -->
-                                <button mat-menu-item>
-                                  <i class="fas fa-times-circle"></i>
-                                  Rechazar
-                                </button>
-                              </div>
-                            </ng-template>
-                          </mat-menu>
-                          <mat-divider class="mobile"></mat-divider>
-                          <!-- Edit Option -->
-                          <button
-                            mat-menu-item
-                            (click)="openPostsModal(post._id)"
-                          >
-                            <i class="material-icons">edit</i>
-                            <span>Editar</span>
-                          </button>
-                          <!-- Delete Option -->
-                          <button mat-menu-item (click)="delete(post)">
-                            <i class="material-icons">delete</i>
-                            <span>Eliminar</span>
-                          </button>
-                          <!-- Favorite Option -->
-                          <button mat-menu-item>
-                            <i class="material-icons">star_border</i>
-                            <span>Favorito</span>
-                          </button>
-                        </div>
-                      </ng-template>
-                    </mat-menu>
-                  </div>
-                </mat-panel-title>
-              </mat-expansion-panel-header>
-              <!-- Post Expansion Body -->
-              <mat-card class="item-body-data-container">
-                <div class="item-body-data-content dfc">
-                  <div class="item-body-row dfr">
-                    <span class="item-body-title">Fecha</span>
-                    <span class="item-body-subtitle">{{
-                      post?.created_at
-                        ? (post?.created_at | date: "dd") +
-                          "/" +
-                          (post?.created_at | date: "MM") +
-                          "/" +
-                          (post?.created_at | date: "yyyy")
-                        : "N/E"
-                    }}</span>
-                  </div>
-                  <div class="item-body-row dfr">
-                    <span class="item-body-title">Fuentes</span>
-                    <span class="item-body-subtitle">{{
-                      post.external_sources ? post.external_sources : "N/E"
-                    }}</span>
-                  </div>
-                  <div class="item-body-row dfr">
-                    <span class="item-body-title">Contenido</span>
-                    <span class="item-body-subtitle">{{
-                      post.content ? post.content : "N/E"
-                    }}</span>
                   </div>
                 </div>
-              </mat-card>
-            </mat-expansion-panel>
-          </mat-accordion>
+              </div>
+              <div class="item-acordion-card-body dfr">
+                <div class="item-acordion-card-body-data dfc">
+                  <div class="item-acordion-card-body-title">
+                    <span>{{ post?.title }}</span>
+                  </div>
+                  <div class="item-acordion-card-body-content">
+                    {{ post.content ? post.content : "N/E" }}
+                  </div>
+                </div>
+                <div class="item-acordion-card-body-image centered-img-bg dfr">
+                  <img [src]="post?.img | img: 'post'" alt="" />
+                </div>
+              </div>
+              <div class="item-acordion-body-actions dfr">
+                <!-- Posts Status Button Trigger -->
+                <button
+                  *ngIf="this._usersS.user.role === 'ADMIN'"
+                  class="header-item-btn btn posts-btn action-button dfc"
+                  mat-icon-button
+                  matTooltip="Estado del artículo"
+                  matTooltipPosition="above"
+                  [matMenuTriggerFor]="mainStatusMenu"
+                >
+                  <i class="fas fa-cogs"></i>
+                </button>
+                <!-- Post CRUD Menu Content -->
+                <mat-menu #mainStatusMenu="matMenu" xPosition="before">
+                  <ng-template matMenuContent>
+                    <div class="dfc select-content-container">
+                      <!-- Publish Option -->
+                      <button
+                        mat-menu-item
+                        (click)="updatePostState(post._id, 'PUBLISH')"
+                      >
+                        <i class="fas fa-check-circle"></i>
+                        Publicar
+                      </button>
+                      <!-- Reject Option -->
+                      <button
+                        mat-menu-item
+                        (click)="updatePostState(post._id, 'REJECT')"
+                      >
+                        <i class="fas fa-times-circle"></i>
+                        Rechazar
+                      </button>
+                    </div>
+                  </ng-template>
+                </mat-menu>
+                <!-- Post Chat Button Trigger -->
+                <button
+                  class="header-item-btn btn posts-btn action-button dfc"
+                  mat-icon-button
+                  (click)="moveDown($event)"
+                  matTooltip="Mensajes"
+                  matTooltipPosition="above"
+                >
+                  <i class="far fa-comment"></i>
+                </button>
+                <!-- Post Details Button Trigger -->
+                <button
+                  class="header-item-btn btn posts-btn action-button dfc"
+                  mat-icon-button
+                  (click)="moveDown($event)"
+                  matTooltip="Más detalles"
+                  matTooltipPosition="above"
+                >
+                  <i class="material-icons big-icon">keyboard_arrow_down</i>
+                </button>
+                <!-- Post CRUD Button Trigger -->
+                <button
+                  class="header-item-btn important-action btn action-button dfc"
+                  mat-icon-button
+                  [matMenuTriggerFor]="actionsMenu"
+                  (click)="moveDown($event)"
+                  matTooltip="Más acciones"
+                  matTooltipPosition="above"
+                >
+                  <i class="material-icons big-icon">more_vert</i>
+                </button>
+                <!-- Post CRUD Menu Content -->
+                <mat-menu #actionsMenu="matMenu" xPosition="before">
+                  <ng-template matMenuContent>
+                    <div class="dfc select-content-container">
+                      <!-- Edit Option -->
+                      <button mat-menu-item (click)="openPostsModal(post._id)">
+                        <i class="material-icons">edit</i>
+                        <span>Editar</span>
+                      </button>
+                      <!-- Delete Option -->
+                      <button mat-menu-item (click)="delete(post)">
+                        <i class="material-icons">delete</i>
+                        <span>Eliminar</span>
+                      </button>
+                      <!-- Favorite Option -->
+                      <!-- <button mat-menu-item>
+                        <i class="material-icons">star_border</i>
+                        <span>Favorito</span>
+                      </button> -->
+                    </div>
+                  </ng-template>
+                </mat-menu>
+              </div>
+            </div>
+          </div>
         </div>
       </perfect-scrollbar>
+      <div *ngIf="posts.length === 0" class="no-data-container">
+        <div class="card sticky-action" style="width: 100%">
+          <div class="card-body card-content no-data dfr">
+            <div class="card-no-data-icon dfc">
+              <span>i</span>
+            </div>
+            <div class="card-no-data-information">
+              <span> No hay artículos escritos </span>
+            </div>
+          </div>
+        </div>
+      </div>
       <!-- Open Post Creation Modal Button Trigger -->
       <div class="item-add-container">
         <button
@@ -314,7 +283,10 @@
     </mat-card-content>
 
     <!-- Posts List Pagination -->
-    <mat-card-actions class="item-list-pagination-container dfr">
+    <mat-card-actions
+      *ngIf="posts.length > 0"
+      class="item-list-pagination-container dfr"
+    >
       <pagination-controls
         class="news-pagination"
         (pageChange)="currentPage = $event"

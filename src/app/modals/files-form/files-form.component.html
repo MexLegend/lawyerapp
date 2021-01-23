@@ -4,7 +4,7 @@
     <i class="material-icons">contact_mail</i>
   </div>
   <span
-    ><span class="file-action">{{ this.fileModalTitle }}</span> Caso</span
+    ><span class="file-action">{{ this.caseModalTitle }}</span> Caso</span
   >
   <i
     mat-dialog-close
@@ -28,15 +28,14 @@
           [selectedIndex]="selectedTab.value"
           (selectedIndexChange)="selectedTab.setValue($event)"
         >
+          <!-- Initial Form Tab -->
           <mat-tab>
-            <ng-template mat-tab-label>
-              Formulario expediente
-            </ng-template>
+            <ng-template mat-tab-label> Formulario expediente </ng-template>
             <div class="row">
               <form
                 id="formExpedientes"
                 class="col s12"
-                style="padding: 0 30px; height: 100%;"
+                style="padding: 0 30px; height: 100%"
                 ngNativeValidate
                 [formGroup]="form"
               >
@@ -45,11 +44,11 @@
                   <!-- Select User Input Field -->
                   <div
                     class="select-user-input dfr"
-                    style="margin-bottom: 10px;"
+                    style="margin-bottom: 10px"
                   >
                     <div
                       class="modal-input modal-input-pink"
-                      style="margin-bottom: 0;"
+                      style="margin-bottom: 0"
                     >
                       <input
                         id="assigned_client"
@@ -60,7 +59,6 @@
                         readonly
                         required
                         placeholder=" "
-                        [(ngModel)]="this.name"
                         (click)="selectedTab.setValue(1); changeButtons(false)"
                       />
                       <div
@@ -161,10 +159,9 @@
             </div>
           </mat-tab>
 
+          <!-- Select Client Tab -->
           <mat-tab>
-            <ng-template mat-tab-label>
-              Seleccionar cliente
-            </ng-template>
+            <ng-template mat-tab-label> Seleccionar cliente </ng-template>
             <div class="item-card-container dfc">
               <div class="item-card-search-container dfr">
                 <div class="item-card-search-content dfr">
@@ -201,7 +198,7 @@
                         [value]="i"
                       >
                         <div class="card-item-img centered-img-bg">
-                          <img [src]="user?.img | img: 'user':true" alt="" />
+                          <img [src]="user?.img | img: 'user'" alt="" />
                         </div>
                         <div class="card-item-data dfc">
                           <div class="card-item-title">
@@ -224,6 +221,7 @@
   </div>
 
   <div class="modal-footer modal-actions admin-modal-footer">
+    <!-- Creation Actions -->
     <ng-container *ngIf="this.fileCreation">
       <button
         type="button"
@@ -242,6 +240,7 @@
         Guardar
       </button>
     </ng-container>
+    <!-- Client Selection Actions -->
     <ng-container *ngIf="!this.fileCreation">
       <button
         type="button"

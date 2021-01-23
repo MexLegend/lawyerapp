@@ -5,12 +5,11 @@
   }
 }
 
-/* @media only screen and (max-width: 600px) {
-  #carouselPartner .carousel-item {
-    width: 170px !important;
-    height: 150px !important;
+@media only screen and (max-width: 542px) {
+  #partners-carousel-container {
+    margin: 0 16px !important;
   }
-} */
+}
 
 .material-icons {
   font-family: "Material Icons";
@@ -55,27 +54,27 @@ a.middle-indicator-text {
 }
 
 .carousel-slider {
-  height: 450px;
+  height: calc(100vh - 71px);
 }
 
 .carousel-item {
-  background-color: rgba(0, 0, 0, 0);
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: 50% 30%;
+  background-color: var(--dark-smoke-bg);
+  color: var(--default-color);
   width: 100%;
   height: 100%;
   opacity: 1;
   visibility: inherit;
   display: flex;
   flex-direction: column;
-  padding: 20px;
-  margin: auto;
+  justify-content: center;
   z-index: 2;
 }
 
+.carousel .item-list-content {
+  max-height: 273px;
+}
+
 #index-container .container .carousel {
-  border: 1px solid #d7d7d7;
   height: 200px;
   border-radius: 5px;
   margin: 25px 0;
@@ -108,12 +107,9 @@ a.middle-indicator-text {
 .carousel-content {
   display: flex;
   flex-direction: column;
-  align-items: baseline;
-}
-
-#slideOne {
-  background-position: 100% 100%;
-  background-image: url("../../../assets/images/Slide_1.png");
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
 }
 
 .carousel-item h2 {
@@ -131,7 +127,7 @@ a.middle-indicator-text {
   top: 20px;
   font-weight: 700;
   text-shadow: 0px 2px 5px rgba(0, 0, 0, 0.5);
-  background-color: rgba(136, 136, 136, 0.65);
+  background-color: rgb(42 42 42 / 51%);
   border-width: 0px;
   border-color: rgb(255, 255, 255);
   color: white;
@@ -180,7 +176,7 @@ a.middle-indicator-text {
   font-size: 15px;
   line-height: 16px;
   font-family: Helvetica Neue, Arial;
-  margin-bottom: 10px;
+  margin: 10px 0;
   border-width: 0px;
   border-style: none;
   white-space: nowrap;
@@ -196,31 +192,65 @@ a.middle-indicator-text {
 
 .carousel-item a {
   font-size: 13px;
+  width: 150px;
+  height: 40px;
   text-transform: uppercase;
-  -webkit-box-shadow: 0px 3px 0px 0px #0f3e68;
-  -moz-box-shadow: 0px 3px 0px 0px #0f3e68;
-  box-shadow: 0px 3px 0px 0px #0f3e68;
+  color: white;
+  background: hsl(214, 100%, 59%) !important;
+  margin-top: 50px;
+  margin-bottom: -60px;
+  padding: 0;
+  /* border-width: 2px;
+  border-style: solid;
+  border-color: white; */
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14),
+    0 3px 1px -2px rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.2);
 }
 
-.carousel-item a:hover {
-  color: aquamarine;
+.carousel-item a span {
+  background: transparent;
+  box-shadow: none;
+  padding: 0;
+  height: 100%;
+  line-height: 40px;
+  font-size: 14px;
+  font-weight: 500;
 }
 
-#slideTwo {
-  background-image: url("../../../assets/images/Slide_2.jpg");
+/* .carousel-item a:hover {
+  background: hsl(214, 100%, 59%) !important;
+  border-color: hsl(214, 100%, 59%);
+} */
+
+#main-slide .main-slide-box-shadow {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  -webkit-box-shadow: inset 0px -29px 39px 0px rgba(0, 0, 0, 0.63);
+  -moz-box-shadow: inset 0px -29px 39px 0px rgba(0, 0, 0, 0.63);
+  box-shadow: inset 0px -29px 39px 0px rgba(0, 0, 0, 0.63);
+  z-index: 1;
 }
 
-#slideThree {
-  background-position: 50% 50%;
-  background-image: url("../../../assets/images/Slide_3.jpg");
+#main-slide .centered-img-bg {
+  width: 100%;
+  height: 100%;
+  position: absolute;
 }
 
-#slideFour {
-  background-position: 100% 100%;
-  background-image: url("../../../assets/images/Slide_4.jpg");
+#main-slide .centered-img-bg img {
+  object-position: top;
 }
 
 /* Partners Carousel */
+
+#carousel-Partners {
+  height: max-content;
+}
+
+#partners-carousel-container {
+  margin: 0 40px;
+}
 
 #partnersText {
   font-family: "Helvetica", Arial, sans-serif;
@@ -229,12 +259,21 @@ a.middle-indicator-text {
   word-wrap: break-word;
   padding-top: 30px;
   font-weight: bolder;
+  font-size: 22px;
+  width: 100%;
+}
+
+.partners-carousel-item,
+.item-acordion-card-carousel {
+  width: 100%;
+  position: relative;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
 }
 
 #carousel-Partners .carousel-item {
   background: #26aee4;
   padding: 0;
-  width: 200px;
+  width: 240px;
   height: 150px;
   min-height: 150px;
   -webkit-box-shadow: 0px 0px 9px 2px rgba(0, 0, 0, 0.34);

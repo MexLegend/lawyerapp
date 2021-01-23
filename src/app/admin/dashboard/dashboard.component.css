@@ -109,8 +109,44 @@
 }
 
 .dashboard-box-header i {
+  min-width: 45px;
+  max-width: 45px;
+  min-height: 43.5px;
+  max-height: 43.5px;
   font-size: 34px;
-  color: var(--light-gray);
+  color: white;
+  border-radius: 5px;
+  padding: 5px;
+  margin-right: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.dashboard-box-header i.users-icon {
+  background: #ff0054;
+}
+
+.dashboard-box-header i.posts-icon {
+  background: #008b8b;
+}
+
+.dashboard-box-header i.cases-icon {
+  background: #ff6347;
+  font-size: 27px;
+}
+
+.dashboard-box-header i.files-icon {
+  background: #ff008d;
+  font-size: 27px;
+}
+
+.dashboard-box-header i.comments-icon {
+  background:#f08080;
+  padding: 2px 5px;
+  min-height: 38px;
+  max-height: 38px;
+  font-size: 28px;
 }
 
 .dashboard-box-header.last-comments i {
@@ -119,6 +155,7 @@
 
 .dashboard-box-header span {
   letter-spacing: 1px;
+  font-weight: 500;
 }
 
 .dashboard-box-body {
@@ -187,6 +224,7 @@
 .dashboard-box-item-quantity {
   width: 26px;
   text-align: right;
+  font-weight: 500;
 }
 
 .dashboard-box-item-watch {

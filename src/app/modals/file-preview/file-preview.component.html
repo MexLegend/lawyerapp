@@ -1,0 +1,55 @@
+<!-- Modal Structure -->
+<div
+  mat-dialog-title
+  class="modal-header admin-modal-header file-preview-header dfc"
+>
+  <span class="client-action file-preview-title"> {{ this.documentName }}</span>
+  <i
+    mat-dialog-close
+    class="modal-exit attached-files preview-file material-icons waves-effect waves-light dfr"
+    >close</i
+  >
+</div>
+
+<mat-dialog-content class="mat-typography file-preview-modal-container">
+  <!-- Modal Content -->
+  <div class="modal-content file-preview-modal-content dfr">
+    <!-- File Preview Container -->
+    <iframe
+      #iframePreview
+      id="iframePreview"
+      *ngIf="
+        this._evidencesS.formatType(this.documentName.split('.').pop()) !==
+        'image'
+      "
+      [src]="this.documentPath"
+      width="100%"
+      height="100%"
+      [style.display]="this.showIframe ? 'block' : 'none'"
+    >
+    </iframe>
+
+    <!-- Image Preview Container -->
+    <div
+      *ngIf="
+        this._evidencesS.formatType(this.documentName.split('.').pop()) ===
+        'image'
+      "
+      class="centered-img-bg imagePreview dfr"
+    >
+      <img [src]="this.documentPath | img: 'file'" alt="" />
+    </div>
+
+    <!-- Loading Preview Icon -->
+    <div
+      class="loading-preview"
+      [attr.data-loaded]="this.showIframe ? 'true' : 'false'"
+    >
+      <mat-spinner class="loading-preview-spinner" strokeWidth="8">
+      </mat-spinner>
+      <div class="loading-preview-img centered-img-bg">
+        <img src="../../../assets/images/brand.png" alt="" />
+      </div>
+    </div>
+  </div>
+</mat-dialog-content>

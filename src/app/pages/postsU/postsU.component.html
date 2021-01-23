@@ -26,7 +26,11 @@
       </nav>
     </div>
   </div>
-  <div id="noticias-content-container" class="container">
+  <div
+    *ngIf="posts.length > 0"
+    id="noticias-content-container"
+    class="container"
+  >
     <div
       *ngFor="
         let post of posts
@@ -34,7 +38,7 @@
           | paginate: { itemsPerPage: 2, currentPage: currentPage }
       "
       class="card sticky-action"
-      style="width: 100%;"
+      style="width: 100%"
     >
       <div class="card-body card-content">
         <div class="date-img-container dfc">
@@ -54,14 +58,8 @@
               }}</span>
             </div>
           </div>
-          <div
-            class="card-img card-image centered-img-bg ff-ur waves-effect waves-block waves-light"
-          >
-            <img
-              [src]="post?.img | img: 'post':true"
-              [routerLink]="['/articulo-detalle', post._id]"
-              (click)="scrollToTop()"
-            />
+          <div class="card-img card-image centered-img-bg ff-ur">
+            <img [src]="post?.img | img: 'post'" />
           </div>
         </div>
 
@@ -79,44 +77,52 @@
       <div class="card-footer card-action">
         <div class="card-social-network">
           <div class="like-dislike-comments-section dfr">
-            <div class="dfr">
-              <div class="like">
-                <a matTooltip="Me gusta" matTooltipPosition="above">
-                  <i class="waves-effect material-icons new-like">thumb_up</i>
-                  <span>201</span>
-                </a>
-              </div>
-              <div class="dislike">
-                <a matTooltip="No me gusta" matTooltipPosition="above">
-                  <i class="waves-effect material-icons new-dislike"
-                    >thumb_down</i
-                  >
-                  <span style="margin-top: -5px;">23</span>
-                </a>
-              </div>
-            </div>
-            <div class="comments">
-              <a class="waves-effect dfr" (click)="goToComments(post._id)">
+            <div class="item-acordion-body-actions dfr">
+              <!-- Post Read Button Trigger -->
+              <button
+                class="header-item-btn btn posts-btn action-button important-action dfc"
+                mat-icon-button
+                matTooltip="Leer Artículo"
+                matTooltipPosition="above"
+                [routerLink]="['/articulo-detalle', post._id]"
+                (click)="scrollToTop()"
+              >
+                <i class="far fa-eye"></i>
+              </button>
+              <!-- Post Comments Button Trigger -->
+              <button
+                class="header-item-btn btn posts-btn action-button dfc"
+                mat-icon-button
+                matTooltip="Ver Comentarios"
+                matTooltipPosition="above"
+                (click)="goToComments(post._id)"
+              >
                 <i class="material-icons">forum</i>
-                <span>Comentarios</span>
-              </a>
+              </button>
             </div>
           </div>
         </div>
-
-        <!-- <div class="card-show-more">
-          <a
-            class="btn-news waves-effect waves-light btn gradient-45deg-dark-blue dfr"
-            [routerLink]="['/articulo-detalle', noticia._id]"
-            (click)="scrollToTop()"
-          >
-            <span style="white-space: nowrap;"> Leer más</span>
-          </a>
-        </div> -->
+      </div>
+    </div>
+  </div>
+  <div
+    *ngIf="posts.length === 0"
+    id="noticias-content-container"
+    class="container no-data"
+  >
+    <div class="card sticky-action" style="width: 100%">
+      <div class="card-body card-content no-data">
+        <div class="card-no-data-icon dfc">
+          <span>i</span>
+        </div>
+        <div class="card-information no-data">
+          <span>No hay artículos publicados</span>
+        </div>
       </div>
     </div>
   </div>
   <pagination-controls
+    *ngIf="posts.length > 0"
     class="news-pagination"
     (pageChange)="currentPage = $event"
     previousLabel="Anterior"

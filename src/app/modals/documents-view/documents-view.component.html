@@ -1,21 +1,21 @@
 <mat-nav-list>
   <a
     class="dfr"
-    *ngFor="let doc of documents"
+    *ngFor="let evidence of evidences"
     mat-list-item
-    (click)="open(doc)"
+    (click)="open(evidence)"
   >
     <span mat-line>
       <div class="attached-file-icon dfc">
         <img
-          *ngIf="doc.indexOf('pdf') >= 0"
+          *ngIf="evidence.indexOf('pdf') >= 0"
           src="../../../assets/images/pdf_icon.png"
           alt=""
         />
         <img
           *ngIf="
-            doc.indexOf('doc') >= 0 ||
-            doc.indexOf('docx') >= 0
+            evidence.indexOf('doc') >= 0 ||
+            evidence.indexOf('docx') >= 0
           "
           src="../../../assets/images/word_icon.png"
           alt=""
@@ -33,30 +33,31 @@
     <span mat-line class="attached-file-info dfr">
       <div class="attached-file-format dfc">
         <div class="attached-file-name">
-          <span>{{ doc.split("uploads/")[1] }}</span>
+          <span>{{ evidence.split("uploads/")[1] }}</span>
         </div>
         <div
           class="attached-file-format-text"
-          *ngIf="doc.indexOf('pdf') >= 0"
+          *ngIf="evidence.indexOf('pdf') >= 0"
         >
           <span>PDF</span>
         </div>
         <div
           class="attached-file-format-text"
           *ngIf="
-            doc.indexOf('doc') >= 0 ||
-            doc.indexOf('docx') >= 0
+            evidence.indexOf('doc') >= 0 ||
+            evidence.indexOf('docx') >= 0
           "
         >
           <span>DOC</span>
         </div>
       </div>
       <div class="attached-file-download dfc waves-effect waves-light">
-        <i class="material-icons">file_download</i>
+        <i *ngIf="this._usersS.user.role !== 'ADMIN' || !isEvidenceVisible(evidence)" class="material-icons">file_download</i>
+        <i *ngIf="this._usersS.user.role === 'ADMIN' && isEvidenceVisible(evidence)" class="material-icons">visibility</i>
       </div>
     </span>
   </a>
-  <div *ngIf="documents.length < 1" class="no-attached-files">
+  <div *ngIf="evidences.length < 1" class="no-attached-files">
     <span>No hay archivos adjuntos</span>
   </div>
 </mat-nav-list>

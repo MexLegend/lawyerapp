@@ -5,28 +5,27 @@ import { DataTablesModule } from 'angular-datatables';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { AutosizeModule } from 'ngx-autosize';
+import { FileUploadModule } from "ng2-file-upload";
 
 import { ADMIN_ROUTING } from './admin.routes';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ComponentsModule } from '../components/components.module';
 import { FilesComponent } from './files/files.component';
-import { FileTrackingComponent } from './file-tracking/file-tracking.component';
 import { MessagesComponent } from './messages/messages.component';
 import { ModalsModule } from '../modals/modals.module';
 import { NotificationsComponent } from './notifications/notifications.component';
 import { PipesModule } from '../pipes/pipes.module';
 import { PostsComponent } from './posts/posts.component';
+import { ProfileComponent } from './profile/profile.component';
 import { MaterialModule } from '../shared/material.module';
 import { SharedModule } from '../shared/shared.module';
 import { UsersComponent } from './users/users.component';
-import { ProfileComponent } from './profile/profile.component';
 
 
 @NgModule({
   declarations: [
     DashboardComponent,
     FilesComponent,
-    FileTrackingComponent,
     MessagesComponent,
     NotificationsComponent,
     PostsComponent,
@@ -35,18 +34,19 @@ import { ProfileComponent } from './profile/profile.component';
   ],
   imports: [
     ADMIN_ROUTING,
+    AutosizeModule,
     CommonModule,
     ComponentsModule,
     DataTablesModule,
+    FileUploadModule,
     FormsModule,
-    ReactiveFormsModule,
-    [SweetAlert2Module.forRoot()],
     MaterialModule,
     ModalsModule,
     NgxPaginationModule,
     PipesModule,
+    ReactiveFormsModule,
     SharedModule,
-    AutosizeModule
+    [SweetAlert2Module.forRoot()]
   ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA

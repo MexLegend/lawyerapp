@@ -1,47 +1,64 @@
-import { Component, OnInit, ChangeDetectorRef, AfterViewChecked, Inject } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import {
+  Component,
+  OnInit,
+  ChangeDetectorRef,
+  AfterViewChecked,
+  Inject,
+} from "@angular/core";
+import { FormControl, FormGroup, Validators } from "@angular/forms";
+import { Subject, Subscription } from "rxjs";
+import { debounceTime, distinctUntilChanged } from "rxjs/operators";
 
-import { ImgService } from '../../services/img.service';
-import { User } from '../../models/User';
-import { UsersService } from '../../services/users.service';
-import { UpdateDataService } from '../../services/updateData.service';
-import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import { CloudinaryService } from "../../services/cloudinary.service";
+import { User } from "../../models/User";
+import { UsersService } from "../../services/users.service";
+import { UpdateDataService } from "../../services/updateData.service";
+import { PerfectScrollbarConfigInterface } from "ngx-perfect-scrollbar";
+import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material";
+import { WebPushNotificationsService } from "../../services/webPushNotifications.service";
 
 declare var $: any;
 
 @Component({
-  selector: 'app-users-form',
-  templateUrl: './users-form.component.html',
-  styleUrls: ['./users-form.component.css']
+  selector: "app-users-form",
+  templateUrl: "./users-form.component.html",
+  styleUrls: ["./users-form.component.css"],
 })
 export class UsersFormComponent implements OnInit, AfterViewChecked {
-
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     public dialogRef: MatDialogRef<UsersFormComponent>,
     private ref: ChangeDetectorRef,
-    public _imgS: ImgService,
-    public _updateDS: UpdateDataService,
-    private _usersS: UsersService
+    public _cloudinaryS: CloudinaryService,
+    public _usersS: UsersService,
+    public _webPushNotificationsS: WebPushNotificationsService
   ) {
     this.check();
   }
+
+  subscriptionsArray: Subscription[] = [];
 
   addressLabel: any;
   emailLabel: any;
   errorEmail: boolean = false;
   form: FormGroup;
   imgData: any = null;
+  isUserUpdating: boolean = false;
   lastnameLabel: any;
   nameLabel: any;
   passwordLabel: any;
   passwordLabel2: any;
+  roleList = [
+    { value: "ADMIN", viewValue: "Administrador" },
+    { value: "ASSOCIATED", viewValue: "Asociado" },
+    { value: "CLIENT", viewValue: "Cliente" },
+    { value: "NEW", viewValue: "Nuevo" },
+  ];
   telephoneLabel: any;
   userEmail = new Subject<string>();
+  usersList: User[] = [];
   userModalTitle: string;
+
   public config: PerfectScrollbarConfigInterface = {};
 
   ngAfterViewChecked() {
@@ -50,80 +67,272 @@ export class UsersFormComponent implements OnInit, AfterViewChecked {
 
   ngOnInit() {
     this.initRegisterForm();
-    this._imgS.uploaderSend("user");
+    // Init Cloudinary Uploader Options - Img / Evidences
+    this._cloudinaryS.uploaderSend("image");
+
+    // Get Cloudinary File Uploaded Response
+    this.subscriptionsArray.push(
+      this._cloudinaryS
+        .getFile()
+        .subscribe(({ url, public_id, size, name }) => {
+          this.createNewUserAfterResponse({ url, public_id });
+        })
+    );
+
+    // Validate Invalid Format Files
+    this._cloudinaryS.uploader.onWhenAddingFileFailed = (item, filter) => {
+      // let message = '';
+      // switch (filter.name) {
+      //   case 'queueLimit':
+      //     message = 'Permitido o envio de no máximo ' + queueLimit + ' arquivos';
+      //     break;
+      //   case 'fileSize':
+      //     message = 'O arquivo ' + item.name + ' possui ' + formatBytes(item.size) + ' que ultrapassa o tamanho máximo permitido de ' + formatBytes(maxFileSize);
+      //     break;
+      //   default:
+      //     message = 'Erro tentar incluir o arquivo';
+      //     break;
+
+      this._cloudinaryS.formatInvalidError("img");
+    };
 
     // Create / Update
     if (this.data) {
-
       this.userModalTitle = this.data.action;
+      this.usersList = this.data.users;
       if (this.data.idUser && this.data.idUser !== "") {
-
-        this._usersS.getUser(this.data.idUser).subscribe(user => {
-          this.requiredPass(this.data.idUser);
-
-          this._imgS.image = user.img;
-          this.form.patchValue({
-            address: user.address,
-            cellPhone: user.cellPhone,
-            emailAdmin: user.email,
-            firstName: user.firstName,
-            lastName: user.lastName,
-            password1: user.password,
-            _id: user._id
-          });
-        })
-        this.form.get('password1').clearValidators();
-        this.form.get('password1').updateValueAndValidity();
-        this.form.get('password2').clearValidators();
-        this.form.get('password2').updateValueAndValidity();
-
+        this.subscriptionsArray.push(
+          this._usersS.getUser(this.data.idUser).subscribe((user) => {
+            this.requiredPass(this.data.idUser);
+            this._cloudinaryS.image = user.img;
+            this.form.patchValue({
+              address: user.address,
+              cellPhone: user.cellPhone,
+              emailAdmin: user.email,
+              firstName: user.firstName,
+              lastName: user.lastName,
+              password1: user.password,
+              role: user.role,
+              _id: user._id,
+            });
+          })
+        );
+        this.form.get("password1").clearValidators();
+        this.form.get("password1").updateValueAndValidity();
+        this.form.get("password2").clearValidators();
+        this.form.get("password2").updateValueAndValidity();
       } else {
-        this._imgS.image = 'no_image';
-        this.form.controls['password1'].setValidators([
-          Validators.required, Validators.minLength(9)
-        ]);
-        this.form.controls['password2'].setValidators([
+        this._cloudinaryS.image = "no_image";
+        this.form.patchValue({
+          role: "NEW",
+        });
+        this.form.controls["password1"].setValidators([
           Validators.required,
-          this.notEqual.bind(this.form)
+          Validators.minLength(9),
         ]);
-        this.form.reset();
+        this.form.controls["password2"].setValidators([
+          Validators.required,
+          this.notEqual.bind(this.form),
+        ]);
       }
     }
   }
 
-  check() {
-    this.userEmail.pipe(
-      debounceTime(800),
-      distinctUntilChanged())
-      .subscribe(value => {
-        if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value)) {
-          this._usersS.checkEmail(value)
-            .subscribe((resp) => {
-              if (resp.exist) {
-                this.errorEmail = true;
-              } else {
-                this.errorEmail = false;
-              }
-              if (this.form.value._id !== '') {
-                this.errorEmail = false;
-              }
+  ngAfterViewInit() {
+    this.form
+      .get("role")
+      .setValue(this._usersS.user.role === "ADMIN" ? "NEW" : "CLIENT");
+  }
 
-            })
-        }
-      });
+  // Unsubscribe Any Subscription
+  ngOnDestroy() {
+    this.subscriptionsArray.map((subscription) => subscription.unsubscribe());
+  }
+
+  check() {
+    this.subscriptionsArray.push(
+      this.userEmail
+        .pipe(debounceTime(800), distinctUntilChanged())
+        .subscribe((value) => {
+          if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value)) {
+            this.subscriptionsArray.push(
+              this._usersS.checkEmail(value).subscribe((resp) => {
+                if (resp.exist) {
+                  this.errorEmail = true;
+                } else {
+                  this.errorEmail = false;
+                }
+                if (this.form.value._id !== "") {
+                  this.errorEmail = false;
+                }
+              })
+            );
+          }
+        })
+    );
   }
 
   clearImg() {
-    this._imgS.image = null;
+    this._cloudinaryS.image = null;
   }
 
   closeModal() {
-    this.dialogRef.close()
+    this.form.reset();
+    this._cloudinaryS.uploader.clearQueue();
+    this.clearImg();
+    this.dialogRef.close();
   }
 
+  // Create / Update User
   create() {
-    let addressS = (this.form.value.address === undefined || this.form.value.address === null || this.form.value.address === '') ? '' : this.form.value.address;
-    let cellPhoneS = (this.form.value.cellPhone === undefined || this.form.value.cellPhone === null || this.form.value.cellPhone === '') ? '' : this.form.value.cellPhone;
+    // Update Existing User
+    if (this.form.value._id !== null) {
+      // Update just data from existing user
+      if (this._cloudinaryS.uploader.queue.length === 0) {
+        this.subscriptionsArray.push(
+          this._usersS
+            .updateUser(this.form.value._id, this.createUserObject(), "")
+            .subscribe((resp) => {
+              if (resp.ok) {
+                const newUsersArray = this.usersList.map((user) =>
+                  user._id === resp.user._id ? resp.user : user
+                );
+                this._usersS.setUsersList(newUsersArray);
+                this.form.reset();
+                this.closeModal();
+                // Set Notification Data
+                this._webPushNotificationsS
+                  .createNotificationObject(
+                    this._usersS.user.img,
+                    "actualizó tu perfil",
+                    "user",
+                    `perfil/general`,
+                    this._usersS.user._id,
+                    this._usersS.getCurrentUserName(),
+                    this._usersS.user.role,
+                    resp.user._id
+                  )
+                  .then((notificationObject) => {
+                    // Create Notification With The Specified Data
+                    const notificationCreatedSub = this._webPushNotificationsS
+                      .createNotification(notificationObject)
+                      .subscribe(() => {
+                        notificationCreatedSub.unsubscribe();
+                      });
+                  });
+              }
+            })
+        );
+      }
+      // Update data and image from existing user
+      else {
+        this._cloudinaryS.setFileType("user");
+        this._cloudinaryS.uploader.uploadAll();
+        this.isUserUpdating = true;
+      }
+    }
+    // Create New User
+    else {
+      // Create user with just data
+      if (this._cloudinaryS.uploader.queue.length === 0) {
+        this.subscriptionsArray.push(
+          this._usersS
+            .createUser(this.createUserObject(), "", localStorage.getItem("id"))
+            .subscribe((resp) => {
+              if (resp.ok) {
+                const newUsersArray = [...this.usersList, resp.user];
+                this._usersS.setUsersList(newUsersArray);
+                this.form.reset();
+                this.closeModal();
+              }
+            })
+        );
+      }
+      // Create user with data and image
+      else {
+        this._cloudinaryS.setFileType("user");
+        this._cloudinaryS.uploader.uploadAll();
+        this.isUserUpdating = false;
+      }
+    }
+  }
+
+  // Create New User After Cloudinary Response
+  createNewUserAfterResponse(image: any) {
+    if (!this.isUserUpdating) {
+      this.subscriptionsArray.push(
+        this._usersS
+          .createUser(
+            this.createUserObject(),
+            image,
+            localStorage.getItem("id")
+          )
+          .subscribe((resp) => {
+            if (resp.ok) {
+              const newUsersArray = [...this.usersList, resp.user];
+              this._usersS.setUsersList(newUsersArray);
+              this.form.reset();
+              this.closeModal();
+            }
+          })
+      );
+    } else {
+      this.subscriptionsArray.push(
+        this._usersS
+          .updateUser(this.form.value._id, this.createUserObject(), image)
+          .subscribe((resp) => {
+            if (resp.ok) {
+              this.imgData = null;
+              const newUsersArray = this.usersList.map((user) =>
+                user._id === resp.user._id ? resp.user : user
+              );
+              this._usersS.setUsersList(newUsersArray);
+              this.form.reset();
+              this.closeModal();
+              // Set Notification Data
+              this._webPushNotificationsS
+                .createNotificationObject(
+                  this._usersS.user.img,
+                  "actualizó tu perfil",
+                  "user",
+                  `perfil/general`,
+                  this._usersS.user._id,
+                  this._usersS.getCurrentUserName(),
+                  this._usersS.user.role,
+                  resp.user._id
+                )
+                .then((notificationObject) => {
+                  // Create Notification With The Specified Data
+                  const notificationCreatedSub = this._webPushNotificationsS
+                    .createNotification(notificationObject)
+                    .subscribe(() => {
+                      notificationCreatedSub.unsubscribe();
+                    });
+                });
+            }
+          })
+      );
+    }
+  }
+
+  // Create User Object Within Form Data
+  createUserObject(): User {
+    // Add Address Property If Its Not Empty
+    const addressS =
+      this.form.value.address === undefined ||
+      this.form.value.address === null ||
+      this.form.value.address === ""
+        ? ""
+        : this.form.value.address;
+
+    // Add CellPhone Property If Its Not Empty
+    const cellPhoneS =
+      this.form.value.cellPhone === undefined ||
+      this.form.value.cellPhone === null ||
+      this.form.value.cellPhone === ""
+        ? ""
+        : this.form.value.cellPhone;
+
     const user = new User(
       this.form.value.emailAdmin,
       this.form.value.firstName,
@@ -131,62 +340,17 @@ export class UsersFormComponent implements OnInit, AfterViewChecked {
       this.form.value.password1,
       this.form.value.password2,
       addressS,
-      cellPhoneS
+      cellPhoneS,
+      "",
+      "",
+      "",
+      this.form.value.role
     );
 
-    if (this.form.value._id !== null) {
-      if (this.imgData === null) {
-        // Update User
-        this._usersS.updateUser(this.form.value._id, user, "").subscribe(() => {
-          this._usersS.notifica.emit({ render: true });
-          this.closeModal();
-        });
-      } else {
-        this._imgS.uploader.uploadAll();
-
-        this._updateDS
-          .getImg()
-          .subscribe((data: { url: string; public_id: string }) => {
-            this._usersS
-              .updateUser(this.form.value._id, user, data)
-              .subscribe((resp) => {
-                if (resp) {
-                  this.imgData = null;
-                  this._usersS.notifica.emit({ render: true });
-                  this.closeModal();
-                }
-              });
-          });
-      }
-    } else {
-      if (this.imgData === null) {
-        // Create User
-        this._usersS.createUser(user, '', localStorage.getItem('id')).subscribe(() => {
-          this.form.reset();
-          this._usersS.notifica.emit({ render: true });
-          this.closeModal();
-        });
-      } else {
-        this._imgS.uploader.uploadAll();
-
-        this._updateDS
-          .getImg()
-          .subscribe((data: { url: string; public_id: string }) => {
-            this._usersS.createUser(user, data, localStorage.getItem('id')).subscribe((resp) => {
-              console.log(resp);
-              if (resp && resp.ok) {
-                this.form.reset();
-                this.imgData = null;
-                this._usersS.notifica.emit({ render: true });
-                this.closeModal();
-              }
-            });
-          });
-      }
-    }
+    return user;
   }
 
-  private initRegisterForm() {
+  private async initRegisterForm() {
     this.form = new FormGroup({
       address: new FormControl(null),
       cellPhone: new FormControl(null),
@@ -196,26 +360,22 @@ export class UsersFormComponent implements OnInit, AfterViewChecked {
       password1: new FormControl(),
       password2: new FormControl(),
       img: new FormControl(null),
-      _id: new FormControl(null)
+      role: new FormControl(null),
+      _id: new FormControl(null),
     });
   }
 
   notEqual(control: FormControl): { [s: string]: boolean } {
     let form: any = this;
-    if (control.value !== form.controls['password1'].value) {
+    if (control.value !== form.controls["password1"].value) {
       return {
-        notEqual: true
-      }
+        notEqual: true,
+      };
     }
     return null;
   }
 
   requiredPass(id: string) {
-    return (id !== '') ? false : true;
-  }
-
-  selectImg($event) {
-    this.imgData = $event.target.files[0];
-    this._imgS.onFileSelected($event);
+    return id !== "" ? false : true;
   }
 }

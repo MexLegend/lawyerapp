@@ -127,3 +127,7 @@
 .file-details-btn i.perfil {
   display: none;
 }
+
+.no-data-container .card-body {
+  border-radius: 8px;
+}

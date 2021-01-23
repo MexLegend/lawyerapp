@@ -21,8 +21,12 @@
         >
           <img
             alt="site logo"
-            src="../../../assets/images/logo.png"
-            style="width: 60%;"
+            [src]="
+              this.isDarkThemeActive
+                ? '/assets/images/logo.png'
+                : '/assets/images/logo_dark.png'
+            "
+            style="width: 60%"
           />
         </a>
       </div>
@@ -101,25 +105,7 @@
           ><i class="material-icons">menu</i></a
         >
         <!-- Navbar Options -->
-        <div class="navbar-options">
-          <!-- Toogle Full Screen -->
-          <div
-            class="navbar-option waves-effect waves-light hide-on-med-and-down"
-          >
-            <button
-              class="perfil-button-trigger"
-              mat-button
-              (click)="!isfullscreen ? openfullscreen() : closefullscreen()"
-              [matTooltip]="
-                !isfullscreen
-                  ? 'Pantalla completa'
-                  : 'Salir de pantalla completa'
-              "
-              matTooltipPosition="below"
-            >
-              <i class="material-icons white-text">settings_overscan</i>
-            </button>
-          </div>
+        <div class="navbar-options dfr">
           <!-- Messages -->
           <div class="navbar-option waves-effect waves-light">
             <button
@@ -132,22 +118,29 @@
               <i class="far fa-comment"></i>
             </button>
           </div>
+          <!-- Notifications -->
+          <app-notifications-dropdown
+            [color]="true"
+          ></app-notifications-dropdown>
           <!-- Perfil Dropdown -->
-          <div class="navbar-option waves-effect waves-light">
+          <div class="navbar-option waves-effect account-option waves-light">
             <!-- Button Triger -->
             <button
-              class="perfil-button-trigger"
+              class="perfil-button-trigger account-button"
               mat-button
               [matMenuTriggerFor]="beforeMenu"
               matTooltip="Cuenta"
               matTooltipPosition="below"
             >
-              <div class="avatar-status avatar-online">
+              <div class="avatar-status avatar-online dfr">
                 <div class="centered-img-bg border-none dfc">
                   <img
-                    [src]="this._usersS.user.img | img: 'user':true"
+                    [src]="this._usersS.user?.img | img: 'user':true"
                     alt="avatar"
                   />
+                </div>
+                <div class="avatar-name">
+                  <span>{{ _usersS.user.firstName.split(" ")[0] }}</span>
                 </div>
               </div>
             </button>
@@ -158,8 +151,8 @@
                 <div class="perfil-info dfr">
                   <div class="perfil-icon centered-img-bg">
                     <img
-                      [src]="this._usersS.user.img | img: 'user':true"
-                      style="width: 100%;"
+                      [src]="this._usersS.user?.img | img: 'user':true"
+                      style="width: 100%"
                     />
                   </div>
                   <div class="perfil-text dfc">
@@ -182,8 +175,8 @@
                 <button
                   mat-menu-item
                   class="dfr"
-                  style="justify-content: space-between;"
-                  (click)="switch(); changeTheme()"
+                  style="justify-content: space-between"
+                  (click)="changeTheme(); $event.stopPropagation()"
                 >
                   <div class="dfr">
                     <i class="material-icons">brightness_4</i>Modo oscuro

@@ -1,15 +1,16 @@
-import { EventEmitter, Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Router } from '@angular/router';
-import { Observable, throwError } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { EventEmitter, Injectable } from "@angular/core";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { Router, ActivatedRoute } from "@angular/router";
+import { Observable, throwError, Subject } from "rxjs";
+import { catchError, map } from "rxjs/operators";
 
-import { environment } from '../../environments/environment';
-import { NotificationsPagination } from '../models/Notification';
-import { User, UsersPagination } from '../models/User';
-import { NotificationsService } from './notifications.service';
-import { WebSocketService } from './webSocket.service';
-import { ThemeService, lightTheme } from './theme.service';
+import { environment } from "../../environments/environment";
+import { NotificationsPagination } from "../models/Notification";
+import { User, UsersPagination } from "../models/User";
+import { NotificationsService } from "./notifications.service";
+import { ThemeService, lightTheme } from "./theme.service";
+import { CloudinaryService } from "./cloudinary.service";
+import { LocalStorageService } from "./local-storage.service";
 
 declare var $: any;
 
@@ -17,22 +18,25 @@ declare var $: any;
   providedIn: "root",
 })
 export class UsersService {
-  id: string;
-  public notifica = new EventEmitter<any>();
-  notifications: NotificationsPagination;
-  user: User;
-  token: string;
-
   constructor(
+    public activatedRoute: ActivatedRoute,
     private http: HttpClient,
     private router: Router,
+    public _cloudinaryS: CloudinaryService,
+    public _localstorageS: LocalStorageService,
     public _notificationsS: NotificationsService,
-    public _themeS: ThemeService,
-    public _webS: WebSocketService
-  ) // public _subirIS: SubirImagenService
-  {
-    this.loadStorage();
-  }
+    public _themeS: ThemeService
+  ) {}
+
+  public notifica = new EventEmitter<any>();
+  socketConnection = new Subject<boolean>();
+  usersList = new Subject<any>();
+
+  id: string;
+  notifications: NotificationsPagination;
+  rooms: any;
+  token: string = null;
+  user: User = null;
 
   checkEmail(email: string) {
     const url = `${environment.URI}/api/users/check/email`;
@@ -50,17 +54,17 @@ export class UsersService {
   createUser(user: User, img?: any, lawyer?: any) {
     const url = `${environment.URI}/api/users`;
 
-    this._webS.emitEvt("exist-user", user);
+    let public_lawyer_id = this.generateKey();
 
     const data = {
       lawyer,
       user,
       img,
+      public_lawyer_id,
     };
 
     return this.http.post(url, data).pipe(
       map((resp: any) => {
-        $("#modalUsers").modal("close");
         this._notificationsS.message(
           "success",
           "Creación correcta",
@@ -71,11 +75,9 @@ export class UsersService {
           "",
           2000
         );
-
         return resp;
       }),
       catchError((err) => {
-        $("#modalUsers").modal("close");
         this._notificationsS.message(
           "error",
           "Creación fallida",
@@ -125,6 +127,73 @@ export class UsersService {
     }
   }
 
+  generateKey() {
+    // Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+    const allCapsAlpha = [..."ABCDEFGHIJKLMNOPQRSTUVWXYZ"];
+    const allLowerAlpha = [..."abcdefghijklmnopqrstuvwxyz"];
+    const allNumbers = [..."0123456789"];
+
+    const base = [...allCapsAlpha, ...allNumbers, ...allLowerAlpha];
+
+    const generator = (base: string[], len: number) => {
+      return [...Array(len)]
+        .map((i) => base[(Math.random() * base.length) | 0])
+        .join("");
+    };
+
+    return generator(base, 10);
+  }
+
+  getLawyers(): Observable<User> {
+    let url = `${environment.URI}/api/users/lawyers`;
+
+    return this.http
+      .get<UsersPagination>(url)
+      .pipe(map((resp: any) => resp.lawyers));
+  }
+
+  async getUsersCount(
+    usersArray: User[],
+    initialUsersCount: any
+  ): Promise<any> {
+    let usersCount: any;
+
+    usersArray.map((user: User) => {
+      switch (user.role) {
+        case "ADMIN":
+          usersCount = {
+            ...initialUsersCount,
+            admin: (initialUsersCount.admin += 1),
+          };
+          break;
+        case "ASSOCIATED":
+          usersCount = {
+            ...initialUsersCount,
+            associated: (initialUsersCount.associated += 1),
+          };
+          break;
+        case "CLIENT":
+          usersCount = {
+            ...initialUsersCount,
+            client: (initialUsersCount.client += 1),
+          };
+          break;
+        default:
+          usersCount = {
+            ...initialUsersCount,
+            new: (initialUsersCount.new += 1),
+          };
+          break;
+      }
+    });
+
+    return new Promise((resolve, reject) => resolve(usersCount));
+  }
+
+  getUsersList(): Observable<User[]> {
+    return this.usersList.asObservable();
+  }
+
   getToken() {
     return localStorage.getItem("token");
   }
@@ -141,6 +210,14 @@ export class UsersService {
       .pipe(map((resp: any) => resp.user));
   }
 
+  getCurrentUserName(): string {
+    const userName = this.user.firstName
+      .split(" ")[0]
+      .concat(" ", this.user.lastName.split(" ")[0]);
+
+    return userName;
+  }
+
   getUsers(
     page: number = 0,
     perPage: number = 10,
@@ -149,7 +226,7 @@ export class UsersService {
     filter: string = "",
     filterOpt: string = "firstName",
     status: boolean = true
-  ): Observable<UsersPagination> {
+  ): Observable<any> {
     const headers = new HttpHeaders({
       "Content-Type": "application/json",
       token: this.token,
@@ -173,7 +250,44 @@ export class UsersService {
 
     return this.http
       .get<UsersPagination>(url, { headers })
-      .pipe(map((resp: any) => resp.users));
+      .pipe(map((resp: any) => this.setUsersList(resp.users.docs)));
+  }
+
+  getSocketConnection(): Observable<boolean> {
+    return this.socketConnection.asObservable();
+  }
+
+  getUserRole(user: any, viewType: string): string {
+    let role: string;
+
+    if (this.isExteralClient(user)) {
+      role = viewType === "update" ? "CLIENTE EXTERNO" : "Cliente Externo";
+    } else {
+      switch (user.role) {
+        case "ADMIN":
+          role = viewType === "update" ? "ADMINISTRADOR" : "Administrador";
+          break;
+        case "ASSOCIATED":
+          role = viewType === "update" ? "ASOCIADO" : "Asociado";
+          break;
+        case "CLIENT":
+          role = viewType === "update" ? "CLIENTE" : "Cliente";
+          break;
+        default:
+          role = viewType === "update" ? "un usuario NUEVO" : "Nuevo";
+          break;
+      }
+    }
+
+    return role;
+  }
+
+  isExteralClient(user: any): boolean {
+    const isExternalClient = user.lawyers.some(
+      (lawyer: any) => lawyer.lawyer !== this.user._id && user.role === "CLIENT"
+    );
+
+    return isExternalClient;
   }
 
   loadStorage() {
@@ -181,17 +295,24 @@ export class UsersService {
       this.id = localStorage.getItem("id");
       this.token = localStorage.getItem("token");
       this.user = JSON.parse(localStorage.getItem("user"));
+      this.rooms = JSON.parse(localStorage.getItem("rooms"));
       this._themeS.setTheme(JSON.parse(localStorage.getItem("theme")));
+      this.setSocketConnection(true);
     } else {
       this.id = "";
+      this.rooms = null;
       this.token = "";
       this.user = null;
       this.notifications = null;
       localStorage.removeItem("notifications");
+      this.setSocketConnection(false);
     }
   }
 
-  login(user: User, remember: boolean = false) {
+  login(user: User, remember: boolean = false): Observable<any> {
+    // Init Socket Connection
+    this.setSocketConnection(true);
+
     if (remember) {
       localStorage.setItem("email", user.email);
     } else {
@@ -202,14 +323,32 @@ export class UsersService {
 
     return this.http.post(url, user).pipe(
       map((resp: any) => {
+        this.saveStorage(resp.user._id, resp.token, resp.user, resp.user.rooms);
+
+        document.querySelector("body").style.overflow = "auto";
+
+        // this._localstorageS
+        //   .getLocalStoragePropertyIfExists(["lastVisitedPage"])
+        //   .map((item) => {
+        //     if (item) {
+        //       if (
+        //         JSON.parse(item.lastVisitedPage).includes("/articulo-detalle")
+        //       ) {
+        //         this._postAnalyticsS
+        //         .getOnePostAnalytics(JSON.parse(item.lastVisitedPage).split("/").pop());
+        //       } else {
+        //         console.log(JSON.parse(item.lastVisitedPage));
+        //       }
+        //     }
+        //   });
+        // Load LocalStorage Theme If Exists
         if (localStorage.getItem("theme")) {
           this._themeS.setTheme(JSON.parse(localStorage.getItem("theme")));
         } else {
           localStorage.setItem("theme", JSON.stringify(lightTheme));
           localStorage.setItem("dark", "false");
         }
-        this.saveStorage(resp.user._id, resp.token, resp.user);
-        return true;
+        return resp;
       }),
       catchError((err) => {
         this._notificationsS.message(
@@ -227,20 +366,19 @@ export class UsersService {
     );
   }
 
-  logout() {
+  logout(lastVisitedPage?: any) {
+    // Close Socket Connection
+    this.setSocketConnection(false);
+
     this.user = null;
     this.id = null;
     this.token = null;
 
-    localStorage.removeItem("comment");
-    localStorage.removeItem("fileData");
-    localStorage.removeItem("id");
-    localStorage.removeItem("notifications");
-    localStorage.removeItem("status");
-    localStorage.removeItem("token");
-    localStorage.removeItem("trackingData");
-    localStorage.removeItem("user");
+    // this._localstorageS.addLocalStorageItem("lastVisitedPage", lastVisitedPage);
+    this._localstorageS.resetLocalStorage();
+    this._themeS.resetDefaultTheme();
 
+    document.querySelector("body").style.overflow = "auto";
     if ($(".sidenav-overlay").css("display", "block")) {
       $(".sidenav-overlay").css("display", "none");
     }
@@ -248,14 +386,59 @@ export class UsersService {
     this.router.navigate(["/inicio"]);
   }
 
-  saveStorage(id: string, token: string, user: User) {
+  saveStorage(id: string, token: string, user: User, rooms?: any) {
     localStorage.setItem("id", id);
     localStorage.setItem("token", token);
     localStorage.setItem("user", JSON.stringify(user));
+    localStorage.setItem("rooms", JSON.stringify(rooms));
 
     this.id = id;
     this.user = user;
     this.token = token;
+    this.rooms = rooms;
+  }
+
+  setUsersList(usersList: User[]) {
+    this.usersList.next(usersList);
+  }
+
+  setSocketConnection(isLogged: boolean) {
+    this.socketConnection.next(isLogged);
+  }
+
+  updateImage(id, img: any) {
+    const url = `${environment.URI}/api/users/image/${id}`;
+    const headers = new HttpHeaders({
+      token: this.token,
+    });
+
+    return this.http.put(url, img, { headers }).pipe(
+      map((resp: any) => {
+        if (resp.user) {
+          if (id === this.id) {
+            this.saveStorage(resp.user._id, this.token, resp.user, this.rooms);
+          }
+
+          this._cloudinaryS.clearQueue();
+        }
+
+        return true;
+      }),
+      catchError((err) => {
+        this._notificationsS.message(
+          "error",
+          "Actualización fallida",
+          err.message,
+          false,
+          false,
+          "",
+          "",
+          2000
+        );
+
+        return throwError(err);
+      })
+    );
   }
 
   updatePassword(id, user: any) {
@@ -269,7 +452,7 @@ export class UsersService {
       map((resp: any) => {
         if (resp.ok) {
           if (id === this.id) {
-            this.saveStorage(resp.user._id, this.token, resp.user);
+            this.saveStorage(resp.user._id, this.token, resp.user, this.rooms);
           }
 
           this._notificationsS.message(
@@ -319,18 +502,20 @@ export class UsersService {
       token: this.token,
     });
 
-    const data = {
-      user,
-      img,
-    };
+    const data = img
+      ? {
+          user,
+          img,
+        }
+      : {
+          user,
+        };
 
     return this.http.put(url, data, { headers }).pipe(
       map((resp: any) => {
         if (id === this.id) {
-          this.saveStorage(resp.user._id, this.token, resp.user);
+          this.saveStorage(resp.user._id, this.token, resp.user, this.rooms);
         }
-
-        $("#modalUsers").modal("close");
 
         this._notificationsS.message(
           "success",
@@ -343,11 +528,9 @@ export class UsersService {
           2000
         );
 
-        return true;
+        return resp;
       }),
       catchError((err) => {
-        $("#modalUsers").modal("close");
-
         this._notificationsS.message(
           "error",
           "Actualización fallida",
@@ -371,17 +554,12 @@ export class UsersService {
     });
 
     const data = {
-      rol
-    }
+      rol,
+    };
 
     return this.http.put(url, data, { headers }).pipe(
-      map((resp: any) => {
-        console.log(resp)
-
-        return resp;
-      }),
+      map((resp: any) => resp),
       catchError((err) => {
-
         return throwError(err);
       })
     );

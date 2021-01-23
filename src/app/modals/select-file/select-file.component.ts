@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from "@angular/core";
 
-import { Files } from '../../models/Files';
-import { FilesService } from '../../services/files.service';
-import { UpdateDataService } from '../../services/updateData.service';
-import { DataTableDirective } from 'angular-datatables';
-import { UsersService } from '../../services/users.service';
+import { Cases } from "../../models/Cases";
+import { CasesService } from "../../services/cases.service";
+import { UpdateDataService } from "../../services/updateData.service";
+import { DataTableDirective } from "angular-datatables";
+import { UsersService } from "../../services/users.service";
+import { Subscription } from "rxjs";
 
 declare var $: any;
 
@@ -15,63 +16,49 @@ declare var $: any;
 })
 export class SelectFileComponent implements OnInit {
   constructor(
-    private _filesS: FilesService,
+    private _casesS: CasesService,
     private _updateData: UpdateDataService,
     public _usersS: UsersService
   ) {}
 
+  subscriptionsArray: Subscription[] = [];
+
   fileData: any;
-  files: Files[] = [];
+  files: Cases[] = [];
   isChecked: boolean = false;
   selectedRowData: any;
 
   ngOnInit() {
     // Get UserData Subscription
-    this._updateData.getUserData("seguimiento").subscribe((data: any) => {
-      // Get Files Subscription
-      if (data !== "" && data !== null || localStorage.getItem('userData')) {
+    this.subscriptionsArray.push(
+      this._updateData.getUserData("seguimiento").subscribe((data: any) => {
+        // Get Files Subscription
+        if (
+          (data !== "" && data !== null) ||
+          localStorage.getItem("userData")
+        ) {
+          let idFile = localStorage.getItem("userData")
+            ? JSON.parse(localStorage.getItem("userData"))._id
+            : data._id;
 
-        let idFile = localStorage.getItem("userData")
-          ? JSON.parse(localStorage.getItem("userData"))._id
-          : data._id;
-
-        this._filesS.getAll(idFile).subscribe((resp) => {
-          console.log(resp)
-          this.files = resp;
-        });
-      }
-    });
+          this.subscriptionsArray.push(
+            this._casesS.getAll(idFile).subscribe((resp) => (this.files = resp))
+          );
+        }
+      })
+    );
 
     // Set UserData Subscription
-    this._updateData.getFileData().subscribe((data: any) => {
-      this.fileData = data;
-    });
+    this.subscriptionsArray.push(
+      this._updateData
+        .getFileData()
+        .subscribe((data: any) => (this.fileData = data))
+    );
+  }
 
-    $(document).ready(function () {
-      // Show/Hide Close Serach Box Button
-      $(document).on("keyup", ".buscadorAdminFiles input", function () {
-        if ($(this).val() !== "") {
-          $(this)
-            .closest($(".buscadorAdminFiles"))
-            .find($(".filter-close"))
-            .css("display", "flex");
-        } else {
-          $(this)
-            .closest($(".buscadorAdminFiles"))
-            .find($(".filter-close"))
-            .css("display", "none");
-        }
-      });
-      // Clear Serach Box On Close Button Click
-      $(document).on("click", ".filter-close", function () {
-        $(this).css("display", "none");
-        $(this)
-          .closest($(".buscadorAdminFiles"))
-          .find($(".buscadorAdminFiles input"))
-          .val("");
-        $("#select-files-tbl").DataTable().search("").draw();
-      });
-    });
+  // Unsubscribe Any Subscription
+  ngOnDestroy() {
+    this.subscriptionsArray.map((subscription) => subscription.unsubscribe());
   }
 
   // Enable Select Button On Checkbox Click And Get Data
@@ -84,14 +71,9 @@ export class SelectFileComponent implements OnInit {
   }
 
   printData() {
-    if(this.selectedRowData !== '' && this.selectedRowData !== null) {
-
-      this._updateData.setItemFile(
-        "fileData",
-        JSON.stringify(this.selectedRowData)
-      );
+    if (this.selectedRowData !== "" && this.selectedRowData !== null) {
     }
-    
+
     this._updateData.setFileData(this.selectedRowData);
   }
 }

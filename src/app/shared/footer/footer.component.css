@@ -6,12 +6,12 @@
     align-items: center;
   }
 
-  #superior-container .container .col .footer-image {
+  #middle-container .footer-image {
     width: 250px !important;
     margin: auto;
   }
 
-  #superior-container .container .col img {
+  #middle-container .footer-image img {
     position: relative;
   }
 
@@ -32,8 +32,26 @@
     padding-bottom: 20px;
   }
 
+  #middle-container .middle-content-boxes {
+    flex-direction: column-reverse;
+  }
+
+  #middle-container .middle-content-box {
+    width: 100%;
+  }
+
+  #middle-container .middle-content-box:first-child {
+    margin-top: 25px;
+  }
+
   .row .col.s6 {
     width: 100%;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .main-footer .container {
+    justify-content: center;
   }
 }
 
@@ -51,18 +69,51 @@
   text-align: center;
 }
 
-#superior-container .container .col .footer-image {
+#middle-container .footer-image {
   width: 200px;
 }
 
-#superior-container .container .col .footer-image > img {
+#middle-container .footer-image > img {
   width: 100%;
 }
 
 #middle-container {
-  border-top: 2px solid black;
-  border-bottom: 2px solid rgba(0, 0, 0, 0.164);
-  padding: 50px 0 45px 0 !important;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #3e3e3e;
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+  border-bottom-color: #3e3e3e;
+  padding: 35px 0 !important;
+  margin-top: 15px;
+}
+
+#middle-container .footer-brand-description {
+  max-width: 500px;
+}
+
+.middle-content-boxes {
+  align-items: flex-start;
+}
+
+.middle-content-box {
+  width: 50%;
+  padding: 0 15px;
+}
+
+.middle-content-box .box-item,
+.middle-content-box .box-item span {
+  width: 100%;
+}
+
+.middle-content-box .input-box {
+  margin-top: 15px;
+  justify-content: center;
+}
+
+.middle-content-box .input-box input {
+  margin: 0 5px 0 0;
+  max-width: 350px;
 }
 
 #page-footer .btn {
@@ -141,6 +192,6 @@
 #footer-newsletter-input:hover,
 #footer-newsletter-input:active,
 #footer-newsletter-input:focus {
-  border: 2px solid #26aee4 !important;
+  border: 2px solid #1e88e5 !important;
   box-shadow: none !important;
 }

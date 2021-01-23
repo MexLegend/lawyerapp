@@ -1,31 +1,31 @@
-import { Component, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
-import { ThemeService } from '../../services/theme.service';
+import { Component, OnInit } from "@angular/core";
+import { ThemeService } from "../../services/theme.service";
 
 @Component({
-  selector: 'app-theme-switch',
-  templateUrl: './theme-switch.component.html',
-  styleUrls: ['./theme-switch.component.css']
+  selector: "app-theme-switch",
+  templateUrl: "./theme-switch.component.html",
+  styleUrls: ["./theme-switch.component.css"],
 })
 export class ThemeSwitchComponent implements OnInit {
+  constructor(public _themeS: ThemeService) {}
 
-  constructor(public _themeS: ThemeService) {
-    this._themeS.checkStorage();
+  // Theme Variable
+  public isDarkThemeActive: boolean = false;
 
-    this._themeS.checkChanges();
+  ngOnInit() {
+    // Get Initial Theme From Local Storage
+    this._themeS.seCurrentTheme("get").then((isDarkThemeActive) => {
+      this.isDarkThemeActive = isDarkThemeActive;
+    });
+
+    // Get New Theme After Been Updated
+    this._themeS.getSwitchValue().subscribe((isDarkThemeActive) => {
+      this.isDarkThemeActive = isDarkThemeActive;
+    });
   }
-
-  ngOnInit() {}
 
   // Change Theme Function
   changeTheme() {
-    this._themeS.darkTheme.setValue(this._themeS.val);
-    this._themeS.checkStorage();
-    console.log(this._themeS.darkTheme);
+    this._themeS.seCurrentTheme("update");
   }
-
-  switch() {
-    this._themeS.switchVal()
-  }
-
 }

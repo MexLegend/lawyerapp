@@ -1,11 +1,16 @@
 <div class="item-list-container">
-  <mat-card class="item-list-container dfc">
+  <!-- Evidences List -->
+  <mat-card
+    *ngIf="modeV === 'new' || modeV === 'select'"
+    class="item-list-container dfc"
+  >
     <!-- File Evidences Header  -->
     <mat-card-header class="item-filter-container">
       <mat-card class="item-filter-content list-files dfr">
         <div
           class="item-filter-back waves-effect waves-light dfc"
-          (click)="this.selected.setValue(0)"
+          (click)="return()"
+          *ngIf="modeV === 'new'"
         >
           <i class="material-icons">arrow_back</i>
         </div>
@@ -17,7 +22,13 @@
               </div>
             </div>
             <div class="header-item-data">
-              <span>54 Documentos</span>
+              <span>
+                {{
+                  evidences?.length === 1
+                    ? evidences?.length + " Evidencia"
+                    : evidences?.length + " Evidencias"
+                }}
+              </span>
             </div>
           </div>
         </div>
@@ -34,20 +45,14 @@
                 >
                   <mat-option
                     value="Ver"
-                    style="display: none;"
+                    style="display: none"
                     *ngIf="this.innerScreenWidth <= 940"
                   >
                     Ver
                   </mat-option>
-                  <mat-option value="5">
-                    5
-                  </mat-option>
-                  <mat-option value="10">
-                    10
-                  </mat-option>
-                  <mat-option value="25">
-                    25
-                  </mat-option>
+                  <mat-option value="5"> 5 </mat-option>
+                  <mat-option value="10"> 10 </mat-option>
+                  <mat-option value="25"> 25 </mat-option>
                 </mat-select>
               </mat-form-field>
             </div>
@@ -61,26 +66,19 @@
                 <mat-select
                   [value]="this.innerScreenWidth <= 940 ? 'Formato' : 'Todos'"
                   disableOptionCentering
+                  (valueChange)="change($event)"
                 >
                   <mat-option
                     value="Formato"
-                    style="display: none;"
+                    style="display: none"
                     *ngIf="this.innerScreenWidth <= 940"
                   >
                     Formato
                   </mat-option>
-                  <mat-option value="Todos">
-                    Todos
-                  </mat-option>
-                  <mat-option value="pdf">
-                    PDF
-                  </mat-option>
-                  <mat-option value="word">
-                    Word
-                  </mat-option>
-                  <mat-option value="image">
-                    Imagen
-                  </mat-option>
+                  <mat-option value="all"> Todos </mat-option>
+                  <mat-option value="pdf"> PDF </mat-option>
+                  <mat-option value="word"> Word </mat-option>
+                  <mat-option value="image"> Imagen </mat-option>
                 </mat-select>
               </mat-form-field>
             </div>
@@ -89,7 +87,10 @@
         <!-- Search Filter -->
         <div class="search-filter list-files dfr">
           <div class="search-input-filter list-files dfc">
-            <input placeholder="Filtrar por nombre" />
+            <input
+              (keyup)="filter($event.target.value)"
+              placeholder="Filtrar por nombre"
+            />
           </div>
           <div class="search-btn-filter list-files">
             <button class="filters-btn btn waves-effect waves-light dfc">
@@ -126,8 +127,12 @@
     </mat-card-header>
 
     <!-- File Evidences List Container  -->
-    <mat-card-content class="item-list-content">
+    <mat-card-content
+      class="item-list-content"
+      [attr.data-details]="modeV === 'select' ? 'true' : 'false'"
+    >
       <perfect-scrollbar
+        *ngIf="evidences.length > 0"
         class="scroll-container"
         fxFlex="auto"
         [config]="config"
@@ -135,345 +140,148 @@
       >
         <div class="scrollable-content">
           <!-- Evidence Item Cards -->
-          <mat-card class="item-container-evidences">
-            <div class="item-evidence-box dfc">
-              <div class="item-evidence-box-header centered-img-bg dfr">
-                <div class="item-evidence-box-data dfr">
-                  <div class="item-evidence-box-date">
-                    <span>10/09/2020</span>
-                  </div>
-                  <div class="item-evidence-box-size">
-                    <span>20Kb</span>
-                  </div>
-                </div>
-                <img src="../../../assets/images/Slide_4.jpg" alt="" />
-              </div>
-              <div class="item-evidence-box-body dfc">
-                <div class="item-evidence-box-name">
-                  <span>Documentacion_Final</span>
-                </div>
-                <div class="item-evidence-box-actions dfr">
+          <div class="item-acordion-card-container">
+            <div
+              class="item-acordion-card-box dfc"
+              [attr.data-evidence-box]="modeV === 'select' ? 'true' : 'false'"
+              *ngFor="
+                let evidence of evidences
+                  | filter: filterValue:'evidence':typeDoc
+                  | paginate
+                    : {
+                        itemsPerPage: selectedEntry,
+                        currentPage: currentPage
+                      }
+              "
+            >
+              <!-- Evidence Card Header -->
+              <div
+                class="item-acordion-card-header dfr"
+                [attr.data-type]="modeV !== 'new' ? 'DETAILS' : 'LIST'"
+              >
+                <div
+                  class="item-acordion-card-header-data note-card-header dfc"
+                >
                   <div
-                    class="item-evidence-box-action waves-effect waves-light dfc"
-                    matTooltip="Eliminar"
-                    matTooltipPosition="above"
+                    class="note-action-check dfc"
+                    [attr.data-added]="
+                      isEvidenceChecked(evidence._id) ? 'on' : 'off'
+                    "
                   >
-                    <i class="material-icons">delete</i>
-                  </div>
-                  <div
-                    class="item-evidence-box-action waves-effect waves-light dfc"
-                    matTooltip="Ver"
-                    matTooltipPosition="above"
-                  >
-                    <i class="material-icons">visibility</i>
-                  </div>
-                  <div
-                    class="item-evidence-box-action waves-effect waves-light dfc"
-                    matTooltip="Cambiar estado"
-                    matTooltipPosition="above"
-                  >
-                    <i class="material-icons">lock_outline</i>
-                  </div>
-                </div>
-                <div class="evidence-action-check dfc">
-                  <mat-checkbox
-                    class="example-margin"
-                    (click)="moveDown($event)"
-                  ></mat-checkbox>
-                </div>
-              </div>
-            </div>
-            <div class="item-evidence-box dfc">
-              <div class="item-evidence-box-header document-format-icon dfr">
-                <div class="item-evidence-box-data dfr">
-                  <div class="item-evidence-box-date">
-                    <span>10/11/2020</span>
-                  </div>
-                  <div class="item-evidence-box-size">
-                    <span>20Kb</span>
-                  </div>
-                </div>
-                <img src="../../../assets/images/word_icon.png" alt="" />
-              </div>
-              <div class="item-evidence-box-body dfc">
-                <div class="item-evidence-box-name">
-                  <span
-                    >Este_Es_Un_Ejemplo_De_Un_Text_Wrap_Para_Ver_Si_Realmente_Funciona_Esta_Wea</span
-                  >
-                </div>
-                <div class="item-evidence-box-actions dfr">
-                  <div
-                    class="item-evidence-box-action waves-effect waves-light dfc"
-                  >
-                    <i class="material-icons">delete</i>
+                    <mat-checkbox
+                      *ngIf="modeV === 'select'"
+                      class="example-margin"
+                      (click)="moveDown($event)"
+                      (change)="addCheckedEvidences($event, evidence)"
+                      [checked]="isEvidenceChecked(evidence._id) ? true : false"
+                    ></mat-checkbox>
                   </div>
                   <div
-                    class="item-evidence-box-action waves-effect waves-light dfc"
+                    *ngIf="modeV === 'select'"
+                    [attr.data-state]="
+                      isEvidenceChecked(evidence._id) ? 'NOTE' : 'NOT-ADDED'
+                    "
+                    class="item-acordion-card-state"
                   >
-                    <i class="material-icons">visibility</i>
+                    <span>Incluida</span>
                   </div>
                   <div
-                    class="item-evidence-box-action waves-effect waves-light dfc"
+                    class="item-acordion-card-header-left dfr"
+                    [attr.data-state]="
+                      isEvidenceChecked(evidence._id) ? 'NOTE' : 'NOT-ADDED'
+                    "
                   >
-                    <i class="material-icons">lock_outline</i>
+                    <div class="item-acordion-card-name">
+                      <span>{{
+                        this._evidencesS.formatBytes(evidence?.size)
+                      }}</span>
+                    </div>
+                    <div class="item-acordion-card-date">
+                      <span>{{ evidence?.date | date }}</span>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-            <div class="item-evidence-box dfc">
-              <div class="item-evidence-box-header document-format-icon dfr">
-                <div class="item-evidence-box-data dfr">
-                  <div class="item-evidence-box-date">
-                    <span>10/10/2020</span>
-                  </div>
-                  <div class="item-evidence-box-size">
-                    <span>20Kb</span>
+              <!-- Evidence Card Body -->
+              <div
+                class="item-acordion-card-body dfr"
+                [attr.data-note-details]="modeV !== 'new' ? 'true' : 'false'"
+              >
+                <div class="item-acordion-card-body-data dfc">
+                  <div class="item-acordion-card-body-title break-spaces">
+                    <span>{{ evidence?.name }}</span>
                   </div>
                 </div>
-                <img src="../../../assets/images/pdf_icon.png" alt="" />
-              </div>
-              <div class="item-evidence-box-body dfc">
-                <div class="item-evidence-box-name">
-                  <span>Acta_De_Nacimeinto</span>
-                </div>
-                <div class="item-evidence-box-actions dfr">
-                  <div
-                    class="item-evidence-box-action waves-effect waves-light dfc"
-                  >
-                    <i class="material-icons">delete</i>
-                  </div>
-                  <div
-                    class="item-evidence-box-action waves-effect waves-light dfc"
-                  >
-                    <i class="material-icons">visibility</i>
-                  </div>
-                  <div
-                    class="item-evidence-box-action waves-effect waves-light dfc"
-                  >
-                    <i class="material-icons">lock_outline</i>
-                  </div>
+                <div
+                  class="item-acordion-card-body-image centered-img-bg dfr"
+                  [attr.data-type]="formatType(evidence.path.split('.').pop())"
+                >
+                  <img
+                    *ngIf="formatType(evidence.path.split('.').pop()) === 'pdf'"
+                    src="../../../assets/images/pdf_icon_2.png"
+                  />
+                  <img
+                    *ngIf="
+                      formatType(evidence.path.split('.').pop()) === 'word'
+                    "
+                    src="../../../assets/images/word_icon_2.png"
+                  />
+                  <img
+                    *ngIf="
+                      formatType(evidence.path.split('.').pop()) === 'image'
+                    "
+                    [src]="evidence?.path"
+                  />
                 </div>
               </div>
-            </div>
-            <div class="item-evidence-box dfc">
-              <div class="item-evidence-box-header centered-img-bg dfr">
-                <div class="item-evidence-box-data dfr">
-                  <div class="item-evidence-box-date">
-                    <span>10/09/2020</span>
-                  </div>
-                  <div class="item-evidence-box-size">
-                    <span>20Kb</span>
-                  </div>
-                </div>
-                <img src="../../../assets/images/Slide_4.jpg" alt="" />
-              </div>
-              <div class="item-evidence-box-body dfc">
-                <div class="item-evidence-box-name">
-                  <span>Documentacion_Final</span>
-                </div>
-                <div class="item-evidence-box-actions dfr">
-                  <div
-                    class="item-evidence-box-action waves-effect waves-light dfc"
-                  >
-                    <i class="material-icons">delete</i>
-                  </div>
-                  <div
-                    class="item-evidence-box-action waves-effect waves-light dfc"
-                  >
-                    <i class="material-icons">visibility</i>
-                  </div>
-                  <div
-                    class="item-evidence-box-action waves-effect waves-light dfc"
-                  >
-                    <i class="material-icons">lock_outline</i>
-                  </div>
-                </div>
+              <!-- Evidence Card Actions -->
+              <div
+                *ngIf="modeV === 'new'"
+                class="item-acordion-body-actions dfr"
+              >
+                <!-- Delete Evidence Button Trigger -->
+                <button
+                  *ngIf="!isCaseArchived"
+                  class="header-item-btn btn action-button dfc"
+                  mat-icon-button
+                  matTooltip="Eliminar"
+                  matTooltipPosition="above"
+                  (click)="changeStatus(evidence._id, 'DELETED')"
+                >
+                  <i class="material-icons">delete</i>
+                </button>
+                <!-- See Evidence Button Trigger -->
+                <button
+                  class="header-item-btn btn action-button dfc"
+                  mat-icon-button
+                  matTooltip="Ver"
+                  matTooltipPosition="above"
+                  (click)="openFileViewModal(evidence?.path, evidence?.name)"
+                >
+                  <i class="material-icons">visibility</i>
+                </button>
               </div>
             </div>
-            <div class="item-evidence-box dfc">
-              <div class="item-evidence-box-header centered-img-bg dfr">
-                <div class="item-evidence-box-data dfr">
-                  <div class="item-evidence-box-date">
-                    <span>10/09/2020</span>
-                  </div>
-                  <div class="item-evidence-box-size">
-                    <span>20Kb</span>
-                  </div>
-                </div>
-                <img src="../../../assets/images/Slide_4.jpg" alt="" />
-              </div>
-              <div class="item-evidence-box-body dfc">
-                <div class="item-evidence-box-name">
-                  <span>Documentacion_Final</span>
-                </div>
-                <div class="item-evidence-box-actions dfr">
-                  <div
-                    class="item-evidence-box-action waves-effect waves-light dfc"
-                  >
-                    <i class="material-icons">delete</i>
-                  </div>
-                  <div
-                    class="item-evidence-box-action waves-effect waves-light dfc"
-                  >
-                    <i class="material-icons">visibility</i>
-                  </div>
-                  <div
-                    class="item-evidence-box-action waves-effect waves-light dfc"
-                  >
-                    <i class="material-icons">lock_outline</i>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="item-evidence-box dfc">
-              <div class="item-evidence-box-header document-format-icon dfr">
-                <div class="item-evidence-box-data dfr">
-                  <div class="item-evidence-box-date">
-                    <span>10/11/2020</span>
-                  </div>
-                  <div class="item-evidence-box-size">
-                    <span>20Kb</span>
-                  </div>
-                </div>
-                <img src="../../../assets/images/word_icon.png" alt="" />
-              </div>
-              <div class="item-evidence-box-body dfc">
-                <div class="item-evidence-box-name">
-                  <span
-                    >Este_Es_Un_Ejemplo_De_Un_Text_Wrap_Para_Ver_Si_Realmente_Funciona_Esta_Wea</span
-                  >
-                </div>
-                <div class="item-evidence-box-actions dfr">
-                  <div
-                    class="item-evidence-box-action waves-effect waves-light dfc"
-                  >
-                    <i class="material-icons">delete</i>
-                  </div>
-                  <div
-                    class="item-evidence-box-action waves-effect waves-light dfc"
-                  >
-                    <i class="material-icons">visibility</i>
-                  </div>
-                  <div
-                    class="item-evidence-box-action waves-effect waves-light dfc"
-                  >
-                    <i class="material-icons">lock_outline</i>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="item-evidence-box dfc">
-              <div class="item-evidence-box-header document-format-icon dfr">
-                <div class="item-evidence-box-data dfr">
-                  <div class="item-evidence-box-date">
-                    <span>10/10/2020</span>
-                  </div>
-                  <div class="item-evidence-box-size">
-                    <span>20Kb</span>
-                  </div>
-                </div>
-                <img src="../../../assets/images/pdf_icon.png" alt="" />
-              </div>
-              <div class="item-evidence-box-body dfc">
-                <div class="item-evidence-box-name">
-                  <span>Acta_De_Nacimeinto</span>
-                </div>
-                <div class="item-evidence-box-actions dfr">
-                  <div
-                    class="item-evidence-box-action waves-effect waves-light dfc"
-                  >
-                    <i class="material-icons">delete</i>
-                  </div>
-                  <div
-                    class="item-evidence-box-action waves-effect waves-light dfc"
-                  >
-                    <i class="material-icons">visibility</i>
-                  </div>
-                  <div
-                    class="item-evidence-box-action waves-effect waves-light dfc"
-                  >
-                    <i class="material-icons">lock_outline</i>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="item-evidence-box dfc">
-              <div class="item-evidence-box-header document-format-icon dfr">
-                <div class="item-evidence-box-data dfr">
-                  <div class="item-evidence-box-date">
-                    <span>10/11/2020</span>
-                  </div>
-                  <div class="item-evidence-box-size">
-                    <span>20Kb</span>
-                  </div>
-                </div>
-                <img src="../../../assets/images/word_icon.png" alt="" />
-              </div>
-              <div class="item-evidence-box-body dfc">
-                <div class="item-evidence-box-name">
-                  <span
-                    >Este_Es_Un_Ejemplo_De_Un_Text_Wrap_Para_Ver_Si_Realmente_Funciona_Esta_Wea</span
-                  >
-                </div>
-                <div class="item-evidence-box-actions dfr">
-                  <div
-                    class="item-evidence-box-action waves-effect waves-light dfc"
-                  >
-                    <i class="material-icons">delete</i>
-                  </div>
-                  <div
-                    class="item-evidence-box-action waves-effect waves-light dfc"
-                  >
-                    <i class="material-icons">visibility</i>
-                  </div>
-                  <div
-                    class="item-evidence-box-action waves-effect waves-light dfc"
-                  >
-                    <i class="material-icons">lock_outline</i>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="item-evidence-box dfc">
-              <div class="item-evidence-box-header document-format-icon dfr">
-                <div class="item-evidence-box-data dfr">
-                  <div class="item-evidence-box-date">
-                    <span>10/10/2020</span>
-                  </div>
-                  <div class="item-evidence-box-size">
-                    <span>20Kb</span>
-                  </div>
-                </div>
-                <img src="../../../assets/images/pdf_icon.png" alt="" />
-              </div>
-              <div class="item-evidence-box-body dfc">
-                <div class="item-evidence-box-name">
-                  <span>Acta_De_Nacimeinto</span>
-                </div>
-                <div class="item-evidence-box-actions dfr">
-                  <div
-                    class="item-evidence-box-action waves-effect waves-light dfc"
-                  >
-                    <i class="material-icons">delete</i>
-                  </div>
-                  <div
-                    class="item-evidence-box-action waves-effect waves-light dfc"
-                  >
-                    <i class="material-icons">visibility</i>
-                  </div>
-                  <div
-                    class="item-evidence-box-action waves-effect waves-light dfc"
-                  >
-                    <i class="material-icons">lock_outline</i>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </mat-card>
+          </div>
         </div>
       </perfect-scrollbar>
+      <div *ngIf="evidences.length === 0" class="no-data-container">
+        <div class="card sticky-action" style="width: 100%">
+          <div class="card-body card-content no-data dfr">
+            <div class="card-no-data-icon dfc">
+              <span>i</span>
+            </div>
+            <div class="card-no-data-information">
+              <span> No hay evidencias agregadas en este caso</span>
+            </div>
+          </div>
+        </div>
+      </div>
       <!-- Open Evidences Modal Button Trigger -->
-      <div class="item-add-container">
+      <div
+        *ngIf="modeV === 'new' && !isCaseArchived"
+        class="item-add-container"
+      >
         <button
           mat-icon-button
           class="item-add-button primary-text gradient-45deg-orange gradient-shadow dfc"
@@ -484,11 +292,295 @@
           <i class="material-icons">add</i>
         </button>
       </div>
+      <!-- Open File Creation Modal Button Trigger -->
+      <div *ngIf="modeV === 'select'" class="item-add-container">
+        <button
+          mat-icon-button
+          class="item-add-button primary-text light-blue dfc"
+          (click)="addEvidences()"
+          matTooltip="Incluir seleccionadas"
+          matTooltipPosition="above"
+        >
+          <i class="material-icons">add</i>
+        </button>
+      </div>
     </mat-card-content>
     <!-- Evidences Pagination -->
-    <mat-card-actions class="item-list-pagination-container dfr">
-      <button mat-button>1</button>
-      <button mat-button>2</button>
+    <mat-card-actions
+      *ngIf="evidences.length > 0"
+      class="item-list-pagination-container dfr"
+    >
+      <pagination-controls
+        class="news-pagination"
+        (pageChange)="currentPage = $event"
+      ></pagination-controls>
     </mat-card-actions>
+  </mat-card>
+
+  <!-- Case Event Details -->
+  <mat-card *ngIf="modeV === 'trackingDetails'" class="item-list-container dfc">
+    <!-- Tracking Evidences Header  -->
+    <mat-card-header class="item-filter-container">
+      <mat-card class="item-filter-content list-files dfr">
+        <div class="tracking-item-title-content dfr">
+          <div class="header-item-icon centered-img-bg">
+            <img
+              *ngIf="this.currentCase?.assigned_client"
+              [src]="
+                this.currentCase?.assigned_client[0]?.img | img: 'user':true
+              "
+              alt=""
+            />
+          </div>
+          <div class="tracking-item-body">
+            <div class="header-item-title dfr">
+              <span>{{ this.currentCase?.affair }}</span>
+            </div>
+            <div class="header-item-data">
+              <span>
+                Evento #{{ this.currentTracking.index }} > Lista de antecedentes
+              </span>
+            </div>
+          </div>
+        </div>
+      </mat-card>
+    </mat-card-header>
+
+    <div class="tracking-details-container dfc">
+      <perfect-scrollbar
+        class="scroll-container"
+        fxFlex="auto"
+        [config]="config"
+        [scrollIndicators]="false"
+      >
+        <div class="scrollable-content">
+          <!-- Tracking Evidences List Container  -->
+          <mat-card-content
+            class="item-list-content tracking-details"
+            [attr.data-active]="
+              this.currentTracking.trackingEvidences !== null ? 'true' : 'false'
+            "
+            *ngIf="this.currentTracking.trackingEvidences !== null"
+          >
+            <div class="item-list-content-title dfr">
+              <span>Lista de Evidencias</span>
+              <div
+                class="item-list-content-controls evidences-controls dfr"
+              ></div>
+            </div>
+            <!-- Evidence Item Cards -->
+            <div class="item-acordion-card-container horizontal dfr">
+              <!-- Evidences Left Arrow Indicator -->
+              <div
+                class="item-acordion-card-left-indicator evidence-row-indicator"
+              >
+                <button (click)="scrollCarouselToLeft('evidences')">
+                  <i class="fas fa-angle-left"></i>
+                </button>
+              </div>
+              <!-- Evidences Cards -->
+              <div class="item-acordion-card-carousel" #evidencesCarousel>
+                <div
+                  class="item-acordion-card-box evidence-card-box dfc"
+                  [attr.data-evidence-box]="
+                    modeV === 'select' ? 'true' : 'false'
+                  "
+                  *ngFor="
+                    let evidence of this.currentTracking.trackingEvidences
+                  "
+                  #evidencesArray
+                >
+                  <!-- Evidence Card Header -->
+                  <div class="item-acordion-card-header dfr">
+                    <div
+                      class="item-acordion-card-header-data note-card-header dfc"
+                    >
+                      <div class="item-acordion-card-header-left dfr">
+                        <div class="item-acordion-card-name">
+                          <span>{{
+                            this._evidencesS.formatBytes(evidence?.size)
+                          }}</span>
+                        </div>
+                        <div class="item-acordion-card-date">
+                          <span>{{ evidence?.date | date }}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Evidence Card Body -->
+                  <div
+                    class="item-acordion-card-body dfr"
+                    data-note-details="true"
+                  >
+                    <div class="item-acordion-card-body-data dfc">
+                      <div class="item-acordion-card-body-title break-spaces">
+                        <span>{{ evidence?.name }}</span>
+                      </div>
+                    </div>
+                    <div
+                      class="item-acordion-card-body-image centered-img-bg dfr"
+                      [attr.data-type]="
+                        formatType(evidence.path.split('.').pop())
+                      "
+                    >
+                      <img
+                        *ngIf="
+                          formatType(evidence.path.split('.').pop()) === 'pdf'
+                        "
+                        src="../../../assets/images/pdf_icon_2.png"
+                      />
+                      <img
+                        *ngIf="
+                          formatType(evidence.path.split('.').pop()) === 'word'
+                        "
+                        src="../../../assets/images/word_icon_2.png"
+                      />
+                      <img
+                        *ngIf="
+                          formatType(evidence.path.split('.').pop()) === 'image'
+                        "
+                        [src]="evidence?.path"
+                      />
+                    </div>
+                  </div>
+                  <!-- Evidence Card Actions -->
+                  <div class="item-acordion-body-actions dfr">
+                    <!-- Dowload Evidence Button Trigger -->
+                    <button
+                      class="header-item-btn btn action-button dfc"
+                      mat-icon-button
+                      matTooltip="Descargar"
+                      matTooltipPosition="above"
+                      (click)="
+                        this._evidencesS.downloadEvidence(
+                          evidence.path,
+                          evidence.path.split('.').pop()
+                        )
+                      "
+                    >
+                      <i class="material-icons">file_download</i>
+                    </button>
+                    <!-- See Evidence Button Trigger -->
+                    <button
+                      class="header-item-btn btn action-button dfc"
+                      mat-icon-button
+                      matTooltip="Ver"
+                      matTooltipPosition="above"
+                      (click)="
+                        openFileViewModal(evidence?.path, evidence?.name)
+                      "
+                    >
+                      <i class="material-icons">visibility</i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <!-- Evidences Right Arrow Indicator -->
+              <div
+                class="item-acordion-card-right-indicator evidence-row-indicator"
+              >
+                <button (click)="scrollCarouselToRight('evidences')">
+                  <i class="fas fa-angle-right"></i>
+                </button>
+              </div>
+            </div>
+          </mat-card-content>
+          <!-- Tracking Notes List Container  -->
+          <mat-card-content
+            class="item-list-content tracking-details note"
+            [attr.data-active]="
+              this.currentTracking.trackingNotes !== null ? 'true' : false
+            "
+            *ngIf="this.currentTracking.trackingNotes !== null"
+          >
+            <div class="item-list-content-title">
+              <div class="item-list-content-title dfr">
+                <span>Lista de Notas</span>
+                <div
+                  class="item-list-content-controls notes-controls dfr"
+                ></div>
+              </div>
+              <!-- Note Item Cards -->
+              <div class="item-acordion-card-container horizontal dfr">
+                <!-- Evidences Left Arrow Indicator -->
+                <div
+                  class="item-acordion-card-left-indicator note-row-indicator"
+                >
+                  <button (click)="scrollCarouselToLeft('notes')">
+                    <i class="fas fa-angle-left"></i>
+                  </button>
+                </div>
+                <div class="item-acordion-card-carousel" #notesCarousel>
+                  <div
+                    class="item-acordion-card-box dfc"
+                    *ngFor="
+                      let note of this.currentTracking.trackingNotes;
+                      let i = index
+                    "
+                    #notesArray
+                  >
+                    <!-- Note Card Header -->
+                    <div class="item-acordion-card-header dfr">
+                      <div
+                        class="item-acordion-card-header-data note-card-header dfc"
+                      >
+                        <div class="item-acordion-card-header-left dfr">
+                          <div class="item-acordion-card-name color">
+                            <span>{{ note.affair }}</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- Note Card Body -->
+                    <div
+                      class="item-acordion-card-body dfr"
+                      data-note-details="true"
+                    >
+                      <div class="item-acordion-card-body-data note-card dfc">
+                        <div
+                          class="item-acordion-card-body-content note-card-content"
+                        >
+                          <perfect-scrollbar
+                            class="scroll-container"
+                            fxFlex="auto"
+                            [config]="config"
+                            [scrollIndicators]="false"
+                          >
+                            <div class="scrollable-content not-margin">
+                              <span>{{ note.message }}</span>
+                            </div>
+                          </perfect-scrollbar>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Evidences Right Arrow Indicator -->
+              <div
+                class="item-acordion-card-right-indicator note-row-indicator"
+              >
+                <button (click)="scrollCarouselToRight('notes')">
+                  <i class="fas fa-angle-right"></i>
+                </button>
+              </div>
+            </div>
+          </mat-card-content>
+        </div>
+      </perfect-scrollbar>
+    </div>
+
+    <!-- Open Evidences Modal Button Trigger -->
+    <div *ngIf="modeV === 'new'" class="item-add-container">
+      <button
+        mat-icon-button
+        class="item-add-button primary-text gradient-45deg-orange gradient-shadow dfc"
+        matTooltip="Agregar evidencia"
+        matTooltipPosition="above"
+        (click)="openFileUploadModal()"
+      >
+        <i class="material-icons">add</i>
+      </button>
+    </div>
   </mat-card>
 </div>
