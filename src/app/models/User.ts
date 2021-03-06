@@ -11,8 +11,10 @@ export class User {
     public created_at?: string,
     public img?: string,
     public lawyer?: string,
+    public practice_areas?: any,
     public public_lawyer_id?: string,
     public role?: string,
+    public speciality?: any,
     public status?: boolean,
     public _id?: string
   ) {}

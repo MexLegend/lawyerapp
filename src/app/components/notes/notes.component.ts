@@ -44,7 +44,7 @@ export class NotesComponent implements OnInit {
   notesStorage: any;
 
   selected = new FormControl(0);
-  selectedEntry: number = 5;
+  selectedEntry: number = 10;
   statusNote: any;
 
   // Detect Real Screen Size
@@ -213,7 +213,7 @@ export class NotesComponent implements OnInit {
   }
 
   // Open Note Creation Modal
-  openFilters(filters) {
+  openFilters(filters?: any) {
     let dialogRef = this.dialog.open(FiltersComponent, {
       data: {},
       autoFocus: false,

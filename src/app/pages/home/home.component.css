@@ -5,12 +5,6 @@
   }
 }
 
-@media only screen and (max-width: 542px) {
-  #partners-carousel-container {
-    margin: 0 16px !important;
-  }
-}
-
 .material-icons {
   font-family: "Material Icons";
   font-weight: normal;
@@ -44,7 +38,7 @@ a.middle-indicator-text {
 .content-indicator {
   width: 64px;
   height: 64px;
-  background: none;
+  background: transparent;
   -moz-border-radius: 50px;
   -webkit-border-radius: 50px;
   border-radius: 50px;
@@ -71,7 +65,15 @@ a.middle-indicator-text {
 }
 
 .carousel .item-list-content {
-  max-height: 273px;
+  max-height: 350px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.carousel .item-list-content.lawyer-card {
+  max-height: 400px;
 }
 
 #index-container .container .carousel {
@@ -200,9 +202,6 @@ a.middle-indicator-text {
   margin-top: 50px;
   margin-bottom: -60px;
   padding: 0;
-  /* border-width: 2px;
-  border-style: solid;
-  border-color: white; */
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14),
     0 3px 1px -2px rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.2);
 }
@@ -216,11 +215,6 @@ a.middle-indicator-text {
   font-size: 14px;
   font-weight: 500;
 }
-
-/* .carousel-item a:hover {
-  background: hsl(214, 100%, 59%) !important;
-  border-color: hsl(214, 100%, 59%);
-} */
 
 #main-slide .main-slide-box-shadow {
   position: absolute;
@@ -244,23 +238,34 @@ a.middle-indicator-text {
 
 /* Partners Carousel */
 
-#carousel-Partners {
+#carousel-Partners,
+#carousel-Posts {
   height: max-content;
 }
 
 #partners-carousel-container {
-  margin: 0 40px;
+  padding: 0;
+}
+
+#partners-carousel-container:nth-of-type(odd) {
+  background: #0e63d1;
 }
 
 #partnersText {
   font-family: "Helvetica", Arial, sans-serif;
   font-size: 13px;
   color: #687177;
+  background: var(--medium-dark-bg-hover);
   word-wrap: break-word;
-  padding-top: 30px;
   font-weight: bolder;
-  font-size: 22px;
-  width: 100%;
+  font-size: 26px;
+  width: 235px;
+  height: 100%;
+  margin: 0 15px 0 0;
+  padding-left: 40px;
+  align-items: flex-start;
+  clip-path: polygon(90% 0, 100% 50%, 90% 100%, 0 100%, 0 0);
+  justify-content: center;
 }
 
 .partners-carousel-item,
@@ -268,6 +273,10 @@ a.middle-indicator-text {
   width: 100%;
   position: relative;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+}
+
+.item-acordion-card-carousel.lawyer-card {
+  grid-template-columns: repeat(auto-fill, minmax(238px, 1fr));
 }
 
 #carousel-Partners .carousel-item {

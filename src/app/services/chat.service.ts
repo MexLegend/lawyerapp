@@ -178,7 +178,7 @@ export class ChatService {
     return this.lawyerRoomData.asObservable();
   }
 
-  setLawyerRoomData(lawyerData: User) {
+  setLawyerRoomData(lawyerData: any) {
     this.lawyerRoomData.next(lawyerData);
   }
 

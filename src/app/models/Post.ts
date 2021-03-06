@@ -2,6 +2,7 @@ export class Post {
   constructor(
     public content: string,
     public title: string,
+    public categories?: string,
     public created_at?: string,
     public external_sources?: string,
     public img?: string,

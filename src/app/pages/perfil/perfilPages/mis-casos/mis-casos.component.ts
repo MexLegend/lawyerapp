@@ -30,7 +30,7 @@ export class MisCasosComponent implements OnInit {
   entriesFilter: any[] = [5, 10, 20, 50, 100, 200];
   cases: Cases[] = [];
   filterValue: string;
-  selectedEntry: number = 5;
+  selectedEntry: number = 10;
 
   public config: PerfectScrollbarConfigInterface = {};
   public innerScreenWidth: any;

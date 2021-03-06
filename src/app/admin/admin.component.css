@@ -527,6 +527,8 @@ nav .sidenav-trigger {
 
 #main-sidenav-trigger {
   top: 12px;
+  box-shadow: none;
+  background: transparent;
 }
 
 #main-sidenav-trigger i {
@@ -591,9 +593,9 @@ nav .sidenav-trigger {
 
 .sidenav li > a[data-active="on"] {
   background: #303f9f;
-  background: -webkit-linear-gradient(45deg, #303f9f, #1976d2) !important;
-  background: -o-linear-gradient(45deg, #303f9f, #1976d2) !important;
-  background: linear-gradient(45deg, #303f9f, #1976d2) !important;
+  background: -webkit-linear-gradient(45deg, #303f9f, #2e89ff) !important;
+  background: -o-linear-gradient(45deg, #303f9f, #2e89ff) !important;
+  background: linear-gradient(45deg, #303f9f, #2e89ff) !important;
   color: white;
   box-shadow: none;
 }
@@ -622,6 +624,10 @@ nav .sidenav-trigger {
 
 .sidenav li a span {
   line-height: initial;
+}
+
+.sidenav li a span.small-text {
+  font-size: 12px;
 }
 
 .nav-collapsible span.badge.pill {

@@ -33,7 +33,6 @@
   }
   #right-contact-content {
     margin-top: 20px;
-    margin-bottom: -70px !important;
   }
   #contact-background {
     padding: 110px 0 !important;
@@ -90,11 +89,12 @@
 /* Top Main Info Styling */
 .main-info {
   width: 100%;
-  color:  #1e88e5;
+  color: #2e89ff;
   font-size: 14px;
   background: transparent;
   text-align: center;
   position: relative;
+  padding-bottom: 30px;
 }
 
 #main-info-title {
@@ -129,23 +129,7 @@
   box-sizing: border-box;
 }
 
-#right-contact-content {
-  width: 45%;
-  padding: 15px;
-  position: relative;
-  height: fit-content;
-  color: black;
-  background: white;
-  margin-bottom: -120px;
-  z-index: 2;
-  box-sizing: border-box;
-  border-radius: 5px;
-  -webkit-box-shadow: 0px 0px 21px 9px rgba(0, 0, 0, 0.08);
-  -moz-box-shadow: 0px 0px 21px 9px rgba(0, 0, 0, 0.08);
-  box-shadow: 0px 0px 21px 9px rgba(0, 0, 0, 0.08);
-}
-
-#right-contact-content::after {
+/* #right-contact-content::after {
   content: "";
   position: absolute;
   width: 30px;
@@ -160,12 +144,7 @@
   margin-left: -15px;
   margin-top: -15px;
   transform: rotate(45deg);
-}
-
-.contact-content-info {
-  display: flex;
-  flex-direction: column;
-}
+} */
 
 #contact-content-text {
   font-family: "Helvetica", Arial, sans-serif;
@@ -199,7 +178,7 @@
 
 #contact-location > span > i {
   padding-right: 10px;
-  color:  #1e88e5;
+  color: #2e89ff;
 }
 
 .contact-content-info span span {
@@ -213,7 +192,7 @@
   background: white;
   display: flex;
   align-items: center;
-  color:  #1e88e5;
+  color: #2e89ff;
   font-size: 18px;
 }
 
@@ -263,11 +242,6 @@
   width: 20%;
 }
 
-#right-contact-content {
-  width: 45%;
-  padding: 30px;
-}
-
 #contact-social-network {
   display: flex;
   margin-top: 40px;
@@ -280,24 +254,4 @@
 
 #contact-social-network > div > a {
   color: white;
-}
-
-/* Textarea Size */
-textarea.materialize-textarea {
-  height: 15rem;
-}
-
-#contact-submit-button {
-  width: 100%;
-  color: white;
-  text-transform: uppercase;
-  font-size: 16px;
-  border-radius: 5px;
-  padding: 3px 0;
-  letter-spacing: 2px;
-  font-weight: 600;
-}
-
-#contact-submit-button:hover {
-  color: aquamarine;
 }

@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { EventEmitter, Injectable } from "@angular/core";
-import { Observable, throwError } from "rxjs";
+import { Observable, throwError, Subject } from "rxjs";
 import { catchError, map } from "rxjs/operators";
 
 import { environment } from "../../environments/environment";
@@ -22,6 +22,8 @@ export class PostsService {
     public _notificationsS: NotificationsService,
     private _usersS: UsersService
   ) {}
+
+  postAttachedFileList = new Subject<[Array<any>, string]>();
 
   createPost(post: any, img?: any): Observable<any> {
     const url = `${environment.URI}/api/posts`;
@@ -133,6 +135,37 @@ export class PostsService {
       .pipe(map((resp: any) => resp.posts));
   }
 
+  getPostsByLawyer(
+    lawyerId: string,
+    page: number = 0,
+    perPage: number = 10,
+    orderField: string = "",
+    orderType: number = 0,
+    filter: string = "",
+    filterOpt: string = "title",
+    status: boolean = true
+  ): Observable<PostsPagination> {
+    let url = `${environment.URI}/api/posts/byLawyer/?status=${status}&page=${
+      page + 1
+    }&perPage=${perPage}&lawyerId=${lawyerId}`;
+
+    if (orderField && orderType) {
+      url = `${url}&orderField=${orderField}&orderType=${orderType}`;
+    }
+
+    if (filterOpt) {
+      url = `${url}&filterOpt=${filterOpt}`;
+    }
+
+    if (filter) {
+      url = `${url}&filter=${filter}`;
+    }
+
+    return this.http
+      .get<PostsPagination>(url)
+      .pipe(map((resp: any) => resp.posts));
+  }
+
   getPostsByRol(
     user: User,
     page: number = 0,
@@ -194,6 +227,14 @@ export class PostsService {
     });
 
     return new Promise((resolve, reject) => resolve(postsCount));
+  }
+
+  getPostAttachedFilesList(): Observable<[Array<any>, string]> {
+    return this.postAttachedFileList.asObservable();
+  }
+
+  setPostAttachedFilesList(attachedFile: any, action: string) {
+    this.postAttachedFileList.next([attachedFile, action]);
   }
 
   updatePost(id, post: any, img?: any) {

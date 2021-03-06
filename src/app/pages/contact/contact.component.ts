@@ -32,7 +32,6 @@ export class ContactComponent implements OnInit {
       emailContact: new FormControl(null, Validators.required),
       messageContact: new FormControl(null, Validators.required),
       phoneContact: new FormControl(null),
-      cityContact: new FormControl(null),
     });
   }
 
@@ -41,8 +40,7 @@ export class ContactComponent implements OnInit {
       this.form.value.nameContact,
       this.form.value.emailContact,
       this.form.value.messageContact,
-      this.form.value.phoneContact,
-      this.form.value.cityContact
+      this.form.value.phoneContact
     );
 
     this.subscriptionsArray.push(

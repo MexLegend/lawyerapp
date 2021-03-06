@@ -17,107 +17,277 @@
 <mat-dialog-content class="mat-typography admin-modal-container">
   <!-- Modal Content -->
   <div class="modal-content admin-modal-content">
-    <perfect-scrollbar
-      class="scroll-container be-prime-scroll-content"
-      [config]="config"
+    <mat-horizontal-stepper
+      linear
+      #postsStepper
+      class="row transparent-bg practice-areas"
     >
-      <div class="scrollable-content">
-        <div class="row">
+      <!-- Post Basic Info Step -->
+      <mat-step [stepControl]="basicDataForm">
+        <ng-template matStepLabel>Información básica</ng-template>
+        <form
+          id="postBasicData"
+          class="col s12 overflow-auto"
+          style="height: 100%"
+          ngNativeValidate
+          [formGroup]="basicDataForm"
+        >
+          <!-- Inputs Container -->
+          <div class="inputs-container dfc">
+            <!-- Select / Change Post Image Trigger -->
+            <div
+              class="profile-image-field w-full dfr"
+              (click)="postImg.click()"
+            >
+              <div class="profile-image-description dfc">
+                <span class="profile-image-title">Imágen del artículo</span>
+                <span class="profile-image-subtitle"
+                  >Actualizar imagen del artículo</span
+                >
+              </div>
+              <div class="profile-image dfc">
+                <div class="profile-image-wrapper centered-img-bg">
+                  <img [src]="this._cloudinaryS.image | img: 'post'" />
+                  <i class="material-icons">camera_alt</i>
+                </div>
+              </div>
+              <input
+                #postImg
+                type="file"
+                ng2FileSelect
+                [uploader]="this._cloudinaryS.uploader"
+                style="display: none"
+                accept="image/png, image/jpg, image/jpeg"
+              />
+            </div>
+            <!-- Post Title -->
+            <div class="modal-input modal-input-pink">
+              <input
+                id="postTitle"
+                name="title"
+                formControlName="title"
+                placeholder=" "
+                type="text"
+                required
+              />
+              <div class="modal-input-placeholder modal-input-placeholder-pink">
+                Titulo*
+              </div>
+            </div>
+
+            <!-- Post Categories -->
+            <div class="modal-input modal-input-blue">
+              <mat-form-field appearance="fill">
+                <mat-label>Seleccionar Categorias</mat-label>
+                <mat-select
+                  formControlName="categories"
+                  multiple
+                  #categoriesSelect
+                >
+                  <mat-select-trigger>
+                    {{
+                      basicDataForm.value.categories &&
+                      basicDataForm.value.categories.length > 0
+                        ? basicDataForm.value.categories[0].name
+                        : ""
+                    }}
+                    <span
+                      *ngIf="basicDataForm.value.categories?.length > 1"
+                      class="example-additional-selection"
+                    >
+                      (+{{ basicDataForm.value.categories.length - 1 }}
+                      más)
+                    </span>
+                  </mat-select-trigger>
+                  <!-- Select / Unselect All & Search Box -->
+                  <mat-option>
+                    <ngx-mat-select-search
+                      [formControl]="categoriesFilterCtrl"
+                      placeholderLabel="Filtrar por nombre"
+                      noEntriesFoundLabel="No se encontraron resultados"
+                      [showToggleAllCheckbox]="true"
+                      (toggleAll)="toggleSelectAll($event)"
+                      [toggleAllCheckboxTooltipMessage]="tooltipMessage"
+                      [toogleAllCheckboxTooltipPosition]="'above'"
+                    ></ngx-mat-select-search>
+                  </mat-option>
+                  <mat-option
+                    *ngFor="let category of categoriesMulti | async"
+                    [value]="category"
+                    >{{ category.name }}</mat-option
+                  >
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+        </form>
+      </mat-step>
+      <!-- Post Content Step -->
+      <mat-step>
+        <ng-template matStepLabel>Contenido</ng-template>
+
+        <mat-card class="item-list-container p0 bs-none dfc">
           <form
-            id="formArticulos"
-            class="col s12"
-            style="padding: 0 30px; height: 100%;"
+            id="postContentForm"
+            class="col s12 h-full"
             ngNativeValidate
-            [formGroup]="form"
+            [formGroup]="basicDataForm"
           >
             <!-- Inputs Container -->
-            <div class="inputs-container">
-              <div class="upload-img-container dfr">
-                <div class="upload-img centered-img-bg dfc">
-                  <img
-                    *ngIf="this._cloudinaryS.image"
-                    [src]="this._cloudinaryS.image | img: 'post'"
-                  />
-                  <div
-                    id="articleImgSelect"
-                    class="select-img dfr"
-                    [attr.data-active]="this._cloudinaryS.image ? 'on' : 'off'"
-                    (click)="articleImg.click()"
-                  >
-                    <i
-                      class="material-icons"
-                      [attr.data-active]="this._cloudinaryS.image ? 'on' : 'off'"
-                      >camera_alt</i
-                    >
-                    <input
-                      #articleImg
-                      ng2FileSelect
-                      type="file"
-                      [uploader]="this._cloudinaryS.uploader"
-                      style="display: none;"
-                      accept="image/png, image/jpg, image/jpeg"
-                    />
-                  </div>
+            <div class="inputs-container document-editor dfc h-full">
+              <!-- <div
+                id="toolbar-container"
+                class="document-editor__toolbar"
+              ></div>
+              <div class="document-editor__editable-container">
+                <div id="editor">
+                  <p>This is the editor content.</p>
                 </div>
-                <div class="dfc" style="width: 100%;">
-                  <div class="modal-input modal-input-pink">
-                    <input
-                      id="title"
-                      name="title"
-                      formControlName="title"
-                      placeholder=" "
-                      type="text"
-                      required
-                    />
-                    <div
-                      class="modal-input-placeholder modal-input-placeholder-pink"
-                    >
-                      Titulo*
-                    </div>
-                  </div>
-                  <div class="modal-input modal-input-pink">
-                    <input
-                      id="external_sources"
-                      name="external_sources"
-                      formControlName="external_sources"
-                      placeholder=" "
-                      type="text"
-                    />
-                    <div
-                      class="modal-input-placeholder modal-input-placeholder-pink"
-                    >
-                      Fuentes Externas
+              </div> -->
+              <ckeditor
+                [editor]="Editor"
+                data="<p>Hello, world!</p>"
+              ></ckeditor>
+            </div>
+          </form>
+        </mat-card>
+      </mat-step>
+      <!-- Post Quotes Step -->
+      <mat-step label="Citas">
+        <ng-template matStepLabel>Citas</ng-template>
+        <div class="faqs-container dfc jcc h-full w-full">
+          <div class="references-container dfc w-full">
+            <div
+              *ngFor="let quote of postQuotesList"
+              class="w-full reference-item item-acordion-title dfr"
+            >
+              <div class="item-acordion-title-left dfr">
+                <div class="header-item-body dfc">
+                  <div class="header-item-title dfr">
+                    <div class="header-item-title-wrap">
+                      <span>{{ quote.reference }}</span>
                     </div>
                   </div>
                 </div>
               </div>
-
-              <angular-editor
-                name="content"
-                formControlName="content"
-                (viewMode)="(true)"
-                [config]="editorConfig"
-                class="articuloEditor"
-                required
-              ></angular-editor>
+              <div class="header-item-actions general dfr">
+                <!-- Quote CRUD Button Trigger -->
+                <button
+                  class="header-item-btn important-action btn waves-effect waves-light light-blue dfc"
+                  mat-icon-button
+                  [matMenuTriggerFor]="actionsMenu"
+                  (click)="_utilitiesS.moveDown($event)"
+                  matTooltip="Más acciones"
+                  matTooltipPosition="above"
+                >
+                  <i class="material-icons">more_vert</i>
+                </button>
+                <!-- Quote CRUD Menu Content -->
+                <mat-menu #actionsMenu="matMenu" xPosition="before">
+                  <ng-template matMenuContent>
+                    <div class="dfc select-content-container">
+                      <!-- Edit Option -->
+                      <button mat-menu-item (click)="openQuotesModal(quote)">
+                        <i class="material-icons">edit</i>
+                        <span>Editar</span>
+                      </button>
+                      <!-- Delete Option -->
+                      <button
+                        mat-menu-item
+                        (click)="deleteElementFromArray(quote, 'Quote')"
+                      >
+                        <i class="material-icons">delete</i>
+                        <span>Eliminar</span>
+                      </button>
+                    </div>
+                  </ng-template>
+                </mat-menu>
+              </div>
             </div>
-          </form>
-        </div>
-        <div
-          *ngIf="this._cloudinaryS.uploader?.isUploading"
-          class="upload-progress-container inner-progress dfc"
-        >
-          <div class="upload-progress modal-footer-upload-progress">
-            <app-progress
-              [progress]="this._cloudinaryS.uploader?.progress"
-            ></app-progress>
+          </div>
+          <div
+            class="add-item-to-accordion-container dfc"
+            [attr.not-data]="postQuotesList.length === 0 ? 'true' : 'false'"
+          >
+            <!-- Add Item To Quotes List Button Trigger -->
+            <button
+              class="btn bs-none transparent-bg dfr"
+              mat-icon-button
+              (click)="openQuotesModal()"
+            >
+              <div class="add-item-accordion-icon dfc">
+                <i class="fas fa-plus"></i>
+              </div>
+              <span>Agregar nueva cita</span>
+            </button>
           </div>
         </div>
+      </mat-step>
+      <!-- Post Attached Files Step -->
+      <mat-step>
+        <ng-template matStepLabel>Archivos adjuntos</ng-template>
+        <div class="faqs-container dfc jcc h-full w-full">
+          <div class="references-container dfc w-full">
+            <div
+              *ngFor="let quote of postQuotesList"
+              class="w-full reference-item item-acordion-title dfr"
+            >
+              <div class="item-acordion-title-left dfr">
+                <div class="header-item-body dfc">
+                  <div class="header-item-title dfr">
+                    <div class="header-item-title-wrap">
+                      <span>{{ quote.quote }}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="header-item-actions general dfr">
+                <!-- Attached File Remove From List Button Trigger -->
+                <button
+                  class="header-item-btn important-action btn waves-effect waves-light light-blue dfc"
+                  mat-icon-button
+                  (click)="deleteElementFromArray(quote, 'Reference')"
+                  matTooltip="Eliminar"
+                  matTooltipPosition="above"
+                >
+                  <i class="material-icons">delete</i>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div
+            class="add-item-to-accordion-container dfc"
+            [attr.not-data]="postQuotesList.length === 0 ? 'true' : 'false'"
+          >
+            <!-- Add Item To Attached Files List Button Trigger -->
+            <button
+              class="btn bs-none transparent-bg dfr"
+              mat-icon-button
+              (click)="openQuotesModal()"
+            >
+              <div class="add-item-accordion-icon dfc">
+                <i class="fas fa-plus"></i>
+              </div>
+              <span>Agregar otro archivo</span>
+            </button>
+          </div>
+        </div>
+      </mat-step>
+    </mat-horizontal-stepper>
+
+    <div
+      *ngIf="this._cloudinaryS.uploader?.isUploading"
+      class="upload-progress-container inner-progress dfc"
+    >
+      <div class="upload-progress modal-footer-upload-progress">
+        <app-progress
+          [progress]="this._cloudinaryS.uploader?.progress"
+        ></app-progress>
       </div>
-    </perfect-scrollbar>
+    </div>
   </div>
 
-  <div class="modal-footer modal-actions admin-modal-footer">
+  <div class="modal-footer modal-actions not-expand admin-modal-footer">
     <ng-container>
       <div class="modal-actions-container dfr">
         <div
@@ -131,7 +301,7 @@
           </div>
         </div>
 
-        <div class="modal-actions-content">
+        <div class="modal-actions-content jce">
           <button
             type="button"
             class="waves-effect waves-light btn modal-close-action"
@@ -141,11 +311,25 @@
             Cancelar
           </button>
           <button
-            id="contact-submit-button"
+            *ngIf="postsStepper.selectedIndex !== 0"
+            (click)="_utilitiesS.goStepperBack(postsStepper)"
+            class="waves-effect waves-light btn modal-submit-action"
+          >
+            Anterior
+          </button>
+          <button
+            *ngIf="postsStepper.selectedIndex !== 2"
+            [class.button-disabled]="!basicDataForm.valid"
+            (click)="_utilitiesS.goStepperForward(postsStepper)"
+            class="waves-effect waves-light btn modal-submit-action"
+          >
+            Siguiente
+          </button>
+          <button
+            *ngIf="postsStepper.selectedIndex === 2"
             type="submit"
             class="waves-effect waves-light btn modal-submit-action"
-            [class.button-disabled]="!form.valid"
-            (click)="create()"
+            (click)="createOrUpdatePost()"
           >
             Guardar
           </button>

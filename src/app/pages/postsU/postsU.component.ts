@@ -21,6 +21,7 @@ export class PostsUComponent implements OnInit {
   currentPage: number = 1;
   filterValue: string;
   posts: Post[] = [];
+  selectedEntry: number = 10;
 
   ngOnInit() {
     this.subscriptionsArray.push(

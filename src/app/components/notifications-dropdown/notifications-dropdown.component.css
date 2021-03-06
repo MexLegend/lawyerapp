@@ -17,7 +17,7 @@
 
 .nav-fixed-option button[aria-expanded="true"] {
   background: rgb(45 136 255 / 0.2) !important;
-  color: #1e88e5;
+  color: #2e89ff;
 }
 
 .nav-fixed-option[data-color="true"] button {

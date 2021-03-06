@@ -13,9 +13,10 @@ import Swal from "sweetalert2";
 import { UsersService } from "../../services/users.service";
 import { ModalAlertService } from "../../services/modal-alert.service";
 import { Subscription } from "rxjs";
-import { ReplyComponent } from '../../modals/reply/reply.component';
-import { User } from '../../models/User';
-import { ChatService } from '../../services/chat.service';
+import { ReplyComponent } from "../../modals/reply/reply.component";
+import { ChatService } from "../../services/chat.service";
+import { User } from "../../models/User";
+import { UtilitiesService } from "../../services/utilities.service";
 
 declare var $: any;
 
@@ -30,12 +31,13 @@ export class PostDetailComponent implements OnInit {
   allLastPosts: Post[] = [];
   currentPostId: string;
   filteredLastPosts: Post[] = [];
-  isPostReactionAlertRendered: boolean = false;
+  isModalAlertRendered: boolean = false;
   login = "login";
   post: Post;
   postAnalytics: PostAnalytics;
   postAnalyticsReaction: string;
-  postReactionAlertModalRef: any = null;
+  modalAlertRef: any = null;
+  postAuthor: User = null;
 
   constructor(
     public activatedRoute: ActivatedRoute,
@@ -45,7 +47,8 @@ export class PostDetailComponent implements OnInit {
     private location: Location,
     public _usersS: UsersService,
     public _postsS: PostsService,
-    public _postAnalyticsS: PostsAnalyticsService
+    public _postAnalyticsS: PostsAnalyticsService,
+    public _utilitiesS: UtilitiesService
   ) {
     this.activatedRoute.params.subscribe((params) => {
       this.currentPostId = params["id"];
@@ -62,15 +65,12 @@ export class PostDetailComponent implements OnInit {
     });
   }
 
-  // Close Post reaction Alert Modal When Clics Outside
+  // Close Reaction Alert Modal When Its Clicked Outside
   @HostListener("document:click", ["$event"])
   onGlobalClick(event: any): void {
-    if (
-      this.isPostReactionAlertRendered &&
-      !event.target.closest(".postReactionModal")
-    ) {
-      this.postReactionAlertModalRef.close();
-      this.isPostReactionAlertRendered = false;
+    if (this.isModalAlertRendered && !event.target.closest(".reactionModal")) {
+      this.modalAlertRef.close();
+      this._utilitiesS.setModalAlertState(false);
     }
   }
 
@@ -87,10 +87,17 @@ export class PostDetailComponent implements OnInit {
         })
     );
 
-    // Get Alert Modal Subscription
+    // Get Modal Alert Subscription
     this.subscriptionsArray.push(
       this._alertModalS.getModalAlertRef().subscribe((modalRef) => {
-        this.postReactionAlertModalRef = modalRef;
+        this.modalAlertRef = modalRef;
+      })
+    );
+
+    //Get Modal Alert State
+    this.subscriptionsArray.push(
+      this._utilitiesS.getModalAlertState().subscribe((state) => {
+        this.isModalAlertRendered = state;
       })
     );
 
@@ -119,7 +126,7 @@ export class PostDetailComponent implements OnInit {
     this.subscriptionsArray.map((subscription) => subscription.unsubscribe());
   }
 
-  // Load Last 10 Articles 
+  // Load Last 10 Articles
   filteredLastPostsFc() {
     this.subscriptionsArray.push(
       this._postsS.getPosts(true, 0, 10, "created_at", -1).subscribe((resp) => {
@@ -142,14 +149,15 @@ export class PostDetailComponent implements OnInit {
   // Load Current Article Info
   loadPost(id: any) {
     this.subscriptionsArray.push(
-      this._postsS.getPost(id).subscribe((post) => {
+      this._postsS.getPost(id).subscribe((post: any) => {
         this.post = post;
+        this.postAuthor = post.user;
       })
     );
   }
 
   // Toogle Chat Window
-  openChat(lawyerData: User) {
+  openChat(lawyerData: any) {
     this._chatS.setLawyerRoomData(lawyerData);
     this._chatS.openChat();
   }
@@ -188,50 +196,17 @@ export class PostDetailComponent implements OnInit {
     $(".comment-buttons").addClass("comment-buttons-show");
   }
 
-  // Show Modal Alert When The User Who Is Reacting Is Not Logged In 
-  showAlertModal(action: string) {
-    let title: string = null;
-
-    switch (action) {
-      case "like":
-        title = "¿Te gusta este artículo?";
-        break;
-
-      default:
-        title = "¿No te gusta este artículo?";
-        break;
-    }
-
-    if (!this.isPostReactionAlertRendered) {
-      Swal.fire({
-        customClass: { container: "postReactionModal" },
-        title: title,
-        text: "Inicia sesión para hacer que tu opinión cuente.",
-        showCloseButton: true,
-        showConfirmButton: true,
-        confirmButtonColor: "#1e88e5",
-        confirmButtonText: "Iniciar sesión",
-        backdrop: false,
-        allowOutsideClick: false,
-        onOpen: () => {
-          this.isPostReactionAlertRendered = true;
-          this._alertModalS.setModalAlertRef(Swal);
-        },
-        onClose: () => (this.isPostReactionAlertRendered = false),
-      }).then((result) => {
-        if (result.value) {
-          this.showLoginModal();
-        }
-      });
-    }
+  // Show Modal Alert When The User Who Is Reacting Is Not Logged In
+  showAlertModal(action: string, event: any) {
+    this._utilitiesS.showAlertModal(
+      action,
+      this._alertModalS,
+      this.isModalAlertRendered,
+      event
+    );
   }
 
-  // Trigger Login Modal When Is Not Logged In
-  showLoginModal() {
-    $("#modalRegistro").modal("open");
-  }
-
-  // Like / Dislike Article 
+  // Like / Dislike Article
   updatePostReactions(reaction: string) {
     this.subscriptionsArray.push(
       this._postAnalyticsS

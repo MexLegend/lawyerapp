@@ -1,0 +1,86 @@
+<!-- Modal Structure -->
+<div mat-dialog-title class="modal-header admin-modal-header dfc">
+  <div class="modal-icon dfc">
+    <i class="fas fa-question"></i>
+  </div>
+  <span class="client-action">{{ faqModalAction }} Pregunta Frecuente</span>
+  <i
+    mat-dialog-close
+    class="modal-exit material-icons pink accent-2 waves-effect waves-light dfr"
+    >close</i
+  >
+</div>
+
+<mat-dialog-content class="mat-typography admin-modal-container">
+  <!-- Modal Content -->
+  <div class="modal-content admin-modal-content">
+    <div class="row">
+      <form
+        id="formUsers"
+        class="col s12"
+        style="padding: 0 30px; height: 100%"
+        ngNativeValidate
+        [formGroup]="faqForm"
+      >
+        <!-- Inputs Container -->
+        <div class="inputs-container h-full">
+          <!-- FAQ Question Input Field -->
+          <div class="modal-input modal-input-pink">
+            <input
+              name="question"
+              formControlName="question"
+              type="text"
+              placeholder=" "
+            />
+            <div class="modal-input-placeholder modal-input-placeholder-pink">
+              Pregunta*
+            </div>
+          </div>
+          <!-- FAQ Answer Input Field -->
+          <div
+            class="modal-input modal-input-pink notes-text-area faq-textarea"
+          >
+            <textarea
+              class="materialize-textarea expediente-input mh-20r ng-pristine ng-touched"
+              name="answer"
+              formControlName="answer"
+              id="faqAnswer"
+              placeholder=" "
+              autosize
+              [minRows]="4"
+              [maxRows]="13"
+              required
+            ></textarea>
+            <div class="modal-input-placeholder modal-input-placeholder-pink">
+              Respuesta*
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal-footer modal-actions admin-modal-footer">
+    <ng-container>
+      <div class="modal-actions-container dfr">
+        <div class="modal-actions-content">
+          <button
+            type="button"
+            class="mwaves-effect waves-light btn modal-close-action"
+            (click)="closeModal()"
+          >
+            Cancelar
+          </button>
+          <button
+            type="submit"
+            class="waves-effect waves-light btn modal-submit-action"
+            [class.button-disabled]="!faqForm.valid"
+            (click)="createOrUpdateFAQ()"
+          >
+            {{ faqModalAction }}
+          </button>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</mat-dialog-content>

@@ -20,15 +20,15 @@ export class ImgPipe implements PipeTransform {
     let img: string;
     switch (type) {
       case "post":
-        img = "http://localhost:3001/ftp/uploads/New_image.jpg";
+        img = "../assets/images/New_image.jpg";
         break;
 
       case "user":
-        img = "http://localhost:3001/ftp/uploads/not-user.jpg";
+        img = "../assets/images/not-user.jpg";
         break;
 
       default:
-        img = "http://localhost:3001/ftp/uploads/New_image.jpg";
+        img = "../assets/images/New_image.jpg";
         break;
     }
     return img;

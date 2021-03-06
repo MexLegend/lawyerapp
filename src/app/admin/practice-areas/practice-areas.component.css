@@ -1,0 +1,16 @@
+.practice-area-status {
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+
+.practice-area-status span {
+    text-transform: initial;
+  }
+
+.practice-area-status[data-status="APPROVED"] {
+  color: #00be91;
+}
+
+.practice-area-status[data-status="AWAITING"] {
+  color: #ff6347;
+}

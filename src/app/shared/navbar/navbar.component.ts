@@ -6,6 +6,7 @@ import { ThemeService } from "../../services/theme.service";
 import { ChatService } from "../../services/chat.service";
 import { ModalAlertService } from "../../services/modal-alert.service";
 import { Subscription } from "rxjs";
+import { UtilitiesService } from "../../services/utilities.service";
 
 declare var $: any;
 
@@ -20,7 +21,8 @@ export class NavbarComponent implements OnInit {
     public _chatS: ChatService,
     public router: Router,
     public _themeS: ThemeService,
-    public _usersS: UsersService
+    public _usersS: UsersService,
+    public _utilitiesS: UtilitiesService
   ) {}
 
   subscriptionsArray: Subscription[] = [];
@@ -72,8 +74,6 @@ export class NavbarComponent implements OnInit {
         gutter: 0,
         belowOrigin: false,
       });
-      // Modal Incialization
-      $(".modal").modal();
     });
   }
 

@@ -583,7 +583,7 @@
                       *ngIf="this.currentCaseData?.assigned_client"
                       [src]="
                         this.currentCaseData?.assigned_client[0]?.img
-                          | img: 'user':true
+                          | img: 'user'
                       "
                       alt=""
                     />
@@ -653,7 +653,7 @@
                   let track of tracksList
                     | paginate
                       : {
-                          itemsPerPage: 2,
+                          itemsPerPage: selectedEntry2,
                           currentPage: currentPage3,
                           id: 'tracking-pagination3'
                         };
@@ -836,7 +836,7 @@
                       <img
                         [src]="
                           (this.currentCaseData?.assigned_client)[0]?.img
-                            | img: 'user':true
+                            | img: 'user'
                         "
                         alt=""
                       />

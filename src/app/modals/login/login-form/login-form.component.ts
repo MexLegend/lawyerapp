@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, Input } from "@angular/core";
 import { NgForm } from "@angular/forms";
 import { Router } from "@angular/router";
 
@@ -6,6 +6,8 @@ import { User } from "../../../models/User";
 import { UsersService } from "../../../services/users.service";
 import { Subscription } from "rxjs";
 import { WebPushNotificationsService } from "../../../services/webPushNotifications.service";
+import { MatDialogRef } from "@angular/material";
+import { LoginComponent } from "../login.component";
 
 declare var $: any;
 
@@ -21,6 +23,8 @@ export class LoginFormComponent implements OnInit {
     private _webPushNotificationsS: WebPushNotificationsService
   ) {}
 
+  @Input() public modalRef: MatDialogRef<LoginComponent> = null;
+
   subscriptionsArray: Subscription[] = [];
 
   email: string;
@@ -29,10 +33,6 @@ export class LoginFormComponent implements OnInit {
 
   ngOnInit() {
     this.email = localStorage.getItem("email") || "";
-
-    if (this.email.length > 1) {
-      this.remember = true;
-    }
   }
 
   // Unsubscribe Any Subscription
@@ -44,7 +44,7 @@ export class LoginFormComponent implements OnInit {
     const user = new User(form.value.email, null, null, form.value.password);
 
     this.subscriptionsArray.push(
-      this._usersS.login(user, form.value.remember).subscribe((resp) => {
+      this._usersS.login(user, true).subscribe((resp) => {
         this._webPushNotificationsS.loginSocket(resp.user, resp.user.rooms);
 
         if (
@@ -59,9 +59,8 @@ export class LoginFormComponent implements OnInit {
           this.router.navigate(["/perfil"]);
         }
         this.password = "";
-        $(document).ready(function () {
-          $("#modalRegistro").modal("close");
-        });
+
+        this.modalRef.close();
       })
     );
   }

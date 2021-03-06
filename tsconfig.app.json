@@ -2,7 +2,8 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "./out-tsc/app",
-    "types": []
+    "types": [],
+    "skipLibCheck": true, /// Needs to be true to fix wrong alias types being used
   },
   "files": [
     "src/main.ts",

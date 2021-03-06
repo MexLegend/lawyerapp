@@ -1,0 +1,265 @@
+/* General Display */
+#lawyers-main-container {
+  align-items: flex-start;
+}
+
+.lawyer-info-container,
+.lawyer-top-container,
+.lawyer-bottom-container {
+  width: 100%;
+}
+
+.lawyer-top-container {
+  align-items: flex-start;
+}
+
+.lawyer-info-container {
+  margin: 30px 0;
+  padding: 0 40px;
+}
+
+.lawyer-image {
+  height: 300px;
+  width: 300px;
+  border-radius: 4px;
+  margin-right: 50px;
+}
+
+.lawyer-stats-contact {
+  width: calc(100% - 350px);
+  align-items: flex-start;
+}
+
+.lawyer-stats-contact .lawyer-name {
+  font-size: 35px;
+  line-height: initial;
+  font-weight: 700;
+  letter-spacing: 3px;
+  color: var(--default-color);
+  font-family: "Roboto", Arial, Tahoma, sans-serif;
+  text-transform: uppercase;
+}
+
+.lawyer-stats-contact .lawyer-degree {
+  color: hsl(214, 100%, 59%);
+  font-size: 18px;
+  font-weight: 500;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+
+.lawyer-ranking {
+  margin-bottom: 25px;
+  align-items: flex-start;
+}
+
+.lawyer-ranking .ranking-title,
+.lawyer-skills-title {
+  color: var(--secondary-text);
+  text-transform: uppercase;
+  font-weight: 500;
+  font-size: 12px;
+}
+
+.lawyer-ranking .ranking-percentage .ranking-percentage-number {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--default-color);
+  margin-right: 10px;
+}
+
+.lawyer-ranking .ranking-percentage .ranking-percentage-stars i {
+  font-size: 16px;
+  color: hsl(214deg 22% 66%);
+  padding: 0 2px;
+}
+
+.lawyer-ranking .ranking-percentage .ranking-percentage-stars i.active {
+  color: hsl(214, 100%, 59%);
+}
+
+.lawyer-contact-buttons {
+  margin-bottom: 40px;
+}
+
+.lawyer-contact-buttons button {
+  text-transform: inherit;
+  line-height: initial;
+  height: 40px;
+  font-weight: 500;
+}
+
+.lawyer-contact-buttons .email-btn {
+  margin-right: 5px;
+  background: transparent;
+  color: #2e89ff;
+  border-style: solid;
+  border-width: 2px;
+  border-color: #2e89ff;
+  justify-content: center;
+}
+
+.lawyer-contact-buttons .direct-btn {
+  background: hsl(214, 100%, 59%);
+}
+
+.lawyer-about-buttons {
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+  border-color: var(--dark-bottom-border);
+  width: 100%;
+}
+
+.lawyer-about-buttons button {
+  background: transparent;
+  color: #949ba1;
+  box-shadow: none;
+  text-transform: inherit;
+  padding: 0;
+  font-size: 16px;
+  position: relative;
+}
+
+.lawyer-about-buttons .contact-btn {
+  margin-right: 20px;
+}
+
+.lawyer-about-buttons button[is-active="true"] {
+  color: var(--default-color);
+}
+
+.lawyer-about-buttons button[is-active="true"]::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  left: 0;
+  bottom: -1px;
+  border-bottom-style: solid;
+  border-bottom-width: 2.2px;
+  border-color: hsl(214, 100%, 59%);
+}
+
+.lawyer-about-buttons button i {
+  margin-right: 8px;
+}
+
+.lawyer-about-buttons button i.fas,
+.lawyer-about-buttons button i.fa {
+  font-size: 16px;
+}
+
+.lawyer-bottom-container {
+  margin-top: 30px;
+  align-items: flex-start;
+}
+
+.lawyer-skills {
+  width: 300px;
+  margin-right: 50px;
+  justify-content: flex-start;
+}
+
+.lawyer-skills-title,
+.lawyer-skills .lawyer-skill,
+.lawyer-about-data,
+.lawyer-about-data-item {
+  width: 100%;
+}
+
+.lawyer-skills-title {
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.lawyer-skills-title:not(.no-line)::before {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 50%;
+  width: calc(100% - 125px);
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+  border-color: var(--dark-bottom-border);
+}
+
+.lawyer-skills .lawyer-skill {
+  color: var(--default-color);
+  font-weight: 500;
+  font-size: 16px;
+}
+
+.lawyer-skills .lawyer-review {
+  color: var(--default-color);
+  width: 100%;
+  margin-bottom: 30px;
+  text-align: justify;
+}
+
+.lawyer-skills .lawyer-review .lawyer-review-text {
+  overflow: hidden;
+  -webkit-line-clamp: 5;
+  display: -webkit-box;
+  -webkit-box-orient: block-axis;
+  text-align: justify;
+  height: 107px;
+  max-height: 107px;
+}
+
+.lawyer-skills .lawyer-review .lawyer-view-review {
+  margin-top: 5px;
+  width: max-content;
+}
+
+.lawyer-about-container {
+  width: calc(100% - 350px);
+}
+
+.lawyer-about-container .lawyer-tab {
+  width: 100%;
+  min-height: max-content;
+}
+
+.lawyer-about-data-item {
+  font-size: 16px;
+  color: var(--default-color);
+  align-items: flex-start;
+  margin-bottom: 15px;
+}
+
+.lawyer-about-data-title {
+  font-weight: 500;
+  min-width: 120px;
+}
+
+.lawyer-about-data-address {
+  align-items: flex-start;
+}
+
+.lawyer-about-link,
+.lawyer-view-review {
+  color: hsl(214, 100%, 59%);
+  cursor: pointer;
+}
+
+.lawyer-complete-review {
+  color: var(--default-color);
+  font-size: 16px;
+  letter-spacing: 0.3px;
+  line-height: 25px;
+  max-height: 330px;
+  overflow: auto;
+}
+
+.lawyer-posts-container .sticky-action {
+  width: 400px;
+  margin: 30px 40px 30px 0;
+}
+
+.card-no-data-information {
+  height: 90px;
+  width: 100%;
+  font-size: 16px;
+  font-weight: 500;
+  justify-content: center;
+  text-align: center;
+}

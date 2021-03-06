@@ -84,8 +84,7 @@
   border-bottom-style: solid;
   border-bottom-width: 1px;
   border-bottom-color: #3e3e3e;
-  padding: 35px 0 !important;
-  margin-top: 15px;
+  padding: 35px 25px !important;
 }
 
 #middle-container .footer-brand-description {
@@ -101,19 +100,73 @@
   padding: 0 15px;
 }
 
+.middle-content-box.sites {
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
 .middle-content-box .box-item,
 .middle-content-box .box-item span {
   width: 100%;
+  text-align: left;
 }
+
+.middle-content-box .box-item.left {
+  align-items: flex-start;
+}
+
+.middle-content-box .box-item .box-item-title {
+  font-size: 24px;
+  letter-spacing: 0.3px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.middle-content-box .box-item .box-item-title.small {
+  font-size: 18px;
+}
+
+.middle-content-box .box-item .box-item-subtitle,
+.middle-content-box .box-item .box-item-site {
+  color: #b0b3b8;
+}
+
+.middle-content-box .box-item .box-item-site {
+  margin-bottom: 5px;
+  position: relative;
+}
+
+.middle-content-box .box-item .box-item-site:hover {
+  color: hsl(214, 100%, 59%);
+  cursor: pointer;
+}
+
+.middle-content-box .box-item .box-item-site:not(:last-child) {
+  margin-bottom: 5px;
+  padding: 0 0 2px;
+  position: relative;
+  font-size: 16px;
+}
+
+/* .middle-content-box .box-item .box-item-site .site-separator {
+  border-radius: 3px;
+  border-style: solid;
+  border-width: 3px;
+  left: 0;
+  top: 6.1px;
+  position: absolute;
+  border-color: #2ea3f2;
+} */
 
 .middle-content-box .input-box {
   margin-top: 15px;
-  justify-content: center;
+  justify-content: flex-start;
 }
 
 .middle-content-box .input-box input {
   margin: 0 5px 0 0;
-  max-width: 350px;
+  max-width: 300px;
+  width: calc(100% - 200px);
 }
 
 #page-footer .btn {
@@ -180,18 +233,27 @@
   height: 2.5rem;
   padding: 10px;
   height: fit-content;
-  margin-right: 5px;
-  border-radius: 5px;
+  margin-right: 0px;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+  background: #393939;
 }
 
 #footer-newsletter-btn {
+  text-transform: capitalize;
+  font-weight: 500;
+  letter-spacing: 0.3px;
   height: fit-content;
+  background: hsl(214, 100%, 59%) !important;
   padding: 3px 12px 3px 16px;
+  border-top-right-radius: 4px;
+  border-top-left-radius: 0;
+  border-bottom-right-radius: 4px;
+  border-bottom-left-radius: 0;
 }
 
 #footer-newsletter-input:hover,
 #footer-newsletter-input:active,
 #footer-newsletter-input:focus {
-  border: 2px solid #1e88e5 !important;
   box-shadow: none !important;
 }

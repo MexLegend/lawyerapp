@@ -2,7 +2,7 @@
 .modal-header {
   height: 60px !important;
   position: relative !important;
-  background: linear-gradient(45deg, #243393, #1976d2) !important;
+  background-color: linear-gradient(45deg, #243393, #2e89ff) !important;
 }
 
 .modal-fixed-footer .modal-content {
@@ -21,11 +21,11 @@
   margin: 0;
 }
 .modal-actions .modal-close-action:hover {
-  background: linear-gradient(45deg, #243393, #1976d2) !important;
+  background-color: linear-gradient(45deg, #243393, #2e89ff) !important;
   color: white !important;
 }
 .modal-actions .modal-submit-action:not(.button-disabled) {
-  background: linear-gradient(45deg, #243393, #1976d2) !important;
+  background-color: linear-gradient(45deg, #243393, #2e89ff) !important;
 }
 
 // Img Details Styles
@@ -37,7 +37,7 @@
   justify-content: space-between;
   color: white;
   padding: 10px 15px;
-  background: linear-gradient(rgba(0, 0, 0, 0) 88%, rgba(0, 0, 0, 0.6) 100%);
+  background-color: linear-gradient(rgba(0, 0, 0, 0) 88%, rgba(0, 0, 0, 0.6) 100%);
   opacity: 0;
   transition: opacity 0.25s ease-in-out 0s;
   &:hover {
@@ -72,8 +72,8 @@
     color: #fff;
     width: 35px;
     height: 35px;
-    background: #7d7d7d70;
-    transition: background 0.3s ease-in-out;
+    background-color: #7d7d7d70;
+    transition: background-color 0.3s ease-in-out;
     position: absolute;
     top: calc(50% - 17.5px);
     right: calc(50% - 17.5px);

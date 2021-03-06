@@ -1,28 +1,12 @@
 <footer id="page-footer" class="footer">
   <!-- Footer Links -->
   <div id="footer-container" class="text-center text-md-left">
-    <div
-      id="superior-container"
-      class="content has-text-centered"
-      style="padding-bottom: 0"
-    >
-      <div class="container row"></div>
-      <!-- <div id="footer-button-container">
-        <a
-          id="btn-footer-contacto"
-          class="waves-effect waves-light btn gradient-45deg-dark-blue"
-          routerLink="/contacto"
-          (click)="scrollToTop()"
-          ><span>Contactanos</span></a
-        >
-      </div> -->
-    </div>
     <div id="middle-container" class="grey darken-4">
       <div class="middle-content-boxes dfr">
         <div class="middle-content-box dfc">
           <div class="box-item dfc">
-            <span style="font-size: 24px">Suscríbete a nuestro boletín</span>
-            <span
+            <span class="box-item-title">Suscríbete a nuestro boletín</span>
+            <span class="box-item-subtitle"
               >Noticias y actualizaciones sobre lo que estamos haciendo</span
             >
           </div>
@@ -33,29 +17,34 @@
               class=""
               placeholder="Ingresa tu email"
             />
-            <a
-              id="footer-newsletter-btn"
-              class="waves-effect waves-light btn gradient-45deg-dark-blue"
-              matTooltip="Enviar"
-              matTooltipPosition="above"
-              ><i class="material-icons right" style="margin: 0">send</i></a
+            <a id="footer-newsletter-btn" class="waves-effect waves-light btn"
+              ><span>Suscribirme</span></a
             >
           </div>
         </div>
-        <div class="middle-content-box dfc">
-          <div class="footer-image">
-            <img
-              src="../../../assets/images/logo_footer.png"
-              alt="Footer Logo"
-            />
-          </div>
-          <div class="footer-brand-description">
-            <span
-              >Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde
-              deserunt perspiciatis illum architecto eveniet expedita distinctio
-              saepe ipsa quasi, quaerat debitis culpa laborum atque voluptatem,
-              reiciendis, minima similique commodi doloribus?</span
+        <div class="middle-content-box sites dfr">
+          <div class="box-item left dfc">
+            <div class="box-item-title small">Áreas de práctica</div>
+            <div
+              *ngFor="let practiceArea of practiceAreasList"
+              class="box-item-site"
             >
+              <div class="site-separator"></div>
+              <span (click)="goToAreaDetail(practiceArea._id)">{{
+                practiceArea.name
+              }}</span>
+            </div>
+          </div>
+          <div class="box-item left dfc">
+            <div class="box-item-title small">Legal</div>
+            <div class="box-item-site">
+              <div class="site-separator"></div>
+              <span>Términos de servicio</span>
+            </div>
+            <div class="box-item-site">
+              <div class="site-separator"></div>
+              <span>Aviso de Privacidad</span>
+            </div>
           </div>
         </div>
       </div>
@@ -63,12 +52,12 @@
     <div class="bottom-container grey darken-4 main-footer dfc">
       <div class="container dfr">
         <span>
-          © 2020
+          © 2020 - 2021
           <span class="footer-author"> Haizen</span>
           All rights reserved.
         </span>
         <span class="hide-on-small-only">
-          Designed and Developed by
+          Web Design by
           <span class="footer-author">Armando Lara</span>
         </span>
       </div>

@@ -209,7 +209,7 @@
               >
                 <div class="item-acordion-card-body-data dfc">
                   <div class="item-acordion-card-body-title break-spaces">
-                    <span>{{ evidence?.name }}</span>
+                    <span class="item-acordion-card-body-title-span">{{ evidence?.name }}</span>
                   </div>
                 </div>
                 <div
@@ -326,9 +326,7 @@
           <div class="header-item-icon centered-img-bg">
             <img
               *ngIf="this.currentCase?.assigned_client"
-              [src]="
-                this.currentCase?.assigned_client[0]?.img | img: 'user':true
-              "
+              [src]="this.currentCase?.assigned_client[0]?.img | img: 'user'"
               alt=""
             />
           </div>
@@ -382,9 +380,6 @@
               <div class="item-acordion-card-carousel" #evidencesCarousel>
                 <div
                   class="item-acordion-card-box evidence-card-box dfc"
-                  [attr.data-evidence-box]="
-                    modeV === 'select' ? 'true' : 'false'
-                  "
                   *ngFor="
                     let evidence of this.currentTracking.trackingEvidences
                   "
@@ -571,7 +566,7 @@
     </div>
 
     <!-- Open Evidences Modal Button Trigger -->
-    <div *ngIf="modeV === 'new'" class="item-add-container">
+    <div class="item-add-container">
       <button
         mat-icon-button
         class="item-add-button primary-text gradient-45deg-orange gradient-shadow dfc"

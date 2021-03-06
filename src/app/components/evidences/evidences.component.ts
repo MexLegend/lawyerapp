@@ -65,7 +65,7 @@ export class EvidencesComponent implements OnInit {
   randomBorderBackgroundColorsArray: any[] = [];
   evidencesPagesNumber: Number = 0;
   selected = new FormControl(0);
-  selectedEntry: number = 5;
+  selectedEntry: number = 10;
   selectedEvidences: any[] = [];
   typeDoc: any;
 

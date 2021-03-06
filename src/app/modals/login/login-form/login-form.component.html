@@ -9,9 +9,10 @@
         type="email"
         placeholder=" "
         required
+        email
       />
       <div class="modal-input-placeholder modal-input-placeholder-blue">
-        Correo electronico*
+        Correo electronico
       </div>
     </div>
     <!-- Password Input -->
@@ -25,20 +26,8 @@
         required
       />
       <div class="modal-input-placeholder modal-input-placeholder-blue">
-        Contraseña*
+        Contraseña
       </div>
-    </div>
-    <div class="login-actions">
-      <div class="switch">
-        <label>
-          Recordar Usuario
-          <input type="checkbox" [(ngModel)]="remember" name="remember" />
-          <span class="lever"></span>
-        </label>
-      </div>
-      <a href="#!" class="modal-forgot-password modal-close waves-effect"
-        >¿Has olvidado tu contraseña?</a
-      >
     </div>
     <button
       type="submit"
@@ -48,5 +37,10 @@
     >
       Iniciar Sesión
     </button>
+    <div class="login-actions">
+      <a href="#!" class="modal-forgot-password modal-close waves-effect"
+        >¿Has olvidado tu contraseña?</a
+      >
+    </div>
   </div>
 </form>

@@ -1,0 +1,39 @@
+/* General Display */
+#areas-content-container {
+  padding: 25px 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(31%, 1fr));
+  grid-gap: 30px;
+}
+
+#areas-content-container .sticky-action {
+  margin: 0;
+  padding: 15px 20px;
+  background: var(--medium-dark-bg-hover) !important;
+  height: 84px;
+  justify-content: center;
+  align-items: flex-start;
+  font-weight: 600;
+  position: relative;
+  cursor: pointer;
+}
+
+#areas-content-container .sticky-action:hover {
+  background: #2e89ff !important;
+  color: var(--white-color) !important;
+}
+
+#areas-content-container .sticky-action .card-content {
+  width: calc(100% - 10px);
+  padding: 0 !important;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+#areas-content-container .sticky-action .right-indicator {
+  position: absolute;
+  top: calc(50% - 9px);
+  right: 15px;
+  font-size: 18px;
+}

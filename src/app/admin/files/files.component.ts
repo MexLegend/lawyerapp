@@ -69,9 +69,9 @@ export class FilesComponent implements OnInit {
   notes: any;
   noTrack: any;
   selected = new FormControl(0);
-  selectedEntry: number = 5;
+  selectedEntry: number = 10;
   selected2 = new FormControl(0);
-  selectedEntry2: number = 5;
+  selectedEntry2: number = 10;
   users: User[] = [];
 
   selectedTrakingAction = new FormControl(0);
@@ -106,8 +106,21 @@ export class FilesComponent implements OnInit {
 
     // List Cases from Response
     this.getByLowyer();
-
     this.initCaseMessageForm();
+
+    // Get Selected Evidences Subscription
+    this.subscriptionsArray.push(
+      this._evidencesS.getSelectedEvidencesSub().subscribe((evidence) => {
+        this.selectedEvidences = evidence;
+      })
+    );
+
+    // Get Selected Notes Subscription
+    this.subscriptionsArray.push(
+      this._notesS.getSelectedNotesSub().subscribe((note) => {
+        this.selectedNotes = note;
+      })
+    );
 
     // Load storage property if exists
     this._localStorageS
@@ -214,20 +227,6 @@ export class FilesComponent implements OnInit {
       })
     );
 
-    // Get Selected Evidences Subscription
-    this.subscriptionsArray.push(
-      this._evidencesS.getSelectedEvidencesSub().subscribe((evidence) => {
-        this.selectedEvidences = evidence;
-      })
-    );
-
-    // Get Selected Notes Subscription
-    this.subscriptionsArray.push(
-      this._notesS.getSelectedNotesSub().subscribe((note) => {
-        this.selectedNotes = note;
-      })
-    );
-
     // Get Tracking Case Message Subscription
     this.subscriptionsArray.push(
       this._trackingS.getTrackingMessageValueSub().subscribe((message) => {
@@ -297,7 +296,8 @@ export class FilesComponent implements OnInit {
                 // Set Notification Data
                 this._webPushNotificationsS
                   .createNotificationObject(
-                    this._usersS.user.img,
+                    this._usersS.user._id,
+                    null,
                     socketTitleAction + " tu caso " + resp.case.affair,
                     "case",
                     `perfil/casos`,
@@ -350,7 +350,8 @@ export class FilesComponent implements OnInit {
               // Set Notification Data
               this._webPushNotificationsS
                 .createNotificationObject(
-                  this._usersS.user.img,
+                  this._usersS.user._id,
+                  null,
                   "elimino el evento #" +
                     Number(tracking.index) +
                     " del caso " +
@@ -457,7 +458,8 @@ export class FilesComponent implements OnInit {
             // Set Notification Data
             this._webPushNotificationsS
               .createNotificationObject(
-                this._usersS.user.img,
+                this._usersS.user._id,
+                null,
                 "eliminó tu caso " + resp.case.affair,
                 "case",
                 `perfil/casos`,
@@ -659,7 +661,8 @@ export class FilesComponent implements OnInit {
                 // Set Notification Data
                 this._webPushNotificationsS
                   .createNotificationObject(
-                    this._usersS.user.img,
+                    this._usersS.user._id,
+                    null,
                     "actualizó el evento #" +
                       Number(trackingIndex) +
                       " del caso " +
@@ -703,7 +706,8 @@ export class FilesComponent implements OnInit {
                 // Set Notification Data
                 this._webPushNotificationsS
                   .createNotificationObject(
-                    this._usersS.user.img,
+                    this._usersS.user._id,
+                    null,
                     "te envió un nuevo evento del caso " +
                       this.currentCaseData.affair,
                     "case-event",

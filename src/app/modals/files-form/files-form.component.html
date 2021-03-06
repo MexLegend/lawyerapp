@@ -16,208 +16,196 @@
 <mat-dialog-content class="mat-typography admin-modal-container">
   <!-- Modal Content -->
   <div class="modal-content admin-modal-content">
-    <perfect-scrollbar
-      class="scroll-container be-prime-scroll-content"
-      [config]="config"
-      fxFlex="auto"
-      [scrollIndicators]="false"
+    <mat-tab-group
+      class="files-tab"
+      [selectedIndex]="selectedTab.value"
+      (selectedIndexChange)="selectedTab.setValue($event)"
     >
-      <div class="scrollable-content">
-        <mat-tab-group
-          class="files-tab"
-          [selectedIndex]="selectedTab.value"
-          (selectedIndexChange)="selectedTab.setValue($event)"
-        >
-          <!-- Initial Form Tab -->
-          <mat-tab>
-            <ng-template mat-tab-label> Formulario expediente </ng-template>
-            <div class="row">
-              <form
-                id="formExpedientes"
-                class="col s12"
-                style="padding: 0 30px; height: 100%"
-                ngNativeValidate
-                [formGroup]="form"
-              >
-                <!-- Inputs Container -->
-                <div class="inputs-container">
-                  <!-- Select User Input Field -->
+      <!-- Initial Form Tab -->
+      <mat-tab>
+        <ng-template mat-tab-label> Formulario expediente </ng-template>
+        <div class="row">
+          <form
+            id="formExpedientes"
+            class="col s12"
+            style="padding: 0 30px; height: 100%"
+            ngNativeValidate
+            [formGroup]="form"
+          >
+            <!-- Inputs Container -->
+            <div class="inputs-container">
+              <!-- Select User Input Field -->
+              <div class="select-user-input dfr" style="margin-bottom: 10px">
+                <div
+                  class="modal-input modal-input-pink"
+                  style="margin-bottom: 0"
+                >
+                  <input
+                    id="assigned_client"
+                    name="assigned_client"
+                    type="text"
+                    class="user-input"
+                    formControlName="assigned_client"
+                    readonly
+                    required
+                    placeholder=" "
+                    (click)="selectedTab.setValue(1); changeButtons(false)"
+                  />
                   <div
-                    class="select-user-input dfr"
-                    style="margin-bottom: 10px"
+                    class="modal-input-placeholder modal-input-placeholder-pink"
                   >
-                    <div
-                      class="modal-input modal-input-pink"
-                      style="margin-bottom: 0"
-                    >
-                      <input
-                        id="assigned_client"
-                        name="assigned_client"
-                        type="text"
-                        class="user-input"
-                        formControlName="assigned_client"
-                        readonly
-                        required
-                        placeholder=" "
-                        (click)="selectedTab.setValue(1); changeButtons(false)"
-                      />
-                      <div
-                        class="modal-input-placeholder modal-input-placeholder-pink"
-                      >
-                        Seleccionar cliente*
+                    Seleccionar cliente*
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  class="waves-effect dfc waves-light btn modal-select-action light-blue"
+                  (click)="selectedTab.setValue(1); changeButtons(false)"
+                >
+                  <i class="material-icons">person_add</i>
+                </button>
+              </div>
+              <!-- External Key Input Field -->
+              <div class="modal-input modal-input-pink">
+                <input
+                  id="extKey"
+                  name="extKey"
+                  formControlName="extKey"
+                  placeholder=" "
+                  type="text"
+                />
+                <div
+                  class="modal-input-placeholder modal-input-placeholder-pink"
+                >
+                  Clave externa
+                </div>
+              </div>
+              <!-- Actor Input Field -->
+              <div class="modal-input modal-input-pink">
+                <input
+                  id="actor"
+                  name="actor"
+                  formControlName="actor"
+                  placeholder=" "
+                  type="text"
+                  required
+                />
+                <div
+                  class="modal-input-placeholder modal-input-placeholder-pink"
+                >
+                  Actor(es)*
+                </div>
+              </div>
+              <!-- Defendant Input Field -->
+              <div class="modal-input modal-input-pink">
+                <input
+                  id="defendant"
+                  name="defendant"
+                  formControlName="defendant"
+                  placeholder=" "
+                  type="text"
+                  required
+                />
+                <div
+                  class="modal-input-placeholder modal-input-placeholder-pink"
+                >
+                  Demandado(s)*
+                </div>
+              </div>
+              <!-- Third Input Field -->
+              <div class="modal-input modal-input-pink">
+                <input
+                  id="third"
+                  name="third"
+                  formControlName="third"
+                  placeholder=" "
+                  type="text"
+                />
+                <div
+                  class="modal-input-placeholder modal-input-placeholder-pink"
+                >
+                  Terceros
+                </div>
+              </div>
+              <!-- Affair Input Field -->
+              <div class="modal-input modal-input-pink">
+                <input
+                  id="affair"
+                  name="affair"
+                  formControlName="affair"
+                  placeholder=" "
+                  type="text"
+                  required
+                />
+                <div
+                  class="modal-input-placeholder modal-input-placeholder-pink"
+                >
+                  Asunto*
+                </div>
+              </div>
+            </div>
+            <!-- Modal Actions -->
+          </form>
+        </div>
+      </mat-tab>
+
+      <!-- Select Client Tab -->
+      <mat-tab>
+        <ng-template mat-tab-label> Seleccionar cliente </ng-template>
+        <div class="item-card-container dfc">
+          <div class="item-card-search-container dfr">
+            <div class="item-card-search-content dfr">
+              <div class="item-card-search-input">
+                <input
+                  id="search-file-client"
+                  name="search-file-client"
+                  type="text"
+                  class="user-input"
+                  placeholder="Buscar cliente"
+                />
+              </div>
+              <div class="item-card-search-button">
+                <button class="btn waves-effect waves-light light-blue dfc">
+                  <i class="material-icons">search</i>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="item-card-list-container dfc">
+            <mat-radio-group
+              aria-labelledby="example-radio-group-label"
+              class="item-card-list-group"
+              [(ngModel)]="selectedClientIndex"
+            >
+              <div
+                class="card-item dfr"
+                *ngFor="let user of users; let i = index"
+              >
+                <div class="card-item-radio-container dfc">
+                  <mat-radio-button
+                    (click)="this.isCheckedFunction(user, i)"
+                    class="card-item-radio-item"
+                    [value]="i"
+                  >
+                    <div class="card-item-img centered-img-bg">
+                      <img [src]="user?.img | img: 'user'" alt="" />
+                    </div>
+                    <div class="card-item-data dfc">
+                      <div class="card-item-title">
+                        {{ user?.firstName + " " + user?.lastName }}
+                      </div>
+                      <div class="card-item-subtitle">
+                        {{ user?.email }}
                       </div>
                     </div>
-                    <button
-                      type="button"
-                      class="waves-effect dfc waves-light btn modal-select-action light-blue"
-                      (click)="selectedTab.setValue(1); changeButtons(false)"
-                    >
-                      <i class="material-icons">person_add</i>
-                    </button>
-                  </div>
-                  <!-- External Key Input Field -->
-                  <div class="modal-input modal-input-pink">
-                    <input
-                      id="extKey"
-                      name="extKey"
-                      formControlName="extKey"
-                      placeholder=" "
-                      type="text"
-                    />
-                    <div
-                      class="modal-input-placeholder modal-input-placeholder-pink"
-                    >
-                      Clave externa
-                    </div>
-                  </div>
-                  <!-- Actor Input Field -->
-                  <div class="modal-input modal-input-pink">
-                    <input
-                      id="actor"
-                      name="actor"
-                      formControlName="actor"
-                      placeholder=" "
-                      type="text"
-                      required
-                    />
-                    <div
-                      class="modal-input-placeholder modal-input-placeholder-pink"
-                    >
-                      Actor(es)*
-                    </div>
-                  </div>
-                  <!-- Defendant Input Field -->
-                  <div class="modal-input modal-input-pink">
-                    <input
-                      id="defendant"
-                      name="defendant"
-                      formControlName="defendant"
-                      placeholder=" "
-                      type="text"
-                      required
-                    />
-                    <div
-                      class="modal-input-placeholder modal-input-placeholder-pink"
-                    >
-                      Demandado(s)*
-                    </div>
-                  </div>
-                  <!-- Third Input Field -->
-                  <div class="modal-input modal-input-pink">
-                    <input
-                      id="third"
-                      name="third"
-                      formControlName="third"
-                      placeholder=" "
-                      type="text"
-                    />
-                    <div
-                      class="modal-input-placeholder modal-input-placeholder-pink"
-                    >
-                      Terceros
-                    </div>
-                  </div>
-                  <!-- Affair Input Field -->
-                  <div class="modal-input modal-input-pink">
-                    <input
-                      id="affair"
-                      name="affair"
-                      formControlName="affair"
-                      placeholder=" "
-                      type="text"
-                      required
-                    />
-                    <div
-                      class="modal-input-placeholder modal-input-placeholder-pink"
-                    >
-                      Asunto*
-                    </div>
-                  </div>
-                </div>
-                <!-- Modal Actions -->
-              </form>
-            </div>
-          </mat-tab>
-
-          <!-- Select Client Tab -->
-          <mat-tab>
-            <ng-template mat-tab-label> Seleccionar cliente </ng-template>
-            <div class="item-card-container dfc">
-              <div class="item-card-search-container dfr">
-                <div class="item-card-search-content dfr">
-                  <div class="item-card-search-input">
-                    <input
-                      id="search-file-client"
-                      name="search-file-client"
-                      type="text"
-                      class="user-input"
-                      placeholder="Buscar cliente"
-                    />
-                  </div>
-                  <div class="item-card-search-button">
-                    <button class="btn waves-effect waves-light light-blue dfc">
-                      <i class="material-icons">search</i>
-                    </button>
-                  </div>
+                  </mat-radio-button>
                 </div>
               </div>
-              <div class="item-card-list-container dfc">
-                <mat-radio-group
-                  aria-labelledby="example-radio-group-label"
-                  class="item-card-list-group"
-                  [(ngModel)]="selectedClientIndex"
-                >
-                  <div
-                    class="card-item dfr"
-                    *ngFor="let user of users; let i = index"
-                  >
-                    <div class="card-item-radio-container dfc">
-                      <mat-radio-button
-                        (click)="this.isCheckedFunction(user, i)"
-                        class="card-item-radio-item"
-                        [value]="i"
-                      >
-                        <div class="card-item-img centered-img-bg">
-                          <img [src]="user?.img | img: 'user'" alt="" />
-                        </div>
-                        <div class="card-item-data dfc">
-                          <div class="card-item-title">
-                            {{ user?.firstName + " " + user?.lastName }}
-                          </div>
-                          <div class="card-item-subtitle">
-                            {{ user?.email }}
-                          </div>
-                        </div>
-                      </mat-radio-button>
-                    </div>
-                  </div>
-                </mat-radio-group>
-              </div>
-            </div>
-          </mat-tab>
-        </mat-tab-group>
-      </div>
-    </perfect-scrollbar>
+            </mat-radio-group>
+          </div>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
   </div>
 
   <div class="modal-footer modal-actions admin-modal-footer">

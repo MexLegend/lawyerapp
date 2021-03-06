@@ -1,4 +1,4 @@
-<section id="noticias-main-container" class="pr pt-71">
+<section *ngIf="post" id="noticias-main-container" class="pr pt-71">
   <div id="noticias-content-container">
     <div class="noticias-data dfr">
       <!-- Detail Post Card -->
@@ -41,9 +41,14 @@
           <div class="item-acordion-body-actions dfr">
             <!-- Post Contact Author By Email Button Trigger -->
             <button
+              *ngIf="
+                _usersS.isLogged()
+                  ? postAuthor._id !== this._usersS.user._id
+                  : true
+              "
               class="header-item-btn btn action-button dfc"
               mat-icon-button
-              matTooltip="Contactar por correo"
+              matTooltip="Contactar autor por correo"
               matTooltipPosition="above"
               (click)="openReplyModal(post.user)"
             >
@@ -51,10 +56,12 @@
             </button>
             <!-- Post Contact Author By Message Button Trigger -->
             <button
-              *ngIf="_usersS.isLogged()"
+              *ngIf="
+                _usersS.isLogged() && postAuthor._id !== this._usersS.user._id
+              "
               class="header-item-btn btn action-button important-action dfc"
               mat-icon-button
-              matTooltip="Contactar por mensaje"
+              matTooltip="Contactar autor por mensaje"
               matTooltipPosition="above"
               (click)="openChat(post.user)"
             >
@@ -70,7 +77,7 @@
                 (click)="
                   this._usersS.isLogged()
                     ? updatePostReactions('like')
-                    : showAlertModal('like')
+                    : showAlertModal('like', $event)
                 "
                 [attr.data-active]="
                   postAnalyticsReaction === 'like' ? true : false
@@ -96,7 +103,7 @@
                 (click)="
                   this._usersS.isLogged()
                     ? updatePostReactions('dislike')
-                    : showAlertModal('dislike')
+                    : showAlertModal('dislike', $event)
                 "
                 [attr.data-active]="
                   postAnalyticsReaction === 'dislike' ? true : false
@@ -118,7 +125,10 @@
         </div>
       </div>
       <!-- Last Posts Card -->
-      <div class="card sticky-action" style="width: 400px; margin-left: 30px">
+      <div
+        class="card sticky-action last-posts"
+        style="width: 400px; margin-left: 30px"
+      >
         <div class="card-header last-articles-title card-content">
           <span>Últimos Artículos</span>
         </div>
@@ -136,10 +146,7 @@
                 [routerLink]="['/articulo-detalle', post._id]"
               >
                 <div class="last-article-img centered-img-bg">
-                  <img
-                    [src]="post?.img | img: 'post':false"
-                    [alt]="post?.title"
-                  />
+                  <img [src]="post?.img | img: 'post'" [alt]="post?.title" />
                 </div>
                 <div class="last-article-data dfc">
                   <div class="last-article-name">
@@ -201,7 +208,7 @@
                   (click)="
                     this._usersS.isLogged()
                       ? showCommentButtons()
-                      : showLoginModal()
+                      : showAlertModal('comment', $event)
                   "
                 />
                 <label class="comment-label" for="comment"

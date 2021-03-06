@@ -1,25 +1,21 @@
 <section id="noticias-main-container" class="pr pt-71 dfc">
-  <div id="noticias-main-menu">
-    <div class="noticias-main-menu-container container">
-      <div><span>Últimos Articulos</span></div>
-      <nav id="noticias-search" class="grey lighten-4">
+  <div class="search-main-menu">
+    <div class="serach-main-menu-container container">
+      <nav class="noticias-search">
         <div class="nav-wrapper">
           <form>
             <div class="input-field">
               <input
                 (keyup)="filter($event.target.value)"
-                id="search"
+                id="searchPost"
                 type="search"
-                placeholder="Buscar..."
+                placeholder="Buscar artículo"
                 required
               />
-              <label
-                id="noticias-search-label-icon"
-                class="label-icon"
-                for="search"
+              <label class="label-icon search-label-icon dfr" for="search"
                 ><i class="material-icons">search</i></label
               >
-              <i class="noticias-search-close-icon material-icons">close</i>
+              <i class="search-close-icon material-icons">close</i>
             </div>
           </form>
         </div>
@@ -35,7 +31,7 @@
       *ngFor="
         let post of posts
           | filter: filterValue:'post'
-          | paginate: { itemsPerPage: 2, currentPage: currentPage }
+          | paginate: { itemsPerPage: selectedEntry, currentPage: currentPage }
       "
       class="card sticky-action"
       style="width: 100%"

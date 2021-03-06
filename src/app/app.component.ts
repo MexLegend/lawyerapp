@@ -48,9 +48,11 @@ export class AppComponent implements OnInit {
           this._webPushNotificationsS
             .listenFromSocket("get-public-socket-event-notification")
             .subscribe((notificationData) => {
-              this._webPushNotificationsS.setNotificationsSub([
-                notificationData,
-              ]);
+              this._webPushNotificationsS.setNotificationsSub(
+                this._webPushNotificationsS.getNotificationObject([
+                  notificationData,
+                ])
+              );
               this._webPushNotificationsS.sendNotification(notificationData);
             })
         );
@@ -60,13 +62,16 @@ export class AppComponent implements OnInit {
           this._webPushNotificationsS
             .listenFromSocket("get-group-socket-event-notification")
             .subscribe((notificationData) => {
-              this._webPushNotificationsS.setNotificationsSub([
-                notificationData,
-              ]);
+              this._webPushNotificationsS.setNotificationsSub(
+                this._webPushNotificationsS.getNotificationObject([
+                  notificationData,
+                ])
+              );
               this._webPushNotificationsS.sendNotification(notificationData);
             })
         );
 
+        // Chat Socket Events
         this.subscriptionsArray.push(
           this._webPushNotificationsS
             .listenFromSocket("get-group-message-event")
@@ -117,9 +122,11 @@ export class AppComponent implements OnInit {
           this._webPushNotificationsS
             .listenFromSocket("get-private-socket-event-notification")
             .subscribe((notificationData) => {
-              this._webPushNotificationsS.setNotificationsSub([
-                notificationData,
-              ]);
+              this._webPushNotificationsS.setNotificationsSub(
+                this._webPushNotificationsS.getNotificationObject([
+                  notificationData,
+                ])
+              );
               this._webPushNotificationsS.sendNotification(notificationData);
             })
         );

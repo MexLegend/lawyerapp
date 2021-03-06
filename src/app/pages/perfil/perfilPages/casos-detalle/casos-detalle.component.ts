@@ -33,6 +33,7 @@ export class CasosDetalleComponent implements OnInit {
   currentPage: number = 1;
   caseData: any = [];
   currentCaseData: any;
+  selectedEntry: number = 10;
   showMoreIndex: number = null;
   trackings: Tracking[] = [];
   tracksList: any;

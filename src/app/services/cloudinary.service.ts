@@ -103,7 +103,6 @@ export class CloudinaryService {
     let validExtensions: any;
 
     console.log(type);
-    
 
     if (type === "img") {
       validExtensions = ["png", "jpg", "jpeg", "gif", "webp", "jfif"];
@@ -208,7 +207,9 @@ export class CloudinaryService {
           ? "Users"
           : this.typeFile === "file"
           ? "Files"
-          : "Posts"
+          : this.typeFile === "Posts"
+          ? "Posts"
+          : "AttachedPostFile"
       );
 
       // Use default "withCredentials" value for CORS requests

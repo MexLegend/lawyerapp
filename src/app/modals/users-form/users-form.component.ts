@@ -12,7 +12,6 @@ import { debounceTime, distinctUntilChanged } from "rxjs/operators";
 import { CloudinaryService } from "../../services/cloudinary.service";
 import { User } from "../../models/User";
 import { UsersService } from "../../services/users.service";
-import { UpdateDataService } from "../../services/updateData.service";
 import { PerfectScrollbarConfigInterface } from "ngx-perfect-scrollbar";
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material";
 import { WebPushNotificationsService } from "../../services/webPushNotifications.service";
@@ -101,8 +100,14 @@ export class UsersFormComponent implements OnInit, AfterViewChecked {
       this.userModalTitle = this.data.action;
       this.usersList = this.data.users;
       if (this.data.idUser && this.data.idUser !== "") {
+        // Get User Data Request
         this.subscriptionsArray.push(
-          this._usersS.getUser(this.data.idUser).subscribe((user) => {
+          this._usersS.getUser(this.data.idUser).subscribe()
+        );
+
+        // Get User Data Subscription
+        this.subscriptionsArray.push(
+          this._usersS.getUserData().subscribe((user) => {
             this.requiredPass(this.data.idUser);
             this._cloudinaryS.image = user.img;
             this.form.patchValue({
@@ -203,7 +208,8 @@ export class UsersFormComponent implements OnInit, AfterViewChecked {
                 // Set Notification Data
                 this._webPushNotificationsS
                   .createNotificationObject(
-                    this._usersS.user.img,
+                    this._usersS.user._id,
+                    null,
                     "actualizó tu perfil",
                     "user",
                     `perfil/general`,
@@ -292,7 +298,8 @@ export class UsersFormComponent implements OnInit, AfterViewChecked {
               // Set Notification Data
               this._webPushNotificationsS
                 .createNotificationObject(
-                  this._usersS.user.img,
+                  this._usersS.user._id,
+                  null,
                   "actualizó tu perfil",
                   "user",
                   `perfil/general`,
@@ -340,7 +347,9 @@ export class UsersFormComponent implements OnInit, AfterViewChecked {
       this.form.value.password1,
       this.form.value.password2,
       addressS,
+      "",
       cellPhoneS,
+      "",
       "",
       "",
       "",

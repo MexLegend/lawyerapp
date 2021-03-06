@@ -1,7 +1,7 @@
 import { EventEmitter, Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Router, ActivatedRoute } from "@angular/router";
-import { Observable, throwError, Subject } from "rxjs";
+import { Observable, throwError, Subject, Subscription } from "rxjs";
 import { catchError, map } from "rxjs/operators";
 
 import { environment } from "../../environments/environment";
@@ -11,6 +11,9 @@ import { NotificationsService } from "./notifications.service";
 import { ThemeService, lightTheme } from "./theme.service";
 import { CloudinaryService } from "./cloudinary.service";
 import { LocalStorageService } from "./local-storage.service";
+import { FormGroup } from "@angular/forms";
+import { MatTabGroup } from "@angular/material";
+import { WebPushNotificationsService } from "./webPushNotifications.service";
 
 declare var $: any;
 
@@ -30,6 +33,7 @@ export class UsersService {
 
   public notifica = new EventEmitter<any>();
   socketConnection = new Subject<boolean>();
+  userData = new Subject<User>();
   usersList = new Subject<any>();
 
   id: string;
@@ -93,6 +97,59 @@ export class UsersService {
     );
   }
 
+  createUserNotification(
+    webPushNotificationsService: WebPushNotificationsService
+  ) {
+    // Set Normal Notification Data
+    if (this.user.role === "CLIENT") {
+      webPushNotificationsService
+        .createNotificationObject(
+          this.user._id,
+          null,
+          "actualizó su perfil",
+          "user",
+          `usuarios`,
+          this.user._id,
+          this.getCurrentUserName(),
+          this.user.role,
+          null,
+          ["ADMIN"]
+        )
+        .then((notificationObject) => {
+          // Create Notification With The Specified Data
+          const notificationCreatedSub = webPushNotificationsService
+            .createNotification(notificationObject)
+            .subscribe(() => {
+              notificationCreatedSub.unsubscribe();
+            });
+        });
+    }
+    // Set Admin Notification Data
+    else {
+      webPushNotificationsService
+        .createNotificationObject(
+          this.user._id,
+          null,
+          "actualizó su perfil",
+          "user",
+          `usuarios`,
+          this.user._id,
+          this.getCurrentUserName(),
+          this.user.role,
+          null,
+          ["ADMIN"]
+        )
+        .then((notificationObject) => {
+          // Create Notification With The Specified Data
+          const notificationCreatedSub = webPushNotificationsService
+            .createNotification(notificationObject)
+            .subscribe(() => {
+              notificationCreatedSub.unsubscribe();
+            });
+        });
+    }
+  }
+
   deleteUser(id: string): Observable<User> {
     const headers = new HttpHeaders({
       "Content-Type": "application/json",
@@ -142,6 +199,14 @@ export class UsersService {
     };
 
     return generator(base, 10);
+  }
+
+  getLawyer(id: string): Observable<User> {
+    let url = `${environment.URI}/api/users/lawyer/${id}`;
+
+    return this.http
+      .get<UsersPagination>(url)
+      .pipe(map((resp: any) => resp.lawyer));
   }
 
   getLawyers(): Observable<User> {
@@ -198,7 +263,7 @@ export class UsersService {
     return localStorage.getItem("token");
   }
 
-  getUser(id: string): Observable<User> {
+  getUser(id: string): Observable<any> {
     const headers = new HttpHeaders({
       "Content-Type": "application/json",
       token: this.token,
@@ -207,7 +272,11 @@ export class UsersService {
 
     return this.http
       .get<User>(url, { headers })
-      .pipe(map((resp: any) => resp.user));
+      .pipe(map((resp: any) => this.setUserData(resp.user)));
+  }
+
+  getUserData(): Observable<User> {
+    return this.userData.asObservable();
   }
 
   getCurrentUserName(): string {
@@ -386,6 +455,18 @@ export class UsersService {
     this.router.navigate(["/inicio"]);
   }
 
+  resetFormValues(form: FormGroup, data: User) {
+    form.patchValue({
+      firstName: data.firstName,
+      lastName: data.lastName,
+      newPassword: null,
+      confirmNewPassword: null,
+      userEmail: data.email,
+      cellPhone: data.cellPhone,
+      address: data.address,
+    });
+  }
+
   saveStorage(id: string, token: string, user: User, rooms?: any) {
     localStorage.setItem("id", id);
     localStorage.setItem("token", token);
@@ -398,6 +479,10 @@ export class UsersService {
     this.rooms = rooms;
   }
 
+  setUserData(userData: any) {
+    this.userData.next(userData);
+  }
+
   setUsersList(usersList: User[]) {
     this.usersList.next(usersList);
   }
@@ -406,7 +491,35 @@ export class UsersService {
     this.socketConnection.next(isLogged);
   }
 
-  updateImage(id, img: any) {
+  // Handle Profile User Action
+  updateAction(
+    action: string,
+    userData: User,
+    tabGroup?: MatTabGroup,
+    activeTab?: number,
+    webPushNotificationsService?: WebPushNotificationsService
+  ) {
+    let updateActionSubscription: Subscription;
+    if (action !== "Contraseña") {
+      updateActionSubscription = this.updateUserData(
+        this.user._id,
+        {
+          ...userData,
+          action,
+        },
+        tabGroup,
+        activeTab
+      ).subscribe((resp: any) => {
+        if (resp.ok) {
+          this.createUserNotification(webPushNotificationsService);
+          updateActionSubscription.unsubscribe();
+        }
+      });
+    } else {
+    }
+  }
+
+  updateImage(id: any, img: any) {
     const url = `${environment.URI}/api/users/image/${id}`;
     const headers = new HttpHeaders({
       token: this.token,
@@ -441,7 +554,7 @@ export class UsersService {
     );
   }
 
-  updatePassword(id, user: any) {
+  updatePassword(id: any, user: any) {
     const url = `${environment.URI}/api/users/change-pass/${id}`;
     const headers = new HttpHeaders({
       "Content-Type": "application/json",
@@ -499,6 +612,7 @@ export class UsersService {
   updateUser(id, user: any, img?: any) {
     const url = `${environment.URI}/api/users/${id}`;
     const headers = new HttpHeaders({
+      "Content-Type": "application/json",
       token: this.token,
     });
 
@@ -547,9 +661,59 @@ export class UsersService {
     );
   }
 
+  updateUserData(
+    id: string,
+    userData: any,
+    tabGroup?: MatTabGroup,
+    activeTab?: number
+  ): Observable<User> {
+    const url = `${environment.URI}/api/users/user-data/${id}`;
+    const headers = new HttpHeaders({
+      "Content-Type": "application/json",
+      token: this.token,
+    });
+
+    return this.http.put(url, userData, { headers }).pipe(
+      map((resp: any) => {
+        localStorage.setItem("user", JSON.stringify(resp.user));
+        this.setUserData(resp.user);
+        this.user = resp.user;
+        tabGroup.selectedIndex = activeTab;
+
+        this._notificationsS.message(
+          "success",
+          "Actualización correcta",
+          resp.message,
+          false,
+          false,
+          "",
+          "",
+          2000
+        );
+
+        return resp;
+      }),
+      catchError((err) => {
+        this._notificationsS.message(
+          "error",
+          "Actualización fallida",
+          err.message,
+          false,
+          false,
+          "",
+          "",
+          2000
+        );
+
+        return throwError(err);
+      })
+    );
+  }
+
   updateRol(id, rol: string) {
     const url = `${environment.URI}/api/users/rol/${id}`;
     const headers = new HttpHeaders({
+      "Content-Type": "application/json",
       token: this.token,
     });
 

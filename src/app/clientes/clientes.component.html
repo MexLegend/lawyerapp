@@ -23,7 +23,7 @@
         </div>
       </li>
       <div class="sidenav-options-container">
-        <!-- Sidebar Option -->
+        <!-- Home Option -->
         <li [attr.data-active]="this.router.url === '/inicio' ? 'on' : 'off'">
           <a
             routerLink="/inicio"
@@ -34,36 +34,7 @@
             <span>Inicio</span>
           </a>
         </li>
-        <!-- Sidebar Option -->
-        <li
-          [attr.data-active]="
-            this.router.url === '/articulos' ||
-            this.router.url.includes('articulo-detalle')
-              ? 'on'
-              : 'off'
-          "
-        >
-          <a
-            routerLink="/articulos"
-            class="sidenav-option"
-            (click)="scrollToTop(); toogleMainSidenav()"
-          >
-            <i class="material-icons">import_contacts</i>
-            <span>Articulos</span>
-          </a>
-        </li>
-        <!-- Sidebar Option -->
-        <li [attr.data-active]="this.router.url === '/contacto' ? 'on' : 'off'">
-          <a
-            routerLink="/contacto"
-            class="sidenav-option"
-            (click)="scrollToTop(); toogleMainSidenav()"
-          >
-            <i class="material-icons">contact_phone</i>
-            <span>Contacto</span>
-          </a>
-        </li>
-        <!-- Sidebar Option -->
+        <!-- About Us Option -->
         <li [attr.data-active]="this.router.url === '/nosotros' ? 'on' : 'off'">
           <a class="sidenav-option" [matMenuTriggerFor]="mobileUsMenu">
             <i class="fas fa-users"></i>
@@ -104,6 +75,71 @@
             </div>
           </mat-menu>
         </li>
+        <!-- Lawyers Option -->
+        <li
+          [attr.data-active]="
+            this.router.url === '/abogados' ||
+            this.router.url.includes('abogado-detalle')
+              ? 'on'
+              : 'off'
+          "
+        >
+          <a
+            routerLink="/abogados"
+            class="sidenav-option"
+            (click)="scrollToTop(); toogleMainSidenav()"
+          >
+            <i class="fas fa-user-tie"></i>
+            <span>Abogados</span>
+          </a>
+        </li>
+        <!-- Practice Areas Option -->
+        <li
+          [attr.data-active]="
+            this.router.url === '/areas-practica' ||
+            this.router.url.includes('area-detalle')
+              ? 'on'
+              : 'off'
+          "
+        >
+          <a
+            routerLink="/areas-practica"
+            class="sidenav-option"
+            (click)="scrollToTop(); toogleMainSidenav()"
+          >
+            <i class="fas fa-gavel"></i>
+            <span class="small-text">Áreas de práctica</span>
+          </a>
+        </li>
+        <!-- Posts Option -->
+        <li
+          [attr.data-active]="
+            this.router.url === '/articulos' ||
+            this.router.url.includes('articulo-detalle')
+              ? 'on'
+              : 'off'
+          "
+        >
+          <a
+            routerLink="/articulos"
+            class="sidenav-option"
+            (click)="scrollToTop(); toogleMainSidenav()"
+          >
+            <i class="material-icons">import_contacts</i>
+            <span>Articulos</span>
+          </a>
+        </li>
+        <!-- Contact Option -->
+        <li [attr.data-active]="this.router.url === '/contacto' ? 'on' : 'off'">
+          <a
+            routerLink="/contacto"
+            class="sidenav-option"
+            (click)="scrollToTop(); toogleMainSidenav()"
+          >
+            <i class="material-icons">contact_phone</i>
+            <span>Contacto</span>
+          </a>
+        </li>
         <!-- Sidebar Option -->
         <!-- <li [attr.data-active]="this.router.url === '/blog' ? 'on' : 'off'">
            <a routerLink="/blog" class="sidenav-close" (click)="scrollToTop()"
@@ -125,7 +161,13 @@
   </mat-sidenav>
 
   <!-- Chat Sidenav -->
-  <mat-sidenav #mainChatSidenav mode="over" position="end" class="chat-sidenav">
+  <mat-sidenav
+    #mainChatSidenav
+    mode="over"
+    position="end"
+    [autoFocus]="false"
+    class="chat-sidenav"
+  >
     <app-chat-sidenav *ngIf="this._usersS.isLogged()"></app-chat-sidenav>
   </mat-sidenav>
 
@@ -138,27 +180,33 @@
     <router-outlet></router-outlet>
 
     <!-- Client View Footer Container -->
-    <app-footer
-      *ngIf="
-        this.router.url !== '/contacto' && !this.router.url.includes('perfil')
-      "
-    ></app-footer>
+    <app-footer *ngIf="!this.router.url.includes('perfil')"></app-footer>
 
     <!-- WhatsApp Button Trigger -->
     <div
       *ngIf="
         !this.router.url.includes('perfil') &&
         !this.router.url.includes('articulo-detalle') &&
-        this.router.url !== '/articulos'
+        this.router.url !== '/articulos' &&
+        this.router.url !== '/abogados' &&
+        !this.router.url.includes('abogado-detalle')
       "
       class="fixed-action-btn direction-top active"
-      style="bottom: 54px; right: 19px; z-index: 997"
+      style="bottom: 90px; right: 20px; z-index: 997"
     >
       <a
         id="btn-whatsapp"
+        class="btn-floating btn-large primary-text gradient-shadow btn-whatsapp"
+        href="https://api.whatsapp.com/send?phone=523481036143&text=Hola Haizen, &nbsp;podrían&nbsp;ayudarme?"
+        target="_blank"
+      >
+        <i class="fab fa-whatsapp"></i>
+      </a>
+      <!-- <a
+        id="btn-whatsapp"
         class="btn-floating btn-large primary-text gradient-shadow btn-whatsapp pulse"
         ><i class="fab fa-whatsapp"></i
-      ></a>
+      ></a> -->
     </div>
 
     <!-- WhatsApp Dialog Container -->
@@ -166,7 +214,9 @@
       *ngIf="
         !this.router.url.includes('perfil') &&
         !this.router.url.includes('articulo-detalle') &&
-        this.router.url !== '/articulos'
+        this.router.url !== '/articulos' &&
+        this.router.url !== '/abogados' &&
+        !this.router.url.includes('abogado-detalle')
       "
       class="card horizontal whatsAppCard"
     >

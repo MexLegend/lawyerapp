@@ -7,7 +7,6 @@ import { environment } from "../../environments/environment";
 import { NotificationsPagination } from "../models/Notification";
 import { UsersService } from "./users.service";
 import { NotificationsService } from "src/app/services/notifications.service";
-import Push from "push.js";
 import { Socket } from "ngx-socket-io";
 import { User } from "../models/User";
 
@@ -67,7 +66,8 @@ export class WebPushNotificationsService {
   }
 
   async createNotificationObject(
-    image: string,
+    image_user: string,
+    image_post: string,
     title: string,
     type: string,
     url_path: string,
@@ -78,15 +78,16 @@ export class WebPushNotificationsService {
     allowed_roles?: string[]
   ): Promise<any> {
     const notificationObject = {
-      image: image,
-      title: title,
-      type: type,
-      url_path: url_path,
-      user_actor: user_actor,
-      user_actor_name: user_actor_name,
-      user_actor_role: user_actor_role,
-      user_receiver: user_receiver,
-      allowed_roles: allowed_roles,
+      image_user,
+      image_post,
+      title,
+      type,
+      url_path,
+      user_actor,
+      user_actor_name,
+      user_actor_role,
+      user_receiver,
+      allowed_roles,
     };
 
     return await new Promise((resolve, reject) => resolve(notificationObject));
@@ -160,6 +161,40 @@ export class WebPushNotificationsService {
     return userName;
   }
 
+  getNotificationImage(type: string, userData: any, postData: any): string {
+    return type !== "post" ? userData.img : postData.img;
+  }
+
+  getNotificationObject(notificationData): any {
+    let notificationObject: any[] = [];
+
+    notificationData.map((notification) => {
+      notificationObject = [
+        ...notificationObject,
+        {
+          allowed_roles: notification.allowed_roles,
+          is_viewed: false,
+          users_viewed: notification.users_viewed,
+          show_buttons: notification.show_buttons,
+          image: this.getNotificationImage(
+            notification.type,
+            notification.image_user,
+            notification.image_post
+          ),
+          title: notification.title,
+          type: notification.type,
+          url_path: notification.url_path,
+          user_actor: notification.user_actor,
+          user_actor_role: notification.user_actor_role,
+          created_at: notification.created_at,
+          user_receiver: notification.user_receiver,
+        },
+      ];
+    });
+
+    return notificationObject;
+  }
+
   reorderNotificationData(notificationData): any {
     let reorderedNotificationData: any[] = [];
 
@@ -172,7 +207,11 @@ export class WebPushNotificationsService {
           users_viewed: notification.users_viewed,
           show_buttons: notification.notification_id.show_buttons,
           element_id: notification.notification_id.element_id,
-          image: notification.notification_id.image,
+          image: this.getNotificationImage(
+            notification.notification_id.type,
+            notification.notification_id.image_user,
+            notification.notification_id.image_post
+          ),
           title: notification.notification_id.title,
           type: notification.notification_id.type,
           url_path: notification.notification_id.url_path,

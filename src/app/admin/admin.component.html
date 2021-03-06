@@ -27,8 +27,8 @@
         /></a>
       </div>
 
+      <!-- Main Navbar Options Container -->
       <div id="admin-sidenav" class="sidenav collapsible dfc">
-        <!-- Main Navbar Options Container -->
         <div class="main-navbar-container-wrapper custom-scroll-y">
           <div class="main-navbar-container dfc">
             <div class="dfr" style="width: 100%; position: relative">
@@ -104,6 +104,22 @@
                     <span>Casos</span>
                   </a>
                 </li>
+                <!-- Practice Areas -->
+                <li class="bold">
+                  <a
+                    class="waves-effect waves-cyan dfc"
+                    routerLink="/admin-areas-practica"
+                    [attr.data-active]="
+                      actSt === '/admin-areas-practica' ? 'on' : 'off'
+                    "
+                    (click)="
+                      sidenavMode === 'push' ? adminSidenav.toggle() : ''
+                    "
+                  >
+                    <i class="fas fa-gavel"></i>
+                    <span class="small-text">Áreas de práctica</span>
+                  </a>
+                </li>
                 <!-- <li class="bold">
                   <a
                     class="waves-effect waves-cyan dfc"
@@ -162,7 +178,7 @@
             <!-- Main Navbar Trigger Button -->
             <a
               id="main-sidenav-trigger"
-              class="btn-sidenav-toggle btn-floating btn-medium gradient-45deg-orange waves-effect waves-light hide-on-large-only"
+              class="btn-sidenav-toggle btn-floating btn-medium waves-effect waves-light hide-on-large-only"
               style="position: fixed"
               (click)="adminSidenav.toggle(); this.showSidenav = true"
               matTooltip="Menú"
@@ -230,7 +246,7 @@
                       <div class="centered-img-bg border-none dfc">
                         <img
                           *ngIf="this._usersS.user"
-                          [src]="this._usersS.user?.img | img: 'user':true"
+                          [src]="this._usersS.user?.img | img: 'user'"
                           alt="avatar"
                         />
                       </div>
@@ -247,21 +263,16 @@
                         <div class="perfil-icon centered-img-bg">
                           <img
                             *ngIf="this._usersS.user"
-                            [src]="this._usersS.user?.img | img: 'user':true"
+                            [src]="this._usersS.user?.img | img: 'user'"
                             style="width: 100%"
                           />
                         </div>
                         <div class="perfil-text dfc">
                           <span class="perfil-name ff-rr">{{
-                            this._usersS.user?.firstName
-                              .split(" ")[0]
-                              .concat(
-                                " ",
-                                this._usersS.user?.lastName.split(
-                                  "
-                            "
-                                )[0]
-                              )
+                            this._usersS.user?.firstName.concat(
+                              " ",
+                              this._usersS.user?.lastName
+                            )
                           }}</span>
                           <span class="perfil-email ff-rr">{{
                             this._usersS.user?.email
@@ -345,8 +356,7 @@
         reserved.</span
       >
       <span class="hide-on-small-only"
-        >Designed and Developed by
-        <span class="footer-author">Armando Lara</span></span
+        >Web Design by <span class="footer-author">Armando Lara</span></span
       >
     </div>
   </mat-sidenav-content>

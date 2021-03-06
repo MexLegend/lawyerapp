@@ -157,7 +157,8 @@ export class FilesFormComponent implements OnInit {
                 // Set Notification Data
                 this._webPushNotificationsS
                   .createNotificationObject(
-                    this._usersS.user.img,
+                    this._usersS.user._id,
+                    null,
                     "actualizó tu caso " + resp.case.affair,
                     "case",
                     `perfil/caso-detalle/${resp.case._id}-${resp.case.assigned_client}`,
@@ -188,7 +189,8 @@ export class FilesFormComponent implements OnInit {
               // Set Notification Data
               this._webPushNotificationsS
                 .createNotificationObject(
-                  this._usersS.user.img,
+                  this._usersS.user._id,
+                  null,
                   "te asignó el caso " + resp.case.affair,
                   "case",
                   `perfil/caso-detalle/${resp.case._id}-${resp.case.assigned_client}`,

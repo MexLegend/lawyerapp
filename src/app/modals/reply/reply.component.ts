@@ -32,6 +32,7 @@ export class ReplyComponent implements OnInit {
 
   private initCommentForm() {
     this.form = new FormGroup({
+      contactEmail: new FormControl(null, Validators.required),
       comment: new FormControl(null, Validators.required),
       _id: new FormControl(null),
     });

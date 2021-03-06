@@ -94,7 +94,8 @@
 #perfil-sidebar-trigger {
   min-width: 40px;
   min-height: 40px;
-  background: linear-gradient(45deg, #b72318 10%, #ff5722 62%) !important;
+  background: transparent;
+  box-shadow: none;
 }
 
 .perfil-fake-bg {
@@ -102,10 +103,10 @@
   height: 185px;
   min-height: 185px;
   z-index: 0;
-  background: linear-gradient(45deg, #243393, #1976d2) !important;
-  background: -webkit-linear-gradient(45deg, #243393, #1976d2) !important;
-  background: -moz-linear-gradient(45deg, #243393, #1976d2) !important;
-  background: -o-linear-gradient(45deg, #243393, #1976d2) !important;
+  background: linear-gradient(45deg, #243393, #2e89ff) !important;
+  background: -webkit-linear-gradient(45deg, #243393, #2e89ff) !important;
+  background: -moz-linear-gradient(45deg, #243393, #2e89ff) !important;
+  background: -o-linear-gradient(45deg, #243393, #2e89ff) !important;
 }
 
 /* Site Contact Media */
@@ -151,7 +152,7 @@
 
 /* Perfil Dropdown */
 .perfil-button-trigger {
-  background: none;
+  background: transparent;
   width: 40px;
   height: 40px;
   min-width: 40px;
@@ -163,14 +164,6 @@
   color: #949ba1;
 }
 
-.account-button {
-  width: max-content;
-  min-width: max-content;
-  border-radius: 40px;
-  padding: 2px 5px;
-  background: transparent !important;
-}
-
 .perfil-button-trigger.fa i {
   font-size: 21px;
   color: white;
@@ -178,18 +171,18 @@
 
 .avatar-status {
   position: relative;
-  width: max-content;
-  min-width: max-content;
-  max-width: max-content;
-  height: 36px;
-  min-height: 36px;
-  max-height: 36px;
+  width: 40px;
+  min-width: 40px;
+  max-width: 40px;
+  height: 40px;
+  min-height: 40px;
+  max-height: 40px;
   z-index: 1;
 }
 
 .avatar-status .centered-img-bg {
-  width: 30px;
-  height: 30px;
+  width: 40px;
+  height: 40px;
   border-radius: 50px;
 }
 
@@ -235,7 +228,7 @@
   left: 0;
   top: 0;
   height: 100%;
-  width: 260px;
+  width: 100px;
   margin: 0;
   background: white;
   transition: 0.3s ease all;
@@ -245,20 +238,24 @@
 }
 
 .main-perfil-sidenav {
-  width: 260px;
-  min-width: 260px;
+  width: 100px;
+  min-width: 100px;
 }
 
 /* Sidebar Brand */
 .brand-sidebar {
-  height: 64px;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  height: 82px;
 }
 
 .brand-sidebar .brand-logo {
-  height: 100%;
-  padding: 0 15px;
+  height: 82px;
+  line-height: 0;
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
   justify-content: center;
+  padding: 7px 15px 13px 15px;
 }
 
 .brand-sidebar .brand-logo .logo-text {
@@ -286,32 +283,41 @@
   width: 100%;
 }
 
-.perfil-sidebar-options .perfil-menu-option {
-  margin-bottom: 5px;
+.perfil-sidebar-options {
+  padding-top: 3px;
+  margin: 0;
 }
 
-.perfil-sidebar-options .perfil-menu-option:hover {
-  background: #26c5da9e;
+.perfil-sidebar-options .perfil-menu-option {
+  padding-bottom: 2px;
+}
+
+.perfil-sidebar-options .perfil-menu-option:first-child {
+  padding-top: 1px;
 }
 
 .perfil-sidebar-options .perfil-menu-option a {
-  display: flex;
-  position: relative;
-  flex-direction: row;
-  align-items: center;
-  height: 50px;
-  padding: 0px 20px;
-  color: #494949;
-  font-size: 16px;
-  font-family: sans-serif;
+  font-weight: 400;
+  line-height: 44px;
+  padding: 0;
+  width: 98px;
+  height: 65px;
+  justify-content: center;
+  border-radius: 4px;
+  margin: 0 1px;
 }
 
 .perfil-sidebar-options .perfil-menu-option a i {
-  margin-right: 15px;
   font-size: 2.1rem;
-  width: 35px;
-  display: flex;
-  justify-content: center;
+  line-height: initial;
+  margin: 0;
+  width: 100%;
+  height: initial;
+  text-align: center;
+}
+
+.perfil-sidebar-options .perfil-menu-option a span {
+  line-height: initial;
 }
 
 .perfil-sidebar-options .perfil-menu-option:hover > a {
@@ -320,8 +326,8 @@
 }
 
 .perfil-sidebar-options .perfil-menu-option a[data-active="on"] {
-  background: linear-gradient(45deg, #303f9f, #1976d2) !important;
-  background: -moz-linear-gradient(45deg, #303f9f, #1976d2) !important;
+  background: linear-gradient(45deg, #303f9f, #2e89ff) !important;
+  background: -moz-linear-gradient(45deg, #303f9f, #2e89ff) !important;
   color: white;
 }
 
@@ -354,7 +360,7 @@
   width: 100%;
   margin-top: -180px;
   height: 100vh;
-  max-height: calc(100vh - 119px);
+  max-height: calc(100vh - 125px);
 }
 
 #perfil-content-container .card .card-tabs ul {

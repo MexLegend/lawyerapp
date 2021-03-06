@@ -1,0 +1,64 @@
+.mat-dialog-content .row {
+  width: 100%;
+  margin-bottom: 0;
+  height: calc(100% - 20px);
+}
+
+.item-filter-content {
+  padding: 4px 10px !important;
+  justify-content: flex-end !important;
+}
+
+.mat-card-header {
+  padding: 0 24px;
+}
+
+.entry-and-status-filters-container {
+  margin: 0 !important;
+}
+
+.mat-card-content {
+  height: calc(100% - 48px) !important;
+  max-height: calc(100% - 48px);
+  padding: 2px 24px;
+}
+
+.header-item-actions {
+  height: 50px;
+}
+
+.faqs-container {
+  max-height: 100%;
+  overflow: auto;
+}
+
+.item-acordion-title .header-item-title {
+  font-size: 16px !important;
+}
+
+.references-container {
+  margin-bottom: 10px;
+}
+
+.reference-item {
+  margin-bottom: 8px;
+  color: var(--default-color);
+  padding: 5px 10px;
+  background: var(--modal-disabled-button-bg) !important;
+  border-radius: 4px;
+}
+
+.reference-item .header-item-title-wrap {
+  line-break: anywhere;
+  overflow: hidden;
+  -webkit-line-clamp: 3;
+  display: -webkit-box;
+  -webkit-box-orient: block-axis;
+  text-align: left;
+  height: 52px;
+  max-height: 52px;
+  max-width: 100%;
+  white-space: pre-line;
+  font-size: 14px;
+  font-weight: 400;
+}

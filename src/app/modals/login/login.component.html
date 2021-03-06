@@ -1,5 +1,5 @@
 <!-- Modal Structure -->
-<div id="modalRegistro" class="modal">
+<!-- <div id="modalRegistro" class="modal">
   <div class="modal-content">
     <div class="modal-container">
       <div class="titulo-Modal">
@@ -33,40 +33,57 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->
 
-<!-- <mat-dialog-content id="modalRegistro" class="mat-typography">
+<mat-dialog-content id="modalRegistro" class="mat-typography">
   <div class="modal-content">
     <div class="modal-container">
       <div class="titulo-Modal">
-        <img class="responsive-img" id="logo" src="/assets/images/logo.png" />
+        <img
+          class="responsive-img"
+          id="logo"
+          [src]="
+            this.isDarkThemeActive
+              ? '/assets/images/logo.png'
+              : '/assets/images/logo_dark.png'
+          "
+        />
       </div>
       <div class="contenido-Modal-Text">
         <div class="register-login">
           <div
-            (click)="vForm('login')"
-            [class.login-option-active]="tForm === 'login'"
+            (click)="selected.setValue(0)"
+            [class.login-option-active]="selected.value === 0"
             class="register-btn login-option"
           >
             <span>Iniciar sesión</span>
           </div>
           <div
-            (click)="vForm('register')"
-            [class.login-option-active]="tForm === 'register'"
+            (click)="selected.setValue(1)"
+            [class.login-option-active]="selected.value === 1"
             class="login-btn login-option"
           >
             <span>Registrarse</span>
           </div>
         </div>
-        <app-login-form
-          *ngIf="tForm === 'login'"
-          style="width: 100%;"
-        ></app-login-form>
-        <app-register-form
-          *ngIf="tForm === 'register'"
-          style="width: 100%;"
-        ></app-register-form>
+        <mat-tab-group
+          class="lawyer-tab"
+          [selectedIndex]="selected.value"
+          (selectedIndexChange)="selected.setValue($event)"
+        >
+          <mat-tab>
+            <ng-template mat-tab-label> Login </ng-template>
+            <app-login-form
+              style="width: 100%"
+              [modalRef]="modalRef"
+            ></app-login-form>
+          </mat-tab>
+          <mat-tab>
+            <ng-template mat-tab-label> Register </ng-template>
+            <app-register-form style="width: 100%"></app-register-form>
+          </mat-tab>
+        </mat-tab-group>
       </div>
     </div>
   </div>
-</mat-dialog-content> -->
+</mat-dialog-content>

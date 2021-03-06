@@ -1,0 +1,138 @@
+<section id="lawyers-main-container" class="pr pt-71 dfc">
+  <div class="search-main-menu">
+    <div class="serach-main-menu-container container dfr">
+      <nav class="lawyer-search">
+        <div class="nav-wrapper">
+          <form>
+            <div class="input-field">
+              <input
+                (keyup)="filter($event.target.value)"
+                id="searchLawyer"
+                type="search"
+                placeholder="Buscar abogado"
+                required
+              />
+              <label class="label-icon search-label-icon dfr" for="search"
+                ><i class="material-icons">search</i></label
+              >
+              <i class="search-close-icon material-icons">close</i>
+            </div>
+          </form>
+        </div>
+      </nav>
+    </div>
+  </div>
+  <div
+    *ngIf="lawyers.length > 0"
+    id="lawyers-content-container"
+    class="container"
+  >
+    <div
+      *ngFor="
+        let lawyer of lawyers
+          | filter: filterValue:'lawyer'
+          | paginate: { itemsPerPage: selectedEntry, currentPage: currentPage }
+      "
+      class="item-acordion-card-box card sticky-action dfc"
+      style="width: 100%"
+    >
+      <div class="item-acordion-card-inner-box dfc">
+        <!-- Partner Card Body -->
+        <div
+          class="item-acordion-card-body lawyer-card dfr"
+          data-note-details="true"
+        >
+          <div
+            class="item-acordion-card-body-image lawyer-card centered-img-bg dfr"
+          >
+            <img [src]="lawyer.img | img: 'user'" />
+          </div>
+        </div>
+        <!-- Partner Card Header -->
+        <div class="item-acordion-card-header lawyer-card dfr">
+          <div
+            class="item-acordion-card-header-data note-card-header lawyer-card dfc"
+          >
+            <div class="item-acordion-card-header-left dfr">
+              <div class="item-acordion-card-name lawyer-name lawyer-card">
+                <span>
+                  {{ lawyer.firstName + " " + lawyer.lastName }}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Partner Card Actions -->
+        <div class="item-acordion-body-actions lawyer-card dfr">
+          <!-- Partner Email Button Trigger -->
+          <button
+            *ngIf="
+              this._usersS.isLogged()
+                ? lawyer._id !== this._usersS.user._id
+                : true
+            "
+            class="header-item-btn btn action-button dfc"
+            mat-icon-button
+            matTooltip="Contactar por correo"
+            matTooltipPosition="above"
+            (click)="_contactS.openReplyModal(lawyer)"
+          >
+            <i class="far fa-envelope"></i>
+          </button>
+          <!-- Partner Message Button Trigger -->
+          <button
+            *ngIf="
+              this._usersS.isLogged()
+                ? lawyer._id !== this._usersS.user._id
+                : true
+            "
+            class="header-item-btn btn action-button dfc"
+            mat-icon-button
+            matTooltip="Contactar por mensaje"
+            matTooltipPosition="above"
+            (click)="
+              this._usersS.isLogged()
+                ? openChat(lawyer)
+                : showAlertModal('contactLawyer', $event)
+            "
+          >
+            <i class="far fa-comment"></i>
+          </button>
+          <!-- Partner View Profile Button Trigger -->
+          <button
+            class="header-item-btn btn action-button important-action dfc"
+            (click)="viewLawyerDetails(lawyer._id); scrollToTop()"
+            mat-icon-button
+            matTooltip="Ver Perfil"
+            matTooltipPosition="above"
+          >
+            <i class="far fa-eye"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    *ngIf="lawyers.length === 0"
+    id="noticias-content-container"
+    class="container no-data"
+  >
+    <div class="card sticky-action" style="width: 100%">
+      <div class="card-body card-content no-data">
+        <div class="card-no-data-icon dfc">
+          <span>i</span>
+        </div>
+        <div class="card-information no-data">
+          <span>No hay abogados asociados</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <pagination-controls
+    *ngIf="lawyers.length > 0"
+    class="news-pagination"
+    (pageChange)="currentPage = $event"
+    previousLabel="Anterior"
+    nextLabel="Siguiente"
+  ></pagination-controls>
+</section>

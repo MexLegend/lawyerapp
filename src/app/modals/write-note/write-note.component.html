@@ -14,69 +14,65 @@
 <mat-dialog-content class="mat-typography admin-modal-container">
   <!-- Modal Content -->
   <div class="modal-content admin-modal-content">
-    <perfect-scrollbar
-      class="scroll-container be-prime-scroll-content"
-      [config]="config"
-    >
-      <div class="scrollable-content">
-        <div class="row">
-          <form
-            id="formUsers"
-            class="col s12"
-            style="padding: 0 30px; height: 100%;"
-            ngNativeValidate
-            [formGroup]="form"
-          >
-            <!-- Inputs Container -->
-            <div class="inputs-container">
-              <!-- Note Affair Input Field -->
-              <div class="modal-input modal-input-pink">
-                <input
-                  name="noteAffair"
-                  formControlName="noteAffair"
-                  type="text"
-                  placeholder=" "
-                />
-                <div
-                  class="modal-input-placeholder modal-input-placeholder-pink"
-                >
-                  Asunto
-                </div>
-              </div>
-              <!-- Note Status Select Field -->
-              <div class="modal-input modal-input-pink">
-                <mat-form-field>
-                  <mat-select name="noteStatus" formControlName="noteStatus" disableOptionCentering>
-                    <mat-option *ngFor="let status of statusList" [value]="status.value">
-                      {{ status.viewValue }}
-                    </mat-option>
-                  </mat-select>
-                </mat-form-field>
-              </div>
-              <!-- Note Message Input Field -->
-              <div class="modal-input modal-input-pink notes-text-area">
-                <textarea
-                  class="materialize-textarea expediente-input ng-pristine ng-touched"
-                  name="noteMessage"
-                  formControlName="noteMessage"
-                  id="noteMessage"
-                  placeholder=" "
-                  autosize
-                  [minRows]="4"
-                  [maxRows]="8"
-                  required
-                ></textarea>
-                <div
-                  class="modal-input-placeholder modal-input-placeholder-pink"
-                >
-                  Escribir nota
-                </div>
-              </div>
+    <div class="row">
+      <form
+        id="formUsers"
+        class="col s12"
+        style="padding: 0 30px; height: 100%"
+        ngNativeValidate
+        [formGroup]="form"
+      >
+        <!-- Inputs Container -->
+        <div class="inputs-container">
+          <!-- Note Affair Input Field -->
+          <div class="modal-input modal-input-pink">
+            <input
+              name="noteAffair"
+              formControlName="noteAffair"
+              type="text"
+              placeholder=" "
+            />
+            <div class="modal-input-placeholder modal-input-placeholder-pink">
+              Asunto
             </div>
-          </form>
+          </div>
+          <!-- Note Status Select Field -->
+          <div class="modal-input modal-input-pink">
+            <mat-form-field>
+              <mat-select
+                name="noteStatus"
+                formControlName="noteStatus"
+                disableOptionCentering
+              >
+                <mat-option
+                  *ngFor="let status of statusList"
+                  [value]="status.value"
+                >
+                  {{ status.viewValue }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <!-- Note Message Input Field -->
+          <div class="modal-input modal-input-pink notes-text-area">
+            <textarea
+              class="materialize-textarea expediente-input ng-pristine ng-touched"
+              name="noteMessage"
+              formControlName="noteMessage"
+              id="noteMessage"
+              placeholder=" "
+              autosize
+              [minRows]="4"
+              [maxRows]="8"
+              required
+            ></textarea>
+            <div class="modal-input-placeholder modal-input-placeholder-pink">
+              Escribir nota
+            </div>
+          </div>
         </div>
-      </div>
-    </perfect-scrollbar>
+      </form>
+    </div>
   </div>
 
   <div class="modal-footer modal-actions admin-modal-footer">

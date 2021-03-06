@@ -1,0 +1,473 @@
+<!-- Modal Structure -->
+<div mat-dialog-title class="modal-header admin-modal-header dfc">
+  <div class="modal-icon dfc">
+    <i class="material-icons">contact_mail</i>
+  </div>
+  <span
+    ><span class="article-action">{{ this.practiceAreaDataFormAction }}</span>
+  </span>
+  <i
+    *ngIf="practiceAreaDataFormType !== 'Simple'"
+    mat-dialog-close
+    class="modal-exit material-icons pink accent-2 waves-effect waves-light dfr"
+    >close</i
+  >
+</div>
+
+<!-- Complete Practice Area Content -->
+<mat-dialog-content
+  *ngIf="practiceAreaDataFormType === 'Complete'"
+  class="mat-typography admin-modal-container"
+>
+  <!-- Modal Content -->
+  <div class="modal-content admin-modal-content dfc">
+    <mat-horizontal-stepper
+      linear
+      #practiceAreasStepper
+      class="row transparent-bg practice-areas"
+    >
+      <!-- Practice Area Details Step -->
+      <mat-step [stepControl]="practiceAreaForm">
+        <form
+          id="practiceAreaForm"
+          class="col s12 p0"
+          ngNativeValidate
+          [formGroup]="practiceAreaForm"
+        >
+          <ng-template matStepLabel>Detalles</ng-template>
+          <!-- Practice Area Name Input -->
+          <div class="modal-input modal-input-pink">
+            <input
+              id="practiceAreaName"
+              name="practiceAreaName"
+              matInput
+              formControlName="name"
+              placeholder=" "
+              type="text"
+              required
+            />
+            <div class="modal-input-placeholder modal-input-placeholder-pink">
+              Nombre*
+            </div>
+          </div>
+          <!-- Practice Area Review Input -->
+          <div class="modal-input modal-input-textarea modal-input-blue">
+            <textarea
+              id="practiceAreaReview"
+              name="practiceAreaReview"
+              formControlName="review"
+              matTextareaAutosize
+              class="materialize-textarea contact-input"
+              placeholder=" "
+            ></textarea>
+            <div class="modal-input-placeholder modal-input-placeholder-blue">
+              Descripción
+            </div>
+          </div>
+        </form>
+      </mat-step>
+      <!-- Practice Area FAQ Step -->
+      <mat-step label="Preguntas frecuentes">
+        <ng-template matStepLabel>FAQs</ng-template>
+        <div class="faqs-container dfc jcc h-full w-full">
+          <mat-accordion class="item-container dfc">
+            <mat-expansion-panel
+              class="item-content"
+              *ngFor="let practiceAreaFAQ of practiceAreaFAQsList"
+            >
+              <!-- Practice Area Expansion Header -->
+              <mat-expansion-panel-header class="item-acordion-header">
+                <mat-panel-title class="item-acordion-title dfr">
+                  <div class="item-acordion-title-left dfr">
+                    <div class="header-item-body dfc">
+                      <div class="header-item-title dfr">
+                        <div class="header-item-title-wrap">
+                          <span>{{ practiceAreaFAQ.question }}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="header-item-actions general dfr">
+                    <!-- FAQ CRUD Button Trigger -->
+                    <button
+                      class="header-item-btn important-action btn waves-effect waves-light light-blue dfc"
+                      mat-icon-button
+                      [matMenuTriggerFor]="actionsMenu"
+                      (click)="_utilitiesS.moveDown($event)"
+                      matTooltip="Más acciones"
+                      matTooltipPosition="above"
+                    >
+                      <i class="material-icons">more_vert</i>
+                    </button>
+                    <!-- FAQ CRUD Menu Content -->
+                    <mat-menu #actionsMenu="matMenu" xPosition="before">
+                      <ng-template matMenuContent>
+                        <div class="dfc select-content-container">
+                          <!-- Edit Option -->
+                          <button
+                            mat-menu-item
+                            (click)="openFAQsModal(practiceAreaFAQ)"
+                          >
+                            <i class="material-icons">edit</i>
+                            <span>Editar</span>
+                          </button>
+                          <!-- Delete Option -->
+                          <button
+                            mat-menu-item
+                            (click)="
+                              deleteElementFromArray(practiceAreaFAQ, 'FAQ')
+                            "
+                          >
+                            <i class="material-icons">delete</i>
+                            <span>Eliminar</span>
+                          </button>
+                        </div>
+                      </ng-template>
+                    </mat-menu>
+                  </div>
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <!-- Practice Areas Expansion Body -->
+              <mat-card class="item-body-data-container">
+                <div class="item-body-data-content dfc">
+                  <div class="item-body-row dfr">
+                    <span class="item-body-subtitle">{{
+                      practiceAreaFAQ.answer
+                    }}</span>
+                  </div>
+                </div>
+              </mat-card>
+            </mat-expansion-panel>
+          </mat-accordion>
+          <div
+            class="add-item-to-accordion-container dfc"
+            [attr.not-data]="
+              practiceAreaFAQsList.length === 0 ? 'true' : 'false'
+            "
+          >
+            <!-- Add Item To Accordion Button Trigger -->
+            <button
+              class="btn bs-none transparent-bg dfr"
+              mat-icon-button
+              (click)="openFAQsModal()"
+            >
+              <div class="add-item-accordion-icon dfc">
+                <i class="fas fa-plus"></i>
+              </div>
+              <span>Agregar nueva pregunta</span>
+            </button>
+          </div>
+        </div>
+      </mat-step>
+      <!-- Practice Area References Step -->
+      <mat-step label="Referencias">
+        <ng-template matStepLabel>Referencias</ng-template>
+        <div class="faqs-container dfc jcc h-full w-full">
+          <div class="references-container dfc w-full">
+            <div
+              *ngFor="let reference of practiceAreaReferencesList"
+              class="w-full reference-item item-acordion-title dfr"
+            >
+              <div class="item-acordion-title-left dfr">
+                <div class="header-item-body dfc">
+                  <div class="header-item-title dfr">
+                    <div class="header-item-title-wrap">
+                      <span>{{ reference.reference }}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="header-item-actions general dfr">
+                <!-- Reference CRUD Button Trigger -->
+                <button
+                  class="header-item-btn important-action btn waves-effect waves-light light-blue dfc"
+                  mat-icon-button
+                  [matMenuTriggerFor]="actionsMenu"
+                  (click)="_utilitiesS.moveDown($event)"
+                  matTooltip="Más acciones"
+                  matTooltipPosition="above"
+                >
+                  <i class="material-icons">more_vert</i>
+                </button>
+                <!-- Reference CRUD Menu Content -->
+                <mat-menu #actionsMenu="matMenu" xPosition="before">
+                  <ng-template matMenuContent>
+                    <div class="dfc select-content-container">
+                      <!-- Edit Option -->
+                      <button
+                        mat-menu-item
+                        (click)="openReferencesModal(reference)"
+                      >
+                        <i class="material-icons">edit</i>
+                        <span>Editar</span>
+                      </button>
+                      <!-- Delete Option -->
+                      <button
+                        mat-menu-item
+                        (click)="deleteElementFromArray(reference, 'Reference')"
+                      >
+                        <i class="material-icons">delete</i>
+                        <span>Eliminar</span>
+                      </button>
+                    </div>
+                  </ng-template>
+                </mat-menu>
+              </div>
+            </div>
+          </div>
+          <div
+            class="add-item-to-accordion-container dfc"
+            [attr.not-data]="
+              practiceAreaReferencesList.length === 0 ? 'true' : 'false'
+            "
+          >
+            <!-- Add Item To References List Button Trigger -->
+            <button
+              class="btn bs-none transparent-bg dfr"
+              mat-icon-button
+              (click)="openReferencesModal()"
+            >
+              <div class="add-item-accordion-icon dfc">
+                <i class="fas fa-plus"></i>
+              </div>
+              <span>Agregar nueva referencia</span>
+            </button>
+          </div>
+        </div>
+      </mat-step>
+      <!-- Practice Area Specialized Lawyers Step -->
+      <mat-step>
+        <ng-template matStepLabel>Abogados especializados</ng-template>
+
+        <mat-card class="item-list-container p0 bs-none dfc">
+          <!-- Lawyers Filters Container  -->
+          <mat-card-header class="item-filter-container">
+            <mat-card
+              class="item-filter-content dfr"
+              [style.height]="this.mobileFilterActivated ? '43px' : '100%'"
+            >
+              <!-- Search Filter -->
+              <div class="search-filter dfr jcs">
+                <div class="search-input-filter dfc">
+                  <input
+                    (keyup)="filter($event.target.value)"
+                    placeholder="Filtrar por nombre"
+                  />
+                </div>
+                <div class="search-btn-filter">
+                  <button
+                    class="btn waves-effect waves-light dfc"
+                    (click)="handleMobileFilter(true)"
+                  >
+                    <i class="material-icons">search</i>
+                  </button>
+                </div>
+              </div>
+              <!-- Search Filter Mobile -->
+              <div
+                class="search-filter-mobile dfr"
+                [attr.isVisible]="this.mobileFilterActivated"
+              >
+                <div
+                  class="go-back-filter-mobile waves-effect waves-light dfc"
+                  *ngIf="this.mobileFilterActivated"
+                  (click)="handleMobileFilter(false)"
+                >
+                  <i class="material-icons">arrow_back</i>
+                </div>
+                <div
+                  class="search-input-filter-mobile dfc"
+                  *ngIf="this.mobileFilterActivated"
+                >
+                  <input placeholder="Filtrar por nombre" />
+                </div>
+              </div>
+
+              <!-- Select / Unselect All Entries Container -->
+              <div
+                class="entry-and-status-filters-container select-all dfr jce"
+              >
+                <mat-checkbox
+                  class="select-all-handler"
+                  (change)="checkUncheck($event, 'selectAll')"
+                  ><span>{{ checkboxAction }} todos</span>
+                </mat-checkbox>
+              </div>
+            </mat-card>
+          </mat-card-header>
+
+          <!-- Lawyers List Container  -->
+          <mat-card-content class="item-list-content">
+            <mat-card
+              *ngFor="let lawyer of lawyers | filter: filterValue:'lawyer'"
+              class="tracking-table-container select-all dfr"
+            >
+              <mat-checkbox
+                #lawyersCheckbox
+                class="checkbox-container w-full"
+                [value]="lawyer._id"
+              >
+                <div class="dfr">
+                  <div class="tracking-table-content dfr">
+                    <div class="tracking-table-data w-full pr-14 dfr">
+                      <div class="header-item-icon centered-img-bg">
+                        <img [src]="lawyer.img | img: 'user'" alt="" />
+                      </div>
+                      <div class="item-acordion-title-left general users dfr">
+                        <div class="header-item-body dfc">
+                          <div class="header-item-title dfr">
+                            <div class="header-item-title-wrap">
+                              <span>{{
+                                lawyer?.firstName + " " + lawyer?.lastName
+                              }}</span>
+                            </div>
+                          </div>
+                          <div class="header-item-data dfr">
+                            <span class="header-item-email">{{
+                              lawyer.email
+                            }}</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </mat-checkbox>
+            </mat-card>
+
+            <!-- Not Lawyers Registered Message -->
+            <div *ngIf="lawyers.length === 0" class="no-data-container">
+              <div class="card sticky-action" style="width: 100%">
+                <div class="card-body card-content no-data dfr">
+                  <div class="card-no-data-icon dfc">
+                    <span>i</span>
+                  </div>
+                  <div class="card-no-data-information">
+                    <span> No hay abogados registrados en el sistema </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </mat-step>
+    </mat-horizontal-stepper>
+  </div>
+
+  <div class="modal-footer modal-actions not-expand admin-modal-footer">
+    <ng-container>
+      <div class="modal-actions-container dfr">
+        <!-- Complete Practice Area Actions -->
+        <div class="modal-actions-content jce">
+          <button
+            type="button"
+            class="waves-effect waves-light btn modal-close-action"
+            mat-dialog-close
+          >
+            Cancelar
+          </button>
+          <button
+            *ngIf="practiceAreasStepper.selectedIndex !== 0"
+            (click)="_utilitiesS.goStepperBack(practiceAreasStepper)"
+            class="waves-effect waves-light btn modal-submit-action"
+          >
+            Anterior
+          </button>
+          <button
+            *ngIf="practiceAreasStepper.selectedIndex !== 3"
+            [class.button-disabled]="!practiceAreaForm.valid"
+            (click)="_utilitiesS.goStepperForward(practiceAreasStepper)"
+            class="waves-effect waves-light btn modal-submit-action"
+          >
+            Siguiente
+          </button>
+          <button
+            *ngIf="practiceAreasStepper.selectedIndex === 3"
+            type="submit"
+            class="waves-effect waves-light btn modal-submit-action"
+            (click)="createOrUpdatePracticeArea()"
+          >
+            Guardar
+          </button>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</mat-dialog-content>
+
+<!-- Simple Practice Area / Category Content -->
+<mat-dialog-content
+  *ngIf="practiceAreaDataFormType === 'Simple'"
+  class="mat-typography admin-modal-container"
+>
+  <!-- Modal Content -->
+  <div class="modal-content admin-modal-content dfc">
+    <div class="row">
+      <form
+        id="practiceAreaForm"
+        class="col s12 px-30"
+        ngNativeValidate
+        [formGroup]="practiceAreaForm"
+      >
+        <ng-template matStepLabel>Detalles</ng-template>
+        <!-- Practice Area Name Input -->
+        <div class="modal-input modal-input-pink">
+          <input
+            id="practiceAreaName"
+            name="practiceAreaName"
+            matInput
+            formControlName="name"
+            placeholder=" "
+            type="text"
+            required
+          />
+          <div class="modal-input-placeholder modal-input-placeholder-pink">
+            Nombre*
+          </div>
+        </div>
+        <!-- Practice Area Review Input -->
+        <div
+          *ngIf="!is_category"
+          class="modal-input modal-input-textarea modal-input-blue"
+        >
+          <textarea
+            id="practiceAreaReview"
+            name="practiceAreaReview"
+            formControlName="review"
+            matTextareaAutosize
+            class="materialize-textarea contact-input"
+            placeholder=" "
+          ></textarea>
+          <div class="modal-input-placeholder modal-input-placeholder-blue">
+            Descripción
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal-footer modal-actions not-expand admin-modal-footer">
+    <ng-container>
+      <div class="modal-actions-container dfr">
+        <!-- Simple Practice Area Actions -->
+        <div class="modal-actions-content jce">
+          <button
+            type="button"
+            class="waves-effect waves-light btn modal-close-action"
+            mat-dialog-close
+          >
+            Cancelar
+          </button>
+          <button
+            type="submit"
+            class="waves-effect waves-light btn modal-submit-action"
+            [class.button-disabled]="!practiceAreaForm.valid"
+            (click)="createOrUpdatePracticeArea()"
+          >
+            Guardar
+          </button>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</mat-dialog-content>

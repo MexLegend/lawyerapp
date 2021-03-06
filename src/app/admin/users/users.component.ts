@@ -42,7 +42,7 @@ export class UsersComponent implements OnInit {
     { value: "CLIENT", viewValue: "Cliente", icon: "fas fa-user-tag" },
     { value: "NEW", viewValue: "Nuevo", icon: "fas fa-user-plus" },
   ];
-  selectedEntry: number = 5;
+  selectedEntry: number = 10;
   users: User[] = [];
 
   public innerScreenWidth: any;
@@ -112,7 +112,8 @@ export class UsersComponent implements OnInit {
           // Set Notification Data
           this._webPushNotificationsS
             .createNotificationObject(
-              this._usersS.user.img,
+              this._usersS.user._id,
+              null,
               "actualizó tus privilegios de usuario. Ahora eres " + newUserRole,
               "user",
               `perfil/general`,
@@ -138,9 +139,9 @@ export class UsersComponent implements OnInit {
   delete(user: User) {
     Swal.fire({
       icon: "warning",
-      title: "¿Esta seguro?",
+      title: "¿Estas seguro?",
       text:
-        "Esta a punto de borrar el User " +
+        "Estas a punto de borrar el usuario " +
         user.firstName +
         " " +
         user.lastName,

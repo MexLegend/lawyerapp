@@ -142,8 +142,8 @@
 
 #main-client-sidebar li[data-active="on"] a {
   color: white !important;
-  background: linear-gradient(45deg, #303f9f, #1976d2) !important;
-  background: -moz-linear-gradient(45deg, #303f9f, #1976d2) !important;
+  background: linear-gradient(45deg, #303f9f, #2e89ff) !important;
+  background: -moz-linear-gradient(45deg, #303f9f, #2e89ff) !important;
 }
 
 #main-client-sidebar li[data-active="on"] .sidenav-option i {
@@ -152,6 +152,10 @@
 
 #main-client-sidebar li:not([data-active="on"]) .sidenav-option:hover i {
   color: var(--hover-admin-sidenav-color);
+}
+
+#main-client-sidebar li .sidenav-option .small-text {
+  font-size: 12px;
 }
 
 /* WhatsApp Button Styling */

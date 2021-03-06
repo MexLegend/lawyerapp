@@ -48,7 +48,7 @@
   margin: 0 !important;
   height: 60px !important;
   position: relative !important;
-  background: linear-gradient(45deg, #243393, #1976d2) !important;
+  background: linear-gradient(45deg, #243393, #2e89ff) !important;
 }
 
 .modal.modal-fixed-footer .modal-content {
@@ -185,7 +185,7 @@
 }
 
 .last-notifications-adventage i {
-  color: #1976d2;
+  color: #2e89ff;
   font-size: 16px;
   font-weight: bold;
   margin-right: 8px;

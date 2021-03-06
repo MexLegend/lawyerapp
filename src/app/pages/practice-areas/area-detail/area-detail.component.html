@@ -1,0 +1,215 @@
+<section
+  *ngIf="currentPracticeArea"
+  id="area-detail-main-container"
+  class="pr pt-71 dfc"
+>
+  <div class="area-detail-secondary-container dfc">
+    <div class="area-detail-title dfc">
+      <div class="area-detail-title-bg dfr">
+        <div class="area-detail-title-text dfc">
+          <span>{{ currentPracticeArea.name }}</span>
+        </div>
+        <div class="area-detail-tabs-container dfr">
+          <div
+            class="area-detail-tab dfc"
+            (click)="selected.setValue(0)"
+            [attr.data-active]="selected.value === 0"
+          >
+            <span>Detalles del área</span>
+          </div>
+          <div
+            class="area-detail-tab dfc"
+            (click)="selected.setValue(1)"
+            [attr.data-active]="selected.value === 1"
+          >
+            <span class="small-text">Abogados especializados en esta área</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="area-detail-content dfr">
+      <div class="area-detail-body">
+        <mat-tab-group
+          class="lawyer-tab"
+          [selectedIndex]="selected.value"
+          (selectedIndexChange)="selected.setValue($event)"
+        >
+          <mat-tab>
+            <ng-template mat-tab-label> Detalles de área </ng-template>
+            <!-- Questions List -->
+            <mat-accordion class="item-container dfc">
+              <mat-expansion-panel
+                *ngFor="let faq of currentPracticeArea.faq; let i = index"
+                class="item-content"
+                [expanded]="i === 0"
+              >
+                <!-- File Expansion Header -->
+                <mat-expansion-panel-header class="item-acordion-header">
+                  <mat-panel-title class="item-acordion-title dfr">
+                    <span>{{ faq.question }}</span>
+                  </mat-panel-title>
+                </mat-expansion-panel-header>
+                <!-- File Expansion Body -->
+                <mat-card class="item-body-data-container">
+                  <div class="item-body-data-content dfc">
+                    <span>{{ faq.answer }}</span>
+                  </div>
+                </mat-card>
+              </mat-expansion-panel>
+            </mat-accordion>
+            <!-- Quotes List -->
+            <div class="area-detail-references dfc">
+              <div class="area-detail-references-title">
+                <span>Citas utilizadas</span>
+              </div>
+              <div
+                *ngFor="let reference of currentPracticeArea.references"
+                class="area-detail-reference-item"
+              >
+                <a [href]="reference.reference" target="_blank"
+                  ><span>{{ reference.reference }}</span></a
+                >
+              </div>
+            </div>
+          </mat-tab>
+          <mat-tab>
+            <ng-template mat-tab-label>
+              Abogados especializados en esta área
+            </ng-template>
+            <div
+              *ngIf="specializedLawyers.length > 0"
+              class="lawyers-list-container specialized-lawyers"
+            >
+              <div
+                class="item-acordion-card-box lawyer-card dfc"
+                *ngFor="let lawyer of specializedLawyers"
+              >
+                <div class="item-acordion-card-inner-box">
+                  <!-- Partner Card Body -->
+                  <div
+                    class="item-acordion-card-body lawyer-card dfr"
+                    data-note-details="true"
+                  >
+                    <div
+                      class="item-acordion-card-body-image lawyer-card centered-img-bg dfr"
+                    >
+                      <img [src]="lawyer.img | img: 'user'" />
+                    </div>
+                  </div>
+                  <!-- Partner Card Header -->
+                  <div class="item-acordion-card-header lawyer-card dfr">
+                    <div class="item-acordion-card-header-data lawyer-card dfc">
+                      <div class="item-acordion-card-header-left dfr">
+                        <div
+                          class="item-acordion-card-name lawyer-name lawyer-card"
+                        >
+                          <span>
+                            {{ lawyer.firstName + " " + lawyer.lastName }}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Partner Card Actions -->
+                  <div class="item-acordion-body-actions lawyer-card dfr">
+                    <!-- Partner Email Button Trigger -->
+                    <button
+                      *ngIf="
+                        this._usersS.isLogged()
+                          ? lawyer._id !== this._usersS.user._id
+                          : true
+                      "
+                      class="header-item-btn btn action-button dfc"
+                      mat-icon-button
+                      matTooltip="Contactar por correo"
+                      matTooltipPosition="above"
+                      (click)="_contactS.openReplyModal(lawyer)"
+                    >
+                      <i class="far fa-envelope"></i>
+                    </button>
+                    <!-- Partner Message Button Trigger -->
+                    <button
+                      *ngIf="
+                        this._usersS.isLogged()
+                          ? lawyer._id !== this._usersS.user._id
+                          : true
+                      "
+                      class="header-item-btn btn action-button dfc"
+                      mat-icon-button
+                      matTooltip="Contactar por mensaje"
+                      matTooltipPosition="above"
+                      (click)="
+                        this._usersS.isLogged()
+                          ? openChat(lawyer)
+                          : showAlertModal('contactLawyer', $event)
+                      "
+                    >
+                      <i class="far fa-comment"></i>
+                    </button>
+                    <!-- Partner View Profile Button Trigger -->
+                    <button
+                      class="header-item-btn btn action-button important-action dfc"
+                      (click)="
+                        viewLawyerDetails(lawyer._id);
+                        this._utilitiesS.scrollToTop()
+                      "
+                      mat-icon-button
+                      matTooltip="Ver Perfil"
+                      matTooltipPosition="above"
+                    >
+                      <i class="far fa-eye"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </mat-tab>
+        </mat-tab-group>
+      </div>
+      <div class="area-detail-side-menu dfc">
+        <!-- Free Consultation Form -->
+        <div id="right-contact-content" class="dfc jcc">
+          <div
+            class="contact-content-info dfr text-center"
+            style="padding-top: 10px"
+          >
+            <span class="contact-form-title">
+              ¿Necesitas ayuda para encontrar al abogado correcto?
+            </span>
+          </div>
+          <div class="contact-info dfc">
+            <span>
+              Ponte en contacto con Haizen para recomendarte o ponerte
+              directamente en contacto con alguno de nuestros abogados asociados
+              que mejor se adapte a tu caso.
+            </span>
+          </div>
+          <button
+            type="button"
+            class="contact-submit-button waves-effect waves-light btn ff-tss dfc"
+            [routerLink]="['/contacto']"
+            (click)="_utilitiesS.scrollToTop()"
+          >
+            <span>Contactanos</span>
+          </button>
+        </div>
+        <!-- Practice Areas Menu -->
+        <div class="practice-areas-menu">
+          <div class="practice-areas-menu-header">
+            <span>Áreas de práctica</span>
+          </div>
+          <div class="practice-areas-menu-list">
+            <div
+              *ngFor="let practiceArea of practiceAreasList"
+              class="practice-areas-menu-item"
+              [attr.data-active]="currentPracticeArea._id === practiceArea._id"
+              (click)="goToAreaDetail(practiceArea._id)"
+            >
+              <span>{{ practiceArea.name }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

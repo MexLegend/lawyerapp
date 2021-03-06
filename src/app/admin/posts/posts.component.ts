@@ -31,7 +31,7 @@ export class PostsComponent implements OnInit {
   entriesFilter: any[] = [5, 10, 20, 50, 100, 200];
   filterValue: string;
   posts: Post[] = [];
-  selectedEntry: number = 5;
+  selectedEntry: number = 10;
 
   public innerScreenWidth: any;
   public mobileFilterActivated: boolean = false;
@@ -79,8 +79,8 @@ export class PostsComponent implements OnInit {
   delete(post: Post) {
     Swal.fire({
       icon: "warning",
-      title: "¿Esta seguro?",
-      text: "Esta a punto de borrar el artículo " + post.title,
+      title: "¿Estas seguro?",
+      text: "Estas a punto de borrar el artículo " + post.title,
       showCancelButton: true,
       showConfirmButton: true,
       confirmButtonColor: "#3085d6",
@@ -176,7 +176,8 @@ export class PostsComponent implements OnInit {
           // Set Notification Data
           this._webPushNotificationsS
             .createNotificationObject(
-              post.img,
+              null,
+              post._id,
               "publicó un nuevo artículo. " + post.title,
               "post",
               `articulos`,

@@ -53,7 +53,7 @@
   #telefonos a,
   #mail a {
     color: white !important;
-    background: #1e88e5;
+    background: #2e89ff;
     font-size: 12px;
     border-radius: 3px;
     padding: 5px;
@@ -66,7 +66,7 @@
     flex-direction: column !important;
     align-items: center;
   }
-  .nav-fixed-opcions-register-login-container a {
+  .nav-fixed-opcions-register-login-container button {
     width: 100% !important;
     margin-right: 0 !important;
     margin-bottom: 3px;
@@ -204,14 +204,6 @@
   background: var(--nav-fixed-option-bg) !important;
 }
 
-.nav-fixed-options-container .nav-fixed-option button.accout-button {
-  width: max-content;
-  min-width: max-content;
-  border-radius: 40px;
-  padding: 2px 5px;
-  background: transparent !important;
-}
-
 .nav-fixed-options-container .nav-fixed-option button:hover {
   transition: cubic-bezier(0, 0, 1, 1);
   transition-duration: 100ms;
@@ -238,17 +230,17 @@
   line-height: 0px;
   position: relative;
   display: inline-block;
-  width: max-content;
-  min-width: max-content;
-  max-width: max-content;
+  width: 40px;
+  min-width: 40px;
+  max-width: 40px;
   height: 40px;
   min-height: 40px;
   max-height: 40px;
 }
 
 .nav-fixed-options-container .avatar-status .centered-img-bg {
-  width: 30px;
-  height: 30px;
+  width: 40px;
+  height: 40px;
   border-radius: 50px;
 }
 
@@ -282,6 +274,10 @@
   justify-content: center;
 }
 
+#nav-menu-items > ul > li > a > .lh-20 {
+  line-height: 20px;
+}
+
 #nav-menu-items > ul > li a[data-active="on"] {
   color: hsl(214, 100%, 59%) !important;
   border-radius: 0 !important;
@@ -292,21 +288,21 @@
 }
 
 #nav-menu-items > ul > li a[data-active="on"]:hover {
-  background: none !important;
+  background: transparent !important;
 }
 
 #nav-menu-items > ul > li > ul > li > a {
   font-size: 12px;
-  color: #1e88e5;
+  color: #2e89ff;
 }
 
 nav .sidenav-btn {
-  color: white;
+  color: var(--default-color);
+  background: transparent;
   height: 40px;
   width: 40px;
   border-radius: 50%;
-  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14),
-    0 3px 1px -2px rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.2);
+  box-shadow: none;
   display: none;
   margin-right: 15px;
   z-index: 1;
@@ -364,7 +360,7 @@ nav .sidenav-btn i {
 }
 
 .register-btn {
-  background-color: #1e88e5;
+  background-color: #2e89ff;
   color: white !important;
   outline: none;
   border-radius: 5px;
@@ -387,7 +383,7 @@ nav .sidenav-btn i {
   min-width: -webkit-fit-content;
   min-width: -moz-fit-content;
   min-width: fit-content;
-  background-color: #1e88e5;
+  background-color: #2e89ff;
   position: absolute;
   right: 16px;
 }

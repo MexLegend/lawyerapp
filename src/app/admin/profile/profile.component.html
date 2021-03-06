@@ -1,4 +1,5 @@
-<div class="profile-container dfr">
+<!-- Config General Container -->
+<div class="profile-container">
   <perfect-scrollbar
     class="scroll-container"
     fxFlex="auto"
@@ -6,249 +7,499 @@
     [scrollIndicators]="false"
   >
     <div class="scrollable-content dfr">
-      <div class="profile-personal-data-container profile-card dfc">
-        <div class="profile-data-header dfr">
-          <i class="fas fa-user-circle big-icon"></i>
-          <span>Imágen de perfil</span>
-        </div>
-        <div
-          class="profile-image-container"
-          matTooltip="Cambiar imagen de perfil"
-          matTooltipPosition="below"
-        >
-          <div
-            class="profile-image-fake-bg"
-            (click)="userProfileAdminImg.click()"
-          ></div>
-          <div class="profile-image centered-img-bg">
-            <img [src]="this._usersS.user.img | img: 'user'" />
+      <mat-tab-group #userProfileTabGroup class="profile-tabs-container">
+        <!-- Update Buttons Tab -->
+        <mat-tab class="dfr">
+          <ng-template mat-tab-label> Update Buttons Tab </ng-template>
+          <!-- Basic Info -->
+          <div class="profile-data-inputs-container dfc">
+            <div class="profile-data-inputs-content client profile-card dfc">
+              <div class="profile-data-header dfr">
+                <i class="fas fa-user-edit"></i>
+                <span>Información básica</span>
+              </div>
+              <div class="row">
+                <!-- Change Profile Image Trigger -->
+                <div
+                  class="profile-image-field col s12 dfr"
+                  (click)="userProfileClientImg.click()"
+                >
+                  <div class="profile-image-description dfc">
+                    <span class="profile-image-title">Imágen de perfil</span>
+                    <span class="profile-image-subtitle"
+                      >Actualizar imagen de perfil</span
+                    >
+                  </div>
+                  <div class="profile-image dfc">
+                    <div class="profile-image-wrapper centered-img-bg">
+                      <img [src]="user?.img | img: 'user'" />
+                      <i class="material-icons">camera_alt</i>
+                    </div>
+                  </div>
+                  <input
+                    #userProfileClientImg
+                    type="file"
+                    ng2FileSelect
+                    [uploader]="this._cloudinaryS.uploader"
+                    style="display: none"
+                    accept="image/png, image/jpg, image/jpeg"
+                    (onFileSelected)="this.updateImage()"
+                  />
+                </div>
+                <!-- Change Name Trigger -->
+                <div
+                  class="profile-image-field small col s12 dfr"
+                  (click)="setActiveAction(userProfileTabGroup, 'Nombre', 1)"
+                >
+                  <div class="profile-image-description dfc">
+                    <span class="profile-image-title">{{
+                      user?.firstName + " " + user?.lastName
+                    }}</span>
+                    <span class="profile-image-subtitle"
+                      >Actualizar nombre</span
+                    >
+                  </div>
+                  <div class="profile-image-field-indicator dfc">
+                    <i class="material-icons">chevron_right</i>
+                  </div>
+                </div>
+                <!-- Change Gender Trigger -->
+                <div
+                  class="profile-image-field small col s12 dfr"
+                  (click)="setActiveAction(userProfileTabGroup, 'Género', 1)"
+                >
+                  <div class="profile-image-description dfc">
+                    <span class="profile-image-title">Masculino</span>
+                    <span class="profile-image-subtitle"
+                      >Actualizar género</span
+                    >
+                  </div>
+                  <div class="profile-image-field-indicator dfc">
+                    <i class="material-icons">chevron_right</i>
+                  </div>
+                </div>
+                <!-- Change Biography Trigger -->
+                <div
+                  class="profile-image-field small col s12 dfr"
+                  (click)="setActiveAction(userProfileTabGroup, 'Biografía', 1)"
+                >
+                  <div class="profile-image-description dfc">
+                    <span class="profile-image-title">{{
+                      user?.biography
+                    }}</span>
+                    <span class="profile-image-subtitle"
+                      >Actualizar biografía</span
+                    >
+                  </div>
+                  <div class="profile-image-field-indicator dfc">
+                    <i class="material-icons">chevron_right</i>
+                  </div>
+                </div>
+                <!-- Change Practice Areas Trigger -->
+                <div
+                  class="profile-image-field small col s12 dfr"
+                  (click)="
+                    setActiveAction(userProfileTabGroup, 'Áreas de práctica', 1)
+                  "
+                >
+                  <div class="profile-image-description dfc">
+                    <span class="profile-image-title"
+                      >{{
+                        user.practice_areas && user.practice_areas.length > 0
+                          ? this.getLawyerPracticeAreas()
+                          : "No tienes áreas de práctica asignadas"
+                      }}
+                    </span>
+                    <span class="profile-image-subtitle"
+                      >Actualizar áreas de práctica</span
+                    >
+                  </div>
+                  <div class="profile-image-field-indicator dfc">
+                    <i class="material-icons">chevron_right</i>
+                  </div>
+                </div>
+                <!-- Change Password Trigger -->
+                <div
+                  class="profile-image-field small col s12 dfr"
+                  (click)="
+                    setActiveAction(userProfileTabGroup, 'Contraseña', 1)
+                  "
+                >
+                  <div class="profile-image-description dfc">
+                    <span class="profile-image-title">Cambiar contraseña</span>
+                  </div>
+                  <div class="profile-image-field-indicator dfc">
+                    <i class="material-icons">chevron_right</i>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-          <div
-            class="profile-image-upload dfc"
-            [attr.data-active]="this._cloudinaryS.image ? 'on' : 'off'"
-            (click)="userProfileAdminImg.click()"
-          >
-            <i
-              class="material-icons"
-              [attr.data-active]="this._cloudinaryS.image ? 'on' : 'off'"
-              >camera_alt</i
+          <!-- Contact Info -->
+          <div class="profile-data-inputs-container dfc">
+            <div
+              class="profile-data-inputs-content client profile-card contact dfc"
             >
-            <input
-              #userProfileAdminImg
-              type="file"
-              ng2FileSelect
-              [uploader]="this._cloudinaryS.uploader"
-              style="display: none"
-              accept="image/png, image/jpg, image/jpeg"
-              (onFileSelected)="this.onFileSelected($event)"
-            />
-          </div>
-        </div>
-      </div>
-      <div class="profile-data-inputs-container dfc">
-        <form ngNativeValidate #fAdmin="ngForm" class="col s12">
-          <div class="profile-data-inputs-content profile-card dfc">
-            <div class="profile-data-header dfr">
-              <i class="fas fa-user-edit"></i>
-              <span>Información personal</span>
-            </div>
-            <div class="row">
-              <div class="input-field col s12">
-                <div class="modal-input modal-input-blue">
-                  <input
-                    id="adminFirstName"
-                    name="adminFirstName"
-                    [ngModel]="user?.firstName"
-                    type="text"
-                    class="validate"
-                    placeholder=" "
-                  />
-                  <div
-                    class="modal-input-placeholder modal-input-placeholder-blue"
-                  >
-                    Nombre(s)*
+              <div class="profile-data-header dfr">
+                <i class="far fa-address-card big-icon"></i>
+                <span>Información de contacto</span>
+              </div>
+              <div class="row">
+                <!-- Change Email Trigger -->
+                <div
+                  class="profile-image-field small col s12 dfr"
+                  (click)="setActiveAction(userProfileTabGroup, 'Email', 1)"
+                >
+                  <div class="profile-image-description dfc">
+                    <span class="profile-image-title">{{ user?.email }}</span>
+                    <span class="profile-image-subtitle"
+                      >Actualizar correo</span
+                    >
+                  </div>
+                  <div class="profile-image-field-indicator dfc">
+                    <i class="material-icons">chevron_right</i>
+                  </div>
+                </div>
+                <!-- Change Phone Trigger -->
+                <div
+                  class="profile-image-field small col s12 dfr"
+                  (click)="setActiveAction(userProfileTabGroup, 'Teléfono', 1)"
+                >
+                  <div class="profile-image-description dfc">
+                    <span class="profile-image-title">{{
+                      user?.cellPhone
+                    }}</span>
+                    <span class="profile-image-subtitle"
+                      >Actualizar número de teléfono</span
+                    >
+                  </div>
+                  <div class="profile-image-field-indicator dfc">
+                    <i class="material-icons">chevron_right</i>
+                  </div>
+                </div>
+                <!-- Change Address Trigger -->
+                <div
+                  class="profile-image-field small col s12 dfr"
+                  (click)="setActiveAction(userProfileTabGroup, 'Dirección', 1)"
+                >
+                  <div class="profile-image-description dfc">
+                    <span class="profile-image-title">{{ user?.address }}</span>
+                    <span class="profile-image-subtitle"
+                      >Actualizar dirección</span
+                    >
+                  </div>
+                  <div class="profile-image-field-indicator dfc">
+                    <i class="material-icons">chevron_right</i>
                   </div>
                 </div>
               </div>
-              <div class="input-field col s12">
-                <div class="modal-input modal-input-blue">
-                  <input
-                    id="adminLastName"
-                    name="adminLastName"
-                    [ngModel]="user?.lastName"
-                    type="text"
-                    class="validate"
-                    placeholder=" "
-                  />
-                  <div
-                    class="modal-input-placeholder modal-input-placeholder-blue"
-                  >
-                    Apellidos*
-                  </div>
-                </div>
-              </div>
-              <div class="input-field col s12">
-                <div class="modal-input modal-input-blue">
-                  <input
-                    id="adminEmail"
-                    name="adminEmail"
-                    [ngModel]="user?.email"
-                    type="text"
-                    class="validate"
-                    placeholder=" "
-                  />
-                  <div
-                    class="modal-input-placeholder modal-input-placeholder-blue"
-                  >
-                    Email*
-                  </div>
-                </div>
-              </div>
-              <div class="input-field col s12">
-                <div class="modal-input modal-input-blue">
-                  <input
-                    id="adminCellPhone"
-                    name="adminCellPhone"
-                    [ngModel]="user?.cellPhone"
-                    type="text"
-                    class="validate"
-                    placeholder=" "
-                  />
-                  <div
-                    class="modal-input-placeholder modal-input-placeholder-blue"
-                  >
-                    Telefono
-                  </div>
-                </div>
-              </div>
-              <div class="input-field col s12">
-                <div class="modal-input modal-input-blue">
-                  <input
-                    id="adminAddress"
-                    name="adminAddress"
-                    [ngModel]="user?.address"
-                    type="text"
-                    class="validate"
-                    placeholder=" "
-                  />
-                  <div
-                    class="modal-input-placeholder modal-input-placeholder-blue"
-                  >
-                    Domicilio
-                  </div>
-                </div>
-              </div>
-              <div class="input-field col s12">
-                <div class="modal-input modal-input-blue biography-textarea">
-                  <textarea
-                    id="biography"
-                    name="biography"
-                    [ngModel]="user?.biography"
-                    class="materialize-textarea contact-input"
-                    placeholder=" "
-                  ></textarea>
-                  <div
-                    class="modal-input-placeholder modal-input-placeholder-blue"
-                  >
-                    Biografia
-                  </div>
-                </div>
-              </div>
-            </div>
-            <!--Save Data Button -->
-            <div class="item-add-container profile-data-save-container">
-              <button
-                mat-icon-button
-                class="item-add-button primary-text gradient-45deg-orange gradient-shadow dfc"
-                [class.button-disabled]="!fAdmin.valid"
-                matTooltip="Guardar cambios"
-                matTooltipPosition="above"
-                (click)="updateAdmin(fAdmin.value)"
-              >
-                <i class="material-icons">save</i>
-              </button>
             </div>
           </div>
-          <div class="profile-data-inputs-content profile-card dfc">
-            <div class="profile-data-header dfr">
-              <i class="fas fa-user-tie"></i>
-              <span>Información profesional</span>
-            </div>
-            <div class="row">
-              <div class="input-field col s12">
-                <div class="modal-input modal-input-blue">
-                  <input
-                    id="adminExperience"
-                    name="adminExperience"
-                    type="text"
-                    class="validate"
-                    placeholder=" "
-                  />
+        </mat-tab>
+
+        <!-- Update Forms Tab -->
+        <mat-tab>
+          <ng-template mat-tab-label> Update Forms Tab </ng-template>
+          <form
+            *ngIf="selected.value === 1"
+            ngNativeValidate
+            [formGroup]="userProfileForm"
+            (ngSubmit)="updateUserData(userProfileTabGroup)"
+            class="col s12 p0"
+          >
+            <div class="profile-data-inputs-content client profile-card dfc">
+              <div class="profile-data-header h47-px jcc dfr">
+                <div class="profile-data-header-wrapper dfr">
                   <div
-                    class="modal-input-placeholder modal-input-placeholder-blue"
+                    class="return-profile-btn waves-effect waves-dark dfc"
+                    (click)="
+                      setActiveAction(userProfileTabGroup, '', 0);
+                      _usersS.resetFormValues(userProfileForm, user)
+                    "
                   >
-                    Experiencia
+                    <i class="material-icons">arrow_back</i>
                   </div>
+                  <span>{{ activeAction }}</span>
                 </div>
               </div>
-              <div class="input-field col s12">
-                <div class="modal-input modal-input-blue">
-                  <input
-                    id="adminSpecialty"
-                    name="adminSpecialty"
-                    type="text"
-                    class="validate"
-                    placeholder=" "
-                  />
-                  <div
-                    class="modal-input-placeholder modal-input-placeholder-blue"
-                  >
-                    Especialidad
+              <div class="row profile-data-inputs-list">
+                <!-- Update Action Title -->
+                <div class="input-field profile-action-title col s12">
+                  <span>{{ "Actualizar " + activeAction }}</span>
+                </div>
+                <!-- Change Name Input -->
+                <div
+                  class="input-field col s12"
+                  *ngIf="activeAction === 'Nombre'"
+                >
+                  <div class="modal-input modal-input-blue">
+                    <input
+                      placeholder=" "
+                      id="firstName"
+                      name="firstName"
+                      formControlName="firstName"
+                      type="text"
+                      class="validate"
+                      required
+                    />
+                    <div
+                      class="modal-input-placeholder modal-input-placeholder-blue"
+                    >
+                      Nombre(s)
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div class="input-field col s12">
-                <div class="modal-input modal-input-blue">
-                  <input
-                    id="adminBiography"
-                    name="adminBiography"
-                    type="text"
-                    class="validate"
-                    placeholder=" "
-                  />
-                  <div
-                    class="modal-input-placeholder modal-input-placeholder-blue"
-                  >
-                    Biografía
+                <!-- Change LastName Input -->
+                <div
+                  class="input-field col s12"
+                  *ngIf="activeAction === 'Nombre'"
+                >
+                  <div class="modal-input modal-input-blue">
+                    <input
+                      placeholder=" "
+                      id="lastName"
+                      name="lastName"
+                      formControlName="lastName"
+                      type="text"
+                      class="validate"
+                      required
+                    />
+                    <div
+                      class="modal-input-placeholder modal-input-placeholder-blue"
+                    >
+                      Apellidos
+                    </div>
                   </div>
+                </div>
+                <!-- New Password Input -->
+                <div
+                  class="input-field col s12"
+                  *ngIf="activeAction === 'Contraseña'"
+                >
+                  <div class="modal-input modal-input-blue">
+                    <input
+                      id="newPassword"
+                      name="newPassword"
+                      formControlName="newPassword"
+                      type="password"
+                      class="validate"
+                      placeholder=" "
+                      required
+                    />
+                    <div
+                      class="modal-input-placeholder modal-input-placeholder-blue"
+                    >
+                      Contraseña nueva
+                    </div>
+                  </div>
+                </div>
+                <!-- Confirm New Password Input -->
+                <div
+                  class="input-field col s12"
+                  *ngIf="activeAction === 'Contraseña'"
+                >
+                  <div class="modal-input modal-input-blue">
+                    <input
+                      id="confirmNewPassword"
+                      name="confirmNewPassword"
+                      formControlName="confirmNewPassword"
+                      type="password"
+                      class="validate"
+                      placeholder=" "
+                      required
+                    />
+                    <div
+                      class="modal-input-placeholder modal-input-placeholder-blue"
+                    >
+                      Repetir contraseña nueva
+                    </div>
+                  </div>
+                </div>
+                <!-- Change Email Input -->
+                <div
+                  class="input-field col s12"
+                  *ngIf="activeAction === 'Email'"
+                >
+                  <div class="modal-input modal-input-blue read-only">
+                    <input
+                      id="userEmail"
+                      name="userEmail"
+                      formControlName="userEmail"
+                      placeholder=" "
+                      type="email"
+                      class="validate"
+                      required
+                      readonly
+                      email
+                    />
+                    <div
+                      class="modal-input-placeholder modal-input-placeholder-blue"
+                    >
+                      Email
+                    </div>
+                  </div>
+                </div>
+                <!-- Change Phone Input -->
+                <div
+                  class="input-field col s12"
+                  *ngIf="activeAction === 'Teléfono'"
+                >
+                  <div class="modal-input modal-input-blue">
+                    <input
+                      placeholder=" "
+                      id="cellPhone"
+                      name="cellPhone"
+                      formControlName="cellPhone"
+                      type="text"
+                      class="validate"
+                    />
+                    <div
+                      class="modal-input-placeholder modal-input-placeholder-blue"
+                    >
+                      Telefono
+                    </div>
+                  </div>
+                </div>
+                <!-- Change Address Input -->
+                <div
+                  class="input-field col s12"
+                  *ngIf="activeAction === 'Dirección'"
+                >
+                  <div class="modal-input modal-input-blue">
+                    <input
+                      placeholder=" "
+                      id="address"
+                      name="address"
+                      formControlName="address"
+                      type="text"
+                      class="validate"
+                    />
+                    <div
+                      class="modal-input-placeholder modal-input-placeholder-blue"
+                    >
+                      Domicilio
+                    </div>
+                  </div>
+                </div>
+                <!-- Change Biography Input -->
+                <div
+                  class="input-field col s12"
+                  *ngIf="activeAction === 'Biografía'"
+                >
+                  <div class="modal-input modal-input-blue">
+                    <input
+                      id="adminBiography"
+                      name="adminBiography"
+                      formControlName="biography"
+                      type="text"
+                      class="validate"
+                      placeholder=" "
+                    />
+                    <div
+                      class="modal-input-placeholder modal-input-placeholder-blue"
+                    >
+                      Biografía
+                    </div>
+                  </div>
+                </div>
+                <!-- Change Practice Areas Input -->
+                <div
+                  class="input-field col s12"
+                  *ngIf="activeAction === 'Áreas de práctica'"
+                >
+                  <div class="modal-input modal-input-blue">
+                    <mat-form-field appearance="fill">
+                      <mat-label>Áreas de práctica</mat-label>
+                      <mat-select
+                        formControlName="practiceAreas"
+                        multiple
+                        #practiceAreaSelect
+                      >
+                        <mat-select-trigger>
+                          {{
+                            userProfileForm.value.practiceAreas &&
+                            userProfileForm.value.practiceAreas.length > 0
+                              ? userProfileForm.value.practiceAreas[0].name
+                              : ""
+                          }}
+                          <span
+                            *ngIf="
+                              userProfileForm.value.practiceAreas?.length > 1
+                            "
+                            class="example-additional-selection"
+                          >
+                            (+{{
+                              userProfileForm.value.practiceAreas.length - 1
+                            }}
+                            más)
+                          </span>
+                        </mat-select-trigger>
+                        <!-- Select / Unselect All & Search Box -->
+                        <mat-option>
+                          <ngx-mat-select-search
+                            [formControl]="practiceAreasFilterCtrl"
+                            placeholderLabel="Filtrar por nombre"
+                            noEntriesFoundLabel="No se encontraron resultados"
+                            [showToggleAllCheckbox]="true"
+                            (toggleAll)="toggleSelectAll($event)"
+                            [toggleAllCheckboxTooltipMessage]="tooltipMessage"
+                            [toogleAllCheckboxTooltipPosition]="'above'"
+                          ></ngx-mat-select-search>
+                        </mat-option>
+                        <mat-option
+                          *ngFor="
+                            let practiceArea of practiceAreasMulti | async
+                          "
+                          [value]="practiceArea"
+                          >{{ practiceArea.name }}</mat-option
+                        >
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+
+                  <!-- Add New Practice Area Button Trigger -->
+                  <div class="add-item-to-accordion-container mt-30 dfc">
+                    <button
+                      class="btn bs-none transparent-bg dfr"
+                      mat-icon-button
+                      (click)="openPracticeAreasModal()"
+                      type="button"
+                    >
+                      <div class="add-item-accordion-icon dfc">
+                        <i class="fas fa-plus"></i>
+                      </div>
+                      <span>Crear nueva área de práctica</span>
+                    </button>
+                  </div>
+                </div>
+                <div class="profile-data-save-container dfr">
+                  <!--Cancel Data Button -->
+                  <button
+                    type="button"
+                    name="cancel"
+                    class="cancel-profile-changes profile-btn btn waves-effect waves-light"
+                    (click)="
+                      setActiveAction(userProfileTabGroup, '', 0);
+                      _usersS.resetFormValues(userProfileForm, user)
+                    "
+                  >
+                    <span>Cancelar</span>
+                  </button>
+                  <!--Save Data Button -->
+                  <button
+                    type="submit"
+                    name="action"
+                    class="save-profile-changes profile-btn btn waves-effect waves-light"
+                    [class.button-disabled]="!userProfileForm.valid"
+                  >
+                    <span>Guardar</span>
+                  </button>
                 </div>
               </div>
             </div>
-            <!--Save Data Button -->
-            <div class="item-add-container profile-data-save-container">
-              <button
-                mat-icon-button
-                class="item-add-button primary-text gradient-45deg-orange gradient-shadow dfc"
-                matTooltip="Guardar cambios"
-                matTooltipPosition="above"
-              >
-                <i class="material-icons">save</i>
-              </button>
-            </div>
-          </div>
-        </form>
-      </div>
+          </form>
+        </mat-tab>
+      </mat-tab-group>
     </div>
   </perfect-scrollbar>
-  <!-- <div class="profile-data-save-container">
-    <button
-      class="btn waves-effect waves-light"
-      type="submit"
-      name="action"
-      [class.button-disabled]="!fA.valid"
-    >
-      Guardar cambios
-      <i class="material-icons right">send</i>
-    </button>
-  </div> -->
 </div>

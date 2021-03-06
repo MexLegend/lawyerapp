@@ -31,7 +31,7 @@
             </div>
             <span class="entries-filter-text">Resultados</span>
           </div>
-          <!-- Status Filter -->
+          <!-- Date Filter -->
           <div class="status-filter dfr">
             <span class="status-filter-text">Fecha</span>
             <div class="status-filter-select">
@@ -155,9 +155,10 @@
                   <div class="item-acordion-card-body-title">
                     <span>{{ post?.title }}</span>
                   </div>
-                  <div class="item-acordion-card-body-content">
-                    {{ post.content ? post.content : "N/E" }}
-                  </div>
+                  <div
+                    class="item-acordion-card-body-content"
+                    [innerHTML]="post.content ? post.content : 'N/E'"
+                  ></div>
                 </div>
                 <div class="item-acordion-card-body-image centered-img-bg dfr">
                   <img [src]="post?.img | img: 'post'" alt="" />
@@ -179,20 +180,37 @@
                 <mat-menu #mainStatusMenu="matMenu" xPosition="before">
                   <ng-template matMenuContent>
                     <div class="dfc select-content-container">
+                      <!-- Reviewing Option -->
+                      <button
+                        mat-menu-item
+                        [attr.data-active]="
+                          post.processState === 'REVIEWING' ? 'true' : 'false'
+                        "
+                        (click)="updatePostState(post._id, 'REVIEWING')"
+                      >
+                        <i class="fas fa-search"></i>
+                        En revisión
+                      </button>
                       <!-- Publish Option -->
                       <button
                         mat-menu-item
+                        [attr.data-active]="
+                          post.processState === 'PUBLISH' ? 'true' : 'false'
+                        "
                         (click)="updatePostState(post._id, 'PUBLISH')"
                       >
-                        <i class="fas fa-check-circle"></i>
+                        <i class="fas fa-check"></i>
                         Publicar
                       </button>
                       <!-- Reject Option -->
                       <button
                         mat-menu-item
+                        [attr.data-active]="
+                          post.processState === 'REJECT' ? 'true' : 'false'
+                        "
                         (click)="updatePostState(post._id, 'REJECT')"
                       >
-                        <i class="fas fa-times-circle"></i>
+                        <i class="fas fa-times"></i>
                         Rechazar
                       </button>
                     </div>

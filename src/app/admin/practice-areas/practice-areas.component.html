@@ -1,0 +1,299 @@
+<!-- Contenedor Listado áreas de práctica -->
+<div class="item-list-container">
+  <mat-card class="item-list-container dfc">
+    <!-- Practice Areas Filters Container  -->
+    <mat-card-header class="item-filter-container">
+      <mat-card
+        class="item-filter-content dfr"
+        [style.height]="this.mobileFilterActivated ? '43px' : '100%'"
+      >
+        <!-- Entries And Status Filters Container -->
+        <div class="entry-and-status-filters-container dfr">
+          <!-- Entries Filter -->
+          <div class="show-entries-filter dfr">
+            <span class="entries-filter-text">Ver</span>
+            <div class="entries-filter-select">
+              <mat-form-field>
+                <mat-select
+                  disableOptionCentering
+                  [(ngModel)]="selectedEntry"
+                  (ngModelChange)="changeEntry($event)"
+                >
+                  <mat-option
+                    *ngFor="let entry of entriesFilter"
+                    [value]="entry"
+                    [selected]="entry === 5"
+                  >
+                    {{ entry }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <span class="entries-filter-text">Resultados</span>
+          </div>
+          <!-- Date Filter -->
+          <div class="status-filter dfr">
+            <span class="status-filter-text">Fecha</span>
+            <div class="status-filter-select">
+              <mat-form-field>
+                <mat-select
+                  [value]="this.innerScreenWidth <= 810 ? 'date' : 'any'"
+                  disableOptionCentering
+                >
+                  <mat-option
+                    value="date"
+                    style="display: none"
+                    *ngIf="this.innerScreenWidth <= 810"
+                  >
+                    Fecha
+                  </mat-option>
+                  <mat-option value="any"> Cualquiera </mat-option>
+                  <mat-option value="recent"> Reciente </mat-option>
+                  <mat-option value="old"> Antiguo </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+        <!-- Search Filter -->
+        <div class="search-filter dfr">
+          <div class="search-input-filter dfc">
+            <input
+              (keyup)="filter($event.target.value)"
+              placeholder="Filtrar por nombre"
+            />
+          </div>
+          <div class="search-btn-filter">
+            <button
+              class="btn waves-effect waves-light dfc"
+              (click)="handleMobileFilter(true)"
+            >
+              <i class="material-icons">search</i>
+            </button>
+          </div>
+        </div>
+        <!-- Search Filter Mobile -->
+        <div
+          class="search-filter-mobile dfr"
+          [attr.isVisible]="this.mobileFilterActivated"
+        >
+          <div
+            class="go-back-filter-mobile waves-effect waves-light dfc"
+            *ngIf="this.mobileFilterActivated"
+            (click)="handleMobileFilter(false)"
+          >
+            <i class="material-icons">arrow_back</i>
+          </div>
+          <div
+            class="search-input-filter-mobile dfc"
+            *ngIf="this.mobileFilterActivated"
+          >
+            <input placeholder="Filtrar por nombre" />
+          </div>
+        </div>
+      </mat-card>
+    </mat-card-header>
+
+    <!-- Practice Areas List Container  -->
+    <mat-card-content class="item-list-content">
+      <perfect-scrollbar
+        *ngIf="practiceAreasList.length > 1"
+        class="scroll-container"
+        fxFlex="auto"
+        [config]="config"
+        [scrollIndicators]="false"
+      >
+        <div class="scrollable-content">
+          <mat-accordion class="item-container dfc">
+            <mat-expansion-panel
+              class="item-content"
+              *ngFor="
+                let practiceArea of practiceAreasList
+                  | filter: filterValue:'practiceArea'
+                  | paginate
+                    : {
+                        itemsPerPage: selectedEntry,
+                        currentPage: currentPage
+                      }
+              "
+            >
+              <!-- Practice Areas Expansion Header -->
+              <mat-expansion-panel-header class="item-acordion-header">
+                <mat-panel-title class="item-acordion-title dfr">
+                  <div class="item-acordion-title-left dfr">
+                    <div class="header-item-body dfc">
+                      <div class="header-item-title dfr">
+                        <div class="header-item-title-wrap">
+                          <span>{{ practiceArea.name }}</span>
+                        </div>
+                      </div>
+                      <div
+                        class="header-item-data practice-area-status dfr"
+                        [attr.data-status]="practiceArea?.processState"
+                      >
+                        <span>{{
+                          practiceArea?.processState === "APPROVED"
+                            ? "Aprobada"
+                            : "En espera"
+                        }}</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="header-item-actions general dfr">
+                    <!-- Practice Area Approve Button Trigger -->
+                    <button
+                      *ngIf="practiceArea?.processState === 'AWAITING'"
+                      class="header-item-btn btn waves-effect mobile waves-light light-blue dfc"
+                      mat-icon-button
+                      (click)="
+                        _utilitiesS.moveDown($event);
+                        publishPracticeArea(practiceArea._id, 'APPROVED')
+                      "
+                      matTooltip="Aprobar"
+                      matTooltipPosition="above"
+                    >
+                      <i class="fas fa-check"></i>
+                    </button>
+                    <!-- Practice Area Awaiting Button Trigger -->
+                    <button
+                      *ngIf="practiceArea?.processState === 'APPROVED'"
+                      class="header-item-btn btn waves-effect mobile waves-light light-blue dfc"
+                      mat-icon-button
+                      (click)="
+                        _utilitiesS.moveDown($event);
+                        publishPracticeArea(practiceArea._id, 'AWAITING')
+                      "
+                      matTooltip="Poner en espera"
+                      matTooltipPosition="above"
+                    >
+                      <i class="far fa-clock"></i>
+                    </button>
+                    <!-- Practice Areas CRUD Button Trigger -->
+                    <button
+                      class="header-item-btn important-action btn waves-effect waves-light light-blue dfc"
+                      mat-icon-button
+                      [matMenuTriggerFor]="actionsMenu"
+                      (click)="_utilitiesS.moveDown($event)"
+                      matTooltip="Más acciones"
+                      matTooltipPosition="above"
+                    >
+                      <i class="material-icons">more_vert</i>
+                    </button>
+                    <!-- Practice Areas CRUD Menu Content -->
+                    <mat-menu #actionsMenu="matMenu" xPosition="before">
+                      <ng-template matMenuContent>
+                        <div class="dfc select-content-container">
+                          <!-- Approve Option -->
+                          <button
+                            *ngIf="practiceArea?.processState === 'AWAITING'"
+                            mat-menu-item
+                            class="mobile"
+                            (click)="
+                              publishPracticeArea(practiceArea._id, 'APPROVED')
+                            "
+                          >
+                            <i class="fas fa-check"></i>
+                            <span>Aprobar</span>
+                          </button>
+                          <!-- Awaiting Option -->
+                          <button
+                            *ngIf="practiceArea?.processState === 'APPROVED'"
+                            mat-menu-item
+                            class="mobile"
+                            (click)="
+                              publishPracticeArea(practiceArea._id, 'AWAITING')
+                            "
+                          >
+                            <i class="far fa-clock"></i>
+                            <span>Poner en espera</span>
+                          </button>
+                          <mat-divider class="mobile"></mat-divider>
+                          <!-- Edit Option -->
+                          <button
+                            mat-menu-item
+                            (click)="openPracticeAreasModal(practiceArea)"
+                          >
+                            <i class="material-icons">edit</i>
+                            <span>Editar</span>
+                          </button>
+                          <!-- Delete Option -->
+                          <button
+                            mat-menu-item
+                            (click)="deletePracticeArea(practiceArea._id)"
+                          >
+                            <i class="material-icons">delete</i>
+                            <span>Eliminar</span>
+                          </button>
+                          <!-- Favorite Option -->
+                          <!-- <button mat-menu-item>
+                              <i class="material-icons">star_border</i>
+                              <span>Favorito</span>
+                            </button> -->
+                        </div>
+                      </ng-template>
+                    </mat-menu>
+                  </div>
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <!-- Practice Areas Expansion Body -->
+              <mat-card class="item-body-data-container">
+                <div class="item-body-data-content dfc">
+                  <div class="item-body-row dfr">
+                    <span class="item-body-title">Autor</span>
+                    <span class="item-body-subtitle">{{
+                      practiceArea.author.firstName +
+                        " " +
+                        practiceArea.author.lastName
+                    }}</span>
+                  </div>
+                  <div class="item-body-row dfr">
+                    <span class="item-body-title">Reseña</span>
+                    <span class="item-body-subtitle">{{
+                      practiceArea.review
+                    }}</span>
+                  </div>
+                </div>
+              </mat-card>
+            </mat-expansion-panel>
+          </mat-accordion>
+        </div>
+      </perfect-scrollbar>
+      <!-- Not Practice Areas Created Message -->
+      <div *ngIf="practiceAreasList.length === 0" class="no-data-container">
+        <div class="card sticky-action" style="width: 100%">
+          <div class="card-body card-content no-data dfr">
+            <div class="card-no-data-icon dfc">
+              <span>i</span>
+            </div>
+            <div class="card-no-data-information">
+              <span> No hay áreas de práctica creadas </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Open Practice Area Modal Button Trigger -->
+      <div class="item-add-container">
+        <button
+          mat-icon-button
+          class="item-add-button primary-text gradient-45deg-orange gradient-shadow dfc"
+          matTooltip="Crear área de práctica"
+          matTooltipPosition="above"
+          (click)="openPracticeAreasModal()"
+        >
+          <i class="material-icons">add</i>
+        </button>
+      </div>
+    </mat-card-content>
+
+    <!-- Practice Areas List Pagination -->
+    <mat-card-actions
+      *ngIf="practiceAreasList.length > 0"
+      class="item-list-pagination-container dfr"
+    >
+      <pagination-controls
+        class="news-pagination"
+        (pageChange)="currentPage = $event"
+      ></pagination-controls>
+    </mat-card-actions>
+  </mat-card>
+</div>

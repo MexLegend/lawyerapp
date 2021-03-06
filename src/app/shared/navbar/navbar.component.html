@@ -6,7 +6,7 @@
       <!-- Main Client Sidebar Button Trigger -->
       <a
         (click)="toogleMainSidenav()"
-        class="sidenav-btn gradient-pos-45deg-dark-blue"
+        class="sidenav-btn"
         matTooltip="Menú"
         matTooltipPosition="below"
         ><i class="material-icons">menu</i></a
@@ -24,6 +24,7 @@
     </div>
     <div id="nav-menu-items" class="dfr">
       <ul class="left dfr">
+        <!-- Home -->
         <li
           class="hide-on-med-and-down"
           [attr.data-active]="this.router.url === '/inicio' ? 'on' : 'off'"
@@ -36,40 +37,7 @@
             <span>Inicio</span>
           </a>
         </li>
-        <li
-          class="hide-on-med-and-down"
-          [attr.data-active]="
-            this.router.url === '/articulos' ||
-            this.router.url.includes('/articulo-detalle')
-              ? 'on'
-              : 'off'
-          "
-        >
-          <a
-            routerLink="/articulos"
-            (click)="scrollToTop()"
-            [attr.data-active]="
-              this.router.url === '/articulos' ||
-              this.router.url.includes('/articulo-detalle')
-                ? 'on'
-                : 'off'
-            "
-          >
-            <span>Articulos</span>
-          </a>
-        </li>
-        <li
-          class="hide-on-med-and-down"
-          [attr.data-active]="this.router.url === '/contacto' ? 'on' : 'off'"
-        >
-          <a
-            routerLink="/contacto"
-            (click)="scrollToTop()"
-            [attr.data-active]="this.router.url === '/contacto' ? 'on' : 'off'"
-          >
-            <span>Contacto</span>
-          </a>
-        </li>
+        <!-- About Us -->
         <li
           class="hide-on-med-and-down"
           [attr.data-active]="this.router.url === '/nosotros' ? 'on' : 'off'"
@@ -114,6 +82,88 @@
               </button>
             </div>
           </mat-menu>
+        </li>
+        <!-- Lawyers -->
+        <li
+          class="hide-on-med-and-down"
+          [attr.data-active]="
+            this.router.url === '/abogados' ||
+            this.router.url.includes('/abogado-detalle')
+              ? 'on'
+              : 'off'
+          "
+        >
+          <a
+            routerLink="/abogados"
+            (click)="scrollToTop()"
+            [attr.data-active]="
+              this.router.url === '/abogados' ||
+              this.router.url.includes('/abogado-detalle')
+                ? 'on'
+                : 'off'
+            "
+          >
+            <span>Abogados</span>
+          </a>
+        </li>
+        <!-- Practice Areas -->
+        <li
+          class="hide-on-med-and-down"
+          [attr.data-active]="
+            this.router.url === '/areas-practica' ||
+            this.router.url.includes('/area-detalle')
+              ? 'on'
+              : 'off'
+          "
+        >
+          <a
+            routerLink="/areas-practica"
+            (click)="scrollToTop()"
+            [attr.data-active]="
+              this.router.url === '/areas-practica' ||
+              this.router.url.includes('/area-detalle')
+                ? 'on'
+                : 'off'
+            "
+          >
+            <span class="lh-20">Áreas de práctica</span>
+          </a>
+        </li>
+        <!-- Posts -->
+        <li
+          class="hide-on-med-and-down"
+          [attr.data-active]="
+            this.router.url === '/articulos' ||
+            this.router.url.includes('/articulo-detalle')
+              ? 'on'
+              : 'off'
+          "
+        >
+          <a
+            routerLink="/articulos"
+            (click)="scrollToTop()"
+            [attr.data-active]="
+              this.router.url === '/articulos' ||
+              this.router.url.includes('/articulo-detalle')
+                ? 'on'
+                : 'off'
+            "
+          >
+            <span>Articulos</span>
+          </a>
+        </li>
+        <!-- Contact -->
+        <li
+          class="hide-on-med-and-down"
+          [attr.data-active]="this.router.url === '/contacto' ? 'on' : 'off'"
+        >
+          <a
+            routerLink="/contacto"
+            (click)="scrollToTop()"
+            [attr.data-active]="this.router.url === '/contacto' ? 'on' : 'off'"
+          >
+            <span>Contacto</span>
+          </a>
         </li>
         <!-- <li class="hide-on-med-and-down">
           <a
@@ -164,13 +214,7 @@
           >
             <div class="avatar-status avatar-online dfr">
               <div class="centered-img-bg border-none dfc">
-                <img
-                  [src]="_usersS.user?.img | img: 'user':true"
-                  alt="avatar"
-                />
-              </div>
-              <div class="avatar-name">
-                <span>{{ _usersS.user.firstName.split(" ")[0] }}</span>
+                <img [src]="_usersS.user?.img | img: 'user'" alt="avatar" />
               </div>
             </div>
           </button>
@@ -180,15 +224,16 @@
               <div class="perfil-info dfr">
                 <div class="perfil-icon centered-img-bg dfc">
                   <img
-                    [src]="_usersS.user?.img | img: 'user':true"
+                    [src]="_usersS.user?.img | img: 'user'"
                     style="width: 100%"
                   />
                 </div>
                 <div class="perfil-text dfc">
                   <span class="perfil-name ff-rr">{{
-                    this._usersS.user.firstName
-                      .split(" ")[0]
-                      .concat(" ", this._usersS.user.lastName.split(" ")[0])
+                    this._usersS.user.firstName.concat(
+                      " ",
+                      this._usersS.user.lastName
+                    )
                   }}</span>
                   <span class="perfil-email ff-rr">{{
                     this._usersS.user.email
@@ -238,18 +283,18 @@
       </ng-container>
       <ng-container *ngIf="!this._usersS.isLogged()">
         <div class="nav-fixed-opcions-register-login-container dfr">
-          <a
-            class="nav-option-btn login-btn modal-trigger"
-            (click)="form('login')"
-            href="#modalRegistro"
-            >Iniciar Sesion</a
+          <button
+            class="btn nav-option-btn login-btn modal-trigger"
+            (click)="_utilitiesS.openLoginModal(0)"
           >
-          <a
-            class="nav-option-btn register-btn modal-trigger"
-            (click)="form('register')"
-            href="#modalRegistro"
-            >Registrarse</a
+            Iniciar Sesion
+          </button>
+          <button
+            class="btn nav-option-btn register-btn modal-trigger"
+            (click)="_utilitiesS.openLoginModal(1)"
           >
+            Registrarse
+          </button>
         </div>
       </ng-container>
     </div>
@@ -257,4 +302,4 @@
 </nav>
 
 <!-- Login Modal Content -->
-<app-login [tForm]="tFo"></app-login>
+<!-- <app-login [tForm]="tFo"></app-login> -->

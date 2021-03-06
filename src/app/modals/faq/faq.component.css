@@ -1,0 +1,7 @@
+.mat-dialog-content .row {
+  height: calc(100% - 40px) !important;
+}
+
+.mat-dialog-content .col .faq-textarea {
+  height: calc(100% - 50px) !important;
+}

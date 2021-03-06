@@ -1,0 +1,216 @@
+<section *ngIf="lawyer" id="lawyers-main-container" class="pr pt-71 dfr">
+  <div class="lawyer-info-container dfc">
+    <div class="lawyer-top-container dfr">
+      <div class="lawyer-image centered-img-bg">
+        <img [src]="lawyer.img | img: 'user'" alt="" />
+      </div>
+      <div class="lawyer-stats-contact dfc">
+        <div class="lawyer-name">
+          <span>{{
+            lawyer.firstName
+              .split(" ")[0]
+              .concat(" ", lawyer.lastName.split(" ")[0])
+          }}</span>
+        </div>
+        <div class="lawyer-degree"><span>Abogado</span></div>
+        <div class="lawyer-ranking dfc">
+          <div class="ranking-title"><span>Rankings</span></div>
+          <div class="ranking-percentage dfr">
+            <div class="ranking-percentage-number"><span>8.5</span></div>
+            <div class="ranking-percentage-stars dfr">
+              <i class="fas fa-star active"></i>
+              <i class="fas fa-star active"></i>
+              <i class="fas fa-star active"></i>
+              <i class="fas fa-star active"></i>
+              <i class="fas fa-star"></i>
+            </div>
+          </div>
+        </div>
+        <div class="lawyer-contact-buttons dfr">
+          <button
+            *ngIf="
+              this._usersS.isLogged()
+                ? lawyer._id !== this._usersS.user._id
+                : true
+            "
+            class="email-btn btn waves-effect waves-light dfc"
+            (click)="_contactS.openReplyModal(lawyer)"
+          >
+            <span>Enviar correo</span>
+          </button>
+          <button
+            *ngIf="
+              this._usersS.isLogged()
+                ? lawyer._id !== this._usersS.user._id
+                : true
+            "
+            (click)="
+              this._usersS.isLogged()
+                ? openChat(lawyer)
+                : showAlertModal('contactLawyer', $event)
+            "
+            class="direct-btn btn waves-effect waves-light"
+          >
+            <span>Enviar mensaje directo</span>
+          </button>
+        </div>
+        <div class="lawyer-about-buttons dfr">
+          <button
+            class="contact-btn btn dfr"
+            (click)="selected.setValue(0)"
+            [attr.is-active]="selected.value === 0"
+          >
+            <i class="fas fa-mobile-alt"></i>
+            <span>Contacto</span>
+          </button>
+          <button
+            class="about-btn btn dfr"
+            (click)="selected.setValue(1)"
+            [attr.is-active]="selected.value === 1"
+          >
+            <i class="fas fa-user"></i>
+            <span>Acerca de mi</span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="lawyer-bottom-container dfr">
+      <div class="lawyer-skills dfc">
+        <div class="lawyer-review">
+          <span class="lawyer-review-text">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus
+            cumque perspiciatis corrupti officiis facilis repellat deleniti,
+            quidem, perferendis ex rerum aliquid possimus saepe quam expedita
+            totam in sit adipisci dignissimos.
+          </span>
+          <div class="lawyer-view-review" (click)="selected.setValue(1)">
+            <span>Leer más</span>
+          </div>
+        </div>
+        <div class="lawyer-skills-title">
+          <span>Áreas de práctica</span>
+        </div>
+        <span
+          *ngFor="let practiceArea of lawyer.practice_areas"
+          class="lawyer-skill"
+          >{{ practiceArea.practice_area.name }}</span
+        >
+        <span *ngIf="lawyer.practice_areas.length === 0" class="lawyer-skill"
+          >El abogado aún no tiene áreas de práctica asignadas</span
+        >
+      </div>
+      <div class="lawyer-about-container dfc">
+        <mat-tab-group
+          class="lawyer-tab"
+          [selectedIndex]="selected.value"
+          (selectedIndexChange)="selected.setValue($event)"
+        >
+          <mat-tab>
+            <ng-template mat-tab-label> Contacto </ng-template>
+            <div class="lawyer-skills-title no-line">
+              <span>Información de contacto</span>
+            </div>
+            <div class="lawyer-about-data dfc">
+              <div *ngIf="lawyer.cellPhone" class="lawyer-about-data-item dfr">
+                <div class="lawyer-about-data-title">
+                  <span>Teléfono:</span>
+                </div>
+                <div class="lawyer-about-link">
+                  <span>{{ lawyer.cellPhone }}</span>
+                </div>
+              </div>
+              <div
+                *ngIf="lawyer.address"
+                class="lawyer-about-data-item address dfr"
+              >
+                <div class="lawyer-about-data-title">
+                  <span>Dirección:</span>
+                </div>
+                <div class="lawyer-about-data-address dfc">
+                  <span> {{ lawyer.address }}</span>
+                  <span>Arandas Jalisco, México</span>
+                </div>
+              </div>
+              <div class="lawyer-about-data-item dfr">
+                <div class="lawyer-about-data-title"><span>Correo:</span></div>
+                <div class="lawyer-about-link">
+                  <span> {{ lawyer.email }}</span>
+                </div>
+              </div>
+              <div class="lawyer-about-data-item dfr">
+                <div class="lawyer-about-data-title">
+                  <span>Sitio web:</span>
+                </div>
+                <div class="lawyer-about-link">
+                  <span>ejemplo-haizen.com</span>
+                </div>
+              </div>
+            </div>
+          </mat-tab>
+          <mat-tab>
+            <ng-template mat-tab-label> Acerca de </ng-template>
+            <div class="lawyer-complete-review">
+              <span>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Accusamus cumque perspiciatis corrupti officiis facilis repellat
+                deleniti, quidem, perferendis ex rerum aliquid possimus saepe
+                quam expedita totam in sit adipisci dignissimos. <br />
+                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Error
+                laboriosam architecto nobis, odio ducimus ad ipsa nulla tempora
+                incidunt, praesentium rerum accusamus voluptate deleniti
+                reiciendis minima quo possimus, eligendi cupiditate!.
+              </span>
+            </div>
+          </mat-tab>
+        </mat-tab-group>
+      </div>
+    </div>
+  </div>
+  <div class="lawyer-posts-container dfc">
+    <!-- Last Posts Card -->
+    <div class="card sticky-action">
+      <div class="card-header last-articles-title card-content dfc">
+        <span>Colaboraciones del abogado</span>
+      </div>
+      <div class="card-body last-article-body card-content grey lighten-4 dfc">
+        <!-- Last Articles List -->
+        <div class="card-data-container lawyer-post-card dfc">
+          <div *ngFor="let post of lawyerPosts" class="article-container dfr">
+            <a
+              class="article-content dfr"
+              [routerLink]="['/articulo-detalle', post._id]"
+            >
+              <div class="last-article-img centered-img-bg">
+                <img [src]="post?.img | img: 'post'" [alt]="post?.title" />
+              </div>
+              <div class="last-article-data dfc">
+                <div class="last-article-name">
+                  <span>{{ post?.title }}</span>
+                </div>
+                <div class="last-article-author">
+                  <span
+                    >{{ post?.user?.firstName }}
+                    {{ post?.user?.lastName }}</span
+                  >
+                </div>
+                <div class="last-article-rm dfr">
+                  <span>Leer artículo</span>
+                  <i class="material-icons">chevron_right</i>
+                </div>
+              </div>
+            </a>
+          </div>
+          <div
+            *ngIf="lawyerPosts?.length === 0"
+            class="article-container no-data dfr"
+          >
+            <div class="card-no-data-information dfc">
+              <span> El abogado no ha publicado artículos recientemente</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-footer card-action"></div>
+    </div>
+  </div>
+</section>

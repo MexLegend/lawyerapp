@@ -7,6 +7,8 @@ import { environment } from "../../environments/environment";
 import { Contact } from "../models/Contact";
 import { NotificationsService } from "./notifications.service";
 import { User } from "../models/User";
+import { MatDialog } from "@angular/material/dialog";
+import { ReplyComponent } from "../modals/reply/reply.component";
 
 @Injectable({
   providedIn: "root",
@@ -14,6 +16,7 @@ import { User } from "../models/User";
 export class ContactService {
   constructor(
     private http: HttpClient,
+    public dialog: MatDialog,
     public _notificacionsS: NotificationsService
   ) {}
 
@@ -74,6 +77,14 @@ export class ContactService {
 
   getContactsList(): Observable<User[]> {
     return this.contactsList.asObservable();
+  }
+
+  // Open Email Contact Modal
+  openReplyModal(user?: any) {
+    let dialogRef = this.dialog.open(ReplyComponent, {
+      data: { user, action: "Nuevo" },
+      autoFocus: false,
+    });
   }
 
   setContactsList(contactsList: User[]) {

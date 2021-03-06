@@ -42,6 +42,20 @@ export class ClientesComponent implements OnInit {
       this.isDarkThemeActive = isDarkThemeActive;
     });
 
+    // Live Chat Widget
+    var Tawk_API = Tawk_API || {},
+      Tawk_LoadStart = new Date();
+    (function () {
+      var s1 = document.createElement("script"),
+        s0 = document.getElementsByTagName("script")[0];
+      s1.async = true;
+      s1.src = "https://embed.tawk.to/6015b931c31c9117cb742f31/1etadmqih";
+      s1.charset = "UTF-8";
+      s1.setAttribute("crossorigin", "*");
+      s0.parentNode.insertBefore(s1, s0);
+    })();
+
+    /*
     $(document).ready(function () {
       // Open WhatsApp Window on Click
       $(document).on("click", "#btn-whatsapp", function () {
@@ -57,6 +71,7 @@ export class ClientesComponent implements OnInit {
         });
       });
     });
+    */
   }
 
   ngAfterViewInit(): void {

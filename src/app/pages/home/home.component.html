@@ -31,15 +31,14 @@
         <img src="../../../assets/images/carouselPartners/slide_1.png" alt="" />
       </div>
       <div class="container carousel-content">
-        <h2>"Precio justo, servicio extraordinario"</h2>
-        <!-- <span>First Text</span> -->
+        <!-- <h2>"Precio justo, servicio extraordinario"</h2>
         <a
           class="waves-effect waves-light btn gradient-45deg-dark-blue"
           routerLink="/contacto"
           (click)="this._utilitiesS.scrollToTop()"
         >
           <span>Contactanos</span>
-        </a>
+        </a> -->
       </div>
     </div>
   </div>
@@ -48,98 +47,141 @@
   <!-- Inicio Carousel Partners-->
   <div *ngIf="lawyers.length > 0" id="partners-carousel-container" class="dfc">
     <div id="carousel-Partners" class="carousel carousel-slider">
-      <mat-card-content class="item-list-content tracking-details">
-        <div id="partnersText" class="item-list-content-title dfr">
-          <span>Abogados Asociados</span>
-          <div class="item-list-content-controls partners-controls dfr"></div>
+      <mat-card-content class="item-list-content tracking-details lawyer-card">
+        <div id="partnersText" class="item-list-content-title dfc">
+          <div class="partner-icon-container">
+            <span class="partner-icon dfc">
+              <i class="fas fa-user-tie"></i>
+            </span>
+          </div>
+          <span class="partner-title">Abogados Asociados</span>
+          <button
+            class="see-all btn waves-effect waves-light"
+            routerLink="/abogados"
+          >
+            Ver todos
+          </button>
         </div>
         <!-- Partners Item Cards -->
-        <div class="partners-carousel-item item-acordion-card-container dfr">
-          <!-- Partners Left Arrow Indicator -->
-          <div class="item-acordion-card-left-indicator partners-row-indicator">
-            <button
-              (click)="scrollCarouselToLeft('partners', '.partners-controls')"
-            >
-              <i class="fas fa-angle-left"></i>
-            </button>
-          </div>
-          <!-- Partners Cards -->
-          <div class="item-acordion-card-carousel" #partenersCarousel>
+        <div class="item-acordion-card-main-container lawyer-card dfc">
+          <div class="partners-carousel-item item-acordion-card-container dfr">
+            <!-- Partners Left Arrow Indicator -->
             <div
-              class="item-acordion-card-box evidence-card-box partnersArray dfc"
-              *ngFor="let lawyer of lawyers"
-              #partnersArray
+              class="item-acordion-card-left-indicator partners-row-indicator lawyer-card"
             >
-              <!-- Partner Card Header -->
-              <div class="item-acordion-card-header dfr">
-                <div
-                  class="item-acordion-card-header-data note-card-header dfc"
-                >
-                  <div class="item-acordion-card-header-left dfr">
-                    <div class="item-acordion-card-name lawyer-name">
-                      <span
-                        >Lic.
-                        {{ lawyer.firstName + " " + lawyer.lastName }}
-                      </span>
+              <button
+                (click)="scrollCarouselToLeft('partners', '.partners-controls')"
+              >
+                <i class="fas fa-angle-left"></i>
+              </button>
+            </div>
+            <!-- Partners Cards -->
+            <div
+              class="item-acordion-card-carousel lawyer-card home"
+              #partenersCarousel
+            >
+              <div
+                class="item-acordion-card-box evidence-card-box partnersArray lawyer-card dfc"
+                *ngFor="let lawyer of lawyers"
+                #partnersArray
+              >
+                <div class="item-acordion-card-inner-box">
+                  <!-- Partner Card Body -->
+                  <div
+                    class="item-acordion-card-body lawyer-card dfr"
+                    data-note-details="true"
+                  >
+                    <div
+                      class="item-acordion-card-body-image lawyer-card centered-img-bg dfr"
+                    >
+                      <img [src]="lawyer.img | img: 'user'" />
                     </div>
                   </div>
-                </div>
-              </div>
-              <!-- Partner Card Body -->
-              <div class="item-acordion-card-body dfr" data-note-details="true">
-                <div
-                  class="item-acordion-card-body-data lawyer-acordion-body dfc"
-                >
-                  <div
-                    class="item-acordion-card-body-content lawyer-acordion-content"
-                  >
-                    <span>
-                      {{
-                        lawyer.biography ? lawyer.biography : "Sin biografía"
-                      }}
-                    </span>
+                  <!-- Partner Card Header -->
+                  <div class="item-acordion-card-header lawyer-card dfr">
+                    <div
+                      class="item-acordion-card-header-data note-card-header lawyer-card dfc"
+                    >
+                      <div class="item-acordion-card-header-left dfr">
+                        <div
+                          class="item-acordion-card-name lawyer-name lawyer-card"
+                        >
+                          <span>
+                            {{ lawyer.firstName + " " + lawyer.lastName }}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Partner Card Actions -->
+                  <div class="item-acordion-body-actions lawyer-card dfr">
+                    <!-- Partner Email Button Trigger -->
+                    <button
+                      *ngIf="
+                        this._usersS.isLogged()
+                          ? lawyer._id !== this._usersS.user._id
+                          : true
+                      "
+                      class="header-item-btn btn action-button dfc"
+                      mat-icon-button
+                      matTooltip="Contactar por correo"
+                      matTooltipPosition="above"
+                      (click)="_contactS.openReplyModal(lawyer)"
+                    >
+                      <i class="far fa-envelope"></i>
+                    </button>
+                    <!-- Partner Message Button Trigger -->
+                    <button
+                      *ngIf="
+                        this._usersS.isLogged()
+                          ? lawyer._id !== this._usersS.user._id
+                          : true
+                      "
+                      class="header-item-btn btn action-button dfc"
+                      mat-icon-button
+                      matTooltip="Contactar por mensaje"
+                      matTooltipPosition="above"
+                      (click)="
+                        this._usersS.isLogged()
+                          ? openChat(lawyer)
+                          : showAlertModal('contactLawyer', $event)
+                      "
+                    >
+                      <i class="far fa-comment"></i>
+                    </button>
+                    <!-- Partner View Profile Button Trigger -->
+                    <button
+                      class="header-item-btn btn action-button important-action dfc"
+                      (click)="
+                        viewLawyerDetails(lawyer._id);
+                        this._utilitiesS.scrollToTop()
+                      "
+                      mat-icon-button
+                      matTooltip="Ver Perfil"
+                      matTooltipPosition="above"
+                    >
+                      <i class="far fa-eye"></i>
+                    </button>
                   </div>
                 </div>
-                <div class="item-acordion-card-body-image centered-img-bg dfr">
-                  <img [src]="lawyer.img | img: 'user'" />
-                </div>
-              </div>
-              <!-- Partner Card Actions -->
-              <div class="item-acordion-body-actions dfr">
-                <!-- Partner Button Trigger -->
-                <button
-                  class="header-item-btn btn action-button dfc"
-                  mat-icon-button
-                  matTooltip="Contactar por correo"
-                  matTooltipPosition="above"
-                  (click)="openReplyModal(lawyer)"
-                >
-                  <i class="far fa-envelope"></i>
-                </button>
-                <!-- Partner Button Trigger -->
-                <button
-                  *ngIf="_usersS.isLogged()"
-                  class="header-item-btn btn action-button important-action dfc"
-                  mat-icon-button
-                  matTooltip="Contactar por mensaje"
-                  matTooltipPosition="above"
-                  (click)="openChat(lawyer)"
-                >
-                  <i class="far fa-comment"></i>
-                </button>
               </div>
             </div>
-          </div>
-          <!-- Partners Right Arrow Indicator -->
-          <div
-            class="item-acordion-card-right-indicator partners-row-indicator"
-          >
-            <button
-              (click)="scrollCarouselToRight('partners', '.partners-controls')"
+            <!-- Partners Right Arrow Indicator -->
+            <div
+              class="item-acordion-card-right-indicator partners-row-indicator lawyer-card"
             >
-              <i class="fas fa-angle-right"></i>
-            </button>
+              <button
+                (click)="
+                  scrollCarouselToRight('partners', '.partners-controls')
+                "
+              >
+                <i class="fas fa-angle-right"></i>
+              </button>
+            </div>
           </div>
+          <div
+            class="item-list-content-controls partners-controls lawyer-card dfr"
+          ></div>
         </div>
       </mat-card-content>
     </div>
@@ -148,92 +190,183 @@
 
   <!-- Inicio Carousel Posts-->
   <div *ngIf="posts.length > 0" id="partners-carousel-container" class="dfc">
-    <div id="carousel-Partners" class="carousel carousel-slider">
-      <mat-card-content class="item-list-content tracking-details">
-        <div id="partnersText" class="item-list-content-title dfr">
-          <span>Últimos Artículos</span>
-          <div class="item-list-content-controls posts-controls dfr"></div>
+    <div id="carousel-Posts" class="carousel carousel-slider">
+      <mat-card-content class="item-list-content tracking-details post-card">
+        <div id="partnersText" class="item-list-content-title dfc">
+          <div class="partner-icon-container">
+            <span class="partner-icon dfc">
+              <i class="material-icons">import_contacts</i>
+            </span>
+          </div>
+          <span class="partner-title">Artículos Destacados</span>
+          <button
+            class="see-all btn waves-effect waves-light"
+            routerLink="/articulos"
+          >
+            Ver todos
+          </button>
         </div>
         <!-- Posts Item Cards -->
-        <div class="partners-carousel-item item-acordion-card-container dfr">
-          <!-- Post Left Arrow Indicator -->
-          <div class="item-acordion-card-left-indicator posts-row-indicator">
-            <button (click)="scrollCarouselToLeft('posts', '.posts-controls')">
-              <i class="fas fa-angle-left"></i>
-            </button>
-          </div>
-          <!-- Posts Cards -->
-          <div class="item-acordion-card-carousel" #postsCarousel>
-            <div
-              class="item-acordion-card-box evidence-card-box dfc"
-              *ngFor="
-                let post of posts
-                  | paginate: { itemsPerPage: 10, currentPage: currentPage }
-              "
-              #postsArray
-            >
-              <!-- Post Card Header -->
-              <div class="item-acordion-card-header dfr">
-                <div
-                  class="item-acordion-card-header-data note-card-header dfc"
-                >
-                  <div class="item-acordion-card-header-left dfr">
-                    <div class="item-acordion-card-name lawyer-name">
-                      <span>{{ post?.title }}</span>
+        <div class="item-acordion-card-main-container dfc">
+          <div class="partners-carousel-item item-acordion-card-container dfr">
+            <!-- Post Left Arrow Indicator -->
+            <div class="item-acordion-card-left-indicator posts-row-indicator">
+              <button
+                (click)="scrollCarouselToLeft('posts', '.posts-controls')"
+              >
+                <i class="fas fa-angle-left"></i>
+              </button>
+            </div>
+            <!-- Posts Cards -->
+            <div class="item-acordion-card-carousel home" #postsCarousel>
+              <div
+                class="item-acordion-card-box evidence-card-box dfc"
+                *ngFor="
+                  let post of posts
+                    | paginate: { itemsPerPage: 10, currentPage: currentPage }
+                "
+                #postsArray
+              >
+                <!-- Post Card Header -->
+                <div class="item-acordion-card-header dfr">
+                  <div
+                    class="item-acordion-card-header-data note-card-header dfc"
+                  >
+                    <div class="item-acordion-card-header-left dfr">
+                      <div class="item-acordion-card-name lawyer-name">
+                        <span>{{ post?.title }}</span>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-              <!-- Post Card Body -->
-              <div class="item-acordion-card-body dfr">
-                <div
-                  class="item-acordion-card-body-data lawyer-acordion-body dfc"
-                >
+                <!-- Post Card Body -->
+                <div class="item-acordion-card-body dfr">
                   <div
-                    class="item-acordion-card-body-content lawyer-acordion-content"
+                    class="item-acordion-card-body-data lawyer-acordion-body dfc"
                   >
-                    <span [innerHtml]="post?.content"></span>
+                    <div
+                      class="item-acordion-card-body-content lawyer-acordion-content"
+                    >
+                      <span [innerHtml]="post?.content"></span>
+                    </div>
+                  </div>
+                  <div
+                    class="item-acordion-card-body-image centered-img-bg dfr"
+                  >
+                    <img [src]="post?.img | img: 'post'" />
                   </div>
                 </div>
-                <div class="item-acordion-card-body-image centered-img-bg dfr">
-                  <img [src]="post?.img | img: 'post'" />
+                <!-- Post Card Actions -->
+                <div class="item-acordion-body-actions dfr">
+                  <!-- Post Button Trigger -->
+                  <button
+                    class="header-item-btn btn action-button dfc"
+                    mat-icon-button
+                    matTooltip="Ver Comentarios"
+                    matTooltipPosition="above"
+                    (click)="goToComments(post._id)"
+                  >
+                    <i class="material-icons">forum</i>
+                  </button>
+                  <!-- Post Button Trigger -->
+                  <button
+                    class="header-item-btn btn action-button important-action dfc"
+                    mat-icon-button
+                    matTooltip="Leer Artículo"
+                    matTooltipPosition="above"
+                    [routerLink]="['/articulo-detalle', post._id]"
+                    (click)="this._utilitiesS.scrollToTop()"
+                  >
+                    <i class="far fa-eye"></i>
+                  </button>
                 </div>
               </div>
-              <!-- Post Card Actions -->
-              <div class="item-acordion-body-actions dfr">
-                <!-- Post Button Trigger -->
-                <button
-                  class="header-item-btn btn action-button dfc"
-                  mat-icon-button
-                  matTooltip="Ver Comentarios"
-                  matTooltipPosition="above"
-                  (click)="goToComments(post._id)"
-                >
-                  <i class="material-icons">forum</i>
-                </button>
-                <!-- Post Button Trigger -->
-                <button
-                  class="header-item-btn btn action-button important-action dfc"
-                  mat-icon-button
-                  matTooltip="Leer Artículo"
-                  matTooltipPosition="above"
-                  [routerLink]="['/articulo-detalle', post._id]"
-                  (click)="this._utilitiesS.scrollToTop()"
-                >
-                  <i class="far fa-eye"></i>
-                </button>
-              </div>
+            </div>
+            <!-- Posts Right Arrow Indicator -->
+            <div class="item-acordion-card-right-indicator posts-row-indicator">
+              <button
+                (click)="scrollCarouselToRight('posts', '.posts-controls')"
+              >
+                <i class="fas fa-angle-right"></i>
+              </button>
             </div>
           </div>
-          <!-- Posts Right Arrow Indicator -->
-          <div class="item-acordion-card-right-indicator posts-row-indicator">
-            <button (click)="scrollCarouselToRight('posts', '.posts-controls')">
-              <i class="fas fa-angle-right"></i>
-            </button>
-          </div>
+          <div class="item-list-content-controls posts-controls dfr"></div>
         </div>
       </mat-card-content>
     </div>
   </div>
   <!-- Fin Carousel Posts-->
+
+  <!-- Inicio Carousel Practice Areas-->
+  <div
+    *ngIf="practiceAreasList.length > 0"
+    id="home-practice-areas-container"
+    class="dfc"
+  >
+    <div class="home-pracice-area-header dfc">
+      <div class="home-pracice-area-slogan">
+        <span
+          >"Nuestros abogados asociados brindan asesoramiento profesional en
+          diversas áreas jurídicas."</span
+        >
+      </div>
+      <div class="home-practice-area-buttons dfr">
+        <button
+          class="btn waves-effect waves-light"
+          routerLink="/areas-practica"
+          (click)="_utilitiesS.scrollToTop()"
+        >
+          <span>Ver todas las áreas de práctica</span>
+        </button>
+      </div>
+    </div>
+    <div class="home-practice-area-body dfr">
+      <div class="home-practice-areas-list">
+        <div
+          *ngFor="let practiceArea of practiceAreasList"
+          class="home-practice-area-box"
+        >
+          <div class="home-practice-area-box-header dfc">
+            <div class="home-practice-area-box-name">
+              <span>{{ practiceArea.name }}</span>
+            </div>
+            <div
+              class="home-practice-area-box-actions item-acordion-body-actions dfr"
+            >
+              <!-- Practice Area Lawyers Button Trigger -->
+              <button
+                class="header-item-btn btn action-button dfc"
+                mat-icon-button
+                matTooltip="Ver abogados especializados"
+                matTooltipPosition="above"
+                [routerLink]="['/area-detalle', practiceArea._id]"
+                [queryParams]="{ abogados: true }"
+                (click)="_utilitiesS.scrollToTop()"
+              >
+                <i class="fas fa-user-tie"></i>
+              </button>
+              <!-- Practice Area Details Button Trigger -->
+              <button
+                class="header-item-btn btn action-button important-action dfc"
+                mat-icon-button
+                matTooltip="Leer más"
+                matTooltipPosition="above"
+                [routerLink]="['/area-detalle', practiceArea._id]"
+                (click)="_utilitiesS.scrollToTop()"
+              >
+                <i class="far fa-eye"></i>
+              </button>
+            </div>
+          </div>
+          <div class="home-practice-area-box-description">
+            <span>
+              {{ practiceArea.review }}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Fin Carousel Practice Areas-->
 </section>

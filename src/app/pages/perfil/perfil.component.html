@@ -20,23 +20,23 @@
           (click)="sidenavMode === 'push' ? perfilSidenav.toggle() : ''"
         >
           <img
-            alt="site logo"
             [src]="
               this.isDarkThemeActive
-                ? '/assets/images/logo.png'
-                : '/assets/images/logo_dark.png'
+                ? '../../../assets/images/brand.png'
+                : '../../../assets/images/brand_black.png'
             "
-            style="width: 60%"
+            alt="site logo"
+            style="width: 86%"
           />
         </a>
       </div>
 
       <!-- Sidebar Content -->
-      <ul class="perfil-sidebar-options display-grid">
+      <ul class="perfil-sidebar-options">
         <!-- Cases Option -->
         <li class="perfil-menu-option">
           <a
-            class="text-sub sidenav-close"
+            class="text-sub sidenav-close dfc"
             (click)="sidenavMode === 'push' ? perfilSidenav.toggle() : ''"
             [attr.data-active]="
               actSt === '/perfil/casos' || actSt.includes('caso-detalle')
@@ -44,46 +44,59 @@
                 : 'off'
             "
             routerLink="/perfil/casos"
-            ><i class="fas fa-folder-open"></i> Casos</a
           >
+            <i class="fas fa-folder-open"></i>
+            <span>Casos</span>
+          </a>
         </li>
         <!-- Messages Option -->
         <!-- <li class="perfil-menu-option">
           <a
-            class="text-sub sidenav-close"
+            class="text-sub sidenav-close dfc"
             [attr.data-active]="actSt === '/perfil/mensajes' ? 'on' : 'off'"
             routerLink="/perfil/mensajes"
-            ><i class="material-icons"> question_answer </i> Mensajes</a
+            >
+            <i class="material-icons"> question_answer </i>
+            <span>Mensajes</span>
+             </a
           >
         </li> -->
         <!-- Events Option -->
         <!-- <li class="perfil-menu-option">
           <a
-            class="text-sub sidenav-close"
+            class="text-sub sidenav-close dfc"
             [attr.data-active]="actSt === '/perfil/eventos' ? 'on' : 'off'"
             routerLink="/perfil/eventos"
-            ><i class="material-icons"> insert_invitation </i> Eventos</a
+            >
+            <i class="material-icons"> insert_invitation </i>
+            <span>Eventos</span>
+             </a
           >
         </li> -->
         <!-- General Option -->
         <li class="perfil-menu-option">
           <a
-            class="text-sub sidenav-close"
+            class="text-sub sidenav-close dfc"
             (click)="sidenavMode === 'push' ? perfilSidenav.toggle() : ''"
             [attr.data-active]="
               actSt === '/perfil/general' || actSt === '/perfil' ? 'on' : 'off'
             "
             routerLink="/perfil/general"
-            ><i class="material-icons"> person_outline </i> Perfil</a
           >
+            <i class="material-icons"> person_outline </i>
+            <span>Perfil</span>
+          </a>
         </li>
         <!-- Information Option -->
         <!-- <li class="perfil-menu-option">
           <a
-            class="text-sub sidenav-close"
+            class="text-sub sidenav-close dfc"
             [attr.data-active]="actSt === '/perfil/informacion' ? 'on' : 'off'"
             routerLink="/perfil/informacion"
-            ><i class="material-icons"> error_outline </i> Información</a
+            >
+            <i class="material-icons"> error_outline </i>
+            <span>Información</span>
+            </a
           >
         </li> -->
       </ul>
@@ -135,12 +148,9 @@
               <div class="avatar-status avatar-online dfr">
                 <div class="centered-img-bg border-none dfc">
                   <img
-                    [src]="this._usersS.user?.img | img: 'user':true"
+                    [src]="this._usersS.user?.img | img: 'user'"
                     alt="avatar"
                   />
-                </div>
-                <div class="avatar-name">
-                  <span>{{ _usersS.user.firstName.split(" ")[0] }}</span>
                 </div>
               </div>
             </button>
@@ -151,15 +161,16 @@
                 <div class="perfil-info dfr">
                   <div class="perfil-icon centered-img-bg">
                     <img
-                      [src]="this._usersS.user?.img | img: 'user':true"
+                      [src]="this._usersS.user?.img | img: 'user'"
                       style="width: 100%"
                     />
                   </div>
                   <div class="perfil-text dfc">
                     <span class="perfil-name ff-rr">{{
-                      this._usersS.user.firstName
-                        .split(" ")[0]
-                        .concat(" ", this._usersS.user.lastName.split(" ")[0])
+                      this._usersS.user.firstName.concat(
+                        " ",
+                        this._usersS.user.lastName
+                      )
                     }}</span>
                     <span class="perfil-email ff-rr">{{
                       this._usersS.user.email
@@ -214,7 +225,7 @@
           All rights reserved.
         </span>
         <span class="hide-on-small-only">
-          Designed and Developed by
+          Web Design by
           <span class="footer-author">Armando Lara</span>
         </span>
       </div>
