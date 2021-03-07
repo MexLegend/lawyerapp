@@ -41,8 +41,8 @@ export class AdminComponent implements OnInit, OnDestroy {
   subscriptionsArray: Subscription[] = [];
 
   // Chat
-  @ViewChild("adminChatSidenav", null) public sidenavChat: MatSidenav;
-  @ViewChild("beforeMenu", null) adminMenu: MatMenuTrigger;
+  @ViewChild("adminChatSidenav", {static: false}) public sidenavChat: MatSidenav;
+  @ViewChild("beforeMenu", {static: false}) adminMenu: MatMenuTrigger;
 
   actSt: string;
   notifications: NotificationsPagination;

@@ -1182,9 +1182,17 @@
   display: flex;
 }
 
+.document-editor__toolbar .ck.ck-toolbar {
+  border-left: 0;
+  border-top: 0;
+  border-bottom: 0;
+  border-right-color: transparent;
+}
+
 .ck.ck-toolbar.ck-toolbar_grouping > .ck-toolbar__items {
   flex-wrap: wrap !important;
 }
+
 .document-editor__editable-container {
   padding: calc(2 * var(--ck-spacing-large));
   background: var(--ck-color-base-foreground);

@@ -30,7 +30,7 @@ export class FilePreviewComponent implements OnInit, AfterViewInit {
   showIframe: boolean = false;
   timeInterval: any;
 
-  @ViewChild("iframePreview", null) iframePreview: ElementRef;
+  @ViewChild("iframePreview", {static: false}) iframePreview: ElementRef;
 
   ngOnInit() {
     if (this.data !== null) {

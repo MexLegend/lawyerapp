@@ -2,15 +2,14 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "./out-tsc/app",
-    "types": [],
-    "skipLibCheck": true, /// Needs to be true to fix wrong alias types being used
+    "types": []
   },
   "files": [
     "src/main.ts",
     "src/polyfills.ts"
   ],
   "include": [
-    "src/**/*.ts"
+    "src/**/*.d.ts"
   ],
   "exclude": [
     "src/test.ts",

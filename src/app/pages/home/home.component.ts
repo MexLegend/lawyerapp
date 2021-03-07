@@ -38,8 +38,8 @@ export class HomeComponent implements OnInit {
   ) {}
 
   // Get References Of HTML Elements
-  @ViewChild("partenersCarousel", null) partnersRef: ElementRef;
-  @ViewChild("postsCarousel", null) postsRef: ElementRef;
+  @ViewChild("partenersCarousel", {static: false}) partnersRef: ElementRef;
+  @ViewChild("postsCarousel", {static: false}) postsRef: ElementRef;
 
   @ViewChildren("partnersArray") partnersArray: QueryList<ElementRef>;
   @ViewChildren("postsArray") postsArray: QueryList<ElementRef>;

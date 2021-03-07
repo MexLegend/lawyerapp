@@ -34,8 +34,8 @@ import { PracticeAreasService } from "../../services/practice-areas.service";
 import { PracticeAreasFormComponent } from "../practice-areas-form/practice-areas-form.component";
 import { ViewChild } from "@angular/core";
 import { take, takeUntil } from "rxjs/operators";
-import * as DocumentEditor from "@ckeditor/ckeditor5-build-decoupled-document";
-import * as ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import * as Editor from "../../../app/components/custom_editor/build/ckeditor";
+import * as DecoupledEditor from "@ckeditor/ckeditor5-build-decoupled-document";
 
 @Component({
   selector: "app-posts-form",
@@ -54,6 +54,8 @@ export class PostsFormComponent implements OnInit {
     public _utilitiesS: UtilitiesService
   ) {}
 
+  public Editor = Editor;
+
   subscriptionsArray: Subscription[] = [];
 
   @ViewChildren("categoriesCheckbox")
@@ -61,54 +63,6 @@ export class PostsFormComponent implements OnInit {
   @Input() editor: any;
 
   external_sourcesLabel: any;
-
-  public Editor = ClassicEditor;
-
-  // editorConfig: AngularEditorConfig = {
-  //   editable: true,
-  //   spellcheck: true,
-  //   height: "auto",
-  //   minHeight: "0",
-  //   maxHeight: "auto",
-  //   width: "auto",
-  //   minWidth: "0",
-  //   translate: "yes",
-  //   enableToolbar: true,
-  //   showToolbar: true,
-  //   placeholder: "Escribe tu artículo aquí*",
-  //   defaultParagraphSeparator: "",
-  //   defaultFontName: "",
-  //   defaultFontSize: "",
-  //   fonts: [
-  //     { class: "arial", name: "Arial" },
-  //     { class: "times-new-roman", name: "Times New Roman" },
-  //     { class: "calibri", name: "Calibri" },
-  //     { class: "comic-sans-ms", name: "Comic Sans MS" },
-  //   ],
-  //   customClasses: [
-  //     {
-  //       name: "Citar",
-  //       class: "Citar",
-  //       tag: "blockquote",
-  //     },
-  //   ],
-  //   sanitize: true,
-  //   toolbarPosition: "top",
-  //   toolbarHiddenButtons: [
-  //     ["cut", "copy", "delete", "undo", "redo"],
-  //     ["subscript", "superscript", "indent", "outdent"],
-  //     [
-  //       "fontSize",
-  //       "textColor",
-  //       "backgroundColor",
-  //       "insertImage",
-  //       "insertVideo",
-  //       "insertHorizontalRule",
-  //       "removeFormat",
-  //       "toggleEditorMode",
-  //     ],
-  //   ],
-  // };
 
   basicDataForm: FormGroup;
   categories: Array<any> = [];
@@ -283,20 +237,6 @@ export class PostsFormComponent implements OnInit {
     }
   }
 
-  /*
-  ngAfterViewInit(): void {
-    DocumentEditor.create(document.querySelector("#editor"))
-      .then((editor: any) => {
-        // The toolbar needs to be explicitly appended.
-        document
-          .querySelector("#toolbar-container")
-          .appendChild(editor.ui.view.toolbar.element);
-      })
-      .catch((error: any) => {
-        console.error("There was a problem initializing the editor.", error);
-      });
-  }*/
-
   // Unsubscribe Any Subscription
   ngOnDestroy() {
     this.subscriptionsArray.map((subscription) => subscription.unsubscribe());
@@ -452,6 +392,26 @@ export class PostsFormComponent implements OnInit {
     else this.filterValue = "";
   }
 
+  protected filterArrayMulti() {
+    if (!this.categories) {
+      return;
+    }
+    // Get The Search Keyword
+    let search = this.categoriesFilterCtrl.value;
+    if (!search) {
+      this.categoriesMulti.next(this.categories.slice());
+      return;
+    } else {
+      search = search.toLowerCase();
+    }
+    // Filter The Array Items
+    this.categoriesMulti.next(
+      this.categories.filter(
+        (category) => category.name.toLowerCase().indexOf(search) > -1
+      )
+    );
+  }
+
   // Handle Mobile Filter
   handleMobileFilter(flag: any) {
     if (this.innerScreenWidth <= 520) {
@@ -525,6 +485,18 @@ export class PostsFormComponent implements OnInit {
     // });
   }
 
+  public renderEditorToolbar(editor: any) {
+    // Append Toolbar
+    document
+      .querySelector(".document-editor__toolbar")
+      .append(editor.ui.view.toolbar.element);
+
+    // Append Editor Container
+    // document
+    //   .querySelector(".document-editor__editable-container")
+    //   .append(editor.ui.view.editable.element);
+  }
+
   uploadAttachedFilesCloudinary() {
     this._cloudinaryS.setFileType("AttachedPostFile");
     this._cloudinaryS.uploader.uploadAll();
@@ -560,26 +532,6 @@ export class PostsFormComponent implements OnInit {
           this.basicDataForm.controls["categories"].setValue([]);
         }
       });
-  }
-
-  protected filterArrayMulti() {
-    if (!this.categories) {
-      return;
-    }
-    // Get The Search Keyword
-    let search = this.categoriesFilterCtrl.value;
-    if (!search) {
-      this.categoriesMulti.next(this.categories.slice());
-      return;
-    } else {
-      search = search.toLowerCase();
-    }
-    // Filter The Array Items
-    this.categoriesMulti.next(
-      this.categories.filter(
-        (category) => category.name.toLowerCase().indexOf(search) > -1
-      )
-    );
   }
 }
 

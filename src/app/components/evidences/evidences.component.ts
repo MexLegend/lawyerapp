@@ -42,8 +42,8 @@ export class EvidencesComponent implements OnInit {
   @Input() currentTracking: any;
 
   // Get References Of HTML Elements
-  @ViewChild("evidencesCarousel", null) evidencesCarousel: ElementRef;
-  @ViewChild("notesCarousel", null) notesCarousel: ElementRef;
+  @ViewChild("evidencesCarousel", {static: false}) evidencesCarousel: ElementRef;
+  @ViewChild("notesCarousel", {static: false}) notesCarousel: ElementRef;
   @ViewChildren("evidencesArray") evidencesArrayRef: QueryList<ElementRef>;
   @ViewChildren("notesArray") notesArrayRef: QueryList<ElementRef>;
 

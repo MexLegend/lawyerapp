@@ -26,8 +26,8 @@ export class ClientesComponent implements OnInit {
   isDarkThemeActive: boolean = false;
 
   // Chat
-  @ViewChild("mainChatSidenav", null) public sidenavChat: MatSidenav;
-  @ViewChild("mainSidenav", null) public mainSidenav: MatSidenav;
+  @ViewChild("mainChatSidenav", {static: false}) public sidenavChat: MatSidenav;
+  @ViewChild("mainSidenav", {static: false}) public mainSidenav: MatSidenav;
 
   ngOnInit() {
     this.initWhatsappForm();

@@ -24,8 +24,8 @@ export class ChatSidenavComponent implements OnInit {
     public _usersS: UsersService
   ) {}
 
-  @ViewChild("chatBodyContainer", null) private chatBodyContainer: ElementRef;
-  @ViewChild("chatBodyScrollbar", null)
+  @ViewChild("chatBodyContainer", {static: false}) private chatBodyContainer: ElementRef;
+  @ViewChild("chatBodyScrollbar", {static: false})
   chatBodyScrollbar: PerfectScrollbarComponent;
 
   subscriptionsArray: Subscription[] = [];

@@ -135,19 +135,16 @@
           >
             <!-- Inputs Container -->
             <div class="inputs-container document-editor dfc h-full">
-              <!-- <div
-                id="toolbar-container"
-                class="document-editor__toolbar"
-              ></div>
+              <div class="document-editor__toolbar"></div>
               <div class="document-editor__editable-container">
-                <div id="editor">
-                  <p>This is the editor content.</p>
-                </div>
-              </div> -->
-              <ckeditor
-                [editor]="Editor"
-                data="<p>Hello, world!</p>"
-              ></ckeditor>
+                <ckeditor
+                  formControlName="content"
+                  [editor]="Editor"
+                  (ready)="renderEditorToolbar($event)"
+                  name="postContent"
+                >
+                </ckeditor>
+              </div>
             </div>
           </form>
         </mat-card>
