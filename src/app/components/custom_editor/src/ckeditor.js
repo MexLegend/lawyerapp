@@ -18,7 +18,8 @@ import ImageCaption from '@ckeditor/ckeditor5-image/src/imagecaption.js';
 import ImageResize from '@ckeditor/ckeditor5-image/src/imageresize.js';
 import ImageStyle from '@ckeditor/ckeditor5-image/src/imagestyle.js';
 import ImageToolbar from '@ckeditor/ckeditor5-image/src/imagetoolbar.js';
-import ImageUpload from '@ckeditor/ckeditor5-image/src/imageupload.js';
+// import ImageUpload from '@ckeditor/ckeditor5-image/src/imageupload.js';
+import ImageUpload from '../Plugins/ImageUpload.js';
 import Indent from '@ckeditor/ckeditor5-indent/src/indent.js';
 import IndentBlock from '@ckeditor/ckeditor5-indent/src/indentblock.js';
 import Italic from '@ckeditor/ckeditor5-basic-styles/src/italic.js';
@@ -53,7 +54,6 @@ Editor.builtinPlugins = [
 	ImageResize,
 	ImageStyle,
 	ImageToolbar,
-	ImageUpload,
 	Indent,
 	IndentBlock,
 	Italic,
@@ -96,7 +96,6 @@ Editor.defaultConfig = {
 			'indent',
 			'|',
 			'blockQuote',
-			'imageUpload',
 			'insertTable',
 			'|',
 			'undo',
@@ -106,9 +105,17 @@ Editor.defaultConfig = {
 	language: 'es',
 	image: {
 		toolbar: [
-			'imageTextAlternative',
-			'imageStyle:full',
-			'imageStyle:side'
+			'imageTextAlternative', '|', 'imageStyle:alignLeft', 'imageStyle:full', 'imageStyle:alignRight'
+		],
+		styles: [
+			// This option is equal to a situation where no style is applied.
+			'full',
+
+			// This represents an image aligned to the left.
+			'alignLeft',
+
+			// This represents an image aligned to the right.
+			'alignRight'
 		]
 	},
 	table: {

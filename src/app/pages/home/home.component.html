@@ -247,7 +247,11 @@
                     <div
                       class="item-acordion-card-body-content lawyer-acordion-content"
                     >
-                      <span [innerHtml]="post?.content"></span>
+                      <span
+                        [innerHtml]="
+                          post?.content ? (post?.content | truncateHtml) : 'N/E'
+                        "
+                      ></span>
                     </div>
                   </div>
                   <div

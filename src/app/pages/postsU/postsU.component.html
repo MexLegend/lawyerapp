@@ -67,7 +67,10 @@
               ><span class="card-title">{{ post?.title }}</span></a
             >
           </div>
-          <div class="noticia-content" [innerHtml]="post?.content"></div>
+          <div
+            class="noticia-content"
+            [innerHtml]="post?.content ? (post?.content | truncateHtml) : 'N/E'"
+          ></div>
         </div>
       </div>
       <div class="card-footer card-action">

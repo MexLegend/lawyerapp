@@ -16,7 +16,12 @@
 
 <mat-dialog-content class="mat-typography admin-modal-container">
   <!-- Modal Content -->
-  <div class="modal-content admin-modal-content">
+  <div
+    class="modal-content admin-modal-content"
+    [attr.data-saving]="
+      this._cloudinaryS.uploader?.isUploading ? 'true' : 'false'
+    "
+  >
     <div class="row">
       <form
         id="formUsers"
@@ -157,6 +162,7 @@
               Contraseña*
             </div>
           </div>
+          <!-- At Least 9 Characters Error Message -->
           <div
             [ngStyle]="
               this.form.get('password1').errors?.minlength
@@ -184,12 +190,14 @@
               Repetir la Contraseña*
             </div>
           </div>
+          <!-- Password Not Equal -->
           <div
             *ngIf="this.form.get('password2').errors?.notEqual"
             class="form-control-feedback"
           >
             Las contraseñas deben ser iguales
           </div>
+          <!-- Rol Select -->
           <div
             *ngIf="_usersS.user.role === 'ADMIN'"
             class="modal-input modal-input-pink"
@@ -209,11 +217,15 @@
         </div>
       </form>
     </div>
-    <!-- Global Progress Bar Inner -->
+
+    <!-- Progress Bar Container -->
     <div
       *ngIf="this._cloudinaryS.uploader?.isUploading"
       class="upload-progress-container inner-progress dfc"
     >
+      <div class="upload-progress-title dfr w-full">
+        <span>Guardando Usuario</span>
+      </div>
       <div class="upload-progress modal-footer-upload-progress">
         <app-progress
           [progress]="this._cloudinaryS.uploader?.progress"
@@ -225,20 +237,10 @@
   <div class="modal-footer modal-actions admin-modal-footer">
     <ng-container>
       <div class="modal-actions-container dfr">
-        <div
-          *ngIf="this._cloudinaryS.uploader?.isUploading"
-          class="upload-progress-container dfc"
-        >
-          <!-- Global Progress Bar Outter -->
-          <div class="upload-progress modal-footer-upload-progress">
-            <app-progress
-              [progress]="this._cloudinaryS.uploader?.progress"
-            ></app-progress>
-          </div>
-        </div>
         <div class="modal-actions-content">
           <button
             type="button"
+            [class.button-disabled]="this._cloudinaryS.uploader?.isUploading"
             class="mwaves-effect waves-light btn modal-close-action"
             mat-dialog-close
             (click)="clearImg()"
@@ -247,7 +249,11 @@
           </button>
           <button
             type="submit"
-            [class.button-disabled]="!form.valid || errorEmail === true"
+            [class.button-disabled]="
+              !form.valid ||
+              errorEmail === true ||
+              this._cloudinaryS.uploader?.isUploading
+            "
             class="waves-effect waves-light btn modal-submit-action"
             (click)="create()"
           >

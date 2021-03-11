@@ -157,7 +157,9 @@
                   </div>
                   <div
                     class="item-acordion-card-body-content"
-                    [innerHTML]="post.content ? post.content : 'N/E'"
+                    [innerHtml]="
+                      post.content ? (post.content | truncateHtml) : 'N/E'
+                    "
                   ></div>
                 </div>
                 <div class="item-acordion-card-body-image centered-img-bg dfr">

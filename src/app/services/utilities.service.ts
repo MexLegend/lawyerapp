@@ -3,7 +3,7 @@ import { Observable, Subject } from "rxjs";
 import { FormControl } from "@angular/forms";
 import Swal from "sweetalert2";
 import { Router } from "@angular/router";
-import { MatDialog, MatDialogRef, MatTabGroup } from "@angular/material";
+import { MatDialog, MatTabGroup } from "@angular/material";
 import { LoginComponent } from "../modals/login/login.component";
 
 declare var $: any;
@@ -376,11 +376,131 @@ export class UtilitiesService {
     stepperReference.next();
   }
 
+  // Create Angular Editor Insert Image Button
+  insertImageButton(editor: any): HTMLElement {
+    /* =====================================================================
+       |                            ELEMENTS CREATION                       |
+       =====================================================================
+    */
+
+    // Create Main Container
+    const insertImageContainer: HTMLElement = document.createElement("span");
+    // Add Class To Container
+    insertImageContainer.classList.add("ck-file-dialog-button");
+
+    // Create Button
+    const insertImageButton: HTMLElement = document.createElement("button");
+    // Add Classes To Button
+    insertImageButton.classList.add("ck", "ck-button", "ck-off");
+    // Set Attibutes To Button
+    this.setElementAttributes(insertImageButton, {
+      type: "button",
+      tabindex: "-1",
+    });
+    // Add Button Functionality
+    insertImageButton.addEventListener("click", () =>
+      document.getElementById("insertPostImage").click()
+    );
+
+    // Create Icon
+    const insertImageButtonIcon: HTMLElement = document.createElement("i");
+    // Add Classes To Icon
+    insertImageButtonIcon.classList.add(
+      "ck",
+      "ck-icon",
+      "far",
+      "fa-image",
+      "ff-fa",
+      "fs-20",
+      "dfc",
+      "jcc"
+    );
+
+    // Create Tooltip
+    const insertImageButtonTooltip: HTMLElement = document.createElement(
+      "span"
+    );
+    const insertImageButtonTooltipInner: HTMLElement = document.createElement(
+      "span"
+    );
+    // Add Classes To Tooltip
+    insertImageButtonTooltip.classList.add("ck", "ck-tooltip", "ck-tooltip_s");
+    insertImageButtonTooltipInner.classList.add("ck", "ck-tooltip__text");
+    // Set Tooltip Text
+    insertImageButtonTooltipInner.innerHTML = "Insertar imagen";
+
+    // Create Input
+    const insertImageInput: HTMLElement = document.createElement("input");
+    // Add Classes To Input
+    insertImageInput.classList.add("ck-hidden");
+    // Set Attibutes To Input
+    this.setElementAttributes(insertImageInput, {
+      id: "insertPostImage",
+      type: "file",
+      tabindex: "-1",
+      accept: "image/jpeg,image/png,image/gif,image/bmp,image/webp,image/tiff",
+      multiple: "true",
+    });
+    // Add Input Functionality
+    insertImageInput.onchange = () =>
+      this.renderImageIntoEditor(insertImageInput, editor);
+
+    /* =====================================================================
+       |                          COMPONENT CREATION                       |
+       =====================================================================
+    */
+
+    //  Append Inner Tooltip To Tooltip Container
+    insertImageButtonTooltip.appendChild(insertImageButtonTooltipInner);
+
+    //  Append Tooltip And Icon To Button Container
+    insertImageButton.append(insertImageButtonIcon, insertImageButtonTooltip);
+
+    //  Append Button And Input To Main Container
+    insertImageContainer.append(insertImageButton, insertImageInput);
+
+    return insertImageContainer;
+  }
+
+  // Get Insert Image Button Data
+  renderImageIntoEditor(input: any, editor: any) {
+    if (input.files) {
+      var filesAmount = input.files.length;
+
+      for (let i = 0; i < filesAmount; i++) {
+        var reader = new FileReader();
+
+        reader.onload = function (event) {
+          editor.model.change((writer) => {
+            const imageElement = writer.createElement("image", {
+              src: event.target.result,
+            });
+
+            // Insert the image in the current selection location.
+            editor.model.insertContent(
+              imageElement,
+              editor.model.document.selection
+            );
+          });
+        };
+
+        reader.readAsDataURL(input.files[i]);
+      }
+    }
+  }
+
   // Reset Filter Input
   resetFilterInput(input: any): any {
     input.value = "";
 
     return this.tempCompleteArray;
+  }
+
+  // Set HTML Element Attirbutes
+  setElementAttributes(el: HTMLElement, attrs: any) {
+    for (var key in attrs) {
+      el.setAttribute(key, attrs[key]);
+    }
   }
 
   // Push / Update / Delete Item From Array

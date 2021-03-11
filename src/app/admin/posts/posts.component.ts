@@ -147,10 +147,16 @@ export class PostsComponent implements OnInit {
     let dialogRef =
       idPost && idPost !== ""
         ? this.dialog.open(PostsFormComponent, {
+            id: "postsModal",
+            panelClass: "postsModal",
+            height: "90%",
             data: { idPost, action: "Editar" },
             autoFocus: false,
           })
         : this.dialog.open(PostsFormComponent, {
+            id: "postsModal",
+            panelClass: "postsModal",
+            height: "90%",
             data: { action: "Escribir" },
             autoFocus: false,
           });

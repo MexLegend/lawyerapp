@@ -27,7 +27,10 @@
               <img [src]="post?.img | img: 'post'" />
             </div>
             <span class="card-data-container">
-              <span class="card-information" [innerHTML]="post?.content"></span>
+              <span
+                class="card-information"
+                [innerHTML]="post?.content | sanitizeHtml"
+              ></span>
               <span
                 *ngIf="post?.external_sources"
                 class="card-external-sources"

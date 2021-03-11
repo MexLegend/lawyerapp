@@ -5,8 +5,7 @@ import { DomSanitizer } from "@angular/platform-browser";
 export class SafeHtml {
   constructor(private sanitizer: DomSanitizer) {}
 
-  transform(html) {
-      console.log(html)
+  transform(html: any) {
     return this.sanitizer.bypassSecurityTrustUrl(html);
   }
 }

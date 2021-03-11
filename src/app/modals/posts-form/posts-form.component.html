@@ -16,7 +16,12 @@
 
 <mat-dialog-content class="mat-typography admin-modal-container">
   <!-- Modal Content -->
-  <div class="modal-content admin-modal-content">
+  <div
+    class="modal-content admin-modal-content"
+    [attr.data-saving]="
+      this._cloudinaryS.uploader?.isUploading ? 'true' : 'false'
+    "
+  >
     <mat-horizontal-stepper
       linear
       #postsStepper
@@ -36,13 +41,18 @@
           <div class="inputs-container dfc">
             <!-- Select / Change Post Image Trigger -->
             <div
-              class="profile-image-field w-full dfr"
+              class="profile-image-field mb-25 w-full dfr"
               (click)="postImg.click()"
             >
               <div class="profile-image-description dfc">
                 <span class="profile-image-title">Imágen del artículo</span>
                 <span class="profile-image-subtitle"
-                  >Actualizar imagen del artículo</span
+                  >{{
+                    this.postModalTitle === "Escribir"
+                      ? "Seleccionar"
+                      : "Actualizar"
+                  }}
+                  imagen del artículo</span
                 >
               </div>
               <div class="profile-image dfc">
@@ -61,7 +71,7 @@
               />
             </div>
             <!-- Post Title -->
-            <div class="modal-input modal-input-pink">
+            <div class="modal-input modal-input-pink mb-25">
               <input
                 id="postTitle"
                 name="title"
@@ -74,9 +84,8 @@
                 Titulo*
               </div>
             </div>
-
             <!-- Post Categories -->
-            <div class="modal-input modal-input-blue">
+            <div class="modal-input modal-input-blue mb-25">
               <mat-form-field appearance="fill">
                 <mat-label>Seleccionar Categorias</mat-label>
                 <mat-select
@@ -119,6 +128,20 @@
                 </mat-select>
               </mat-form-field>
             </div>
+
+            <div class="add-item-to-accordion-container dfc">
+              <!-- Add Item To Attached Files List Button Trigger -->
+              <button
+                class="btn bs-none transparent-bg dfr"
+                mat-icon-button
+                (click)="openPracticeAreasModal()"
+              >
+                <div class="add-item-accordion-icon dfc">
+                  <i class="fas fa-plus"></i>
+                </div>
+                <span>Crear nueva categoría</span>
+              </button>
+            </div>
           </div>
         </form>
       </mat-step>
@@ -138,10 +161,10 @@
               <div class="document-editor__toolbar"></div>
               <div class="document-editor__editable-container">
                 <ckeditor
+                  name="postContent"
                   formControlName="content"
                   [editor]="Editor"
                   (ready)="renderEditorToolbar($event)"
-                  name="postContent"
                 >
                 </ckeditor>
               </div>
@@ -272,10 +295,14 @@
       </mat-step>
     </mat-horizontal-stepper>
 
+    <!-- Progress Bar Container -->
     <div
       *ngIf="this._cloudinaryS.uploader?.isUploading"
       class="upload-progress-container inner-progress dfc"
     >
+      <div class="upload-progress-title dfr w-full">
+        <span>Guardando Artículo</span>
+      </div>
       <div class="upload-progress modal-footer-upload-progress">
         <app-progress
           [progress]="this._cloudinaryS.uploader?.progress"
@@ -287,43 +314,39 @@
   <div class="modal-footer modal-actions not-expand admin-modal-footer">
     <ng-container>
       <div class="modal-actions-container dfr">
-        <div
-          *ngIf="this._cloudinaryS.uploader?.isUploading"
-          class="upload-progress-container dfc"
-        >
-          <div class="upload-progress modal-footer-upload-progress">
-            <app-progress
-              [progress]="this._cloudinaryS.uploader?.progress"
-            ></app-progress>
-          </div>
-        </div>
-
         <div class="modal-actions-content jce">
+          <!-- Cancel Button -->
           <button
             type="button"
+            [class.button-disabled]="this._cloudinaryS.uploader?.isUploading"
             class="waves-effect waves-light btn modal-close-action"
             mat-dialog-close
             (click)="clearImg()"
           >
             Cancelar
           </button>
+          <!-- Go Stepper Back Button -->
           <button
             *ngIf="postsStepper.selectedIndex !== 0"
+            [class.button-disabled]="this._cloudinaryS.uploader?.isUploading"
             (click)="_utilitiesS.goStepperBack(postsStepper)"
             class="waves-effect waves-light btn modal-submit-action"
           >
             Anterior
           </button>
+          <!-- Go Stepper Forward Button -->
           <button
-            *ngIf="postsStepper.selectedIndex !== 2"
+            *ngIf="postsStepper.selectedIndex !== 3"
             [class.button-disabled]="!basicDataForm.valid"
             (click)="_utilitiesS.goStepperForward(postsStepper)"
             class="waves-effect waves-light btn modal-submit-action"
           >
             Siguiente
           </button>
+          <!-- Save Changes Option -->
           <button
-            *ngIf="postsStepper.selectedIndex === 2"
+            *ngIf="postsStepper.selectedIndex === 3"
+            [class.button-disabled]="this._cloudinaryS.uploader?.isUploading"
             type="submit"
             class="waves-effect waves-light btn modal-submit-action"
             (click)="createOrUpdatePost()"

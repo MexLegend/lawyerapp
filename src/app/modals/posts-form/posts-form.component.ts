@@ -35,7 +35,6 @@ import { PracticeAreasFormComponent } from "../practice-areas-form/practice-area
 import { ViewChild } from "@angular/core";
 import { take, takeUntil } from "rxjs/operators";
 import * as Editor from "../../../app/components/custom_editor/build/ckeditor";
-import * as DecoupledEditor from "@ckeditor/ckeditor5-build-decoupled-document";
 
 @Component({
   selector: "app-posts-form",
@@ -451,7 +450,7 @@ export class PostsFormComponent implements OnInit {
       },
       width: "600px",
       height: "max-content",
-      autoFocus: false,
+      autoFocus: true,
     });
 
     // dialogRef.afterClosed().subscribe(result => {
@@ -485,7 +484,20 @@ export class PostsFormComponent implements OnInit {
     // });
   }
 
-  public renderEditorToolbar(editor: any) {
+  renderEditorToolbar(editor: any) {
+    // Get Last Toolbar Group Separator Element
+    const lastToolbarGroupSeparator = Array.from(
+      editor.ui.view.toolbar.element.children[0].querySelectorAll(
+        ".ck-toolbar__separator"
+      )
+    ).pop();
+
+    // Insert Image Button To Toolbar
+    editor.ui.view.toolbar.element.children[0].insertBefore(
+      this._utilitiesS.insertImageButton(editor),
+      lastToolbarGroupSeparator
+    );
+
     // Append Toolbar
     document
       .querySelector(".document-editor__toolbar")

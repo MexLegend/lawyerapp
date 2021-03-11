@@ -30,6 +30,9 @@
     max-width: 100vw !important;
     width: 100% !important;
   }
+  .cdk-global-overlay-wrapper .postsModal {
+    height: 100% !important;
+  }
   .cdk-global-overlay-wrapper #simplePracticeAreaModal.mat-dialog-container,
   .cdk-global-overlay-wrapper #categoryModal.mat-dialog-container {
     width: 90% !important;
@@ -91,16 +94,6 @@
   .modal-actions-content {
     width: 100%;
     display: flex;
-  }
-  .modal-actions-container .upload-progress-container:not(.inner-progress) {
-    display: none !important;
-  }
-  .modal-content .upload-progress-container.inner-progress {
-    display: flex !important;
-    position: absolute !important;
-    bottom: 0;
-    height: 25px !important;
-    width: 100%;
   }
   .upload-progress-container.inner-progress .progress-cont {
     height: 12px !important;
@@ -658,6 +651,15 @@
   .partners-controls {
     bottom: 15px !important;
   }
+  #postContentForm {
+    padding: 0 !important;
+  }
+  .document-editor__editable-container {
+    padding: calc(2 * var(--ck-spacing-large)) 0 !important;
+  }
+  .ck.ck-editor__editable_inline {
+    width: 95% !important;
+  }
 }
 
 @media only screen and (max-width: 542px) {
@@ -775,7 +777,6 @@
   .search-btn-filter.list-files button.filters-btn i {
     font-size: 13px;
   }
-
   /* Files Styles */
   .tabs .tab a {
     font-size: 12px !important;
@@ -875,6 +876,9 @@
     border: none !important;
     padding: 0 !important;
     margin: 0 !important;
+  }
+  .add-item-to-accordion-container button {
+    max-width: 100% !important;
   }
 }
 
@@ -1006,6 +1010,12 @@
     min-width: 96vw !important;
     margin-right: 2%;
   }
+  .ck.ck-editor__editable_inline > :first-child {
+    margin-top: 0 !important;
+  }
+  #postContentForm .ck.ck-editor__editable_inline {
+    padding: 1cm !important;
+  }
 }
 
 @media only screen and (max-width: 400px) {
@@ -1059,113 +1069,6 @@
   }
 }
 
-:root {
-  /* -------------------------------------------- //
-//              DARK THEME VARIABLES            //
-// -------------------------------------------- */
-  /* Backgrounds */
-  --acordion-indicator: #1f1f1f5c;
-  --action-btn-bg: #f9f9f9;
-  --alpha-medium-dark-bg: #ffffffeb;
-  --alpha-dark-bg: #f5f5f5;
-  --dark-smoke-bg: white;
-  --light-dark-bg: #909090;
-  --medium-dark-bg: white;
-  --dark-bg: white;
-  --dark-bg-odd: #f9f9f9;
-  --dark-modal-footer: #fafafa;
-  --light-blue-bg: #2196f3;
-  --gradient-light-blue-bg: #d9f6ff;
-  --admin-modal-button-bg: #ffffff;
-  --perfil-modal-button-bg: #ffffff;
-  --transparent-bg: transparent;
-  --message-button-bg: #eceff1;
-  --tabs-bg: rgb(244, 244, 244);
-  --whatsApp-bg: #ffffff;
-  --main-sidebar-bg: linear-gradient(45deg, #0288d1, #26c6da);
-  --attached-file-bg: rgba(0, 0, 0, 0.1);
-  --attached-file-comment: rgba(0, 0, 0, 0.1);
-  --attached-file-btn-bg: transparent;
-  --nav-fixed-option-bg: #e4e6eb;
-  --status-bg: rgba(0, 0, 0, 0.3);
-  --tracking-number-bg: #2e89ff;
-  --tooltip-background: rgba(0, 0, 0, 0.8);
-  --switch-bg: #a7a7a7;
-  --filters-container-bg: #f9f9f9;
-  --save-changes-bg: #5f5f5f52;
-  --search-input-filter-bg: #f9f9f9;
-  --scrollbar-bg: #eee;
-  --chat-message-bg: #e4e6eb;
-  --evidence-box: #757575;
-  --evidence-box-header: #eee;
-  --container-bg: #ffffff;
-  --watch-item-bg: #d9d9d9;
-  --upload-profile-img-bg: rgba(0, 0, 0, 0.7);
-  /* Text Color */
-  --white-color: #ffffff;
-  --alpha-white-color: rgba(0, 0, 0, 0.85);
-  --light-gray: rgba(0, 0, 0, 0.7);
-  --medium-gray: rgba(0, 0, 0, 0.85);
-  --dark-gray: #212121;
-  --dark-disabled-button-color: rgba(0, 0, 0, 0.3);
-  --light-blue-color: #2196f3;
-  --medium-blue-color: #26aee4;
-  --default-color: rgba(0, 0, 0, 0.87);
-  --default-hover-color: #383838;
-  --active-admin-sidenav-color: #ffffff;
-  --hover-admin-sidenav-color: #ffffff;
-  --titles-color: #757575;
-  --admin-modal-button-color: #303f9f;
-  --perfil-modal-button-color: #303f9f;
-  --user-rol-color: #616161;
-  --message-button-color: rgba(0, 0, 0, 0.85);
-  --favorite-time-color: #6b6f82;
-  --sidebar-li-active: #08b0ec;
-  --last-articles-color: #606060;
-  --attached-file-btn-color: #3949ab;
-  --search-button-color: #606060;
-  --primary-text: #050505;
-  --save-changes-color: rgba(0, 0, 0, 0.33);
-  --secondary-text: #65676b;
-  --third-text: #65676b;
-  --tooltip-color: rgba(255, 255, 255, 0.8);
-  /* Borders */
-  --medium-dark-border: #ddd;
-  --dark-border: rgb(211, 211, 211);
-  --dark-bottom-border: #e0e0e0;
-  --dark-top-border: #e0e0e0;
-  --dark-right-border: #e0e0e0;
-  --transparent-border: inherit;
-  --admin-modal-button-border: #303f9f;
-  --perfil-modal-button-border: #303f9f;
-  --lawyer-modal-border-color: rgb(0 0 0 / 10%);
-  --img-border: rgba(0, 0, 0, 0.05);
-  --cancel-modal-border: 3px solid;
-  --search-input-border: #ddd;
-  --sidenav-divider-border-color: #d0d0d0;
-  /* Box Shadow */
-  --dark-box-shadow: 0 0 4px 2px rgba(0, 0, 0, 0.1);
-  --dark-box-shadow-color: rgba(0, 0, 0, 0.3);
-  --none-box-shadow: inset 0px 0px 6px 0px #f2f2f2;
-  /* Divider */
-  --dark-divider: #e0e0e0;
-  /* Hover / Active Backgorunds */
-  --light-dark-bg-hover: #eee;
-  --medium-dark-bg-hover: #eee;
-  --dark-bg-odd-hover: #f6f6f6;
-  --sidebar-li-hover: rgba(0, 0, 0, 0.05);
-  --nav-fixed-option-bg-hover: rgba(0, 0, 0, 0.15);
-  --nav-fixed-option-bg-extended: #e7f3ff;
-  --comments-bg-hover: #d9d9d9;
-  /* Disabled */
-  --dark-disabled-button-bg: rgba(255, 255, 255, 1);
-  --dark-disabled-button-bg-after: #ffffff;
-  --dark-disabled-button-bg-before: #f0f0f0;
-  --modal-disabled-button-bg: rgba(0, 0, 0, 0.09);
-  /* Transitions */
-  --background-transition: background-color 5000s ease-in-out 0s;
-}
-
 .document-editor {
   border: 1px solid var(--ck-color-base-border);
   border-radius: var(--ck-border-radius);
@@ -1212,41 +1115,73 @@
   margin: 0 auto;
 }
 
-.ck.ck-editor__editable_inline ul {
+.card-information p {
+  margin: 0 0 12px !important;
+}
+
+.card-information h2 {
+  font: 500 20px/32px Roboto, "Helvetica Neue", sans-serif;
+  margin: 0 0 16px;
+}
+
+.card-information h3 {
+  font: 400 16px/28px Roboto, "Helvetica Neue", sans-serif;
+  margin: 0 0 16px;
+}
+
+.card-information h4 {
+  font: 400 15px/24px Roboto, "Helvetica Neue", sans-serif;
+  margin: 0 0 16px;
+}
+
+.ck.ck-editor__editable_inline ul,
+.card-information ul {
   list-style-type: disc;
 }
 
-.ck.ck-editor__editable_inline ul ul {
+.ck.ck-editor__editable_inline ul ul,
+.card-information ul ul {
   list-style-type: circle;
 }
 
-.ck.ck-editor__editable_inline ul ul ul {
+.ck.ck-editor__editable_inline ul ul ul,
+.card-information ul ul ul {
   list-style-type: square;
 }
 
 .ck.ck-editor__editable_inline ul,
-.ck.ck-editor__editable_inline ol {
+.card-information ul,
+.ck.ck-editor__editable_inline ol,
+.card-information ol {
   margin-left: 2.666em;
 }
 
 .ck.ck-editor__editable_inline p,
+.card-information p,
 .ck.ck-editor__editable_inline ul,
+.card-information ul,
 .ck.ck-editor__editable_inline ol,
+.card-information ol,
 .ck.ck-editor__editable_inline blockquote,
-.ck.ck-editor__editable_inline pre {
+.card-information blockquote,
+.ck.ck-editor__editable_inline pre,
+.card-information pre {
   font-size: 1em;
   line-height: 1.6em;
   padding-top: 0.2em;
 }
 
-.ck.ck-editor__editable_inline li {
-  list-style-type: unset;
+.ck.ck-editor__editable_inline li,
+.card-information li {
+  list-style-type: unset !important;
   display: list-item;
   text-align: -webkit-match-parent;
 }
 
 .ck-content .table table td,
-.ck-content .table table th {
+.card-information table td,
+.ck-content .table table th,
+.card-information table th {
   border: 1px solid #bfbfbf !important;
   color: var(--default-color);
 }
@@ -1255,14 +1190,16 @@
   border: 1px solid transparent !important;
 }
 
-.ck-content blockquote {
+.ck-content blockquote,
+.card-information blockquote {
   padding-left: 3.2rem !important;
   border-left: none !important;
   position: relative;
   font-style: initial !important;
 }
 
-.ck-content blockquote::before {
+.ck-content blockquote::before,
+.card-information blockquote::before {
   content: "\201C";
   display: block;
   font-size: 6rem;
@@ -1272,6 +1209,49 @@
   left: 0;
   top: 0;
   color: var(--medium-dark-bg-hover);
+}
+
+.card-information blockquote::before {
+  color: var(--blockquote-color);
+}
+
+.ck-content .image,
+.card-information .image {
+  display: table !important;
+}
+
+.card-information .image {
+  display: table;
+  clear: both;
+  text-align: center;
+  margin: 1em auto;
+}
+
+.card-information .image img {
+  display: block;
+  margin: 0 auto;
+  max-width: 100%;
+  min-width: 50px;
+}
+
+.card-information .image.image_resized {
+  max-width: 100%;
+  display: block;
+  box-sizing: border-box;
+}
+
+.card-information .image.image_resized img {
+  width: 100%;
+}
+
+.card-information .image-style-align-left {
+  float: left;
+  margin-right: var(--ck-image-style-spacing);
+}
+
+.card-information .image-style-align-right {
+  float: right;
+  margin-left: var(--ck-image-style-spacing);
 }
 
 /* - - - - - - - - - - - - - - - - - |
@@ -1353,6 +1333,10 @@ body.hide-scroll {
   background: -moz-linear-gradient(-45deg, #303f9f, #2e89ff) !important;
 }
 
+.ff-fa {
+  font-family: "Font Awesome 5 Free" !important;
+}
+
 .ff-tss {
   font-family: "Titillium Web", sans-serif;
 }
@@ -1371,6 +1355,12 @@ body.hide-scroll {
 
 .ff-um {
   font-family: "Ubuntu Medium";
+}
+
+.fs-20 {
+  font-size: 20px !important;
+  width: 20px !important;
+  height: 20px !important;
 }
 
 .centered-img-bg {
@@ -1512,6 +1502,10 @@ strong {
   margin: 0 !important;
 }
 
+.mb-25 {
+  margin-bottom: 25px !important;
+}
+
 .min-height-full {
   min-height: 100% !important;
 }
@@ -1603,6 +1597,10 @@ p {
   display: flex !important;
   flex-direction: row;
   align-items: center;
+}
+
+.jcc {
+  justify-content: center !important;
 }
 
 .jce {
@@ -7003,6 +7001,10 @@ span.badge.new:after {
   background: white;
 }
 
+.modal-content[data-saving="true"] {
+  overflow: hidden !important;
+}
+
 .admin-modal-container {
   height: calc(100% - 80px) !important;
 }
@@ -7268,14 +7270,21 @@ span.badge.new:after {
 }
 
 .upload-progress-container {
-  position: relative;
-  width: calc(100% - 216px);
-  height: 48px;
+  position: absolute;
+  width: 100%;
+  height: 100%;
   justify-content: center;
+  top: 0;
+  left: 0;
+  background: rgba(14, 47, 90, 0.5);
+  z-index: 999;
 }
 
-.upload-progress-container.inner-progress {
-  display: none !important;
+.upload-progress-title {
+  justify-content: center;
+  color: var(--white-color);
+  font-size: 18px;
+  margin-bottom: 15px;
 }
 
 .general-upload-progress-bar {
@@ -7447,11 +7456,22 @@ span.badge.new:after {
   margin: auto;
 }
 
+#postsModal {
+  height: 100% !important;
+  max-height: 100% !important;
+}
+
 #simplePracticeAreaModal .mat-dialog-content,
 #categoryModal .mat-dialog-content {
   width: 100% !important;
   height: calc(100% - 60px) !important;
 }
+
+#postsModal .mat-dialog-content {
+  height: calc(100% - 60px) !important;
+  max-height: calc(100% - 60px) !important;
+}
+
 #simplePracticeAreaModal .modal-content,
 #categoryModal .modal-content {
   width: 100% !important;
@@ -8605,10 +8625,17 @@ select:-webkit-autofill:focus {
 
 .modal .modal-actions .modal-close-action:not(.perfil-close-action),
 .admin-modal-footer .modal-close-action:not(.perfil-close-action) {
-  background: var(--admin-modal-button-bg) !important;
-  color: var(--admin-modal-button-color) !important;
   border: var(--cancel-modal-border);
   border-color: var(--admin-modal-button-border) !important;
+}
+
+.modal
+  .modal-actions
+  .modal-close-action:not(.perfil-close-action):not(.button-disabled),
+.admin-modal-footer
+  .modal-close-action:not(.perfil-close-action):not(.button-disabled) {
+  background: var(--admin-modal-button-bg) !important;
+  color: var(--admin-modal-button-color) !important;
 }
 
 .modal .modal-actions .modal-close-action:hover,
