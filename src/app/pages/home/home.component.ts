@@ -54,7 +54,7 @@ export class HomeComponent implements OnInit {
   lawyers: User[] = [];
   modalAlertRef: any = null;
   partnersArrayList: HTMLElement[] = [];
-  posts: Post[] = [];
+  posts: Array<Post> = [];
   postsArrayList: HTMLElement[] = [];
   practiceAreasList: Array<PracticeArea> = [];
 

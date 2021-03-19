@@ -17,7 +17,6 @@ import {
 } from "@angular/forms";
 
 import { CloudinaryService } from "../../services/cloudinary.service";
-import { Post } from "../../models/Post";
 import { PostsService } from "../../services/posts.service";
 import { UpdateDataService } from "../../services/updateData.service";
 import { PerfectScrollbarConfigInterface } from "ngx-perfect-scrollbar";
@@ -35,6 +34,7 @@ import { PracticeAreasFormComponent } from "../practice-areas-form/practice-area
 import { ViewChild } from "@angular/core";
 import { take, takeUntil } from "rxjs/operators";
 import * as Editor from "../../../app/components/custom_editor/build/ckeditor";
+import { Quote } from "../../models/quote";
 
 @Component({
   selector: "app-posts-form",
@@ -53,46 +53,38 @@ export class PostsFormComponent implements OnInit {
     public _utilitiesS: UtilitiesService
   ) {}
 
-  public Editor = Editor;
-
   subscriptionsArray: Subscription[] = [];
 
   @ViewChildren("categoriesCheckbox")
   private categoriesCheckbox: QueryList<any>;
+  @ViewChild("categoriesSelect", { static: true })
+  categoriesSelect: MatSelect;
   @Input() editor: any;
 
-  external_sourcesLabel: any;
-
+  Editor = Editor;
   basicDataForm: FormGroup;
   categories: Array<any> = [];
   checkboxAction: string = "Seleccionar";
-  imgData: any = null;
+  cloudinaryUploadingType: string = "";
+  config: PerfectScrollbarConfigInterface = {};
   filterValue: string;
   innerScreenWidth: any;
   isPostUpdating: boolean = false;
   mobileFilterActivated: boolean = false;
-  postModalTitle: string;
   postAttachedFilesList: any = [];
-  postQuotesList: any = [];
+  postModalTitle: string;
+  postQuotesList: Array<Quote> = [];
   titleLabel: any;
-
-  public config: PerfectScrollbarConfigInterface = {};
 
   /** Subject That Emits When The Component Has Been Destroyed. */
   protected _onDestroy = new Subject<void>();
-
   /** Control For The MatSelect Filter Keyword Multi-Selection */
   public categoriesFilterCtrl: FormControl = new FormControl();
-
   /** List Of Array Items Filtered By Search Keyword */
   public categoriesMulti: ReplaySubject<Array<any>> = new ReplaySubject<
     Array<any>
   >(1);
-
   public tooltipMessage = "Select All / Unselect All";
-
-  @ViewChild("categoriesSelect", { static: true })
-  categoriesSelect: MatSelect;
 
   // Detect Real Screen Size
   @HostListener("window:resize", ["$event"])
@@ -109,29 +101,8 @@ export class PostsFormComponent implements OnInit {
 
     this.initArticulosForm();
 
-    // Init Cloudinary Uploader Options - Post Img / Attached Files
-    this._cloudinaryS.uploaderSend("image");
-
-    // Get Cloudinary File Uploaded Response
-    this.subscriptionsArray.push(
-      this._cloudinaryS.getFile().subscribe(({ url, public_id }) => {
-        this.createNewPostAfterResponse({ url, public_id });
-      })
-    );
-
-    // Validate Duplicated Queue Files
-    this._cloudinaryS.uploader.onAfterAddingFile = (item) => {
-      item.remove();
-      if (
-        this._cloudinaryS.uploader.queue.filter(
-          (f) => f._file.name == item._file.name
-        ).length == 0
-      ) {
-        this._cloudinaryS.uploader.queue.push(item);
-      } else {
-        this._cloudinaryS.duplicatedFileError(item._file.name);
-      }
-    };
+    // Init Cloudinary Uploader Options - Post Image / File
+    this._cloudinaryS.uploaderSend();
 
     // Validate Invalid Format Files
     this._cloudinaryS.uploader.onWhenAddingFileFailed = (item, filter) => {
@@ -147,8 +118,18 @@ export class PostsFormComponent implements OnInit {
       //     message = 'Erro tentar incluir o arquivo';
       //     break;
 
-      this._cloudinaryS.formatInvalidError("img");
+      this._cloudinaryS.formatInvalidError();
     };
+
+    // Get Cloudinary File Uploaded Response
+    this.subscriptionsArray.push(
+      this._cloudinaryS
+        .getFile()
+        .subscribe(({ url, public_id, size, name, context }) => {
+          console.log(context);
+          this.createNewPostAfterResponse({ url, public_id });
+        })
+    );
 
     // Listen For Search Field Value Changes
     this.categoriesFilterCtrl.valueChanges
@@ -184,8 +165,8 @@ export class PostsFormComponent implements OnInit {
 
     // Get Attached Files List
     this.subscriptionsArray.push(
-      this._postsS
-        .getPostAttachedFilesList()
+      this._cloudinaryS
+        .getGlobalAttachedFilesList()
         .subscribe(([attachedFiles, action]) =>
           attachedFiles.map(
             (attachedFile: any) =>
@@ -201,10 +182,10 @@ export class PostsFormComponent implements OnInit {
     // Get Quotes List
     this.subscriptionsArray.push(
       this._practiceAreaS
-        .getReferencesList()
+        .getQuotesList()
         .subscribe(([quotes, action]) =>
           quotes.map(
-            (quote: any) =>
+            (quote: Quote) =>
               (this.postQuotesList = this._utilitiesS.upsertArrayItems(
                 this.postQuotesList,
                 quote,
@@ -217,18 +198,43 @@ export class PostsFormComponent implements OnInit {
     // Create / Update
     if (this.data) {
       this.postModalTitle = this.data.action;
-      if (this.data.idPost && this.data.idPost !== "") {
-        this.subscriptionsArray.push(
-          this._postsS.getPost(this.data.idPost).subscribe((post: Post) => {
-            this._cloudinaryS.image = post.img;
-            this.basicDataForm.patchValue({
-              content: post.content,
-              title: post.title,
-              categories: post.categories,
-              _id: post._id,
-            });
-          })
-        );
+
+      if (this.data.postData && this.data.postData !== "") {
+        const {
+          _id,
+          postImage,
+          postTitle,
+          postContent,
+          postCategories,
+          ...postData
+        } = this.data.postData;
+        this._cloudinaryS.image = postImage;
+
+        // Filter Just Categories Data
+        const postCategoriesList = postCategories.map(({ category }) => ({
+          ...category,
+        }));
+
+        // Initialize Post Details With Obtained Data
+        this.basicDataForm.patchValue({
+          _id,
+          postTitle,
+          postContent,
+          postCategories: [...postCategoriesList],
+        });
+
+        // Set Attached Files List With Obtained Data
+        if (postData.attachedFiles) {
+          this._cloudinaryS.setGlobalAttachedFilesList(
+            postData.attachedFiles,
+            "list"
+          );
+        }
+
+        // Set Quotes List With Obtained Data
+        if (postData.postQuotes) {
+          this._practiceAreaS.setQuotesList(postData.postQuotes, "list");
+        }
       } else {
         this._cloudinaryS.image = "no_image";
         this.basicDataForm.reset();
@@ -275,25 +281,25 @@ export class PostsFormComponent implements OnInit {
   createOrUpdatePost() {
     if (this.basicDataForm.value._id !== null) {
       if (this._cloudinaryS.uploader.queue.length === 0) {
-        // Update jus data from existing Article
+        // Update just data from existing Article
         this.subscriptionsArray.push(
-          this._postsS
-            .updatePost(
-              this.basicDataForm.value._id,
-              this.createPostObject(),
-              ""
-            )
-            .subscribe(() => {
-              this._postsS.notifica.emit({ render: true });
-              this.closeModal();
-            })
+          this._postsS.updatePost(this.createPostObject()).subscribe(() => {
+            this._postsS.notifica.emit({ render: true });
+            this.closeModal();
+          })
         );
       }
       // Update data and image from existing post
       else {
-        this._cloudinaryS.setFileType("post");
-        this._cloudinaryS.uploader.uploadAll();
-        this.isPostUpdating = true;
+        this._cloudinaryS.configurateUploaderBeforeUpload().then((resp) => {
+          if (resp) {
+            this._cloudinaryS.setFileType("post");
+            this._cloudinaryS.uploader.uploadAll();
+            this.isPostUpdating = true;
+          } else {
+            console.log("Error al configurar el uploader");
+          }
+        });
       }
       // Create New Post
     } else {
@@ -309,15 +315,22 @@ export class PostsFormComponent implements OnInit {
       }
       // Create post with data and image
       else {
-        this._cloudinaryS.setFileType("post");
-        this._cloudinaryS.uploader.uploadAll();
-        this.isPostUpdating = false;
+        this._cloudinaryS.configurateUploaderBeforeUpload().then((resp) => {
+          if (resp) {
+            this._cloudinaryS.setFileType("post");
+            this._cloudinaryS.uploader.uploadAll();
+            this.isPostUpdating = false;
+          } else {
+            console.log("Error al configurar el uploader");
+          }
+        });
       }
     }
   }
 
-  // Create New Post After Cloudinary Response
+  // Create / Update New Post After Cloudinary Response
   createNewPostAfterResponse(image: any) {
+    // Create Post
     if (!this.isPostUpdating) {
       this.subscriptionsArray.push(
         this._postsS
@@ -329,17 +342,14 @@ export class PostsFormComponent implements OnInit {
             }
           })
       );
-    } else {
+    }
+    // Update Post
+    else {
       this.subscriptionsArray.push(
         this._postsS
-          .updatePost(
-            this.basicDataForm.value._id,
-            this.createPostObject(),
-            image
-          )
+          .updatePost(this.createPostObject(), image)
           .subscribe((resp) => {
             if (resp) {
-              this.imgData = null;
               this._postsS.notifica.emit({ render: true });
               this.closeModal();
             }
@@ -348,41 +358,38 @@ export class PostsFormComponent implements OnInit {
     }
   }
 
-  // Create Post Object Within Form Data
-  createPostObject(): Post {
-    // Add external sources Property If Its Not Empty
-    let externalS =
-      this.basicDataForm.value.external_sources === undefined ||
-      this.basicDataForm.value.external_sources === null ||
-      this.basicDataForm.value.external_sources === ""
-        ? ""
-        : this.basicDataForm.value.external_sources;
-
-    const post = new Post(
-      this.basicDataForm.value.content,
-      this.basicDataForm.value.title,
-      null,
-      externalS
+  // Create Post Object With Form Data
+  createPostObject(): Object {
+    // Filter Ids From Categories List
+    const postCategories = this.basicDataForm.value.postCategories.map(
+      ({ _id: idCategory, ...categoryData }) => ({
+        category: idCategory,
+      })
     );
+
+    // Filter Data From Quotes List
+    const postQuotes = this.postQuotesList.map(
+      ({ _id: idQuote, ...quoteData }) => ({
+        ...quoteData,
+      })
+    );
+
+    const post = {
+      ...{ ...this.basicDataForm.value, postCategories },
+      attachedFiles: this.postAttachedFilesList,
+      postQuotes: postQuotes,
+    };
 
     return post;
   }
 
-  // Pop Item From Quotes / Attached Files Array
+  // Pop Item From Quotes / Attached Files / Multiple Images Array
   deleteElementFromArray(item: any, arrayType: string) {
     if (arrayType === "Quote") {
-      this._practiceAreaS.setReferencesList([item], "delete");
+      this._practiceAreaS.setQuotesList([item], "delete");
     } else {
-      this._postsS.setPostAttachedFilesList([item], "delete");
+      this._cloudinaryS.deleteItemFromArray(item, arrayType);
     }
-  }
-
-  /**
-   * Delete file from files list
-   * @param index (File index)
-   */
-  deleteFile(index: number) {
-    this._cloudinaryS.uploader.queue.splice(index, 1);
   }
 
   // Filter Post Categories By Condition
@@ -424,16 +431,15 @@ export class PostsFormComponent implements OnInit {
 
   private initArticulosForm() {
     this.basicDataForm = new FormGroup({
-      content: new FormControl(
+      postCategories: new FormControl(null, Validators.required),
+      postContent: new FormControl(
         null,
         Validators.compose([
           Validators.required,
           AngularEditorValidator.required(),
         ])
       ),
-      img: new FormControl(null),
-      title: new FormControl(null, Validators.required),
-      categories: new FormControl(null),
+      postTitle: new FormControl(null, Validators.required),
       _id: new FormControl(null),
     });
   }
@@ -461,12 +467,12 @@ export class PostsFormComponent implements OnInit {
   }
 
   // Open Quotes Modal
-  openQuotesModal(referenceData?: string, action?: string) {
+  openQuotesModal(quoteData?: string, action?: string) {
     let dialogRef =
-      referenceData && referenceData !== ""
+      quoteData && quoteData !== ""
         ? this.dialog.open(ReferencesComponent, {
             id: "QuoteModal",
-            data: { referenceData, action: "Editar", type: "Cita" },
+            data: { quoteData, action: "Editar", type: "Cita" },
             autoFocus: false,
             width: "600px",
           })
@@ -509,9 +515,13 @@ export class PostsFormComponent implements OnInit {
     //   .append(editor.ui.view.editable.element);
   }
 
-  uploadAttachedFilesCloudinary() {
-    this._cloudinaryS.setFileType("AttachedPostFile");
-    this._cloudinaryS.uploader.uploadAll();
+  setCloudinaryUploadType(
+    actionType: string,
+    fileType: string,
+    fileId: string
+  ) {
+    // Set Cloudinary Uploader File Type - Image
+    this._cloudinaryS.setFileUploadType(actionType, fileType, fileId);
   }
 
   /**
@@ -544,6 +554,17 @@ export class PostsFormComponent implements OnInit {
           this.basicDataForm.controls["categories"].setValue([]);
         }
       });
+  }
+
+  uploadAttachedFilesCloudinary() {
+    this._cloudinaryS.configurateUploaderBeforeUpload().then((resp) => {
+      if (resp) {
+        this._cloudinaryS.setFileType("AttachedPostFile");
+        this._cloudinaryS.uploader.uploadAll();
+      } else {
+        console.log("Error al configurar el uploader");
+      }
+    });
   }
 }
 

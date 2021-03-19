@@ -1,7 +1,7 @@
 <!-- Modal Structure -->
 <div mat-dialog-title class="modal-header admin-modal-header dfc">
   <div class="modal-icon dfc">
-    <i class="material-icons">contact_mail</i>
+    <i class="fas fa-gavel"></i>
   </div>
   <span
     ><span class="article-action">{{ this.practiceAreaDataFormAction }}</span>
@@ -69,7 +69,7 @@
       <!-- Practice Area FAQ Step -->
       <mat-step label="Preguntas frecuentes">
         <ng-template matStepLabel>FAQs</ng-template>
-        <div class="faqs-container dfc jcc h-full w-full">
+        <div class="faqs-container dfc h-full w-full">
           <mat-accordion class="item-container dfc">
             <mat-expansion-panel
               class="item-content"
@@ -159,20 +159,20 @@
           </div>
         </div>
       </mat-step>
-      <!-- Practice Area References Step -->
-      <mat-step label="Referencias">
-        <ng-template matStepLabel>Referencias</ng-template>
-        <div class="faqs-container dfc jcc h-full w-full">
+      <!-- Practice Area Quotes Step -->
+      <mat-step label="Citas">
+        <ng-template matStepLabel>Citas</ng-template>
+        <div class="faqs-container dfc h-full w-full">
           <div class="references-container dfc w-full">
             <div
-              *ngFor="let reference of practiceAreaReferencesList"
+              *ngFor="let quote of practiceAreaQuotesList"
               class="w-full reference-item item-acordion-title dfr"
             >
               <div class="item-acordion-title-left dfr">
                 <div class="header-item-body dfc">
                   <div class="header-item-title dfr">
                     <div class="header-item-title-wrap">
-                      <span>{{ reference.reference }}</span>
+                      <span>{{ quote.reference }}</span>
                     </div>
                   </div>
                 </div>
@@ -194,17 +194,14 @@
                   <ng-template matMenuContent>
                     <div class="dfc select-content-container">
                       <!-- Edit Option -->
-                      <button
-                        mat-menu-item
-                        (click)="openReferencesModal(reference)"
-                      >
+                      <button mat-menu-item (click)="openQuotesModal(quote)">
                         <i class="material-icons">edit</i>
                         <span>Editar</span>
                       </button>
                       <!-- Delete Option -->
                       <button
                         mat-menu-item
-                        (click)="deleteElementFromArray(reference, 'Reference')"
+                        (click)="deleteElementFromArray(quote, 'Reference')"
                       >
                         <i class="material-icons">delete</i>
                         <span>Eliminar</span>
@@ -218,19 +215,19 @@
           <div
             class="add-item-to-accordion-container dfc"
             [attr.not-data]="
-              practiceAreaReferencesList.length === 0 ? 'true' : 'false'
+              practiceAreaQuotesList.length === 0 ? 'true' : 'false'
             "
           >
-            <!-- Add Item To References List Button Trigger -->
+            <!-- Add Item To Quotes List Button Trigger -->
             <button
               class="btn bs-none transparent-bg dfr"
               mat-icon-button
-              (click)="openReferencesModal()"
+              (click)="openQuotesModal()"
             >
               <div class="add-item-accordion-icon dfc">
                 <i class="fas fa-plus"></i>
               </div>
-              <span>Agregar nueva referencia</span>
+              <span>Agregar nueva cita</span>
             </button>
           </div>
         </div>

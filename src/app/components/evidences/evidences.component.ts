@@ -42,8 +42,9 @@ export class EvidencesComponent implements OnInit {
   @Input() currentTracking: any;
 
   // Get References Of HTML Elements
-  @ViewChild("evidencesCarousel", {static: false}) evidencesCarousel: ElementRef;
-  @ViewChild("notesCarousel", {static: false}) notesCarousel: ElementRef;
+  @ViewChild("evidencesCarousel", { static: false })
+  evidencesCarousel: ElementRef;
+  @ViewChild("notesCarousel", { static: false }) notesCarousel: ElementRef;
   @ViewChildren("evidencesArray") evidencesArrayRef: QueryList<ElementRef>;
   @ViewChildren("notesArray") notesArrayRef: QueryList<ElementRef>;
 
@@ -61,8 +62,6 @@ export class EvidencesComponent implements OnInit {
   firstNoteElement: HTMLElement;
   isCaseArchived: boolean = false;
   notesArray: HTMLElement[] = [];
-  randomBackgroundColorsArray: any[] = [];
-  randomBorderBackgroundColorsArray: any[] = [];
   evidencesPagesNumber: Number = 0;
   selected = new FormControl(0);
   selectedEntry: number = 10;
@@ -102,23 +101,6 @@ export class EvidencesComponent implements OnInit {
 
     // Load Current Checked Evidences
     this._evidencesS.getCurrentCheckedEvidences();
-
-    if (this.currentTracking) {
-      if (this.currentTracking.trackingNotes) {
-        this.currentTracking.trackingNotes.map(() => {
-          this.generateRandomPastelColor().then((background) => {
-            this.randomBackgroundColorsArray = [
-              ...this.randomBackgroundColorsArray,
-              background[0],
-            ];
-            this.randomBorderBackgroundColorsArray = [
-              ...this.randomBorderBackgroundColorsArray,
-              background[1],
-            ];
-          });
-        });
-      }
-    }
   }
 
   ngAfterViewInit(): void {
@@ -190,29 +172,6 @@ export class EvidencesComponent implements OnInit {
           JSON.parse(localStorage.getItem("caseData"))
         );
       });
-  }
-
-  async generateRandomPastelColor(): Promise<any> {
-    // return "hsl(" + 360 * Math.random() + ", 100%, 80%)";
-    const randomColor: number = Math.floor(Math.random() * (16 - 0 + 1) + 0);
-    const obtainedBgColor = this.setBackgroundColors()[randomColor];
-    const redBgColor = obtainedBgColor.red;
-    const greenBgColor = obtainedBgColor.green;
-    const blueBgColor = obtainedBgColor.blue;
-    const generatedBgColor =
-      "rgb(" + redBgColor + " " + greenBgColor + " " + blueBgColor + ")";
-    const borderBgColor =
-      "rgb(" +
-      (redBgColor - 28) +
-      " " +
-      (greenBgColor - 38) +
-      " " +
-      (blueBgColor - 71) +
-      ")";
-
-    return new Promise((resolve, reject) =>
-      resolve([generatedBgColor, borderBgColor])
-    );
   }
 
   filter(value: string) {
@@ -324,7 +283,7 @@ export class EvidencesComponent implements OnInit {
   openFileUploadModal() {
     let dialogRef = this.dialog.open(FileUploadComponent, {
       autoFocus: false,
-      data: { typeUpload: "evidences" },
+      data: { typeUpload: "file" },
     });
 
     dialogRef.afterOpened().subscribe((result) => {
@@ -482,115 +441,7 @@ export class EvidencesComponent implements OnInit {
     }
   }
 
-  setBackgroundColors(): any[] {
-    const bgColorsArray = [
-      {
-        red: 245,
-        green: 255,
-        blue: 153,
-      },
-      {
-        red: 172,
-        green: 255,
-        blue: 153,
-      },
-      {
-        red: 153,
-        green: 255,
-        blue: 229,
-      },
-      {
-        red: 170,
-        green: 255,
-        blue: 153,
-      },
-      {
-        red: 153,
-        green: 255,
-        blue: 220,
-      },
-      {
-        red: 153,
-        green: 255,
-        blue: 207,
-      },
-      {
-        red: 255,
-        green: 229,
-        blue: 153,
-      },
-      {
-        red: 255,
-        green: 180,
-        blue: 153,
-      },
-      {
-        red: 153,
-        green: 255,
-        blue: 241,
-      },
-      {
-        red: 153,
-        green: 255,
-        blue: 254,
-      },
-      {
-        red: 255,
-        green: 156,
-        blue: 153,
-      },
-      {
-        red: 224,
-        green: 187,
-        blue: 228,
-      },
-      {
-        red: 226,
-        green: 255,
-        blue: 153,
-      },
-      {
-        red: 165,
-        green: 255,
-        blue: 153,
-      },
-      {
-        red: 255,
-        green: 159,
-        blue: 153,
-      },
-      {
-        red: 245,
-        green: 238,
-        blue: 227,
-      },
-      {
-        red: 225,
-        green: 213,
-        blue: 193,
-      },
-      // "rgb(245, 255, 153)",
-      // "rgb(172, 255, 153)",
-      // "rgb(153, 255, 229)",
-      // "rgb(170, 255, 153)",
-      // "rgb(153, 255, 220)",
-      // "rgb(153, 255, 207)",
-      // "rgb(255, 229, 153)",
-      // "rgb(255, 180, 153)",
-      // "rgb(153, 255, 241)",
-      // "rgb(153, 255, 254)",
-      // "rgb(255, 156, 153)",
-      // "rgb(224, 187, 228)",
-      // "rgb(226, 255, 153)",
-      // "rgb(165, 255, 153)",
-      // "rgb(255, 159, 153)",
-      // "rgb(245, 238, 227)",
-      // "rgb(225, 213, 193)",
-    ];
-
-    return bgColorsArray;
-  }
-
+  // Go Step Back
   return() {
     this._trackingS.setActiveCaseTabSub(0);
   }

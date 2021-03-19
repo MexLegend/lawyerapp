@@ -45,8 +45,15 @@ export class FileUploadComponent implements OnInit {
   cloudinaryEvidencesQueue: any[] = [];
 
   ngOnInit() {
-    // Init Cloudinary Uploader Options - Img / Evidences
-    this._cloudinaryS.uploaderSend(this.dataFile.typeUpload);
+    // Init Cloudinary Uploader Options - Image / File
+    this._cloudinaryS.uploaderSend();
+
+    // Set Cloudinary Uploader File Type - Image / File
+    this._cloudinaryS.setFileUploadType(
+      this.dataFile.typeUpload,
+      "attachedFile"
+    );
+
     // Get Cloudinary File Uploaded Response
     this.subscriptionsArray.push(
       this._cloudinaryS
@@ -56,35 +63,9 @@ export class FileUploadComponent implements OnInit {
         })
     );
 
-    // Validate Duplicated Queue Files
-    this._cloudinaryS.uploader.onAfterAddingFile = (item) => {
-      item.remove();
-      if (
-        this._cloudinaryS.uploader.queue.filter(
-          (f) => f._file.name == item._file.name
-        ).length == 0
-      ) {
-        this._cloudinaryS.uploader.queue.push(item);
-      } else {
-        this._cloudinaryS.duplicatedFileError(item._file.name);
-      }
-    };
-
     // Validate Invalid Format Files
     this._cloudinaryS.uploader.onWhenAddingFileFailed = (item, filter) => {
-      // let message = '';
-      // switch (filter.name) {
-      //   case 'queueLimit':
-      //     message = 'Permitido o envio de no máximo ' + queueLimit + ' arquivos';
-      //     break;
-      //   case 'fileSize':
-      //     message = 'O arquivo ' + item.name + ' possui ' + formatBytes(item.size) + ' que ultrapassa o tamanho máximo permitido de ' + formatBytes(maxFileSize);
-      //     break;
-      //   default:
-      //     message = 'Erro tentar incluir o arquivo';
-      //     break;
-
-      this._cloudinaryS.formatInvalidError(this.dataFile.typeUpload);
+      this._cloudinaryS.formatInvalidError();
     };
 
     this.subscriptionsArray.push(
@@ -143,7 +124,7 @@ export class FileUploadComponent implements OnInit {
    * @param index (File index)
    */
   deleteFile(index: number) {
-    this._cloudinaryS.uploader.queue.splice(index, 1);
+    this._cloudinaryS.uploadAttachedFilesList.splice(index, 1);
   }
 
   deleteImage() {
@@ -164,13 +145,25 @@ export class FileUploadComponent implements OnInit {
   }
 
   uploadFilesCloudinary() {
-    this._cloudinaryS.setFileType("file");
-    this._cloudinaryS.uploader.uploadAll();
+    this._cloudinaryS.configurateUploaderBeforeUpload().then((resp) => {
+      if (resp) {
+        this._cloudinaryS.setFileType("file");
+        this._cloudinaryS.uploader.uploadAll();
+      } else {
+        console.log("Error al configurar el uploader");
+      }
+    });
   }
 
   uploadImg() {
-    this._cloudinaryS.setFileType("user");
-    this._cloudinaryS.uploader.uploadAll();
+    this._cloudinaryS.configurateUploaderBeforeUpload().then((resp) => {
+      if (resp) {
+        this._cloudinaryS.setFileType("user");
+        this._cloudinaryS.uploader.uploadAll();
+      } else {
+        console.log("Error al configurar el uploader");
+      }
+    });
 
     this.subscriptionsArray.push(
       this._cloudinaryS

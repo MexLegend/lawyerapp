@@ -352,6 +352,44 @@ export class UtilitiesService {
     return tempArray;
   }
 
+  /**
+   * Parse File Size
+   * @param bytes (File size in bytes)
+   * @param decimals (Decimals point)
+   */
+  formatBytes(bytes, decimals?) {
+    if (bytes === 0) {
+      return "0 Bytes";
+    }
+    const k = 1024;
+    const dm = decimals <= 0 ? 0 : decimals || 2;
+    const sizes = ["Bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + " " + sizes[i];
+  }
+
+  formatType(format: string): string {
+    const imgExtensions = [
+      "png",
+      "jpg",
+      "jpeg",
+      "gif",
+      "webp",
+      "jfif",
+      "tiff",
+      "bmp",
+    ];
+    const wordExtensions = ["doc", "docx"];
+
+    if (imgExtensions.includes(format.toLowerCase())) {
+      return "image";
+    } else if (wordExtensions.includes(format.toLowerCase())) {
+      return "word";
+    } else {
+      return "pdf";
+    }
+  }
+
   setTempCompleteArray(completeArray: any) {
     this.tempCompleteArray = completeArray;
   }
@@ -364,6 +402,84 @@ export class UtilitiesService {
   // Set Array Items List
   setArrayList(attachedFile: any, action: string, type: string) {
     this.arraysList.next([attachedFile, action, type]);
+  }
+
+  // Generate APA Quote
+  generateAPAQuote(data: any): string {
+    let APAQuote: string;
+
+    switch (data.quoteType) {
+      case "Sitio Web":
+        APAQuote = `${
+          this.getAuthorName(data.quoteAuthor) || data.quotePageName || ""
+        }${data.quoteAuthor || data.quotePageName ? ". " : ""}(${
+          this.getQuoteDate(data.quoteYear, data.quoteMonth, data.quoteDay) ||
+          "s.f."
+        }). ${
+          data.quoteAuthor
+            ? data.quotePageName
+              ? data.quotePageName + ". "
+              : "" || ""
+            : ""
+        }${
+          "Obtenido de " +
+          (data.quoteWebSiteName ? data.quoteWebSiteName + ": " : "" || "")
+        }${data.quoteUrl}
+        `;
+        break;
+      case "Libro":
+        APAQuote = data.quoteType;
+        break;
+      case "Caso":
+        APAQuote = data.quoteType;
+        break;
+      case "Artículo de Revista":
+        APAQuote = data.quoteType;
+        break;
+      case "Artículo de Periódico":
+        APAQuote = data.quoteType;
+        break;
+      default:
+        APAQuote = data.quoteType;
+        break;
+    }
+
+    return APAQuote;
+  }
+
+  // Get Quote Authors Names
+  getAuthorName(fullName: string): string {
+    let authorFirstName: string = "";
+    let authorMiddleName: string = "";
+    let authorLastName: string = "";
+
+    if (fullName) {
+      const names = fullName.split(" ");
+      const initials = (name: any) => (name ? name : "");
+
+      // Append LastName
+      authorLastName = initials(names.pop());
+      // Append FirstName Letter
+      authorFirstName = initials(names.shift())[0] || "";
+      authorFirstName ? (authorFirstName = ", " + authorFirstName) : "";
+      // Append MiddleName Letter
+      authorMiddleName = initials(names.join(" "))[0] || "";
+      authorMiddleName ? (authorMiddleName = "." + authorMiddleName) : "";
+    }
+
+    return authorLastName + authorFirstName + authorMiddleName;
+  }
+
+  // Get Quote Date
+  getQuoteDate(year: Number, month: string, day: Number): string {
+    let date: string = "";
+    if (year) date += year;
+    if (month || day) date += ", ";
+    if (month) date += month;
+    if (month && day) date += " ";
+    if (day) date += day;
+
+    return date;
   }
 
   // Go Stepper Back
@@ -471,7 +587,7 @@ export class UtilitiesService {
         var reader = new FileReader();
 
         reader.onload = function (event) {
-          editor.model.change((writer) => {
+          editor.model.change((writer: any) => {
             const imageElement = writer.createElement("image", {
               src: event.target.result,
             });

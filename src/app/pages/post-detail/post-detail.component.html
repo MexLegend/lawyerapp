@@ -13,7 +13,7 @@
             </div>
           </div>
           <div class="card-title-new">
-            <span class="card-title">{{ post?.title }}</span>
+            <span class="card-title">{{ post?.postTitle }}</span>
             <span class="card-autor"
               >{{ post?.user?.firstName }} {{ post?.user?.lastName }}</span
             >
@@ -23,20 +23,11 @@
           class="card-body-container card-body card-content grey lighten-4 dfc"
         >
           <div class="card-data">
-            <div class="card-img centered-img-bg card-image">
-              <img [src]="post?.img | img: 'post'" />
-            </div>
             <span class="card-data-container">
               <span
                 class="card-information"
-                [innerHTML]="post?.content | sanitizeHtml"
+                [innerHTML]="post?.postContent | sanitizeHtml"
               ></span>
-              <span
-                *ngIf="post?.external_sources"
-                class="card-external-sources"
-              >
-                Fuente: {{ post?.external_sources }}
-              </span>
             </span>
           </div>
         </div>
@@ -70,8 +61,8 @@
             >
               <i class="far fa-comment"></i>
             </button>
+            <!-- Post Like Button Trigger -->
             <div class="action-button-with-text-container dfc">
-              <!-- Post Like Button Trigger -->
               <button
                 class="header-item-btn btn posts-btn action-button dfc"
                 mat-icon-button
@@ -96,8 +87,8 @@
                 >{{ postAnalytics?.likes }}</span
               >
             </div>
+            <!-- Post Dislike Button Trigger -->
             <div class="action-button-with-text-container dfc">
-              <!-- Post Dislike Button Trigger -->
               <button
                 class="header-item-btn btn posts-btn action-button dfc"
                 mat-icon-button
@@ -149,11 +140,14 @@
                 [routerLink]="['/articulo-detalle', post._id]"
               >
                 <div class="last-article-img centered-img-bg">
-                  <img [src]="post?.img | img: 'post'" [alt]="post?.title" />
+                  <img
+                    [src]="post?.postImage | img: 'post'"
+                    [alt]="post?.postTitle"
+                  />
                 </div>
                 <div class="last-article-data dfc">
                   <div class="last-article-name">
-                    <span>{{ post?.title }}</span>
+                    <span>{{ post?.postTitle }}</span>
                   </div>
                   <div class="last-article-author">
                     <span

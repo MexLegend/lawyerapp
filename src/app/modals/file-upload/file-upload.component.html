@@ -24,7 +24,8 @@
       <div
         class="upload-inner-container dfc"
         [hidden]="
-          this.previewUrl || this._cloudinaryS.uploader.queue.length > 0
+          this.previewUrl ||
+          this._cloudinaryS.uploadAttachedFilesList.length > 0
         "
       >
         <div class="upload-content dfc">
@@ -83,13 +84,16 @@
       </div>
       <!-- Files List Container -->
       <div
-        *ngIf="this._cloudinaryS.uploader.queue.length > 0"
+        *ngIf="this._cloudinaryS.uploadAttachedFilesList.length > 0"
         class="files-list-container"
       >
         <!-- File Item -->
         <div
           class="tracking-file-item-container dfr"
-          *ngFor="let file of this._cloudinaryS.uploader.queue; let i = index"
+          *ngFor="
+            let file of this._cloudinaryS.uploadAttachedFilesList;
+            let i = index
+          "
         >
           <div class="tracking-file-item-content dfr">
             <div
@@ -150,28 +154,29 @@
             </div>
           </div>
         </div>
-        <!-- File Add Button -->
-        <ng-container>
-          <div class="file-add-button-container dfc">
-            <button
-              class="btn waves-effect waves-light"
-              (click)="uploadMoreFiles.click()"
-            >
-              Agregar más archivos
-            </button>
-          </div>
+        <!-- Add More Attached Files Button Trigger -->
+        <div class="add-item-to-accordion-container dfc">
+          <!-- Add Item To Attached Files List Button Trigger -->
+          <button
+            class="btn bs-none transparent-bg dfr"
+            mat-icon-button
+            (click)="uploadMoreFiles.click()"
+          >
+            <div class="add-item-accordion-icon dfc">
+              <i class="fas fa-plus"></i>
+            </div>
+            <span>Agregar nuevo archivo</span>
+          </button>
           <input
             #uploadMoreFiles
-            name="uploadMoreFiles"
-            id="upload-more-files"
+            name="insertPostFile"
             type="file"
-            style="display: none"
             ng2FileSelect
             [uploader]="this._cloudinaryS.uploader"
-            (onFileSelected)="this.onFileSelected($event)"
-            multiple
+            style="display: none"
+            accept="application/msword, text/plain, application/pdf, image/*"
           />
-        </ng-container>
+        </div>
       </div>
       <!-- Image Preview Container -->
       <div *ngIf="this.previewUrl" class="upload-img-preview centered-img-bg">
@@ -241,14 +246,14 @@
             "
             (click)="
               this.dataFile?.typeUpload !== undefined &&
-              this.dataFile?.typeUpload === 'evidences'
+              this.dataFile?.typeUpload === 'file'
                 ? addDocuments()
                 : uploadImg()
             "
           >
             {{
               this.dataFile?.typeUpload !== undefined &&
-              this.dataFile?.typeUpload === "evidences"
+              this.dataFile?.typeUpload === "file"
                 ? "Guardar"
                 : "Subir"
             }}

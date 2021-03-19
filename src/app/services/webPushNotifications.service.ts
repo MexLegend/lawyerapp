@@ -162,7 +162,7 @@ export class WebPushNotificationsService {
   }
 
   getNotificationImage(type: string, userData: any, postData: any): string {
-    return type !== "post" ? userData.img : postData.img;
+    return type !== "post" ? userData.img : postData.postImage;
   }
 
   getNotificationObject(notificationData): any {

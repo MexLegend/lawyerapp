@@ -6,6 +6,7 @@ import {
   FileUploader,
   ParsedResponseHeaders,
   FileUploaderOptions,
+  FileItem,
 } from "ng2-file-upload";
 import { Cloudinary } from "@cloudinary/angular-5.x";
 import { UpdateDataService } from "./updateData.service";
@@ -16,16 +17,24 @@ import { NotificationsService } from "./notifications.service";
 })
 export class CloudinaryService {
   public uploader: FileUploader;
-  image: any = null;
   file: any = null;
   fileUrl: any = null;
+  image: any = null;
   previewUrl: any = null;
   typeFile: string;
-  typeFileUpload: string;
+  uploadActionType: string;
+  uploadAttachedFilesList: Array<any> = [];
+  uploadFileId: string;
+  uploadFileType: string;
+  uploadMainImage: any = null;
+  uploadMultipleImagesList: Array<any> = [];
 
+  private globalAttachedFileList = new Subject<[Array<any>, string]>();
   private fileSubject = new Subject<any>();
   private imgSubject = new Subject<any>();
   private fileTypeSubject = new Subject<any>();
+  private uploadFileTypeSubject = new Subject<[string, string, string]>();
+  private uploadMultipleImagesListSubject = new Subject<[Array<any>, string]>();
 
   constructor(
     private cloudinary: Cloudinary,
@@ -37,6 +46,13 @@ export class CloudinaryService {
     this.getFileType().subscribe((data) => {
       this.typeFile = data;
     });
+
+    // Get Upload File Type Image / Document
+    this.getFileUploadType().subscribe(([actionType, fileType, id]) => {
+      this.uploadActionType = actionType;
+      this.uploadFileType = fileType;
+      this.uploadFileId = id;
+    });
   }
 
   // Subject Functions
@@ -45,8 +61,15 @@ export class CloudinaryService {
     return this.fileSubject.asObservable();
   }
 
-  setFile(url: string, public_id: string, size: string, name: string) {
-    this.fileSubject.next({ url, public_id, size, name });
+  setFile(
+    url: string,
+    public_id: string,
+    size: string,
+    name: string,
+    tags: Array<string>,
+    context: string
+  ) {
+    this.fileSubject.next({ url, public_id, size, name, tags, context });
   }
 
   getFileType(): Observable<any> {
@@ -55,6 +78,14 @@ export class CloudinaryService {
 
   setFileType(type: string) {
     this.fileTypeSubject.next(type);
+  }
+
+  getFileUploadType(): Observable<any> {
+    return this.uploadFileTypeSubject.asObservable();
+  }
+
+  setFileUploadType(actionType: string, fileType?: string, id?: string) {
+    this.uploadFileTypeSubject.next([actionType, fileType, id]);
   }
 
   getImg(): Observable<any> {
@@ -67,8 +98,58 @@ export class CloudinaryService {
 
   // Normal Functions
 
+  configurateUploaderBeforeUpload(): Promise<Boolean> {
+    let response: boolean = false;
+    try {
+      this.uploader.clearQueue();
+
+      // Add Attached Files List To Queue If There Are Any
+      if (this.uploadAttachedFilesList.length > 0)
+        this.uploadAttachedFilesList.map((attachedFile: FileItem) => {
+          attachedFile.formData.push({ caption: "attachedFile", alt: "3" });
+          this.uploader.queue.push(attachedFile);
+        });
+      // Add Main Image To Queue If There Is Any
+      if (this.uploadMainImage) {
+        this.uploadMainImage.formData.push({
+          caption: "mainImage",
+          alt: "mainImage",
+        });
+        this.uploader.queue.push(this.uploadMainImage);
+      }
+      // Add Multiple Images List To Queue If There Are Any
+      if (this.uploadMultipleImagesList.length > 0)
+        this.uploadMultipleImagesList.map((image) => {
+          image.formData.push({ caption: "multipleImages", alt: "1" });
+          this.uploader.queue.push(image);
+        });
+
+      response = true;
+    } catch (error) {
+      console.log(error);
+      response = false;
+    }
+
+    return new Promise((resolve, reject) => resolve(response));
+  }
+
   clearQueue() {
     this.uploader.clearQueue();
+  }
+
+  // Delete Item From Array
+  deleteItemFromArray(item: any, arrayType: string) {
+    if (arrayType === "attachedFile") {
+      this.setGlobalAttachedFilesList([item], "delete");
+      this.uploadAttachedFilesList = this.uploadAttachedFilesList.filter(
+        (attachedFile) => attachedFile.file.name !== item.name
+      );
+    } else {
+      this.setMultipleImagesListSubject([item], "delete");
+      this.uploadMultipleImagesList = this.uploadMultipleImagesList.filter(
+        (image) => image.file.name !== item.name
+      );
+    }
   }
 
   duplicatedFileError(file: any) {
@@ -99,22 +180,11 @@ export class CloudinaryService {
     }
   }
 
-  formatInvalidError(type: string) {
+  formatInvalidError() {
     let validExtensions: any;
 
-    console.log(type);
-
-    if (type === "img") {
-      validExtensions = [
-        "jpg",
-        "jpeg",
-        "png",
-        "gif",
-        "bmp",
-        "webp",
-        "tiff",
-        "jfif",
-      ];
+    if (this.uploadActionType === "image") {
+      validExtensions = this.validExtensions(this.uploadActionType);
 
       this._notificationsS.message(
         "error",
@@ -128,17 +198,7 @@ export class CloudinaryService {
       );
       this.clearQueue();
     } else {
-      validExtensions = [
-        "doc",
-        "docx",
-        "pdf",
-        "png",
-        "jpg",
-        "jpeg",
-        "gif",
-        "webp",
-        "jfif",
-      ];
+      validExtensions = this.validExtensions(this.uploadActionType);
 
       this._notificationsS.message(
         "error",
@@ -153,6 +213,68 @@ export class CloudinaryService {
     }
   }
 
+  // Generate Random 15 Characters Password
+  generateRandomPass(): string {
+    return Math.random().toString(36).slice(-15);
+  }
+
+  // Render Image Preview After Adding File Item
+  renderImagePreview(file: any) {
+    var image_file = file._file;
+    const reader = new FileReader();
+    reader.addEventListener("load", () => {
+      this.image = reader.result.toString();
+    });
+    reader.readAsDataURL(image_file);
+  }
+
+  // Reset Uploader Arrays
+  resetUploaderArrays() {
+    this.uploadMainImage = null;
+    this.uploadAttachedFilesList = [];
+    this.uploadMultipleImagesList = [];
+  }
+
+  // Set Attached Files List
+  setAttachedFilesList(file: any) {
+    this.uploadAttachedFilesList = [...this.uploadAttachedFilesList, file];
+    this.setGlobalAttachedFilesList(
+      [{ _id: this.generateRandomPass(), ...file.file }],
+      "push"
+    );
+  }
+
+  // Set Main Image
+  setMainImage(image: any) {
+    this.renderImagePreview(image);
+    this.uploadMainImage = image;
+  }
+
+  // Set Multiple Images List
+  setMultipleImagesList(image: any) {
+    this.uploadMultipleImagesList = [...this.uploadMultipleImagesList, image];
+    this.setMultipleImagesListSubject(
+      [{ _id: this.generateRandomPass(), ...image.file }],
+      "push"
+    );
+  }
+
+  getMultipleImagesListSubject(): Observable<any> {
+    return this.uploadMultipleImagesListSubject.asObservable();
+  }
+
+  setMultipleImagesListSubject(file: any, action: string) {
+    this.uploadMultipleImagesListSubject.next([file, action]);
+  }
+
+  getGlobalAttachedFilesList(): Observable<[Array<any>, string]> {
+    return this.globalAttachedFileList.asObservable();
+  }
+
+  setGlobalAttachedFilesList(attachedFile: any, action: string) {
+    this.globalAttachedFileList.next([attachedFile, action]);
+  }
+
   upload(img: object, type: string, id: string): Observable<any> {
     const url = `${environment.URI}/api/img`;
     const data = {
@@ -164,7 +286,7 @@ export class CloudinaryService {
     return this.http.put(url, data);
   }
 
-  uploaderSend(typeFileUpload: string) {
+  uploaderSend() {
     // Create the file uploader, wire it to upload to your account
     const uploaderOptions: FileUploaderOptions = {
       url: `https://api.cloudinary.com/v1_1/${
@@ -172,11 +294,12 @@ export class CloudinaryService {
       }/auto/upload`,
       // Limit Format Types
       allowedFileType:
-        typeFileUpload === "evidences"
+        ["file"].indexOf(this.uploadActionType) > -1
           ? ["doc", "docx", "pdf", "image"]
           : ["image"],
       // Upload files automatically upon addition to upload queue
       autoUpload: false,
+
       // Use xhrTransport in favor of iframeTransport
       isHTML5: true,
       // Calculate progress independently for each uploaded file
@@ -192,9 +315,8 @@ export class CloudinaryService {
 
     this.uploader = new FileUploader(uploaderOptions);
 
-    const upsertResponse = (fileItem) => {
-      // Check if HTTP request was successful
-      // console.log(fileItem)
+    // Check if HTTP request was successful
+    const upsertResponse = (fileItem: any) => {
       if (fileItem.status !== 200) {
         console.log("Upload to cloudinary Failed");
         return false;
@@ -202,12 +324,17 @@ export class CloudinaryService {
       // console.log(fileItem.data.url);
     };
 
+    // Configurate Cloudinary Data Before Upload Files
     this.uploader.onBuildItemForm = (fileItem: any, form: FormData): any => {
       // Add Cloudinary unsigned upload preset to the upload form
       form.append("upload_preset", this.cloudinary.config().upload_preset);
 
-      // Add file to upload
-      form.append("file", fileItem);
+      // Add File Title And Description
+      if (fileItem.formData.length > 0)
+        form.append(
+          "context",
+          `alt=${fileItem.formData[0].alt}|caption=${fileItem.formData[0].caption}`
+        );
 
       // Add folder
       form.append(
@@ -219,11 +346,15 @@ export class CloudinaryService {
           : "Posts"
       );
 
+      // Add file to upload
+      form.append("file", fileItem);
+
       // Use default "withCredentials" value for CORS requests
       fileItem.withCredentials = false;
       return { fileItem, form };
     };
 
+    // Set Data After File Has Been Uploaded Successfully
     this.uploader.onCompleteItem = (
       item: any,
       response: string,
@@ -235,27 +366,68 @@ export class CloudinaryService {
         status,
         data: JSON.parse(response),
       });
+      this.resetUploaderArrays();
       const data = JSON.parse(response);
       const name = `${data.original_filename}.${data.url.split(".").pop()}`;
-      const url = data.url;
+      const url = data.secure_url;
       const public_id = data.public_id;
       const size = data.bytes;
-      this.setFile(url, public_id, size, name);
+      const tags = data.tags;
+      const context = data.context ? data.context.custom : "";
+      this.setFile(url, public_id, size, name, tags, context);
     };
 
-    // Get Last Item Of Uploader Queue
+    // Set Respective File Data After Adding Files
     this.uploader.onAfterAddingFile = (file) => {
-      // Render Image Preview After Adding File Item
-      var image_file = file._file;
-      const reader = new FileReader();
-      reader.addEventListener("load", () => {
-        this.image = reader.result.toString();
-      });
-      reader.readAsDataURL(image_file);
-
-      if (typeFileUpload === "image") {
-        this.uploader.queue = [this.uploader.queue.pop()];
+      // Validate If File Upload Action Is For A Single Image
+      if (this.uploadFileType === "mainImage") {
+        this.setMainImage(file);
+      }
+      // Validate If File Upload Action Is For Multiple Images
+      else if (this.uploadFileType === "multipleImages") {
+        this.setMultipleImagesList(file);
+      }
+      // Validate If File Upload Action Is For Attached Files
+      else {
+        if (
+          this.uploadAttachedFilesList.filter(
+            (attachedFile: any) => attachedFile._file.name === file._file.name
+          ).length === 0
+        ) {
+          this.setAttachedFilesList(file);
+        } else {
+          this.duplicatedFileError(file._file.name);
+        }
       }
     };
+  }
+
+  validExtensions(type: string): Array<string> {
+    let validExtensions: Array<string> = [];
+    if (type === "img" || type === "image")
+      validExtensions = [
+        "jpg",
+        "jpeg",
+        "png",
+        "gif",
+        "bmp",
+        "webp",
+        "tiff",
+        "jfif",
+      ];
+    else
+      validExtensions = [
+        "doc",
+        "docx",
+        "pdf",
+        "png",
+        "jpg",
+        "jpeg",
+        "gif",
+        "webp",
+        "jfif",
+      ];
+
+    return validExtensions;
   }
 }

@@ -1,17 +1,20 @@
+import { Quote } from "./quote";
+
 export class Post {
   constructor(
-    public content: string,
-    public title: string,
-    public categories?: string,
+    public postContent: string,
+    public postTitle: string,
+    public attachedFiles?: string,
+    public postCategories?: any,
     public created_at?: string,
-    public external_sources?: string,
-    public img?: string,
+    public postImage?: string,
+    public processState?: string,
+    public postQuotes?: [Quote],
     public status?: string,
     public user?: {
       firstName: string;
       lastName: string;
     },
-    public processState?: string,
     public _id?: string
   ) {}
 }

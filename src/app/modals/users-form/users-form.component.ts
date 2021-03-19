@@ -66,8 +66,11 @@ export class UsersFormComponent implements OnInit, AfterViewChecked {
 
   ngOnInit() {
     this.initRegisterForm();
-    // Init Cloudinary Uploader Options - Img / Evidences
-    this._cloudinaryS.uploaderSend("image");
+    // Init Cloudinary Uploader Options - Image
+    this._cloudinaryS.uploaderSend();
+
+    // Set Cloudinary Uploader File Type - Image
+    this._cloudinaryS.setFileUploadType("image", "mainImage");
 
     // Get Cloudinary File Uploaded Response
     this.subscriptionsArray.push(
@@ -80,19 +83,7 @@ export class UsersFormComponent implements OnInit, AfterViewChecked {
 
     // Validate Invalid Format Files
     this._cloudinaryS.uploader.onWhenAddingFileFailed = (item, filter) => {
-      // let message = '';
-      // switch (filter.name) {
-      //   case 'queueLimit':
-      //     message = 'Permitido o envio de no máximo ' + queueLimit + ' arquivos';
-      //     break;
-      //   case 'fileSize':
-      //     message = 'O arquivo ' + item.name + ' possui ' + formatBytes(item.size) + ' que ultrapassa o tamanho máximo permitido de ' + formatBytes(maxFileSize);
-      //     break;
-      //   default:
-      //     message = 'Erro tentar incluir o arquivo';
-      //     break;
-
-      this._cloudinaryS.formatInvalidError("img");
+      this._cloudinaryS.formatInvalidError();
     };
 
     // Create / Update
@@ -232,9 +223,15 @@ export class UsersFormComponent implements OnInit, AfterViewChecked {
       }
       // Update data and image from existing user
       else {
-        this._cloudinaryS.setFileType("user");
-        this._cloudinaryS.uploader.uploadAll();
-        this.isUserUpdating = true;
+        this._cloudinaryS.configurateUploaderBeforeUpload().then((resp) => {
+          if (resp) {
+            this._cloudinaryS.setFileType("user");
+            this._cloudinaryS.uploader.uploadAll();
+            this.isUserUpdating = true;
+          } else {
+            console.log("Error al configurar el uploader");
+          }
+        });
       }
     }
     // Create New User
@@ -256,9 +253,15 @@ export class UsersFormComponent implements OnInit, AfterViewChecked {
       }
       // Create user with data and image
       else {
-        this._cloudinaryS.setFileType("user");
-        this._cloudinaryS.uploader.uploadAll();
-        this.isUserUpdating = false;
+        this._cloudinaryS.configurateUploaderBeforeUpload().then((resp) => {
+          if (resp) {
+            this._cloudinaryS.setFileType("user");
+            this._cloudinaryS.uploader.uploadAll();
+            this.isUserUpdating = false;
+          } else {
+            console.log("Error al configurar el uploader");
+          }
+        });
       }
     }
   }

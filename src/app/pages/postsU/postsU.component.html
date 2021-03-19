@@ -55,7 +55,7 @@
             </div>
           </div>
           <div class="card-img card-image centered-img-bg ff-ur">
-            <img [src]="post?.img | img: 'post'" />
+            <img [src]="post?.postImage | img: 'post'" />
           </div>
         </div>
 
@@ -64,12 +64,14 @@
             <a
               [routerLink]="['/articulo-detalle', post._id]"
               (click)="scrollToTop()"
-              ><span class="card-title">{{ post?.title }}</span></a
+              ><span class="card-title">{{ post?.postTitle }}</span></a
             >
           </div>
           <div
             class="noticia-content"
-            [innerHtml]="post?.content ? (post?.content | truncateHtml) : 'N/E'"
+            [innerHtml]="
+              post?.postContent ? (post?.postContent | truncateHtml) : 'N/E'
+            "
           ></div>
         </div>
       </div>

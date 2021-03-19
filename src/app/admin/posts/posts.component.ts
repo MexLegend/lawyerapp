@@ -30,7 +30,7 @@ export class PostsComponent implements OnInit {
   currentPage: number = 1;
   entriesFilter: any[] = [5, 10, 20, 50, 100, 200];
   filterValue: string;
-  posts: Post[] = [];
+  posts: Array<Post> = [];
   selectedEntry: number = 10;
 
   public innerScreenWidth: any;
@@ -80,7 +80,7 @@ export class PostsComponent implements OnInit {
     Swal.fire({
       icon: "warning",
       title: "¿Estas seguro?",
-      text: "Estas a punto de borrar el artículo " + post.title,
+      text: "Estas a punto de borrar el artículo " + post.postTitle,
       showCancelButton: true,
       showConfirmButton: true,
       confirmButtonColor: "#3085d6",
@@ -143,14 +143,14 @@ export class PostsComponent implements OnInit {
   }
 
   // Open Posts Modal
-  openPostsModal(idPost?: any) {
+  openPostsModal(postData?: any) {
     let dialogRef =
-      idPost && idPost !== ""
+      postData && postData !== ""
         ? this.dialog.open(PostsFormComponent, {
             id: "postsModal",
             panelClass: "postsModal",
             height: "90%",
-            data: { idPost, action: "Editar" },
+            data: { postData, action: "Editar" },
             autoFocus: false,
           })
         : this.dialog.open(PostsFormComponent, {

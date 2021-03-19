@@ -119,7 +119,7 @@
             >
               <div class="item-acordion-card-header dfr">
                 <div class="item-acordion-card-header-icon centered-img-bg">
-                  <img [src]="post.user?.img | img: 'post'" alt="" />
+                  <img [src]="post.user?.img | img: 'user'" alt="" />
                 </div>
                 <div class="item-acordion-card-header-data dfc">
                   <div
@@ -153,17 +153,19 @@
               <div class="item-acordion-card-body dfr">
                 <div class="item-acordion-card-body-data dfc">
                   <div class="item-acordion-card-body-title">
-                    <span>{{ post?.title }}</span>
+                    <span>{{ post?.postTitle }}</span>
                   </div>
                   <div
                     class="item-acordion-card-body-content"
                     [innerHtml]="
-                      post.content ? (post.content | truncateHtml) : 'N/E'
+                      post.postContent
+                        ? (post.postContent | truncateHtml)
+                        : 'N/E'
                     "
                   ></div>
                 </div>
                 <div class="item-acordion-card-body-image centered-img-bg dfr">
-                  <img [src]="post?.img | img: 'post'" alt="" />
+                  <img [src]="post?.postImage | img: 'post'" alt="" />
                 </div>
               </div>
               <div class="item-acordion-body-actions dfr">
@@ -178,7 +180,7 @@
                 >
                   <i class="fas fa-cogs"></i>
                 </button>
-                <!-- Post CRUD Menu Content -->
+                <!-- Post Status CRUD Menu Content -->
                 <mat-menu #mainStatusMenu="matMenu" xPosition="before">
                   <ng-template matMenuContent>
                     <div class="dfc select-content-container">
@@ -254,7 +256,7 @@
                   <ng-template matMenuContent>
                     <div class="dfc select-content-container">
                       <!-- Edit Option -->
-                      <button mat-menu-item (click)="openPostsModal(post._id)">
+                      <button mat-menu-item (click)="openPostsModal(post)">
                         <i class="material-icons">edit</i>
                         <span>Editar</span>
                       </button>

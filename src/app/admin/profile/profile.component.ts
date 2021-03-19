@@ -65,7 +65,11 @@ export class ProfileComponent implements OnInit, OnDestroy {
   selectAction: any = { action: "Seleccionar", isSelectingAll: false };
 
   ngOnInit() {
-    this._cloudinaryS.uploaderSend("image");
+    // Init Cloudinary Uploader Options - Image
+    this._cloudinaryS.uploaderSend();
+
+    // Set Cloudinary Uploader File Type - Image
+    this._cloudinaryS.setFileUploadType("image", "mainImage");
 
     // Get User Data Request
     this.subscriptionsArray.push(
@@ -76,6 +80,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
     this.subscriptionsArray.push(
       this._usersS.getUserData().subscribe((user) => {
         this.user = user;
+        this._cloudinaryS.image = user?.img;
       })
     );
 
@@ -113,19 +118,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
     // Validate Invalid Format Files
     this._cloudinaryS.uploader.onWhenAddingFileFailed = (item, filter) => {
-      // let message = '';
-      // switch (filter.name) {
-      //   case 'queueLimit':
-      //     message = 'Permitido o envio de no máximo ' + queueLimit + ' arquivos';
-      //     break;
-      //   case 'fileSize':
-      //     message = 'O arquivo ' + item.name + ' possui ' + formatBytes(item.size) + ' que ultrapassa o tamanho máximo permitido de ' + formatBytes(maxFileSize);
-      //     break;
-      //   default:
-      //     message = 'Erro tentar incluir o arquivo';
-      //     break;
-
-      this._cloudinaryS.formatInvalidError("img");
+      this._cloudinaryS.formatInvalidError();
     };
 
     // Get Cloudinary File Uploaded Response
@@ -141,6 +134,39 @@ export class ProfileComponent implements OnInit, OnDestroy {
     this.subscriptionsArray.map((subscription) => subscription.unsubscribe());
     this._onDestroy.next();
     this._onDestroy.complete();
+  }
+
+  getLawyerPracticeAreas(): any {
+    const practiceAreasList = this.practiceAreas
+      .filter((practiceArea: PracticeArea) =>
+        this.user.practice_areas.some(
+          (practiceAreaLawyer: any) =>
+            practiceAreaLawyer.practice_area === practiceArea._id
+        )
+      )
+      .map((practiceAreaObtained) => practiceAreaObtained.name);
+
+    return practiceAreasList;
+  }
+
+  protected filterBanksMulti() {
+    if (!this.practiceAreas) {
+      return;
+    }
+    // Get The Search Keyword
+    let search = this.practiceAreasFilterCtrl.value;
+    if (!search) {
+      this.practiceAreasMulti.next(this.practiceAreas.slice());
+      return;
+    } else {
+      search = search.toLowerCase();
+    }
+    // Filter The Practice Areas
+    this.practiceAreasMulti.next(
+      this.practiceAreas.filter(
+        (practiceArea) => practiceArea.name.toLowerCase().indexOf(search) > -1
+      )
+    );
   }
 
   // Filter Practice Areas List
@@ -255,6 +281,42 @@ export class ProfileComponent implements OnInit, OnDestroy {
     this._utilitiesS.setActiveTab(tabGroup, activeTab);
   }
 
+  /**
+   * Sets The Initial Value After The Practice Areas Are Loaded Initially
+   */
+  protected setInitialValue() {
+    this.practiceAreasMulti
+      .pipe(take(1), takeUntil(this._onDestroy))
+      .subscribe(() => {
+        // setting the compareWith property to a comparison function
+        // triggers initializing the selection according to the initial value of
+        // the form control (i.e. _initializeSelection())
+        // this needs to be done after the filteredBanks are loaded initially
+        // and after the mat-option elements are available
+        if (this.practiceAreaSelect)
+          this.practiceAreaSelect.compareWith = (
+            a: PracticeArea,
+            b: PracticeArea
+          ) => a && b && a._id === b._id;
+      });
+  }
+
+  // Update Admin or Lawyer Image
+  updateImage(image?: Object) {
+    this._cloudinaryS.configurateUploaderBeforeUpload().then((resp) => {
+      if (resp) {
+        this._cloudinaryS.setFileType("user");
+        this._cloudinaryS.uploader.uploadAll();
+      } else {
+        console.log("Error al configurar el uploader");
+      }
+    });
+
+    this.subscriptionsArray.push(
+      this._usersS.updateImage(this._usersS.user._id, image).subscribe()
+    );
+  }
+
   // Update Admin or Lawyer Information
   updateUserData(userProfileTabGroup: any) {
     if (this.activeAction === "Áreas de práctica") {
@@ -282,36 +344,6 @@ export class ProfileComponent implements OnInit, OnDestroy {
     }
   }
 
-  // Update Admin or Lawyer Image
-  updateImage(image?: Object) {
-    this._cloudinaryS.setFileType("user");
-    this._cloudinaryS.uploader.uploadAll();
-
-    this.subscriptionsArray.push(
-      this._usersS.updateImage(this._usersS.user._id, image).subscribe()
-    );
-  }
-
-  /**
-   * Sets The Initial Value After The Practice Areas Are Loaded Initially
-   */
-  protected setInitialValue() {
-    this.practiceAreasMulti
-      .pipe(take(1), takeUntil(this._onDestroy))
-      .subscribe(() => {
-        // setting the compareWith property to a comparison function
-        // triggers initializing the selection according to the initial value of
-        // the form control (i.e. _initializeSelection())
-        // this needs to be done after the filteredBanks are loaded initially
-        // and after the mat-option elements are available
-        if (this.practiceAreaSelect)
-          this.practiceAreaSelect.compareWith = (
-            a: PracticeArea,
-            b: PracticeArea
-          ) => a && b && a._id === b._id;
-      });
-  }
-
   toggleSelectAll(selectAllValue: boolean) {
     this.practiceAreasMulti
       .pipe(take(1), takeUntil(this._onDestroy))
@@ -326,38 +358,5 @@ export class ProfileComponent implements OnInit, OnDestroy {
           this.userProfileForm.controls["practiceAreas"].setValue([]);
         }
       });
-  }
-
-  protected filterBanksMulti() {
-    if (!this.practiceAreas) {
-      return;
-    }
-    // Get The Search Keyword
-    let search = this.practiceAreasFilterCtrl.value;
-    if (!search) {
-      this.practiceAreasMulti.next(this.practiceAreas.slice());
-      return;
-    } else {
-      search = search.toLowerCase();
-    }
-    // Filter The Practice Areas
-    this.practiceAreasMulti.next(
-      this.practiceAreas.filter(
-        (practiceArea) => practiceArea.name.toLowerCase().indexOf(search) > -1
-      )
-    );
-  }
-
-  getLawyerPracticeAreas(): any {
-    const practiceAreasList = this.practiceAreas
-      .filter((practiceArea: PracticeArea) =>
-        this.user.practice_areas.some(
-          (practiceAreaLawyer: any) =>
-            practiceAreaLawyer.practice_area === practiceArea._id
-        )
-      )
-      .map((practiceAreaObtained) => practiceAreaObtained.name);
-
-    return practiceAreasList;
   }
 }

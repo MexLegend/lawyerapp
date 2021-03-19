@@ -1,3 +1,5 @@
+import { Quote } from "./quote";
+
 export class PracticeArea {
   constructor(
     public name: string,
@@ -9,11 +11,7 @@ export class PracticeArea {
     ],
     public author?: string,
     public is_category?: boolean,
-    public references?: [
-      {
-        reference: string;
-      }
-    ],
+    public quotes?: [Quote],
     public review?: string,
     public _id?: string
   ) {}

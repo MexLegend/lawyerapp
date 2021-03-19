@@ -23,17 +23,15 @@ export class PostsService {
     private _usersS: UsersService
   ) {}
 
-  postAttachedFileList = new Subject<[Array<any>, string]>();
-
-  createPost(post: any, img?: any): Observable<any> {
+  createPost(postData: any, postImage?: any): Observable<any> {
     const url = `${environment.URI}/api/posts`;
     const headers = new HttpHeaders({
       token: this._usersS.token,
     });
 
     const data = {
-      post,
-      img,
+      postData: { ...postData, user: this._usersS.user._id },
+      postImage,
       processState: "REVIEWING",
     };
 
@@ -107,7 +105,7 @@ export class PostsService {
     orderField: string = "",
     orderType: number = 0,
     filter: string = "",
-    filterOpt: string = "title",
+    filterOpt: string = "postTitle",
     status: boolean = true
   ): Observable<PostsPagination> {
     let url = `${environment.URI}/api/posts?status=${status}&page=${
@@ -142,7 +140,7 @@ export class PostsService {
     orderField: string = "",
     orderType: number = 0,
     filter: string = "",
-    filterOpt: string = "title",
+    filterOpt: string = "postTitle",
     status: boolean = true
   ): Observable<PostsPagination> {
     let url = `${environment.URI}/api/posts/byLawyer/?status=${status}&page=${
@@ -173,7 +171,7 @@ export class PostsService {
     orderField: string = "",
     orderType: number = 0,
     filter: string = "",
-    filterOpt: string = "title",
+    filterOpt: string = "postTitle",
     status: boolean = true
   ): Observable<PostsPagination> {
     let url = `${environment.URI}/api/posts/byRol/?status=${status}&page=${
@@ -229,23 +227,17 @@ export class PostsService {
     return new Promise((resolve, reject) => resolve(postsCount));
   }
 
-  getPostAttachedFilesList(): Observable<[Array<any>, string]> {
-    return this.postAttachedFileList.asObservable();
-  }
+  updatePost(postDataObtained: any, postImage?: any) {
+    const { _id: id, ...postData } = postDataObtained;
 
-  setPostAttachedFilesList(attachedFile: any, action: string) {
-    this.postAttachedFileList.next([attachedFile, action]);
-  }
-
-  updatePost(id, post: any, img?: any) {
     const headers = new HttpHeaders({
       token: this._usersS.token,
     });
     const url = `${environment.URI}/api/posts/${id}`;
 
     const data = {
-      post,
-      img,
+      postData,
+      postImage,
     };
 
     return this.http.put(url, data, { headers }).pipe(

@@ -1548,6 +1548,10 @@ p {
   padding: 0 !important;
 }
 
+.px-24 {
+  padding: 0 24px !important;
+}
+
 .px-30 {
   padding: 0 30px !important;
 }
@@ -1645,6 +1649,10 @@ p {
 
 .h-full {
   height: 100% !important;
+}
+
+.h-full-40 {
+  height: calc(100% - 40px) !important;
 }
 
 /* Button Disabled Styling */
@@ -5974,8 +5982,16 @@ perfect-scrollbar > .ps.ps--scrolling-y > .ps__rail-y,
   padding-bottom: 0 !important;
 }
 
+.modal-input .mat-form-field.normal-select .mat-form-field-flex {
+  padding-top: 0 !important;
+}
+
 .modal-input .mat-select-arrow-wrapper {
   transform: translateY(-20%) !important;
+}
+
+.modal-input .mat-form-field.normal-select .mat-select-arrow-wrapper {
+  transform: translateY(7%) !important;
 }
 
 .modal-input .mat-form-field-underline,
@@ -7253,6 +7269,17 @@ span.badge.new:after {
 
 .my-drop-zone i {
   font-size: 100px;
+}
+
+.my-drop-zone .input-file-button {
+  min-width: 280px;
+  max-width: 280px;
+}
+
+.my-drop-zone .modal-upload-action {
+  background: linear-gradient(45deg, #b72318, #ff5722) !important;
+  width: 100%;
+  margin: 0;
 }
 
 .upload-img-preview {

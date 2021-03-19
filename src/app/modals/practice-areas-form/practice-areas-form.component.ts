@@ -2,7 +2,6 @@ import {
   Component,
   OnInit,
   Inject,
-  ViewChild,
   HostListener,
   QueryList,
   ViewChildren,
@@ -13,13 +12,7 @@ import {
   FormGroup,
   Validators,
 } from "@angular/forms";
-import {
-  MAT_DIALOG_DATA,
-  MatDialogRef,
-  MatStepper,
-  MatDialog,
-} from "@angular/material";
-import { PracticeArea } from "../../models/PracticeArea";
+import { MAT_DIALOG_DATA, MatDialogRef, MatDialog } from "@angular/material";
 import { Subscription } from "rxjs";
 import { PracticeAreasService } from "../../services/practice-areas.service";
 import { UsersService } from "../../services/users.service";
@@ -57,7 +50,7 @@ export class PracticeAreasFormComponent implements OnInit {
   practiceAreaDataFormType: string = "";
   practiceAreaForm: FormGroup;
   practiceAreaFAQsList: any = [];
-  practiceAreaReferencesList: any = [];
+  practiceAreaQuotesList: any = [];
   practiceAreaSpecializedLawyersList: any = [];
   selectedEntry: number = 10;
 
@@ -101,16 +94,16 @@ export class PracticeAreasFormComponent implements OnInit {
         )
     );
 
-    // Get References List
+    // Get Quotes List
     this.subscriptionsArray.push(
       this._practiceAreaS
-        .getReferencesList()
-        .subscribe(([references, action]) =>
-          references.map(
-            (reference: any) =>
-              (this.practiceAreaReferencesList = this._utilitiesS.upsertArrayItems(
-                this.practiceAreaReferencesList,
-                reference,
+        .getQuotesList()
+        .subscribe(([quotes, action]) =>
+          quotes.map(
+            (quote: any) =>
+              (this.practiceAreaQuotesList = this._utilitiesS.upsertArrayItems(
+                this.practiceAreaQuotesList,
+                quote,
                 action
               ))
           )
@@ -134,10 +127,10 @@ export class PracticeAreasFormComponent implements OnInit {
         if (this.practiceAreaData.faq) {
           this._practiceAreaS.setFAQsList(this.practiceAreaData.faq, "list");
         }
-        // Set References List With Obtained Data
-        if (this.practiceAreaData.references) {
-          this._practiceAreaS.setReferencesList(
-            this.practiceAreaData.references,
+        // Set Quotes List With Obtained Data
+        if (this.practiceAreaData.quotes) {
+          this._practiceAreaS.setQuotesList(
+            this.practiceAreaData.quotes,
             "list"
           );
         }
@@ -169,7 +162,7 @@ export class PracticeAreasFormComponent implements OnInit {
       ({ _id: idFAQ, ...faqsData }) => ({ ...faqsData })
     );
 
-    const referencesData = this.practiceAreaReferencesList.map(
+    const referencesData = this.practiceAreaQuotesList.map(
       ({ _id: idReference, ...referenecesData }) => ({ ...referenecesData })
     );
 
@@ -226,12 +219,12 @@ export class PracticeAreasFormComponent implements OnInit {
     }
   }
 
-  // Pop Item From FAQs / References Array
+  // Pop Item From FAQs / Quotes Array
   deleteElementFromArray(item: any, arrayType: string) {
     if (arrayType === "FAQ") {
       this._practiceAreaS.setFAQsList([item], "delete");
     } else {
-      this._practiceAreaS.setReferencesList([item], "delete");
+      this._practiceAreaS.setQuotesList([item], "delete");
     }
   }
 
@@ -302,19 +295,19 @@ export class PracticeAreasFormComponent implements OnInit {
     // });
   }
 
-  // Open References Modal
-  openReferencesModal(referenceData?: string, action?: string) {
+  // Open Quotes Modal
+  openQuotesModal(quoteData?: string, action?: string) {
     let dialogRef =
-      referenceData && referenceData !== ""
+      quoteData && quoteData !== ""
         ? this.dialog.open(ReferencesComponent, {
             id: "ReferenceModal",
-            data: { referenceData, action: "Editar", type: "Referencia" },
+            data: { quoteData, action: "Editar", type: "Cita" },
             autoFocus: false,
             width: "600px",
           })
         : this.dialog.open(ReferencesComponent, {
             id: "ReferenceModal",
-            data: { action: "Agregar", type: "Referencia" },
+            data: { action: "Agregar", type: "Cita" },
             autoFocus: false,
             width: "600px",
           });

@@ -181,11 +181,14 @@
               [routerLink]="['/articulo-detalle', post._id]"
             >
               <div class="last-article-img centered-img-bg">
-                <img [src]="post?.img | img: 'post'" [alt]="post?.title" />
+                <img
+                  [src]="post?.postImage | img: 'post'"
+                  [alt]="post?.postTitle"
+                />
               </div>
               <div class="last-article-data dfc">
                 <div class="last-article-name">
-                  <span>{{ post?.title }}</span>
+                  <span>{{ post?.postTitle }}</span>
                 </div>
                 <div class="last-article-author">
                   <span

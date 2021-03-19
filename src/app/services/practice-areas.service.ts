@@ -20,7 +20,7 @@ export class PracticeAreasService {
 
   FAQsList = new Subject<[Array<any>, string]>();
   practiceAreasList = new Subject<[Array<PracticeArea>, string]>();
-  referencesList = new Subject<[Array<any>, string]>();
+  quotesList = new Subject<[Array<any>, string]>();
 
   createPracticeArea(
     author: any,
@@ -219,12 +219,12 @@ export class PracticeAreasService {
     localStorage.setItem("practiceAreas", JSON.stringify(practiceArea));
   }
 
-  getReferencesList(): Observable<[Array<any>, string]> {
-    return this.referencesList.asObservable();
+  getQuotesList(): Observable<[Array<any>, string]> {
+    return this.quotesList.asObservable();
   }
 
-  setReferencesList(references: any, action: string) {
-    this.referencesList.next([references, action]);
+  setQuotesList(quotes: any, action: string) {
+    this.quotesList.next([quotes, action]);
   }
 
   updatePracticeArea(

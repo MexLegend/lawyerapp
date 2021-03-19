@@ -234,7 +234,7 @@
                   >
                     <div class="item-acordion-card-header-left dfr">
                       <div class="item-acordion-card-name lawyer-name">
-                        <span>{{ post?.title }}</span>
+                        <span>{{ post?.postTitle }}</span>
                       </div>
                     </div>
                   </div>
@@ -249,7 +249,9 @@
                     >
                       <span
                         [innerHtml]="
-                          post?.content ? (post?.content | truncateHtml) : 'N/E'
+                          post?.postContent
+                            ? (post?.postContent | truncateHtml)
+                            : 'N/E'
                         "
                       ></span>
                     </div>
@@ -257,12 +259,12 @@
                   <div
                     class="item-acordion-card-body-image centered-img-bg dfr"
                   >
-                    <img [src]="post?.img | img: 'post'" />
+                    <img [src]="post?.postImage | img: 'post'" />
                   </div>
                 </div>
                 <!-- Post Card Actions -->
                 <div class="item-acordion-body-actions dfr">
-                  <!-- Post Button Trigger -->
+                  <!-- Post Go To Comments Button Trigger -->
                   <button
                     class="header-item-btn btn action-button dfc"
                     mat-icon-button
@@ -272,7 +274,7 @@
                   >
                     <i class="material-icons">forum</i>
                   </button>
-                  <!-- Post Button Trigger -->
+                  <!-- Post Read Button Trigger -->
                   <button
                     class="header-item-btn btn action-button important-action dfc"
                     mat-icon-button

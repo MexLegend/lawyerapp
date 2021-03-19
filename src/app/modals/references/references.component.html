@@ -1,10 +1,10 @@
 <!-- Modal Structure -->
 <div mat-dialog-title class="modal-header admin-modal-header dfc">
   <div class="modal-icon dfc">
-    <i class="fas fa-link"></i>
+    <i class="fas fa-quote-right"></i>
   </div>
   <span class="client-action"
-    >{{ referenceModalAction + " " + referenceModalType }}
+    >{{ quoteModalAction + " " + quoteModalType }}
   </span>
   <i
     mat-dialog-close
@@ -22,27 +22,295 @@
         class="col s12"
         style="padding: 0 30px; height: 100%"
         ngNativeValidate
-        [formGroup]="referenceForm"
+        [formGroup]="quoteForm"
       >
         <!-- Inputs Container -->
         <div class="inputs-container h-full">
-          <!-- Reference Input Field -->
+          <!-- Type Input Field -->
+          <div class="modal-input modal-input-pink mb-25">
+            <mat-form-field appearance="fill" class="normal-select">
+              <mat-select
+                formControlName="quoteType"
+                #quotesSelect
+                (selectionChange)="displayInputs($event.value)"
+              >
+                <mat-option
+                  *ngFor="let quote of quoteTypesList"
+                  [value]="quote"
+                  >{{ quote }}</mat-option
+                >
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <!-- Autor Input Field -->
           <div
-            class="modal-input modal-input-pink notes-text-area faq-textarea"
+            *ngIf="[2, 5].indexOf(renderedInputs) === -1"
+            class="modal-input modal-input-pink mb-25"
+          >
+            <input
+              name="quoteAuthor"
+              formControlName="quoteAuthor"
+              placeholder=" "
+              type="text"
+            />
+            <div class="modal-input-placeholder modal-input-placeholder-pink">
+              Autor{{ this.renderedInputs === 1 ? "*" : "" }}
+            </div>
+          </div>
+          <!-- Page Name Input Field -->
+          <div
+            *ngIf="renderedInputs === 0"
+            class="modal-input modal-input-pink mb-25"
+          >
+            <input
+              name="quotePageName"
+              formControlName="quotePageName"
+              placeholder=" "
+              type="text"
+            />
+            <div class="modal-input-placeholder modal-input-placeholder-pink">
+              Nombre de la página
+            </div>
+          </div>
+          <!-- Web Site Name Input Field -->
+          <div
+            *ngIf="renderedInputs === 0"
+            class="modal-input modal-input-pink mb-25"
+          >
+            <input
+              name="quoteWebSiteName"
+              formControlName="quoteWebSiteName"
+              placeholder=" "
+              type="text"
+            />
+            <div class="modal-input-placeholder modal-input-placeholder-pink">
+              Nombre del sitio web
+            </div>
+          </div>
+          <!-- Year Input Field -->
+          <div class="modal-input modal-input-pink mb-25">
+            <input
+              name="quoteYear"
+              formControlName="quoteYear"
+              placeholder=" "
+              type="number"
+            />
+            <div class="modal-input-placeholder modal-input-placeholder-pink">
+              Año
+            </div>
+          </div>
+          <!-- Month Input Field -->
+          <div
+            *ngIf="[0, 2, 4].indexOf(renderedInputs) > -1"
+            class="modal-input modal-input-pink mb-25"
+          >
+            <input
+              name="quoteMonth"
+              formControlName="quoteMonth"
+              placeholder=" "
+              type="text"
+            />
+            <div class="modal-input-placeholder modal-input-placeholder-pink">
+              Mes
+            </div>
+          </div>
+          <!-- Day Input Field -->
+          <div
+            *ngIf="[0, 2, 4].indexOf(renderedInputs) > -1"
+            class="modal-input modal-input-pink mb-25"
+          >
+            <input
+              name="quoteDay"
+              formControlName="quoteDay"
+              placeholder=" "
+              type="number"
+            />
+            <div class="modal-input-placeholder modal-input-placeholder-pink">
+              Día
+            </div>
+          </div>
+          <!-- URL Input Field -->
+          <div
+            *ngIf="renderedInputs === 0"
+            class="modal-input modal-input-pink notes-text-area faq-textarea mb-25"
           >
             <textarea
               class="materialize-textarea expediente-input mh-20r ng-pristine ng-touched"
-              name="reference"
-              formControlName="reference"
-              id="ference"
+              name="quoteUrl"
+              formControlName="quoteUrl"
               placeholder=" "
               autosize
-              [minRows]="4"
-              [maxRows]="13"
-              required
+              [minRows]="3"
+              [maxRows]="3"
             ></textarea>
             <div class="modal-input-placeholder modal-input-placeholder-pink">
-              Referencia*
+              URL*
+            </div>
+          </div>
+          <!-- Title Input Field -->
+          <div
+            *ngIf="[0, 5].indexOf(renderedInputs) === -1"
+            class="modal-input modal-input-pink mb-25"
+          >
+            <input
+              name="quoteTitle"
+              formControlName="quoteTitle"
+              placeholder=" "
+              type="text"
+            />
+            <div class="modal-input-placeholder modal-input-placeholder-pink">
+              {{ renderedInputs === 2 ? "Nombre del caso" : "Título"
+              }}{{ [1, 2].indexOf(renderedInputs) > -1 ? "*" : "" }}
+            </div>
+          </div>
+          <!-- City Input Field -->
+          <div
+            *ngIf="renderedInputs === 1"
+            class="modal-input modal-input-pink mb-25"
+          >
+            <input
+              name="quoteCity"
+              formControlName="quoteCity"
+              placeholder=" "
+              type="text"
+            />
+            <div class="modal-input-placeholder modal-input-placeholder-pink">
+              Ciudad
+            </div>
+          </div>
+          <!-- Publisher Input Field -->
+          <div
+            *ngIf="renderedInputs === 1"
+            class="modal-input modal-input-pink mb-25"
+          >
+            <input
+              name="quotePublisher"
+              formControlName="quotePublisher"
+              placeholder=" "
+              type="text"
+            />
+            <div class="modal-input-placeholder modal-input-placeholder-pink">
+              Editorial
+            </div>
+          </div>
+          <!-- Case Number Input Field -->
+          <div
+            *ngIf="renderedInputs === 2"
+            class="modal-input modal-input-pink mb-25"
+          >
+            <input
+              name="quoteCaseNumber"
+              formControlName="quoteCaseNumber"
+              placeholder=" "
+              type="text"
+            />
+            <div class="modal-input-placeholder modal-input-placeholder-pink">
+              Número del caso
+            </div>
+          </div>
+          <!-- Court Input Field -->
+          <div
+            *ngIf="renderedInputs === 2"
+            class="modal-input modal-input-pink mb-25"
+          >
+            <input
+              name="quoteCourt"
+              formControlName="quoteCourt"
+              placeholder=" "
+              type="text"
+            />
+            <div class="modal-input-placeholder modal-input-placeholder-pink">
+              Corte
+            </div>
+          </div>
+          <!-- Pages Input Field -->
+          <div
+            *ngIf="[3, 4].indexOf(renderedInputs) > -1"
+            class="modal-input modal-input-pink mb-25"
+          >
+            <input
+              name="quotePages"
+              formControlName="quotePages"
+              placeholder=" "
+              type="text"
+            />
+            <div class="modal-input-placeholder modal-input-placeholder-pink">
+              Paginas
+            </div>
+          </div>
+          <!-- Periodical Title Input Field -->
+          <div
+            *ngIf="renderedInputs === 4"
+            class="modal-input modal-input-pink mb-25"
+          >
+            <input
+              name="quotePeriodicalTitle"
+              formControlName="quotePeriodicalTitle"
+              placeholder=" "
+              type="text"
+            />
+            <div class="modal-input-placeholder modal-input-placeholder-pink">
+              Título del periódico*
+            </div>
+          </div>
+          <!-- Journal Name Input Field -->
+          <div
+            *ngIf="renderedInputs === 3"
+            class="modal-input modal-input-pink mb-25"
+          >
+            <input
+              name="quoteJournalName"
+              formControlName="quoteJournalName"
+              placeholder=" "
+              type="text"
+            />
+            <div class="modal-input-placeholder modal-input-placeholder-pink">
+              Nombre de la revista*
+            </div>
+          </div>
+          <!-- Inventor Input Field -->
+          <div
+            *ngIf="renderedInputs === 5"
+            class="modal-input modal-input-pink mb-25"
+          >
+            <input
+              name="quoteInventor"
+              formControlName="quoteInventor"
+              placeholder=" "
+              type="text"
+            />
+            <div class="modal-input-placeholder modal-input-placeholder-pink">
+              Inventor*
+            </div>
+          </div>
+          <!-- Country Input Field -->
+          <div
+            *ngIf="renderedInputs === 5"
+            class="modal-input modal-input-pink mb-25"
+          >
+            <input
+              name="quoteCountry"
+              formControlName="quoteCountry"
+              placeholder=" "
+              type="text"
+            />
+            <div class="modal-input-placeholder modal-input-placeholder-pink">
+              Páis/Región
+            </div>
+          </div>
+          <!-- Patent Number Input Field -->
+          <div
+            *ngIf="renderedInputs === 5"
+            class="modal-input modal-input-pink mb-25"
+          >
+            <input
+              name="quotePatentNumber"
+              formControlName="quotePatentNumber"
+              placeholder=" "
+              type="text"
+            />
+            <div class="modal-input-placeholder modal-input-placeholder-pink">
+              Número de patente
             </div>
           </div>
         </div>
@@ -64,10 +332,10 @@
           <button
             type="submit"
             class="waves-effect waves-light btn modal-submit-action"
-            [class.button-disabled]="!referenceForm.valid"
-            (click)="createOrUpdateReference()"
+            [class.button-disabled]="!quoteForm.valid"
+            (click)="createOrUpdateQuote()"
           >
-            {{ referenceModalAction }}
+            {{ quoteModalAction }}
           </button>
         </div>
       </div>

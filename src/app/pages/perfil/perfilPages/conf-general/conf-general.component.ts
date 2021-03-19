@@ -41,7 +41,11 @@ export class ConfGeneralComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.reloadCache();
 
-    this._cloudinaryS.uploaderSend("image");
+    // Init Cloudinary Uploader Options - Image
+    this._cloudinaryS.uploaderSend();
+
+    // Set Cloudinary Uploader File Type - Image
+    this._cloudinaryS.setFileUploadType("image", "mainImage");
 
     // Get User Data Request
     this.subscriptionsArray.push(
@@ -52,24 +56,13 @@ export class ConfGeneralComponent implements OnInit, OnDestroy {
     this.subscriptionsArray.push(
       this._usersS.getUserData().subscribe((user) => {
         this.user = user;
+        this._cloudinaryS.image = user?.img;
       })
     );
 
     // Validate Invalid Format Files
     this._cloudinaryS.uploader.onWhenAddingFileFailed = (item, filter) => {
-      // let message = '';
-      // switch (filter.name) {
-      //   case 'queueLimit':
-      //     message = 'Permitido o envio de no máximo ' + queueLimit + ' arquivos';
-      //     break;
-      //   case 'fileSize':
-      //     message = 'O arquivo ' + item.name + ' possui ' + formatBytes(item.size) + ' que ultrapassa o tamanho máximo permitido de ' + formatBytes(maxFileSize);
-      //     break;
-      //   default:
-      //     message = 'Erro tentar incluir o arquivo';
-      //     break;
-
-      this._cloudinaryS.formatInvalidError("img");
+      this._cloudinaryS.formatInvalidError();
     };
 
     // Get Cloudinary File Uploaded Response
@@ -120,8 +113,14 @@ export class ConfGeneralComponent implements OnInit, OnDestroy {
   }
 
   updateImage(image?: Object) {
-    this._cloudinaryS.setFileType("user");
-    this._cloudinaryS.uploader.uploadAll();
+    this._cloudinaryS.configurateUploaderBeforeUpload().then((resp) => {
+      if (resp) {
+        this._cloudinaryS.setFileType("user");
+        this._cloudinaryS.uploader.uploadAll();
+      } else {
+        console.log("Error al configurar el uploader");
+      }
+    });
 
     this.subscriptionsArray.push(
       this._usersS.updateImage(this._usersS.user._id, image).subscribe()

@@ -34,6 +34,7 @@
           [selectedIndex]="selected.value"
           (selectedIndexChange)="selected.setValue($event)"
         >
+          <!-- Practice Area Details Tab -->
           <mat-tab>
             <ng-template mat-tab-label> Detalles de área </ng-template>
             <!-- Questions List -->
@@ -63,15 +64,16 @@
                 <span>Citas utilizadas</span>
               </div>
               <div
-                *ngFor="let reference of currentPracticeArea.references"
+                *ngFor="let quote of currentPracticeArea.quotes"
                 class="area-detail-reference-item"
               >
-                <a [href]="reference.reference" target="_blank"
-                  ><span>{{ reference.reference }}</span></a
+                <a [href]="quote.quote" target="_blank"
+                  ><span>{{ quote.quote }}</span></a
                 >
               </div>
             </div>
           </mat-tab>
+          <!-- Specialized Lawyers Tab -->
           <mat-tab>
             <ng-template mat-tab-label>
               Abogados especializados en esta área

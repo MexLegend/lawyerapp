@@ -42,7 +42,10 @@
             <!-- Select / Change Post Image Trigger -->
             <div
               class="profile-image-field mb-25 w-full dfr"
-              (click)="postImg.click()"
+              (click)="
+                postImg.click();
+                setCloudinaryUploadType('image', 'mainImage', 'mainImage')
+              "
             >
               <div class="profile-image-description dfc">
                 <span class="profile-image-title">Imágen del artículo</span>
@@ -67,15 +70,14 @@
                 ng2FileSelect
                 [uploader]="this._cloudinaryS.uploader"
                 style="display: none"
-                accept="image/png, image/jpg, image/jpeg"
+                accept="image/*"
               />
             </div>
             <!-- Post Title -->
             <div class="modal-input modal-input-pink mb-25">
               <input
-                id="postTitle"
-                name="title"
-                formControlName="title"
+                name="postTitle"
+                formControlName="postTitle"
                 placeholder=" "
                 type="text"
                 required
@@ -89,22 +91,23 @@
               <mat-form-field appearance="fill">
                 <mat-label>Seleccionar Categorias</mat-label>
                 <mat-select
-                  formControlName="categories"
+                  formControlName="postCategories"
+                  name="postCategories"
                   multiple
                   #categoriesSelect
                 >
                   <mat-select-trigger>
                     {{
-                      basicDataForm.value.categories &&
-                      basicDataForm.value.categories.length > 0
-                        ? basicDataForm.value.categories[0].name
+                      basicDataForm.value.postCategories &&
+                      basicDataForm.value.postCategories.length > 0
+                        ? basicDataForm.value.postCategories[0].name
                         : ""
                     }}
                     <span
-                      *ngIf="basicDataForm.value.categories?.length > 1"
+                      *ngIf="basicDataForm.value.postCategories?.length > 1"
                       class="example-additional-selection"
                     >
-                      (+{{ basicDataForm.value.categories.length - 1 }}
+                      (+{{ basicDataForm.value.postCategories.length - 1 }}
                       más)
                     </span>
                   </mat-select-trigger>
@@ -151,7 +154,6 @@
 
         <mat-card class="item-list-container p0 bs-none dfc">
           <form
-            id="postContentForm"
             class="col s12 h-full"
             ngNativeValidate
             [formGroup]="basicDataForm"
@@ -162,7 +164,7 @@
               <div class="document-editor__editable-container">
                 <ckeditor
                   name="postContent"
-                  formControlName="content"
+                  formControlName="postContent"
                   [editor]="Editor"
                   (ready)="renderEditorToolbar($event)"
                 >
@@ -175,7 +177,7 @@
       <!-- Post Quotes Step -->
       <mat-step label="Citas">
         <ng-template matStepLabel>Citas</ng-template>
-        <div class="faqs-container dfc jcc h-full w-full">
+        <div class="faqs-container dfc h-full w-full">
           <div class="references-container dfc w-full">
             <div
               *ngFor="let quote of postQuotesList"
@@ -185,7 +187,7 @@
                 <div class="header-item-body dfc">
                   <div class="header-item-title dfr">
                     <div class="header-item-title-wrap">
-                      <span>{{ quote.reference }}</span>
+                      <span>{{ _utilitiesS.generateAPAQuote(quote) }}</span>
                     </div>
                   </div>
                 </div>
@@ -246,50 +248,155 @@
       <!-- Post Attached Files Step -->
       <mat-step>
         <ng-template matStepLabel>Archivos adjuntos</ng-template>
-        <div class="faqs-container dfc jcc h-full w-full">
-          <div class="references-container dfc w-full">
-            <div
-              *ngFor="let quote of postQuotesList"
-              class="w-full reference-item item-acordion-title dfr"
-            >
-              <div class="item-acordion-title-left dfr">
-                <div class="header-item-body dfc">
-                  <div class="header-item-title dfr">
-                    <div class="header-item-title-wrap">
-                      <span>{{ quote.quote }}</span>
-                    </div>
-                  </div>
+        <div class="faqs-container h-full w-full px-24 dfc jcc">
+          <!-- General Files Upload Container -->
+          <div
+            class="upload-inner-container w-full h-full-40 dfc"
+            [hidden]="this.postAttachedFilesList.length > 0"
+          >
+            <div class="upload-content dfc">
+              <div
+                ng2FileDrop
+                [uploader]="this._cloudinaryS.uploader"
+                class="well my-drop-zone dfc"
+                (fileOver)="
+                  setCloudinaryUploadType(
+                    'file',
+                    'attachedFile',
+                    'attachedFile'
+                  )
+                "
+              >
+                <i class="material-icons">cloud_upload</i>
+                Arrastrar y soltar archivos aquí
+                <span class="file-upload-or" style="color: black">O</span>
+                <div class="input-file-button">
+                  <!-- Files Upload Container -->
+                  <ng-container>
+                    <button
+                      class="waves-effect waves-light btn modal-upload-action"
+                      (click)="
+                        postFilesDropZone.click();
+                        setCloudinaryUploadType(
+                          'file',
+                          'attachedFile',
+                          'attachedFile'
+                        )
+                      "
+                    >
+                      Buscar
+                    </button>
+                    <input
+                      #postFilesDropZone
+                      name="uploadF"
+                      type="file"
+                      style="display: none"
+                      ng2FileSelect
+                      [uploader]="this._cloudinaryS.uploader"
+                      multiple
+                    />
+                  </ng-container>
                 </div>
-              </div>
-              <div class="header-item-actions general dfr">
-                <!-- Attached File Remove From List Button Trigger -->
-                <button
-                  class="header-item-btn important-action btn waves-effect waves-light light-blue dfc"
-                  mat-icon-button
-                  (click)="deleteElementFromArray(quote, 'Reference')"
-                  matTooltip="Eliminar"
-                  matTooltipPosition="above"
-                >
-                  <i class="material-icons">delete</i>
-                </button>
               </div>
             </div>
           </div>
+          <!-- Attached Files List Container -->
           <div
-            class="add-item-to-accordion-container dfc"
-            [attr.not-data]="postQuotesList.length === 0 ? 'true' : 'false'"
+            *ngIf="this.postAttachedFilesList.length > 0"
+            class="files-list-container h-full-40"
           >
-            <!-- Add Item To Attached Files List Button Trigger -->
-            <button
-              class="btn bs-none transparent-bg dfr"
-              mat-icon-button
-              (click)="openQuotesModal()"
+            <!-- Attached File Item -->
+            <div
+              class="tracking-file-item-container dfr"
+              *ngFor="let file of this.postAttachedFilesList"
             >
-              <div class="add-item-accordion-icon dfc">
-                <i class="fas fa-plus"></i>
+              <div class="tracking-file-item-content dfr">
+                <div
+                  class="tracking-file-item-image dfr"
+                  [attr.data-format]="
+                    _utilitiesS.formatType(file?.name.split('.').pop())
+                  "
+                >
+                  <div class="tracking-file-item-image-inner centered-img-bg">
+                    <img
+                      *ngIf="
+                        _utilitiesS.formatType(file?.name.split('.').pop()) !==
+                        'image'
+                      "
+                      [src]="
+                        file?.name.split('.')[1].indexOf('doc') >= 0 ||
+                        file?.name.split('.')[1].indexOf('docx') >= 0
+                          ? '../../../assets/images/word_icon_2.png'
+                          : '../../../assets/images/pdf_icon_2.png'
+                      "
+                    />
+                    <img
+                      *ngIf="
+                        _utilitiesS.formatType(file?.name.split('.').pop()) ===
+                        'image'
+                      "
+                      [src]="'../../../assets/images/img_icon.png'"
+                      [alt]="file?.name"
+                    />
+                  </div>
+                </div>
+                <div class="tracking-file-data-and-progress-container dfr">
+                  <div class="tracking-file-item-data dfc">
+                    <div class="tracking-file-item-name">
+                      <span id="file-label">{{ file?.name }}</span>
+                    </div>
+                    <div class="tracking-file-item-size">
+                      <span id="file-label">{{
+                        _utilitiesS.formatBytes(file?.size)
+                      }}</span>
+                    </div>
+                  </div>
+                  <div class="file-progress-bar-container">
+                    <!-- <app-progress
+                      *ngIf="_utilitiesS.progressT >= 1"
+                      [progress]="_utilitiesS.progressT"
+                    ></app-progress> -->
+                  </div>
+                </div>
+
+                <div
+                  class="tracking-file-item-delete dfc waves-effect waves-light"
+                  (click)="deleteElementFromArray(file, 'attachedFile')"
+                >
+                  <i class="material-icons">close</i>
+                </div>
               </div>
-              <span>Agregar otro archivo</span>
-            </button>
+            </div>
+            <!-- Add More Attached Files Button Trigger -->
+            <div class="add-item-to-accordion-container dfc">
+              <!-- Add Item To Attached Files List Button Trigger -->
+              <button
+                class="btn bs-none transparent-bg dfr"
+                mat-icon-button
+                (click)="
+                  insertPostFile.click();
+                  setCloudinaryUploadType(
+                    'file',
+                    'attachedFile',
+                    'attachedFile'
+                  )
+                "
+              >
+                <div class="add-item-accordion-icon dfc">
+                  <i class="fas fa-plus"></i>
+                </div>
+                <span>Agregar nuevo archivo</span>
+              </button>
+              <input
+                #insertPostFile
+                name="insertPostFile"
+                type="file"
+                ng2FileSelect
+                [uploader]="this._cloudinaryS.uploader"
+                style="display: none"
+                accept="application/msword, text/plain, application/pdf, image/*"
+              />
+            </div>
           </div>
         </div>
       </mat-step>
