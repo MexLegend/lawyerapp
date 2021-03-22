@@ -4,10 +4,12 @@ export class Post {
   constructor(
     public postContent: string,
     public postTitle: string,
+    public postFolder?: string, 
     public attachedFiles?: string,
     public postCategories?: any,
     public created_at?: string,
     public postImage?: string,
+    public postImagesList?: string,
     public processState?: string,
     public postQuotes?: [Quote],
     public status?: string,

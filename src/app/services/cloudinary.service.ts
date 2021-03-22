@@ -16,12 +16,17 @@ import { NotificationsService } from "./notifications.service";
   providedIn: "root",
 })
 export class CloudinaryService {
+  static folderClass = class {
+    mainFolder: string;
+    subfolder: string;
+  };
+
   public uploader: FileUploader;
   file: any = null;
   fileUrl: any = null;
+  folder = new CloudinaryService.folderClass();
   image: any = null;
   previewUrl: any = null;
-  typeFile: string;
   uploadActionType: string;
   uploadAttachedFilesList: Array<any> = [];
   uploadFileId: string;
@@ -32,7 +37,7 @@ export class CloudinaryService {
   private globalAttachedFileList = new Subject<[Array<any>, string]>();
   private fileSubject = new Subject<any>();
   private imgSubject = new Subject<any>();
-  private fileTypeSubject = new Subject<any>();
+  private fileTypeSubject = new Subject<[string, string]>();
   private uploadFileTypeSubject = new Subject<[string, string, string]>();
   private uploadMultipleImagesListSubject = new Subject<[Array<any>, string]>();
 
@@ -42,9 +47,9 @@ export class CloudinaryService {
     public _updateDS: UpdateDataService,
     public _notificationsS: NotificationsService
   ) {
-    // Get Upload Action Type User / File / Post
-    this.getFileType().subscribe((data) => {
-      this.typeFile = data;
+    // Get Upload Folder Type User / File / Post
+    this.getFileType().subscribe(([mainFolder, subfolder]) => {
+      this.folder = { mainFolder, subfolder };
     });
 
     // Get Upload File Type Image / Document
@@ -76,8 +81,8 @@ export class CloudinaryService {
     return this.fileTypeSubject.asObservable();
   }
 
-  setFileType(type: string) {
-    this.fileTypeSubject.next(type);
+  setFileType(folder: string, subfolder?: string) {
+    this.fileTypeSubject.next([folder, subfolder]);
   }
 
   getFileUploadType(): Observable<any> {
@@ -106,7 +111,10 @@ export class CloudinaryService {
       // Add Attached Files List To Queue If There Are Any
       if (this.uploadAttachedFilesList.length > 0)
         this.uploadAttachedFilesList.map((attachedFile: FileItem) => {
-          attachedFile.formData.push({ caption: "attachedFile", alt: "3" });
+          attachedFile.formData.push({
+            caption: "attachedFile",
+            alt: this.generateRandomPass(24),
+          });
           this.uploader.queue.push(attachedFile);
         });
       // Add Main Image To Queue If There Is Any
@@ -120,7 +128,10 @@ export class CloudinaryService {
       // Add Multiple Images List To Queue If There Are Any
       if (this.uploadMultipleImagesList.length > 0)
         this.uploadMultipleImagesList.map((image) => {
-          image.formData.push({ caption: "multipleImages", alt: "1" });
+          image.formData.push({
+            caption: "multipleImages",
+            alt: this.uploadFileId,
+          });
           this.uploader.queue.push(image);
         });
 
@@ -213,9 +224,15 @@ export class CloudinaryService {
     }
   }
 
-  // Generate Random 15 Characters Password
-  generateRandomPass(): string {
-    return Math.random().toString(36).slice(-15);
+  // Generate Default Random 15 Characters Password
+  generateRandomPass(length: Number = 15): string {
+    var result = "";
+    var characters = "abcdefghijklmnopqrstuvwxyz0123456789";
+    var charactersLength = characters.length;
+    for (var i = 0; i < length; i++) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
   }
 
   // Render Image Preview After Adding File Item
@@ -339,11 +356,11 @@ export class CloudinaryService {
       // Add folder
       form.append(
         "folder",
-        this.typeFile === "user"
+        this.folder.mainFolder === "user"
           ? "Users"
-          : this.typeFile === "file"
+          : this.folder.mainFolder === "file"
           ? "Files"
-          : "Posts"
+          : `Posts/${this.folder.subfolder}`
       );
 
       // Add file to upload

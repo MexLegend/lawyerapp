@@ -72,6 +72,7 @@ export class PostsFormComponent implements OnInit {
   isPostUpdating: boolean = false;
   mobileFilterActivated: boolean = false;
   postAttachedFilesList: any = [];
+  postImagesList: any = [];
   postModalTitle: string;
   postQuotesList: Array<Quote> = [];
   titleLabel: any;
@@ -127,7 +128,35 @@ export class PostsFormComponent implements OnInit {
         .getFile()
         .subscribe(({ url, public_id, size, name, context }) => {
           console.log(context);
-          this.createNewPostAfterResponse({ url, public_id });
+          switch (context.caption) {
+            // Main Image
+            case "mainImage":
+              this.createNewPostAfterResponse({ url, public_id });
+              break;
+            // Multiple Images
+            case "multipleImages":
+              this.postImagesList = this.postImagesList.map((image: any) =>
+                image.name === name
+                  ? { path: url, public_id, image_id: context.alt }
+                  : image
+              );
+              break;
+            // Attached Files
+            default:
+              this.postAttachedFilesList = this.postAttachedFilesList.map(
+                (attachedFile: any) =>
+                  attachedFile.name === name
+                    ? {
+                        ...attachedFile,
+                        path: url,
+                        public_id,
+                        size,
+                        name,
+                      }
+                    : attachedFile
+              );
+              break;
+          }
         })
     );
 
@@ -179,6 +208,22 @@ export class PostsFormComponent implements OnInit {
         )
     );
 
+    // Get Post Images List
+    this.subscriptionsArray.push(
+      this._cloudinaryS
+        .getMultipleImagesListSubject()
+        .subscribe(([imagesList, action]) =>
+          imagesList.map(
+            (image: any) =>
+              (this.postImagesList = this._utilitiesS.upsertArrayItems(
+                this.postImagesList,
+                image,
+                action
+              ))
+          )
+        )
+    );
+
     // Get Quotes List
     this.subscriptionsArray.push(
       this._practiceAreaS
@@ -203,6 +248,7 @@ export class PostsFormComponent implements OnInit {
         const {
           _id,
           postImage,
+          postFolder,
           postTitle,
           postContent,
           postCategories,
@@ -218,6 +264,7 @@ export class PostsFormComponent implements OnInit {
         // Initialize Post Details With Obtained Data
         this.basicDataForm.patchValue({
           _id,
+          postFolder,
           postTitle,
           postContent,
           postCategories: [...postCategoriesList],
@@ -227,6 +274,14 @@ export class PostsFormComponent implements OnInit {
         if (postData.attachedFiles) {
           this._cloudinaryS.setGlobalAttachedFilesList(
             postData.attachedFiles,
+            "list"
+          );
+        }
+
+        // Set Images List With Obtained Data
+        if (postData.postImages) {
+          this._cloudinaryS.setMultipleImagesListSubject(
+            postData.postImages,
             "list"
           );
         }
@@ -289,11 +344,14 @@ export class PostsFormComponent implements OnInit {
           })
         );
       }
-      // Update data and image from existing post
+      // Update data and image / multiple images / attached files from existing post
       else {
         this._cloudinaryS.configurateUploaderBeforeUpload().then((resp) => {
           if (resp) {
-            this._cloudinaryS.setFileType("post");
+            this._cloudinaryS.setFileType(
+              "post",
+              this._cloudinaryS.generateRandomPass(24)
+            );
             this._cloudinaryS.uploader.uploadAll();
             this.isPostUpdating = true;
           } else {
@@ -313,11 +371,15 @@ export class PostsFormComponent implements OnInit {
           })
         );
       }
-      // Create post with data and image
+      // Create post with data and image / multiple images / attached files
       else {
         this._cloudinaryS.configurateUploaderBeforeUpload().then((resp) => {
           if (resp) {
-            this._cloudinaryS.setFileType("post");
+            const folderId = this._cloudinaryS.generateRandomPass(24);
+            this.basicDataForm.controls["postFolder"].setValue(
+              `Posts/${folderId}`
+            );
+            this._cloudinaryS.setFileType("post", folderId);
             this._cloudinaryS.uploader.uploadAll();
             this.isPostUpdating = false;
           } else {
@@ -362,7 +424,7 @@ export class PostsFormComponent implements OnInit {
   createPostObject(): Object {
     // Filter Ids From Categories List
     const postCategories = this.basicDataForm.value.postCategories.map(
-      ({ _id: idCategory, ...categoryData }) => ({
+      ({ _id: idCategory }) => ({
         category: idCategory,
       })
     );
@@ -377,6 +439,7 @@ export class PostsFormComponent implements OnInit {
     const post = {
       ...{ ...this.basicDataForm.value, postCategories },
       attachedFiles: this.postAttachedFilesList,
+      postImagesList: this.postImagesList,
       postQuotes: postQuotes,
     };
 
@@ -439,6 +502,7 @@ export class PostsFormComponent implements OnInit {
           AngularEditorValidator.required(),
         ])
       ),
+      postFolder: new FormControl(null),
       postTitle: new FormControl(null, Validators.required),
       _id: new FormControl(null),
     });
@@ -500,7 +564,7 @@ export class PostsFormComponent implements OnInit {
 
     // Insert Image Button To Toolbar
     editor.ui.view.toolbar.element.children[0].insertBefore(
-      this._utilitiesS.insertImageButton(editor),
+      this._utilitiesS.insertImageButton(editor, this._cloudinaryS),
       lastToolbarGroupSeparator
     );
 
@@ -554,17 +618,6 @@ export class PostsFormComponent implements OnInit {
           this.basicDataForm.controls["categories"].setValue([]);
         }
       });
-  }
-
-  uploadAttachedFilesCloudinary() {
-    this._cloudinaryS.configurateUploaderBeforeUpload().then((resp) => {
-      if (resp) {
-        this._cloudinaryS.setFileType("AttachedPostFile");
-        this._cloudinaryS.uploader.uploadAll();
-      } else {
-        console.log("Error al configurar el uploader");
-      }
-    });
   }
 }
 

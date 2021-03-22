@@ -5,6 +5,7 @@ import Swal from "sweetalert2";
 import { Router } from "@angular/router";
 import { MatDialog, MatTabGroup } from "@angular/material";
 import { LoginComponent } from "../modals/login/login.component";
+import { CloudinaryService } from "./cloudinary.service";
 
 declare var $: any;
 
@@ -205,9 +206,15 @@ export class UtilitiesService {
     this.sidenavShowMoreIndex.next([index, type]);
   }
 
-  // Generate Random 15 Characters Password
-  generateRandomPass(): string {
-    return Math.random().toString(36).slice(-15);
+  // Generate Random Default 15 Characters Password
+  generateRandomPass(length: Number = 15): string {
+    var result = "";
+    var characters = "abcdefghijklmnopqrstuvwxyz0123456789";
+    var charactersLength = characters.length;
+    for (var i = 0; i < length; i++) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
   }
 
   // Go to Post Comments Section
@@ -493,7 +500,10 @@ export class UtilitiesService {
   }
 
   // Create Angular Editor Insert Image Button
-  insertImageButton(editor: any): HTMLElement {
+  insertImageButton(
+    editor: any,
+    cloudinaryService: CloudinaryService
+  ): HTMLElement {
     /* =====================================================================
        |                            ELEMENTS CREATION                       |
        =====================================================================
@@ -559,7 +569,7 @@ export class UtilitiesService {
     });
     // Add Input Functionality
     insertImageInput.onchange = () =>
-      this.renderImageIntoEditor(insertImageInput, editor);
+      this.renderImageIntoEditor(insertImageInput, editor, cloudinaryService);
 
     /* =====================================================================
        |                          COMPONENT CREATION                       |
@@ -579,24 +589,61 @@ export class UtilitiesService {
   }
 
   // Get Insert Image Button Data
-  renderImageIntoEditor(input: any, editor: any) {
+  renderImageIntoEditor(
+    input: any,
+    editor: any,
+    cloudinaryService: CloudinaryService
+  ) {
     if (input.files) {
       var filesAmount = input.files.length;
+      editor.model.schema.extend("image", { allowAttributes: "data-ide" });
+
+      editor.conversion.for("upcast").attributeToAttribute({
+        view: "data-ide",
+        model: "data-ide",
+      });
+
+      editor.conversion.for("downcast").add((dispatcher) => {
+        dispatcher.on(
+          "attribute:data-ide:image",
+          (evt, data, conversionApi) => {
+            if (!conversionApi.consumable.consume(data.item, evt.name)) {
+              return;
+            }
+
+            const viewWriter = conversionApi.writer;
+            const figure = conversionApi.mapper.toViewElement(data.item);
+            const img = figure.getChild(0);
+
+            if (data.attributeNewValue !== null) {
+              viewWriter.setAttribute("data-ide", data.attributeNewValue, img);
+            } else {
+              viewWriter.removeAttribute("data-ide", img);
+            }
+          }
+        );
+      });
 
       for (let i = 0; i < filesAmount; i++) {
+        const id = this.generateRandomPass(24);
+        // Set Cloudinary Uploader File Type - Image
+        cloudinaryService.setFileUploadType("image", "multipleImages", id);
+
+        // Add Image File To Cloudinary Uploader
+        cloudinaryService.uploader.addToQueue([input.files[0]]);
+
         var reader = new FileReader();
 
         reader.onload = function (event) {
           editor.model.change((writer: any) => {
+            const insertPosition = editor.model.document.selection.getFirstPosition();
             const imageElement = writer.createElement("image", {
               src: event.target.result,
+              "data-ide": id,
             });
 
             // Insert the image in the current selection location.
-            editor.model.insertContent(
-              imageElement,
-              editor.model.document.selection
-            );
+            editor.model.insertContent(imageElement, insertPosition);
           });
         };
 
