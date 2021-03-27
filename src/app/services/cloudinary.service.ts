@@ -22,6 +22,7 @@ export class CloudinaryService {
   };
 
   public uploader: FileUploader;
+  cloudinaryItemsToDeleteArray: Array<any> = [];
   file: any = null;
   fileUrl: any = null;
   folder = new CloudinaryService.folderClass();
@@ -127,12 +128,12 @@ export class CloudinaryService {
       }
       // Add Multiple Images List To Queue If There Are Any
       if (this.uploadMultipleImagesList.length > 0)
-        this.uploadMultipleImagesList.map((image) => {
-          image.formData.push({
+        this.uploadMultipleImagesList.map((image: any) => {
+          image.image.formData.push({
             caption: "multipleImages",
-            alt: this.uploadFileId,
+            alt: image._id,
           });
-          this.uploader.queue.push(image);
+          this.uploader.queue.push(image.image);
         });
 
       response = true;
@@ -158,9 +159,12 @@ export class CloudinaryService {
     } else {
       this.setMultipleImagesListSubject([item], "delete");
       this.uploadMultipleImagesList = this.uploadMultipleImagesList.filter(
-        (image) => image.file.name !== item.name
+        (image) => image.image.file.name !== item.name
       );
     }
+
+    // Add Items To Array To Delete Them From Cloudinary
+    if (item.public_id) this.cloudinaryItemsToDeleteArray.push(item.public_id);
   }
 
   duplicatedFileError(file: any) {
@@ -269,9 +273,12 @@ export class CloudinaryService {
 
   // Set Multiple Images List
   setMultipleImagesList(image: any) {
-    this.uploadMultipleImagesList = [...this.uploadMultipleImagesList, image];
+    this.uploadMultipleImagesList = [
+      ...this.uploadMultipleImagesList,
+      { _id: this.uploadFileId, image },
+    ];
     this.setMultipleImagesListSubject(
-      [{ _id: this.generateRandomPass(), ...image.file }],
+      [{ _id: this.uploadFileId, ...image.file }],
       "push"
     );
   }

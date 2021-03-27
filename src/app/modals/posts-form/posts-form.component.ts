@@ -73,6 +73,7 @@ export class PostsFormComponent implements OnInit {
   mobileFilterActivated: boolean = false;
   postAttachedFilesList: any = [];
   postImagesList: any = [];
+  postMainImage: any;
   postModalTitle: string;
   postQuotesList: Array<Quote> = [];
   titleLabel: any;
@@ -126,28 +127,47 @@ export class PostsFormComponent implements OnInit {
     this.subscriptionsArray.push(
       this._cloudinaryS
         .getFile()
-        .subscribe(({ url, public_id, size, name, context }) => {
-          console.log(context);
+        .subscribe(async ({ url, public_id, size, name, context }) => {
           switch (context.caption) {
             // Main Image
             case "mainImage":
-              this.createNewPostAfterResponse({ url, public_id });
+              this.postMainImage = { url, public_id };
               break;
             // Multiple Images
             case "multipleImages":
-              this.postImagesList = this.postImagesList.map((image: any) =>
-                image.name === name
-                  ? { path: url, public_id, image_id: context.alt }
-                  : image
-              );
+              await new Promise((resolve) => {
+                // Set PostImagesList Elemets With Data Obtained
+                this.postImagesList = this.postImagesList.map((image: any) =>
+                  image.name === name && image.path === undefined
+                    ? { path: url, public_id, image_id: context.alt }
+                    : image
+                );
+                // Set Editor Image Path With Cloudinary Url
+                this._utilitiesS
+                  .sanitizeHtmlContent(this.basicDataForm.value.postContent)
+                  .then((htmlContent) => {
+                    const HTMLPostContent: any = htmlContent;
+                    const image = HTMLPostContent.querySelector(
+                      `[data-ide='${context.alt}']`
+                    );
+
+                    if (image) {
+                      image.src = url;
+                      this.basicDataForm.controls["postContent"].setValue(
+                        HTMLPostContent.innerHTML
+                      );
+                    }
+                  });
+
+                resolve(this.basicDataForm.value.postContent);
+              });
               break;
             // Attached Files
             default:
               this.postAttachedFilesList = this.postAttachedFilesList.map(
                 (attachedFile: any) =>
-                  attachedFile.name === name
+                  attachedFile.name === name && attachedFile.path === undefined
                     ? {
-                        ...attachedFile,
                         path: url,
                         public_id,
                         size,
@@ -156,6 +176,10 @@ export class PostsFormComponent implements OnInit {
                     : attachedFile
               );
               break;
+          }
+
+          if (this._cloudinaryS.uploader.getNotUploadedItems().length === 0) {
+            this.createNewPostAfterResponse();
           }
         })
     );
@@ -212,7 +236,7 @@ export class PostsFormComponent implements OnInit {
     this.subscriptionsArray.push(
       this._cloudinaryS
         .getMultipleImagesListSubject()
-        .subscribe(([imagesList, action]) =>
+        .subscribe(([imagesList, action]) => {
           imagesList.map(
             (image: any) =>
               (this.postImagesList = this._utilitiesS.upsertArrayItems(
@@ -220,8 +244,8 @@ export class PostsFormComponent implements OnInit {
                 image,
                 action
               ))
-          )
-        )
+          );
+        })
     );
 
     // Get Quotes List
@@ -279,9 +303,9 @@ export class PostsFormComponent implements OnInit {
         }
 
         // Set Images List With Obtained Data
-        if (postData.postImages) {
+        if (postData.postImagesList) {
           this._cloudinaryS.setMultipleImagesListSubject(
-            postData.postImages,
+            postData.postImagesList,
             "list"
           );
         }
@@ -329,29 +353,64 @@ export class PostsFormComponent implements OnInit {
   closeModal() {
     this.basicDataForm.reset();
     this._cloudinaryS.uploader.clearQueue();
+    this._cloudinaryS.cloudinaryItemsToDeleteArray = [];
     this.clearImg();
     this.dialogRef.close();
   }
 
-  createOrUpdatePost() {
+  async createOrUpdatePost() {
     if (this.basicDataForm.value._id !== null) {
+      // Get Editor Images List
+      await new Promise((resolve) => {
+        this._utilitiesS
+          .sanitizeHtmlContent(this.basicDataForm.value.postContent)
+          .then((htmlContent) => {
+            const HTMLPostContent: any = htmlContent;
+            const imagesList = [
+              ...HTMLPostContent.querySelectorAll("[data-ide]"),
+            ];
+
+            const imagesToDelete = this.postImagesList.filter(
+              (initialPostImage: any) =>
+                !imagesList.some(
+                  (finalPostImage: any) =>
+                    initialPostImage.image_id ===
+                      finalPostImage.getAttribute("data-ide") ||
+                    !initialPostImage.image_id
+                )
+            );
+
+            // Add Items To Array To Delete Them From Cloudinary
+            if (imagesToDelete.length > 0)
+              imagesToDelete.forEach((image: any) =>
+                this._cloudinaryS.deleteItemFromArray(image, "postImagesList")
+              );
+
+            resolve(this._cloudinaryS.cloudinaryItemsToDeleteArray);
+          });
+      });
+
       if (this._cloudinaryS.uploader.queue.length === 0) {
         // Update just data from existing Article
         this.subscriptionsArray.push(
-          this._postsS.updatePost(this.createPostObject()).subscribe(() => {
-            this._postsS.notifica.emit({ render: true });
-            this.closeModal();
-          })
+          this._postsS
+            .updatePost(
+              this.createPostObject(),
+              "",
+              this._cloudinaryS.cloudinaryItemsToDeleteArray
+            )
+            .subscribe(() => {
+              this._postsS.notifica.emit({ render: true });
+              this.closeModal();
+            })
         );
       }
       // Update data and image / multiple images / attached files from existing post
       else {
         this._cloudinaryS.configurateUploaderBeforeUpload().then((resp) => {
           if (resp) {
-            this._cloudinaryS.setFileType(
-              "post",
-              this._cloudinaryS.generateRandomPass(24)
-            );
+            const folderId = this.basicDataForm.value.postFolder;
+            this._cloudinaryS.setFileType("post", folderId);
             this._cloudinaryS.uploader.uploadAll();
             this.isPostUpdating = true;
           } else {
@@ -391,12 +450,12 @@ export class PostsFormComponent implements OnInit {
   }
 
   // Create / Update New Post After Cloudinary Response
-  createNewPostAfterResponse(image: any) {
+  createNewPostAfterResponse() {
     // Create Post
     if (!this.isPostUpdating) {
       this.subscriptionsArray.push(
         this._postsS
-          .createPost(this.createPostObject(), image)
+          .createPost(this.createPostObject(), this.postMainImage)
           .subscribe((resp) => {
             if (resp.ok) {
               this._postsS.notifica.emit({ render: true });
@@ -409,7 +468,11 @@ export class PostsFormComponent implements OnInit {
     else {
       this.subscriptionsArray.push(
         this._postsS
-          .updatePost(this.createPostObject(), image)
+          .updatePost(
+            this.createPostObject(),
+            this.postMainImage,
+            this._cloudinaryS.cloudinaryItemsToDeleteArray
+          )
           .subscribe((resp) => {
             if (resp) {
               this._postsS.notifica.emit({ render: true });
@@ -618,6 +681,10 @@ export class PostsFormComponent implements OnInit {
           this.basicDataForm.controls["categories"].setValue([]);
         }
       });
+  }
+
+  example(editor: any) {
+    console.log(editor);
   }
 }
 

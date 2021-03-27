@@ -1,3 +1,4 @@
+import { DomSanitizer } from "@angular/platform-browser";
 import { Injectable } from "@angular/core";
 import { Observable, Subject } from "rxjs";
 import { FormControl } from "@angular/forms";
@@ -13,7 +14,7 @@ declare var $: any;
   providedIn: "root",
 })
 export class UtilitiesService {
-  constructor(public dialog: MatDialog) {}
+  constructor(public dialog: MatDialog, private sanitizer: DomSanitizer) {}
 
   private arraysList = new Subject<[Array<any>, string, string]>();
   private clientShowMoreIndex = new Subject<any>();
@@ -21,6 +22,34 @@ export class UtilitiesService {
   private showMoreIndex = new Subject<any>();
   private sidenavShowMoreIndex = new Subject<any[]>();
   private tempCompleteArray: Array<any> = [];
+
+  // Allow New Attributes To CkEditor
+  allowCKEditorAttributes(editor: any) {
+    editor.model.schema.extend("image", { allowAttributes: "data-ide" });
+
+    editor.conversion.for("upcast").attributeToAttribute({
+      view: "data-ide",
+      model: "data-ide",
+    });
+
+    editor.conversion.for("downcast").add((dispatcher) => {
+      dispatcher.on("attribute:data-ide:image", (evt, data, conversionApi) => {
+        if (!conversionApi.consumable.consume(data.item, evt.name)) {
+          return;
+        }
+
+        const viewWriter = conversionApi.writer;
+        const figure = conversionApi.mapper.toViewElement(data.item);
+        const img = figure.getChild(0);
+
+        if (data.attributeNewValue !== null) {
+          viewWriter.setAttribute("data-ide", data.attributeNewValue, img);
+        } else {
+          viewWriter.removeAttribute("data-ide", img);
+        }
+      });
+    });
+  }
 
   noWhitespaceValidator(control: FormControl) {
     const isWhitespace = (control.value || "").trim().length === 0;
@@ -596,41 +625,14 @@ export class UtilitiesService {
   ) {
     if (input.files) {
       var filesAmount = input.files.length;
-      editor.model.schema.extend("image", { allowAttributes: "data-ide" });
-
-      editor.conversion.for("upcast").attributeToAttribute({
-        view: "data-ide",
-        model: "data-ide",
-      });
-
-      editor.conversion.for("downcast").add((dispatcher) => {
-        dispatcher.on(
-          "attribute:data-ide:image",
-          (evt, data, conversionApi) => {
-            if (!conversionApi.consumable.consume(data.item, evt.name)) {
-              return;
-            }
-
-            const viewWriter = conversionApi.writer;
-            const figure = conversionApi.mapper.toViewElement(data.item);
-            const img = figure.getChild(0);
-
-            if (data.attributeNewValue !== null) {
-              viewWriter.setAttribute("data-ide", data.attributeNewValue, img);
-            } else {
-              viewWriter.removeAttribute("data-ide", img);
-            }
-          }
-        );
-      });
-
+      this.allowCKEditorAttributes(editor);
       for (let i = 0; i < filesAmount; i++) {
         const id = this.generateRandomPass(24);
         // Set Cloudinary Uploader File Type - Image
         cloudinaryService.setFileUploadType("image", "multipleImages", id);
 
         // Add Image File To Cloudinary Uploader
-        cloudinaryService.uploader.addToQueue([input.files[0]]);
+        cloudinaryService.uploader.addToQueue([input.files[i]]);
 
         var reader = new FileReader();
 
@@ -657,6 +659,12 @@ export class UtilitiesService {
     input.value = "";
 
     return this.tempCompleteArray;
+  }
+
+  sanitizeHtmlContent(html: any): Promise<Node> {
+    var HTML = document.createElement("div");
+    HTML.innerHTML = html;
+    return new Promise((resolve, reject) => resolve(HTML.cloneNode(true)));
   }
 
   // Set HTML Element Attirbutes

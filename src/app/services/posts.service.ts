@@ -227,7 +227,11 @@ export class PostsService {
     return new Promise((resolve, reject) => resolve(postsCount));
   }
 
-  updatePost(postDataObtained: any, postImage?: any) {
+  updatePost(
+    postDataObtained: any,
+    postImage?: any,
+    cloudinaryItemsArray?: Array<any>
+  ) {
     const { _id: id, ...postData } = postDataObtained;
 
     const headers = new HttpHeaders({
@@ -238,6 +242,7 @@ export class PostsService {
     const data = {
       postData,
       postImage,
+      cloudinaryItemsArray,
     };
 
     return this.http.put(url, data, { headers }).pipe(

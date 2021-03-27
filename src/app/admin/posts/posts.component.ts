@@ -10,6 +10,7 @@ import { PerfectScrollbarConfigInterface } from "ngx-perfect-scrollbar";
 import { Subscription } from "rxjs";
 import { WebPushNotificationsService } from "../../services/webPushNotifications.service";
 import { UsersService } from "../../services/users.service";
+import { CloudinaryService } from "../../services/cloudinary.service";
 
 @Component({
   selector: "app-posts",
@@ -18,6 +19,7 @@ import { UsersService } from "../../services/users.service";
 })
 export class PostsComponent implements OnInit {
   constructor(
+    public _cloudinaryS: CloudinaryService,
     private _postsS: PostsService,
     public _updateDS: UpdateDataService,
     public _usersS: UsersService,
@@ -161,11 +163,11 @@ export class PostsComponent implements OnInit {
             autoFocus: false,
           });
 
-    // dialogRef.afterClosed().subscribe(result => {
-    //   localStorage.removeItem('userData');
-    //   localStorage.removeItem('fileData');
-    //   this._updateDS.setUserData(null);
-    // });
+    dialogRef.afterClosed().subscribe(() => {
+      this._cloudinaryS.uploader.clearQueue();
+      this._cloudinaryS.cloudinaryItemsToDeleteArray = [];
+      this._cloudinaryS.resetUploaderArrays();
+    });
   }
 
   // Send Post Id

@@ -187,6 +187,12 @@
   width: 100%;
 }
 
+.main-post-data {
+  direction: ltr;
+  overflow-wrap: break-word;
+  -webkit-line-break: after-white-space;
+}
+
 .card-information {
   display: block;
   text-align: justify;
