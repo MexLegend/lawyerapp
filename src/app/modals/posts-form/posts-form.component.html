@@ -404,16 +404,28 @@
 
     <!-- Progress Bar Container -->
     <div
-      *ngIf="this._cloudinaryS.uploader?.isUploading"
+      *ngIf="isPostSaving && !isPostSaved"
       class="upload-progress-container inner-progress dfc"
     >
       <div class="upload-progress-title dfr w-full">
-        <span>Guardando Artículo</span>
+        <span>
+          {{
+            postModalTitle === "Editar"
+              ? "Guardando Cambios"
+              : "Guardando Artículo"
+          }}</span
+        >
       </div>
-      <div class="upload-progress modal-footer-upload-progress">
-        <app-progress
-          [progress]="this._cloudinaryS.uploader?.progress"
-        ></app-progress>
+      <!-- Loading Preview Icon -->
+      <div
+        class="loading-preview"
+        [attr.data-loaded]="isPostSaved ? 'true' : 'false'"
+      >
+        <mat-spinner class="loading-preview-spinner" strokeWidth="8">
+        </mat-spinner>
+        <div class="loading-preview-img centered-img-bg">
+          <img src="../../../assets/images/brand.png" alt="" />
+        </div>
       </div>
     </div>
   </div>
@@ -425,7 +437,7 @@
           <!-- Cancel Button -->
           <button
             type="button"
-            [class.button-disabled]="this._cloudinaryS.uploader?.isUploading"
+            [class.button-disabled]="isPostSaving"
             class="waves-effect waves-light btn modal-close-action"
             mat-dialog-close
             (click)="clearImg()"
@@ -435,7 +447,7 @@
           <!-- Go Stepper Back Button -->
           <button
             *ngIf="postsStepper.selectedIndex !== 0"
-            [class.button-disabled]="this._cloudinaryS.uploader?.isUploading"
+            [class.button-disabled]="isPostSaving"
             (click)="_utilitiesS.goStepperBack(postsStepper)"
             class="waves-effect waves-light btn modal-submit-action"
           >
@@ -444,7 +456,7 @@
           <!-- Go Stepper Forward Button -->
           <button
             *ngIf="postsStepper.selectedIndex !== 3"
-            [class.button-disabled]="!basicDataForm.valid"
+            [class.button-disabled]="!basicDataForm.valid || isPostSaving"
             (click)="_utilitiesS.goStepperForward(postsStepper)"
             class="waves-effect waves-light btn modal-submit-action"
           >
@@ -453,7 +465,7 @@
           <!-- Save Changes Option -->
           <button
             *ngIf="postsStepper.selectedIndex === 3"
-            [class.button-disabled]="this._cloudinaryS.uploader?.isUploading"
+            [class.button-disabled]="isPostSaving"
             type="submit"
             class="waves-effect waves-light btn modal-submit-action"
             (click)="createOrUpdatePost()"

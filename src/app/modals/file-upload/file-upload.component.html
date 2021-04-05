@@ -216,12 +216,25 @@
           </div>
         </div>
       </div>
-      <!-- General Upload Progress Bar -->
-      <div class="general-upload-progress-bar">
-        <app-progress
-          *ngIf="this._evidencesS.progressF >= 1"
-          [progress]="this._evidencesS.progressF"
-        ></app-progress>
+      <!-- Progress Bar Container -->
+      <div
+        *ngIf="isFileSaving && !isFileSaved"
+        class="upload-progress-container inner-progress dfc"
+      >
+        <div class="upload-progress-title dfr w-full">
+          <span> Guardando Archivos</span>
+        </div>
+        <!-- Loading Preview Icon -->
+        <div
+          class="loading-preview"
+          [attr.data-loaded]="isFileSaved ? 'true' : 'false'"
+        >
+          <mat-spinner class="loading-preview-spinner" strokeWidth="8">
+          </mat-spinner>
+          <div class="loading-preview-img centered-img-bg">
+            <img src="../../../assets/images/brand.png" alt="" />
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -232,7 +245,7 @@
           <button
             type="button"
             class="waves-effect waves-light btn modal-close-action"
-            [disabled]="this._evidencesS.disableCancelUpload"
+            [class.button-disabled]="isFileSaving"
             mat-dialog-close
             (click)="deleteImage()"
           >
@@ -241,9 +254,7 @@
           <button
             type="submit"
             class="waves-effect waves-light btn modal-submit-action"
-            [class.button-disabled]="
-              this._cloudinaryS.uploader.queue.length <= 0 && !this.previewUrl
-            "
+            [class.button-disabled]="isFileSaving"
             (click)="
               this.dataFile?.typeUpload !== undefined &&
               this.dataFile?.typeUpload === 'file'

@@ -1,4 +1,4 @@
 <div class="progress-cont">
-  <div class="progress-text dfc">{{ progress }}%</div>
-  <div class="progress" [style.width]="progress + '%'"></div>
+  <div class="progress-text dfc">{{ progress * percentage }}%</div>
+  <div class="progress" [style.width]="progress * percentage + '%'"></div>
 </div>

@@ -220,16 +220,24 @@
 
     <!-- Progress Bar Container -->
     <div
-      *ngIf="this._cloudinaryS.uploader?.isUploading"
+      *ngIf="isUserSaving && !isUserSaved"
       class="upload-progress-container inner-progress dfc"
     >
       <div class="upload-progress-title dfr w-full">
-        <span>Guardando Usuario</span>
+        <span>{{
+          userModalTitle === "Editar" ? "Guardando Cambios" : "Creando Usuario"
+        }}</span>
       </div>
-      <div class="upload-progress modal-footer-upload-progress">
-        <app-progress
-          [progress]="this._cloudinaryS.uploader?.progress"
-        ></app-progress>
+      <!-- Loading Preview Icon -->
+      <div
+        class="loading-preview"
+        [attr.data-loaded]="isUserSaved ? 'true' : 'false'"
+      >
+        <mat-spinner class="loading-preview-spinner" strokeWidth="8">
+        </mat-spinner>
+        <div class="loading-preview-img centered-img-bg">
+          <img src="../../../assets/images/brand.png" alt="" />
+        </div>
       </div>
     </div>
   </div>
@@ -240,7 +248,7 @@
         <div class="modal-actions-content">
           <button
             type="button"
-            [class.button-disabled]="this._cloudinaryS.uploader?.isUploading"
+            [class.button-disabled]="isUserSaving"
             class="mwaves-effect waves-light btn modal-close-action"
             mat-dialog-close
             (click)="clearImg()"
@@ -250,9 +258,7 @@
           <button
             type="submit"
             [class.button-disabled]="
-              !form.valid ||
-              errorEmail === true ||
-              this._cloudinaryS.uploader?.isUploading
+              !form.valid || errorEmail === true || isUserSaving
             "
             class="waves-effect waves-light btn modal-submit-action"
             (click)="create()"

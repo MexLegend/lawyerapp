@@ -1,119 +1,226 @@
 <section *ngIf="post" id="noticias-main-container" class="pr pt-71">
   <div id="noticias-content-container">
     <div class="noticias-data dfr">
-      <!-- Detail Post Card -->
-      <div class="card sticky-action" style="width: calc(100% - 430px)">
-        <div class="card-header card-content">
-          <div class="card-date">
-            <div class="card-day">
-              <span>{{ post?.created_at | date: "dd" }}</span>
+      <!-- Detail Post Main Card Container -->
+      <div class="post-main-card-container" style="width: calc(100% - 430px)">
+        <!-- Detail Post Card Content -->
+        <div class="card sticky-action w-full">
+          <div class="card-header card-content">
+            <div class="card-date">
+              <div class="card-day">
+                <span>{{ post?.created_at | date: "dd" }}</span>
+              </div>
+              <div class="card-month">
+                <span>{{ post?.created_at | date: "MMM" }}</span>
+              </div>
             </div>
-            <div class="card-month">
-              <span>{{ post?.created_at | date: "MMM" }}</span>
+            <div class="card-title-new">
+              <span class="card-title">{{ post?.postTitle }}</span>
+              <span class="card-autor"
+                >{{ post?.user?.firstName }} {{ post?.user?.lastName }}</span
+              >
             </div>
           </div>
-          <div class="card-title-new">
-            <span class="card-title">{{ post?.postTitle }}</span>
-            <span class="card-autor"
-              >{{ post?.user?.firstName }} {{ post?.user?.lastName }}</span
-            >
+          <div
+            class="card-body-container card-body card-content grey lighten-4 dfc"
+          >
+            <div class="card-data main-post-data">
+              <span class="card-data-container">
+                <span
+                  class="card-information"
+                  [innerHTML]="post?.postContent | sanitizeHtml"
+                ></span>
+              </span>
+              <!-- Detail Post Card Attached Files-->
+              <div
+                *ngIf="post?.attachedFiles.length > 0"
+                class="card-attached-files"
+              >
+                <div class="card-attached-files-title">
+                  <span>Archivos adjuntos de este artículo</span>
+                </div>
+                <div class="card-attached-files-list">
+                  <div
+                    class="card-attached-files-box w-full dfr"
+                    *ngFor="let file of post?.attachedFiles"
+                  >
+                    <div
+                      class="image centered-img-bg border-none dfr jcc"
+                      [attr.data-format]="
+                        _utilitiesS.formatType(file.path.split('.').pop())
+                      "
+                    >
+                      <div
+                        *ngIf="
+                          _utilitiesS.formatType(file.path.split('.').pop()) ===
+                          'pdf'
+                        "
+                        class="image-wrapper centered-img-bg border-none"
+                      >
+                        <img src="../../../assets/images/pdf_icon_2.png" />
+                      </div>
+                      <div
+                        *ngIf="
+                          _utilitiesS.formatType(file.path.split('.').pop()) ===
+                          'word'
+                        "
+                        class="image-wrapper"
+                      >
+                        <img src="../../../assets/images/word_icon_2.png" />
+                      </div>
+                      <img
+                        *ngIf="
+                          _utilitiesS.formatType(file.path.split('.').pop()) ===
+                          'image'
+                        "
+                        [src]="file?.path"
+                      />
+                    </div>
+                    <div class="attached-file-details dfr h-full w-full">
+                      <span class="attached-file-name">{{ file.name }}</span>
+                      <span class="attached-file-size">{{
+                        _utilitiesS.formatBytes(file.size)
+                      }}</span>
+                    </div>
+                    <div
+                      class="attached-file-actions header-item-actions dfr h-full"
+                    >
+                      <!-- Attached File Actions Button Trigger -->
+                      <button
+                        class="btn action-button transparent-bg border-none bs-none dfc"
+                        mat-icon-button
+                        matTooltip="Más acciones"
+                        matTooltipPosition="above"
+                        [matMenuTriggerFor]="attachedFileMenu"
+                      >
+                        <i class="material-icons big-icon">more_vert</i>
+                      </button>
+                      <!-- Attached File Actions Menu Content -->
+                      <mat-menu #attachedFileMenu="matMenu" xPosition="before">
+                        <ng-template matMenuContent>
+                          <div class="dfc select-content-container">
+                            <!-- File Preview Option -->
+                            <button
+                              mat-menu-item
+                              (click)="
+                                openFileViewModal(file?.path, file?.name)
+                              "
+                            >
+                              <i class="material-icons">visibility</i>
+                              Ver
+                            </button>
+                            <!-- Download File Option -->
+                            <button
+                              mat-menu-item
+                              (click)="downloadFile(file.path)"
+                            >
+                              <i class="material-icons">file_download</i>
+                              Descargar
+                            </button>
+                          </div>
+                        </ng-template>
+                      </mat-menu>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Detail Post Card Quotes-->
+              <div *ngIf="post?.postQuotes.length > 0" class="card-quotes dfc">
+                <div class="card-quotes-title w-full">
+                  <span class="w-full">Citas Utilizadas</span>
+                </div>
+                <span
+                  *ngFor="let quote of post?.postQuotes"
+                  class="card-quote w-full"
+                  ><i></i>{{ _utilitiesS.generateAPAQuote(quote) }}</span
+                >
+              </div>
+            </div>
           </div>
-        </div>
-        <div
-          class="card-body-container card-body card-content grey lighten-4 dfc"
-        >
-          <div class="card-data main-post-data">
-            <span class="card-data-container">
-              <span
-                class="card-information"
-                [innerHTML]="post?.postContent | sanitizeHtml"
-              ></span>
-            </span>
-          </div>
-        </div>
-        <div class="card-footer card-action">
-          <div class="item-acordion-body-actions dfr">
-            <!-- Post Contact Author By Email Button Trigger -->
-            <button
-              *ngIf="
-                _usersS.isLogged()
-                  ? postAuthor._id !== this._usersS.user._id
-                  : true
-              "
-              class="header-item-btn btn action-button dfc"
-              mat-icon-button
-              matTooltip="Contactar autor por correo"
-              matTooltipPosition="above"
-              (click)="openReplyModal(post.user)"
-            >
-              <i class="far fa-envelope"></i>
-            </button>
-            <!-- Post Contact Author By Message Button Trigger -->
-            <button
-              *ngIf="
-                _usersS.isLogged() && postAuthor._id !== this._usersS.user._id
-              "
-              class="header-item-btn btn action-button important-action dfc"
-              mat-icon-button
-              matTooltip="Contactar autor por mensaje"
-              matTooltipPosition="above"
-              (click)="openChat(post.user)"
-            >
-              <i class="far fa-comment"></i>
-            </button>
-            <!-- Post Like Button Trigger -->
-            <div class="action-button-with-text-container dfc">
+          <div class="card-footer card-action">
+            <div class="item-acordion-body-actions dfr">
+              <!-- Post Contact Author By Email Button Trigger -->
               <button
-                class="header-item-btn btn posts-btn action-button dfc"
+                *ngIf="
+                  _usersS.isLogged()
+                    ? postAuthor._id !== this._usersS.user._id
+                    : true
+                "
+                class="header-item-btn btn action-button dfc"
                 mat-icon-button
-                matTooltip="Me gusta"
+                matTooltip="Contactar autor por correo"
                 matTooltipPosition="above"
-                (click)="
-                  this._usersS.isLogged()
-                    ? updatePostReactions('like')
-                    : showAlertModal('like', $event)
-                "
-                [attr.data-active]="
-                  postAnalyticsReaction === 'like' ? true : false
-                "
+                (click)="openReplyModal(post.user)"
               >
-                <i class="waves-effect material-icons new-like">thumb_up</i>
+                <i class="far fa-envelope"></i>
               </button>
-              <span
-                class="action-counter"
-                [attr.data-active]="
-                  postAnalyticsReaction === 'like' ? true : false
-                "
-                >{{ postAnalytics?.likes }}</span
-              >
-            </div>
-            <!-- Post Dislike Button Trigger -->
-            <div class="action-button-with-text-container dfc">
+              <!-- Post Contact Author By Message Button Trigger -->
               <button
-                class="header-item-btn btn posts-btn action-button dfc"
+                *ngIf="
+                  _usersS.isLogged() && postAuthor._id !== this._usersS.user._id
+                "
+                class="header-item-btn btn action-button important-action dfc"
                 mat-icon-button
-                matTooltip="No me gusta"
+                matTooltip="Contactar autor por mensaje"
                 matTooltipPosition="above"
-                (click)="
-                  this._usersS.isLogged()
-                    ? updatePostReactions('dislike')
-                    : showAlertModal('dislike', $event)
-                "
-                [attr.data-active]="
-                  postAnalyticsReaction === 'dislike' ? true : false
-                "
+                (click)="openChat(post.user)"
               >
-                <i class="waves-effect material-icons new-dislike">
-                  thumb_down
-                </i>
+                <i class="far fa-comment"></i>
               </button>
-              <span
-                class="action-counter"
-                [attr.data-active]="
-                  postAnalyticsReaction === 'dislike' ? true : false
-                "
-                >{{ postAnalytics?.dislikes }}</span
-              >
+              <!-- Post Like Button Trigger -->
+              <div class="action-button-with-text-container dfc">
+                <button
+                  class="header-item-btn btn posts-btn action-button dfc"
+                  mat-icon-button
+                  matTooltip="Me gusta"
+                  matTooltipPosition="above"
+                  (click)="
+                    this._usersS.isLogged()
+                      ? updatePostReactions('like')
+                      : showAlertModal('like', $event)
+                  "
+                  [attr.data-active]="
+                    postAnalyticsReaction === 'like' ? true : false
+                  "
+                >
+                  <i class="waves-effect material-icons new-like">thumb_up</i>
+                </button>
+                <span
+                  class="action-counter"
+                  [attr.data-active]="
+                    postAnalyticsReaction === 'like' ? true : false
+                  "
+                  >{{ postAnalytics?.likes }}</span
+                >
+              </div>
+              <!-- Post Dislike Button Trigger -->
+              <div class="action-button-with-text-container dfc">
+                <button
+                  class="header-item-btn btn posts-btn action-button dfc"
+                  mat-icon-button
+                  matTooltip="No me gusta"
+                  matTooltipPosition="above"
+                  (click)="
+                    this._usersS.isLogged()
+                      ? updatePostReactions('dislike')
+                      : showAlertModal('dislike', $event)
+                  "
+                  [attr.data-active]="
+                    postAnalyticsReaction === 'dislike' ? true : false
+                  "
+                >
+                  <i class="waves-effect material-icons new-dislike">
+                    thumb_down
+                  </i>
+                </button>
+                <span
+                  class="action-counter"
+                  [attr.data-active]="
+                    postAnalyticsReaction === 'dislike' ? true : false
+                  "
+                  >{{ postAnalytics?.dislikes }}</span
+                >
+              </div>
             </div>
           </div>
         </div>

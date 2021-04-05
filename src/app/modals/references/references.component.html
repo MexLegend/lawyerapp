@@ -32,7 +32,9 @@
               <mat-select
                 formControlName="quoteType"
                 #quotesSelect
-                (selectionChange)="displayInputs($event.value)"
+                (selectionChange)="
+                  resetInputs($event.value); displayInputs($event.value)
+                "
               >
                 <mat-option
                   *ngFor="let quote of quoteTypesList"

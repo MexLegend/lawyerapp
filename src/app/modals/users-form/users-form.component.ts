@@ -42,6 +42,8 @@ export class UsersFormComponent implements OnInit, AfterViewChecked {
   errorEmail: boolean = false;
   form: FormGroup;
   imgData: any = null;
+  isUserSaved: boolean = false;
+  isUserSaving: boolean = false;
   isUserUpdating: boolean = false;
   lastnameLabel: any;
   nameLabel: any;
@@ -181,6 +183,7 @@ export class UsersFormComponent implements OnInit, AfterViewChecked {
 
   // Create / Update User
   create() {
+    this.isUserSaving = true;
     // Update Existing User
     if (this.form.value._id !== null) {
       // Update just data from existing user
@@ -195,6 +198,7 @@ export class UsersFormComponent implements OnInit, AfterViewChecked {
                 );
                 this._usersS.setUsersList(newUsersArray);
                 this.form.reset();
+                this.isUserSaved = true;
                 this.closeModal();
                 // Set Notification Data
                 this._webPushNotificationsS
@@ -246,6 +250,7 @@ export class UsersFormComponent implements OnInit, AfterViewChecked {
                 const newUsersArray = [...this.usersList, resp.user];
                 this._usersS.setUsersList(newUsersArray);
                 this.form.reset();
+                this.isUserSaved = true;
                 this.closeModal();
               }
             })
@@ -281,6 +286,7 @@ export class UsersFormComponent implements OnInit, AfterViewChecked {
               const newUsersArray = [...this.usersList, resp.user];
               this._usersS.setUsersList(newUsersArray);
               this.form.reset();
+              this.isUserSaved = true;
               this.closeModal();
             }
           })
@@ -297,6 +303,7 @@ export class UsersFormComponent implements OnInit, AfterViewChecked {
               );
               this._usersS.setUsersList(newUsersArray);
               this.form.reset();
+              this.isUserSaved = true;
               this.closeModal();
               // Set Notification Data
               this._webPushNotificationsS

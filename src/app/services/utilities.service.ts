@@ -464,19 +464,90 @@ export class UtilitiesService {
         `;
         break;
       case "Libro":
-        APAQuote = data.quoteType;
+        APAQuote = `${this.getAuthorName(data.quoteAuthor) || ""}${
+          data.quoteAuthor ? ". " : ""
+        }(${
+          this.getQuoteDate(data.quoteYear, data.quoteMonth, data.quoteDay) ||
+          "s.f."
+        }). ${data.quoteTitle ? data.quoteTitle : ""}${
+          data.quoteTitle ? ". " : ""
+        }${data.quoteCity ? data.quoteCity : ""}${
+          data.quotePublisher ? ": " : data.quoteCity ? "." : ""
+        }${data.quotePublisher ? data.quotePublisher : ""}
+        `;
         break;
       case "Caso":
-        APAQuote = data.quoteType;
+        APAQuote = `${data.quoteTitle || ""}${
+          data.quoteCaseNumber
+            ? ", "
+            : this.getQuoteDate(
+                data.quoteYear,
+                data.quoteMonth,
+                data.quoteDay
+              ) || data.quoteCourt
+            ? " "
+            : "."
+        }${data.quoteCaseNumber ? data.quoteCaseNumber + " " : "" || ""}${
+          data.quoteCourt ||
+          this.getQuoteDate(data.quoteYear, data.quoteMonth, data.quoteDay)
+            ? "("
+            : ""
+        }${data.quoteCourt ? data.quoteCourt + " " : "" || ""}${
+          this.getQuoteDate(data.quoteYear, data.quoteMonth, data.quoteDay) ||
+          ""
+        }${
+          data.quoteCourt ||
+          this.getQuoteDate(data.quoteYear, data.quoteMonth, data.quoteDay)
+            ? ")"
+            : ""
+        }
+        `;
         break;
       case "Artículo de Revista":
-        APAQuote = data.quoteType;
+        APAQuote = `${
+          this.getAuthorName(data.quoteAuthor) || data.quoteTitle || ""
+        }${data.quoteAuthor || data.quoteTitle ? ". " : ""}(${
+          this.getQuoteDate(data.quoteYear) || "s.f."
+        }). ${
+          data.quoteAuthor
+            ? data.quoteTitle
+              ? data.quoteTitle + ". "
+              : "" || ""
+            : ""
+        }${data.quoteJournalName ? data.quoteJournalName : ""}${
+          data.quotePages ? ", págs. " : data.quoteJournalName ? "." : ""
+        }${data.quotePages ? data.quotePages : ""}
+        `;
         break;
       case "Artículo de Periódico":
-        APAQuote = data.quoteType;
+        APAQuote = `${
+          this.getAuthorName(data.quoteAuthor) || data.quoteTitle || ""
+        }${data.quoteAuthor || data.quoteTitle ? ". " : ""}(${
+          this.getQuoteDate(data.quoteYear, data.quoteMonth, data.quoteDay) ||
+          "s.f."
+        }). ${
+          data.quoteAuthor
+            ? data.quoteTitle
+              ? data.quoteTitle + ". "
+              : "" || ""
+            : ""
+        }${data.quotePeriodicalTitle ? data.quotePeriodicalTitle : ""}${
+          data.quotePages ? ", págs. " : data.quotePeriodicalTitle ? "." : ""
+        }${data.quotePages ? data.quotePages : ""}
+        `;
         break;
       default:
-        APAQuote = data.quoteType;
+        APAQuote = `${this.getAuthorName(data.quoteInventor) || ""}${
+          data.quoteInventor ? ". " : ""
+        }(${this.getQuoteDate(data.quoteYear) || "s.f."}). ${
+          data.quoteCountry ? data.quoteCountry : ""
+        }${data.quoteCountry ? ". " : ""}${
+          data.quotePatentNumber
+            ? "Patente n° " +
+              (data.quotePatentNumber ? data.quotePatentNumber : "" || "")
+            : ""
+        }
+        `;
         break;
     }
 
@@ -507,13 +578,13 @@ export class UtilitiesService {
   }
 
   // Get Quote Date
-  getQuoteDate(year: Number, month: string, day: Number): string {
+  getQuoteDate(year: Number, month?: string, day?: Number): string {
     let date: string = "";
-    if (year) date += year;
-    if (month || day) date += ", ";
-    if (month) date += month;
-    if (month && day) date += " ";
     if (day) date += day;
+    if (day && (month || year)) date += " de ";
+    if (month) date += month;
+    if (month && year) date += " de ";
+    if (year) date += year;
 
     return date;
   }
@@ -615,6 +686,14 @@ export class UtilitiesService {
     insertImageContainer.append(insertImageButton, insertImageInput);
 
     return insertImageContainer;
+  }
+
+  openFileViewModal(path: string, name: string, FilePreviewComponent: any) {
+    let dialogRef = this.dialog.open(FilePreviewComponent, {
+      data: { path, name },
+      autoFocus: false,
+      panelClass: "file-view-modal",
+    });
   }
 
   // Get Insert Image Button Data

@@ -1660,6 +1660,7 @@ p {
 .button-disabled {
   background: rgba(0, 0, 0, 0.09) !important;
   color: rgba(0, 0, 0, 0.3) !important;
+  border: none !important;
   box-shadow: none !important;
   cursor: not-allowed;
   pointer-events: none;
@@ -4442,12 +4443,14 @@ textarea.materialize-textarea {
 }
 
 .chat-message-img-tracking-container[data-format="pdf"],
-.tracking-file-item-image[data-format="pdf"] {
+.tracking-file-item-image[data-format="pdf"],
+.card-attached-files-box .image[data-format="pdf"] {
   background: #ff494a;
 }
 
 .chat-message-img-tracking-container[data-format="word"],
-.tracking-file-item-image[data-format="word"] {
+.tracking-file-item-image[data-format="word"],
+.card-attached-files-box .image[data-format="word"] {
   background: #2f68c1;
 }
 
@@ -7063,7 +7066,19 @@ span.badge.new:after {
   transition: all 2s;
 }
 
-.file-preview-modal-content .loading-preview[data-loaded="true"] {
+.upload-progress-container .loading-preview {
+  position: relative;
+  justify-content: center;
+  height: 100px;
+  width: 100px;
+  border-radius: 50%;
+  background-color: rgba(14, 47, 90, 0.5);
+  opacity: 1;
+  transition: all 2s;
+}
+
+.file-preview-modal-content .loading-preview[data-loaded="true"],
+.upload-progress-container .loading-preview[data-loaded="true"] {
   opacity: 0;
 }
 

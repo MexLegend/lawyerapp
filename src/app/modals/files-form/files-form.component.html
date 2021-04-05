@@ -206,6 +206,31 @@
         </div>
       </mat-tab>
     </mat-tab-group>
+
+    <!-- Progress Bar Container -->
+    <div
+      *ngIf="isCaseSaving && !isCaseSaved"
+      class="upload-progress-container inner-progress dfc"
+    >
+      <div class="upload-progress-title dfr w-full">
+        <span>
+          {{
+            caseModalTitle === "Editar" ? "Guardando Cambios" : "Abriendo Caso"
+          }}</span
+        >
+      </div>
+      <!-- Loading Preview Icon -->
+      <div
+        class="loading-preview"
+        [attr.data-loaded]="isCaseSaved ? 'true' : 'false'"
+      >
+        <mat-spinner class="loading-preview-spinner" strokeWidth="8">
+        </mat-spinner>
+        <div class="loading-preview-img centered-img-bg">
+          <img src="../../../assets/images/brand.png" alt="" />
+        </div>
+      </div>
+    </div>
   </div>
 
   <div class="modal-footer modal-actions admin-modal-footer">
@@ -213,6 +238,7 @@
     <ng-container *ngIf="this.fileCreation">
       <button
         type="button"
+        [class.button-disabled]="isCaseSaving"
         class="waves-effect waves-light btn modal-close-action"
         mat-dialog-close
       >
@@ -221,7 +247,7 @@
       <button
         id="expediente-submit-button"
         type="submit"
-        [class.button-disabled]="!form.valid"
+        [class.button-disabled]="!form.valid || isCaseSaving"
         class="waves-effect waves-light btn modal-submit-action"
         (click)="this.create()"
       >

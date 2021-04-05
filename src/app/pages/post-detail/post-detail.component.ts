@@ -9,7 +9,6 @@ import { PostsAnalyticsService } from "src/app/services/posts-analytics.service"
 
 import { Post } from "../../models/Post";
 import { PostsService } from "../../services/posts.service";
-import Swal from "sweetalert2";
 import { UsersService } from "../../services/users.service";
 import { ModalAlertService } from "../../services/modal-alert.service";
 import { Subscription } from "rxjs";
@@ -17,6 +16,9 @@ import { ReplyComponent } from "../../modals/reply/reply.component";
 import { ChatService } from "../../services/chat.service";
 import { User } from "../../models/User";
 import { UtilitiesService } from "../../services/utilities.service";
+import { FilePreviewComponent } from "../../modals/file-preview/file-preview.component";
+import { HttpHeaders, HttpClient } from "@angular/common/http";
+import { saveAs } from "file-saver";
 
 declare var $: any;
 
@@ -41,13 +43,14 @@ export class PostDetailComponent implements OnInit {
 
   constructor(
     public activatedRoute: ActivatedRoute,
-    public _chatS: ChatService,
     public dialog: MatDialog,
-    private _alertModalS: ModalAlertService,
     private location: Location,
-    public _usersS: UsersService,
+    private http: HttpClient,
+    private _alertModalS: ModalAlertService,
+    public _chatS: ChatService,
     public _postsS: PostsService,
     public _postAnalyticsS: PostsAnalyticsService,
+    public _usersS: UsersService,
     public _utilitiesS: UtilitiesService
   ) {
     this.activatedRoute.params.subscribe((params) => {
@@ -126,6 +129,41 @@ export class PostDetailComponent implements OnInit {
     this.subscriptionsArray.map((subscription) => subscription.unsubscribe());
   }
 
+  downloadFile(url: any) {
+    const fileToDownload = url.substr(url.lastIndexOf("/") + 1);
+    this.http
+      .get(url, { responseType: "blob" as "json" })
+      .subscribe((res: any) => {
+        const file = new Blob([res], { type: res.type });
+
+        // IE
+        if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+          window.navigator.msSaveOrOpenBlob(file);
+          return;
+        }
+
+        const blob = window.URL.createObjectURL(file);
+        const link = document.createElement("a");
+        link.href = blob;
+        link.download = fileToDownload;
+
+        // Version link.click() to work at firefox
+        link.dispatchEvent(
+          new MouseEvent("click", {
+            bubbles: true,
+            cancelable: true,
+            view: window,
+          })
+        );
+
+        setTimeout(() => {
+          // firefox
+          window.URL.revokeObjectURL(blob);
+          link.remove();
+        }, 100);
+      });
+  }
+
   // Load Last 10 Articles
   filteredLastPostsFc() {
     this.subscriptionsArray.push(
@@ -160,6 +198,11 @@ export class PostDetailComponent implements OnInit {
   openChat(lawyerData: any) {
     this._chatS.setLawyerRoomData(lawyerData);
     this._chatS.openChat();
+  }
+
+  // Open File Preview Modal
+  openFileViewModal(path: string, name: string) {
+    this._utilitiesS.openFileViewModal(path, name, FilePreviewComponent);
   }
 
   // Open Lawyer Contact Modal

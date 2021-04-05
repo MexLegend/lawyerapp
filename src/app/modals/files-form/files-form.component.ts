@@ -36,6 +36,8 @@ export class FilesFormComponent implements OnInit {
   caseModalTitle: string;
   form: FormGroup;
   isChecked: boolean = false;
+  isCaseSaved: boolean = false;
+  isCaseSaving: boolean = false;
   selectedClientData: any = null;
   users: User[];
   selectedTab = new FormControl(0);
@@ -103,6 +105,7 @@ export class FilesFormComponent implements OnInit {
   }
 
   create() {
+    this.isCaseSaving = true;
     let propertiesArray = [
       "actor",
       "affair",
@@ -153,6 +156,7 @@ export class FilesFormComponent implements OnInit {
                   2000
                 );
                 this._casesS.notifica.emit({ render: true });
+                this.isCaseSaved = true;
 
                 // Set Notification Data
                 this._webPushNotificationsS
@@ -185,6 +189,7 @@ export class FilesFormComponent implements OnInit {
             this._casesS.createFile(caseData).subscribe((resp: any) => {
               this.form.reset();
               this._casesS.notifica.emit({ render: true });
+              this.isCaseSaved = true;
 
               // Set Notification Data
               this._webPushNotificationsS

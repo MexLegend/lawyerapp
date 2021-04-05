@@ -1,12 +1,7 @@
 import { Component, OnInit, Inject } from "@angular/core";
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material";
 import { Subscription } from "rxjs";
-import {
-  FormGroup,
-  FormControl,
-  Validators,
-  FormGroupDirective,
-} from "@angular/forms";
+import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { PracticeAreasService } from "../../services/practice-areas.service";
 import { UtilitiesService } from "../../services/utilities.service";
 
@@ -47,11 +42,8 @@ export class ReferencesComponent implements OnInit {
 
       // Set Input Values If The Quote Is Updating
       if (this.data.quoteData && this.data.quoteData !== "") {
-        const { id: _id, ...quoteData } = this.data.quoteData;
-        this.quoteForm.patchValue({
-          quoteData,
-          _id,
-        });
+        const { ...quoteData } = this.data.quoteData;
+        this.quoteForm.patchValue(quoteData);
         this.displayInputs(quoteData.quoteType);
       } else {
         this.quoteForm.reset();
@@ -97,7 +89,7 @@ export class ReferencesComponent implements OnInit {
   }
 
   createOrUpdateQuote() {
-    const { _id: id, ...quoteData } = this.quoteForm.value;
+    const { _id: _id, ...quoteData } = this.quoteForm.value;
 
     // Filter Not Null Values
     Object.keys(quoteData).forEach(
@@ -106,7 +98,7 @@ export class ReferencesComponent implements OnInit {
 
     // Update Quote Data
     if (this.quoteForm.value._id !== null) {
-      this._practiceAreaS.setQuotesList([this.quoteForm.value], "update");
+      this._practiceAreaS.setQuotesList([{ _id, ...quoteData }], "update");
       this.closeModal();
 
       // Create New Quote
@@ -153,6 +145,14 @@ export class ReferencesComponent implements OnInit {
 
     this.setValidators(activeInputValidators);
     this.renderedInputs = activeInputs;
+  }
+
+  // Reset Inputs According To Selected Option
+  resetInputs(selectValue: any) {
+    this.quoteForm.reset();
+    if (this.data.quoteData)
+      this.quoteForm.controls["_id"].setValue(this.data.quoteData._id);
+    this.quoteForm.controls["quoteType"].setValue(selectValue);
   }
 
   // Set Required Validators According To Selected Option

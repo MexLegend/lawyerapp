@@ -34,6 +34,7 @@ export class CloudinaryService {
   uploadFileType: string;
   uploadMainImage: any = null;
   uploadMultipleImagesList: Array<any> = [];
+  uploaderPercentage: number = 0;
 
   private globalAttachedFileList = new Subject<[Array<any>, string]>();
   private fileSubject = new Subject<any>();
@@ -55,6 +56,13 @@ export class CloudinaryService {
 
     // Get Upload File Type Image / Document
     this.getFileUploadType().subscribe(([actionType, fileType, id]) => {
+      // Limit Format Types
+      this.uploader.setOptions({
+        allowedFileType:
+          ["file"].indexOf(actionType) > -1
+            ? ["doc", "docx", "pdf", "image"]
+            : ["image"],
+      });
       this.uploadActionType = actionType;
       this.uploadFileType = fileType;
       this.uploadFileId = id;
@@ -107,6 +115,7 @@ export class CloudinaryService {
   configurateUploaderBeforeUpload(): Promise<Boolean> {
     let response: boolean = false;
     try {
+      this.uploaderPercentage = 1 / this.uploader.queue.length;
       this.uploader.clearQueue();
 
       // Add Attached Files List To Queue If There Are Any
@@ -316,11 +325,7 @@ export class CloudinaryService {
       url: `https://api.cloudinary.com/v1_1/${
         this.cloudinary.config().cloud_name
       }/auto/upload`,
-      // Limit Format Types
-      allowedFileType:
-        ["file"].indexOf(this.uploadActionType) > -1
-          ? ["doc", "docx", "pdf", "image"]
-          : ["image"],
+
       // Upload files automatically upon addition to upload queue
       autoUpload: false,
 

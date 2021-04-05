@@ -35,6 +35,8 @@ export class FileUploadComponent implements OnInit {
   file: File;
   fileData: any = [];
   img: any = null;
+  isFileSaved: boolean = false;
+  isFileSaving: boolean = false;
   isFormatValid: boolean = true;
   previewUrl: any = null;
   progress: number = 0;
@@ -81,6 +83,7 @@ export class FileUploadComponent implements OnInit {
   // Send Queued Files
   addDocuments() {
     if (this._cloudinaryS.uploader.queue.length > 0) {
+      this.isFileSaving = true;
       this.uploadFilesCloudinary();
     }
   }
@@ -107,6 +110,7 @@ export class FileUploadComponent implements OnInit {
               "caseData",
               JSON.parse(localStorage.getItem("caseData"))
             );
+            this.isFileSaved = true;
             this.closeModal();
             this.cloudinaryEvidencesQueue = [];
           })
@@ -174,6 +178,7 @@ export class FileUploadComponent implements OnInit {
               .updateUser(localStorage.getItem("id"), null, data)
               .subscribe((resp) => {
                 if (resp) {
+                  this.isFileSaved = true;
                   this._cloudinaryS.fileUrl = this._usersS.user.img;
                   this.deleteImage();
                 }

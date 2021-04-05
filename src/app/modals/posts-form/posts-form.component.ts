@@ -69,6 +69,8 @@ export class PostsFormComponent implements OnInit {
   config: PerfectScrollbarConfigInterface = {};
   filterValue: string;
   innerScreenWidth: any;
+  isPostSaved: boolean = false;
+  isPostSaving: boolean = false;
   isPostUpdating: boolean = false;
   mobileFilterActivated: boolean = false;
   postAttachedFilesList: any = [];
@@ -359,6 +361,7 @@ export class PostsFormComponent implements OnInit {
   }
 
   async createOrUpdatePost() {
+    this.isPostSaving = true;
     if (this.basicDataForm.value._id !== null) {
       // Get Editor Images List
       await new Promise((resolve) => {
@@ -401,6 +404,7 @@ export class PostsFormComponent implements OnInit {
             )
             .subscribe(() => {
               this._postsS.notifica.emit({ render: true });
+              this.isPostSaved = true;
               this.closeModal();
             })
         );
@@ -426,6 +430,7 @@ export class PostsFormComponent implements OnInit {
           this._postsS.createPost(this.createPostObject(), "").subscribe(() => {
             this.basicDataForm.reset();
             this._postsS.notifica.emit({ render: true });
+            this.isPostSaved = true;
             this.closeModal();
           })
         );
@@ -459,6 +464,7 @@ export class PostsFormComponent implements OnInit {
           .subscribe((resp) => {
             if (resp.ok) {
               this._postsS.notifica.emit({ render: true });
+              this.isPostSaved = true;
               this.closeModal();
             }
           })
@@ -476,6 +482,7 @@ export class PostsFormComponent implements OnInit {
           .subscribe((resp) => {
             if (resp) {
               this._postsS.notifica.emit({ render: true });
+              this.isPostSaved = true;
               this.closeModal();
             }
           })
