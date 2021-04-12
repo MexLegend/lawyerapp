@@ -186,7 +186,7 @@ export class PostsComponent implements OnInit {
             .createNotificationObject(
               null,
               post._id,
-              "publicó un nuevo artículo. " + post.title,
+              "publicó un nuevo artículo. " + post.postTitle,
               "post",
               `articulos`,
               post.user._id,

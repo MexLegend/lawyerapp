@@ -609,21 +609,17 @@ export class UsersService {
     );
   }
 
-  updateUser(id, user: any, img?: any) {
+  updateUser(id: string, userData: any, userImage?: any) {
     const url = `${environment.URI}/api/users/${id}`;
     const headers = new HttpHeaders({
       "Content-Type": "application/json",
       token: this.token,
     });
 
-    const data = img
-      ? {
-          user,
-          img,
-        }
-      : {
-          user,
-        };
+    const data = {
+      userData,
+      userImage,
+    };
 
     return this.http.put(url, data, { headers }).pipe(
       map((resp: any) => {

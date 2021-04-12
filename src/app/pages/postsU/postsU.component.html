@@ -36,7 +36,10 @@
       class="card sticky-action"
       style="width: 100%"
     >
-      <div class="card-body card-content">
+      <div
+        class="card-body card-content cursor-p"
+        (click)="viewPostDetails(post._id); scrollToTop()"
+      >
         <div class="date-img-container dfc">
           <div class="card-date dfc">
             <div class="card-autor list-author">
@@ -62,8 +65,6 @@
         <div class="card-information">
           <div class="card-title-content dfr">
             <a
-              [routerLink]="['/articulo-detalle', post._id]"
-              (click)="scrollToTop()"
               ><span class="card-title">{{ post?.postTitle }}</span></a
             >
           </div>

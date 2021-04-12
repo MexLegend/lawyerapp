@@ -45,11 +45,11 @@
 }
 
 .header-item-subtitle[data-role="NEW"] {
-  background: #ff6347;
+  background: #00c68f;
   color: var(--white-color);
 }
 
 .item-body-subtitle[data-role="NEW"] {
-  color: #ff6347;
+  color: #00c68f;
   font-weight: 600;
 }

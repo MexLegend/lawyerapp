@@ -63,6 +63,7 @@ export class PostsFormComponent implements OnInit {
 
   Editor = Editor;
   basicDataForm: FormGroup;
+  contentDataForm: FormGroup;
   categories: Array<any> = [];
   checkboxAction: string = "Seleccionar";
   cloudinaryUploadingType: string = "";
@@ -146,7 +147,7 @@ export class PostsFormComponent implements OnInit {
                 );
                 // Set Editor Image Path With Cloudinary Url
                 this._utilitiesS
-                  .sanitizeHtmlContent(this.basicDataForm.value.postContent)
+                  .sanitizeHtmlContent(this.contentDataForm.value.postContent)
                   .then((htmlContent) => {
                     const HTMLPostContent: any = htmlContent;
                     const image = HTMLPostContent.querySelector(
@@ -155,13 +156,13 @@ export class PostsFormComponent implements OnInit {
 
                     if (image) {
                       image.src = url;
-                      this.basicDataForm.controls["postContent"].setValue(
+                      this.contentDataForm.controls["postContent"].setValue(
                         HTMLPostContent.innerHTML
                       );
                     }
                   });
 
-                resolve(this.basicDataForm.value.postContent);
+                resolve(this.contentDataForm.value.postContent);
               });
               break;
             // Attached Files
@@ -292,8 +293,12 @@ export class PostsFormComponent implements OnInit {
           _id,
           postFolder,
           postTitle,
-          postContent,
           postCategories: [...postCategoriesList],
+        });
+
+        // Initialize Post Content With Obtained Data
+        this.contentDataForm.patchValue({
+          postContent,
         });
 
         // Set Attached Files List With Obtained Data
@@ -319,6 +324,7 @@ export class PostsFormComponent implements OnInit {
       } else {
         this._cloudinaryS.image = "no_image";
         this.basicDataForm.reset();
+        this.contentDataForm.reset();
       }
     }
   }
@@ -354,6 +360,7 @@ export class PostsFormComponent implements OnInit {
 
   closeModal() {
     this.basicDataForm.reset();
+    this.contentDataForm.reset();
     this._cloudinaryS.uploader.clearQueue();
     this._cloudinaryS.cloudinaryItemsToDeleteArray = [];
     this.clearImg();
@@ -366,7 +373,7 @@ export class PostsFormComponent implements OnInit {
       // Get Editor Images List
       await new Promise((resolve) => {
         this._utilitiesS
-          .sanitizeHtmlContent(this.basicDataForm.value.postContent)
+          .sanitizeHtmlContent(this.contentDataForm.value.postContent)
           .then((htmlContent) => {
             const HTMLPostContent: any = htmlContent;
             const imagesList = [
@@ -424,6 +431,9 @@ export class PostsFormComponent implements OnInit {
       }
       // Create New Post
     } else {
+      const folderId = this._cloudinaryS.generateRandomPass(24);
+      this.basicDataForm.controls["postFolder"].setValue(`${folderId}`);
+
       // Create post with just data
       if (this._cloudinaryS.uploader.queue.length === 0) {
         this.subscriptionsArray.push(
@@ -439,10 +449,6 @@ export class PostsFormComponent implements OnInit {
       else {
         this._cloudinaryS.configurateUploaderBeforeUpload().then((resp) => {
           if (resp) {
-            const folderId = this._cloudinaryS.generateRandomPass(24);
-            this.basicDataForm.controls["postFolder"].setValue(
-              `Posts/${folderId}`
-            );
             this._cloudinaryS.setFileType("post", folderId);
             this._cloudinaryS.uploader.uploadAll();
             this.isPostUpdating = false;
@@ -507,7 +513,11 @@ export class PostsFormComponent implements OnInit {
     );
 
     const post = {
-      ...{ ...this.basicDataForm.value, postCategories },
+      ...{
+        ...this.basicDataForm.value,
+        ...this.contentDataForm.value,
+        postCategories,
+      },
       attachedFiles: this.postAttachedFilesList,
       postImagesList: this.postImagesList,
       postQuotes: postQuotes,
@@ -565,16 +575,12 @@ export class PostsFormComponent implements OnInit {
   private initArticulosForm() {
     this.basicDataForm = new FormGroup({
       postCategories: new FormControl(null, Validators.required),
-      postContent: new FormControl(
-        null,
-        Validators.compose([
-          Validators.required,
-          AngularEditorValidator.required(),
-        ])
-      ),
       postFolder: new FormControl(null),
       postTitle: new FormControl(null, Validators.required),
       _id: new FormControl(null),
+    });
+    this.contentDataForm = new FormGroup({
+      postContent: new FormControl(null, Validators.required),
     });
   }
 
@@ -681,27 +687,16 @@ export class PostsFormComponent implements OnInit {
       .pipe(take(1), takeUntil(this._onDestroy))
       .subscribe((arrayList) => {
         if (selectAllValue) {
-          this.basicDataForm.controls["categories"].setValue([
+          this.basicDataForm.controls["postCategories"].setValue([
             ...arrayList.map((arrayItem: any) => arrayItem),
           ]);
         } else {
-          this.basicDataForm.controls["categories"].setValue([]);
+          this.basicDataForm.controls["postCategories"].setValue([]);
         }
       });
   }
 
   example(editor: any) {
     console.log(editor);
-  }
-}
-
-class AngularEditorValidator {
-  static required(): ValidatorFn {
-    return (currentControl: AbstractControl): ValidationErrors | null => {
-      if (currentControl.value === "<br>") {
-        return { required: true };
-      }
-      return null;
-    };
   }
 }

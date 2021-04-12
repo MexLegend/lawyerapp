@@ -38,8 +38,8 @@ export class HomeComponent implements OnInit {
   ) {}
 
   // Get References Of HTML Elements
-  @ViewChild("partenersCarousel", {static: false}) partnersRef: ElementRef;
-  @ViewChild("postsCarousel", {static: false}) postsRef: ElementRef;
+  @ViewChild("partenersCarousel", { static: false }) partnersRef: ElementRef;
+  @ViewChild("postsCarousel", { static: false }) postsRef: ElementRef;
 
   @ViewChildren("partnersArray") partnersArray: QueryList<ElementRef>;
   @ViewChildren("postsArray") postsArray: QueryList<ElementRef>;
@@ -218,8 +218,10 @@ export class HomeComponent implements OnInit {
   }
 
   // Go to News Comments Section
-  goToComments(id: string): void {
-    this._utilitiesS.goToComments(id, this.router);
+  goToComments(id: any): void {
+    this.router.navigate([`/articulo-detalle/${id}`], {
+      state: { comments: true },
+    });
   }
 
   openChat(lawyerData: User) {
@@ -309,5 +311,10 @@ export class HomeComponent implements OnInit {
   // Go to Lawyer Details Module
   viewLawyerDetails(id: string): void {
     this.router.navigate([`/abogado-detalle/${id}`]);
+  }
+
+  // Go to Posts Details Module
+  viewPostDetails(id: string): void {
+    this.router.navigate([`/articulo-detalle/${id}`]);
   }
 }

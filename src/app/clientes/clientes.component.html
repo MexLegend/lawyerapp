@@ -167,6 +167,9 @@
     position="end"
     [autoFocus]="false"
     class="chat-sidenav"
+    [style.height.px]="innerScreenHight"
+    (openedStart)="_utilitiesS.disableBodyScroll()"
+    (closedStart)="_utilitiesS.EnableBodyScroll()"
   >
     <app-chat-sidenav *ngIf="this._usersS.isLogged()"></app-chat-sidenav>
   </mat-sidenav>

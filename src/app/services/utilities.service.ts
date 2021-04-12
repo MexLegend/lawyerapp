@@ -51,6 +51,18 @@ export class UtilitiesService {
     });
   }
 
+  // Disable Body Scroll
+  disableBodyScroll() {
+    document.getElementsByTagName("html")[0].classList.add("hide-scroll");
+    document.querySelector("body").classList.add("hide-scroll");
+  }
+
+  // Enable Body Scroll
+  EnableBodyScroll() {
+    document.getElementsByTagName("html")[0].classList.remove("hide-scroll");
+    document.querySelector("body").classList.remove("hide-scroll");
+  }
+
   noWhitespaceValidator(control: FormControl) {
     const isWhitespace = (control.value || "").trim().length === 0;
     const isValid = !isWhitespace;
@@ -281,7 +293,8 @@ export class UtilitiesService {
     action: string,
     modalService: any,
     modalState: boolean,
-    event: any
+    event: any,
+    fileName?: any
   ) {
     let title: string = null;
     let text: string = null;
@@ -289,11 +302,10 @@ export class UtilitiesService {
     event.stopPropagation();
 
     switch (action) {
-      case "like": {
-        title = "¿Te gusta este artículo?";
-        text = "Inicia sesión para hacer que tu opinión cuente.";
+      case "attachedFile":
+        title = `¿Deseas descargar ${fileName}?`;
+        text = "Inicia sesión para descargar este y más archivos.";
         break;
-      }
 
       case "comment":
         title = "¿Deseas comentar este artículo?";
@@ -304,6 +316,12 @@ export class UtilitiesService {
         title = "¿Deseas contactar al abogado?";
         text = "Inicia sesión para contactarlo directamente.";
         break;
+
+      case "like": {
+        title = "¿Te gusta este artículo?";
+        text = "Inicia sesión para hacer que tu opinión cuente.";
+        break;
+      }
 
       default:
         title = "¿No te gusta este artículo?";

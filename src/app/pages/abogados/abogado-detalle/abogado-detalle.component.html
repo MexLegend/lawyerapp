@@ -107,10 +107,10 @@
         >
           <mat-tab>
             <ng-template mat-tab-label> Contacto </ng-template>
-            <div class="lawyer-skills-title no-line">
+            <div *ngIf="_usersS.isLogged()" class="lawyer-skills-title no-line">
               <span>Información de contacto</span>
             </div>
-            <div class="lawyer-about-data dfc">
+            <div *ngIf="_usersS.isLogged()" class="lawyer-about-data dfc">
               <div *ngIf="lawyer.cellPhone" class="lawyer-about-data-item dfr">
                 <div class="lawyer-about-data-title">
                   <span>Teléfono:</span>
@@ -145,6 +145,16 @@
                   <span>ejemplo-haizen.com</span>
                 </div>
               </div>
+            </div>
+            <div *ngIf="!_usersS.isLogged()" class="dfr jcs">
+              <span
+                >¿Deseas ver la información de contacto de este abogado?
+                <span
+                  class="lawyer-about-link"
+                  (click)="_utilitiesS.openLoginModal(0)"
+                  >Inicia sesión</span
+                ></span
+              >
             </div>
           </mat-tab>
           <mat-tab>

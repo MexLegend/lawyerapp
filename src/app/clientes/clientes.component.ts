@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
+import { Component, OnInit, ViewChild, HostListener } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { MatSidenav } from "@angular/material";
 import { Router } from "@angular/router";
@@ -7,6 +7,7 @@ import { UsersService } from "../services/users.service";
 import { WhatsappService } from "../services/whatsapp.service";
 import { ChatService } from "../services/chat.service";
 import { ThemeService } from "../services/theme.service";
+import { UtilitiesService } from '../services/utilities.service';
 
 @Component({
   selector: "app-clientes",
@@ -19,17 +20,28 @@ export class ClientesComponent implements OnInit {
     public router: Router,
     public _themeS: ThemeService,
     public _usersS: UsersService,
+    public _utilitiesS: UtilitiesService,
     public _whatsappS: WhatsappService
   ) {}
 
   form: FormGroup;
+  innerScreenHight: number = 0;
   isDarkThemeActive: boolean = false;
 
   // Chat
-  @ViewChild("mainChatSidenav", {static: false}) public sidenavChat: MatSidenav;
-  @ViewChild("mainSidenav", {static: false}) public mainSidenav: MatSidenav;
+  @ViewChild("mainChatSidenav", { static: false })
+  public sidenavChat: MatSidenav;
+  @ViewChild("mainSidenav", { static: false }) public mainSidenav: MatSidenav;
+
+  // Detect Real Screen Size
+  @HostListener("window:resize", ["$event"])
+  onResize(event: any) {
+    this.innerScreenHight = window.innerHeight;
+  }
 
   ngOnInit() {
+    // Get Screen Size
+    this.innerScreenHight = window.innerHeight;
     this.initWhatsappForm();
 
     // Get Initial Theme From Local Storage
@@ -41,19 +53,6 @@ export class ClientesComponent implements OnInit {
     this._themeS.getSwitchValue().subscribe((isDarkThemeActive) => {
       this.isDarkThemeActive = isDarkThemeActive;
     });
-
-    // Live Chat Widget
-    var Tawk_API = Tawk_API || {},
-      Tawk_LoadStart = new Date();
-    (function () {
-      var s1 = document.createElement("script"),
-        s0 = document.getElementsByTagName("script")[0];
-      s1.async = true;
-      s1.src = "https://embed.tawk.to/6015b931c31c9117cb742f31/1etadmqih";
-      s1.charset = "UTF-8";
-      s1.setAttribute("crossorigin", "*");
-      s0.parentNode.insertBefore(s1, s0);
-    })();
 
     /*
     $(document).ready(function () {

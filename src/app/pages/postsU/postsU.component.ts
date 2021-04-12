@@ -42,29 +42,19 @@ export class PostsUComponent implements OnInit {
   }
 
   // Go to News Comments Section
-  goToComments(id): void {
-    this.router.navigate([`/articulo-detalle/${id}`]);
-    $(document).ready(function () {
-      // scroll to your element
-      document
-        .getElementById("comments-box")
-        .scrollIntoView({
-          behavior: "smooth",
-          block: "start",
-          inline: "nearest",
-        });
-
-      // now account for fixed header
-      // var scrolledY = window.scrollY;
-
-      // if (scrolledY) {
-      //   window.scroll(0, scrolledY - 71);
-      // }
+  goToComments(id: any): void {
+    this.router.navigate([`/articulo-detalle/${id}`], {
+      state: { comments: true },
     });
   }
 
   // Scroll to Top of New Page
   scrollToTop() {
     window.scrollTo(0, 0);
+  }
+
+  // Go to Posts Details Module
+  viewPostDetails(id: string): void {
+    this.router.navigate([`/articulo-detalle/${id}`]);
   }
 }

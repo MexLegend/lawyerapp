@@ -246,6 +246,7 @@
   border-style: solid;
   border-width: 1.6px;
   border-color: var(--search-input-border);
+  cursor: pointer;
 }
 
 .card-attached-files-box .image {
@@ -267,11 +268,6 @@
 .card-attached-files-box .attached-file-size {
   font-size: 12px;
   color: var(--secondary-text);
-}
-
-.card-attached-files-box .attached-file-size::before {
-  content: "•";
-  margin: 0 5px;
 }
 
 .card-attached-files-box .action-button {

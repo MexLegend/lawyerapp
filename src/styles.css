@@ -165,6 +165,9 @@
     margin: 0 0 40px 0 !important;
     width: 100% !important;
   }
+  .middle-content-box.sites {
+    flex-direction: column !important;
+  }
 }
 
 @media only screen and (max-width: 1000px) {
@@ -381,6 +384,15 @@
   }
   .lawyer-posts-container {
     width: 100%;
+  }
+  .middle-content-boxes {
+    flex-direction: column !important;
+  }
+  .middle-content-box {
+    width: 100% !important;
+  }
+  .middle-content-box:last-child {
+    margin-top: 20px;
   }
 }
 
@@ -1502,6 +1514,14 @@ strong {
   margin: 0 !important;
 }
 
+.mb-0 {
+  margin-bottom: 0 !important;
+}
+
+.mb-10 {
+  margin-bottom: 10px !important;
+}
+
 .mb-25 {
   margin-bottom: 25px !important;
 }
@@ -1603,6 +1623,10 @@ p {
   align-items: center;
 }
 
+.dn {
+  display: none !important;
+}
+
 .jcc {
   justify-content: center !important;
 }
@@ -1629,6 +1653,18 @@ p {
 
 .bs-none {
   box-shadow: none !important;
+}
+
+.cursor-p {
+  cursor: pointer !important;
+}
+
+.pe-none {
+  pointer-events: none !important;
+}
+
+.opacity-0 {
+  opacity:  0 !important;
 }
 
 .overflow-auto {
@@ -2650,6 +2686,7 @@ body.swal2-shown {
 
 .item-acordion-card-body.lawyer-card {
   height: calc(100% - 80px) !important;
+  cursor: pointer;
 }
 
 .item-acordion-card-body[data-note-details="true"] {
@@ -4092,8 +4129,8 @@ textarea.materialize-textarea {
 .chat-sidenav {
   background: var(--medium-dark-bg) !important;
   color: var(--default-color);
-  width: 360px;
-  min-width: 360px;
+  width: 100%;
+  max-width: 360px;
   height: calc(100vh - 2px);
   max-height: calc(100vh - 2px);
   position: fixed !important;
@@ -5923,6 +5960,7 @@ perfect-scrollbar > .ps.ps--scrolling-y > .ps__rail-y,
   padding: 8px 10px !important;
   margin: 2px !important;
   border: none !important;
+  border-radius: 2px !important;
   box-shadow: none !important;
   position: relative;
   z-index: 10;
@@ -5935,6 +5973,10 @@ perfect-scrollbar > .ps.ps--scrolling-y > .ps__rail-y,
 
 .modal-input.read-only input {
   color: #6e7174 !important;
+}
+
+.modal-input textarea {
+  border-radius: 2px !important;
 }
 
 .modal-input:not(.notes-text-area):not(.modal-input-textarea) textarea {
@@ -7101,7 +7143,7 @@ span.badge.new:after {
 }
 
 .admin-modal-content.reply {
-  height: calc(100% - 76px) !important;
+  height: calc(100% - 56px) !important;
 }
 
 .mat-dialog-container {
@@ -7384,7 +7426,7 @@ span.badge.new:after {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  min-width: 100px;
+  min-width: 104px;
   justify-content: center;
 }
 
@@ -8017,11 +8059,19 @@ span.badge.new:after {
   max-width: calc(100% - 35px);
 }
 
+.attached-file-details {
+  width: calc(100% - 98px) !important;
+}
+
 .attached-file-name {
   max-width: 100%;
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
+}
+
+.attached-file-details .attached-file-name {
+  font-size: 12px;
 }
 
 .attached-file-format-text {
@@ -8587,7 +8637,7 @@ table.dataTable > tbody > tr.child ul.dtr-details > li {
   background: var(--medium-dark-bg) !important;
 }
 
-#contanct-form input:-webkit-autofill,
+/* #contanct-form input:-webkit-autofill,
 #contanct-form input:-webkit-autofill:hover,
 #contanct-form textarea:-webkit-autofill,
 #contanct-form textarea:-webkit-autofill:hover {
@@ -8605,10 +8655,10 @@ select:-webkit-autofill,
 select:-webkit-autofill:hover input:-webkit-autofill:focus,
 textarea:-webkit-autofill:focus,
 select:-webkit-autofill:focus {
-  background-color: var(--dark-smoke-bg) !important;
-  box-shadow: 0 0 0 30px var(--dark-smoke-bg) inset !important;
-  -webkit-box-shadow: 0 0 0 30px var(--dark-smoke-bg) inset !important;
-}
+  background-color: var(--dark-disabled-button-bg) !important;
+  box-shadow: 0 0 0 30px var(--dark-disabled-button-bg) inset !important;
+  -webkit-box-shadow: 0 0 0 30px var(--dark-disabled-button-bg) inset !important;
+} */
 
 .angular-editor .angular-editor-wrapper .angular-editor-textarea {
   border: 1px solid;
@@ -8673,16 +8723,15 @@ select:-webkit-autofill:focus {
 
 .modal
   .modal-actions
-  .modal-close-action:not(.perfil-close-action):not(.button-disabled),
+  .modal-close-action:not(.perfil-close-action):not(.button-disabled):not(:hover),
 .admin-modal-footer
-  .modal-close-action:not(.perfil-close-action):not(.button-disabled) {
+  .modal-close-action:not(.perfil-close-action):not(.button-disabled):not(:hover) {
   background: var(--admin-modal-button-bg) !important;
   color: var(--admin-modal-button-color) !important;
 }
 
 .modal .modal-actions .modal-close-action:hover,
 .admin-modal-footer .modal-close-action:hover {
-  /* background: linear-gradient(45deg, #303f9f, #7b1fa2) !important; */
   background: -webkit-linear-gradient(45deg, #303f9f, #2e89ff) !important;
   background: -o-linear-gradient(45deg, #303f9f, #2e89ff) !important;
   background: linear-gradient(45deg, #303f9f, #2e89ff) !important;

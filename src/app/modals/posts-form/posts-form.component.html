@@ -156,7 +156,7 @@
           <form
             class="col s12 h-full"
             ngNativeValidate
-            [formGroup]="basicDataForm"
+            [formGroup]="contentDataForm"
           >
             <!-- Inputs Container -->
             <div class="inputs-container document-editor dfc h-full">
@@ -456,7 +456,11 @@
           <!-- Go Stepper Forward Button -->
           <button
             *ngIf="postsStepper.selectedIndex !== 3"
-            [class.button-disabled]="!basicDataForm.valid || isPostSaving"
+            [class.button-disabled]="
+              !basicDataForm.valid ||
+              (!contentDataForm.valid && postsStepper.selectedIndex === 1) ||
+              isPostSaving
+            "
             (click)="_utilitiesS.goStepperForward(postsStepper)"
             class="waves-effect waves-light btn modal-submit-action"
           >

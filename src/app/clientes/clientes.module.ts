@@ -21,7 +21,7 @@ import { ComponentsModule } from "../components/components.module";
 import { AbogadosComponent } from "../pages/abogados/abogados.component";
 import { AbogadoDetalleComponent } from "../pages/abogados/abogado-detalle/abogado-detalle.component";
 import { PracticeAreasComponent } from "../pages/practice-areas/practice-areas.component";
-import { AreaDetailComponent } from '../pages/practice-areas/area-detail/area-detail.component';
+import { AreaDetailComponent } from "../pages/practice-areas/area-detail/area-detail.component";
 
 @NgModule({
   declarations: [

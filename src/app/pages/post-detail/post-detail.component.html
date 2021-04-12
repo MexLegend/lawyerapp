@@ -43,6 +43,11 @@
                   <div
                     class="card-attached-files-box w-full dfr"
                     *ngFor="let file of post?.attachedFiles"
+                    (click)="
+                      this._usersS.isLogged()
+                        ? menuTrigger.openMenu()
+                        : showAlertModal('attachedFile', $event, file.name)
+                    "
                   >
                     <div
                       class="image centered-img-bg border-none dfr jcc"
@@ -76,9 +81,11 @@
                         [src]="file?.path"
                       />
                     </div>
-                    <div class="attached-file-details dfr h-full w-full">
-                      <span class="attached-file-name">{{ file.name }}</span>
-                      <span class="attached-file-size">{{
+                    <div class="attached-file-details dfc jcc h-full">
+                      <span class="attached-file-name w-full">{{
+                        file.name
+                      }}</span>
+                      <span class="attached-file-size w-full">{{
                         _utilitiesS.formatBytes(file.size)
                       }}</span>
                     </div>
@@ -87,10 +94,9 @@
                     >
                       <!-- Attached File Actions Button Trigger -->
                       <button
-                        class="btn action-button transparent-bg border-none bs-none dfc"
+                        class="btn action-button transparent-bg border-none bs-none opacity-0 pe-none"
                         mat-icon-button
-                        matTooltip="Más acciones"
-                        matTooltipPosition="above"
+                        #menuTrigger="matMenuTrigger"
                         [matMenuTriggerFor]="attachedFileMenu"
                       >
                         <i class="material-icons big-icon">more_vert</i>
@@ -287,7 +293,7 @@
     </div>
 
     <!-- Comments Card -->
-    <div class="col s12 m7" id="comments-box" name="comments-box">
+    <div class="col s12 m7" #commentsBox id="comments-box" name="comments-box">
       <div class="card horizontal">
         <div class="card-stacked">
           <div class="comment-card-header card-content">

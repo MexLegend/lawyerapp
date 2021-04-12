@@ -197,7 +197,6 @@ export class UsersFormComponent implements OnInit, AfterViewChecked {
                   user._id === resp.user._id ? resp.user : user
                 );
                 this._usersS.setUsersList(newUsersArray);
-                this.form.reset();
                 this.isUserSaved = true;
                 this.closeModal();
                 // Set Notification Data
@@ -249,7 +248,6 @@ export class UsersFormComponent implements OnInit, AfterViewChecked {
               if (resp.ok) {
                 const newUsersArray = [...this.usersList, resp.user];
                 this._usersS.setUsersList(newUsersArray);
-                this.form.reset();
                 this.isUserSaved = true;
                 this.closeModal();
               }
@@ -285,7 +283,6 @@ export class UsersFormComponent implements OnInit, AfterViewChecked {
             if (resp.ok) {
               const newUsersArray = [...this.usersList, resp.user];
               this._usersS.setUsersList(newUsersArray);
-              this.form.reset();
               this.isUserSaved = true;
               this.closeModal();
             }
@@ -334,39 +331,14 @@ export class UsersFormComponent implements OnInit, AfterViewChecked {
 
   // Create User Object Within Form Data
   createUserObject(): User {
-    // Add Address Property If Its Not Empty
-    const addressS =
-      this.form.value.address === undefined ||
-      this.form.value.address === null ||
-      this.form.value.address === ""
-        ? ""
-        : this.form.value.address;
+    const { _id: _id, ...userData } = this.form.value;
 
-    // Add CellPhone Property If Its Not Empty
-    const cellPhoneS =
-      this.form.value.cellPhone === undefined ||
-      this.form.value.cellPhone === null ||
-      this.form.value.cellPhone === ""
-        ? ""
-        : this.form.value.cellPhone;
-
-    const user = new User(
-      this.form.value.emailAdmin,
-      this.form.value.firstName,
-      this.form.value.lastName,
-      this.form.value.password1,
-      this.form.value.password2,
-      addressS,
-      "",
-      cellPhoneS,
-      "",
-      "",
-      "",
-      "",
-      this.form.value.role
+    // Filter Not Null Values
+    Object.keys(userData).forEach(
+      (key) => userData[key] == null && delete userData[key]
     );
 
-    return user;
+    return userData;
   }
 
   private async initRegisterForm() {

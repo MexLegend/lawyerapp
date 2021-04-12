@@ -23,17 +23,21 @@ export class PostsService {
     private _usersS: UsersService
   ) {}
 
-  createPost(postData: any, postImage?: any): Observable<any> {
+  createPost(postDataObtained: any, postImage?: any): Observable<any> {
     const url = `${environment.URI}/api/posts`;
     const headers = new HttpHeaders({
       token: this._usersS.token,
     });
+
+    const { _id: id, ...postData } = postDataObtained;
 
     const data = {
       postData: { ...postData, user: this._usersS.user._id },
       postImage,
       processState: "REVIEWING",
     };
+
+    console.log(data);
 
     return this.http
       .post<Post>(url, data, { headers })

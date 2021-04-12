@@ -90,6 +90,10 @@
                   <div
                     class="item-acordion-card-body lawyer-card dfr"
                     data-note-details="true"
+                    (click)="
+                      viewLawyerDetails(lawyer._id);
+                      this._utilitiesS.scrollToTop()
+                    "
                   >
                     <div
                       class="item-acordion-card-body-image lawyer-card centered-img-bg dfr"
@@ -220,12 +224,13 @@
             <!-- Posts Cards -->
             <div class="item-acordion-card-carousel home" #postsCarousel>
               <div
-                class="item-acordion-card-box evidence-card-box dfc"
+                class="item-acordion-card-box evidence-card-box cursor-p dfc"
                 *ngFor="
                   let post of posts
                     | paginate: { itemsPerPage: 10, currentPage: currentPage }
                 "
                 #postsArray
+                (click)="viewPostDetails(post._id)"
               >
                 <!-- Post Card Header -->
                 <div class="item-acordion-card-header dfr">
@@ -327,7 +332,7 @@
         </button>
       </div>
     </div>
-    <div class="home-practice-area-body dfr">
+    <div class="home-practice-area-body w-full dfr">
       <div class="home-practice-areas-list">
         <div
           *ngFor="let practiceArea of practiceAreasList"

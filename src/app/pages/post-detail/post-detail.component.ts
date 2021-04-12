@@ -1,4 +1,11 @@
-import { Component, OnInit, HostListener } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  HostListener,
+  ElementRef,
+  QueryList,
+  ViewChildren,
+} from "@angular/core";
 import { Location } from "@angular/common";
 import { MatDialog } from "@angular/material";
 import { ActivatedRoute } from "@angular/router";
@@ -17,8 +24,7 @@ import { ChatService } from "../../services/chat.service";
 import { User } from "../../models/User";
 import { UtilitiesService } from "../../services/utilities.service";
 import { FilePreviewComponent } from "../../modals/file-preview/file-preview.component";
-import { HttpHeaders, HttpClient } from "@angular/common/http";
-import { saveAs } from "file-saver";
+import { HttpClient } from "@angular/common/http";
 
 declare var $: any;
 
@@ -28,6 +34,8 @@ declare var $: any;
   styleUrls: ["./post-detail.component.css"],
 })
 export class PostDetailComponent implements OnInit {
+  @ViewChildren("commentsBox") commentsBox: QueryList<ElementRef>;
+
   subscriptionsArray: Subscription[] = [];
 
   allLastPosts: Post[] = [];
@@ -122,6 +130,23 @@ export class PostDetailComponent implements OnInit {
         }
       });
     });
+  }
+
+  ngAfterViewInit(): void {
+    this.subscriptionsArray.push(
+      this.commentsBox.changes.subscribe(() => {
+        if (this.commentsBox.toArray().length > 0)
+          if (history.state.comments)
+            // Scroll To Comments Section
+            this.commentsBox.toArray().map((commentBox) => {
+              commentBox.nativeElement.scrollIntoView({
+                behavior: "auto",
+                block: "start",
+                inline: "nearest",
+              });
+            });
+      })
+    );
   }
 
   // Unsubscribe Any Subscription
@@ -240,12 +265,13 @@ export class PostDetailComponent implements OnInit {
   }
 
   // Show Modal Alert When The User Who Is Reacting Is Not Logged In
-  showAlertModal(action: string, event: any) {
+  showAlertModal(action: string, event: any, fileName?: any) {
     this._utilitiesS.showAlertModal(
       action,
       this._alertModalS,
       this.isModalAlertRendered,
-      event
+      event,
+      fileName
     );
   }
 

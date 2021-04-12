@@ -32,91 +32,85 @@
       >
         <!-- Inputs Container -->
         <div class="inputs-container">
-          <div class="upload-img-container dfr" style="margin-bottom: 10px">
-            <div class="upload-img centered-img-bg dfc">
-              <img
-                *ngIf="this._cloudinaryS.image"
-                [src]="this._cloudinaryS.image | img: 'user'"
-              />
-              <div
-                class="select-img dfr"
-                [attr.data-active]="this._cloudinaryS.image ? 'on' : 'off'"
-                (click)="userImg.click()"
+          <!-- Select / Change Post Image Trigger -->
+          <div
+            class="profile-image-field mb-10 w-full dfr"
+            (click)="userImg.click()"
+          >
+            <div class="profile-image-description dfc">
+              <span class="profile-image-title">Imágen del usuario</span>
+              <span class="profile-image-subtitle"
+                >{{
+                  this.userModalTitle === "Crear" ? "Seleccionar" : "Actualizar"
+                }}
+                imagen del usuario</span
               >
-                <i
-                  class="material-icons"
-                  [attr.data-active]="this._cloudinaryS.image ? 'on' : 'off'"
-                  >camera_alt</i
-                >
-                <input
-                  #userImg
-                  type="file"
-                  ng2FileSelect
-                  [uploader]="this._cloudinaryS.uploader"
-                  style="display: none"
-                  accept="image/png, image/jpg, image/jpeg"
-                />
+            </div>
+            <div class="profile-image dfc">
+              <div class="profile-image-wrapper centered-img-bg">
+                <img [src]="this._cloudinaryS.image | img: 'user'" />
+                <i class="material-icons">camera_alt</i>
               </div>
             </div>
-            <div class="dfc" style="width: 100%">
-              <!-- Email Input Field -->
-              <div class="modal-input modal-input-pink">
-                <input
-                  name="emailAdmin"
-                  formControlName="emailAdmin"
-                  type="email"
-                  placeholder=" "
-                  required
-                  (ngModelChange)="this.userEmail.next($event)"
-                  email
-                />
-                <div
-                  class="modal-input-placeholder modal-input-placeholder-pink"
-                >
-                  Email*
-                </div>
-              </div>
-              <div
-                class="emailError"
-                [ngStyle]="errorEmail ? { height: '23px' } : ''"
-              >
-                <div
-                  *ngIf="errorEmail && this.form.value._id === null"
-                  style="margin-top: 5px"
-                >
-                  El email ya esta en uso
-                </div>
-              </div>
-              <!-- First Name Input Field -->
-              <div class="modal-input modal-input-pink">
-                <input
-                  name="firstName"
-                  formControlName="firstName"
-                  type="text"
-                  placeholder=" "
-                  required
-                />
-                <div
-                  class="modal-input-placeholder modal-input-placeholder-pink"
-                >
-                  Nombre(s)*
-                </div>
-              </div>
-              <!-- Last Name Input Field -->
-              <div class="modal-input modal-input-pink">
-                <input
-                  name="lastName"
-                  formControlName="lastName"
-                  type="text"
-                  placeholder=" "
-                  required
-                />
-                <div
-                  class="modal-input-placeholder modal-input-placeholder-pink"
-                >
-                  Apellido*
-                </div>
-              </div>
+            <input
+              #userImg
+              type="file"
+              ng2FileSelect
+              [uploader]="this._cloudinaryS.uploader"
+              style="display: none"
+              accept="image/*"
+            />
+          </div>
+          <!-- Email Input Field -->
+          <div class="modal-input modal-input-pink">
+            <input
+              name="emailAdmin"
+              formControlName="emailAdmin"
+              type="email"
+              placeholder=" "
+              required
+              (ngModelChange)="this.userEmail.next($event)"
+              email
+            />
+            <div class="modal-input-placeholder modal-input-placeholder-pink">
+              Email*
+            </div>
+          </div>
+          <div
+            class="emailError"
+            [ngStyle]="errorEmail ? { height: '23px' } : ''"
+          >
+            <div
+              *ngIf="errorEmail && this.form.value._id === null"
+              style="margin-top: 5px"
+            >
+              El email ya esta en uso
+            </div>
+          </div>
+          <!-- First Name Input Field -->
+          <div class="modal-input modal-input-pink">
+            <input
+              name="firstName"
+              formControlName="firstName"
+              type="text"
+              placeholder=" "
+              required
+            />
+            <div class="modal-input-placeholder modal-input-placeholder-pink">
+              Nombre(s)*
+            </div>
+          </div>
+          <!-- Last Name Input Field -->
+          <div class="modal-input modal-input-pink">
+            <input
+              name="lastName"
+              formControlName="lastName"
+              type="text"
+              placeholder=" "
+              required
+            />
+            <div class="modal-input-placeholder modal-input-placeholder-pink">
+              Apellido*
             </div>
           </div>
           <!-- CellPhone Input Field -->

@@ -14,6 +14,7 @@ import { NotificationsPagination } from "../models/Notification";
 import { UsersService } from "../services/users.service";
 import { ThemeService } from "../services/theme.service";
 import { ChatService } from "../services/chat.service";
+import { UtilitiesService } from '../services/utilities.service';
 
 declare var $: any;
 
@@ -27,7 +28,8 @@ export class AdminComponent implements OnInit, OnDestroy {
     public _chatS: ChatService,
     public router: Router,
     public _themeS: ThemeService,
-    public _usersS: UsersService
+    public _usersS: UsersService,
+    public _utilitiesS: UtilitiesService
   ) {
     this.subscriptionsArray.push(
       this.router.events.subscribe((event) => {
@@ -41,8 +43,9 @@ export class AdminComponent implements OnInit, OnDestroy {
   subscriptionsArray: Subscription[] = [];
 
   // Chat
-  @ViewChild("adminChatSidenav", {static: false}) public sidenavChat: MatSidenav;
-  @ViewChild("beforeMenu", {static: false}) adminMenu: MatMenuTrigger;
+  @ViewChild("adminChatSidenav", { static: false })
+  public sidenavChat: MatSidenav;
+  @ViewChild("beforeMenu", { static: false }) adminMenu: MatMenuTrigger;
 
   actSt: string;
   notifications: NotificationsPagination;
@@ -53,7 +56,8 @@ export class AdminComponent implements OnInit, OnDestroy {
   showFiller = false;
   // Theme Variable
   public isDarkThemeActive: boolean = false;
-  // Screen Size Variable
+  // Screen Size Variables
+  public innerScreenHeight: any;
   public innerScreenWidth: any;
   // Chat Sidenav Variables
   public showSidenav: boolean = true;
@@ -64,8 +68,9 @@ export class AdminComponent implements OnInit, OnDestroy {
 
   // Detect Real Screen Size
   @HostListener("window:resize", ["$event"])
-  onResize(event) {
+  onResize(event: any) {
     this.innerScreenWidth = window.innerWidth;
+    this.innerScreenHeight = window.innerHeight;
 
     if (this.innerScreenWidth > 993) {
       this.showSidenav = true;
@@ -78,6 +83,7 @@ export class AdminComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     // Get Screen Size
+    this.innerScreenHeight = window.innerHeight;
     this.innerScreenWidth = window.innerWidth;
 
     // Toogle Sidenav According to Screen Size
