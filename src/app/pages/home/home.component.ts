@@ -6,19 +6,20 @@ import {
   ViewChild,
   ViewChildren,
 } from "@angular/core";
-import { UtilitiesService } from "../../services/utilities.service";
-import { HostListener } from "@angular/core";
-import { Post } from "../../models/Post";
-import { Subscription } from "rxjs";
-import { PostsService } from "../../services/posts.service";
-import { Router } from "@angular/router";
-import { UsersService } from "../../services/users.service";
-import { User } from "../../models/User";
 import { ChatService } from "../../services/chat.service";
 import { ContactService } from "../../services/contact.service";
+import { HostListener } from "@angular/core";
 import { ModalAlertService } from "../../services/modal-alert.service";
-import { PracticeAreasService } from "../../services/practice-areas.service";
+import { OwlOptions } from "ngx-owl-carousel-o";
+import { Post } from "../../models/Post";
+import { PostsService } from "../../services/posts.service";
 import { PracticeArea } from "src/app/models/PracticeArea";
+import { PracticeAreasService } from "../../services/practice-areas.service";
+import { Router } from "@angular/router";
+import { Subscription } from "rxjs";
+import { UtilitiesService } from "../../services/utilities.service";
+import { User } from "../../models/User";
+import { UsersService } from "../../services/users.service";
 
 @Component({
   selector: "app-home",
@@ -46,50 +47,73 @@ export class HomeComponent implements OnInit {
 
   subscriptionsArray: Subscription[] = [];
 
+  partnersCarosuelOptions: OwlOptions = {
+    autoplay: true,
+    autoplayHoverPause: true,
+    dots: true,
+    loop: true,
+    margin: 10,
+    nav: false,
+    navSpeed: 700,
+    responsive: {
+      0: {
+        items: 1,
+      },
+      600: {
+        items: 2,
+      },
+      840: {
+        items: 3,
+      },
+      1300: {
+        items: 4,
+      },
+    },
+  };
+
+  postsCarosuelOptions: OwlOptions = {
+    autoplay: true,
+    autoplayHoverPause: true,
+    dots: true,
+    loop: true,
+    margin: 10,
+    nav: false,
+    navSpeed: 700,
+    responsive: {
+      0: {
+        items: 1,
+      },
+      600: {
+        items: 2,
+      },
+      840: {
+        items: 3,
+      },
+      1300: {
+        items: 4,
+      },
+    },
+  };
+
   currentPage: number = 1;
   firstPartnerElement: HTMLElement;
   firstPostElement: HTMLElement;
   firstPracticeAreaElement: HTMLElement;
+  innerScreenWidth: number = 0;
   isModalAlertRendered: boolean = false;
   lawyers: User[] = [];
   modalAlertRef: any = null;
   partnersArrayList: HTMLElement[] = [];
+  partnersTimer: any;
   posts: Array<Post> = [];
   postsArrayList: HTMLElement[] = [];
+  postsTimer: any;
   practiceAreasList: Array<PracticeArea> = [];
 
   // Detect Real Screen Size
   @HostListener("window:resize", [])
   onResize() {
-    if (this.partnersArrayList.length > 0) {
-      this._utilitiesS.setCarouselPaginationControls(
-        this.partnersArrayList,
-        this.partnersRef,
-        ".partners-controls",
-        this.firstPartnerElement,
-        ".partners-row-indicator"
-      );
-    }
-
-    if (this.postsArrayList.length > 0) {
-      this._utilitiesS.setCarouselPaginationControls(
-        this.postsArrayList,
-        this.postsRef,
-        ".posts-controls",
-        this.firstPostElement,
-        ".posts-row-indicator"
-      );
-    }
-
-    // if (this.practiceAreasList.length > 0) {
-    //   this._utilitiesS.setCarouselPaginationControls(
-    //     this.practiceAreasList,
-    //     this.practiceAreasRef,
-    //     ".practice-areas-controls",
-    //     this.firstPracticeAreaElement,
-    //     ".practice-areas-row-indicator"
-    //   );
-    // }
+    this.innerScreenWidth = window.innerWidth;
   }
 
   // Close Reaction Alert Modal When Its Clicked Outside
@@ -102,6 +126,9 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
+    // Get Screen Size
+    this.innerScreenWidth = window.innerWidth;
+
     // List Lawyers Subscription
     this.subscriptionsArray.push(
       this._usersS.getLawyers().subscribe((lawyers: any) => {
@@ -157,64 +184,12 @@ export class HomeComponent implements OnInit {
     this.subscriptionsArray.map((subscription) => subscription.unsubscribe());
   }
 
-  ngAfterViewInit() {
-    // Init Lawyer Partners Carousel
-    this.subscriptionsArray.push(
-      this.partnersArray.changes.subscribe(() => {
-        if (
-          this.partnersArray.toArray().length > 0 &&
-          this.partnersArrayList.length === 0
-        ) {
-          // Fill PartnersArray And Get First Partner With DOM Partners Obtained
-          this.partnersArray.toArray().map((partner) => {
-            this.partnersArrayList = [
-              ...this.partnersArrayList,
-              partner.nativeElement,
-            ];
-
-            this.firstPartnerElement = partner.nativeElement;
-          });
-
-          // Create Pagination Controls Within Number Of Pages From Partners Control
-          if (this.partnersArrayList.length > 0 && this.firstPartnerElement) {
-            this._utilitiesS.setCarouselPaginationControls(
-              this.partnersArrayList,
-              this.partnersRef,
-              ".partners-controls",
-              this.firstPartnerElement,
-              ".partners-row-indicator"
-            );
-          }
-        }
-      })
-    );
-
-    // Init Last Posts Carousel
-    this.subscriptionsArray.push(
-      this.postsArray.changes.subscribe(() => {
-        if (
-          this.postsArray.toArray().length > 0 &&
-          this.postsArrayList.length === 0
-        ) {
-          // Fill LastPostsArray And Get First Partner With DOM Last Posts Obtained
-          this.postsArray.toArray().map((post) => {
-            this.postsArrayList = [...this.postsArrayList, post.nativeElement];
-            this.firstPostElement = post.nativeElement;
-          });
-
-          // Create Pagination Controls Within Number Of Pages From Last Posts Control
-          if (this.postsArrayList.length > 0 && this.firstPostElement) {
-            this._utilitiesS.setCarouselPaginationControls(
-              this.postsArrayList,
-              this.postsRef,
-              ".posts-controls",
-              this.firstPostElement,
-              ".posts-row-indicator"
-            );
-          }
-        }
-      })
-    );
+  displayedCarouselItems(): number {
+    if (window.innerWidth >= 1300) return 5;
+    else if (window.innerWidth >= 1100 && window.innerWidth < 1300) return 4;
+    else if (window.innerWidth >= 840 && window.innerWidth < 1100) return 3;
+    else if (window.innerWidth >= 600 && window.innerWidth < 840) return 2;
+    else if (window.innerWidth < 600) return 1;
   }
 
   // Go to News Comments Section
@@ -227,75 +202,6 @@ export class HomeComponent implements OnInit {
   openChat(lawyerData: User) {
     this._chatS.setLawyerRoomData(lawyerData);
     this._chatS.openChat();
-  }
-
-  scrollCarouselToLeft(actionType: string, controlsType: string) {
-    switch (actionType) {
-      case "partners":
-        this._utilitiesS.scrollCarouselToLeft(
-          this.partnersArrayList,
-          this.partnersRef,
-          controlsType,
-          this.firstPartnerElement
-        );
-        break;
-
-      // case "practice-areas":
-      //   this._utilitiesS.scrollCarouselToLeft(
-      //     this.practiceAreasList,
-      //     this.practiceAreasRef,
-      //     controlsType,
-      //     this.firstPracticeAreaElement
-      //   );
-      //   break;
-
-      default:
-        this._utilitiesS.scrollCarouselToLeft(
-          this.postsArrayList,
-          this.postsRef,
-          controlsType,
-          this.firstPostElement
-        );
-        break;
-    }
-  }
-
-  scrollCarouselToRight(
-    actionType: string,
-    controlsType: string,
-    offsetWidth?: any
-  ) {
-    switch (actionType) {
-      case "partners":
-        this._utilitiesS.scrollCarouselToRight(
-          this.partnersArrayList,
-          this.partnersRef,
-          controlsType,
-          this.firstPartnerElement,
-          offsetWidth
-        );
-        break;
-
-      // case "practice-areas":
-      //   this._utilitiesS.scrollCarouselToRight(
-      //     this.practiceAreasList,
-      //     this.practiceAreasRef,
-      //     controlsType,
-      //     this.firstPracticeAreaElement,
-      //     offsetWidth
-      //   );
-      //   break;
-
-      default:
-        this._utilitiesS.scrollCarouselToRight(
-          this.postsArrayList,
-          this.postsRef,
-          controlsType,
-          this.firstPostElement,
-          offsetWidth
-        );
-        break;
-    }
   }
 
   // Show Modal Alert When The User Who Is Reacting Is Not Logged In

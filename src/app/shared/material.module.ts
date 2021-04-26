@@ -26,6 +26,7 @@ import {
   MatTooltipModule,
 } from "@angular/material";
 import { AutosizeModule } from "ngx-autosize";
+import { CarouselModule } from 'ngx-owl-carousel-o';
 import { NgxMatSelectSearchModule } from "ngx-mat-select-search";
 import {
   PerfectScrollbarModule,
@@ -41,6 +42,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
 
 const exportedMatModule = [
   AutosizeModule,
+  CarouselModule,
   NgxMatSelectSearchModule,
   MatBottomSheetModule,
   MatButtonModule,

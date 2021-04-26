@@ -22,15 +22,11 @@
       </nav>
     </div>
   </div>
-  <div
-    *ngIf="posts.length > 0"
-    id="noticias-content-container"
-    class="container"
-  >
+  <div *ngIf="posts.length > 0" class="noticias-content-container container">
     <div
       *ngFor="
         let post of posts
-          | filter: filterValue:'post'
+          | stringFilter: filterValue:'postTitle':noDataContainer
           | paginate: { itemsPerPage: selectedEntry, currentPage: currentPage }
       "
       class="card sticky-action"
@@ -106,19 +102,35 @@
         </div>
       </div>
     </div>
-  </div>
-  <div
-    *ngIf="posts.length === 0"
-    id="noticias-content-container"
-    class="container no-data"
-  >
-    <div class="card sticky-action" style="width: 100%">
-      <div class="card-body card-content no-data">
-        <div class="card-no-data-icon dfc">
-          <span>i</span>
+    <!-- No Data Found Message -->
+    <div
+      #noDataContainer
+      class="noticias-content-container w-full no-data hidden p0"
+    >
+      <div class="card sticky-action" style="width: 100%">
+        <div class="card-body card-content no-data">
+          <div class="card-no-data-icon dfc">
+            <span>i</span>
+          </div>
+          <div class="card-information no-data">
+            <span>No se encontraron resultados</span>
+          </div>
         </div>
-        <div class="card-information no-data">
-          <span>No hay artículos publicados</span>
+      </div>
+    </div>
+    <!-- No Posts Published Message -->
+    <div
+      *ngIf="posts.length === 0"
+      class="noticias-content-container w-full no-data p0"
+    >
+      <div class="card sticky-action" style="width: 100%">
+        <div class="card-body card-content no-data">
+          <div class="card-no-data-icon dfc">
+            <span>i</span>
+          </div>
+          <div class="card-information no-data">
+            <span>No hay artículos publicados</span>
+          </div>
         </div>
       </div>
     </div>

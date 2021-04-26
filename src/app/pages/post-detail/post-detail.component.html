@@ -1,5 +1,5 @@
 <section *ngIf="post" id="noticias-main-container" class="pr pt-71">
-  <div id="noticias-content-container">
+  <div class="noticias-content-container">
     <div class="noticias-data dfr">
       <!-- Detail Post Main Card Container -->
       <div class="post-main-card-container" style="width: calc(100% - 430px)">
@@ -156,20 +156,30 @@
                 mat-icon-button
                 matTooltip="Contactar autor por correo"
                 matTooltipPosition="above"
-                (click)="openReplyModal(post.user)"
+                (click)="
+                  this._usersS.isLogged()
+                    ? openReplyModal(post.user)
+                    : showAlertModal('contactEmail', $event)
+                "
               >
                 <i class="far fa-envelope"></i>
               </button>
               <!-- Post Contact Author By Message Button Trigger -->
               <button
                 *ngIf="
-                  _usersS.isLogged() && postAuthor._id !== this._usersS.user._id
+                  _usersS.isLogged()
+                    ? postAuthor._id !== this._usersS.user._id
+                    : true
                 "
-                class="header-item-btn btn action-button important-action dfc"
+                class="header-item-btn btn action-button dfc"
                 mat-icon-button
                 matTooltip="Contactar autor por mensaje"
                 matTooltipPosition="above"
-                (click)="openChat(post.user)"
+                (click)="
+                  this._usersS.isLogged()
+                    ? openChat(post.user)
+                    : showAlertModal('contactLawyer', $event)
+                "
               >
                 <i class="far fa-comment"></i>
               </button>

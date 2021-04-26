@@ -10,18 +10,63 @@
               >Noticias y actualizaciones sobre lo que estamos haciendo</span
             >
           </div>
-          <div class="box-item input-box dfr">
-            <input
-              id="footer-newsletter-input"
-              type="email"
-              class=""
-              placeholder="Ingresa tu email"
-            />
-            <a id="footer-newsletter-btn" class="waves-effect waves-light btn"
-              ><span>Suscribirme</span></a
+          <form
+            class="col s12 dfc w-full"
+            ngNativeValidate
+            [formGroup]="newsLetterForm"
+            (ngSubmit)="suscribeToNewsLetter()"
+          >
+            <div class="box-item input-box dfr">
+              <input
+                id="footer-newsletter-input"
+                name="emailContact"
+                type="email"
+                formControlName="emailContact"
+                placeholder="Ingresa tu email"
+                required
+                email
+              />
+              <button
+                id="footer-newsletter-btn"
+                type="submit"
+                class="waves-effect waves-light btn dfc"
+                [class.button-disabled]="!newsLetterForm.valid"
+              >
+                <span>Suscribirme</span>
+              </button>
+            </div>
+          </form>
+          <div class="box-item social-media-box dfc">
+            <div class="box-item-title small w-full">Contactanos</div>
+            <span class="box-item-subtitle mb-10"
+              >¿Tienes una duda? Contactanos directamente mediante:</span
             >
+            <div class="dfr w-full">
+              <div
+                class="social-media-item dfr"
+                (click)="
+                  TawkService.SetChatVisibility(true);
+                  TawkService.ExpandChatWindow(true)
+                "
+              >
+                <div class="social-media-icon">
+                  <i class="fas fa-comment"></i>
+                </div>
+                <span>Chat en Tiempo Real</span>
+              </div>
+              <div
+                class="social-media-item dfr"
+                (click)="_utilitiesS.openWhatsApp()"
+              >
+                <div class="social-media-icon big">
+                  <i class="fab fa-whatsapp"></i>
+                </div>
+                <span>WhatsApp</span>
+              </div>
+            </div>
           </div>
         </div>
+        <div class="footer-vertical-divider"></div>
         <div class="middle-content-box sites dfr">
           <div class="box-item left dfc">
             <div class="box-item-title small">Áreas de práctica</div>

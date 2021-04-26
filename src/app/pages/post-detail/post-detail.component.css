@@ -1,6 +1,6 @@
 /* Media Queries */
 @media only screen and (max-width: 1200px) {
-  #noticias-content-container {
+  .noticias-content-container {
     width: 90% !important;
   }
 }
@@ -72,7 +72,7 @@
   align-items: flex-start;
 }
 
-#noticias-content-container {
+.noticias-content-container {
   padding-top: 25px;
   width: 80%;
   margin: auto;

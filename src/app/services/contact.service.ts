@@ -22,15 +22,32 @@ export class ContactService {
 
   contactsList = new Subject<any>();
 
-  enviarEmail(contact: Contact): Observable<Contact> {
+  enviarEmail(contact: Contact, action: string): Observable<Contact> {
     const url = `${environment.URI}/api/email`;
 
-    return this.http.post<Contact>(url, contact).pipe(
+    const data = {
+      ...contact,
+      action,
+    };
+
+    return this.http.post<Contact>(url, data).pipe(
       map((resp: any) => {
+        const emailSuccessTitle = () => {
+          switch (action) {
+            case "caseEvaluation":
+              return "Tu solicitud fue enviada correctamente";
+            case "lawyerContact":
+              return "Tu mensaje fue enviado correctamente";
+
+            default:
+              return "Suscripción exitosa";
+          }
+        };
+
         this._notificacionsS.message(
           "success",
-          "Mensaje enviado con éxito",
-          "El mensaje se envió correctamente",
+          emailSuccessTitle(),
+          "",
           false,
           false,
           "",
@@ -38,6 +55,9 @@ export class ContactService {
           2000
         );
         return resp;
+      }),
+      catchError((err) => {
+        return throwError(err);
       })
     );
   }

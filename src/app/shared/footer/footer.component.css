@@ -92,12 +92,20 @@
 }
 
 .middle-content-boxes {
-  align-items: flex-start;
+  align-items: stretch;
 }
 
 .middle-content-box {
-  width: 50%;
+  width: calc(50% - 26px);
   padding: 0 15px;
+}
+
+.footer-vertical-divider {
+  width: 1px;
+  border-right-style: dotted;
+  border-right-width: 2px;
+  border-color: #555555;
+  margin: 0 25px;
 }
 
 .middle-content-box.sites {
@@ -158,7 +166,8 @@
   border-color: #2ea3f2;
 } */
 
-.middle-content-box .input-box {
+.middle-content-box .input-box,
+.middle-content-box .social-media-box {
   margin-top: 15px;
   justify-content: flex-start;
 }
@@ -167,6 +176,37 @@
   margin: 0 5px 0 0;
   max-width: 300px;
   width: calc(100% - 200px);
+}
+
+.middle-content-box .social-media-item {
+  width: calc(50% - 5px);
+  max-width: 210px;
+  height: 50px;
+  color: white;
+  background: #393939;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #3b3738;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.middle-content-box .social-media-item:first-child {
+  margin-right: 10px;
+}
+
+.middle-content-box .social-media-item:hover {
+  background-color: hsl(214, 100%, 59%);
+}
+
+.middle-content-box .social-media-item .social-media-icon {
+  font-size: 25px;
+  margin-right: 10px;
+}
+
+.middle-content-box .social-media-item .social-media-icon.big {
+  font-size: 30px;
 }
 
 #page-footer .btn {

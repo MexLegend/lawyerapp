@@ -6,6 +6,9 @@ import { Subscription } from "rxjs";
 import { ChatService } from "./services/chat.service";
 import { LocalStorageService } from "./services/local-storage.service";
 import { MatDialog } from "@angular/material/dialog";
+import { TawkService } from "./services/tawk.service";
+import { ResolveEnd, Router } from "@angular/router";
+import { UtilitiesService } from "./services/utilities.service";
 
 @Component({
   selector: "app-root",
@@ -18,21 +21,13 @@ export class AppComponent implements OnInit {
     private _chatS: ChatService,
     private dialogRef: MatDialog,
     private _localStorageS: LocalStorageService,
+    private router: Router,
+    private TawkService: TawkService,
     private _usersS: UsersService,
+    private _utilitiesS: UtilitiesService,
     private _webPushNotificationsS: WebPushNotificationsService
   ) {
     this.cookieService.set("Lawyerapp", "Hello World", null, null, null);
-
-    // Live Chat Widget
-    (function () {
-      var s1 = document.createElement("script"),
-        s0 = document.getElementsByTagName("script")[0];
-      s1.async = true;
-      s1.src = "https://embed.tawk.to/6015b931c31c9117cb742f31/1etadmqih";
-      s1.charset = "UTF-8";
-      s1.setAttribute("crossorigin", "*");
-      s0.parentNode.insertBefore(s1, s0);
-    })();
 
     this.initSocketConnections();
     this._usersS.loadStorage();
@@ -47,21 +42,28 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.dialogRef.afterOpened.subscribe(() => {
+    this.dialogRef.afterOpened.subscribe((ref) => {
       this.resizeModal();
+
+      const body = document.querySelector("html");
+
+      if (body) body.style.overflow = "hidden";
+
+      ref.beforeClosed().subscribe(() => {
+        if (body) body.style.overflow = "";
+      });
     });
 
-    // this.router.events.subscribe((routerData) => {
-    //   if (routerData instanceof ResolveEnd)
-    //     if (Tawk_API)
-    //       if (routerData.url.includes("inicio")) {
-    //         Tawk_API.hideWidget();
-    //       } else {
-    //         Tawk_API.showWidget();
-    //       }
-    // });
+    this.router.events.subscribe((routerData) => {
+      if (routerData instanceof ResolveEnd)
+        if (this._utilitiesS.showSocialMedia(routerData.url)) {
+          this.TawkService.SetChatVisibility(true);
+        } else {
+          this.TawkService.SetChatVisibility(false);
+        }
+    });
   }
-  
+
   // Unsubscribe Any Subscription
   ngOnDestroy() {
     this.subscriptionsArray.map((subscription) => subscription.unsubscribe());
@@ -77,9 +79,9 @@ export class AppComponent implements OnInit {
 
   resizeModal() {
     const modal = document.querySelectorAll(
-      ".mat-dialog-container, .cdk-overlay-container, body"
+      ".mat-dialog-container, .cdk-overlay-container"
     );
-    if (modal.length > 0)
+    if (modal.length > 0) {
       modal.forEach((modalElement: any) => {
         if (this.getScreenSize().width < 768) {
           modalElement.style = `height: ${
@@ -92,6 +94,7 @@ export class AppComponent implements OnInit {
           modalElement.style.maxHeight = "100%";
         }
       });
+    }
   }
 
   initSocketConnections() {

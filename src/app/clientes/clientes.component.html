@@ -187,79 +187,18 @@
 
     <!-- WhatsApp Button Trigger -->
     <div
-      *ngIf="
-        !this.router.url.includes('perfil') &&
-        !this.router.url.includes('articulo-detalle') &&
-        this.router.url !== '/articulos' &&
-        this.router.url !== '/abogados' &&
-        !this.router.url.includes('abogado-detalle')
-      "
-      class="fixed-action-btn direction-top active"
+      *ngIf="_utilitiesS.showSocialMedia(router.url)"
+      class="fixed-action-btn direction-top active whatsapp-btn-trigger"
       style="bottom: 90px; right: 20px; z-index: 997"
     >
       <a
         id="btn-whatsapp"
         class="btn-floating btn-large primary-text gradient-shadow btn-whatsapp"
-        href="https://api.whatsapp.com/send?phone=523481036143&text=Hola Haizen, &nbsp;podrían&nbsp;ayudarme?"
+        href="https://api.whatsapp.com/send?phone=523481055088&text=Hola Haizen, &nbsp;podrían&nbsp;ayudarme?"
         target="_blank"
       >
         <i class="fab fa-whatsapp"></i>
       </a>
-      <!-- <a
-        id="btn-whatsapp"
-        class="btn-floating btn-large primary-text gradient-shadow btn-whatsapp pulse"
-        ><i class="fab fa-whatsapp"></i
-      ></a> -->
-    </div>
-
-    <!-- WhatsApp Dialog Container -->
-    <div
-      *ngIf="
-        !this.router.url.includes('perfil') &&
-        !this.router.url.includes('articulo-detalle') &&
-        this.router.url !== '/articulos' &&
-        this.router.url !== '/abogados' &&
-        !this.router.url.includes('abogado-detalle')
-      "
-      class="card horizontal whatsAppCard"
-    >
-      <div class="card-stacked">
-        <div class="card-title">
-          <i class="fab fa-whatsapp"></i>WhatsApp
-          <div class="btn-whatsApp-close">
-            <i _ngcontent-mob-c3="" class="material-icons">close </i>
-          </div>
-        </div>
-        <div class="card-content">
-          <form [formGroup]="form" (ngSubmit)="sendM()">
-            <div class="row">
-              <div class="input-field col s12 whatsAppMessage">
-                <textarea
-                  class="materialize-textarea whatsApp-input ng-pristine ng-touched"
-                  formcontrolname="message"
-                  id="message"
-                  name="message"
-                  ng-reflect-name="message"
-                  placeholder="Enscribe un mensaje"
-                ></textarea>
-              </div>
-            </div>
-            <div class="card-action">
-              <button
-                class="btn waves-effect waves-light"
-                type="submit"
-                name="action"
-              >
-                <i class="material-icons right">send</i>
-                Enviar
-              </button>
-            </div>
-          </form>
-          <div class="whatsApp-bg centered-img-bg">
-            <img src="../../assets/images/whatsApp_appi_bg.jpg" alt="" />
-          </div>
-        </div>
-      </div>
     </div>
   </mat-sidenav-content>
 </mat-sidenav-container>

@@ -34,7 +34,11 @@
                 : true
             "
             class="email-btn btn waves-effect waves-light dfc"
-            (click)="_contactS.openReplyModal(lawyer)"
+            (click)="
+              this._usersS.isLogged()
+                ? _contactS.openReplyModal(lawyer)
+                : showAlertModal('contactEmail', $event)
+            "
           >
             <span>Enviar correo</span>
           </button>

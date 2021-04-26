@@ -6,6 +6,7 @@ import { SafeHtml } from "./safeUrl.pipe";
 import { ReversePipe } from "./reverse.pipe";
 import { TruncateHtmlPipe } from "./truncateHtml.pipe";
 import { SanitizeHtmlPipe } from "./safeHtml.pipe";
+import { StringFilterPipe } from './stringFilter.pipe';
 @NgModule({
   imports: [CommonModule],
   declarations: [
@@ -14,6 +15,7 @@ import { SanitizeHtmlPipe } from "./safeHtml.pipe";
     ReversePipe,
     SafeHtml,
     SanitizeHtmlPipe,
+    StringFilterPipe,
     TruncateHtmlPipe,
   ],
   exports: [
@@ -22,6 +24,7 @@ import { SanitizeHtmlPipe } from "./safeHtml.pipe";
     ReversePipe,
     SafeHtml,
     SanitizeHtmlPipe,
+    StringFilterPipe,
     TruncateHtmlPipe,
   ],
 })

@@ -33,15 +33,15 @@
           | filter: filterValue:'lawyer'
           | paginate: { itemsPerPage: selectedEntry, currentPage: currentPage }
       "
-      class="item-acordion-card-box card sticky-action dfc"
+      class="item-acordion-card-box card sticky-action cursor-pointer dfc"
       style="width: 100%"
+      (click)="viewLawyerDetails(lawyer._id); scrollToTop()"
     >
-      <div class="item-acordion-card-inner-box dfc">
+      <div class="item-acordion-card-inner-box p0 dfc">
         <!-- Partner Card Body -->
         <div
-          class="item-acordion-card-body lawyer-card dfr"
+          class="item-acordion-card-body lawyer-card not-actions dfr"
           data-note-details="true"
-          (click)="viewLawyerDetails(lawyer._id); scrollToTop()"
         >
           <div
             class="item-acordion-card-body-image lawyer-card centered-img-bg dfr"
@@ -62,53 +62,6 @@
               </div>
             </div>
           </div>
-        </div>
-        <!-- Partner Card Actions -->
-        <div class="item-acordion-body-actions lawyer-card dfr">
-          <!-- Partner Email Button Trigger -->
-          <button
-            *ngIf="
-              this._usersS.isLogged()
-                ? lawyer._id !== this._usersS.user._id
-                : true
-            "
-            class="header-item-btn btn action-button dfc"
-            mat-icon-button
-            matTooltip="Contactar por correo"
-            matTooltipPosition="above"
-            (click)="_contactS.openReplyModal(lawyer)"
-          >
-            <i class="far fa-envelope"></i>
-          </button>
-          <!-- Partner Message Button Trigger -->
-          <button
-            *ngIf="
-              this._usersS.isLogged()
-                ? lawyer._id !== this._usersS.user._id
-                : true
-            "
-            class="header-item-btn btn action-button dfc"
-            mat-icon-button
-            matTooltip="Contactar por mensaje"
-            matTooltipPosition="above"
-            (click)="
-              this._usersS.isLogged()
-                ? openChat(lawyer)
-                : showAlertModal('contactLawyer', $event)
-            "
-          >
-            <i class="far fa-comment"></i>
-          </button>
-          <!-- Partner View Profile Button Trigger -->
-          <button
-            class="header-item-btn btn action-button important-action dfc"
-            (click)="viewLawyerDetails(lawyer._id); scrollToTop()"
-            mat-icon-button
-            matTooltip="Ver Perfil"
-            matTooltipPosition="above"
-          >
-            <i class="far fa-eye"></i>
-          </button>
         </div>
       </div>
     </div>

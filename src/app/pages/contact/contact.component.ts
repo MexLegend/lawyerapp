@@ -40,12 +40,12 @@ export class ContactComponent implements OnInit {
       this.form.value.nameContact,
       this.form.value.emailContact,
       this.form.value.messageContact,
+      "Fernando Romo Rodríguez",
       this.form.value.phoneContact
     );
 
     this.subscriptionsArray.push(
-      this._contactS.enviarEmail(email).subscribe((resp) => {
-        console.log(resp);
+      this._contactS.enviarEmail(email, "caseEvaluation").subscribe(() => {
         this.form.reset();
       })
     );

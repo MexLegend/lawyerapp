@@ -1,8 +1,8 @@
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
-import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
-import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from "@angular/platform-browser";
-import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ServiceWorkerModule } from "@angular/service-worker";
 
 // Cloudinary module
@@ -32,6 +32,7 @@ import { MatSelectModule } from "@angular/material/select";
 import { MatDividerModule } from "@angular/material/divider";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { PerfectScrollbarModule } from "ngx-perfect-scrollbar";
+import { RouterModule } from '@angular/router';
 
 const config: SocketIoConfig = { url: environment.URI, options: {} };
 
@@ -55,8 +56,10 @@ const config: SocketIoConfig = { url: environment.URI, options: {} };
     PerfectScrollbarModule,
     PipesModule,
     ReactiveFormsModule,
+    RouterModule,
     ServiceWorkerModule.register("ngsw-worker.js", {
       enabled: environment.production,
+      registrationStrategy: "registerImmediately"
     }),
     SharedModule,
     SocketIoModule.forRoot(config),
@@ -67,7 +70,7 @@ const config: SocketIoConfig = { url: environment.URI, options: {} };
       provide: HTTP_INTERCEPTORS,
       useClass: ErrorInterceptorService,
       multi: true,
-    },
+    }
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

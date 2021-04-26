@@ -275,6 +275,11 @@ a.middle-indicator-text {
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
 }
 
+.partners-carousel-item {
+  height: 100%;
+  padding: 35px 0;
+}
+
 .item-acordion-card-carousel.lawyer-card {
   grid-template-columns: repeat(auto-fill, minmax(238px, 1fr));
 }

@@ -44,7 +44,7 @@
   .card-reveal-img {
     padding-right: 0 !important;
   }
-  #noticias-content-container {
+  .noticias-content-container {
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)) !important;
   }
   .card-information {
@@ -63,7 +63,7 @@
 }
 
 @media only screen and (max-width: 400px) {
-  #noticias-content-container {
+  .noticias-content-container {
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)) !important;
   }
 }
@@ -84,14 +84,14 @@
   min-height: 350px;
 }
 
-#noticias-content-container {
+.noticias-content-container {
   padding: 25px 0;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
   grid-gap: 10px;
 }
 
-#noticias-content-container.no-data {
+.noticias-content-container.no-data {
   margin-bottom: 15px;
   display: flex;
 }

@@ -7,7 +7,6 @@ import { catchError, map } from "rxjs/operators";
 import { environment } from "../../environments/environment";
 import { ChatRoom } from "../models/ChatRoom";
 import { UsersService } from "./users.service";
-import { User } from "../models/User";
 
 @Injectable({
   providedIn: "root",
@@ -186,10 +185,40 @@ export class ChatService {
 
   public setChatSidenav(sidenav: MatSidenav) {
     this.sidenavChat = sidenav;
+
+    this.sidenavChat.openedStart.subscribe(() => this.setIframesZIndex(true));
+
+    this.sidenavChat.closedStart.subscribe(() => this.setIframesZIndex(false));
   }
 
   public setMainSidenav(sidenav: MatSidenav) {
     this.mainSidenav = sidenav;
+
+    this.mainSidenav.openedStart.subscribe(() => this.setIframesZIndex(true));
+
+    this.mainSidenav.closedStart.subscribe(() => this.setIframesZIndex(false));
+  }
+
+  public setIframesZIndex(isOpened: boolean) {
+    const iframesList = document.querySelectorAll("iframe");
+    const whatsAppRef: any = document.querySelectorAll(
+      ".whatsapp-btn-trigger"
+    )[0];
+
+    if (isOpened) {
+      if (iframesList.length > 0)
+        iframesList.forEach((iframe) => {
+          iframe.parentElement.style.setProperty("z-index", "0", "important");
+        });
+
+      whatsAppRef.style.setProperty("display", "none", "important");
+    } else {
+      if (iframesList.length > 0)
+        iframesList.forEach((iframe) => {
+          iframe.parentElement.style.setProperty("z-index", "997", "important");
+        });
+      whatsAppRef.style.setProperty("display", "block", "important");
+    }
   }
 
   public openChat() {

@@ -5,8 +5,6 @@ import { PostsService } from "../../services/posts.service";
 import { Post } from "../../models/Post";
 import { Subscription } from "rxjs";
 
-declare var $: any;
-
 @Component({
   selector: "app-postsU",
   templateUrl: "./postsU.component.html",
@@ -20,6 +18,7 @@ export class PostsUComponent implements OnInit {
   allowedChars = "@ # $ % ^ & * ( ) _ - ., ? < > { } [ ] ! +";
   currentPage: number = 1;
   filterValue: string;
+  isDataFound: boolean = false;
   posts: Post[] = [];
   selectedEntry: number = 10;
 

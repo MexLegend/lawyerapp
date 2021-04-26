@@ -1,42 +1,5 @@
-<!-- Modal Structure -->
-<!-- <div id="modalRegistro" class="modal">
-  <div class="modal-content">
-    <div class="modal-container">
-      <div class="titulo-Modal">
-        <img class="responsive-img" id="logo" src="/assets/images/logo_dark.png" />
-      </div>
-      <div class="contenido-Modal-Text">
-        <div class="register-login">
-          <div
-            (click)="vForm('login')"
-            [class.login-option-active]="tForm === 'login'"
-            class="register-btn login-option"
-          >
-            <span>Iniciar sesión</span>
-          </div>
-          <div
-            (click)="vForm('register')"
-            [class.login-option-active]="tForm === 'register'"
-            class="login-btn login-option"
-          >
-            <span>Registrarse</span>
-          </div>
-        </div>
-        <app-login-form
-          *ngIf="tForm === 'login'"
-          style="width: 100%;"
-        ></app-login-form>
-        <app-register-form
-          *ngIf="tForm === 'register'"
-          style="width: 100%;"
-        ></app-register-form>
-      </div>
-    </div>
-  </div>
-</div> -->
-
-<mat-dialog-content id="modalRegistro" class="mat-typography">
-  <div class="modal-content">
+<mat-dialog-content id="modalRegistro" class="mat-typography dfc jcc">
+  <div class="modal-content dfc jcc h-full">
     <div class="modal-container">
       <div class="titulo-Modal">
         <img
@@ -85,5 +48,12 @@
         </mat-tab-group>
       </div>
     </div>
+  </div>
+  <div class="close-modal-btn dfc jcc">
+    <i
+      mat-dialog-close
+      class="material-icons waves-effect waves-light dfr"
+      >close</i
+    >
   </div>
 </mat-dialog-content>

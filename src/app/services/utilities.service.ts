@@ -118,7 +118,7 @@ export class UtilitiesService {
     controlsType: string,
     firstElement: any,
     rowIndicatorType: string
-  ) {
+  ): Promise<number> {
     const [pagesNumber, scrollMeasure] = this.getCarouselElementsAndMeasures(
       elementsArray,
       elementRef,
@@ -177,6 +177,7 @@ export class UtilitiesService {
         accordionCardContent.setAttribute("data-scrolling", "false");
       }
     }
+    return new Promise((resolve) => resolve(pagesNumber));
   }
 
   scrollCarouselToRight(
@@ -312,6 +313,11 @@ export class UtilitiesService {
         text = "Inicia sesión para compartir tu opinión.";
         break;
 
+      case "contactEmail":
+        title = "¿Deseas contactar al abogado?";
+        text = "Inicia sesión para contactarlo por correo.";
+        break;
+
       case "contactLawyer":
         title = "¿Deseas contactar al abogado?";
         text = "Inicia sesión para contactarlo directamente.";
@@ -351,6 +357,17 @@ export class UtilitiesService {
     });
   }
 
+  // Show Social Media Of Haizen
+  showSocialMedia(route: string): boolean {
+    const show =
+      ["/inicio", "/contacto", "/areas-practica", "/articulos"].indexOf(route) >
+      -1
+        ? true
+        : false;
+
+    return show;
+  }
+
   // Modal Alert State Functions
   getModalAlertState(): Observable<any> {
     return this.isModalAlertRendered.asObservable();
@@ -380,6 +397,14 @@ export class UtilitiesService {
       document.querySelector("body").classList.remove("hide-scroll");
       loginModalClosedRef.unsubscribe();
     });
+  }
+
+  // Open WhatsApp
+  openWhatsApp() {
+    window.open(
+      `https://api.whatsapp.com/send?phone=523481055088&text=Hola Haizen, podrían ayudarme?`,
+      "_blank"
+    );
   }
 
   // Set Active Tabs
