@@ -66,7 +66,7 @@ export class FooterComponent implements OnInit {
 
   private initNewsLetterForm() {
     this.newsLetterForm = new FormGroup({
-      emailContact: new FormControl(null, Validators.required),
+      emailSender: new FormControl(null, Validators.required),
     });
   }
 
@@ -78,16 +78,19 @@ export class FooterComponent implements OnInit {
   suscribeToNewsLetter() {
     const email = new Contact(
       null,
-      this.newsLetterForm.value.emailContact,
+      this.newsLetterForm.value.emailSender,
       null,
+      null,
+      "Confirmar suscripción del boletín informativo de Haizen",
       "Fernando Romo Rodríguez",
       null
     );
 
-    this.subscriptionsArray.push(
-      this._contactS.enviarEmail(email, "newsLetter").subscribe(() => {
+    const newsLetterSub = this._contactS
+      .subscribeToNewsLetter(email, "confirmNewsLetter")
+      .subscribe((resp: any) => {
         this.newsLetterForm.reset();
-      })
-    );
+        if (resp.ok) newsLetterSub.unsubscribe();
+      });
   }
 }

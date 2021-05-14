@@ -53,7 +53,7 @@ export class ClientesComponent implements OnInit {
     this._themeS.getSwitchValue().subscribe((isDarkThemeActive) => {
       this.isDarkThemeActive = isDarkThemeActive;
     });
-
+    
     /*
     $(document).ready(function () {
       // Open WhatsApp Window on Click

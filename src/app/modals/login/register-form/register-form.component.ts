@@ -3,9 +3,11 @@ import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { Subject } from "rxjs/internal/Subject";
 import { debounceTime, distinctUntilChanged } from "rxjs/operators";
 
-import { User } from "../../../models/User";
 import { UsersService } from "../../../services/users.service";
 import { Subscription } from "rxjs";
+import { ContactService } from "../../../services/contact.service";
+import { Contact } from "../../../models/Contact";
+import { MatDialogRef } from "@angular/material";
 
 @Component({
   selector: "app-register-form",
@@ -13,7 +15,11 @@ import { Subscription } from "rxjs";
   styleUrls: ["./register-form.component.css"],
 })
 export class RegisterFormComponent implements OnInit {
-  constructor(private _usersS: UsersService) {
+  constructor(
+    private _contactS: ContactService,
+    public dialogRef: MatDialogRef<RegisterFormComponent>,
+    private _usersS: UsersService
+  ) {
     this.check();
   }
 
@@ -55,20 +61,27 @@ export class RegisterFormComponent implements OnInit {
   }
 
   create() {
-    const user = new User(
-      this.form.value.email,
-      this.form.value.firstName,
-      this.form.value.lastName,
-      this.form.value.password1,
-      this.form.value.password2,
-      this.form.value.address,
-      this.form.value.cellPhone,
+    const { _id: _id, ...userData } = this.form.value;
+
+    const email = new Contact(
       null,
-      this.form.value.img
+      this.form.value.email,
+      null,
+      null,
+      "Verificar cuenta de Haizen",
+      "Fernando Romo Rodríguez",
+      null
     );
 
     this.subscriptionsArray.push(
-      this._usersS.createUser(user).subscribe(() => {
+      this._usersS.createUser(userData).subscribe((resp) => {
+        if (resp.ok) {
+          this.subscriptionsArray.push(
+            this._contactS
+              .enviarEmail(email, "confirmAccount", this.dialogRef)
+              .subscribe()
+          );
+        }
         this.form.reset();
       })
     );

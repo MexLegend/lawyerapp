@@ -13,6 +13,7 @@ import { MAT_DIALOG_DATA } from "@angular/material";
 import { FilePreviewComponent } from "../modals/file-preview/file-preview.component";
 import { NotificationsDropdownComponent } from "./notifications-dropdown/notifications-dropdown.component";
 import { RouterModule } from "@angular/router";
+import { EmailConfirmedComponent } from './email-confirmed/email-confirmed.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { RouterModule } from "@angular/router";
     NotesComponent,
     ChatSidenavComponent,
     NotificationsDropdownComponent,
+    EmailConfirmedComponent,
   ],
   entryComponents: [FilePreviewComponent],
   exports: [

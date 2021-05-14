@@ -9,6 +9,7 @@ import { NotificationsService } from "./notifications.service";
 import { User } from "../models/User";
 import { MatDialog } from "@angular/material/dialog";
 import { ReplyComponent } from "../modals/reply/reply.component";
+import { MatDialogRef } from "@angular/material";
 
 @Injectable({
   providedIn: "root",
@@ -22,38 +23,73 @@ export class ContactService {
 
   contactsList = new Subject<any>();
 
-  enviarEmail(contact: Contact, action: string): Observable<Contact> {
+  enviarEmail(
+    contact: Contact,
+    action: string,
+    modalRef?: MatDialogRef<any>
+  ): Observable<Contact> {
     const url = `${environment.URI}/api/email`;
+
+    const link = () => {
+      switch (action) {
+        case "confirmNewsLetter":
+          return `${location.origin}/#/newsletter/confirmed`;
+        case "newsLetterConfirmed":
+          return `${location.origin}/#/emails/confirmed`;
+        case "recoverAccount":
+          return `${location.origin}/#/account/change-pass`;
+        default:
+          return `${location.origin}/#/account/confirmed`;
+      }
+    };
 
     const data = {
       ...contact,
       action,
+      link: link(),
     };
 
     return this.http.post<Contact>(url, data).pipe(
       map((resp: any) => {
+        if (modalRef) modalRef.close();
+
         const emailSuccessTitle = () => {
           switch (action) {
             case "caseEvaluation":
-              return "Tu solicitud fue enviada correctamente";
+              return {
+                title: "Tu solicitud fue enviada correctamente",
+                subtitle: "",
+              };
             case "lawyerContact":
-              return "Tu mensaje fue enviado correctamente";
+              return {
+                title: "Tu solicitud fue enviada correctamente",
+                subtitle: "",
+              };
 
             default:
-              return "Suscripción exitosa";
+              return {
+                title: "Confirma tu suscripción",
+                subtitle: `Se ha enviado un mensaje de verificación al correo ${contact.emailSender}`,
+              };
           }
         };
-
-        this._notificacionsS.message(
-          "success",
-          emailSuccessTitle(),
-          "",
-          false,
-          false,
-          "",
-          "",
-          2000
-        );
+        if (action !== "newsLetterConfirmed" && action !== "recoverAccount")
+          this._notificacionsS.message(
+            "success",
+            emailSuccessTitle().title,
+            emailSuccessTitle().subtitle,
+            false,
+            ["confirmNewsLetter", "confirmAccount"].indexOf(action) === -1
+              ? false
+              : true,
+            ["confirmNewsLetter", "confirmAccount"].indexOf(action) === -1
+              ? ""
+              : "Ok",
+            "",
+            ["confirmNewsLetter", "confirmAccount"].indexOf(action) === -1
+              ? 2000
+              : null
+          );
         return resp;
       }),
       catchError((err) => {
@@ -109,5 +145,37 @@ export class ContactService {
 
   setContactsList(contactsList: User[]) {
     this.contactsList.next(contactsList);
+  }
+
+  subscribeToNewsLetter(contact: Contact, action: string): Observable<Contact> {
+    const url = `${environment.URI}/api/email/newsLetter/subscription`;
+
+    return this.http.post<Contact>(url, contact).pipe(
+      map((resp: any) => {
+        if (resp.ok) {
+          const emailSub = this.enviarEmail(contact, action).subscribe(
+            (resp: any) => {
+              if (resp.ok) emailSub.unsubscribe();
+            }
+          );
+        } else
+          this._notificacionsS.message(
+            "error",
+            "Oops...",
+            "",
+            false,
+            true,
+            "Aceptar",
+            "",
+            null,
+            `El correo <b>${contact.emailSender}</b> ya está suscrito a nuestro boletín. Ingresa un correo distinto.`
+          );
+
+        return resp;
+      }),
+      catchError((err) => {
+        return throwError(err);
+      })
+    );
   }
 }

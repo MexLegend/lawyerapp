@@ -177,13 +177,27 @@
   <!-- Main Site Content -->
   <mat-sidenav-content>
     <!-- Client View NavBar Container -->
-    <app-navbar *ngIf="!this.router.url.includes('perfil')"></app-navbar>
+    <app-navbar
+      *ngIf="
+        !this.router.url.includes('perfil') &&
+        !this.router.url.includes('confirmed') &&
+        !this.router.url.includes('user') &&
+        !this.router.url.includes('change-pass')
+      "
+    ></app-navbar>
 
     <!-- Client View Main Container -->
     <router-outlet></router-outlet>
 
     <!-- Client View Footer Container -->
-    <app-footer *ngIf="!this.router.url.includes('perfil')"></app-footer>
+    <app-footer
+      *ngIf="
+        !this.router.url.includes('perfil') &&
+        !this.router.url.includes('confirmed') &&
+        !this.router.url.includes('user') &&
+        !this.router.url.includes('change-pass')
+      "
+    ></app-footer>
 
     <!-- WhatsApp Button Trigger -->
     <div

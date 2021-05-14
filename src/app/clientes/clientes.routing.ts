@@ -16,6 +16,7 @@ import { AbogadosComponent } from "../pages/abogados/abogados.component";
 import { AbogadoDetalleComponent } from "../pages/abogados/abogado-detalle/abogado-detalle.component";
 import { PracticeAreasComponent } from "../pages/practice-areas/practice-areas.component";
 import { AreaDetailComponent } from "../pages/practice-areas/area-detail/area-detail.component";
+import { EmailConfirmedComponent } from "../components/email-confirmed/email-confirmed.component";
 
 const PAGES_ROUTES: Routes = [
   {
@@ -41,6 +42,14 @@ const PAGES_ROUTES: Routes = [
   {
     path: "articulo-detalle/:id",
     component: PostDetailComponent,
+  },
+  {
+    path: ":tipo/:action/:token",
+    component: EmailConfirmedComponent,
+  },
+  {
+    path: ":user/:action",
+    component: EmailConfirmedComponent,
   },
   {
     path: "contacto",

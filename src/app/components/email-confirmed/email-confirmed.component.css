@@ -1,0 +1,44 @@
+#email-verified {
+  background-color: #fafafa;
+}
+
+.email-verified-container {
+  max-width: 640px;
+  border-radius: 3px;
+  overflow: hidden;
+  padding: 33px 50px;
+  border: 1px solid #ededed;
+  background-color: #ffffff;
+}
+
+.top-logo {
+  width: 80px;
+  height: 80px;
+  margin-bottom: 25px;
+}
+
+.email-verified-title {
+  font-size: 22px;
+  font-weight: 400;
+}
+
+.email-verified-subtitle {
+  font-size: 17px;
+  margin: 1rem 0;
+}
+
+.email-verified-password-minimum {
+  font-size: 11px;
+  margin-bottom: 15px;
+}
+
+.email-verified-actions {
+  margin-bottom: 1rem;
+}
+
+.email-verified-actions button {
+  text-transform: initial;
+  border-radius: 4px;
+  font-weight: 400;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}

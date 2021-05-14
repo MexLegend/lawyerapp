@@ -15,7 +15,8 @@ export class NotificationsService {
     showConfirmButton: boolean = true,
     confirmButtonText: string = "",
     cancelButtonText: string = "",
-    timer?
+    timer?,
+    html?: string
   ) {
     Swal.fire({
       icon,
@@ -28,8 +29,7 @@ export class NotificationsService {
       confirmButtonText,
       cancelButtonText,
       timer,
+      html,
     });
   }
-
-  
 }

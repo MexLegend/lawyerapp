@@ -30,15 +30,17 @@
           </div>
         </div>
         <mat-tab-group
+          #loginTabGroup
           class="lawyer-tab"
           [selectedIndex]="selected.value"
-          (selectedIndexChange)="selected.setValue($event)"
+          (selectedIndexChange)="selected.setValue($event); hideServerAlerts()"
         >
           <mat-tab>
             <ng-template mat-tab-label> Login </ng-template>
             <app-login-form
               style="width: 100%"
               [modalRef]="modalRef"
+              [loginTabGroup]="loginTabGroup"
             ></app-login-form>
           </mat-tab>
           <mat-tab>
@@ -50,9 +52,7 @@
     </div>
   </div>
   <div class="close-modal-btn dfc jcc">
-    <i
-      mat-dialog-close
-      class="material-icons waves-effect waves-light dfr"
+    <i mat-dialog-close class="material-icons waves-effect waves-light dfr"
       >close</i
     >
   </div>

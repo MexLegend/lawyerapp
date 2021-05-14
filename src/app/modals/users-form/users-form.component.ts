@@ -106,7 +106,7 @@ export class UsersFormComponent implements OnInit, AfterViewChecked {
             this.form.patchValue({
               address: user.address,
               cellPhone: user.cellPhone,
-              emailAdmin: user.email,
+              email: user.email,
               firstName: user.firstName,
               lastName: user.lastName,
               password1: user.password,
@@ -345,7 +345,7 @@ export class UsersFormComponent implements OnInit, AfterViewChecked {
     this.form = new FormGroup({
       address: new FormControl(null),
       cellPhone: new FormControl(null),
-      emailAdmin: new FormControl(null, Validators.required),
+      email: new FormControl(null, Validators.required),
       firstName: new FormControl(null, Validators.required),
       lastName: new FormControl(null, Validators.required),
       password1: new FormControl(),

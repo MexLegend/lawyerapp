@@ -71,8 +71,6 @@ export class AreaDetailComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.initContactForm();
-
     // List Practice Areas List From Local Storage
     this.practiceAreasList = JSON.parse(localStorage.getItem("practiceAreas"));
 
@@ -101,15 +99,6 @@ export class AreaDetailComponent implements OnInit {
     this._practiceAreaS.goToAreaDetail(this.router, id, this.practiceAreasList);
   }
 
-  private initContactForm() {
-    this.form = new FormGroup({
-      nameContact: new FormControl(null, Validators.required),
-      emailContact: new FormControl(null, Validators.required),
-      messageContact: new FormControl(null, Validators.required),
-      phoneContact: new FormControl(null),
-    });
-  }
-
   // Load Current Practice Area Info
   loadPracticeArea(id: any) {
     this.subscriptionsArray.push(
@@ -133,22 +122,6 @@ export class AreaDetailComponent implements OnInit {
   openChat(lawyerData: User) {
     this._chatS.setLawyerRoomData(lawyerData);
     this._chatS.openChat();
-  }
-
-  send() {
-    const email = new Contact(
-      this.form.value.nameContact,
-      this.form.value.emailContact,
-      this.form.value.messageContact,
-      this.form.value.phoneContact
-    );
-
-    this.subscriptionsArray.push(
-      this._contactS.enviarEmail(email).subscribe((resp) => {
-        console.log(resp);
-        this.form.reset();
-      })
-    );
   }
 
   // Show Modal Alert When The User Who Is Reacting Is Not Logged In

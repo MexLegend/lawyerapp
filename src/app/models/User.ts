@@ -10,6 +10,7 @@ export class User {
     public cellPhone?: string,
     public created_at?: string,
     public img?: string,
+    public isConfirmed?: boolean,
     public lawyer?: string,
     public practice_areas?: any,
     public public_lawyer_id?: string,

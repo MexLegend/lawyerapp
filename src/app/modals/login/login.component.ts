@@ -4,6 +4,7 @@ import { Subscription } from "rxjs";
 
 import { MatDialogRef } from "@angular/material";
 import { FormControl } from "@angular/forms";
+import { ModalAlertService } from "../../services/modal-alert.service";
 
 @Component({
   selector: "app-login",
@@ -11,7 +12,10 @@ import { FormControl } from "@angular/forms";
   styleUrls: ["./login.component.css"],
 })
 export class LoginComponent implements OnInit {
-  constructor(public _themeS: ThemeService) {}
+  constructor(
+    public _themeS: ThemeService,
+    private _modalAlertS: ModalAlertService
+  ) {}
 
   subscriptionsArray: Subscription[] = [];
 
@@ -37,5 +41,9 @@ export class LoginComponent implements OnInit {
   // Unsubscribe Any Subscription
   ngOnDestroy() {
     this.subscriptionsArray.map((subscription) => subscription.unsubscribe());
+  }
+
+  hideServerAlerts() {
+    this._modalAlertS.setServerAlerts(false, "", "");
   }
 }

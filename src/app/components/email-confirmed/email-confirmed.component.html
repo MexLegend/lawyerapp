@@ -1,0 +1,162 @@
+<div id="email-verified" class="pr h-full-screen w-full-screen dfc jcc">
+  <div class="top-logo centered-img-bg border-none">
+    <img
+      src="../../../assets/images/Logotipo_Escudo_Haizen.png"
+      alt="Haizen Shiled Logo"
+    />
+  </div>
+  <div class="container email-verified-container dfc jcc">
+    <span class="email-verified-title text-center">{{
+      responseData.title
+    }}</span>
+    <div
+      *ngIf="serverAlert.show"
+      class="server-message-alert w-full dfr jcs ais py-07-r pr-2-r pl-1-r mt-2-r mx-auto"
+    >
+      <div class="server-message-alert-icon pt-3 dfc">
+        <i class="fas fa-minus-circle"></i>
+      </div>
+      <div class="server-message-alert-text dfc ais pl-05-r">
+        <strong>{{ serverAlert.message }}</strong>
+        <div>
+          <!-- Create Account -->
+          <p
+            *ngIf="serverAlert.type === 'notExist'"
+            class="secondary-text m-0 fs-13"
+          >
+            Revisa la ortografía o prueba con otro correo.
+          </p>
+          <!-- Password Miss Match -->
+          <p
+            *ngIf="serverAlert.type === 'passwordMissMatch'"
+            class="secondary-text m-0 fs-13"
+          >
+            Asegurate de que las contraseñas sean iguales.
+          </p>
+          <!-- Server Error -->
+          <p
+            *ngIf="serverAlert.type === 'server-error'"
+            class="secondary-text m-0 fs-13"
+          >
+            Intentalo de nuevo.
+          </p>
+        </div>
+      </div>
+    </div>
+    <span
+      class="email-verified-subtitle"
+      [ngClass]="
+        responseData.form || responseData.sended ? 'text-left' : 'text-center'
+      "
+      [innerHtml]="responseData.subtitle"
+    ></span>
+    <div
+      *ngIf="!responseData.form"
+      class="email-verified-actions mt-20 dfr jcc"
+      [ngClass]="responseData.form || responseData.sended ? 'ass' : 'asc'"
+    >
+      <button
+        class="btn waves-effect waves-light haizen-blue mr-10 dfc jcc"
+        (click)="responseData.buttonPrimaryAction()"
+      >
+        <span>{{ responseData.buttonPrimaryText }}</span>
+      </button>
+      <button
+        *ngIf="responseData.buttonSecondary"
+        class="btn waves-effect waves-light dark-gray mr-10 ml-5 dfc jcc"
+        (click)="responseData.buttonSecondaryAction()"
+      >
+        <span>{{ responseData.buttonSecondaryText }}</span>
+      </button>
+    </div>
+    <div *ngIf="responseData.form" class="email-verified-actions w-full dfr">
+      <form
+        [formGroup]="recoverForm"
+        ngNativeValidate
+        #formData="ngForm"
+        (ngSubmit)="
+          responseData.formInputs === 'email'
+            ? sendEmail(formData)
+            : resetPassword()
+        "
+        class="w-full dfc jcc"
+      >
+        <!-- Email Input -->
+        <div
+          *ngIf="responseData.formInputs === 'email'"
+          class="modal-input modal-input-blue"
+        >
+          <input
+            name="email"
+            formControlName="email"
+            type="email"
+            placeholder=" "
+            email
+          />
+          <div class="modal-input-placeholder modal-input-placeholder-blue">
+            Correo electronico
+          </div>
+        </div>
+        <!-- Password Input -->
+        <div
+          *ngIf="responseData.formInputs === 'password'"
+          class="modal-input modal-input-blue"
+        >
+          <input
+            name="password"
+            formControlName="password"
+            type="password"
+            placeholder=" "
+          />
+          <div class="modal-input-placeholder modal-input-placeholder-blue">
+            Nueva contraseña
+          </div>
+        </div>
+        <div
+          *ngIf="responseData.formInputs === 'password'"
+          class="email-verified-password-minimum w-full"
+        >
+          <span>
+            9 caracteres como mínimo, distingue mayúsculas de minúsculas
+          </span>
+        </div>
+        <!-- Confirm Password Input -->
+        <div
+          *ngIf="responseData.formInputs === 'password'"
+          class="modal-input modal-input-blue"
+        >
+          <input
+            name="confirmPassword"
+            formControlName="confirmPassword"
+            type="password"
+            placeholder=" "
+          />
+          <div class="modal-input-placeholder modal-input-placeholder-blue">
+            Vuelve a escribir la contraseña
+          </div>
+        </div>
+        <div class="mt-20 dfr w-full">
+          <div
+            [class.button-disabled-wrapper]="!recoverForm.valid"
+            class="dfr jcc"
+          >
+            <button
+              class="btn waves-effect waves-light haizen-blue mr-10 dfc jcc"
+              type="submit"
+            >
+              <span>{{ responseData.buttonPrimaryText }}</span>
+            </button>
+          </div>
+          <button
+            *ngIf="responseData.buttonSecondary"
+            class="btn waves-effect waves-light dark-gray mr-10 ml-5 dfc jcc"
+            type="button"
+            (click)="responseData.buttonSecondaryAction()"
+          >
+            <span>{{ responseData.buttonSecondaryText }}</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

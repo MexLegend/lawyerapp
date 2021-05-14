@@ -1,7 +1,10 @@
 import { DomSanitizer } from "@angular/platform-browser";
+import { environment } from "../../environments/environment";
 import { Injectable } from "@angular/core";
-import { Observable, Subject } from "rxjs";
+import { Observable, throwError, Subject } from "rxjs";
+import { catchError, map } from "rxjs/operators";
 import { FormControl } from "@angular/forms";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 import Swal from "sweetalert2";
 import { Router } from "@angular/router";
 import { MatDialog, MatTabGroup } from "@angular/material";
@@ -14,7 +17,7 @@ declare var $: any;
   providedIn: "root",
 })
 export class UtilitiesService {
-  constructor(public dialog: MatDialog, private sanitizer: DomSanitizer) {}
+  constructor(public dialog: MatDialog, private http: HttpClient) {}
 
   private arraysList = new Subject<[Array<any>, string, string]>();
   private clientShowMoreIndex = new Subject<any>();
@@ -49,6 +52,19 @@ export class UtilitiesService {
         }
       });
     });
+  }
+
+  checkToken(token: string): Observable<any> {
+    const url = `${environment.URI}/api/utilities/check-token/${token}`;
+
+    return this.http.get(url).pipe(
+      map((resp: any) => {
+        return resp;
+      }),
+      catchError((err) => {
+        return throwError(err);
+      })
+    );
   }
 
   // Disable Body Scroll

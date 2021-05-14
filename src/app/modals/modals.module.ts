@@ -19,6 +19,7 @@ import { LawyerContactComponent } from "./lawyer-contact/lawyer-contact.componen
 import { LoginComponent } from "./login/login.component";
 import { LoginFormComponent } from "./login/login-form/login-form.component";
 import { RegisterFormComponent } from "./login/register-form/register-form.component";
+import { RouterModule } from '@angular/router';
 import { NotificationsFormComponent } from "./notifications-form/notifications-form.component";
 import { PostsFormComponent } from "./posts-form/posts-form.component";
 import { SelectFileComponent } from "./select-file/select-file.component";
@@ -117,6 +118,7 @@ import { CKEditorModule } from "@ckeditor/ckeditor5-angular";
     NgxDocViewerModule,
     PipesModule,
     ReactiveFormsModule,
+    RouterModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

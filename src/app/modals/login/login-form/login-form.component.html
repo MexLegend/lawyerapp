@@ -1,4 +1,56 @@
 <form ngNativeValidate #f="ngForm" (ngSubmit)="logIn(f)">
+  <div
+    *ngIf="serverAlert.show"
+    class="server-message-alert w-full dfr jcs ais py-07-r pr-2-r pl-1-r mt-2-r mx-auto"
+  >
+    <div class="server-message-alert-icon pt-3 dfc">
+      <i class="fas fa-minus-circle"></i>
+    </div>
+    <div class="server-message-alert-text dfc ais pl-05-r">
+      <strong>{{ serverAlert.message }}</strong>
+      <div>
+        <!-- Create Account -->
+        <p
+          *ngIf="serverAlert.type === 'notExist'"
+          class="secondary-text m-0 fs-13"
+        >
+          ¿Quieres
+          <button
+            class="server-message-alert-link link"
+            type="button"
+            (click)="setActiveTab()"
+          >
+            crear una nueva cuenta</button
+          >?
+        </p>
+        <!-- Verify Account -->
+        <p
+          *ngIf="serverAlert.type === 'verify'"
+          class="secondary-text m-0 fs-13"
+        >
+          ¿Quieres
+          <button class="server-message-alert-link link" type="button">
+            crear una nueva cuenta</button
+          >?
+        </p>
+        <!-- Account Recovery -->
+        <p
+          *ngIf="serverAlert.type === 'wrongCredentials'"
+          class="secondary-text m-0 fs-13"
+        >
+          <button
+            class="server-message-alert-link link"
+            type="button"
+            [routerLink]="['/user/account-recovery']"
+            (click)="modalRef.close()"
+          >
+            ¿Has olvidado tu contraseña?
+          </button>
+        </p>
+      </div>
+    </div>
+  </div>
+
   <div class="login-content">
     <!-- Email Input -->
     <div class="modal-input modal-input-blue">
@@ -39,7 +91,7 @@
     </button>
     <div class="login-actions">
       <a href="#!" class="modal-forgot-password modal-close waves-effect"
-        >¿Has olvidado tu contraseña?</a
+        >¿Tienes problemas para iniciar sesión?</a
       >
     </div>
   </div>

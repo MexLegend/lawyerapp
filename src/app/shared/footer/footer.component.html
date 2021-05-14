@@ -19,9 +19,9 @@
             <div class="box-item input-box dfr">
               <input
                 id="footer-newsletter-input"
-                name="emailContact"
+                name="emailSender"
                 type="email"
-                formControlName="emailContact"
+                formControlName="emailSender"
                 placeholder="Ingresa tu email"
                 required
                 email
@@ -30,7 +30,6 @@
                 id="footer-newsletter-btn"
                 type="submit"
                 class="waves-effect waves-light btn dfc"
-                [class.button-disabled]="!newsLetterForm.valid"
               >
                 <span>Suscribirme</span>
               </button>

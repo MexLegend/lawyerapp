@@ -68,23 +68,11 @@ export class UsersService {
     };
 
     return this.http.post(url, data).pipe(
-      map((resp: any) => {
-        this._notificationsS.message(
-          "success",
-          "Creación correcta",
-          resp.message,
-          false,
-          false,
-          "",
-          "",
-          2000
-        );
-        return resp;
-      }),
+      map((resp: any) => resp),
       catchError((err) => {
         this._notificationsS.message(
           "error",
-          "Creación fallida",
+          "Registro fallido",
           err.error.message,
           false,
           false,
@@ -392,44 +380,41 @@ export class UsersService {
 
     return this.http.post(url, user).pipe(
       map((resp: any) => {
-        this.saveStorage(resp.user._id, resp.token, resp.user, resp.user.rooms);
+        if (resp.ok) {
+          this.saveStorage(
+            resp.user._id,
+            resp.token,
+            resp.user,
+            resp.user.rooms
+          );
 
-        document.querySelector("body").style.overflow = "auto";
+          document.querySelector("body").style.overflow = "auto";
 
-        // this._localstorageS
-        //   .getLocalStoragePropertyIfExists(["lastVisitedPage"])
-        //   .map((item) => {
-        //     if (item) {
-        //       if (
-        //         JSON.parse(item.lastVisitedPage).includes("/articulo-detalle")
-        //       ) {
-        //         this._postAnalyticsS
-        //         .getOnePostAnalytics(JSON.parse(item.lastVisitedPage).split("/").pop());
-        //       } else {
-        //         console.log(JSON.parse(item.lastVisitedPage));
-        //       }
-        //     }
-        //   });
-        // Load LocalStorage Theme If Exists
-        if (localStorage.getItem("theme")) {
-          this._themeS.setTheme(JSON.parse(localStorage.getItem("theme")));
-        } else {
-          localStorage.setItem("theme", JSON.stringify(lightTheme));
-          localStorage.setItem("dark", "false");
+          // this._localstorageS
+          //   .getLocalStoragePropertyIfExists(["lastVisitedPage"])
+          //   .map((item) => {
+          //     if (item) {
+          //       if (
+          //         JSON.parse(item.lastVisitedPage).includes("/articulo-detalle")
+          //       ) {
+          //         this._postAnalyticsS
+          //         .getOnePostAnalytics(JSON.parse(item.lastVisitedPage).split("/").pop());
+          //       } else {
+          //         console.log(JSON.parse(item.lastVisitedPage));
+          //       }
+          //     }
+          //   });
+          // Load LocalStorage Theme If Exists
+          if (localStorage.getItem("theme")) {
+            this._themeS.setTheme(JSON.parse(localStorage.getItem("theme")));
+          } else {
+            localStorage.setItem("theme", JSON.stringify(lightTheme));
+            localStorage.setItem("dark", "false");
+          }
         }
         return resp;
       }),
       catchError((err) => {
-        this._notificationsS.message(
-          "error",
-          "Credenciales incorrectas",
-          err.error.message,
-          true,
-          false,
-          "",
-          "Cerrar",
-          4000
-        );
         return throwError(err);
       })
     );
@@ -609,6 +594,19 @@ export class UsersService {
     );
   }
 
+  updatePasswordDirectly(id: any, user: any) {
+    const url = `${environment.URI}/api/users/change-pass-directly/${id}`;
+
+    return this.http.put(url, user).pipe(
+      map((resp: any) => {
+        return resp;
+      }),
+      catchError((err) => {
+        return throwError(err);
+      })
+    );
+  }
+
   updateUser(id: string, userData: any, userImage?: any) {
     const url = `${environment.URI}/api/users/${id}`;
     const headers = new HttpHeaders({
@@ -719,6 +717,22 @@ export class UsersService {
 
     return this.http.put(url, data, { headers }).pipe(
       map((resp: any) => resp),
+      catchError((err) => {
+        return throwError(err);
+      })
+    );
+  }
+
+  validateEmailsExists(email: string): Observable<any> {
+    const url = `${environment.URI}/api/users/validate-email-exists`;
+    const body = {
+      email,
+    };
+
+    return this.http.post(url, body).pipe(
+      map((resp: any) => {
+        return resp;
+      }),
       catchError((err) => {
         return throwError(err);
       })

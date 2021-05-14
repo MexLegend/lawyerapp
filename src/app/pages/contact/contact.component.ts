@@ -29,7 +29,7 @@ export class ContactComponent implements OnInit {
   private initContactForm() {
     this.form = new FormGroup({
       nameContact: new FormControl(null, Validators.required),
-      emailContact: new FormControl(null, Validators.required),
+      emailSender: new FormControl(null, Validators.required),
       messageContact: new FormControl(null, Validators.required),
       phoneContact: new FormControl(null),
     });
@@ -38,8 +38,10 @@ export class ContactComponent implements OnInit {
   send() {
     const email = new Contact(
       this.form.value.nameContact,
-      this.form.value.emailContact,
+      this.form.value.emailSender,
       this.form.value.messageContact,
+      "armandolarae97@gmail.com",
+      "Solicitud de evaluación de caso",
       "Fernando Romo Rodríguez",
       this.form.value.phoneContact
     );
