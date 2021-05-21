@@ -55,6 +55,23 @@ export class UsersService {
     );
   }
 
+  confirmAccount(id: any): Observable<any> {
+    const url = `${environment.URI}/api/users/confirm-account`;
+
+    const data = {
+      id,
+    };
+
+    return;
+
+    return this.http.put(url, data).pipe(
+      map((resp: any) => resp),
+      catchError((err) => {
+        return throwError(err);
+      })
+    );
+  }
+
   createUser(user: User, img?: any, lawyer?: any) {
     const url = `${environment.URI}/api/users`;
 
@@ -145,23 +162,21 @@ export class UsersService {
     });
     const url = `${environment.URI}/api/users/${id}`;
 
-    return this.http
-      .delete<User>(url, { headers })
-      .pipe(
-        map((resp: any) => {
-          this._notificationsS.message(
-            "success",
-            "Eliminación correcta",
-            resp.message,
-            false,
-            false,
-            "",
-            "",
-            2000
-          );
-          return resp;
-        })
-      );
+    return this.http.delete<User>(url, { headers }).pipe(
+      map((resp: any) => {
+        this._notificationsS.message(
+          "success",
+          "Eliminación correcta",
+          resp.message,
+          false,
+          false,
+          "",
+          "",
+          2000
+        );
+        return resp;
+      })
+    );
   }
 
   isLogged() {

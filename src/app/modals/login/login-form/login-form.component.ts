@@ -10,6 +10,8 @@ import { MatDialogRef, MatTabGroup } from "@angular/material";
 import { LoginComponent } from "../login.component";
 import { UtilitiesService } from "../../../services/utilities.service";
 import { ModalAlertService } from "../../../services/modal-alert.service";
+import { Contact } from "src/app/models/Contact";
+import { ContactService } from "../../../services/contact.service";
 
 declare var $: any;
 
@@ -26,6 +28,8 @@ interface serverAlert {
 })
 export class LoginFormComponent implements OnInit {
   constructor(
+    private _contactS: ContactService,
+    public dialogRef: MatDialogRef<LoginFormComponent>,
     private _modalAlertS: ModalAlertService,
     private router: Router,
     private _usersS: UsersService,
@@ -43,6 +47,7 @@ export class LoginFormComponent implements OnInit {
   email: string;
   password: string = "";
   remember = false;
+  respUserData: any = null;
 
   ngOnInit() {
     this.email = localStorage.getItem("email") || "";
@@ -84,11 +89,33 @@ export class LoginFormComponent implements OnInit {
             this.router.navigate(["/perfil"]);
           }
           this.password = "";
-
           this.modalRef.close();
-        } else this.setServerAlertData(resp.type);
+        } else {
+          this.setServerAlertData(resp.type);
+          this.respUserData = resp.user;
+        }
       })
     );
+  }
+
+  resentConfirmationEmail(form: NgForm) {
+    const email = new Contact(
+      null,
+      form.value.email,
+      null,
+      null,
+      "Verificar cuenta de Haizen",
+      "Fernando Romo Rodríguez",
+      null
+    );
+
+    const sendEmailSub = this._contactS
+      .enviarEmail(
+        { ...email, id: this.respUserData._id },
+        "confirmAccount",
+        this.dialogRef
+      )
+      .subscribe(() => sendEmailSub.unsubscribe());
   }
 
   setServerAlertData(type: string) {
@@ -100,11 +127,11 @@ export class LoginFormComponent implements OnInit {
           "Este correo no está registrado."
         );
         break;
-      case "verify":
+      case "notConfirmed":
         this._modalAlertS.setServerAlerts(
           true,
           type,
-          "Este correo no está registrado."
+          "Tu correo electrónico no ha sido confirmado. Por favor haz clic en el link que te enviamos."
         );
         break;
       default:

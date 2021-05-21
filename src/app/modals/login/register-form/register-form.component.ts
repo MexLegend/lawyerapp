@@ -74,11 +74,15 @@ export class RegisterFormComponent implements OnInit {
     );
 
     this.subscriptionsArray.push(
-      this._usersS.createUser(userData).subscribe((resp) => {
+      this._usersS.createUser(userData).subscribe((resp: any) => {
         if (resp.ok) {
           this.subscriptionsArray.push(
             this._contactS
-              .enviarEmail(email, "confirmAccount", this.dialogRef)
+              .enviarEmail(
+                { ...email, id: resp.user._id },
+                "confirmAccount",
+                this.dialogRef
+              )
               .subscribe()
           );
         }

@@ -4,6 +4,7 @@ import { UtilitiesService } from "../../services/utilities.service";
 import { ContactService } from "../../services/contact.service";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { Contact } from "../../models/Contact";
+import { ComponentData } from "../../models/ComponentData";
 import { UsersService } from "../../services/users.service";
 
 interface serverAlert {
@@ -29,19 +30,42 @@ export class EmailConfirmedComponent implements OnInit {
       var token = this.router.url.substr(this.router.url.indexOf("token=") + 6);
       this._utilitiesS.checkToken(token).subscribe((resp) => {
         if (resp.ok) {
-          this.tokenData = resp.decoded;
-          this.getResponseData(this.router.url);
-        } else this.getResponseData("token-not-valid");
+          this.tokenData = resp.responseData;
+          this.getResponseData(
+            this.getActionType(this.router.url),
+            resp.responseData
+          );
+        } else if (!resp.ok && !resp.tokenExpired) {
+          this.setComponentData(
+            new ComponentData(
+              "Error inesperado",
+              `Se produjo un error y tu solicitud no fue procesada. Por favor intentalo de nuevo.`,
+              "Reintentar",
+              () => this.getResponseData(this.getActionType(this.router.url)),
+              false,
+              "",
+              null,
+              false,
+              "",
+              false,
+              false
+            )
+          );
+        } else
+          this.getResponseData(
+            this.getActionType("token-not-valid"),
+            resp.responseData
+          );
       });
     } else {
-      this.getResponseData(this.router.url);
+      this.getResponseData(this.getActionType(this.router.url));
     }
   }
 
   serverAlert: serverAlert = { show: false, type: "", message: "" };
 
   recoverForm: FormGroup;
-  responseData: any = {};
+  responseData: any = null;
   tokenData: any;
 
   ngOnInit(): void {
@@ -59,100 +83,148 @@ export class EmailConfirmedComponent implements OnInit {
     else return false;
   }
 
-  getResponseData(url: string) {
-    const data = () => {
-      if (url.includes("newsletter"))
-        return {
-          title: "Gracias por suscribirte al boletín de Haizen Abogados",
-          subtitle:
-            "Desde ahora recibiras notificaciones de noticias, contenido exclusivo, ofertas y mucho más.",
-          buttonPrimaryText: "Volver a Haizen Abogados",
-          buttonPrimaryAction: () => this.router.navigate([`/inicio`]),
-          buttonSecondary: false,
-          form: false,
-          formInputs: "",
-          login: false,
-          sended: false,
-        };
+  getActionType(url: string): string {
+    const actionType = () => {
+      if (url.includes("newsletter")) return "newsletter";
       else if (
         url.includes("account") &&
         !url.includes("account-recovery") &&
         !url.includes("change-pass")
       )
-        return {
-          title: "Cuenta verificada",
-          subtitle:
-            "<b>Hola Armando Lara</b></br></br> Tu correo ha sido verificado y tu cuenta ahora está activa. Usa el botón inferior para iniciar sesión en tu cuenta.",
-          buttonPrimaryText: "Iniciar sesión",
-          buttonPrimaryAction: () => {
-            this.router.navigate([`/inicio`]);
-            this._utilitiesS.openLoginModal(0);
-          },
-          buttonSecondary: false,
-          form: false,
-          formInputs: "",
-          login: true,
-          sended: false,
-        };
-      else if (url.includes("account-recovery")) {
-        this.initRecoverForm("email");
-        return {
-          title: "Restablecer contraseña",
-          subtitle:
-            "Para obtener un enlace de restablecimiento de contraseña ingresa a continuación tu correo electronico.",
-          buttonPrimaryText: "Enviar enlace",
-          buttonPrimaryAction: () => {},
-          buttonSecondary: false,
-          form: true,
-          formInputs: "email",
-          login: false,
-          sended: false,
-        };
-      } else if (url.includes("change-pass")) {
-        this.initRecoverForm("password");
-        return {
-          title: "Elije una nueva contraseña",
-          subtitle:
-            "Una contraseña segura contribuye a evitar el acceso no autorizado a tu cuenta de Haizen.",
-          buttonPrimaryText: "Continuar",
-          buttonPrimaryAction: () => {},
-          buttonSecondary: true,
-          buttonSecondaryText: "Omitir",
-          buttonSecondaryAction: () => this.router.navigate([`/inicio`]),
-          form: true,
-          formInputs: "password",
-          login: false,
-          sended: false,
-        };
-      } else if (url.includes("token-not-valid")) {
-        return {
-          title: "El token ha expirado",
-          subtitle: "Reenviar petición y generar un nuevo token.",
-          buttonPrimaryText: "Continuar",
-          buttonPrimaryAction: () => {},
-          buttonSecondary: true,
-          buttonSecondaryText: "Omitir",
-          buttonSecondaryAction: () => this.router.navigate([`/inicio`]),
-          form: false,
-          formInputs: "",
-          login: false,
-          sended: false,
-        };
-      } else
-        return {
-          title: "Tu solicitud se ha completado correctamente",
-          subtitle: "Lamentamos que ya no desees estar con nosotros",
-          buttonPrimaryText: "Volver a Haizen Abogados",
-          buttonPrimaryAction: () => this.router.navigate([`/inicio`]),
-          buttonSecondary: false,
-          form: false,
-          formInputs: "",
-          login: false,
-          sended: false,
-        };
+        return "account";
+      else if (url.includes("account-recovery")) return "account-recovery";
+      else if (url.includes("change-pass")) return "change-pass";
+      else if (url.includes("token-not-valid")) return "token-not-valid";
+      else return "newsletter-unsubscription";
     };
 
-    this.responseData = data();
+    return actionType();
+  }
+
+  getEmailSubject(action: string): string {
+    const subject = () => {
+      if (action === "confirmNewsLetter")
+        return "Confirmar suscripción del boletín informativo de Haizen";
+      else if (action === "recoverAccount")
+        return "Cambiar contraseña de tu cuenta de Haizen";
+      else return "Verificar cuenta de Haizen";
+    };
+
+    return subject();
+  }
+
+  getResponseData(action: string, respData?: any) {
+    switch (action) {
+      case "newsletter":
+        this.setComponentData(
+          new ComponentData(
+            "Gracias por suscribirte al boletín de Haizen Abogados",
+            "Desde ahora recibiras notificaciones de noticias, contenido exclusivo, ofertas y mucho más.",
+            "Volver a Haizen Abogados",
+            () => this.router.navigate([`/inicio`]),
+            false,
+            "",
+            null,
+            false,
+            "",
+            false,
+            false
+          )
+        );
+        break;
+      case "account":
+        this.setComponentData(
+          new ComponentData(
+            "Cuenta verificada",
+            `<b>Hola, ${
+              respData.firstName + " " + respData.lastName
+            }</b></br></br> Tu correo ha sido verificado y tu cuenta ahora está activa. Usa el botón inferior para iniciar sesión en tu cuenta.`,
+            "Iniciar sesión",
+            () => {
+              this.router.navigate([`/inicio`]);
+              this._utilitiesS.openLoginModal(0);
+            },
+            false,
+            "",
+            null,
+            false,
+            "",
+            true,
+            false
+          )
+        );
+        break;
+      case "account-recovery":
+        this.initRecoverForm("email");
+        this.setComponentData(
+          new ComponentData(
+            "Restablecer contraseña",
+            "Para obtener un enlace de restablecimiento de contraseña ingresa a continuación tu correo electronico.",
+            "Enviar enlace",
+            null,
+            false,
+            "",
+            null,
+            true,
+            "email",
+            false,
+            false
+          )
+        );
+        break;
+      case "change-pass":
+        this.initRecoverForm("password");
+        this.setComponentData(
+          new ComponentData(
+            "Elije una nueva contraseña",
+            "Una contraseña segura contribuye a evitar el acceso no autorizado a tu cuenta de Haizen.",
+            "Continuar",
+            null,
+            true,
+            "Omitir",
+            () => this.router.navigate([`/inicio`]),
+            true,
+            "password",
+            false,
+            false
+          )
+        );
+        break;
+      case "token-not-valid":
+        this.setComponentData(
+          new ComponentData(
+            "El token ha expirado",
+            "Reenviar petición y generar un nuevo token.",
+            "Continuar",
+            () => this.resendToken(respData),
+            true,
+            "Omitir",
+            () => this.router.navigate([`/inicio`]),
+            false,
+            "",
+            false,
+            false
+          )
+        );
+        break;
+      default:
+        this.setComponentData(
+          new ComponentData(
+            "Tu solicitud se ha completado correctamente",
+            "Lamentamos que ya no desees estar con nosotros",
+            "Volver a Haizen Abogados",
+            () => this.router.navigate([`/inicio`]),
+            false,
+            "",
+            null,
+            false,
+            "",
+            false,
+            false
+          )
+        );
+        break;
+    }
   }
 
   private initRecoverForm(formInputs: string) {
@@ -174,6 +246,40 @@ export class EmailConfirmedComponent implements OnInit {
       ]);
   }
 
+  resendToken(data: any) {
+    const email = new Contact(
+      data.firstName ? data.firstName + " " + data.lastName : "",
+      data.email,
+      null,
+      null,
+      this.getEmailSubject(data.action),
+      "",
+      null,
+      data._id
+    );
+    const emailSub = this._contactS
+      .enviarEmail(email, data.action, null, true)
+      .subscribe(() => {
+        this.setComponentData(
+          new ComponentData(
+            "Comprueba tu buzón de correo electrónico",
+            `Se ha enviado un nuevo mensaje al correo <b>${data.email}</b>.</br></br> Puede que tarde unos minutos en aparecer, 
+            pero revisa las carpetas de spam y correos promocionales por si acaso.`,
+            "Hecho",
+            () => this.router.navigate([`/inicio`]),
+            false,
+            "",
+            null,
+            false,
+            "",
+            false,
+            false
+          )
+        );
+        emailSub.unsubscribe();
+      });
+  }
+
   // Reset Password
   resetPassword() {
     if (this.notEqual(this.recoverForm.value))
@@ -185,23 +291,24 @@ export class EmailConfirmedComponent implements OnInit {
         .subscribe((resp) => {
           this.recoverForm.reset();
           if (resp.ok) {
-            this.responseData = {
-              title: "Tu contraseña ha sido restablecida",
-              subtitle:
+            this.setComponentData(
+              new ComponentData(
+                "Tu contraseña ha sido restablecida",
                 "Usa el botón inferior para iniciar sesión en tu cuenta.",
-              buttonPrimaryText: "Iniciar sesión",
-              buttonPrimaryAction: () => {
-                this.router.navigate([`/inicio`]);
-                this._utilitiesS.openLoginModal(0);
-              },
-              buttonSecondary: false,
-              buttonSecondaryText: "",
-              buttonSecondaryAction: "",
-              form: false,
-              formInputs: "",
-              login: true,
-              sended: false,
-            };
+                "Iniciar sesión",
+                () => {
+                  this.router.navigate([`/inicio`]);
+                  this._utilitiesS.openLoginModal(0);
+                },
+                false,
+                "",
+                null,
+                false,
+                "",
+                true,
+                false
+              )
+            );
           } else
             this.setServerAlertData(
               "server-error",
@@ -231,28 +338,34 @@ export class EmailConfirmedComponent implements OnInit {
           const emailSub = this._contactS
             .enviarEmail(email, "recoverAccount")
             .subscribe(() => {
-              this.responseData = {
-                title: "Comprueba tu buzón de correo electrónico",
-                subtitle: `Ve a tu correo <b>${formData.value.email}</b> y haz clic en el enlace de restablecimiento 
-            de contraseña que te hemos enviado para tu cuenta de Haizen.</br></br> Puede que tarde unos minutos en aparecer, 
-            pero revisa las carpetas de spam y correos promocionales por si acaso.`,
-                buttonPrimaryText: "Hecho",
-                buttonPrimaryAction: () => this.router.navigate([`/inicio`]),
-                buttonSecondary: true,
-                buttonSecondaryText: "Comenzar de nuevo",
-                buttonSecondaryAction: () =>
-                  this.getResponseData("account-recovery"),
-                form: false,
-                formInputs: "",
-                login: false,
-                sended: true,
-              };
+              this.setComponentData(
+                new ComponentData(
+                  "Comprueba tu buzón de correo electrónico",
+                  `Ve a tu correo <b>${formData.value.email}</b> y haz clic en el enlace de restablecimiento 
+                  de contraseña que te hemos enviado para tu cuenta de Haizen.</br></br> Puede que tarde unos minutos en aparecer, 
+                  pero revisa las carpetas de spam y correos promocionales por si acaso.`,
+                  "Hecho",
+                  () => this.router.navigate([`/inicio`]),
+                  true,
+                  "Comenzar de nuevo",
+                  () => this.getResponseData("account-recovery"),
+                  false,
+                  "",
+                  false,
+                  true
+                )
+              );
+
               this.recoverForm.reset();
               emailSub.unsubscribe();
             });
           validateEmailSub.unsubscribe();
         } else this.setServerAlertData("notExist");
       });
+  }
+
+  setComponentData(componentData: ComponentData) {
+    this.responseData = componentData;
   }
 
   setServerAlertData(type: string, message?: string) {

@@ -1,7 +1,18 @@
 <form ngNativeValidate #f="ngForm" (ngSubmit)="logIn(f)">
   <div
     *ngIf="serverAlert.show"
-    class="server-message-alert w-full dfr jcs ais py-07-r pr-2-r pl-1-r mt-2-r mx-auto"
+    class="
+      server-message-alert
+      w-full
+      dfr
+      jcs
+      ais
+      py-07-r
+      pr-2-r
+      pl-1-r
+      mt-2-r
+      mx-auto
+    "
   >
     <div class="server-message-alert-icon pt-3 dfc">
       <i class="fas fa-minus-circle"></i>
@@ -25,13 +36,17 @@
         </p>
         <!-- Verify Account -->
         <p
-          *ngIf="serverAlert.type === 'verify'"
+          *ngIf="serverAlert.type === 'notConfirmed'"
           class="secondary-text m-0 fs-13"
         >
-          ¿Quieres
-          <button class="server-message-alert-link link" type="button">
-            crear una nueva cuenta</button
-          >?
+          ¿No recibiste un mensaje?
+          <button
+            class="server-message-alert-link link"
+            type="button"
+            (click)="resentConfirmationEmail(f)"
+          >
+            Reenviar
+          </button>
         </p>
         <!-- Account Recovery -->
         <p

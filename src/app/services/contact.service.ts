@@ -26,7 +26,8 @@ export class ContactService {
   enviarEmail(
     contact: Contact,
     action: string,
-    modalRef?: MatDialogRef<any>
+    modalRef?: MatDialogRef<any>,
+    isResended?: boolean
   ): Observable<Contact> {
     const url = `${environment.URI}/api/email`;
 
@@ -73,7 +74,11 @@ export class ContactService {
               };
           }
         };
-        if (action !== "newsLetterConfirmed" && action !== "recoverAccount")
+        if (
+          action !== "newsLetterConfirmed" &&
+          action !== "recoverAccount" &&
+          !isResended
+        )
           this._notificacionsS.message(
             "success",
             emailSuccessTitle().title,
@@ -153,11 +158,12 @@ export class ContactService {
     return this.http.post<Contact>(url, contact).pipe(
       map((resp: any) => {
         if (resp.ok) {
-          const emailSub = this.enviarEmail(contact, action).subscribe(
-            (resp: any) => {
-              if (resp.ok) emailSub.unsubscribe();
-            }
-          );
+          const emailSub = this.enviarEmail(
+            { ...contact, id: resp.newsLetter._id },
+            action
+          ).subscribe((resp: any) => {
+            if (resp.ok) emailSub.unsubscribe();
+          });
         } else
           this._notificacionsS.message(
             "error",

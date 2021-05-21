@@ -1,4 +1,8 @@
-<div id="email-verified" class="pr h-full-screen w-full-screen dfc jcc">
+<div
+  *ngIf="responseData"
+  id="email-verified"
+  class="pr h-full-screen w-full-screen dfc jcc"
+>
   <div class="top-logo centered-img-bg border-none">
     <img
       src="../../../assets/images/Logotipo_Escudo_Haizen.png"
@@ -11,7 +15,18 @@
     }}</span>
     <div
       *ngIf="serverAlert.show"
-      class="server-message-alert w-full dfr jcs ais py-07-r pr-2-r pl-1-r mt-2-r mx-auto"
+      class="
+        server-message-alert
+        w-full
+        dfr
+        jcs
+        ais
+        py-07-r
+        pr-2-r
+        pl-1-r
+        mt-2-r
+        mx-auto
+      "
     >
       <div class="server-message-alert-icon pt-3 dfc">
         <i class="fas fa-minus-circle"></i>
