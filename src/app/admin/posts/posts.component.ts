@@ -154,6 +154,7 @@ export class PostsComponent implements OnInit {
             height: "90%",
             data: { postData, action: "Editar" },
             autoFocus: false,
+            disableClose: true
           })
         : this.dialog.open(PostsFormComponent, {
             id: "postsModal",
@@ -161,6 +162,7 @@ export class PostsComponent implements OnInit {
             height: "90%",
             data: { action: "Escribir" },
             autoFocus: false,
+            disableClose: true
           });
 
     dialogRef.afterClosed().subscribe(() => {

@@ -238,6 +238,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
       width: "600px",
       height: "400px",
       autoFocus: false,
+      disableClose: true
     });
 
     // dialogRef.afterClosed().subscribe(result => {

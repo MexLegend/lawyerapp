@@ -3,7 +3,8 @@ export class PostAnalytics {
     public post: string,
     public comments?: [
       {
-        comment: Date;
+        comment: String;
+        date: Date;
         user: string;
         _id: string;
       }
@@ -12,7 +13,8 @@ export class PostAnalytics {
     public likes?: number,
     public reactions?: [
       {
-        reaction: Date;
+        date: Date;
+        reaction: any;
         user: string;
         _id: string;
       }

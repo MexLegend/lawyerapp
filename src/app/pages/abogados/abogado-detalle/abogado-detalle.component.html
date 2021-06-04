@@ -36,7 +36,7 @@
             class="email-btn btn waves-effect waves-light dfc"
             (click)="
               this._usersS.isLogged()
-                ? _contactS.openReplyModal(lawyer)
+                ? openReplyModal(lawyer)
                 : showAlertModal('contactEmail', $event)
             "
           >

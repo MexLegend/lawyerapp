@@ -813,10 +813,12 @@ export class FilesComponent implements OnInit {
             users: this.users,
           },
           autoFocus: false,
+          disableClose: true
         })
       : this.dialog.open(FilesFormComponent, {
           data: { action: "Crear", users: this.users },
           autoFocus: false,
+          disableClose: true
         });
 
     this.subscriptionsArray.push(
@@ -832,6 +834,7 @@ export class FilesComponent implements OnInit {
     let dialogRef = this.dialog.open(SelectEvidenceComponent, {
       data: { viewDetails, trackingData, caseData: this.currentCaseData },
       autoFocus: false,
+      disableClose: true,
       panelClass: "evidences-view-modal",
     });
 
@@ -856,6 +859,7 @@ export class FilesComponent implements OnInit {
     let dialogRef = this.dialog.open(SelectNotesComponent, {
       data: {},
       autoFocus: false,
+      disableClose: true,
       panelClass: "notes-view-modal",
     });
     this.subscriptionsArray.push(

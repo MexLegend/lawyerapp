@@ -9,9 +9,8 @@ import { PostAnalytics } from "../../../models/PostAnalytics";
 export class CommentsComponent implements OnInit {
   constructor() {}
 
-  @Input() comments: PostAnalytics;
+  @Input() comments!: any;
+  @Input() filterVariable!: string;
 
-  ngOnInit() {
-    console.log(this.comments);
-  }
+  ngOnInit() {}
 }

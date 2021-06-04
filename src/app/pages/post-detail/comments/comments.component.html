@@ -1,43 +1,27 @@
-<div class="comment-card-body card-content grey lighten-4 ">
+<div
+  *ngFor="let comment of comments | orderBy: filterVariable"
+  class="comment-card-body card-content grey lighten-4"
+>
   <div class="card-comment-content dfr">
     <div class="user-icon">
-      <img src="../../../assets/images/user.jpg" />
+      <img [src]="comment.user?.img | img: 'user'" />
     </div>
     <div class="comment-body dfc">
       <div class="comment-info dfr">
         <div class="comment-user-name">
-          <a href=""><span>Armando Lara</span></a>
+          <a href=""
+            ><span>{{
+              comment.user.firstName + " " + comment.user.lastName
+            }}</span></a
+          >
         </div>
-        <div class="comment-date"><span>Hace 4 semanas</span></div>
+        <div class="comment-date">
+          <span>{{ comment.date | dateAgo }}</span>
+        </div>
       </div>
       <div class="user-comment-content">
-        <span
-          >Primer comentario de la página. Since a long time ago i wanted to try
-          this but i had had a lot of problems but now it already works..</span
-        >
+        <span>{{ comment.comment }}</span>
       </div>
     </div>
   </div>
 </div>
-<div class="comment-card-body card-content grey lighten-4 ">
-  <div class="card-comment-content dfr">
-    <div class="user-icon">
-      <img src="../../../assets/images/user.jpg" />
-    </div>
-    <div class="comment-body dfc">
-      <div class="comment-info dfr">
-        <div class="comment-user-name">
-          <a href=""><span>Armando Lara</span></a>
-        </div>
-        <div class="comment-date"><span>Hace 4 semanas</span></div>
-      </div>
-      <div class="user-comment-content">
-        <span
-          >Primer comentario de la página. Since a long time ago i wanted to try
-          this but i had had a lot of problems but now it already works..</span
-        >
-      </div>
-    </div>
-  </div>
-</div>
-

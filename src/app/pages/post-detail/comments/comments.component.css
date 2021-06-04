@@ -27,8 +27,10 @@
 .comment-date {
   font-size: 14px;
   margin-left: 10px;
+  color: var(--secondary-text);
 }
 
 .comment-user-name a span {
-  color: #2e89ff;
+  color: var(--default-color);
+  font-weight: 600;
 }

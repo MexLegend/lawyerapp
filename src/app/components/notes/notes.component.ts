@@ -212,11 +212,12 @@ export class NotesComponent implements OnInit {
     }
   }
 
-  // Open Note Creation Modal
+  // Open Notes Filter Modal
   openFilters(filters?: any) {
     let dialogRef = this.dialog.open(FiltersComponent, {
       data: {},
       autoFocus: false,
+      disableClose: true
     });
   }
 
@@ -227,10 +228,12 @@ export class NotesComponent implements OnInit {
         ? this.dialog.open(WriteNoteComponent, {
             data: { idNote, action: "Actualizar" },
             autoFocus: false,
+            disableClose: true
           })
         : this.dialog.open(WriteNoteComponent, {
             data: { action: "Crear" },
             autoFocus: false,
+            disableClose: true
           });
   }
 

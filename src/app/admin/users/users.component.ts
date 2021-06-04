@@ -192,10 +192,12 @@ export class UsersComponent implements OnInit {
         ? this.dialog.open(UsersFormComponent, {
             data: { idUser, action: "Editar", users: this.users },
             autoFocus: false,
+            disableClose: true
           })
         : this.dialog.open(UsersFormComponent, {
             data: { action: "Crear", users: this.users },
             autoFocus: false,
+            disableClose: true
           });
 
     // dialogRef.afterClosed().subscribe(result => {

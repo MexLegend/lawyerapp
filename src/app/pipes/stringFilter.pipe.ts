@@ -5,7 +5,7 @@ import { UtilitiesService } from "../services/utilities.service";
   name: "stringFilter",
 })
 export class StringFilterPipe implements PipeTransform {
-  constructor(private _utilitiesS: UtilitiesService) {}
+  constructor() {}
 
   transform(
     array: Array<any>,

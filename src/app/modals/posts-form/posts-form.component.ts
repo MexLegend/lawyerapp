@@ -597,6 +597,7 @@ export class PostsFormComponent implements OnInit {
       width: "600px",
       height: "max-content",
       autoFocus: true,
+      disableClose: true
     });
 
     // dialogRef.afterClosed().subscribe(result => {
@@ -614,12 +615,14 @@ export class PostsFormComponent implements OnInit {
             id: "QuoteModal",
             data: { quoteData, action: "Editar", type: "Cita" },
             autoFocus: false,
+            disableClose: true,
             width: "600px",
           })
         : this.dialog.open(ReferencesComponent, {
             id: "QuoteModal",
             data: { action: "Agregar", type: "Cita" },
             autoFocus: false,
+            disableClose: true,
             width: "600px",
           });
 

@@ -10,6 +10,8 @@ import { ContactService } from "../../../services/contact.service";
 import { ModalAlertService } from "../../../services/modal-alert.service";
 import { UtilitiesService } from "../../../services/utilities.service";
 import { ChatService } from "../../../services/chat.service";
+import { MatDialog } from "@angular/material/dialog";
+import { ReplyComponent } from "../../../modals/reply/reply.component";
 
 @Component({
   selector: "app-abogado-detalle",
@@ -22,6 +24,7 @@ export class AbogadoDetalleComponent implements OnInit {
     public _alertModalS: ModalAlertService,
     public _chatS: ChatService,
     public _contactS: ContactService,
+    public dialog: MatDialog,
     public _postsS: PostsService,
     public _usersS: UsersService,
     public _utilitiesS: UtilitiesService
@@ -94,6 +97,15 @@ export class AbogadoDetalleComponent implements OnInit {
   openChat(lawyerData: User) {
     this._chatS.setLawyerRoomData(lawyerData);
     this._chatS.openChat();
+  }
+
+  // Open Email Contact Modal
+  openReplyModal(user?: any) {
+    let dialogRef = this.dialog.open(ReplyComponent, {
+      data: { user, action: "Nuevo" },
+      autoFocus: false,
+      disableClose: true
+    });
   }
 
   // Show Modal Alert When The User Who Is Reacting Is Not Logged In

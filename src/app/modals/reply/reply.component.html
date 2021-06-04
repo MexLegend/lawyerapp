@@ -72,23 +72,27 @@
           <!-- Email Input Field -->
           <div class="modal-input modal-input-pink">
             <input
-              name="contactEmail"
-              formControlName="contactEmail"
+              name="emailSender"
+              formControlName="emailSender"
               type="email"
               placeholder=" "
               required
               email
             />
             <div class="modal-input-placeholder modal-input-placeholder-pink">
-              Ingresa tu correo 
+              Ingresa tu correo
             </div>
           </div>
           <!-- Comment Input Field -->
           <div class="modal-input modal-input-pink notes-text-area">
             <textarea
-              class="materialize-textarea expediente-input ng-pristine ng-touched"
-              name="comment"
-              formControlName="comment"
+              class="
+                materialize-textarea
+                expediente-input
+                ng-pristine ng-touched
+              "
+              name="messageContact"
+              formControlName="messageContact"
               id="Comment"
               placeholder=" "
               autosize
@@ -120,6 +124,7 @@
             type="submit"
             class="waves-effect waves-light btn modal-submit-action"
             [class.button-disabled]="!form.valid"
+            (click)="sendEmail()"
           >
             Envíar
           </button>

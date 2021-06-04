@@ -117,6 +117,7 @@ export class CasosDetalleComponent implements OnInit {
     let dialogRef = this.dialog.open(SelectEvidenceComponent, {
       data: { viewDetails, trackingData, caseData },
       autoFocus: false,
+      disableClose: true,
       panelClass: "evidences-view-modal",
     });
 

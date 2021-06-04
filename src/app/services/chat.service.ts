@@ -37,14 +37,12 @@ export class ChatService {
 
     const url = `${environment.URI}/api/chat/message`;
 
-    return this.http
-      .post<ChatRoom>(url, data, { headers })
-      .pipe(
-        map((resp: any) => resp),
-        catchError((err) => {
-          return throwError(err);
-        })
-      );
+    return this.http.post<ChatRoom>(url, data, { headers }).pipe(
+      map((resp: any) => resp),
+      catchError((err) => {
+        return throwError(err);
+      })
+    );
   }
 
   createChatRoom(roomData: ChatRoom, messageData?: any): Observable<any> {
@@ -60,14 +58,12 @@ export class ChatService {
 
     const url = `${environment.URI}/api/chat`;
 
-    return this.http
-      .post<ChatRoom>(url, data, { headers })
-      .pipe(
-        map((resp: any) => resp),
-        catchError((err) => {
-          return throwError(err);
-        })
-      );
+    return this.http.post<ChatRoom>(url, data, { headers }).pipe(
+      map((resp: any) => resp),
+      catchError((err) => {
+        return throwError(err);
+      })
+    );
   }
 
   getChatMessages(idRoom: any) {
@@ -78,20 +74,18 @@ export class ChatService {
 
     const url = `${environment.URI}/api/chat/message/all/${idRoom}`;
 
-    return this.http
-      .get<ChatRoom>(url, { headers })
-      .pipe(
-        map((resp: any) =>
-          this.setChatRoomMessagesListSub(
-            resp.messages[0],
-            resp.messages[0].chat_room_id,
-            true
-          )
-        ),
-        catchError((err) => {
-          return throwError(err);
-        })
-      );
+    return this.http.get<ChatRoom>(url, { headers }).pipe(
+      map((resp: any) =>
+        this.setChatRoomMessagesListSub(
+          resp.messages[0],
+          resp.messages[0].chat_room_id,
+          true
+        )
+      ),
+      catchError((err) => {
+        return throwError(err);
+      })
+    );
   }
 
   getChatRooms(idUser: any) {
@@ -102,16 +96,14 @@ export class ChatService {
 
     const url = `${environment.URI}/api/chat/all/${idUser}`;
 
-    return this.http
-      .get<ChatRoom>(url, { headers })
-      .pipe(
-        map((resp: any) => {
-          this.setChatRoomsListSub(resp.completeRooms);
-        }),
-        catchError((err) => {
-          return throwError(err);
-        })
-      );
+    return this.http.get<ChatRoom>(url, { headers }).pipe(
+      map((resp: any) => {
+        this.setChatRoomsListSub(resp.completeRooms);
+      }),
+      catchError((err) => {
+        return throwError(err);
+      })
+    );
   }
 
   geIsNotesShowingSub(): Observable<any> {
@@ -211,13 +203,16 @@ export class ChatService {
           iframe.parentElement.style.setProperty("z-index", "0", "important");
         });
 
-      whatsAppRef.style.setProperty("display", "none", "important");
+      if (whatsAppRef)
+        whatsAppRef.style.setProperty("display", "none", "important");
     } else {
       if (iframesList.length > 0)
         iframesList.forEach((iframe) => {
           iframe.parentElement.style.setProperty("z-index", "997", "important");
         });
-      whatsAppRef.style.setProperty("display", "block", "important");
+
+      if (whatsAppRef)
+        whatsAppRef.style.setProperty("display", "block", "important");
     }
   }
 

@@ -8,7 +8,6 @@ import { Contact } from "../models/Contact";
 import { NotificationsService } from "./notifications.service";
 import { User } from "../models/User";
 import { MatDialog } from "@angular/material/dialog";
-import { ReplyComponent } from "../modals/reply/reply.component";
 import { MatDialogRef } from "@angular/material";
 
 @Injectable({
@@ -34,13 +33,13 @@ export class ContactService {
     const link = () => {
       switch (action) {
         case "confirmNewsLetter":
-          return `${location.origin}/#/newsletter/confirmed`;
+          return `${location.origin}/#/c/newsletter/confirmed`;
         case "newsLetterConfirmed":
-          return `${location.origin}/#/emails/confirmed`;
+          return `${location.origin}/#/c/emails/confirmed`;
         case "recoverAccount":
-          return `${location.origin}/#/account/change-pass`;
+          return `${location.origin}/#/c/account/change-pass`;
         default:
-          return `${location.origin}/#/account/confirmed`;
+          return `${location.origin}/#/c/account/confirmed`;
       }
     };
 
@@ -63,7 +62,7 @@ export class ContactService {
               };
             case "lawyerContact":
               return {
-                title: "Tu solicitud fue enviada correctamente",
+                title: "Tu mensaje fue enviado correctamente",
                 subtitle: "",
               };
 
@@ -138,14 +137,6 @@ export class ContactService {
 
   getContactsList(): Observable<User[]> {
     return this.contactsList.asObservable();
-  }
-
-  // Open Email Contact Modal
-  openReplyModal(user?: any) {
-    let dialogRef = this.dialog.open(ReplyComponent, {
-      data: { user, action: "Nuevo" },
-      autoFocus: false,
-    });
   }
 
   setContactsList(contactsList: User[]) {

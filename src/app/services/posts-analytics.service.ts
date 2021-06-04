@@ -84,6 +84,18 @@ export class PostsAnalyticsService {
       );
   }
 
+  postComment(idPost: string, commentData: any): Observable<any> {
+    const headers = new HttpHeaders({
+      token: this._usersS.token,
+    });
+
+    const url = `${environment.URI}/api/postsanalytics/postComment/${idPost}`;
+
+    return this.http
+      .put(url, commentData, { headers })
+      .pipe(map((resp: any) => resp.postComment));
+  }
+
   updatePostAnalytics(idPost, reaction: string, userComment?: string) {
     const headers = new HttpHeaders({
       token: this._usersS.token,

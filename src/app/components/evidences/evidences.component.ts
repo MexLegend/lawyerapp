@@ -283,6 +283,7 @@ export class EvidencesComponent implements OnInit {
   openFileUploadModal() {
     let dialogRef = this.dialog.open(FileUploadComponent, {
       autoFocus: false,
+      disableClose: true,
       data: { typeUpload: "file" },
     });
 
@@ -300,6 +301,7 @@ export class EvidencesComponent implements OnInit {
     let dialogRef = this.dialog.open(FilePreviewComponent, {
       data: { path, name },
       autoFocus: false,
+      disableClose: true,
       panelClass: "file-view-modal",
     });
   }

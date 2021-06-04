@@ -89,11 +89,12 @@ export class DashboardComponent implements OnInit {
     this.subscriptionsArray.map((subscription) => subscription.unsubscribe());
   }
 
-  // Open Users Modal
-  openReplyModal(idUser?: any) {
+  // Open User Reply Modal
+  openReplyModal(user?: any) {
     let dialogRef = this.dialog.open(ReplyComponent, {
-      data: { idUser, action: "Editar" },
+      data: { user, action: "Editar" },
       autoFocus: false,
+      disableClose: true
     });
   }
 }

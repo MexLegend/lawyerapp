@@ -44,11 +44,11 @@ const PAGES_ROUTES: Routes = [
     component: PostDetailComponent,
   },
   {
-    path: ":tipo/:action/:token",
+    path: "c/:tipo/:action/:token",
     component: EmailConfirmedComponent,
   },
   {
-    path: ":user/:action",
+    path: "c/:user/:action",
     component: EmailConfirmedComponent,
   },
   {

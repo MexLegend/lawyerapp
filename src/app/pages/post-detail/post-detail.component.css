@@ -68,6 +68,12 @@
   align-items: center;
 }
 
+.card {
+  border-style: solid !important;
+  border-width: 1px !important;
+  border-color: var(--dark-bottom-border) !important;
+}
+
 .card-body {
   align-items: flex-start;
 }

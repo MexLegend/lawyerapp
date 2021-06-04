@@ -7,11 +7,15 @@ import { ReversePipe } from "./reverse.pipe";
 import { TruncateHtmlPipe } from "./truncateHtml.pipe";
 import { SanitizeHtmlPipe } from "./safeHtml.pipe";
 import { StringFilterPipe } from './stringFilter.pipe';
+import { DateAgoPipe } from './dateAgo.pipe';
+import { OrderByPipe } from './orderBy.pipe';
 @NgModule({
   imports: [CommonModule],
   declarations: [
+    DateAgoPipe,
     FilterPipe,
     ImgPipe,
+    OrderByPipe,
     ReversePipe,
     SafeHtml,
     SanitizeHtmlPipe,
@@ -19,8 +23,10 @@ import { StringFilterPipe } from './stringFilter.pipe';
     TruncateHtmlPipe,
   ],
   exports: [
+    DateAgoPipe,
     FilterPipe,
     ImgPipe,
+    OrderByPipe,
     ReversePipe,
     SafeHtml,
     SanitizeHtmlPipe,

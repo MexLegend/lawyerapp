@@ -20,6 +20,8 @@ import { Subscription } from "rxjs";
 import { UtilitiesService } from "../../services/utilities.service";
 import { User } from "../../models/User";
 import { UsersService } from "../../services/users.service";
+import { ReplyComponent } from "../../modals/reply/reply.component";
+import { MatDialog } from "@angular/material/dialog";
 
 @Component({
   selector: "app-home",
@@ -31,6 +33,7 @@ export class HomeComponent implements OnInit {
     public _alertModalS: ModalAlertService,
     public _chatS: ChatService,
     public _contactS: ContactService,
+    public dialog: MatDialog,
     public _practiceAreaS: PracticeAreasService,
     public _postsS: PostsService,
     private router: Router,
@@ -202,6 +205,15 @@ export class HomeComponent implements OnInit {
   openChat(lawyerData: User) {
     this._chatS.setLawyerRoomData(lawyerData);
     this._chatS.openChat();
+  }
+
+  // Open Email Contact Modal
+  openReplyModal(user?: any) {
+    let dialogRef = this.dialog.open(ReplyComponent, {
+      data: { user, action: "Nuevo" },
+      autoFocus: false,
+      disableClose: true
+    });
   }
 
   // Show Modal Alert When The User Who Is Reacting Is Not Logged In

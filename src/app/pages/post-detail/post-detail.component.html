@@ -22,7 +22,12 @@
             </div>
           </div>
           <div
-            class="card-body-container card-body card-content grey lighten-4 dfc"
+            class="
+              card-body-container card-body card-content
+              grey
+              lighten-4
+              dfc
+            "
           >
             <div class="card-data main-post-data">
               <span class="card-data-container">
@@ -90,11 +95,24 @@
                       }}</span>
                     </div>
                     <div
-                      class="attached-file-actions header-item-actions dfr h-full"
+                      class="
+                        attached-file-actions
+                        header-item-actions
+                        dfr
+                        h-full
+                      "
                     >
                       <!-- Attached File Actions Button Trigger -->
                       <button
-                        class="btn action-button transparent-bg border-none bs-none opacity-0 pe-none"
+                        class="
+                          btn
+                          action-button
+                          transparent-bg
+                          border-none
+                          bs-none
+                          opacity-0
+                          pe-none
+                        "
                         mat-icon-button
                         #menuTrigger="matMenuTrigger"
                         [matMenuTriggerFor]="attachedFileMenu"
@@ -307,53 +325,134 @@
       <div class="card horizontal">
         <div class="card-stacked">
           <div class="comment-card-header card-content">
-            <div class="comments-number"><span>120 Comentarios</span></div>
-            <div class="filter-comments"><span>Filtrar Comentarios</span></div>
+            <div class="comments-number">
+              <span>{{
+                (postAnalytics?.comments.length || 0) +
+                  (postAnalytics?.comments.length === 1
+                    ? " Comentario"
+                    : " Comentarios")
+              }}</span>
+            </div>
+            <div class="filter-comments">
+              <button
+                class="
+                  btn
+                  action-button
+                  transparent-bg
+                  border-none
+                  bs-none
+                  line-h-i
+                  w-full
+                  h-min
+                  border-radius-4
+                  color-secondary
+                "
+                mat-icon-button
+                #menuTrigger="matMenuTrigger"
+                [matMenuTriggerFor]="filterMenu"
+              >
+                <i class="material-icons big-icon mr-8">sort</i>
+                <span>Filtrar comentarios</span>
+              </button>
+              <!-- Attached File Actions Menu Content -->
+              <mat-menu #filterMenu="matMenu" xPosition="before">
+                <ng-template matMenuContent>
+                  <div class="dfc select-content-container">
+                    <!-- Outstanding Option -->
+                    <!-- <button mat-menu-item>Destacados</button> -->
+                    <!-- Newest Option -->
+                    <button
+                      mat-menu-item
+                      (click)="filterVariable = '-date'"
+                      [attr.data-active]="
+                        filterVariable === '-date' ? 'true' : 'false'
+                      "
+                    >
+                      Más recientes
+                    </button>
+                    <!-- Oldest Option -->
+                    <button
+                      mat-menu-item
+                      (click)="filterVariable = 'date'"
+                      [attr.data-active]="
+                        filterVariable === 'date' ? 'true' : 'false'
+                      "
+                    >
+                      Más antiguos
+                    </button>
+                  </div>
+                </ng-template>
+              </mat-menu>
+            </div>
           </div>
           <div class="card-comment card-content">
-            <div
-              class="card-comment-content dfr"
-              style="align-items: flex-start"
+            <form
+              class="card-comment-content dfc"
+              ngNativeValidate
+              [formGroup]="comentForm"
             >
-              <div class="user-icon">
-                <img src="../../../assets/images/user.jpg" />
+              <div
+                class="card-comment-content dfr w-full"
+                style="align-items: flex-start"
+              >
+                <div class="user-icon">
+                  <img [src]="_usersS.user?.img | img: 'user'" />
+                </div>
+                <div class="input-field col s12">
+                  <input
+                    id="comment"
+                    name="comment"
+                    formControlName="comment"
+                    type="text"
+                    required
+                    [readonly]="!this._usersS.isLogged()"
+                    (click)="
+                      this._usersS.isLogged()
+                        ? showCommentButtons()
+                        : showAlertModal('comment', $event)
+                    "
+                  />
+                  <label class="comment-label" for="comment"
+                    >Agregar comentario</label
+                  >
+                </div>
               </div>
-              <div class="input-field col s12">
-                <input
-                  id="comment"
-                  name="comment"
-                  type="text"
-                  required
-                  [readonly]="!this._usersS.isLogged()"
-                  (click)="
-                    this._usersS.isLogged()
-                      ? showCommentButtons()
-                      : showAlertModal('comment', $event)
+              <div class="comment-buttons w-full">
+                <button
+                  class="
+                    cancel-comment
+                    waves-effect waves-light
+                    orange
+                    darken-1
+                    btn
                   "
-                />
-                <label class="comment-label" for="comment"
-                  >Agregar comentario</label
+                  type="button"
+                  (click)="hideCommentButtons()"
                 >
+                  Cancelar
+                </button>
+                <button
+                  class="
+                    send-comment
+                    waves-effect waves-light
+                    btn
+                    gradient-45deg-dark-blue
+                  "
+                  type="submit"
+                  [class.button-disabled]="!comentForm.valid"
+                  (click)="sendComment()"
+                >
+                  Comentar
+                </button>
               </div>
-            </div>
-            <div class="comment-buttons">
-              <button
-                class="cancel-comment waves-effect waves-light orange darken-1 btn"
-                type="submit"
-              >
-                Cancelar
-              </button>
-              <button
-                class="send-comment waves-effect waves-light btn gradient-45deg-dark-blue"
-                type="submit"
-                [class.button.disabled]
-              >
-                Comentar
-              </button>
-            </div>
+            </form>
           </div>
           <!-- Comments Card Content -->
-          <app-comments [comments]="postAnalytics?.comments"></app-comments>
+          <app-comments
+            *ngIf="postAnalytics?.comments"
+            [comments]="postAnalytics?.comments"
+            [filterVariable]="filterVariable"
+          ></app-comments>
         </div>
       </div>
     </div>

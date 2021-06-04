@@ -397,6 +397,7 @@ export class UtilitiesService {
   openLoginModal(activeModalTab: Number) {
     let dialogRef = this.dialog.open(LoginComponent, {
       autoFocus: false,
+      disableClose: true,
       panelClass: "modalRegistro",
     });
     dialogRef.componentInstance.selected.setValue(activeModalTab);
@@ -751,6 +752,7 @@ export class UtilitiesService {
     let dialogRef = this.dialog.open(FilePreviewComponent, {
       data: { path, name },
       autoFocus: false,
+      disableClose: true,
       panelClass: "file-view-modal",
     });
   }

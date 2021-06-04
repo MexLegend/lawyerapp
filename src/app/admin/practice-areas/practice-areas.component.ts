@@ -105,6 +105,7 @@ export class PracticeAreasComponent implements OnInit {
               type: "Complete",
             },
             autoFocus: false,
+            disableClose: true
           })
         : this.dialog.open(PracticeAreasFormComponent, {
             id: "practiceAreaModal",
@@ -114,6 +115,7 @@ export class PracticeAreasComponent implements OnInit {
               is_category: false,
             },
             autoFocus: false,
+            disableClose: true
           });
 
     // dialogRef.afterClosed().subscribe(result => {

@@ -99,7 +99,7 @@ export class PerfilComponent implements OnInit {
   }
 
   openPrimeModal() {
-    let dialogRef = this.dialog.open(BePrimeComponent, { autoFocus: false });
+    let dialogRef = this.dialog.open(BePrimeComponent, { autoFocus: false, disableClose: true });
 
     this.subscriptionsArray.push(
       dialogRef.afterOpened().subscribe(() => {

@@ -697,7 +697,7 @@
 @media only screen and (max-width: 600px) {
   .carousel .item-list-content {
     flex-direction: column !important;
-    max-height: 460px !important;
+    max-height: max-content !important;
   }
   .carousel .item-list-content.lawyer-card {
     max-height: max-content !important;
@@ -706,6 +706,7 @@
   #partnersText {
     width: 100% !important;
     height: max-content !important;
+    min-height: max-content !important;
     clip-path: none !important;
     margin: 15px 0 15px 0 !important;
     padding-right: 40px;
@@ -1248,8 +1249,12 @@ body.hide-scroll {
   align-items: flex-start !important;
 }
 
+.border-radius-4 {
+  border-radius: 4px !important;
+}
+
 .border-radius-6 {
-  border-radius: 6px;
+  border-radius: 6px !important;
 }
 
 .border-none {
@@ -1271,6 +1276,10 @@ body.hide-scroll {
   height: 100% !important;
   width: inherit !important;
   object-fit: cover !important;
+}
+
+.color-secondary {
+  color: var(--secondary-text) !important;
 }
 
 .cursor-grab {
@@ -1377,6 +1386,10 @@ h6 {
   height: calc(100% - 40px) !important;
 }
 
+.h-min {
+  height: min-content !important;
+}
+
 .jcc {
   justify-content: center !important;
 }
@@ -1387,6 +1400,10 @@ h6 {
 
 .jcs {
   justify-content: flex-start !important;
+}
+
+.line-h-i {
+  line-height: inherit !important;
 }
 
 .link {
@@ -1419,6 +1436,10 @@ h6 {
 
 .ml-5 {
   margin-left: 5px !important;
+}
+
+.mr-8 {
+  margin-right: 8px;
 }
 
 .mt-2-r {
@@ -8879,29 +8900,6 @@ table.dataTable > tbody > tr.child ul.dtr-details > li {
   background: var(--medium-dark-bg) !important;
 }
 
-/* #contanct-form input:-webkit-autofill,
-#contanct-form input:-webkit-autofill:hover,
-#contanct-form textarea:-webkit-autofill,
-#contanct-form textarea:-webkit-autofill:hover {
-  -webkit-text-fill-color: #000000 !important;
-  background-color: rgb(232, 240, 254) !important;
-  box-shadow: none !important;
-  -webkit-box-shadow: none !important;
-}
-
-input:-webkit-autofill,
-input:-webkit-autofill:hover,
-textarea:-webkit-autofill,
-textarea:-webkit-autofill:hover,
-select:-webkit-autofill,
-select:-webkit-autofill:hover input:-webkit-autofill:focus,
-textarea:-webkit-autofill:focus,
-select:-webkit-autofill:focus {
-  background-color: var(--dark-disabled-button-bg) !important;
-  box-shadow: 0 0 0 30px var(--dark-disabled-button-bg) inset !important;
-  -webkit-box-shadow: 0 0 0 30px var(--dark-disabled-button-bg) inset !important;
-} */
-
 .angular-editor .angular-editor-wrapper .angular-editor-textarea {
   border: 1px solid;
   border-color: var(--dark-border) !important;
@@ -9270,6 +9268,14 @@ td:focus {
   clip-path: polygon(90% 0, 100% 50%, 90% 100%, 0 100%, 0 0);
 }
 
+#carousel-Posts #partnersText {
+  min-height: 306px;
+}
+
+#carousel-Partners #partnersText {
+  min-height: 435px;
+}
+
 .card.horizontal .card-stacked .card-content form .whatsAppMessage {
   background: var(--whatsApp-bg) !important;
 }
@@ -9362,6 +9368,10 @@ td:focus {
 
 #comments-box .comment-card-body {
   background-color: var(--medium-dark-bg-hover) !important;
+}
+
+#comments-box .comment-card-body:not(:last-child) {
+  border-bottom: 1px solid var(--search-input-border);
 }
 
 #modalRegistro,

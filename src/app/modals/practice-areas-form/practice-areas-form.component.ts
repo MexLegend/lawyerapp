@@ -279,12 +279,14 @@ export class PracticeAreasFormComponent implements OnInit {
             id: "FAQModal",
             data: { faqData, action: "Editar" },
             autoFocus: false,
+            disableClose: true,
             width: "600px",
           })
         : this.dialog.open(FAQComponent, {
             id: "FAQModal",
             data: { action: "Crear" },
             autoFocus: false,
+            disableClose: true,
             width: "600px",
           });
 
@@ -303,12 +305,14 @@ export class PracticeAreasFormComponent implements OnInit {
             id: "ReferenceModal",
             data: { quoteData, action: "Editar", type: "Cita" },
             autoFocus: false,
+            disableClose: true,
             width: "600px",
           })
         : this.dialog.open(ReferencesComponent, {
             id: "ReferenceModal",
             data: { action: "Agregar", type: "Cita" },
             autoFocus: false,
+            disableClose: true,
             width: "600px",
           });
 

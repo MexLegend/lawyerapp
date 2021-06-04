@@ -25,8 +25,7 @@ import { User } from "../../models/User";
 import { UtilitiesService } from "../../services/utilities.service";
 import { FilePreviewComponent } from "../../modals/file-preview/file-preview.component";
 import { HttpClient } from "@angular/common/http";
-
-declare var $: any;
+import { FormGroup, Validators, FormControl } from "@angular/forms";
 
 @Component({
   selector: "app-post-detail",
@@ -39,7 +38,9 @@ export class PostDetailComponent implements OnInit {
   subscriptionsArray: Subscription[] = [];
 
   allLastPosts: Post[] = [];
+  comentForm: FormGroup;
   currentPostId: string;
+  filterVariable: string = "-date";
   filteredLastPosts: Post[] = [];
   isModalAlertRendered: boolean = false;
   login = "login";
@@ -86,6 +87,7 @@ export class PostDetailComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.initRegisterForm();
     this.filteredLastPostsFc();
 
     // Get Post Analytics Data Subscription
@@ -111,25 +113,6 @@ export class PostDetailComponent implements OnInit {
         this.isModalAlertRendered = state;
       })
     );
-
-    $(document).ready(function () {
-      // Hide Comment Buttons When Cancel Button is Clicked
-      $(document).on("click", ".cancel-comment", function () {
-        $("#comment").val("");
-        $(".comment-label").removeClass("active");
-        $(".send-comment").prop("disabled", true);
-        $(".comment-buttons").removeClass("comment-buttons-show");
-        $(".comment-buttons").addClass("comment-buttons-hide");
-      });
-      // Enable Comment Button When Text Input is Not Empty
-      $(document).on("keyup", "#comment", function () {
-        if ($(this).val() !== "") {
-          $(".send-comment").prop("disabled", false);
-        } else {
-          $(".send-comment").prop("disabled", true);
-        }
-      });
-    });
   }
 
   ngAfterViewInit(): void {
@@ -209,6 +192,20 @@ export class PostDetailComponent implements OnInit {
     this.location.back();
   }
 
+  // Hide Comment Buttons When Comment Input Text is Focused
+  hideCommentButtons() {
+    $("#comment").val("");
+    $(".comment-label").removeClass("active");
+    $(".comment-buttons").removeClass("comment-buttons-show");
+    $(".comment-buttons").addClass("comment-buttons-hide");
+  }
+
+  private async initRegisterForm() {
+    this.comentForm = new FormGroup({
+      comment: new FormControl(null, Validators.required),
+    });
+  }
+
   // Load Current Article Info
   loadPost(id: any) {
     this.subscriptionsArray.push(
@@ -234,14 +231,16 @@ export class PostDetailComponent implements OnInit {
   openLawyerContactModal() {
     let dialogRef = this.dialog.open(LawyerContactComponent, {
       autoFocus: false,
+      disableClose: true
     });
   }
 
-  // Open Users Modal
+  // Open Email Contact Modal
   openReplyModal(user?: any) {
     let dialogRef = this.dialog.open(ReplyComponent, {
       data: { user, action: "Nuevo" },
       autoFocus: false,
+      disableClose: true
     });
   }
 
@@ -254,6 +253,22 @@ export class PostDetailComponent implements OnInit {
           ? [...this.filteredLastPosts, post]
           : [...this.filteredLastPosts];
     });
+  }
+
+  sendComment() {
+    const commentData = {
+      user: this._usersS.user._id,
+      comment: this.comentForm.value.comment,
+    };
+
+    const commentPostSub = this._postAnalyticsS
+      .postComment(this.currentPostId, commentData)
+      .subscribe((resp) => {
+        this.comentForm.reset();
+        this.hideCommentButtons();
+        this.postAnalytics = resp;
+        commentPostSub.unsubscribe();
+      });
   }
 
   // Show Comment Buttons When Comment Input Text is Focused
