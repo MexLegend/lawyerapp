@@ -11,6 +11,7 @@ import { Subscription } from "rxjs";
 import { WebPushNotificationsService } from "../../services/webPushNotifications.service";
 import { UsersService } from "../../services/users.service";
 import { CloudinaryService } from "../../services/cloudinary.service";
+import { UtilitiesService } from "../../services/utilities.service";
 
 @Component({
   selector: "app-posts",
@@ -20,10 +21,11 @@ import { CloudinaryService } from "../../services/cloudinary.service";
 export class PostsComponent implements OnInit {
   constructor(
     public _cloudinaryS: CloudinaryService,
+    public dialog: MatDialog,
     private _postsS: PostsService,
     public _updateDS: UpdateDataService,
     public _usersS: UsersService,
-    public dialog: MatDialog,
+    private _utilitiesS: UtilitiesService,
     public _webPushNotificationsS: WebPushNotificationsService
   ) {}
 
@@ -32,6 +34,7 @@ export class PostsComponent implements OnInit {
   currentPage: number = 1;
   entriesFilter: any[] = [5, 10, 20, 50, 100, 200];
   filterValue: string;
+  isLoading: boolean = true;
   posts: Array<Post> = [];
   selectedEntry: number = 10;
 
@@ -56,6 +59,7 @@ export class PostsComponent implements OnInit {
     this.subscriptionsArray.push(
       this._postsS.getPostsByRol(this._usersS.user).subscribe((resp) => {
         this.posts = resp.docs;
+         this.isLoading = false;
       })
     );
 
@@ -154,7 +158,7 @@ export class PostsComponent implements OnInit {
             height: "90%",
             data: { postData, action: "Editar" },
             autoFocus: false,
-            disableClose: true
+            disableClose: true,
           })
         : this.dialog.open(PostsFormComponent, {
             id: "postsModal",
@@ -162,13 +166,15 @@ export class PostsComponent implements OnInit {
             height: "90%",
             data: { action: "Escribir" },
             autoFocus: false,
-            disableClose: true
+            disableClose: true,
           });
 
-    dialogRef.afterClosed().subscribe(() => {
+
+    const dialogACSub = dialogRef.afterClosed().subscribe(() => {
       this._cloudinaryS.uploader.clearQueue();
       this._cloudinaryS.cloudinaryItemsToDeleteArray = [];
       this._cloudinaryS.resetUploaderArrays();
+      dialogACSub.unsubscribe();
     });
   }
 

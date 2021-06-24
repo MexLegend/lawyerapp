@@ -20,6 +20,7 @@ export class NotificationsDropdownComponent implements OnInit {
 
   subscriptionsArray: Subscription[] = [];
 
+  isLoading: boolean = true;
   notificationsArray: any = [];
 
   ngOnInit() {
@@ -47,6 +48,7 @@ export class NotificationsDropdownComponent implements OnInit {
           } else {
             this.notificationsArray;
           }
+          this.isLoading = false;
         })
     );
   }

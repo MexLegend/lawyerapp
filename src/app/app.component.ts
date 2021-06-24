@@ -1,5 +1,4 @@
 import { Component, OnInit, HostListener } from "@angular/core";
-import { CookieService } from "ngx-cookie-service";
 import { UsersService } from "./services/users.service";
 import { WebPushNotificationsService } from "./services/webPushNotifications.service";
 import { Subscription } from "rxjs";
@@ -9,6 +8,7 @@ import { MatDialog } from "@angular/material/dialog";
 import { TawkService } from "./services/tawk.service";
 import { ResolveEnd, Router } from "@angular/router";
 import { UtilitiesService } from "./services/utilities.service";
+import { MatSelect } from "@angular/material";
 
 @Component({
   selector: "app-root",
@@ -17,7 +17,6 @@ import { UtilitiesService } from "./services/utilities.service";
 })
 export class AppComponent implements OnInit {
   constructor(
-    private cookieService: CookieService,
     private _chatS: ChatService,
     private dialogRef: MatDialog,
     private _localStorageS: LocalStorageService,
@@ -27,41 +26,52 @@ export class AppComponent implements OnInit {
     private _utilitiesS: UtilitiesService,
     private _webPushNotificationsS: WebPushNotificationsService
   ) {
-    this.cookieService.set("Lawyerapp", "Hello World", null, null, null);
-
     this.initSocketConnections();
     this._usersS.loadStorage();
   }
 
   subscriptionsArray: Subscription[] = [];
+  modalExpanded: boolean = false;
 
   // Detect Real Screen Size
   @HostListener("window:resize", ["$event"])
-  onResize(event: any) {
-    this.resizeModal();
+  onResize() {
+    this.resizeModal(this.modalExpanded);
   }
 
   ngOnInit() {
-    this.dialogRef.afterOpened.subscribe((ref) => {
-      this.resizeModal();
+    this.subscriptionsArray.push(
+      this.dialogRef.afterOpened.subscribe(async (ref) => {
+        this.modalExpanded = ref.componentInstance.practiceAreaData?.notExpand;
+        this.resizeModal(ref.componentInstance.practiceAreaData?.notExpand);
 
-      const body = document.querySelector("html");
+        const body = document.querySelector("html");
 
-      if (body) body.style.overflow = "hidden";
+        if (body) body.style.overflow = "hidden";
 
-      ref.beforeClosed().subscribe(() => {
-        if (body) body.style.overflow = "";
-      });
-    });
+        this.subscriptionsArray.push(
+          ref.beforeClosed().subscribe(async () => {
+            if (body) body.style.overflow = "";
+            if (this._utilitiesS.showSocialMedia(this.router.url)) {
+              this.TawkService.SetChatVisibility(true);
+            } else {
+              this.TawkService.SetChatVisibility(false);
+            }
+          })
+        );
+      })
+    );
 
-    this.router.events.subscribe((routerData) => {
-      if (routerData instanceof ResolveEnd)
-        if (this._utilitiesS.showSocialMedia(routerData.url)) {
-          this.TawkService.SetChatVisibility(true);
-        } else {
-          this.TawkService.SetChatVisibility(false);
-        }
-    });
+    this.subscriptionsArray.push(
+      this.router.events.subscribe((routerData) => {
+        if (routerData instanceof ResolveEnd)
+          if (this._utilitiesS.showSocialMedia(routerData.url)) {
+            this.TawkService.SetChatVisibility(true);
+          } else {
+            this.TawkService.SetChatVisibility(false);
+          }
+      })
+    );
   }
 
   // Unsubscribe Any Subscription
@@ -69,29 +79,19 @@ export class AppComponent implements OnInit {
     this.subscriptionsArray.map((subscription) => subscription.unsubscribe());
   }
 
-  // Get Screen Width And Height Size
-  getScreenSize(): { width: number; height: number } {
-    const innerScreenWidth = window.innerWidth;
-    const innerScreenHeight = window.innerHeight;
+  resizeModal(modalExpand?: boolean) {
+    const modals = document.querySelectorAll(".mat-dialog-container");
+    const { height, isMobile } = this._utilitiesS.getScreenSize();
 
-    return { width: innerScreenWidth, height: innerScreenHeight };
-  }
-
-  resizeModal() {
-    const modal = document.querySelectorAll(
-      ".mat-dialog-container, .cdk-overlay-container"
-    );
-    if (modal.length > 0) {
-      modal.forEach((modalElement: any) => {
-        if (this.getScreenSize().width < 768) {
-          modalElement.style = `height: ${
-            this.getScreenSize().height
-          }px !important; max-height: ${
-            this.getScreenSize().height
-          }px !important`;
+    if (modals.length > 0) {
+      modals.forEach((modalElement: any) => {
+        if (isMobile) {
+          this.TawkService.SetChatVisibility(false);
+          if (!modalExpand)
+            modalElement.style = `height: ${height}px !important;`;
         } else {
-          modalElement.style.height = "100%";
-          modalElement.style.maxHeight = "100%";
+          this.TawkService.SetChatVisibility(true);
+          if (!modalExpand) modalElement.style.height = "100%";
         }
       });
     }
@@ -153,13 +153,8 @@ export class AppComponent implements OnInit {
                     messages: [messageData.messageData.messages[0]],
                   },
                 ]);
-                const {
-                  creator_id,
-                  image,
-                  name,
-                  members,
-                  _id,
-                } = messageData.roomData;
+                const { creator_id, image, name, members, _id } =
+                  messageData.roomData;
                 // Update Current Room Data
                 this._chatS.setChatRoomDataSub(
                   creator_id,

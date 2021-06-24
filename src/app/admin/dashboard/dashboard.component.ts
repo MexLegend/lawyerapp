@@ -5,8 +5,8 @@ import { PerfectScrollbarConfigInterface } from "ngx-perfect-scrollbar";
 import { UsersService } from "../../services/users.service";
 import { PostsService } from "../../services/posts.service";
 import { CasesService } from "../../services/cases.service";
-import { TrackingService } from "../../services/tracking.service";
 import { Subscription } from "rxjs";
+import { UtilitiesService } from "../../services/utilities.service";
 
 @Component({
   selector: "app-dashboard",
@@ -18,7 +18,8 @@ export class DashboardComponent implements OnInit {
     public dialog: MatDialog,
     private _casesS: CasesService,
     private _postsS: PostsService,
-    private _usersS: UsersService
+    private _usersS: UsersService,
+    private _utilitiesS: UtilitiesService
   ) {}
 
   subscriptionsArray: Subscription[] = [];
@@ -94,7 +95,7 @@ export class DashboardComponent implements OnInit {
     let dialogRef = this.dialog.open(ReplyComponent, {
       data: { user, action: "Editar" },
       autoFocus: false,
-      disableClose: true
+      disableClose: true,
     });
   }
 }

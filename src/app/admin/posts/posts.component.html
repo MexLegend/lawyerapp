@@ -97,7 +97,7 @@
     <!-- Posts List Container  -->
     <mat-card-content class="item-list-content">
       <perfect-scrollbar
-        *ngIf="posts.length > 0"
+        *ngIf="posts.length > 0 && !isLoading; else loadingPostData"
         class="scroll-container"
         fxFlex="auto"
         [config]="config"
@@ -278,7 +278,21 @@
           </div>
         </div>
       </perfect-scrollbar>
-      <div *ngIf="posts.length === 0" class="no-data-container">
+      <!-- Loading Data Animation -->
+      <ng-template #loadingPostData>
+        <div
+          #loaderPostsContainer
+          class="h-full"
+          [class.overflow-hidden]="isLoading"
+        >
+          <app-loading-data
+            loaderType="complex"
+            [loaderContainer]="loaderPostsContainer"
+          ></app-loading-data>
+        </div>
+      </ng-template>
+      <!-- Not Posts Registered Message -->
+      <div *ngIf="posts.length === 0 && !isLoading" class="no-data-container">
         <div class="card sticky-action" style="width: 100%">
           <div class="card-body card-content no-data dfr">
             <div class="card-no-data-icon dfc">
@@ -291,10 +305,15 @@
         </div>
       </div>
       <!-- Open Post Creation Modal Button Trigger -->
-      <div class="item-add-container">
+      <div *ngIf="!isLoading" class="item-add-container">
         <button
           mat-icon-button
-          class="item-add-button primary-text gradient-45deg-orange gradient-shadow dfc"
+          class="
+            item-add-button
+            primary-text
+            gradient-45deg-orange gradient-shadow
+            dfc
+          "
           (click)="openPostsModal()"
           matTooltip="Escribir artículo"
           matTooltipPosition="above"
@@ -306,7 +325,7 @@
 
     <!-- Posts List Pagination -->
     <mat-card-actions
-      *ngIf="posts.length > 0"
+      *ngIf="posts.length > 0 && !isLoading"
       class="item-list-pagination-container dfr"
     >
       <pagination-controls

@@ -92,7 +92,6 @@
 
 .card.sticky-action {
   transition: all 0.3s ease-in-out;
-  min-height: 286px;
   max-height: inherit;
   overflow: auto;
   position: relative;
@@ -373,12 +372,12 @@
 
 .article-container.no-data {
   height: 80px;
-  padding: 5px 15px;
+  padding: 15px;
   cursor: auto;
 }
 
 .article-container.no-data:hover {
-  background: var(--medium-dark-bg-hover) !important;
+  background: var(--nav-fixed-option-bg) !important;
 }
 
 .article-container .card-no-data-icon {
@@ -396,4 +395,9 @@
 
 .article-container .card-no-data-information {
   padding: 10px 0 10px 15px;
+}
+
+.notifications-loading {
+  height: 70px;
+  background: var(--nav-fixed-option-bg);
 }

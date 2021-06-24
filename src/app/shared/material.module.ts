@@ -1,5 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import {
   MatBottomSheetModule,
   MatButtonModule,
@@ -28,6 +29,7 @@ import {
 import { AutosizeModule } from "ngx-autosize";
 import { CarouselModule } from 'ngx-owl-carousel-o';
 import { NgxMatSelectSearchModule } from "ngx-mat-select-search";
+import { NgxStarsModule } from 'ngx-stars';
 import {
   PerfectScrollbarModule,
   PerfectScrollbarConfigInterface,
@@ -43,7 +45,6 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
 const exportedMatModule = [
   AutosizeModule,
   CarouselModule,
-  NgxMatSelectSearchModule,
   MatBottomSheetModule,
   MatButtonModule,
   MatCardModule,
@@ -67,6 +68,9 @@ const exportedMatModule = [
   MatStepperModule,
   MatTabsModule,
   MatTooltipModule,
+  NgxMatSelectSearchModule,
+  NgxSkeletonLoaderModule,
+  NgxStarsModule,
   PerfectScrollbarModule,
 ];
 

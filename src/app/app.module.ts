@@ -13,7 +13,6 @@ export const cloudinary = {
 };
 import { CloudinarySettings } from "./settings";
 import { AutosizeModule } from "ngx-autosize";
-import { CookieService } from "ngx-cookie-service";
 import { NgxPaginationModule } from "ngx-pagination";
 import { SocketIoConfig, SocketIoModule } from "ngx-socket-io";
 
@@ -65,7 +64,6 @@ const config: SocketIoConfig = { url: environment.URI, options: {} };
     SocketIoModule.forRoot(config),
   ],
   providers: [
-    CookieService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: ErrorInterceptorService,

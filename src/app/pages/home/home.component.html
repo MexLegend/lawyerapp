@@ -135,6 +135,20 @@
                       </div>
                       <!-- Partner Card Actions -->
                       <div class="item-acordion-body-actions lawyer-card dfr">
+                        <!-- Partner Rate Button Trigger -->
+                        <button
+                          class="header-item-btn btn action-button dfc"
+                          mat-icon-button
+                          matTooltip="Calificar abogado"
+                          matTooltipPosition="above"
+                          (click)="
+                            this._usersS.isLogged()
+                              ? openRateModal(lawyer)
+                              : showAlertModal('rate', $event)
+                          "
+                        >
+                          <i class="far fa-star"></i>
+                        </button>
                         <!-- Partner Email Button Trigger -->
                         <button
                           *ngIf="

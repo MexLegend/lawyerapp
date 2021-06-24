@@ -120,10 +120,6 @@ export class CasosDetalleComponent implements OnInit {
       disableClose: true,
       panelClass: "evidences-view-modal",
     });
-
-    // dialogRef.afterOpened().subscribe();
-
-    // dialogRef.afterClosed().subscribe();
   }
 
   reorderTrackingIndex(tracks: any, action: string, track?: any): any {

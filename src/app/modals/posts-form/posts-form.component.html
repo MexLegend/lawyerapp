@@ -121,6 +121,7 @@
                       (toggleAll)="toggleSelectAll($event)"
                       [toggleAllCheckboxTooltipMessage]="tooltipMessage"
                       [toogleAllCheckboxTooltipPosition]="'above'"
+                      [disableInitialFocus]="true"
                     ></ngx-mat-select-search>
                   </mat-option>
                   <mat-option
@@ -177,7 +178,7 @@
       <!-- Post Quotes Step -->
       <mat-step label="Citas">
         <ng-template matStepLabel>Citas</ng-template>
-        <div class="faqs-container dfc h-full w-full">
+        <div class="faqs-container dfc h-full w-full px-24 pt-15">
           <div class="references-container dfc w-full">
             <div
               *ngFor="let quote of postQuotesList"
@@ -195,7 +196,14 @@
               <div class="header-item-actions general dfr">
                 <!-- Quote CRUD Button Trigger -->
                 <button
-                  class="header-item-btn important-action btn waves-effect waves-light light-blue dfc"
+                  class="
+                    header-item-btn
+                    important-action
+                    btn
+                    waves-effect waves-light
+                    light-blue
+                    dfc
+                  "
                   mat-icon-button
                   [matMenuTriggerFor]="actionsMenu"
                   (click)="_utilitiesS.moveDown($event)"

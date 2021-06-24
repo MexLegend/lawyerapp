@@ -128,7 +128,7 @@
       [attr.data-details]="modeV === 'select' ? 'true' : 'false'"
     >
       <perfect-scrollbar
-        *ngIf="notes?.length > 0"
+        *ngIf="notes?.length > 0 && !isLoading; else loadingNotesData"
         class="scroll-container"
         fxFlex="auto"
         [config]="config"
@@ -273,7 +273,21 @@
           </div>
         </div>
       </perfect-scrollbar>
-      <div *ngIf="notes?.length === 0" class="no-data-container">
+      <!-- Loading Data Animation -->
+      <ng-template #loadingNotesData>
+        <div
+          #loaderNotesContainer
+          class="h-full"
+          [class.overflow-hidden]="isLoading"
+        >
+          <app-loading-data
+            loaderType="complex"
+            [loaderContainer]="loaderNotesContainer"
+          ></app-loading-data>
+        </div>
+      </ng-template>
+      <!-- Not Notes Created Message -->
+      <div *ngIf="notes?.length === 0 && !isLoading" class="no-data-container">
         <div class="card sticky-action" style="width: 100%">
           <div class="card-body card-content no-data dfr">
             <div class="card-no-data-icon dfc">
@@ -286,10 +300,18 @@
         </div>
       </div>
       <!-- Open Notes Modal Button Trigger -->
-      <div *ngIf="modeV === 'new' && !isCaseArchived" class="item-add-container">
+      <div
+        *ngIf="modeV === 'new' && !isCaseArchived && !isLoading"
+        class="item-add-container"
+      >
         <button
           mat-icon-button
-          class="item-add-button primary-text gradient-45deg-orange gradient-shadow dfc"
+          class="
+            item-add-button
+            primary-text
+            gradient-45deg-orange gradient-shadow
+            dfc
+          "
           (click)="openNotes()"
           matTooltip="Crear nota"
           matTooltipPosition="above"
@@ -299,7 +321,7 @@
       </div>
       <!-- Open Note Creation Modal Button Trigger -->
       <div
-        *ngIf="modeV === 'select' && notes.length > 0"
+        *ngIf="modeV === 'select' && notes.length > 0 && !isLoading"
         class="item-add-container"
       >
         <button
@@ -316,7 +338,7 @@
 
     <!-- Notes Pagination -->
     <mat-card-actions
-      *ngIf="notes?.length > 0"
+      *ngIf="notes?.length > 0 && !isLoading"
       class="item-list-pagination-container dfr"
     >
       <pagination-controls

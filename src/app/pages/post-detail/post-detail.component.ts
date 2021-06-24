@@ -42,6 +42,8 @@ export class PostDetailComponent implements OnInit {
   currentPostId: string;
   filterVariable: string = "-date";
   filteredLastPosts: Post[] = [];
+  isLastPostsLoading: boolean = true;
+  isPostLoading: boolean = true;
   isModalAlertRendered: boolean = false;
   login = "login";
   post: Post;
@@ -182,6 +184,7 @@ export class PostDetailComponent implements OnInit {
             post._id !== this.currentPostId
               ? [...this.filteredLastPosts, post]
               : [...this.filteredLastPosts];
+          this.isLastPostsLoading = false;
         });
       })
     );
@@ -212,6 +215,7 @@ export class PostDetailComponent implements OnInit {
       this._postsS.getPost(id).subscribe((post: any) => {
         this.post = post;
         this.postAuthor = post.user;
+        this.isPostLoading = false; 
       })
     );
   }
@@ -231,7 +235,7 @@ export class PostDetailComponent implements OnInit {
   openLawyerContactModal() {
     let dialogRef = this.dialog.open(LawyerContactComponent, {
       autoFocus: false,
-      disableClose: true
+      disableClose: true,
     });
   }
 
@@ -240,7 +244,7 @@ export class PostDetailComponent implements OnInit {
     let dialogRef = this.dialog.open(ReplyComponent, {
       data: { user, action: "Nuevo" },
       autoFocus: false,
-      disableClose: true
+      disableClose: true,
     });
   }
 

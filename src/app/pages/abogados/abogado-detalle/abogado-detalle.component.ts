@@ -5,7 +5,6 @@ import { User } from "../../../models/User";
 import { FormControl } from "@angular/forms";
 import { Subscription } from "rxjs";
 import { PostsService } from "../../../services/posts.service";
-import { Post } from "../../../models/Post";
 import { ContactService } from "../../../services/contact.service";
 import { ModalAlertService } from "../../../services/modal-alert.service";
 import { UtilitiesService } from "../../../services/utilities.service";
@@ -104,7 +103,7 @@ export class AbogadoDetalleComponent implements OnInit {
     let dialogRef = this.dialog.open(ReplyComponent, {
       data: { user, action: "Nuevo" },
       autoFocus: false,
-      disableClose: true
+      disableClose: true,
     });
   }
 

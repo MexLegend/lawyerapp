@@ -12,6 +12,7 @@ import { NotesService } from "../../services/notes.service";
 import { LocalStorageService } from "src/app/services/local-storage.service";
 import { TrackingService } from "src/app/services/tracking.service";
 import { CasesService } from "../../services/cases.service";
+import { UtilitiesService } from "../../services/utilities.service";
 
 @Component({
   selector: "app-notes",
@@ -24,7 +25,8 @@ export class NotesComponent implements OnInit {
     private _casesS: CasesService,
     public _localStorageS: LocalStorageService,
     public _notesS: NotesService,
-    public _trackingS: TrackingService
+    public _trackingS: TrackingService,
+    private _utilitiesS: UtilitiesService
   ) {}
 
   @Input() modeV: string;
@@ -40,6 +42,7 @@ export class NotesComponent implements OnInit {
   fileData: any;
   filterValue: string;
   isCaseArchived: boolean = false;
+  isLoading: boolean = true;
   notes: any = [];
   notesStorage: any;
 
@@ -77,6 +80,7 @@ export class NotesComponent implements OnInit {
           this.notes = [];
           this.notes = notesArray;
         }
+        this.isLoading = false;
       });
     });
 
@@ -217,7 +221,7 @@ export class NotesComponent implements OnInit {
     let dialogRef = this.dialog.open(FiltersComponent, {
       data: {},
       autoFocus: false,
-      disableClose: true
+      disableClose: true,
     });
   }
 
@@ -228,12 +232,12 @@ export class NotesComponent implements OnInit {
         ? this.dialog.open(WriteNoteComponent, {
             data: { idNote, action: "Actualizar" },
             autoFocus: false,
-            disableClose: true
+            disableClose: true,
           })
         : this.dialog.open(WriteNoteComponent, {
             data: { action: "Crear" },
             autoFocus: false,
-            disableClose: true
+            disableClose: true,
           });
   }
 

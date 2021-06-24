@@ -38,6 +38,7 @@
 
 .email-verified-actions button {
   text-transform: initial;
+  line-height: 15px;
   border-radius: 4px;
   font-weight: 400;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;

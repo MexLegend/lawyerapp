@@ -22,6 +22,7 @@ import { User } from "../../models/User";
 import { UsersService } from "../../services/users.service";
 import { ReplyComponent } from "../../modals/reply/reply.component";
 import { MatDialog } from "@angular/material/dialog";
+import { RateComponent } from "../../modals/rate/rate.component";
 
 @Component({
   selector: "app-home",
@@ -207,12 +208,21 @@ export class HomeComponent implements OnInit {
     this._chatS.openChat();
   }
 
+  // Open Rate Modal
+  openRateModal(lawyer?: any) {
+    let dialogRef = this.dialog.open(RateComponent, {
+      data: { lawyer, actionType: "lawyer" },
+      autoFocus: false,
+      disableClose: true,
+    });
+  }
+
   // Open Email Contact Modal
   openReplyModal(user?: any) {
     let dialogRef = this.dialog.open(ReplyComponent, {
       data: { user, action: "Nuevo" },
       autoFocus: false,
-      disableClose: true
+      disableClose: true,
     });
   }
 

@@ -1,4 +1,11 @@
-import { Component, OnInit, HostListener } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  HostListener,
+  ViewChild,
+  ElementRef,
+  TemplateRef,
+} from "@angular/core";
 import Swal from "sweetalert2";
 import { MatDialog } from "@angular/material/dialog";
 
@@ -10,6 +17,7 @@ import { NotificationsService } from "../../services/notifications.service";
 import { UsersFormComponent } from "../../modals/users-form/users-form.component";
 import { Subscription } from "rxjs";
 import { WebPushNotificationsService } from "../../services/webPushNotifications.service";
+import { ThemeService } from "../../services/theme.service";
 
 interface Role {
   value: string;
@@ -26,6 +34,7 @@ export class UsersComponent implements OnInit {
   constructor(
     public dialog: MatDialog,
     public _notificationsS: NotificationsService,
+    public _themeS: ThemeService,
     public _updateDS: UpdateDataService,
     public _usersS: UsersService,
     public _webPushNotificationsS: WebPushNotificationsService
@@ -46,6 +55,9 @@ export class UsersComponent implements OnInit {
   users: User[] = [];
 
   public innerScreenWidth: any;
+  // Theme Variable
+  public isDarkThemeActive: boolean = false;
+  public isLoading: boolean = true;
   public mobileFilterActivated: boolean = false;
   public config: PerfectScrollbarConfigInterface = {};
 
@@ -62,6 +74,11 @@ export class UsersComponent implements OnInit {
     // Get Screen Size
     this.innerScreenWidth = window.innerWidth;
 
+    // Get Current Theme From Local Storage
+    this._themeS.seCurrentTheme("get").then((isDarkThemeActive) => {
+      this.isDarkThemeActive = isDarkThemeActive;
+    });
+
     // Get Users Supcription
     this.subscriptionsArray.push(this._usersS.getUsers().subscribe());
 
@@ -69,6 +86,7 @@ export class UsersComponent implements OnInit {
     this.subscriptionsArray.push(
       this._usersS.getUsersList().subscribe((usersList) => {
         this.users = usersList;
+        this.isLoading = false;
       })
     );
   }
@@ -192,19 +210,13 @@ export class UsersComponent implements OnInit {
         ? this.dialog.open(UsersFormComponent, {
             data: { idUser, action: "Editar", users: this.users },
             autoFocus: false,
-            disableClose: true
+            disableClose: true,
           })
         : this.dialog.open(UsersFormComponent, {
             data: { action: "Crear", users: this.users },
             autoFocus: false,
-            disableClose: true
+            disableClose: true,
           });
-
-    // dialogRef.afterClosed().subscribe(result => {
-    //   localStorage.removeItem('userData');
-    //   localStorage.removeItem('fileData');
-    //   this._updateDS.setUserData(null);
-    // });
   }
 
   sendUserId(id: string, view: boolean) {

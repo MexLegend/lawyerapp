@@ -14,25 +14,28 @@ import { FilePreviewComponent } from "../modals/file-preview/file-preview.compon
 import { NotificationsDropdownComponent } from "./notifications-dropdown/notifications-dropdown.component";
 import { RouterModule } from "@angular/router";
 import { EmailConfirmedComponent } from './email-confirmed/email-confirmed.component';
+import { LoadingDataComponent } from './loading-data/loading-data.component';
 
 @NgModule({
   declarations: [
+    ChatSidenavComponent,
+    EmailConfirmedComponent,
+    EvidencesComponent,
+    LoadingDataComponent,
+    NotesComponent,
+    NotificationsDropdownComponent,
     ProgressComponent,
     ThemeSwitchComponent,
-    EvidencesComponent,
-    NotesComponent,
-    ChatSidenavComponent,
-    NotificationsDropdownComponent,
-    EmailConfirmedComponent,
   ],
   entryComponents: [FilePreviewComponent],
   exports: [
+    ChatSidenavComponent,
+    EvidencesComponent,
+    LoadingDataComponent,
+    NotesComponent,
+    NotificationsDropdownComponent,
     ProgressComponent,
     ThemeSwitchComponent,
-    EvidencesComponent,
-    NotesComponent,
-    ChatSidenavComponent,
-    NotificationsDropdownComponent,
   ],
   imports: [
     CommonModule,

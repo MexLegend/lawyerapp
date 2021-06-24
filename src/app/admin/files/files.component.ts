@@ -66,6 +66,7 @@ export class FilesComponent implements OnInit {
   cases: any[] = [];
   filterValue: string;
   form: FormGroup;
+  isLoading: boolean = true;
   notes: any;
   noTrack: any;
   selected = new FormControl(0);
@@ -184,6 +185,7 @@ export class FilesComponent implements OnInit {
     this.subscriptionsArray.push(
       this._trackingS.getCasesDataSub().subscribe((casesData) => {
         this.cases = casesData;
+        this.isLoading = false;
       })
     );
 
@@ -813,21 +815,20 @@ export class FilesComponent implements OnInit {
             users: this.users,
           },
           autoFocus: false,
-          disableClose: true
+          disableClose: true,
         })
       : this.dialog.open(FilesFormComponent, {
           data: { action: "Crear", users: this.users },
           autoFocus: false,
-          disableClose: true
+          disableClose: true,
         });
 
-    this.subscriptionsArray.push(
-      dialogRef.afterClosed().subscribe(() => {
-        localStorage.removeItem("userData");
-        localStorage.removeItem("fileData");
-        this._updateDS.setUserData(null);
-      })
-    );
+    const dialogACSub = dialogRef.afterClosed().subscribe(() => {
+      localStorage.removeItem("userData");
+      localStorage.removeItem("fileData");
+      this._updateDS.setUserData(null);
+      dialogACSub.unsubscribe();
+    });
   }
 
   openSelectEvidences(viewDetails?: string, trackingData?: any) {
@@ -838,21 +839,19 @@ export class FilesComponent implements OnInit {
       panelClass: "evidences-view-modal",
     });
 
-    this.subscriptionsArray.push(
-      dialogRef.afterOpened().subscribe(() => {
-        this._evidencesS.setCaseIdSub(
-          "select",
-          "trackingCaseData",
-          this.currentCaseData
-        );
-      })
-    );
+    const dialogRefSub = dialogRef.afterOpened().subscribe(() => {
+      this._evidencesS.setCaseIdSub(
+        "select",
+        "trackingCaseData",
+        this.currentCaseData
+      );
+    });
 
-    this.subscriptionsArray.push(
-      dialogRef.afterClosed().subscribe(() => {
-        this._evidencesS.clearNotListedEvidences();
-      })
-    );
+    const dialogACSub = dialogRef.afterClosed().subscribe(() => {
+      this._evidencesS.clearNotListedEvidences();
+      dialogRefSub.unsubscribe;
+      dialogACSub.unsubscribe();
+    });
   }
 
   openSelectNotes() {
@@ -862,22 +861,21 @@ export class FilesComponent implements OnInit {
       disableClose: true,
       panelClass: "notes-view-modal",
     });
-    this.subscriptionsArray.push(
-      dialogRef.afterOpened().subscribe(() => {
-        this._notesS.setCaseIdSub(
-          "select",
-          "trackingCaseData",
-          this.currentCaseData
-        );
-        this._notesS.setListedNotesSub("create", this.currentCaseData._id);
-      })
-    );
 
-    this.subscriptionsArray.push(
-      dialogRef.afterClosed().subscribe(() => {
-        this._notesS.clearNotListedNotes();
-      })
-    );
+    const dialogRefSub = dialogRef.afterOpened().subscribe(() => {
+      this._notesS.setCaseIdSub(
+        "select",
+        "trackingCaseData",
+        this.currentCaseData
+      );
+      this._notesS.setListedNotesSub("create", this.currentCaseData._id);
+    });
+
+    const dialogACSub = dialogRef.afterClosed().subscribe(() => {
+      this._notesS.clearNotListedNotes();
+      dialogRefSub.unsubscribe;
+      dialogACSub.unsubscribe();
+    });
   }
 
   orderIndex(track, idx) {

@@ -40,6 +40,7 @@ export class ChatSidenavComponent implements OnInit {
   public activeRoomId: string = null;
   public contactsList: User[] = [];
   public isCreatingRoom: boolean = false;
+  public isLoading: boolean = true;
   public isNewLawyerContact: boolean = false;
   public isSearchingNote: boolean = false;
   public isSearchingUser: boolean = false;
@@ -84,6 +85,7 @@ export class ChatSidenavComponent implements OnInit {
             (contact: any) =>
               (this.contactsList = [...this.contactsList, contact.contact])
           );
+          this.isLoading = false;
       })
     );
 

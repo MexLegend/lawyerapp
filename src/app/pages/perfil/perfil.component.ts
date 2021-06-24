@@ -8,6 +8,7 @@ import { ThemeService } from "../../services/theme.service";
 import { PerfectScrollbarConfigInterface } from "ngx-perfect-scrollbar";
 import { ChatService } from "../../services/chat.service";
 import { Subscription } from "rxjs";
+import { UtilitiesService } from "../../services/utilities.service";
 
 declare var $: any;
 
@@ -22,7 +23,8 @@ export class PerfilComponent implements OnInit {
     public dialog: MatDialog,
     public router: Router,
     public _themeS: ThemeService,
-    public _usersS: UsersService
+    public _usersS: UsersService,
+    private _utilitiesS: UtilitiesService
   ) {
     this.subscriptionsArray.push(
       this.router.events.subscribe((event) => {
@@ -99,19 +101,10 @@ export class PerfilComponent implements OnInit {
   }
 
   openPrimeModal() {
-    let dialogRef = this.dialog.open(BePrimeComponent, { autoFocus: false, disableClose: true });
-
-    this.subscriptionsArray.push(
-      dialogRef.afterOpened().subscribe(() => {
-        $("body").css("overflow", "hidden");
-      })
-    );
-
-    this.subscriptionsArray.push(
-      dialogRef.afterClosed().subscribe(() => {
-        $("body").css("overflow", "");
-      })
-    );
+    let dialogRef = this.dialog.open(BePrimeComponent, {
+      autoFocus: false,
+      disableClose: true,
+    });
   }
 
   // Open Chat Sidenav

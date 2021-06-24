@@ -67,8 +67,10 @@
         [attr.data-no-conversations]="
           roomsList.length === 0 && !isSearchingUser ? 'true' : 'false'
         "
+        [attr.data-loading]="isLoading ? 'true' : 'false'"
       >
         <perfect-scrollbar
+          *ngIf="!isLoading; else loadingChatData"
           class="scroll-container"
           fxFlex="auto"
           [config]="config"
@@ -176,9 +178,23 @@
             </mat-tab-group>
           </div>
         </perfect-scrollbar>
+        <!-- Loading Rooms  -->
+        <ng-template #loadingChatData>
+          <div
+            #loaderChatContainer
+            class="px-8"
+            [class.overflow-hidden]="isLoading"
+            style="height: calc(100% - 10px)"
+          >
+            <app-loading-data
+              loaderType="common"
+              [loaderContainer]="loaderChatContainer"
+            ></app-loading-data>
+          </div>
+        </ng-template>
         <!-- Not Rooms Message -->
         <div
-          *ngIf="roomsList.length === 0 && !isSearchingUser"
+          *ngIf="roomsList.length === 0 && !isSearchingUser && !isLoading"
           class="no-data-container no-data-chat"
         >
           <div class="card sticky-action" style="width: 100%">
@@ -193,8 +209,8 @@
           </div>
         </div>
 
-        <!-- Open Post Creation Modal Button Trigger -->
-        <div class="item-add-container" *ngIf="!isSearchingUser">
+        <!-- Start Conversation Button Trigger -->
+        <div class="item-add-container" *ngIf="!isSearchingUser && !isLoading">
           <button
             mat-icon-button
             class="item-add-button primary-text haizen-blue gradient-shadow dfc"
@@ -309,14 +325,22 @@
               [style.width.px]="sendMessageForm.valid ? 32 : 64"
             >
               <div
-                class="chat-conversation-action-item waves-effect waves-light dfc"
+                class="
+                  chat-conversation-action-item
+                  waves-effect waves-light
+                  dfc
+                "
                 matTooltip="Adjuntar documento"
                 matTooltipPosition="below"
               >
                 <i class="material-icons">attach_file</i>
               </div>
               <div
-                class="chat-conversation-action-item waves-effect waves-light dfc"
+                class="
+                  chat-conversation-action-item
+                  waves-effect waves-light
+                  dfc
+                "
                 *ngIf="!sendMessageForm.valid"
                 matTooltip="Adjuntar foto"
                 matTooltipPosition="below"

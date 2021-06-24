@@ -1,0 +1,98 @@
+<!-- Modal Structure -->
+<div mat-dialog-title class="modal-header admin-modal-header dfc">
+  <div class="modal-icon dfc">
+    <i class="far fa-star fs-22"></i>
+  </div>
+  <span class="client-action"> Calificar abogado </span>
+  <i
+    mat-dialog-close
+    class="modal-exit material-icons pink accent-2 waves-effect waves-light dfr"
+    >close</i
+  >
+</div>
+
+<mat-dialog-content class="mat-typography admin-modal-container">
+  <!-- Modal Content -->
+  <div class="modal-content admin-modal-content reply">
+    <div class="row h-full" style="margin: 0 !important">
+      <form
+        id="commentForm"
+        class="col s12 h-full dfc jcc"
+        style="padding: 0 30px"
+        ngNativeValidate
+        [formGroup]="rateForm"
+      >
+        <div class="comment-data dfr jcc">
+          <div class="comment-data-info dfc">
+            <div class="comment-data-title">
+              <span> ¿Cómo calificarías este abogado? </span>
+            </div>
+            <div class="comment-data-subtitle mb-10">
+              <span>Elegir calificación</span>
+            </div>
+          </div>
+        </div>
+        <!-- Stars Container -->
+        <div class="stars-container">
+          <ngx-stars
+            [animation]="true"
+            [animationSpeed]="500"
+            [size]="4"
+            [color]="'#f4c150'"
+            [initialStars]="1"
+            (ratingOutput)="onRatingSet($event)"
+          ></ngx-stars>
+        </div>
+        <!-- Comment Review Input -->
+        <div
+          class="comment-review-input jcc"
+          [attr.show-comment-input]="rateForm.valid ? 'true' : 'false'"
+        >
+          <div class="modal-input modal-input-pink notes-text-area">
+            <textarea
+              class="
+                materialize-textarea
+                expediente-input
+                ng-pristine ng-touched
+              "
+              name="rateComment"
+              formControlName="rateComment"
+              placeholder=" "
+              autosize
+              [minRows]="4"
+              [maxRows]="6"
+            ></textarea>
+            <div class="modal-input-placeholder modal-input-placeholder-pink">
+              Cuentanos tu experiencia personal con este abogado. ¿Fue una buena
+              elección?
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal-footer modal-actions admin-modal-footer">
+    <ng-container>
+      <div class="modal-actions-container dfr">
+        <div class="modal-actions-content">
+          <button
+            type="button"
+            class="mwaves-effect waves-light btn modal-close-action"
+            mat-dialog-close
+          >
+            Cancelar
+          </button>
+          <button
+            type="submit"
+            class="waves-effect waves-light btn modal-submit-action"
+            [class.button-disabled]="!rateForm.valid"
+            (click)="rate()"
+          >
+            Envíar
+          </button>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</mat-dialog-content>

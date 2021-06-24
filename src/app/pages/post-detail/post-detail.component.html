@@ -1,10 +1,13 @@
-<section *ngIf="post" id="noticias-main-container" class="pr pt-71">
+<section id="noticias-main-container" class="pr pt-71">
   <div class="noticias-content-container">
     <div class="noticias-data dfr">
       <!-- Detail Post Main Card Container -->
       <div class="post-main-card-container" style="width: calc(100% - 430px)">
         <!-- Detail Post Card Content -->
-        <div class="card sticky-action w-full">
+        <div
+          *ngIf="!isPostLoading; else loadingPostData"
+          class="card sticky-action w-full"
+        >
           <div class="card-header card-content">
             <div class="card-date">
               <div class="card-day">
@@ -258,20 +261,49 @@
             </div>
           </div>
         </div>
+        <!-- Loading Post -->
+        <ng-template #loadingPostData>
+          <div
+            class="card sticky-action w-full"
+            style="height: 60vh; min-height: 450px"
+          >
+            <div
+              #loaderCasesContainer
+              class="h-full"
+              [class.overflow-hidden]="isPostLoading"
+            >
+              <app-loading-data
+                loaderType="singleComplex"
+                [loaderContainer]="loaderCasesContainer"
+              ></app-loading-data>
+            </div>
+          </div>
+        </ng-template>
       </div>
       <!-- Last Posts Card -->
       <div
-        class="card sticky-action last-posts"
+        class="card sticky-action last-posts dfc"
         style="width: 400px; margin-left: 30px"
       >
-        <div class="card-header last-articles-title card-content">
+        <div class="card-header last-articles-title card-content w-full">
           <span>Últimos Artículos</span>
         </div>
         <div
-          class="card-body last-article-body card-content grey lighten-4 dfc"
+          class="
+            card-body
+            last-article-body
+            card-content
+            grey
+            lighten-4
+            dfc
+            w-full
+          "
         >
           <!-- Last Articles List -->
-          <div class="card-data-container dfc">
+          <div
+            *ngIf="!isLastPostsLoading; else loadingLastPostsData"
+            class="card-data-container m-0 dfc"
+          >
             <div
               *ngFor="let post of filteredLastPosts"
               class="article-container dfr"
@@ -303,16 +335,29 @@
                 </div>
               </a>
             </div>
+          </div>
+          <!-- Loading Last Posts -->
+          <ng-template #loadingLastPostsData>
             <div
-              *ngIf="filteredLastPosts?.length === 0"
-              class="article-container no-data dfr"
-            >
-              <div class="card-no-data-icon dfc">
-                <span>i</span>
-              </div>
-              <div class="card-no-data-information">
-                <span> No se han publicado artículos recientemente</span>
-              </div>
+              class="
+                notifications-loading
+                loading-dots-container loading-dots
+                w-full
+                dfr
+                jcc
+              "
+            ></div>
+          </ng-template>
+          <!-- Not Posts Published Message -->
+          <div
+            *ngIf="filteredLastPosts.length === 0 && !isLastPostsLoading"
+            class="article-container no-data dfr w-full h-full"
+          >
+            <div class="card-no-data-icon dfc">
+              <span>i</span>
+            </div>
+            <div class="card-no-data-information">
+              <span> No se han publicado artículos recientemente</span>
             </div>
           </div>
         </div>
@@ -323,7 +368,7 @@
     <!-- Comments Card -->
     <div class="col s12 m7" #commentsBox id="comments-box" name="comments-box">
       <div class="card horizontal">
-        <div class="card-stacked">
+        <div class="card-stacked w-full">
           <div class="comment-card-header card-content">
             <div class="comments-number">
               <span>{{
@@ -449,11 +494,24 @@
           </div>
           <!-- Comments Card Content -->
           <app-comments
-            *ngIf="postAnalytics?.comments"
+            *ngIf="postAnalytics?.comments; else loadingCommentsData"
             [comments]="postAnalytics?.comments"
             [filterVariable]="filterVariable"
           ></app-comments>
         </div>
+        <!-- Loading Comments -->
+        <ng-template #loadingCommentsData>
+          <div
+            class="
+              notifications-loading
+              loading-dots-container loading-dots
+              transparent-bg
+              w-full
+              dfr
+              jcc
+            "
+          ></div>
+        </ng-template>
       </div>
     </div>
   </div>

@@ -50,9 +50,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
   public practiceAreasFilterCtrl: FormControl = new FormControl();
 
   /** List Of Array Items Filtered By Search Keyword */
-  public practiceAreasMulti: ReplaySubject<
-    Array<PracticeArea>
-  > = new ReplaySubject<Array<PracticeArea>>(1);
+  public practiceAreasMulti: ReplaySubject<Array<PracticeArea>> =
+    new ReplaySubject<Array<PracticeArea>>(1);
 
   public tooltipMessage = "Select All / Unselect All";
 
@@ -234,18 +233,13 @@ export class ProfileComponent implements OnInit, OnDestroy {
         action: "Crear Área de Práctica",
         type: "Simple",
         is_category: false,
+        notExpand: true,
       },
       width: "600px",
       height: "400px",
       autoFocus: false,
-      disableClose: true
+      disableClose: true,
     });
-
-    // dialogRef.afterClosed().subscribe(result => {
-    //   localStorage.removeItem('userData');
-    //   localStorage.removeItem('fileData');
-    //   this._updateDS.setUserData(null);
-    // });
   }
 
   // Reset Filter Input

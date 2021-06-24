@@ -180,15 +180,11 @@ export class PracticeAreasFormComponent implements OnInit {
   }
 
   createOrUpdatePracticeArea() {
-    const {
-      _id: idPracticeArea,
-      ...practiceAreaDetails
-    } = this.practiceAreaForm.value;
+    const { _id: idPracticeArea, ...practiceAreaDetails } =
+      this.practiceAreaForm.value;
 
-    const {
-      lawyers: lawyers,
-      ...practiceAreaData
-    } = this.createPracticeAreaObject(practiceAreaDetails);
+    const { lawyers: lawyers, ...practiceAreaData } =
+      this.createPracticeAreaObject(practiceAreaDetails);
 
     // Update Practice Area Data
     if (this.practiceAreaForm.value._id !== null) {
@@ -289,12 +285,6 @@ export class PracticeAreasFormComponent implements OnInit {
             disableClose: true,
             width: "600px",
           });
-
-    // dialogRef.afterClosed().subscribe(result => {
-    //   localStorage.removeItem('userData');
-    //   localStorage.removeItem('fileData');
-    //   this._updateDS.setUserData(null);
-    // });
   }
 
   // Open Quotes Modal
@@ -315,12 +305,6 @@ export class PracticeAreasFormComponent implements OnInit {
             disableClose: true,
             width: "600px",
           });
-
-    // dialogRef.afterClosed().subscribe(result => {
-    //   localStorage.removeItem('userData');
-    //   localStorage.removeItem('fileData');
-    //   this._updateDS.setUserData(null);
-    // });
   }
 
   checkUncheck(checkboxHandler: any, action: string) {

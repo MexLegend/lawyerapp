@@ -1,15 +1,15 @@
-import { DomSanitizer } from "@angular/platform-browser";
 import { environment } from "../../environments/environment";
-import { Injectable } from "@angular/core";
+import { Injectable, Inject } from "@angular/core";
 import { Observable, throwError, Subject } from "rxjs";
 import { catchError, map } from "rxjs/operators";
 import { FormControl } from "@angular/forms";
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 import Swal from "sweetalert2";
 import { Router } from "@angular/router";
 import { MatDialog, MatTabGroup } from "@angular/material";
 import { LoginComponent } from "../modals/login/login.component";
 import { CloudinaryService } from "./cloudinary.service";
+import { DOCUMENT } from "@angular/common";
 
 declare var $: any;
 
@@ -17,10 +17,15 @@ declare var $: any;
   providedIn: "root",
 })
 export class UtilitiesService {
-  constructor(public dialog: MatDialog, private http: HttpClient) {}
+  constructor(
+    @Inject(DOCUMENT) private document: any,
+    public dialog: MatDialog,
+    private http: HttpClient
+  ) {}
 
   private arraysList = new Subject<[Array<any>, string, string]>();
   private clientShowMoreIndex = new Subject<any>();
+  private loaderComponentsList = new Subject<Array<number>>();
   private isModalAlertRendered = new Subject<boolean>();
   private showMoreIndex = new Subject<any>();
   private sidenavShowMoreIndex = new Subject<any[]>();
@@ -65,6 +70,26 @@ export class UtilitiesService {
         return throwError(err);
       })
     );
+  }
+
+  /* Close fullscreen */
+  closeFullscreen(): Promise<boolean> {
+    // Check If Browser Is In Full Screen Mode
+    if (window.innerHeight === screen.height) {
+      if (this.document.exitFullscreen) {
+        this.document.exitFullscreen();
+      } else if (this.document.mozCancelFullScreen) {
+        /* Firefox */
+        this.document.mozCancelFullScreen();
+      } else if (this.document.webkitExitFullscreen) {
+        /* Chrome, Safari and Opera */
+        this.document.webkitExitFullscreen();
+      } else if (this.document.msExitFullscreen) {
+        /* IE/Edge */
+        this.document.msExitFullscreen();
+      }
+    }
+    return new Promise((resolve) => resolve(true));
   }
 
   // Disable Body Scroll
@@ -345,6 +370,11 @@ export class UtilitiesService {
         break;
       }
 
+      case "rate":
+        title = "¿Deseas calificar al abogado?";
+        text = "Inicia sesión para compartir tu calificación.";
+        break;
+
       default:
         title = "¿No te gusta este artículo?";
         text = "Inicia sesión para hacer que tu opinión cuente.";
@@ -406,12 +436,12 @@ export class UtilitiesService {
       dialogRef.componentInstance.modalRef = dialogRef;
       document.getElementsByTagName("html")[0].classList.add("hide-scroll");
       document.querySelector("body").classList.add("hide-scroll");
-      loginModalOpenedRef.unsubscribe();
     });
 
     const loginModalClosedRef = dialogRef.afterClosed().subscribe(() => {
       document.getElementsByTagName("html")[0].classList.remove("hide-scroll");
       document.querySelector("body").classList.remove("hide-scroll");
+      loginModalOpenedRef.unsubscribe();
       loginModalClosedRef.unsubscribe();
     });
   }
@@ -484,6 +514,19 @@ export class UtilitiesService {
     } else {
       return "pdf";
     }
+  }
+
+  // Get  Array List
+  getLoaderComponentsList(): Observable<Array<number>> {
+    return this.loaderComponentsList.asObservable();
+  }
+
+  setLoaderComponentsList(count: number) {
+    const indexes = [];
+    for (let i = 0; i < count; i++) {
+      indexes.push(i);
+    }
+    return indexes;
   }
 
   setTempCompleteArray(completeArray: any) {
@@ -649,6 +692,15 @@ export class UtilitiesService {
     return date;
   }
 
+  // Get Screen Width And Height Size
+  getScreenSize(): { width: number; height: number; isMobile: boolean } {
+    const innerScreenWidth = window.innerWidth;
+    const innerScreenHeight = window.innerHeight;
+    const isMobile = window.innerWidth < 768 ? true : false;
+
+    return { width: innerScreenWidth, height: innerScreenHeight, isMobile };
+  }
+
   // Go Stepper Back
   goStepperBack(stepperReference: any) {
     stepperReference.previous();
@@ -703,12 +755,10 @@ export class UtilitiesService {
     );
 
     // Create Tooltip
-    const insertImageButtonTooltip: HTMLElement = document.createElement(
-      "span"
-    );
-    const insertImageButtonTooltipInner: HTMLElement = document.createElement(
-      "span"
-    );
+    const insertImageButtonTooltip: HTMLElement =
+      document.createElement("span");
+    const insertImageButtonTooltipInner: HTMLElement =
+      document.createElement("span");
     // Add Classes To Tooltip
     insertImageButtonTooltip.classList.add("ck", "ck-tooltip", "ck-tooltip_s");
     insertImageButtonTooltipInner.classList.add("ck", "ck-tooltip__text");
@@ -757,6 +807,27 @@ export class UtilitiesService {
     });
   }
 
+  /* Open fullscreen */
+  openFullscreen(): Promise<boolean> {
+    const elem: any = document.body;
+
+    if (this.getScreenSize().isMobile)
+      if (elem.requestFullscreen) {
+        elem.requestFullscreen();
+      } else if (elem.mozRequestFullScreen) {
+        /* Firefox */
+        elem.mozRequestFullScreen();
+      } else if (elem.webkitRequestFullscreen) {
+        /* Chrome, Safari and Opera */
+        elem.webkitRequestFullscreen();
+      } else if (elem.msRequestFullscreen) {
+        /* IE/Edge */
+        elem.msRequestFullscreen();
+      }
+
+    return new Promise((resolve) => resolve(true));
+  }
+
   // Get Insert Image Button Data
   renderImageIntoEditor(
     input: any,
@@ -778,7 +849,8 @@ export class UtilitiesService {
 
         reader.onload = function (event) {
           editor.model.change((writer: any) => {
-            const insertPosition = editor.model.document.selection.getFirstPosition();
+            const insertPosition =
+              editor.model.document.selection.getFirstPosition();
             const imageElement = writer.createElement("image", {
               src: event.target.result,
               "data-ide": id,

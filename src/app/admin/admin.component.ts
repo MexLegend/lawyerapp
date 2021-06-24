@@ -16,8 +16,6 @@ import { ThemeService } from "../services/theme.service";
 import { ChatService } from "../services/chat.service";
 import { UtilitiesService } from '../services/utilities.service';
 
-declare var $: any;
-
 @Component({
   selector: "app-admin",
   templateUrl: "./admin.component.html",

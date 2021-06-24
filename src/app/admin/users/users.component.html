@@ -1,5 +1,5 @@
 <!-- Contenedor Listado Usuarios -->
-<div class="item-list-container">
+<div class="item-list-container h-full">
   <mat-card class="item-list-container dfc">
     <!-- Users Filters Container  -->
     <mat-card-header class="item-filter-container">
@@ -99,7 +99,7 @@
     <!-- Users List Container  -->
     <mat-card-content class="item-list-content">
       <perfect-scrollbar
-        *ngIf="users.length > 0"
+        *ngIf="users.length > 0 && !isLoading; else loadingUsersData"
         class="scroll-container"
         fxFlex="auto"
         [config]="config"
@@ -159,7 +159,15 @@
                     <!-- Users Role Button Trigger -->
                     <button
                       *ngIf="_usersS.user.role === 'ADMIN'"
-                      class="header-item-btn btn waves-effect mobile waves-light light-blue dfc"
+                      class="
+                        header-item-btn
+                        btn
+                        waves-effect
+                        mobile
+                        waves-light
+                        light-blue
+                        dfc
+                      "
                       mat-icon-button
                       [matMenuTriggerFor]="roleMenu"
                       (click)="moveDown($event)"
@@ -189,7 +197,14 @@
                     </mat-menu>
                     <!-- Users CRUD Button Trigger -->
                     <button
-                      class="header-item-btn important-action btn waves-effect waves-light light-blue dfc"
+                      class="
+                        header-item-btn
+                        important-action
+                        btn
+                        waves-effect waves-light
+                        light-blue
+                        dfc
+                      "
                       mat-icon-button
                       [matMenuTriggerFor]="actionsMenu"
                       (click)="moveDown($event)"
@@ -295,8 +310,42 @@
           </mat-accordion>
         </div>
       </perfect-scrollbar>
+      <!-- Loading Data Animation -->
+      <ng-template #loadingUsersData>
+        <div
+          #loaderUsersContainer
+          class="h-full"
+          [class.overflow-hidden]="isLoading"
+        >
+          <app-loading-data
+            loaderType="common"
+            [loaderContainer]="loaderUsersContainer"
+          ></app-loading-data>
+        </div>
+      </ng-template>
+      <!-- <div
+        *ngIf="isLoading"
+        class="h-full w-full loading-preview dfr"
+        [attr.data-loaded]="isLoading ? 'true' : 'false'"
+      >
+        <mat-spinner
+          class="loading-preview-spinner center-loading-spinner"
+          strokeWidth="8"
+        >
+        </mat-spinner>
+        <div class="loading-preview-img centered-img-bg">
+          <img
+            [src]="
+              this.isDarkThemeActive
+                ? '../../../assets/images/brand.png'
+                : '../../../assets/images/brand_black.png'
+            "
+            alt=""
+          />
+        </div>
+      </div> -->
       <!-- Not Users / Clients Registered Message -->
-      <div *ngIf="users.length === 0" class="no-data-container">
+      <div *ngIf="!isLoading && users.length === 0" class="no-data-container">
         <div class="card sticky-action" style="width: 100%">
           <div class="card-body card-content no-data dfr">
             <div class="card-no-data-icon dfc">
@@ -313,10 +362,15 @@
         </div>
       </div>
       <!-- Open User Creation Modal Button Trigger -->
-      <div class="item-add-container">
+      <div *ngIf="!isLoading" class="item-add-container">
         <button
           mat-icon-button
-          class="item-add-button primary-text gradient-45deg-orange gradient-shadow dfc"
+          class="
+            item-add-button
+            primary-text
+            gradient-45deg-orange gradient-shadow
+            dfc
+          "
           (click)="openUsersModal()"
           [matTooltip]="
             _usersS.user.role === 'ADMIN' ? 'Crear usuario' : 'Crear cliente'
@@ -330,7 +384,7 @@
 
     <!-- Users List Pagination -->
     <mat-card-actions
-      *ngIf="users.length > 0"
+      *ngIf="users.length > 0 && !isLoading"
       class="item-list-pagination-container dfr"
     >
       <pagination-controls

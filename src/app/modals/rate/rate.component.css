@@ -1,0 +1,22 @@
+.comment-data-title {
+  font-size: 21px;
+  font-weight: 700;
+  color: var(--default-color);
+  margin-bottom: 15px;
+}
+
+.comment-data-subtitle {
+  color: var(--secondary-text);
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.comment-review-input {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.comment-review-input[show-comment-input="false"] {
+  display: none;
+}

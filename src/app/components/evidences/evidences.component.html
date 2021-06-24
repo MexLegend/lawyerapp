@@ -132,7 +132,7 @@
       [attr.data-details]="modeV === 'select' ? 'true' : 'false'"
     >
       <perfect-scrollbar
-        *ngIf="evidences.length > 0"
+        *ngIf="evidences.length > 0 && !isLoading; else loadingEvidencesData"
         class="scroll-container"
         fxFlex="auto"
         [config]="config"
@@ -209,7 +209,9 @@
               >
                 <div class="item-acordion-card-body-data dfc">
                   <div class="item-acordion-card-body-title break-spaces">
-                    <span class="item-acordion-card-body-title-span">{{ evidence?.name }}</span>
+                    <span class="item-acordion-card-body-title-span">{{
+                      evidence?.name
+                    }}</span>
                   </div>
                 </div>
                 <div
@@ -265,7 +267,24 @@
           </div>
         </div>
       </perfect-scrollbar>
-      <div *ngIf="evidences.length === 0" class="no-data-container">
+      <!-- Loading Data Animation -->
+      <ng-template #loadingEvidencesData>
+        <div
+          #loaderEvidencesContainer
+          class="h-full"
+          [class.overflow-hidden]="isLoading"
+        >
+          <app-loading-data
+            loaderType="complex"
+            [loaderContainer]="loaderEvidencesContainer"
+          ></app-loading-data>
+        </div>
+      </ng-template>
+      <!-- Not Notes Created Message -->
+      <div
+        *ngIf="evidences.length === 0 && !isLoading"
+        class="no-data-container"
+      >
         <div class="card sticky-action" style="width: 100%">
           <div class="card-body card-content no-data dfr">
             <div class="card-no-data-icon dfc">
@@ -279,12 +298,17 @@
       </div>
       <!-- Open Evidences Modal Button Trigger -->
       <div
-        *ngIf="modeV === 'new' && !isCaseArchived"
+        *ngIf="modeV === 'new' && !isCaseArchived && !isLoading"
         class="item-add-container"
       >
         <button
           mat-icon-button
-          class="item-add-button primary-text gradient-45deg-orange gradient-shadow dfc"
+          class="
+            item-add-button
+            primary-text
+            gradient-45deg-orange gradient-shadow
+            dfc
+          "
           matTooltip="Agregar evidencia"
           matTooltipPosition="above"
           (click)="openFileUploadModal()"
@@ -293,7 +317,10 @@
         </button>
       </div>
       <!-- Open File Creation Modal Button Trigger -->
-      <div *ngIf="modeV === 'select'" class="item-add-container">
+      <div
+        *ngIf="modeV === 'select' && evidences.length > 0 && !isLoading"
+        class="item-add-container"
+      >
         <button
           mat-icon-button
           class="item-add-button primary-text light-blue dfc"
@@ -307,7 +334,7 @@
     </mat-card-content>
     <!-- Evidences Pagination -->
     <mat-card-actions
-      *ngIf="evidences.length > 0"
+      *ngIf="evidences.length > 0 && !isLoading"
       class="item-list-pagination-container dfr"
     >
       <pagination-controls
@@ -388,7 +415,11 @@
                   <!-- Evidence Card Header -->
                   <div class="item-acordion-card-header dfr">
                     <div
-                      class="item-acordion-card-header-data note-card-header dfc"
+                      class="
+                        item-acordion-card-header-data
+                        note-card-header
+                        dfc
+                      "
                     >
                       <div class="item-acordion-card-header-left dfr">
                         <div class="item-acordion-card-name">
@@ -472,7 +503,10 @@
               </div>
               <!-- Evidences Right Arrow Indicator -->
               <div
-                class="item-acordion-card-right-indicator evidence-row-indicator"
+                class="
+                  item-acordion-card-right-indicator
+                  evidence-row-indicator
+                "
               >
                 <button (click)="scrollCarouselToRight('evidences')">
                   <i class="fas fa-angle-right"></i>
@@ -517,7 +551,11 @@
                     <!-- Note Card Header -->
                     <div class="item-acordion-card-header dfr">
                       <div
-                        class="item-acordion-card-header-data note-card-header dfc"
+                        class="
+                          item-acordion-card-header-data
+                          note-card-header
+                          dfc
+                        "
                       >
                         <div class="item-acordion-card-header-left dfr">
                           <div class="item-acordion-card-name color">
@@ -533,7 +571,10 @@
                     >
                       <div class="item-acordion-card-body-data note-card dfc">
                         <div
-                          class="item-acordion-card-body-content note-card-content"
+                          class="
+                            item-acordion-card-body-content
+                            note-card-content
+                          "
                         >
                           <perfect-scrollbar
                             class="scroll-container"
@@ -569,7 +610,12 @@
     <div class="item-add-container">
       <button
         mat-icon-button
-        class="item-add-button primary-text gradient-45deg-orange gradient-shadow dfc"
+        class="
+          item-add-button
+          primary-text
+          gradient-45deg-orange gradient-shadow
+          dfc
+        "
         matTooltip="Agregar evidencia"
         matTooltipPosition="above"
         (click)="openFileUploadModal()"

@@ -593,18 +593,13 @@ export class PostsFormComponent implements OnInit {
         action: "Crear Categoria",
         type: "Simple",
         is_category: true,
+        notExpand: true,
       },
       width: "600px",
       height: "max-content",
       autoFocus: true,
-      disableClose: true
+      disableClose: true,
     });
-
-    // dialogRef.afterClosed().subscribe(result => {
-    //   localStorage.removeItem('userData');
-    //   localStorage.removeItem('fileData');
-    //   this._updateDS.setUserData(null);
-    // });
   }
 
   // Open Quotes Modal
@@ -625,12 +620,6 @@ export class PostsFormComponent implements OnInit {
             disableClose: true,
             width: "600px",
           });
-
-    // dialogRef.afterClosed().subscribe(result => {
-    //   localStorage.removeItem('userData');
-    //   localStorage.removeItem('fileData');
-    //   this._updateDS.setUserData(null);
-    // });
   }
 
   renderEditorToolbar(editor: any) {

@@ -53,24 +53,6 @@ export class ClientesComponent implements OnInit {
     this._themeS.getSwitchValue().subscribe((isDarkThemeActive) => {
       this.isDarkThemeActive = isDarkThemeActive;
     });
-    
-    /*
-    $(document).ready(function () {
-      // Open WhatsApp Window on Click
-      $(document).on("click", "#btn-whatsapp", function () {
-        $(".whatsAppCard").css({ visibility: "visible", opacity: "1" });
-      });
-
-      // Close WhatsApp Window on Click
-      $(document).on("click", ".btn-whatsApp-close", function () {
-        $(".whatsAppCard").css({
-          transition: "visibility 0.5s, opacity 0.5s ease-in-out",
-          visibility: "hidden",
-          opacity: "0",
-        });
-      });
-    });
-    */
   }
 
   ngAfterViewInit(): void {

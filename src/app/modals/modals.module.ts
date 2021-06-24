@@ -18,6 +18,8 @@ import { FiltersComponent } from "./filters/filters.component";
 import { LawyerContactComponent } from "./lawyer-contact/lawyer-contact.component";
 import { LoginComponent } from "./login/login.component";
 import { LoginFormComponent } from "./login/login-form/login-form.component";
+import { RateComponent } from './rate/rate.component';
+import { ReferencesComponent } from "./references/references.component";
 import { RegisterFormComponent } from "./login/register-form/register-form.component";
 import { RouterModule } from '@angular/router';
 import { NotificationsFormComponent } from "./notifications-form/notifications-form.component";
@@ -35,7 +37,6 @@ import { FilePreviewComponent } from "./file-preview/file-preview.component";
 import { FAQComponent } from "./faq/faq.component";
 import { NgxDocViewerModule } from "ngx-doc-viewer";
 import { PracticeAreasFormComponent } from "./practice-areas-form/practice-areas-form.component";
-import { ReferencesComponent } from "./references/references.component";
 
 import { CKEditorModule } from "@ckeditor/ckeditor5-angular";
 
@@ -55,6 +56,7 @@ import { CKEditorModule } from "@ckeditor/ckeditor5-angular";
     NotificationsFormComponent,
     PostsFormComponent,
     PracticeAreasFormComponent,
+    RateComponent,
     ReferencesComponent,
     RegisterFormComponent,
     ReplyComponent,
@@ -77,6 +79,7 @@ import { CKEditorModule } from "@ckeditor/ckeditor5-angular";
     LoginComponent,
     PostsFormComponent,
     PracticeAreasFormComponent,
+    RateComponent,
     ReferencesComponent,
     ReplyComponent,
     SelectEvidenceComponent,
@@ -97,6 +100,7 @@ import { CKEditorModule } from "@ckeditor/ckeditor5-angular";
     NotificationsFormComponent,
     PostsFormComponent,
     PracticeAreasFormComponent,
+    RateComponent,
     ReferencesComponent,
     ReplyComponent,
     SelectFileComponent,

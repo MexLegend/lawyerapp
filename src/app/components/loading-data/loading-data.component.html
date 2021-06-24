@@ -1,0 +1,116 @@
+<!-- Loading Items -->
+<div *ngIf="loaderType === 'common'">
+  <div class="skeleton" *ngFor="let item of loaderComponents">
+    <div class="loading-data w-full border-radius-4 dfr">
+      <div class="loading-img">
+        <ngx-skeleton-loader
+          class="dfc"
+          appearance="circle"
+          [theme]="{ height: '50px', width: '50px' }"
+        ></ngx-skeleton-loader>
+      </div>
+      <div class="loading-info h-full w-full dfc">
+        <div class="loading-title w-full">
+          <ngx-skeleton-loader
+            class="dfc"
+            [theme]="{ height: '12px', margin: 0 }"
+          ></ngx-skeleton-loader>
+        </div>
+        <div class="loading-subtitle">
+          <ngx-skeleton-loader
+            class="dfc"
+            [theme]="{ height: '11px', margin: 0 }"
+          ></ngx-skeleton-loader>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="loaderType === 'complex'">
+  <div
+    class="skeleton item-acordion-card-box m-0 dfc"
+    *ngFor="let item of loaderComponents"
+  >
+    <div class="loading-data w-full h-full border-none p0 dfr ais">
+      <div class="loading-img">
+        <ngx-skeleton-loader
+          class="dfc"
+          [theme]="{ height: '60px', width: '60px' }"
+        ></ngx-skeleton-loader>
+      </div>
+      <div class="loading-info h-full w-full dfc">
+        <div class="loading-title w-full">
+          <ngx-skeleton-loader
+            class="dfc"
+            [theme]="{ height: '12px', margin: 0 }"
+          ></ngx-skeleton-loader>
+        </div>
+        <div class="loading-subtitle">
+          <ngx-skeleton-loader
+            class="dfc"
+            [theme]="{ height: '11px', margin: 0 }"
+          ></ngx-skeleton-loader>
+        </div>
+      </div>
+    </div>
+    <div class="loading-more-info dfc h-full w-full ais">
+      <ngx-skeleton-loader
+        class="dfc w-80 mb-10"
+        [theme]="{ height: '11px', margin: 0 }"
+      ></ngx-skeleton-loader>
+      <ngx-skeleton-loader
+        class="dfc w-95 mb-10"
+        [theme]="{ height: '11px', margin: 0 }"
+      ></ngx-skeleton-loader>
+      <ngx-skeleton-loader
+        class="dfc w-60"
+        [theme]="{ height: '11px', margin: 0 }"
+      ></ngx-skeleton-loader>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="loaderType === 'singleComplex'" class="skeleton-loader-container">
+  <div
+    class="skeleton item-acordion-card-box single-complex m-0 dfc h-full border-none"
+    *ngFor="let item of loaderComponents"
+  >
+    <div class="loading-data w-full h-min border-none transparent-bg mb-25 p0 dfr ais">
+      <div class="loading-img">
+        <ngx-skeleton-loader
+          class="dfc"
+          [theme]="{ height: '120px', width: '120px' }"
+        ></ngx-skeleton-loader>
+      </div>
+      <div class="loading-info h-full w-full dfc">
+        <div class="loading-title w-full mb-25">
+          <ngx-skeleton-loader
+            class="dfc"
+            [theme]="{ height: '12px', margin: 0 }"
+          ></ngx-skeleton-loader>
+        </div>
+        <div class="loading-subtitle mb-25">
+          <ngx-skeleton-loader
+            class="dfc"
+            [theme]="{ height: '11px', margin: 0 }"
+          ></ngx-skeleton-loader>
+        </div>
+      </div>
+    </div>
+    <div class="loading-more-info dfc h-full w-full ais">
+      <ngx-skeleton-loader
+        class="dfc w-80 mb-25"
+        [theme]="{ height: '11px', margin: 0 }"
+      ></ngx-skeleton-loader>
+      <ngx-skeleton-loader
+        class="dfc w-95 mb-25"
+        [theme]="{ height: '11px', margin: 0 }"
+      ></ngx-skeleton-loader>
+      <ngx-skeleton-loader
+        class="dfc w-60"
+        [theme]="{ height: '11px', margin: 0 }"
+      ></ngx-skeleton-loader>
+    </div>
+  </div>
+</div>

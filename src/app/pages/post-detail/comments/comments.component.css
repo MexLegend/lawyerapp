@@ -4,11 +4,8 @@
 
 /* Media Queries */
 @media only screen and (max-width: 499px) {
-  .comment-info {
-    flex-direction: column !important;
-  }
   .comment-date {
-    margin-left: 0 !important;
+    font-size: 12px !important;
   }
 }
 
@@ -23,11 +20,23 @@
   align-items: flex-start;
 }
 
+.comment-body {
+  max-width: calc(100% - 56px);
+}
+
 /* Comment Date Styling*/
 .comment-date {
   font-size: 14px;
   margin-left: 10px;
   color: var(--secondary-text);
+  min-width: max-content;
+}
+
+.comment-user-name {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .comment-user-name a span {

@@ -103,12 +103,6 @@
   }
 }
 
-@media only screen and (max-height: 1000px) and (max-width: 850px) {
-  #main {
-    min-height: calc(100vh - 124px) !important;
-  }
-}
-
 @media only screen and (max-height: 570px) {
   .main-sidenav-principal-options {
     padding-top: 0px !important;
@@ -720,9 +714,10 @@ span.badge.pill {
 
 #main {
   background: #ececec;
-  min-height: -webkit-calc(100vh - 124px);
-  min-height: -moz-calc(100vh - 124px);
-  min-height: calc(100vh - 124px);
+  height: calc(100% - 124px) !important;
+  min-height: -webkit-calc(100% - 124px);
+  min-height: -moz-calc(100% - 124px);
+  min-height: calc(100% - 124px);
   padding-left: 0;
   -webkit-transition: 0.3s ease all;
   -moz-transition: 0.3s ease all;
@@ -880,7 +875,6 @@ span.badge.pill {
 .table-content {
   width: 100%;
   height: fit-content;
-  min-height: calc(100vh - 235px);
   border-radius: 6px;
   background: white;
   margin-top: 7px;

@@ -28,6 +28,7 @@ export class PracticeAreasComponent implements OnInit {
   currentPage: number = 1;
   entriesFilter: any[] = [5, 10, 20, 50, 100, 200];
   filterValue: string;
+  isLoading: boolean = true;
   selectedEntry: number = 10;
   practiceAreasList: Array<PracticeArea> = [];
 
@@ -62,6 +63,7 @@ export class PracticeAreasComponent implements OnInit {
                 action
               ))
           );
+          this.isLoading = false;
         })
     );
   }
@@ -105,7 +107,7 @@ export class PracticeAreasComponent implements OnInit {
               type: "Complete",
             },
             autoFocus: false,
-            disableClose: true
+            disableClose: true,
           })
         : this.dialog.open(PracticeAreasFormComponent, {
             id: "practiceAreaModal",
@@ -115,14 +117,8 @@ export class PracticeAreasComponent implements OnInit {
               is_category: false,
             },
             autoFocus: false,
-            disableClose: true
+            disableClose: true,
           });
-
-    // dialogRef.afterClosed().subscribe(result => {
-    //   localStorage.removeItem('userData');
-    //   localStorage.removeItem('fileData');
-    //   this._updateDS.setUserData(null);
-    // });
   }
 
   publishPracticeArea(idPracticeArea: string, state: string) {

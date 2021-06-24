@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  URI: "http://localhost:3001",
-  // URI: "https://lawyer-api.herokuapp.com",
+  // URI: "http://localhost:3001",
+  URI: "https://lawyer-api.herokuapp.com",
 };
 
 /*

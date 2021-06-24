@@ -19,6 +19,7 @@ import { CloudinaryService } from "src/app/services/cloudinary.service";
 import { LocalStorageService } from "src/app/services/local-storage.service";
 import { TrackingService } from "src/app/services/tracking.service";
 import { CasesService } from "../../services/cases.service";
+import { UtilitiesService } from "../../services/utilities.service";
 
 @Component({
   selector: "app-evidences",
@@ -33,7 +34,8 @@ export class EvidencesComponent implements OnInit {
     public _cloudinaryS: CloudinaryService,
     public _evidencesS: EvidencesService,
     public _localStorageS: LocalStorageService,
-    public _trackingS: TrackingService
+    public _trackingS: TrackingService,
+    private _utilitiesS: UtilitiesService
   ) {}
 
   @Input() modeV: string;
@@ -61,6 +63,7 @@ export class EvidencesComponent implements OnInit {
   firstEvidenceElement: HTMLElement;
   firstNoteElement: HTMLElement;
   isCaseArchived: boolean = false;
+  isLoading: boolean = true;
   notesArray: HTMLElement[] = [];
   evidencesPagesNumber: Number = 0;
   selected = new FormControl(0);
@@ -271,6 +274,7 @@ export class EvidencesComponent implements OnInit {
       } else {
         this.evidences = [];
       }
+      this.isLoading = false;
     });
   }
 
@@ -287,13 +291,9 @@ export class EvidencesComponent implements OnInit {
       data: { typeUpload: "file" },
     });
 
-    dialogRef.afterOpened().subscribe((result) => {
-      $("body").css("overflow", "hidden");
-    });
-
-    dialogRef.afterClosed().subscribe((result) => {
-      $("body").css("overflow", "");
+    const dialogACSub = dialogRef.afterClosed().subscribe(() => {
       this._cloudinaryS.clearQueue();
+      dialogACSub.unsubscribe();
     });
   }
 
@@ -307,9 +307,8 @@ export class EvidencesComponent implements OnInit {
   }
 
   setCarouselPaginationControls(rowType: string) {
-    const [pagesNumber, scrollMeasure] = this.getCarouselElementsAndMeasures(
-      rowType
-    );
+    const [pagesNumber, scrollMeasure] =
+      this.getCarouselElementsAndMeasures(rowType);
 
     if (pagesNumber >= 2) {
       if (rowType === "evidences") {
@@ -339,9 +338,8 @@ export class EvidencesComponent implements OnInit {
           paginationControlContainer.appendChild(paginationControl);
         }
       } else {
-        const paginationControlContainer = document.querySelector(
-          ".notes-controls"
-        );
+        const paginationControlContainer =
+          document.querySelector(".notes-controls");
 
         paginationControlContainer.innerHTML = "";
         this.setCarouselRowControlsVisibility("notes", "show");
@@ -374,9 +372,8 @@ export class EvidencesComponent implements OnInit {
         paginationControlContainer.innerHTML = "";
         this.setCarouselRowControlsVisibility("evidences", "hide");
       } else {
-        const paginationControlContainer = document.querySelector(
-          ".notes-controls"
-        );
+        const paginationControlContainer =
+          document.querySelector(".notes-controls");
         paginationControlContainer.innerHTML = "";
         this.setCarouselRowControlsVisibility("notes", "hide");
       }
@@ -384,9 +381,8 @@ export class EvidencesComponent implements OnInit {
   }
 
   scrollCarouselToRight(rowType: string, offsetWidth?: any) {
-    const [pagesNumber, scrollMeasure] = this.getCarouselElementsAndMeasures(
-      rowType
-    );
+    const [pagesNumber, scrollMeasure] =
+      this.getCarouselElementsAndMeasures(rowType);
     if (rowType === "evidences") {
       const activeControl: any = document.querySelector(
         ".evidences-controls .activo"
@@ -418,9 +414,8 @@ export class EvidencesComponent implements OnInit {
   }
 
   scrollCarouselToLeft(rowType: string) {
-    const [pagesNumber, scrollMeasure] = this.getCarouselElementsAndMeasures(
-      rowType
-    );
+    const [pagesNumber, scrollMeasure] =
+      this.getCarouselElementsAndMeasures(rowType);
 
     if (rowType === "evidences") {
       const activeControl: any = document.querySelector(
