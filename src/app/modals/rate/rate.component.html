@@ -14,69 +14,145 @@
 <mat-dialog-content class="mat-typography admin-modal-container">
   <!-- Modal Content -->
   <div class="modal-content admin-modal-content reply">
-    <div class="row h-full" style="margin: 0 !important">
-      <form
-        id="commentForm"
-        class="col s12 h-full dfc jcc"
-        style="padding: 0 30px"
-        ngNativeValidate
-        [formGroup]="rateForm"
-      >
-        <div class="comment-data dfr jcc">
-          <div class="comment-data-info dfc">
-            <div class="comment-data-title">
-              <span> ¿Cómo calificarías este abogado? </span>
+    <mat-tab-group
+      class="files-tab h-full jcc"
+      [selectedIndex]="selectedTab.value"
+      (selectedIndexChange)="selectedTab.setValue($event)"
+    >
+      <!-- Rate Form Tab -->
+      <mat-tab>
+        <ng-template mat-tab-label> Rate Data </ng-template>
+        <div class="row h-full" style="margin: 0 !important">
+          <form
+            id="commentForm"
+            class="col s12 pr h-full dfc jcc"
+            style="padding: 0 30px"
+            ngNativeValidate
+            [formGroup]="rateForm"
+          >
+            <!-- Go Back -->
+            <div
+              *ngIf="isFormValid && action === 'create'"
+              class="go-back waves-effect waves-light border-radius-2"
+              (click)="isFormValid = false"
+            >
+              <span>Atrás</span>
             </div>
-            <div class="comment-data-subtitle mb-10">
-              <span>Elegir calificación</span>
+            <div class="comment-data dfr jcc">
+              <div class="comment-data-info dfc">
+                <div class="comment-data-title">
+                  <span> ¿Cómo calificarías este abogado? </span>
+                </div>
+                <div class="comment-data-subtitle mb-10">
+                  <span>Elegir calificación</span>
+                </div>
+              </div>
+            </div>
+            <!-- Stars Container -->
+            <div class="stars-container mb-10">
+              <ngx-stars
+                [animation]="isFormValid ? false : true"
+                [animationSpeed]="500"
+                [color]="'#f4c150'"
+                [initialStars]="rateForm.value.rate ? rateForm.value.rate : 1"
+                (ratingOutput)="onRatingSet($event)"
+                [size]="isFormValid ? 3 : 4"
+              ></ngx-stars>
+            </div>
+            <!-- Comment Review Input -->
+            <div class="comment-review-input w-full jcc" *ngIf="isFormValid">
+              <div class="modal-input modal-input-pink notes-text-area">
+                <textarea
+                  class="
+                    materialize-textarea
+                    expediente-input
+                    ng-pristine ng-touched
+                  "
+                  name="rateComment"
+                  formControlName="rateComment"
+                  placeholder=" "
+                  autosize
+                  [minRows]="4"
+                  [maxRows]="8"
+                ></textarea>
+                <div
+                  class="modal-input-placeholder modal-input-placeholder-pink"
+                >
+                  Cuentanos tu experiencia personal con este abogado.
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </mat-tab>
+      <!--Rating Preview Tab -->
+      <mat-tab>
+        <ng-template mat-tab-label> Rating Preview </ng-template>
+        <div class="row h-full dfc jcc pr px-30" style="margin: 0 !important">
+          <div
+            *ngIf="!isEditing"
+            class="go-back waves-effect waves-light border-radius-2"
+            (click)="selectedTab.setValue(0)"
+          >
+            <span>Atrás</span>
+          </div>
+          <div class="comment-data dfr jcc">
+            <div class="comment-data-info dfc">
+              <div class="comment-data-title mb-10">
+                <span>
+                  {{
+                    !isEditing
+                      ? "¡Gracias por compartir tu opinión!"
+                      : "Tu reseña"
+                  }}
+                </span>
+              </div>
+              <div *ngIf="!isEditing" class="comment-data-subtitle mb-10">
+                <span>Tu reseña se publicará en 24 horas.</span>
+              </div>
+            </div>
+          </div>
+          <div class="review-box w-full dfr jcc ais mt-30">
+            <div class="review-left-column mr-15 dfr jfs">
+              <div class="review-user-icon header-item-icon centered-img-bg">
+                <img [src]="_usersS.user.img | img: 'user'" alt="user-img" />
+              </div>
+              <div class="review-user-name">
+                <span>
+                  {{ _utilitiesS.getUserName(_usersS.user, "full") }}
+                </span>
+              </div>
+            </div>
+            <div class="review-right-column">
+              <!-- Stars Container -->
+              <div class="stars-container mb-5">
+                <ngx-stars
+                  #previewRatingStars
+                  [color]="'#f4c150'"
+                  [initialStars]="
+                    this.inputData.isRated
+                      ? this.inputData.ratingData.rating
+                      : 1
+                  "
+                  [readonly]="true"
+                  [size]="1"
+                ></ngx-stars>
+              </div>
+              <span>{{ rateForm.value.rateComment }}</span>
             </div>
           </div>
         </div>
-        <!-- Stars Container -->
-        <div class="stars-container">
-          <ngx-stars
-            [animation]="true"
-            [animationSpeed]="500"
-            [size]="4"
-            [color]="'#f4c150'"
-            [initialStars]="1"
-            (ratingOutput)="onRatingSet($event)"
-          ></ngx-stars>
-        </div>
-        <!-- Comment Review Input -->
-        <div
-          class="comment-review-input jcc"
-          [attr.show-comment-input]="rateForm.valid ? 'true' : 'false'"
-        >
-          <div class="modal-input modal-input-pink notes-text-area">
-            <textarea
-              class="
-                materialize-textarea
-                expediente-input
-                ng-pristine ng-touched
-              "
-              name="rateComment"
-              formControlName="rateComment"
-              placeholder=" "
-              autosize
-              [minRows]="4"
-              [maxRows]="6"
-            ></textarea>
-            <div class="modal-input-placeholder modal-input-placeholder-pink">
-              Cuentanos tu experiencia personal con este abogado. ¿Fue una buena
-              elección?
-            </div>
-          </div>
-        </div>
-      </form>
-    </div>
+      </mat-tab>
+    </mat-tab-group>
   </div>
 
   <div class="modal-footer modal-actions admin-modal-footer">
-    <ng-container>
+    <!-- Show Rating Buttons -->
+    <ng-container *ngIf="!isEditing">
       <div class="modal-actions-container dfr">
         <div class="modal-actions-content">
           <button
+            *ngIf="!isFormValid && !rateForm.valid"
             type="button"
             class="mwaves-effect waves-light btn modal-close-action"
             mat-dialog-close
@@ -85,11 +161,42 @@
           </button>
           <button
             type="submit"
-            class="waves-effect waves-light btn modal-submit-action"
+            class="
+              waves-effect waves-light
+              btn
+              modal-submit-action
+              text-inherit
+            "
             [class.button-disabled]="!rateForm.valid"
-            (click)="rate()"
+            (click)="selectedTab.value === 0 ? selectedTab.setValue(1) : rate()"
           >
-            Envíar
+            Guardar y {{ selectedTab.value === 0 ? "calificar" : "salir" }}
+          </button>
+        </div>
+      </div>
+    </ng-container>
+    <!-- Show Update Buttons -->
+    <ng-container *ngIf="isEditing">
+      <div class="modal-actions-container dfr">
+        <div class="modal-actions-content">
+          <button
+            type="button"
+            class="mwaves-effect waves-light btn modal-close-action"
+            mat-dialog-close
+          >
+            Eliminar
+          </button>
+          <button
+            type="submit"
+            class="
+              waves-effect waves-light
+              btn
+              modal-submit-action
+              text-inherit
+            "
+            (click)="selectedTab.setValue(0); isEditing = false"
+          >
+            Editar reseña
           </button>
         </div>
       </div>

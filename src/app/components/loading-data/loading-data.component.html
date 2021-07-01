@@ -27,7 +27,7 @@
   </div>
 </div>
 
-<div *ngIf="loaderType === 'complex'">
+<div *ngIf="loaderType === 'complex'" class="item-acordion-card-container">
   <div
     class="skeleton item-acordion-card-box m-0 dfc"
     *ngFor="let item of loaderComponents"
@@ -73,10 +73,30 @@
 
 <div *ngIf="loaderType === 'singleComplex'" class="skeleton-loader-container">
   <div
-    class="skeleton item-acordion-card-box single-complex m-0 dfc h-full border-none"
+    class="
+      skeleton
+      item-acordion-card-box
+      single-complex
+      m-0
+      dfc
+      h-full
+      border-none
+    "
     *ngFor="let item of loaderComponents"
   >
-    <div class="loading-data w-full h-min border-none transparent-bg mb-25 p0 dfr ais">
+    <div
+      class="
+        loading-data
+        w-full
+        h-min
+        border-none
+        transparent-bg
+        mb-25
+        p0
+        dfr
+        ais
+      "
+    >
       <div class="loading-img">
         <ngx-skeleton-loader
           class="dfc"

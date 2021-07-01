@@ -455,6 +455,11 @@ export class UsersService {
     this.router.navigate(["/inicio"]);
   }
 
+  reloadUserData(userData: User) {
+    localStorage.setItem("user", JSON.stringify(userData));
+    this.user = userData;
+  }
+
   resetFormValues(form: FormGroup, data: User) {
     form.patchValue({
       firstName: data.firstName,

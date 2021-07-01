@@ -18,11 +18,12 @@
           <div class="ranking-percentage dfr">
             <div class="ranking-percentage-number"><span>8.5</span></div>
             <div class="ranking-percentage-stars dfr">
-              <i class="fas fa-star active"></i>
-              <i class="fas fa-star active"></i>
-              <i class="fas fa-star active"></i>
-              <i class="fas fa-star active"></i>
-              <i class="fas fa-star"></i>
+              <ngx-stars
+                [color]="'#f4c150'"
+                [initialStars]="4"
+                [readonly]="true"
+                [size]="1"
+              ></ngx-stars>
             </div>
           </div>
         </div>

@@ -20,3 +20,52 @@
 .comment-review-input[show-comment-input="false"] {
   display: none;
 }
+
+.go-back {
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: var(--default-color);
+  font-weight: 700;
+  padding: 10px;
+  margin: 15px;
+  cursor: pointer;
+}
+
+.go-forward {
+  left: auto;
+  right: 0;
+}
+
+.go-back:focus {
+  background: var(--tracking-number-bg);
+}
+
+.review-box {
+  border-top: 1px solid var(--dark-divider);
+  border-bottom: 1px solid var(--dark-divider);
+  padding: 30px 0;
+  max-width: 550px;
+}
+
+.review-left-column {
+  width: calc(25% + 80px);
+}
+
+.review-right-column {
+  width: calc(75% - 80px);
+  color: var(--secondary-text);
+  overflow: hidden;
+  -webkit-line-clamp: 7;
+  display: -webkit-box;
+  -webkit-box-orient: block-axis;
+}
+
+.review-user-name {
+  color: var(--default-color);
+  width: calc(100% - 60px);
+  overflow: hidden;
+  -webkit-line-clamp: 2;
+  display: -webkit-box;
+  -webkit-box-orient: block-axis;
+}

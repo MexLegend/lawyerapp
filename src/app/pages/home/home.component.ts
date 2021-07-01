@@ -23,6 +23,7 @@ import { UsersService } from "../../services/users.service";
 import { ReplyComponent } from "../../modals/reply/reply.component";
 import { MatDialog } from "@angular/material/dialog";
 import { RateComponent } from "../../modals/rate/rate.component";
+import { RatingService } from "../../services/rating.service";
 
 @Component({
   selector: "app-home",
@@ -37,6 +38,7 @@ export class HomeComponent implements OnInit {
     public dialog: MatDialog,
     public _practiceAreaS: PracticeAreasService,
     public _postsS: PostsService,
+    public _ratingS: RatingService,
     private router: Router,
     public _usersS: UsersService,
     public _utilitiesS: UtilitiesService
@@ -113,6 +115,7 @@ export class HomeComponent implements OnInit {
   postsArrayList: HTMLElement[] = [];
   postsTimer: any;
   practiceAreasList: Array<PracticeArea> = [];
+  userRatings: any;
 
   // Detect Real Screen Size
   @HostListener("window:resize", [])
@@ -135,15 +138,46 @@ export class HomeComponent implements OnInit {
 
     // List Lawyers Subscription
     this.subscriptionsArray.push(
-      this._usersS.getLawyers().subscribe((lawyers: any) => {
-        this.lawyers = lawyers;
+      this._usersS
+        .getLawyers()
+        .subscribe(
+          (lawyers: any) =>
+            (this.lawyers = this._ratingS.isDataRated(
+              lawyers,
+              this._usersS.user.ratings
+            ))
+        )
+    );
+
+    // Reload Lawyers Rating Subscription
+    this.subscriptionsArray.push(
+      this._ratingS.getReloadedRatingData().subscribe(([lawyers, dataType]) => {
+        if (dataType === "User")
+          this.lawyers = this._ratingS.isDataRated(
+            lawyers,
+            this._usersS.user.ratings
+          );
       })
     );
 
     // List Last 10 Posts Subscription
     this.subscriptionsArray.push(
       this._postsS.getPosts(true).subscribe((resp) => {
-        this.posts = resp.docs;
+        this.posts = this._ratingS.isDataRated(
+          resp.docs,
+          this._usersS.user.ratings
+        );
+      })
+    );
+
+    // Reload Posts Rating Subscription
+    this.subscriptionsArray.push(
+      this._ratingS.getReloadedRatingData().subscribe(([posts, dataType]) => {
+        if (dataType === "Post")
+          this.posts = this._ratingS.isDataRated(
+            posts,
+            this._usersS.user.ratings
+          );
       })
     );
 
@@ -209,9 +243,14 @@ export class HomeComponent implements OnInit {
   }
 
   // Open Rate Modal
-  openRateModal(lawyer?: any) {
+  openRateModal(action: string, lawyer?: any, lawyersList?: User[]) {
     let dialogRef = this.dialog.open(RateComponent, {
-      data: { lawyer, actionType: "lawyer" },
+      data: {
+        inputData: lawyer,
+        dataList: lawyersList,
+        action,
+        dataType: "User",
+      },
       autoFocus: false,
       disableClose: true,
     });

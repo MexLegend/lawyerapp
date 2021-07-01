@@ -135,19 +135,47 @@
                       </div>
                       <!-- Partner Card Actions -->
                       <div class="item-acordion-body-actions lawyer-card dfr">
-                        <!-- Partner Rate Button Trigger -->
+                        <!-- Partner Rating Stars -->
                         <button
-                          class="header-item-btn btn action-button dfc"
+                          class="
+                            header-item-btn
+                            btn
+                            action-button
+                            w-fit
+                            bs-none
+                            border-none border-radius-4
+                            px-5
+                            transparent-bg
+                            dfc
+                            jcc
+                          "
                           mat-icon-button
-                          matTooltip="Calificar abogado"
+                          [matTooltip]="
+                            lawyer.isRated
+                              ? 'Editar calificación'
+                              : 'Calificar abogado'
+                          "
                           matTooltipPosition="above"
                           (click)="
                             this._usersS.isLogged()
-                              ? openRateModal(lawyer)
+                              ? openRateModal(
+                                  lawyer.isRated ? 'update' : 'create',
+                                  lawyer,
+                                  lawyers
+                                )
                               : showAlertModal('rate', $event)
                           "
                         >
-                          <i class="far fa-star"></i>
+                          <ngx-stars
+                            [color]="'#f4c150'"
+                            [initialStars]="
+                              lawyer.ratingData?.rating
+                                ? lawyer.ratingData.rating
+                                : 0
+                            "
+                            [readonly]="true"
+                            [size]="1"
+                          ></ngx-stars>
                         </button>
                         <!-- Partner Email Button Trigger -->
                         <button

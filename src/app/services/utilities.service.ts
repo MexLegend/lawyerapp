@@ -3,7 +3,7 @@ import { Injectable, Inject } from "@angular/core";
 import { Observable, throwError, Subject } from "rxjs";
 import { catchError, map } from "rxjs/operators";
 import { FormControl } from "@angular/forms";
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 import Swal from "sweetalert2";
 import { Router } from "@angular/router";
 import { MatDialog, MatTabGroup } from "@angular/material";
@@ -699,6 +699,13 @@ export class UtilitiesService {
     const isMobile = window.innerWidth < 768 ? true : false;
 
     return { width: innerScreenWidth, height: innerScreenHeight, isMobile };
+  }
+
+  // Get Quote Authors Names
+  getUserName(user: any, type: string): string {
+    if (type === "full") return user.firstName + " " + user.lastName;
+    else
+      return user.firstName.split(" ")[0] + " " + user.lastName.split(" ")[0];
   }
 
   // Go Stepper Back

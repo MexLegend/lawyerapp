@@ -14,6 +14,7 @@ export class User {
     public lawyer?: string,
     public practice_areas?: any,
     public public_lawyer_id?: string,
+    public ratings?: any,
     public role?: string,
     public speciality?: any,
     public status?: boolean,
