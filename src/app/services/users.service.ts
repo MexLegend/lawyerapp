@@ -204,8 +204,8 @@ export class UsersService {
     return generator(base, 10);
   }
 
-  getLawyer(id: string): Observable<User> {
-    let url = `${environment.URI}/api/users/lawyer/${id}`;
+  getLawyer(id: string, getRatingData: boolean = false): Observable<User> {
+    let url = `${environment.URI}/api/users/lawyer/${id}/${getRatingData}`;
 
     return this.http
       .get<UsersPagination>(url)

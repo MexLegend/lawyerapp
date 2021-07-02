@@ -16,18 +16,37 @@
         <div class="lawyer-ranking dfc">
           <div class="ranking-title"><span>Calificación</span></div>
           <div class="ranking-percentage dfr">
-            <div class="ranking-percentage-number"><span>8.5</span></div>
+            <div class="ranking-percentage-number">
+              <span>{{
+                lawyer.ratingData
+                  ? lawyer.ratingData.ratingAvg.toFixed(1)
+                  : "0.0"
+              }}</span>
+            </div>
             <div class="ranking-percentage-stars dfr">
               <ngx-stars
                 [color]="'#f4c150'"
-                [initialStars]="4"
+                [initialStars]="
+                  lawyer.ratingData ? lawyer.ratingData.ratingAvg : 0
+                "
                 [readonly]="true"
                 [size]="1"
               ></ngx-stars>
             </div>
+            <div class="dfr fs-15 ml-5 color-default">
+              <span
+                >({{ lawyer.ratingData ? lawyer.ratingData.ratingCount : 0 }}
+                {{
+                  lawyer.ratingData?.ratingCount === 1
+                    ? "calificación"
+                    : "calificaciones"
+                }})</span
+              >
+            </div>
           </div>
         </div>
         <div class="lawyer-contact-buttons dfr">
+          <!-- Contact Lawyer By Email -->
           <button
             *ngIf="
               this._usersS.isLogged()
@@ -43,6 +62,7 @@
           >
             <span>Enviar correo</span>
           </button>
+          <!-- Contact Lawyer Directly -->
           <button
             *ngIf="
               this._usersS.isLogged()

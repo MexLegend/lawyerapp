@@ -32,7 +32,7 @@ export class AbogadoDetalleComponent implements OnInit {
   subscriptionsArray: Subscription[] = [];
 
   isModalAlertRendered: boolean = false;
-  lawyer: User = null;
+  lawyer: any = null;
   lawyerPosts: any = null;
   modalAlertRef: any = null;
   currentLawyerId: string;
@@ -88,9 +88,7 @@ export class AbogadoDetalleComponent implements OnInit {
 
   // Load Data From Current Lawyer
   loadLawyer(id: string) {
-    this._usersS.getLawyer(id).subscribe((lawyer) => {
-      this.lawyer = lawyer;
-    });
+    this._usersS.getLawyer(id).subscribe((lawyer) => (this.lawyer = lawyer));
   }
 
   openChat(lawyerData: User) {

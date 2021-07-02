@@ -1297,6 +1297,10 @@ body.hide-scroll {
   object-fit: cover !important;
 }
 
+.color-default {
+  color: var(--default-color) !important;
+}
+
 .color-secondary {
   color: var(--secondary-text) !important;
 }
@@ -1367,6 +1371,10 @@ body.hide-scroll {
 
 .fs-13 {
   font-size: 13px !important;
+}
+
+.fs-15 {
+  font-size: 15px !important;
 }
 
 .fs-20 {
