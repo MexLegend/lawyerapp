@@ -1,8 +1,17 @@
-<section *ngIf="lawyer" id="lawyers-main-container" class="pr pt-71 dfr">
+<section
+  *ngIf="lawyer"
+  id="lawyers-main-container"
+  class="pr pt-71 hide-aside dfr"
+>
+  <!-- Lawyer Info Container -->
   <div class="lawyer-info-container dfc">
     <div class="lawyer-top-container dfr">
-      <div class="lawyer-image centered-img-bg">
-        <img [src]="lawyer.img | img: 'user'" alt="" />
+      <div class="lawyer-image centered-img-bg border-radius-auto">
+        <img
+          [src]="lawyer.img | img: 'user'"
+          alt=""
+          class="border-radius-auto"
+        />
       </div>
       <div class="lawyer-stats-contact dfc">
         <div class="lawyer-name">
@@ -25,7 +34,7 @@
             </div>
             <div class="ranking-percentage-stars dfr">
               <ngx-stars
-                [color]="'#f4c150'"
+                [color]="'#eb8a2f'"
                 [initialStars]="
                   lawyer.ratingData ? lawyer.ratingData.ratingAvg : 0
                 "
@@ -81,7 +90,7 @@
         </div>
         <div class="lawyer-about-buttons dfr">
           <button
-            class="contact-btn btn dfr"
+            class="contact-btn btn bs-none dfr"
             (click)="selected.setValue(0)"
             [attr.is-active]="selected.value === 0"
           >
@@ -89,7 +98,7 @@
             <span>Contacto</span>
           </button>
           <button
-            class="about-btn btn dfr"
+            class="about-btn btn bs-none dfr"
             (click)="selected.setValue(1)"
             [attr.is-active]="selected.value === 1"
           >
@@ -140,7 +149,7 @@
                 <div class="lawyer-about-data-title">
                   <span>Teléfono:</span>
                 </div>
-                <div class="lawyer-about-link">
+                <div>
                   <span>{{ lawyer.cellPhone }}</span>
                 </div>
               </div>
@@ -158,7 +167,7 @@
               </div>
               <div class="lawyer-about-data-item dfr">
                 <div class="lawyer-about-data-title"><span>Correo:</span></div>
-                <div class="lawyer-about-link">
+                <div>
                   <span> {{ lawyer.email }}</span>
                 </div>
               </div>
@@ -200,14 +209,101 @@
         </mat-tab-group>
       </div>
     </div>
+    <!-- Last Mobile Posts Container -->
+    <div *ngIf="innerScreenWidth <= 1120" class="lawyer-posts-container dfc">
+      <div class="card aside sticky-action">
+        <div class="card-header last-articles-title card-content dfc">
+          <span>Colaboraciones del abogado</span>
+        </div>
+        <div
+          class="
+            card-body
+            last-article-body
+            card-content
+            grey
+            lighten-4
+            aside
+            dfc
+          "
+        >
+          <!-- Last Articles List -->
+          <div class="card-data-container lawyer-post-card dfc">
+            <div *ngFor="let post of lawyerPosts" class="article-container dfr">
+              <a
+                class="article-content dfr"
+                [routerLink]="['/articulo-detalle', post._id]"
+              >
+                <div
+                  class="
+                    last-article-img
+                    centered-img-bg
+                    border-none border-radius-auto
+                  "
+                >
+                  <img
+                    [src]="post?.postImage | img: 'post'"
+                    [alt]="post?.postTitle"
+                  />
+                </div>
+                <div class="last-article-data dfc">
+                  <div class="last-article-name">
+                    <span>{{ post?.postTitle }}</span>
+                  </div>
+                  <div class="last-article-rm dfr">
+                    <span>Leer artículo</span>
+                    <i class="material-icons">chevron_right</i>
+                  </div>
+                </div>
+              </a>
+            </div>
+            <div
+              *ngIf="lawyerPosts?.length === 0"
+              class="article-container no-data dfr"
+            >
+              <div class="card-no-data-information dfc">
+                <span> El abogado no ha publicado artículos recientemente</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer card-action">
+          <div class="add-item-to-accordion-container m-0 dfc">
+            <!-- See More Posts Button Trigger -->
+            <button
+              class="btn bs-none transparent-bg w-full max-width-full dfr"
+              mat-icon-button
+            >
+              <span>Ver más</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Lawyer Rating Container -->
+    <app-reviews
+      class="w-full"
+      filterType="full"
+      showBg="true"
+      showTitle="true"
+    ></app-reviews>
   </div>
-  <div class="lawyer-posts-container dfc">
-    <!-- Last Posts Card -->
-    <div class="card sticky-action">
+  <!-- Last Posts Container -->
+  <div *ngIf="innerScreenWidth > 1120" class="lawyer-posts-container dfc">
+    <div class="card aside sticky-action">
       <div class="card-header last-articles-title card-content dfc">
         <span>Colaboraciones del abogado</span>
       </div>
-      <div class="card-body last-article-body card-content grey lighten-4 dfc">
+      <div
+        class="
+          card-body
+          last-article-body
+          card-content
+          grey
+          lighten-4
+          aside
+          dfc
+        "
+      >
         <!-- Last Articles List -->
         <div class="card-data-container lawyer-post-card dfc">
           <div *ngFor="let post of lawyerPosts" class="article-container dfr">
@@ -215,7 +311,13 @@
               class="article-content dfr"
               [routerLink]="['/articulo-detalle', post._id]"
             >
-              <div class="last-article-img centered-img-bg">
+              <div
+                class="
+                  last-article-img
+                  centered-img-bg
+                  border-none border-radius-auto
+                "
+              >
                 <img
                   [src]="post?.postImage | img: 'post'"
                   [alt]="post?.postTitle"
@@ -224,12 +326,6 @@
               <div class="last-article-data dfc">
                 <div class="last-article-name">
                   <span>{{ post?.postTitle }}</span>
-                </div>
-                <div class="last-article-author">
-                  <span
-                    >{{ post?.user?.firstName }}
-                    {{ post?.user?.lastName }}</span
-                  >
                 </div>
                 <div class="last-article-rm dfr">
                   <span>Leer artículo</span>
@@ -248,7 +344,17 @@
           </div>
         </div>
       </div>
-      <div class="card-footer card-action"></div>
+      <div class="card-footer card-action">
+        <div class="add-item-to-accordion-container m-0 dfc">
+          <!-- See More Posts Button Trigger -->
+          <button
+            class="btn bs-none transparent-bg w-full max-width-full dfr"
+            mat-icon-button
+          >
+            <span>Ver más</span>
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 </section>

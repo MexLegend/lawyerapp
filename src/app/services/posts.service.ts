@@ -39,36 +39,34 @@ export class PostsService {
 
     console.log(data);
 
-    return this.http
-      .post<Post>(url, data, { headers })
-      .pipe(
-        map((resp: any) => {
-          this._notificationsS.message(
-            "success",
-            "Creación correcta",
-            resp.message,
-            false,
-            false,
-            "",
-            "",
-            2000
-          );
-          return resp;
-        }),
-        catchError((err) => {
-          this._notificationsS.message(
-            "error",
-            "Creación fallida",
-            err.message,
-            false,
-            false,
-            "",
-            "",
-            2000
-          );
-          return throwError(err);
-        })
-      );
+    return this.http.post<Post>(url, data, { headers }).pipe(
+      map((resp: any) => {
+        this._notificationsS.message(
+          "success",
+          "Creación correcta",
+          resp.message,
+          false,
+          false,
+          "",
+          "",
+          2000
+        );
+        return resp;
+      }),
+      catchError((err) => {
+        this._notificationsS.message(
+          "error",
+          "Creación fallida",
+          err.message,
+          false,
+          false,
+          "",
+          "",
+          2000
+        );
+        return throwError(err);
+      })
+    );
   }
 
   deletePost(id: string): Observable<Post> {
@@ -78,23 +76,21 @@ export class PostsService {
     });
     const url = `${environment.URI}/api/posts/${id}`;
 
-    return this.http
-      .delete<Post>(url, { headers })
-      .pipe(
-        map((resp: any) => {
-          this._notificationsS.message(
-            "success",
-            "Eliminación correcta",
-            resp.message,
-            false,
-            false,
-            "",
-            "",
-            2000
-          );
-          return resp;
-        })
-      );
+    return this.http.delete<Post>(url, { headers }).pipe(
+      map((resp: any) => {
+        this._notificationsS.message(
+          "success",
+          "Eliminación correcta",
+          resp.message,
+          false,
+          false,
+          "",
+          "",
+          2000
+        );
+        return resp;
+      })
+    );
   }
 
   getPost(id: string): Observable<Post> {
@@ -106,27 +102,11 @@ export class PostsService {
     processState?: boolean,
     page: number = 0,
     perPage: number = 10,
-    orderField: string = "",
-    orderType: number = 0,
-    filter: string = "",
-    filterOpt: string = "postTitle",
     status: boolean = true
   ): Observable<PostsPagination> {
     let url = `${environment.URI}/api/posts?status=${status}&page=${
       page + 1
     }&perPage=${perPage}`;
-
-    if (orderField && orderType) {
-      url = `${url}&orderField=${orderField}&orderType=${orderType}`;
-    }
-
-    if (filterOpt) {
-      url = `${url}&filterOpt=${filterOpt}`;
-    }
-
-    if (filter) {
-      url = `${url}&filter=${filter}`;
-    }
 
     if (processState) {
       url = `${url}&processState=${processState}`;
@@ -141,27 +121,11 @@ export class PostsService {
     lawyerId: string,
     page: number = 0,
     perPage: number = 10,
-    orderField: string = "",
-    orderType: number = 0,
-    filter: string = "",
-    filterOpt: string = "postTitle",
     status: boolean = true
   ): Observable<PostsPagination> {
     let url = `${environment.URI}/api/posts/byLawyer/?status=${status}&page=${
       page + 1
     }&perPage=${perPage}&lawyerId=${lawyerId}`;
-
-    if (orderField && orderType) {
-      url = `${url}&orderField=${orderField}&orderType=${orderType}`;
-    }
-
-    if (filterOpt) {
-      url = `${url}&filterOpt=${filterOpt}`;
-    }
-
-    if (filter) {
-      url = `${url}&filter=${filter}`;
-    }
 
     return this.http
       .get<PostsPagination>(url)
@@ -172,27 +136,11 @@ export class PostsService {
     user: User,
     page: number = 0,
     perPage: number = 10,
-    orderField: string = "",
-    orderType: number = 0,
-    filter: string = "",
-    filterOpt: string = "postTitle",
     status: boolean = true
   ): Observable<PostsPagination> {
     let url = `${environment.URI}/api/posts/byRol/?status=${status}&page=${
       page + 1
     }&perPage=${perPage}&user=${encodeURIComponent(JSON.stringify(user))}`;
-
-    if (orderField && orderType) {
-      url = `${url}&orderField=${orderField}&orderType=${orderType}`;
-    }
-
-    if (filterOpt) {
-      url = `${url}&filterOpt=${filterOpt}`;
-    }
-
-    if (filter) {
-      url = `${url}&filter=${filter}`;
-    }
 
     return this.http
       .get<PostsPagination>(url)

@@ -1,12 +1,12 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { EventEmitter, Injectable } from '@angular/core';
-import { Observable, throwError } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { EventEmitter, Injectable } from "@angular/core";
+import { Observable, throwError } from "rxjs";
+import { catchError, map } from "rxjs/operators";
 
-import { environment } from '../../environments/environment';
-import { Files, FilesPagination } from '../models/Files';
-import { NotificationsService } from './notifications.service';
-import { UsersService } from './users.service';
+import { environment } from "../../environments/environment";
+import { Files, FilesPagination } from "../models/Files";
+import { NotificationsService } from "./notifications.service";
+import { UsersService } from "./users.service";
 
 declare var $: any;
 
@@ -37,10 +37,6 @@ export class FilesService {
   getFiles(
     page: number = 0,
     perPage: number = 10,
-    orderField: string = "",
-    orderType: string = "",
-    filter: string = "",
-    filterOpt: string = "affair",
     status: string = ""
   ): Observable<FilesPagination> {
     const headers = new HttpHeaders({
@@ -51,18 +47,6 @@ export class FilesService {
     let url = `${environment.URI}/api/cases?status=${status}&page=${
       page + 1
     }&perPage=${perPage}`;
-
-    if (orderField && orderType) {
-      url = `${url}&orderField=${orderField}&orderType=${orderType}`;
-    }
-
-    if (filterOpt) {
-      url = `${url}&filterOpt=${filterOpt}`;
-    }
-
-    if (filter) {
-      url = `${url}&filter=${filter}`;
-    }
 
     return this.http
       .get<FilesPagination>(url, { headers })
@@ -89,77 +73,71 @@ export class FilesService {
 
     const url = `${environment.URI}/api/cases`;
 
-    return this.http
-      .post<Files>(url, file, { headers })
-      .pipe(
-        map((resp: any) => {
+    return this.http.post<Files>(url, file, { headers }).pipe(
+      map((resp: any) => {
+        console.log("grtgrtgrtgrt");
+        $("#modal-Expediente").modal("close");
+        this._notificationsS.message(
+          "success",
+          "Creación correcta",
+          resp.message,
+          false,
+          false,
+          "",
+          "",
+          2000
+        );
 
-
-            console.log("grtgrtgrtgrt");
-            $("#modal-Expediente").modal("close");
-            this._notificationsS.message(
-              "success",
-              "Creación correcta",
-              resp.message,
-              false,
-              false,
-              "",
-              "",
-              2000
-            );
-
-          return resp;
-        }),
-        catchError((err) => {
-          $("#modal-Expediente").modal("close");
-          this._notificationsS.message(
-            "error",
-            "Creación fallida",
-            err.message,
-            false,
-            false,
-            "",
-            "",
-            2000
-          );
-          return throwError(err);
-        })
-      );
+        return resp;
+      }),
+      catchError((err) => {
+        $("#modal-Expediente").modal("close");
+        this._notificationsS.message(
+          "error",
+          "Creación fallida",
+          err.message,
+          false,
+          false,
+          "",
+          "",
+          2000
+        );
+        return throwError(err);
+      })
+    );
   }
 
   updateFile(id, file: any) {
     const headers = new HttpHeaders({
       "Content-Type": "application/json",
-      token: this._usersS.token
+      token: this._usersS.token,
     });
     console.log(file);
-    
+
     const url = `${environment.URI}/api/cases/${id}`;
 
-    return this.http
-      .put(url, file, { headers })
-      .pipe(
-        map((resp: any) => {
-          console.log(resp);
-          $("#modal-Expediente").modal("close");
-          
-          return resp;
-        }),
-        catchError((err) => {
-          $("#modal-Expediente").modal("close");
-          this._notificationsS.message(
-            "error",
-            "Actualización fallida",
-            err.message,
-            false,
-            false,
-            "",
-            "",
-            2000
-          );
-          return throwError(err);
-        })
-      );
+    return this.http.put(url, file, { headers }).pipe(
+      map((resp: any) => {
+        console.log(resp);
+        $("#modal-Expediente").modal("close");
+
+        return resp;
+      }),
+      catchError((err) => {
+        $("#modal-Expediente").modal("close");
+        this._notificationsS.message(
+          "error",
+          "Actualización fallida",
+          err.message,
+          false,
+          false,
+          "",
+          "",
+          2000
+        );
+        return throwError(err);
+      })
+    );
   }
 
   deleteFile(id: string): Observable<Files> {
@@ -169,22 +147,20 @@ export class FilesService {
     });
     const url = `${environment.URI}/api/cases/${id}`;
 
-    return this.http
-      .delete<Files>(url, { headers })
-      .pipe(
-        map((resp: any) => {
-          this._notificationsS.message(
-            "success",
-            "Eliminación correcta",
-            resp.message,
-            false,
-            false,
-            "",
-            "",
-            2000
-          );
-          return resp;
-        })
-      );
+    return this.http.delete<Files>(url, { headers }).pipe(
+      map((resp: any) => {
+        this._notificationsS.message(
+          "success",
+          "Eliminación correcta",
+          resp.message,
+          false,
+          false,
+          "",
+          "",
+          2000
+        );
+        return resp;
+      })
+    );
   }
 }

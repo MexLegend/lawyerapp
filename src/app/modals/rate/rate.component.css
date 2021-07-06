@@ -21,22 +21,6 @@
   display: none;
 }
 
-.go-back {
-  position: absolute;
-  left: 0;
-  top: 0;
-  color: var(--default-color);
-  font-weight: 700;
-  padding: 10px;
-  margin: 15px;
-  cursor: pointer;
-}
-
-.go-forward {
-  left: auto;
-  right: 0;
-}
-
 .go-back:focus {
   background: var(--tracking-number-bg);
 }

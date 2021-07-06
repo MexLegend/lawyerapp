@@ -8,7 +8,7 @@
   >
   <i
     mat-dialog-close
-    class="modal-exit material-icons normal-orange waves-effect waves-light dfr"
+    class="modal-exit material-icons transparent-bg waves-effect waves-light dfr"
     >close</i
   >
 </div>
@@ -59,7 +59,14 @@
                 </div>
                 <button
                   type="button"
-                  class="waves-effect dfc waves-light btn modal-select-action light-blue"
+                  class="
+                    waves-effect
+                    dfc
+                    waves-light
+                    btn
+                    modal-select-action
+                    light-blue
+                  "
                   (click)="selectedTab.setValue(1); changeButtons(false)"
                 >
                   <i class="material-icons">person_add</i>
@@ -153,9 +160,9 @@
       <mat-tab>
         <ng-template mat-tab-label> Seleccionar cliente </ng-template>
         <div class="item-card-container dfc">
-          <div class="item-card-search-container dfr">
+          <div class="item-card-search-container dfr pr">
             <div class="item-card-search-content dfr">
-              <div class="item-card-search-input">
+              <div class="item-card-search-input border-radius-auto">
                 <input
                   id="search-file-client"
                   name="search-file-client"
@@ -164,11 +171,12 @@
                   placeholder="Buscar cliente"
                 />
               </div>
-              <div class="item-card-search-button">
-                <button class="btn waves-effect waves-light light-blue dfc">
-                  <i class="material-icons">search</i>
-                </button>
-              </div>
+            </div>
+            <div
+              class="go-back waves-effect waves-light dfc jcc m-0 border-radius-50"
+              (click)="selectedTab.setValue(0); changeButtons(true)"
+            >
+              <i class="material-icons">arrow_back</i>
             </div>
           </div>
           <div class="item-card-list-container dfc">
@@ -178,7 +186,7 @@
               [(ngModel)]="selectedClientIndex"
             >
               <div
-                class="card-item dfr"
+                class="card-item dfr border-radius-auto"
                 *ngFor="let user of users; let i = index"
               >
                 <div class="card-item-radio-container dfc">
@@ -256,13 +264,6 @@
     </ng-container>
     <!-- Client Selection Actions -->
     <ng-container *ngIf="!this.fileCreation">
-      <button
-        type="button"
-        class="waves-effect waves-light btn modal-close-action"
-        (click)="selectedTab.setValue(0); changeButtons(true)"
-      >
-        Cancelar
-      </button>
       <button
         id="expediente-submit-button"
         type="submit"

@@ -15,6 +15,7 @@ import { NotificationsDropdownComponent } from "./notifications-dropdown/notific
 import { RouterModule } from "@angular/router";
 import { EmailConfirmedComponent } from './email-confirmed/email-confirmed.component';
 import { LoadingDataComponent } from './loading-data/loading-data.component';
+import { ReviewsComponent } from './reviews/reviews.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { LoadingDataComponent } from './loading-data/loading-data.component';
     NotesComponent,
     NotificationsDropdownComponent,
     ProgressComponent,
+    ReviewsComponent,
     ThemeSwitchComponent,
   ],
   entryComponents: [FilePreviewComponent],
@@ -35,6 +37,7 @@ import { LoadingDataComponent } from './loading-data/loading-data.component';
     NotesComponent,
     NotificationsDropdownComponent,
     ProgressComponent,
+    ReviewsComponent,
     ThemeSwitchComponent,
   ],
   imports: [

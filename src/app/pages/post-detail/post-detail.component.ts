@@ -177,7 +177,7 @@ export class PostDetailComponent implements OnInit {
   // Load Last 10 Articles
   filteredLastPostsFc() {
     this.subscriptionsArray.push(
-      this._postsS.getPosts(true, 0, 10, "created_at", -1).subscribe((resp) => {
+      this._postsS.getPosts(true, 0, 10).subscribe((resp) => {
         this.allLastPosts = resp.docs;
         resp.docs.filter((post) => {
           this.filteredLastPosts =
@@ -215,7 +215,7 @@ export class PostDetailComponent implements OnInit {
       this._postsS.getPost(id).subscribe((post: any) => {
         this.post = post;
         this.postAuthor = post.user;
-        this.isPostLoading = false; 
+        this.isPostLoading = false;
       })
     );
   }

@@ -215,24 +215,32 @@
                   </div>
                 </div>
                 <div
-                  class="item-acordion-card-body-image centered-img-bg dfr"
+                  class="
+                    item-acordion-card-body-image
+                    centered-img-bg
+                    border-radius-auto
+                    dfr
+                  "
                   [attr.data-type]="formatType(evidence.path.split('.').pop())"
                 >
                   <img
                     *ngIf="formatType(evidence.path.split('.').pop()) === 'pdf'"
                     src="../../../assets/images/pdf_icon_2.png"
+                    class="border-radius-auto"
                   />
                   <img
                     *ngIf="
                       formatType(evidence.path.split('.').pop()) === 'word'
                     "
                     src="../../../assets/images/word_icon_2.png"
+                    class="border-radius-auto"
                   />
                   <img
                     *ngIf="
                       formatType(evidence.path.split('.').pop()) === 'image'
                     "
                     [src]="evidence?.path"
+                    class="border-radius-auto"
                   />
                 </div>
               </div>
@@ -444,7 +452,12 @@
                       </div>
                     </div>
                     <div
-                      class="item-acordion-card-body-image centered-img-bg dfr"
+                      class="
+                        item-acordion-card-body-image
+                        centered-img-bg
+                        border-radius-auto
+                        dfr
+                      "
                       [attr.data-type]="
                         formatType(evidence.path.split('.').pop())
                       "
@@ -454,18 +467,21 @@
                           formatType(evidence.path.split('.').pop()) === 'pdf'
                         "
                         src="../../../assets/images/pdf_icon_2.png"
+                        class="border-radius-auto"
                       />
                       <img
                         *ngIf="
                           formatType(evidence.path.split('.').pop()) === 'word'
                         "
                         src="../../../assets/images/word_icon_2.png"
+                        class="border-radius-auto"
                       />
                       <img
                         *ngIf="
                           formatType(evidence.path.split('.').pop()) === 'image'
                         "
                         [src]="evidence?.path"
+                        class="border-radius-auto"
                       />
                     </div>
                   </div>

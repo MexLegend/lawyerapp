@@ -22,29 +22,32 @@
       </nav>
     </div>
   </div>
-  <div
-    *ngIf="lawyers.length > 0"
-    id="lawyers-content-container"
-    class="container"
-  >
+  <div *ngIf="lawyers.length > 0" class="lawyers-list-container container-full">
     <div
       *ngFor="
         let lawyer of lawyers
           | filter: filterValue:'lawyer'
           | paginate: { itemsPerPage: selectedEntry, currentPage: currentPage }
       "
-      class="item-acordion-card-box card sticky-action cursor-pointer dfc"
+      class="item-acordion-card-box dfc evidence-card-box lawyer-card"
       style="width: 100%"
-      (click)="viewLawyerDetails(lawyer._id); scrollToTop()"
     >
-      <div class="item-acordion-card-inner-box p0 dfc">
+      <div
+        class="item-acordion-card-inner-box cursor-pointer"
+        (click)="viewLawyerDetails(lawyer._id); scrollToTop()"
+      >
         <!-- Partner Card Body -->
         <div
-          class="item-acordion-card-body lawyer-card not-actions dfr"
+          class="item-acordion-card-body lawyer-card cursor-grab dfr"
           data-note-details="true"
         >
           <div
-            class="item-acordion-card-body-image lawyer-card centered-img-bg dfr"
+            class="
+              item-acordion-card-body-image
+              lawyer-card
+              centered-img-bg
+              dfr
+            "
           >
             <img [src]="lawyer.img | img: 'user'" />
           </div>
@@ -52,16 +55,63 @@
         <!-- Partner Card Header -->
         <div class="item-acordion-card-header lawyer-card dfr">
           <div
-            class="item-acordion-card-header-data note-card-header lawyer-card dfc"
+            class="
+              item-acordion-card-header-data
+              note-card-header
+              lawyer-card
+              dfc
+            "
           >
             <div class="item-acordion-card-header-left dfr">
-              <div class="item-acordion-card-name lawyer-name lawyer-card big-title">
+              <div class="item-acordion-card-name lawyer-name lawyer-card">
                 <span>
                   {{ lawyer.firstName + " " + lawyer.lastName }}
                 </span>
               </div>
             </div>
           </div>
+        </div>
+        <!-- Partner Card Actions -->
+        <div class="item-acordion-body-actions lawyer-card px-10 dfr">
+          <!-- Partner Rating Stars -->
+          <button
+            class="
+              header-item-btn
+              btn
+              action-button
+              w-full
+              bs-none
+              border-none border-radius-4
+              px-5
+              transparent-bg
+              dfc
+              jcc
+            "
+            mat-icon-button
+            [matTooltip]="
+              lawyer.isRated ? 'Editar calificación' : 'Calificar abogado'
+            "
+            matTooltipPosition="above"
+            (click)="
+              this._usersS.isLogged()
+                ? openRateModal(
+                    lawyer.isRated ? 'update' : 'create',
+                    lawyer,
+                    lawyers
+                  )
+                : showAlertModal('rate', $event);
+              $event.stopPropagation()
+            "
+          >
+            <ngx-stars
+              [color]="'#eb8a2f'"
+              [initialStars]="
+                lawyer.ratingData?.rating ? lawyer.ratingData.rating : 0
+              "
+              [readonly]="true"
+              [size]="1"
+            ></ngx-stars>
+          </button>
         </div>
       </div>
     </div>

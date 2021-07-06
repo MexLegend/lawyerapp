@@ -117,6 +117,7 @@
                       }
               "
             >
+              <!-- Accordion Header -->
               <div class="item-acordion-card-header dfr">
                 <div class="item-acordion-card-header-icon centered-img-bg">
                   <img [src]="post.user?.img | img: 'user'" alt="" />
@@ -150,7 +151,8 @@
                   </div>
                 </div>
               </div>
-              <div class="item-acordion-card-body dfr">
+              <!-- Accordion Body -->
+              <div class="item-acordion-card-body dfr bs-none">
                 <div class="item-acordion-card-body-data dfc">
                   <div class="item-acordion-card-body-title">
                     <span>{{ post?.postTitle }}</span>
@@ -164,8 +166,19 @@
                     "
                   ></div>
                 </div>
-                <div class="item-acordion-card-body-image centered-img-bg dfr">
-                  <img [src]="post?.postImage | img: 'post'" alt="" />
+                <div
+                  class="
+                    item-acordion-card-body-image
+                    centered-img-bg
+                    border-radius-auto
+                    dfr
+                  "
+                >
+                  <img
+                    [src]="post?.postImage | img: 'post'"
+                    alt="post?.postImage"
+                    class="border-radius-auto"
+                  />
                 </div>
               </div>
               <div class="item-acordion-body-actions dfr">

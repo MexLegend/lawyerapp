@@ -31,6 +31,7 @@ export class AbogadoDetalleComponent implements OnInit {
 
   subscriptionsArray: Subscription[] = [];
 
+  innerScreenWidth: number = 0;
   isModalAlertRendered: boolean = false;
   lawyer: any = null;
   lawyerPosts: any = null;
@@ -45,6 +46,12 @@ export class AbogadoDetalleComponent implements OnInit {
       this._utilitiesS.setModalAlertState(false);
       this.modalAlertRef.close();
     }
+  }
+
+  // Detect Real Screen Size
+  @HostListener("window:resize", ["$event"])
+  onResize() {
+    this.innerScreenWidth = window.innerWidth;
   }
 
   ngOnInit() {
@@ -65,6 +72,9 @@ export class AbogadoDetalleComponent implements OnInit {
         );
       }
     });
+
+    // Get Screen Size
+    this.innerScreenWidth = window.innerWidth;
 
     // Get Modal Alert Subscription
     this.subscriptionsArray.push(

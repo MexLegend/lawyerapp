@@ -53,8 +53,14 @@
               }}</span>
             </div>
           </div>
-          <div class="card-img card-image centered-img-bg ff-ur">
-            <img [src]="post?.postImage | img: 'post'" />
+          <div
+            class="card-img card-image centered-img-bg ff-ur border-radius-auto"
+          >
+            <img
+              [src]="post?.postImage | img: 'post'"
+              alt="post-image"
+              class="border-radius-auto"
+            />
           </div>
         </div>
 
@@ -78,7 +84,14 @@
             <div class="item-acordion-body-actions dfr">
               <!-- Post Read Button Trigger -->
               <button
-                class="header-item-btn btn posts-btn action-button important-action dfc"
+                class="
+                  header-item-btn
+                  btn
+                  posts-btn
+                  action-button
+                  important-action
+                  dfc
+                "
                 mat-icon-button
                 matTooltip="Leer Artículo"
                 matTooltipPosition="above"

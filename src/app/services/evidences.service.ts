@@ -138,23 +138,21 @@ export class EvidencesService {
             status: statusN,
           };
 
-    return this.http
-      .put<Evidence>(url, data, { headers })
-      .pipe(
-        map((resp: any) => {
-          this._notificationsS.message(
-            "success",
-            `${resp.deleted ? "Eliminación correcta" : "Estado actualizado"}`,
-            resp.message,
-            false,
-            false,
-            "",
-            "",
-            2000
-          );
-          return resp;
-        })
-      );
+    return this.http.put<Evidence>(url, data, { headers }).pipe(
+      map((resp: any) => {
+        this._notificationsS.message(
+          "success",
+          `${resp.deleted ? "Eliminación correcta" : "Estado actualizado"}`,
+          resp.message,
+          false,
+          false,
+          "",
+          "",
+          2000
+        );
+        return resp;
+      })
+    );
   }
 
   createEvidence(idCase: any, evidences: any[]) {
@@ -206,23 +204,21 @@ export class EvidencesService {
     });
     const url = `${environment.URI}/api/evidences/temp/${idCase}/${idEvidence}`;
 
-    return this.http
-      .delete<Evidence>(url, { headers })
-      .pipe(
-        map((resp: any) => {
-          this._notificationsS.message(
-            "success",
-            "Eliminación correcta",
-            resp.message,
-            false,
-            false,
-            "",
-            "",
-            2000
-          );
-          return resp;
-        })
-      );
+    return this.http.delete<Evidence>(url, { headers }).pipe(
+      map((resp: any) => {
+        this._notificationsS.message(
+          "success",
+          "Eliminación correcta",
+          resp.message,
+          false,
+          false,
+          "",
+          "",
+          2000
+        );
+        return resp;
+      })
+    );
   }
 
   downloadEvidence(url, format: string) {
@@ -288,10 +284,6 @@ export class EvidencesService {
     caseId: string,
     page: number = 0,
     perPage: number = 10,
-    orderField?: string,
-    orderType?: number,
-    filter?: string,
-    filterOpt?: string,
     status?: string
   ): Observable<EvidencesPagination> {
     let url = `${
@@ -299,18 +291,6 @@ export class EvidencesService {
     }/api/evidences/all/${caseId}?status=${status}&page=${
       page + 1
     }&perPage=${perPage}`;
-
-    if (orderField && orderType) {
-      url = `${url}&orderField=${orderField}&orderType=${orderType}`;
-    }
-
-    if (filterOpt) {
-      url = `${url}&filterOpt=${filterOpt}`;
-    }
-
-    if (filter) {
-      url = `${url}&filter=${filter}`;
-    }
 
     return this.http
       .get<EvidencesPagination>(url)

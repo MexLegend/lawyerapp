@@ -15,6 +15,10 @@
   background: var(--nav-fixed-option-bg) !important;
 }
 
+.nav-fixed-option button:hover {
+  background: var(--nav-fixed-option-bg-hover) !important;
+}
+
 .nav-fixed-option button[aria-expanded="true"] {
   background: rgb(45 136 255 / 0.2) !important;
   color: #2e89ff;

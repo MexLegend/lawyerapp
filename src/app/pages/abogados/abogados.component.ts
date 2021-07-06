@@ -7,6 +7,8 @@ import { Router } from "@angular/router";
 import { ContactService } from "../../services/contact.service";
 import { ModalAlertService } from "../../services/modal-alert.service";
 import { UtilitiesService } from "../../services/utilities.service";
+import { MatDialog } from "@angular/material/dialog";
+import { RateComponent } from "../../modals/rate/rate.component";
 
 @Component({
   selector: "app-abogados",
@@ -15,12 +17,13 @@ import { UtilitiesService } from "../../services/utilities.service";
 })
 export class AbogadosComponent implements OnInit {
   constructor(
+    public _alertModalS: ModalAlertService,
     public _chatS: ChatService,
     public _contactS: ContactService,
-    public _alertModalS: ModalAlertService,
+    public dialog: MatDialog,
+    private router: Router,
     public _usersS: UsersService,
-    public _utilitiesS: UtilitiesService,
-    private router: Router
+    public _utilitiesS: UtilitiesService
   ) {}
 
   subscriptionsArray: Subscription[] = [];
@@ -77,6 +80,20 @@ export class AbogadosComponent implements OnInit {
   openChat(lawyerData: User) {
     this._chatS.setLawyerRoomData(lawyerData);
     this._chatS.openChat();
+  }
+
+  // Open Rate Modal
+  openRateModal(action: string, lawyer?: any, lawyersList?: User[]) {
+    let dialogRef = this.dialog.open(RateComponent, {
+      data: {
+        inputData: lawyer,
+        dataList: lawyersList,
+        action,
+        dataType: "User",
+      },
+      autoFocus: false,
+      disableClose: true,
+    });
   }
 
   // Scroll to Top of New Page

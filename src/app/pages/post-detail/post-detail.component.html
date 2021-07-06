@@ -1,5 +1,5 @@
 <section id="noticias-main-container" class="pr pt-71">
-  <div class="noticias-content-container">
+  <div class="noticias-content-container hide-aside visible-bg">
     <div class="noticias-data dfr">
       <!-- Detail Post Main Card Container -->
       <div class="post-main-card-container" style="width: calc(100% - 430px)">
@@ -282,7 +282,7 @@
       </div>
       <!-- Last Posts Card -->
       <div
-        class="card sticky-action last-posts dfc"
+        class="card sticky-action last-posts aside dfc"
         style="width: 400px; margin-left: 30px"
       >
         <div class="card-header last-articles-title card-content w-full">
@@ -312,10 +312,17 @@
                 class="article-content dfr"
                 [routerLink]="['/articulo-detalle', post._id]"
               >
-                <div class="last-article-img centered-img-bg">
+                <div
+                  class="
+                    last-article-img
+                    centered-img-bg
+                    border-none border-radius-auto
+                  "
+                >
                   <img
                     [src]="post?.postImage | img: 'post'"
                     [alt]="post?.postTitle"
+                    class="border-radius-auto"
                   />
                 </div>
                 <div class="last-article-data dfc">
@@ -361,7 +368,18 @@
             </div>
           </div>
         </div>
-        <div class="card-footer card-action"></div>
+        <div class="card-footer card-action">
+          <div class="add-item-to-accordion-container m-0 dfc">
+            <!-- See More Posts Button Trigger -->
+            <button
+              class="btn bs-none transparent-bg w-full max-width-full dfr"
+              mat-icon-button
+              routerLink="/articulos"
+            >
+              <span>Ver más</span>
+            </button>
+          </div>
+        </div>
       </div>
     </div>
 

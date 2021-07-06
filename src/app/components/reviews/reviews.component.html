@@ -1,0 +1,293 @@
+<div class="card horizontal w-full" [attr.show-data-bg]="showBg">
+  <div class="card-stacked w-full">
+    <div class="comment-card-header card-content">
+      <div
+        *ngIf="showTitle"
+        class="card-header review-title card-content p0 dfc jcc ais"
+      >
+        <span>Comentarios de los clientes</span>
+      </div>
+      <!-- Simple Filter Controls -->
+      <div *ngIf="filterType === 'simple'" class="dfr w-full mt-1_2-r">
+        <div class="comments-number">
+          <span>12 Comentarios</span>
+        </div>
+        <div class="filter-comments ml-25">
+          <button
+            class="
+              btn
+              action-button
+              transparent-bg
+              border-none
+              bs-none
+              line-h-i
+              w-full
+              h-min
+              border-radius-4
+              color-secondary
+            "
+            mat-icon-button
+            #menuTrigger="matMenuTrigger"
+            [matMenuTriggerFor]="filterMenu"
+          >
+            <i class="material-icons big-icon mr-8">sort</i>
+            <span>Filtrar comentarios</span>
+          </button>
+          <!-- Attached File Actions Menu Content -->
+          <mat-menu #filterMenu="matMenu" xPosition="before">
+            <ng-template matMenuContent>
+              <div class="dfc select-content-container">
+                <!-- Newest Option -->
+                <button
+                  mat-menu-item
+                  (click)="filterVariable = '-date'"
+                  [attr.data-active]="
+                    filterVariable === '-date' ? 'true' : 'false'
+                  "
+                >
+                  Más recientes
+                </button>
+                <!-- Oldest Option -->
+                <button
+                  mat-menu-item
+                  (click)="filterVariable = 'date'"
+                  [attr.data-active]="
+                    filterVariable === 'date' ? 'true' : 'false'
+                  "
+                >
+                  Más antiguos
+                </button>
+              </div>
+            </ng-template>
+          </mat-menu>
+        </div>
+      </div>
+      <!-- Full Filter Controls -->
+      <div *ngIf="filterType === 'full'" class="dfr w-full mt-1_2-r mb-35">
+        <!-- Average Text -->
+        <div class="review-number-container dfc jcc">
+          <div class="review-average">
+            <span>4.9</span>
+          </div>
+          <div class="review-stars my-10">
+            <ngx-stars
+              [color]="'#eb8a2f'"
+              [initialStars]="5"
+              [readonly]="true"
+              [size]="1"
+            ></ngx-stars>
+          </div>
+          <div class="review-average-text">
+            <span>Valoración del abogado</span>
+          </div>
+        </div>
+        <!-- Average Buttons -->
+        <div class="review-controls dfc jcc ml-25">
+          <!-- 5 Stars -->
+          <button
+            class="
+              btn
+              action-button
+              transparent-bg
+              border-none
+              bs-none
+              line-h-i
+              w-full
+              h-min
+              p0
+              mb-10
+              dfr
+              jcc
+            "
+          >
+            <mat-progress-bar
+              mode="determinate"
+              value="85"
+              class="review-progress-bar"
+            ></mat-progress-bar>
+            <ngx-stars
+              [color]="'#eb8a2f'"
+              [initialStars]="5"
+              [readonly]="true"
+              [size]="1"
+            ></ngx-stars>
+            <span class="review-progress-percentage">85%</span>
+          </button>
+          <!-- 4 Stars -->
+          <button
+            class="
+              btn
+              action-button
+              transparent-bg
+              border-none
+              bs-none
+              line-h-i
+              w-full
+              h-min
+              p0
+              mb-10
+              dfr
+              jcc
+            "
+          >
+            <mat-progress-bar
+              mode="determinate"
+              value="14"
+              class="review-progress-bar"
+            ></mat-progress-bar>
+            <ngx-stars
+              [color]="'#eb8a2f'"
+              [initialStars]="4"
+              [readonly]="true"
+              [size]="1"
+            ></ngx-stars>
+            <span class="review-progress-percentage">14%</span>
+          </button>
+          <!-- 3 Stars -->
+          <button
+            class="
+              btn
+              action-button
+              transparent-bg
+              border-none
+              bs-none
+              line-h-i
+              w-full
+              h-min
+              p0
+              mb-10
+              dfr
+              jcc
+            "
+          >
+            <mat-progress-bar
+              mode="determinate"
+              value="1"
+              class="review-progress-bar"
+            ></mat-progress-bar>
+            <ngx-stars
+              [color]="'#eb8a2f'"
+              [initialStars]="3"
+              [readonly]="true"
+              [size]="1"
+            ></ngx-stars>
+            <span class="review-progress-percentage">1%</span>
+          </button>
+          <!-- 2 Stars -->
+          <button
+            class="
+              btn
+              action-button
+              transparent-bg
+              border-none
+              bs-none
+              line-h-i
+              w-full
+              h-min
+              p0
+              mb-10
+              dfr
+              jcc
+            "
+          >
+            <mat-progress-bar
+              mode="determinate"
+              value="0"
+              class="review-progress-bar"
+            ></mat-progress-bar>
+            <ngx-stars
+              [color]="'#eb8a2f'"
+              [initialStars]="2"
+              [readonly]="true"
+              [size]="1"
+            ></ngx-stars>
+            <span class="review-progress-percentage">0</span>
+          </button>
+          <!-- 1 Star -->
+          <button
+            class="
+              btn
+              action-button
+              transparent-bg
+              border-none
+              bs-none
+              line-h-i
+              w-full
+              h-min
+              p0
+              dfr
+              jcc
+            "
+          >
+            <mat-progress-bar
+              mode="determinate"
+              value="0"
+              class="review-progress-bar"
+            ></mat-progress-bar>
+            <ngx-stars
+              [color]="'#eb8a2f'"
+              [initialStars]="1"
+              [readonly]="true"
+              [size]="1"
+            ></ngx-stars>
+            <span class="review-progress-percentage">0</span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <!-- Comments Card Content -->
+    <ng-template *ngIf="comments; else loadingCommentsData">
+      <div
+        *ngFor="let comment of comments | orderBy: filterVariable"
+        class="comment-card-body card-content grey lighten-4"
+      >
+        <div class="card-comment-content dfr">
+          <div class="user-icon">
+            <img [src]="comment.user?.img | img: 'user'" />
+          </div>
+          <div class="comment-body dfc">
+            <div class="comment-info w-full dfr">
+              <div class="comment-user-name">
+                <a href=""
+                  ><span>{{
+                    comment.user.firstName + " " + comment.user.lastName
+                  }}</span></a
+                >
+              </div>
+              <div class="comment-date">
+                <span>{{ comment.date | dateAgo }}</span>
+              </div>
+            </div>
+            <div class="user-comment-content">
+              <span>{{ comment.comment }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-footer card-action">
+        <div class="add-item-to-accordion-container m-0 dfc">
+          <!-- See More Posts Button Trigger -->
+          <button
+            class="btn bs-none transparent-bg w-full max-width-full dfr"
+            mat-icon-button
+          >
+            <span>Ver más reseñas</span>
+          </button>
+        </div>
+      </div>
+    </ng-template>
+  </div>
+  <!-- Loading Comments -->
+  <ng-template #loadingCommentsData>
+    <div
+      class="
+        notifications-loading
+        loading-dots-container loading-dots
+        transparent-bg
+        w-full
+        dfr
+        jcc
+      "
+    ></div>
+  </ng-template>
+</div>

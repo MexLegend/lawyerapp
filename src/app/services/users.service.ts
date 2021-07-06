@@ -293,10 +293,6 @@ export class UsersService {
   getUsers(
     page: number = 0,
     perPage: number = 10,
-    orderField: string = "",
-    orderType: string = "",
-    filter: string = "",
-    filterOpt: string = "firstName",
     status: boolean = true
   ): Observable<any> {
     const headers = new HttpHeaders({
@@ -307,18 +303,6 @@ export class UsersService {
     let url = `${environment.URI}/api/users?status=${status}&page=${
       page + 1
     }&perPage=${perPage}`;
-
-    if (orderField && orderType) {
-      url = `${url}&orderField=${orderField}&orderType=${orderType}`;
-    }
-
-    if (filterOpt) {
-      url = `${url}&filterOpt=${filterOpt}`;
-    }
-
-    if (filter) {
-      url = `${url}&filter=${filter}`;
-    }
 
     return this.http
       .get<UsersPagination>(url, { headers })

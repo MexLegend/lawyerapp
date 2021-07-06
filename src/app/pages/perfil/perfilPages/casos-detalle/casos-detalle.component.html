@@ -2,7 +2,7 @@
 <div class="card horizontal perfil-card">
   <div class="card-image"></div>
   <div class="card-stacked">
-    <div class="card-content">
+    <div class="card-content border-radius-auto">
       <div class="row" style="margin: 0">
         <div class="col s12" style="padding: 0">
           <div class="expedienteData">
@@ -75,8 +75,8 @@
 </div>
 
 <!-- Contenedor Listado Seguimientos -->
-<div class="item-list-container">
-  <mat-card class="item-list-container dfc">
+<div class="item-list-container border-radius-auto">
+  <mat-card class="item-list-container dfc border-radius-auto">
     <!-- Posts List Container  -->
     <mat-card-content class="item-list-content perfil-details">
       <perfect-scrollbar
@@ -98,7 +98,7 @@
                     };
               let i = index
             "
-            class="tracking-table-container dfr"
+            class="tracking-table-container dfr bs-none border-radius-auto"
             [attr.data-show-more]="
               showMoreIndex === track?.index ? 'true' : 'false'
             "

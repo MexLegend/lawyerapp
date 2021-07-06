@@ -38,37 +38,35 @@ export class PracticeAreasService {
       lawyersList,
     };
 
-    return this.http
-      .post<PracticeArea>(url, data, { headers })
-      .pipe(
-        map((resp: any) => {
-          this.setPracticeAreasList([resp.practiceArea], "push");
+    return this.http.post<PracticeArea>(url, data, { headers }).pipe(
+      map((resp: any) => {
+        this.setPracticeAreasList([resp.practiceArea], "push");
 
-          this._notificationsS.message(
-            "success",
-            "Creación correcta",
-            resp.message,
-            false,
-            false,
-            "",
-            "",
-            2000
-          );
-        }),
-        catchError((err) => {
-          this._notificationsS.message(
-            "error",
-            "Creación fallida",
-            err.message,
-            false,
-            false,
-            "",
-            "",
-            2000
-          );
-          return throwError(err);
-        })
-      );
+        this._notificationsS.message(
+          "success",
+          "Creación correcta",
+          resp.message,
+          false,
+          false,
+          "",
+          "",
+          2000
+        );
+      }),
+      catchError((err) => {
+        this._notificationsS.message(
+          "error",
+          "Creación fallida",
+          err.message,
+          false,
+          false,
+          "",
+          "",
+          2000
+        );
+        return throwError(err);
+      })
+    );
   }
 
   deletePracticeAreaCompletly(id: string): Observable<PracticeArea> {
@@ -78,23 +76,21 @@ export class PracticeAreasService {
     });
     const url = `${environment.URI}/api/practice-areas/completly/${id}`;
 
-    return this.http
-      .delete<PracticeArea>(url, { headers })
-      .pipe(
-        map((resp: any) => {
-          this._notificationsS.message(
-            "success",
-            "Eliminación correcta",
-            resp.message,
-            false,
-            false,
-            "",
-            "",
-            2000
-          );
-          return resp;
-        })
-      );
+    return this.http.delete<PracticeArea>(url, { headers }).pipe(
+      map((resp: any) => {
+        this._notificationsS.message(
+          "success",
+          "Eliminación correcta",
+          resp.message,
+          false,
+          false,
+          "",
+          "",
+          2000
+        );
+        return resp;
+      })
+    );
   }
 
   deleteSpecializedLawyer(
@@ -124,38 +120,36 @@ export class PracticeAreasService {
     });
     const url = `${environment.URI}/api/practice-areas/temporary/${id}`;
 
-    return this.http
-      .delete<PracticeArea>(url, { headers })
-      .pipe(
-        map((resp: any) => {
-          this.setPracticeAreasList([resp.practiceArea], "delete");
+    return this.http.delete<PracticeArea>(url, { headers }).pipe(
+      map((resp: any) => {
+        this.setPracticeAreasList([resp.practiceArea], "delete");
 
-          this._notificationsS.message(
-            "success",
-            "Eliminación correcta",
-            resp.message,
-            false,
-            true,
-            "OK",
-            "",
-            null
-          );
-          return resp;
-        }),
-        catchError((err) => {
-          this._notificationsS.message(
-            "error",
-            "Eliminación fallida",
-            err.message,
-            false,
-            false,
-            "",
-            "",
-            2000
-          );
-          return throwError(err);
-        })
-      );
+        this._notificationsS.message(
+          "success",
+          "Eliminación correcta",
+          resp.message,
+          false,
+          true,
+          "OK",
+          "",
+          null
+        );
+        return resp;
+      }),
+      catchError((err) => {
+        this._notificationsS.message(
+          "error",
+          "Eliminación fallida",
+          err.message,
+          false,
+          false,
+          "",
+          "",
+          2000
+        );
+        return throwError(err);
+      })
+    );
   }
 
   getSpecializedLawyers(id: string): Observable<any> {
@@ -185,17 +179,11 @@ export class PracticeAreasService {
     is_category: boolean = false,
     page: number = 0,
     perPage: number = 10,
-    orderField: string = "",
-    orderType: number = 0,
     status: boolean = true
   ): Observable<any> {
     let url = `${environment.URI}/api/practice-areas/?status=${status}&page=${
       page + 1
     }&perPage=${perPage}&is_category=${is_category}`;
-
-    if (orderField && orderType) {
-      url = `${url}&orderField=${orderField}&orderType=${orderType}`;
-    }
 
     if (processState) {
       url = `${url}&processState=${processState}`;

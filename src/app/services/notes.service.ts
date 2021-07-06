@@ -140,23 +140,21 @@ export class NotesService {
             status: statusN,
           };
 
-    return this.http
-      .put<Note>(url, data, { headers })
-      .pipe(
-        map((resp: any) => {
-          this._notificationsS.message(
-            "success",
-            `${resp.deleted ? "Eliminación correcta" : "Estado actualizado"}`,
-            resp.message,
-            false,
-            false,
-            "",
-            "",
-            2000
-          );
-          return resp.note;
-        })
-      );
+    return this.http.put<Note>(url, data, { headers }).pipe(
+      map((resp: any) => {
+        this._notificationsS.message(
+          "success",
+          `${resp.deleted ? "Eliminación correcta" : "Estado actualizado"}`,
+          resp.message,
+          false,
+          false,
+          "",
+          "",
+          2000
+        );
+        return resp.note;
+      })
+    );
   }
 
   clearCheckNotes() {
@@ -174,26 +172,24 @@ export class NotesService {
       token: this._usersS.token,
     });
 
-    return this.http
-      .post<Note>(url, note, { headers })
-      .pipe(
-        map((resp: any) => {
-          this._notificationsS.message(
-            "success",
-            "Nota creada correctamente",
-            false,
-            false,
-            false,
-            "",
-            "",
-            2000
-          );
-          return resp;
-        }),
-        catchError((err) => {
-          return throwError(err);
-        })
-      );
+    return this.http.post<Note>(url, note, { headers }).pipe(
+      map((resp: any) => {
+        this._notificationsS.message(
+          "success",
+          "Nota creada correctamente",
+          false,
+          false,
+          false,
+          "",
+          "",
+          2000
+        );
+        return resp;
+      }),
+      catchError((err) => {
+        return throwError(err);
+      })
+    );
   }
 
   deleteListedNote(idNote: string) {
@@ -211,23 +207,21 @@ export class NotesService {
     });
     const url = `${environment.URI}/api/notes/temp/${idCase}/${idNote}`;
 
-    return this.http
-      .delete<Note>(url, { headers })
-      .pipe(
-        map((resp: any) => {
-          this._notificationsS.message(
-            "success",
-            "Eliminación correcta",
-            resp.message,
-            false,
-            false,
-            "",
-            "",
-            2000
-          );
-          return resp;
-        })
-      );
+    return this.http.delete<Note>(url, { headers }).pipe(
+      map((resp: any) => {
+        this._notificationsS.message(
+          "success",
+          "Eliminación correcta",
+          resp.message,
+          false,
+          false,
+          "",
+          "",
+          2000
+        );
+        return resp;
+      })
+    );
   }
 
   getNote(id: string): Observable<Note> {
@@ -246,10 +240,6 @@ export class NotesService {
     caseId: string,
     page: number = 0,
     perPage: number = 10,
-    orderField?: string,
-    orderType?: number,
-    filter?: string,
-    filterOpt?: string,
     status: string = "PUBLIC"
   ): Observable<NotesPagination> {
     let url = `${
@@ -257,18 +247,6 @@ export class NotesService {
     }/api/notes/all/${caseId}?status=${status}&page=${
       page + 1
     }&perPage=${perPage}`;
-
-    if (orderField && orderType) {
-      url = `${url}&orderField=${orderField}&orderType=${orderType}`;
-    }
-
-    if (filterOpt) {
-      url = `${url}&filterOpt=${filterOpt}`;
-    }
-
-    if (filter) {
-      url = `${url}&filter=${filter}`;
-    }
 
     return this.http
       .get<NotesPagination>(url)

@@ -167,7 +167,7 @@
                           "
                         >
                           <ngx-stars
-                            [color]="'#f4c150'"
+                            [color]="'#eb8a2f'"
                             [initialStars]="
                               lawyer.ratingData?.rating
                                 ? lawyer.ratingData.rating
@@ -323,10 +323,16 @@
                         class="
                           item-acordion-card-body-image
                           centered-img-bg
+                          border-radius-auto
+                          border-none
                           dfr
                         "
                       >
-                        <img [src]="post?.postImage | img: 'post'" />
+                        <img
+                          [src]="post?.postImage | img: 'post'"
+                          alt="post-image"
+                          class="border-radius-auto"
+                        />
                       </div>
                     </div>
                     <!-- Post Card Actions -->

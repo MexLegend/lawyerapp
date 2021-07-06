@@ -7,9 +7,14 @@
     ><span class="article-action">{{ this.practiceAreaDataFormAction }}</span>
   </span>
   <i
-    *ngIf="practiceAreaDataFormType !== 'Simple'"
     mat-dialog-close
-    class="modal-exit material-icons pink accent-2 waves-effect waves-light dfr"
+    class="
+      modal-exit
+      material-icons
+      transparent-bg
+      waves-effect waves-light
+      dfr
+    "
     >close</i
   >
 </div>
@@ -90,7 +95,14 @@
                   <div class="header-item-actions general dfr">
                     <!-- FAQ CRUD Button Trigger -->
                     <button
-                      class="header-item-btn important-action btn waves-effect waves-light light-blue dfc"
+                      class="
+                        header-item-btn
+                        important-action
+                        btn
+                        waves-effect waves-light
+                        light-blue
+                        dfc
+                      "
                       mat-icon-button
                       [matMenuTriggerFor]="actionsMenu"
                       (click)="_utilitiesS.moveDown($event)"
@@ -128,7 +140,7 @@
                 </mat-panel-title>
               </mat-expansion-panel-header>
               <!-- Practice Areas Expansion Body -->
-              <mat-card class="item-body-data-container">
+              <mat-card class="item-body-data-container bs-none">
                 <div class="item-body-data-content dfc">
                   <div class="item-body-row dfr">
                     <span class="item-body-subtitle">{{
@@ -180,7 +192,14 @@
               <div class="header-item-actions general dfr">
                 <!-- Reference CRUD Button Trigger -->
                 <button
-                  class="header-item-btn important-action btn waves-effect waves-light light-blue dfc"
+                  class="
+                    header-item-btn
+                    important-action
+                    btn
+                    waves-effect waves-light
+                    light-blue
+                    dfc
+                  "
                   mat-icon-button
                   [matMenuTriggerFor]="actionsMenu"
                   (click)="_utilitiesS.moveDown($event)"
@@ -297,7 +316,13 @@
           <mat-card-content class="item-list-content">
             <mat-card
               *ngFor="let lawyer of lawyers | filter: filterValue:'lawyer'"
-              class="tracking-table-container select-all dfr"
+              class="
+                tracking-table-container
+                select-all
+                dfr
+                bs-none
+                border-radius-auto
+              "
             >
               <mat-checkbox
                 #lawyersCheckbox

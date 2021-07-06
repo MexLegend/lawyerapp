@@ -284,7 +284,7 @@
 }
 
 #nav-menu-items > ul > li a[data-active="off"]:hover {
-  background: var(--light-dark-bg-hover) !important;
+  background: var(--item-hover) !important;
 }
 
 #nav-menu-items > ul > li a[data-active="on"]:hover {

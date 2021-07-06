@@ -1,12 +1,12 @@
 <!-- NavBar Container -->
-<nav class="nav-extended text-grey darken-3 navbar-fixed">
+<nav class="nav-extended text-grey darken-3 navbar-fixed br-none">
   <!-- Main Navbar -->
   <div id="mainNavbar" class="nav-wrapper">
     <div id="nav-menu-logo">
       <!-- Main Client Sidebar Button Trigger -->
       <a
         (click)="toogleMainSidenav()"
-        class="sidenav-btn"
+        class="sidenav-btn bs-none"
         matTooltip="Menú"
         matTooltipPosition="below"
         ><i class="material-icons">menu</i></a
@@ -218,7 +218,11 @@
               </div>
             </div>
           </button>
-          <mat-menu #beforeMenu="matMenu" xPosition="before" backdropClass="full-width-menu">
+          <mat-menu
+            #beforeMenu="matMenu"
+            xPosition="before"
+            backdropClass="full-width-menu"
+          >
             <div class="perfilMenu" (click)="$event.stopPropagation()">
               <!-- Perfil Information -->
               <div class="perfil-info dfr">

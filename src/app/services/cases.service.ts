@@ -35,37 +35,35 @@ export class CasesService {
 
     const url = `${environment.URI}/api/cases`;
 
-    return this.http
-      .post<Cases>(url, file, { headers })
-      .pipe(
-        map((resp: any) => {
-          this._notificationsS.message(
-            "success",
-            "Creación correcta",
-            resp.message,
-            false,
-            false,
-            "",
-            "",
-            2000
-          );
+    return this.http.post<Cases>(url, file, { headers }).pipe(
+      map((resp: any) => {
+        this._notificationsS.message(
+          "success",
+          "Creación correcta",
+          resp.message,
+          false,
+          false,
+          "",
+          "",
+          2000
+        );
 
-          return resp;
-        }),
-        catchError((err) => {
-          this._notificationsS.message(
-            "error",
-            "Creación fallida",
-            err.message,
-            false,
-            false,
-            "",
-            "",
-            2000
-          );
-          return throwError(err);
-        })
-      );
+        return resp;
+      }),
+      catchError((err) => {
+        this._notificationsS.message(
+          "error",
+          "Creación fallida",
+          err.message,
+          false,
+          false,
+          "",
+          "",
+          2000
+        );
+        return throwError(err);
+      })
+    );
   }
 
   deleteFile(id: string): Observable<Cases> {
@@ -76,23 +74,21 @@ export class CasesService {
 
     const url = `${environment.URI}/api/cases/temp/${id}`;
 
-    return this.http
-      .delete<Cases>(url, { headers })
-      .pipe(
-        map((resp: any) => {
-          this._notificationsS.message(
-            "success",
-            "Eliminación correcta",
-            resp.message,
-            false,
-            false,
-            "",
-            "",
-            2000
-          );
-          return resp;
-        })
-      );
+    return this.http.delete<Cases>(url, { headers }).pipe(
+      map((resp: any) => {
+        this._notificationsS.message(
+          "success",
+          "Eliminación correcta",
+          resp.message,
+          false,
+          false,
+          "",
+          "",
+          2000
+        );
+        return resp;
+      })
+    );
   }
 
   getAll(id: string): Observable<Cases[]> {
@@ -115,15 +111,7 @@ export class CasesService {
     this.casesData.next(casesData);
   }
 
-  getCases(
-    page: number = 0,
-    perPage: number = 10,
-    orderField: string = "",
-    orderType: string = "",
-    filter: string = "",
-    filterOpt: string = "affair",
-    status: string = ""
-  ) {
+  getCases(page: number = 0, perPage: number = 10, status: string = "") {
     const headers = new HttpHeaders({
       "Content-Type": "application/json",
       token: this._usersS.token,
@@ -132,18 +120,6 @@ export class CasesService {
     let url = `${environment.URI}/api/cases?status=${status}&page=${
       page + 1
     }&perPage=${perPage}`;
-
-    if (orderField && orderType) {
-      url = `${url}&orderField=${orderField}&orderType=${orderType}`;
-    }
-
-    if (filterOpt) {
-      url = `${url}&filterOpt=${filterOpt}`;
-    }
-
-    if (filter) {
-      url = `${url}&filter=${filter}`;
-    }
 
     return this.http
       .get<CasesPagination>(url, { headers })
@@ -191,13 +167,13 @@ export class CasesService {
         case "ACTIVE":
           casesCount = {
             ...initialCasesCount,
-            active: initialCasesCount.active += 1,
+            active: (initialCasesCount.active += 1),
           };
           break;
         default:
           casesCount = {
             ...initialCasesCount,
-            archived: initialCasesCount.archived += 1,
+            archived: (initialCasesCount.archived += 1),
           };
           break;
       }

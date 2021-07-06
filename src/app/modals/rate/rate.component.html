@@ -6,7 +6,7 @@
   <span class="client-action"> Calificar abogado </span>
   <i
     mat-dialog-close
-    class="modal-exit material-icons pink accent-2 waves-effect waves-light dfr"
+    class="modal-exit material-icons transparent-bg waves-effect waves-light dfr"
     >close</i
   >
 </div>
@@ -33,10 +33,10 @@
             <!-- Go Back -->
             <div
               *ngIf="isFormValid && action === 'create'"
-              class="go-back waves-effect waves-light border-radius-2"
+              class="go-back waves-effect waves-light dfc jcc border-radius-50"
               (click)="isFormValid = false"
             >
-              <span>Atrás</span>
+              <i class="material-icons">arrow_back</i>
             </div>
             <div class="comment-data dfr jcc">
               <div class="comment-data-info dfc">
@@ -53,7 +53,7 @@
               <ngx-stars
                 [animation]="isFormValid ? false : true"
                 [animationSpeed]="500"
-                [color]="'#f4c150'"
+                [color]="'#eb8a2f'"
                 [initialStars]="rateForm.value.rate ? rateForm.value.rate : 1"
                 (ratingOutput)="onRatingSet($event)"
                 [size]="isFormValid ? 3 : 4"
@@ -91,10 +91,10 @@
         <div class="row h-full dfc jcc pr px-30" style="margin: 0 !important">
           <div
             *ngIf="!isEditing"
-            class="go-back waves-effect waves-light border-radius-2"
+            class="go-back waves-effect waves-light dfc jcc border-radius-50"
             (click)="selectedTab.setValue(0)"
           >
-            <span>Atrás</span>
+            <i class="material-icons">arrow_back</i>
           </div>
           <div class="comment-data dfr jcc">
             <div class="comment-data-info dfc">
@@ -128,7 +128,7 @@
               <div class="stars-container mb-5">
                 <ngx-stars
                   #previewRatingStars
-                  [color]="'#f4c150'"
+                  [color]="'#eb8a2f'"
                   [initialStars]="
                     this.inputData.isRated
                       ? this.inputData.ratingData.rating
