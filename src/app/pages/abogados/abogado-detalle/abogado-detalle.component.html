@@ -1,7 +1,7 @@
 <section
   *ngIf="lawyer"
   id="lawyers-main-container"
-  class="pr pt-71 hide-aside dfr"
+  class="pr pt-71 hide-aside dfr z-index-1"
 >
   <!-- Lawyer Info Container -->
   <div class="lawyer-info-container dfc">
@@ -127,7 +127,7 @@
         <span
           *ngFor="let practiceArea of lawyer.practice_areas"
           class="lawyer-skill"
-          >{{ practiceArea.practice_area.name }}</span
+          >{{ practiceArea.name }}</span
         >
         <span *ngIf="lawyer.practice_areas.length === 0" class="lawyer-skill"
           >El abogado aún no tiene áreas de práctica asignadas</span
@@ -283,8 +283,9 @@
     <app-reviews
       class="w-full"
       filterType="full"
-      showBg="true"
+      showBg="false"
       showTitle="true"
+      [reviewData]="lawyer.ratingData"
     ></app-reviews>
   </div>
   <!-- Last Posts Container -->

@@ -54,6 +54,8 @@ export class RatingService {
 
   // Return True / False If Data Is Rated
   isDataRated(dataList: any, ratingsList: any): any {
+    if (!ratingsList) return dataList;
+
     return dataList.map((dataItem) => {
       const i = ratingsList.findIndex(
         (ratingItem) => dataItem._id === ratingItem.data_id

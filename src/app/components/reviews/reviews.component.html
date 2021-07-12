@@ -7,7 +7,7 @@
       >
         <span>Comentarios de los clientes</span>
       </div>
-      <!-- Simple Filter Controls -->
+      <!-- Simple Filter Main Controls -->
       <div *ngIf="filterType === 'simple'" class="dfr w-full mt-1_2-r">
         <div class="comments-number">
           <span>12 Comentarios</span>
@@ -62,17 +62,19 @@
           </mat-menu>
         </div>
       </div>
-      <!-- Full Filter Controls -->
+      <!-- Full Filter Main Controls -->
       <div *ngIf="filterType === 'full'" class="dfr w-full mt-1_2-r mb-35">
         <!-- Average Text -->
         <div class="review-number-container dfc jcc">
           <div class="review-average">
-            <span>4.9</span>
+            <span>{{
+              reviewData ? reviewData.ratingAvg.toFixed(1) : "0.0"
+            }}</span>
           </div>
           <div class="review-stars my-10">
             <ngx-stars
               [color]="'#eb8a2f'"
-              [initialStars]="5"
+              [initialStars]="reviewData ? reviewData.ratingAvg : 0"
               [readonly]="true"
               [size]="1"
             ></ngx-stars>
@@ -102,7 +104,7 @@
           >
             <mat-progress-bar
               mode="determinate"
-              value="85"
+              [value]="reviewData ? reviewData.fiveStarsAvg : 0"
               class="review-progress-bar"
             ></mat-progress-bar>
             <ngx-stars
@@ -111,7 +113,14 @@
               [readonly]="true"
               [size]="1"
             ></ngx-stars>
-            <span class="review-progress-percentage">85%</span>
+            <span *ngIf="reviewData" class="review-progress-percentage">
+              {{
+                reviewData.fiveStarsAvg > 0 ? reviewData.fiveStarsAvg : "< 1"
+              }}%
+            </span>
+            <span *ngIf="!reviewData" class="review-progress-percentage">
+              0%
+            </span>
           </button>
           <!-- 4 Stars -->
           <button
@@ -132,7 +141,7 @@
           >
             <mat-progress-bar
               mode="determinate"
-              value="14"
+              [value]="reviewData ? reviewData.fourStarsAvg : 0"
               class="review-progress-bar"
             ></mat-progress-bar>
             <ngx-stars
@@ -141,7 +150,14 @@
               [readonly]="true"
               [size]="1"
             ></ngx-stars>
-            <span class="review-progress-percentage">14%</span>
+            <span *ngIf="reviewData" class="review-progress-percentage">
+              {{
+                reviewData.fourStarsAvg > 0 ? reviewData.fourStarsAvg : "< 1"
+              }}%
+            </span>
+            <span *ngIf="!reviewData" class="review-progress-percentage">
+              0%
+            </span>
           </button>
           <!-- 3 Stars -->
           <button
@@ -162,7 +178,7 @@
           >
             <mat-progress-bar
               mode="determinate"
-              value="1"
+              [value]="reviewData ? reviewData.threeStarsAvg : 0"
               class="review-progress-bar"
             ></mat-progress-bar>
             <ngx-stars
@@ -171,7 +187,14 @@
               [readonly]="true"
               [size]="1"
             ></ngx-stars>
-            <span class="review-progress-percentage">1%</span>
+            <span *ngIf="reviewData" class="review-progress-percentage">
+              {{
+                reviewData.threeStarsAvg > 0 ? reviewData.threeStarsAvg : "< 1"
+              }}%
+            </span>
+            <span *ngIf="!reviewData" class="review-progress-percentage">
+              0%
+            </span>
           </button>
           <!-- 2 Stars -->
           <button
@@ -192,7 +215,7 @@
           >
             <mat-progress-bar
               mode="determinate"
-              value="0"
+              [value]="reviewData ? reviewData.twoStarsAvg : 0"
               class="review-progress-bar"
             ></mat-progress-bar>
             <ngx-stars
@@ -201,7 +224,12 @@
               [readonly]="true"
               [size]="1"
             ></ngx-stars>
-            <span class="review-progress-percentage">0</span>
+            <span *ngIf="reviewData" class="review-progress-percentage">
+              {{ reviewData.twoStarsAvg > 0 ? reviewData.twoStarsAvg : "< 1" }}%
+            </span>
+            <span *ngIf="!reviewData" class="review-progress-percentage">
+              0%
+            </span>
           </button>
           <!-- 1 Star -->
           <button
@@ -221,7 +249,7 @@
           >
             <mat-progress-bar
               mode="determinate"
-              value="0"
+              [value]="reviewData ? reviewData.oneStarAvg : 0"
               class="review-progress-bar"
             ></mat-progress-bar>
             <ngx-stars
@@ -230,52 +258,156 @@
               [readonly]="true"
               [size]="1"
             ></ngx-stars>
-            <span class="review-progress-percentage">0</span>
+            <span *ngIf="reviewData" class="review-progress-percentage">
+              {{ reviewData.oneStarAvg > 0 ? reviewData.oneStarAvg : "< 1" }}%
+            </span>
+            <span *ngIf="!reviewData" class="review-progress-percentage">
+              0%
+            </span>
           </button>
+        </div>
+      </div>
+      <!-- Full Filter Secondary Controls -->
+      <div *ngIf="filterType === 'full'" class="dfc w-full mb-35">
+        <span class="review-title w-full">Valoraciones</span>
+        <div class="w-full dfr jcc mt-1-r">
+          <form
+            ngNativeValidate
+            [formGroup]="filterReviewsForm"
+            class="dfr jcc w-full"
+          >
+            <div class="search-input-container w-full dfr jcs">
+              <input
+                type="text"
+                name="serach-input"
+                id="reviewSearch"
+                formControlName="filterValue"
+                (enter)="filterReviews()"
+                placeholder="Buscar reseñas"
+                class="
+                  search-input
+                  dfc
+                  flex-1
+                  m-0
+                  bs-none
+                  border-radius-auto border-radius-tr-none border-radius-br-none
+                "
+              />
+              <button
+                *ngIf="filterReviewsForm.valid"
+                class="
+                  search-input-button
+                  btn
+                  waves-effect waves-light
+                  color-secondary
+                  dfc
+                  jcc
+                  bs-none
+                  border-radius-none
+                  border-left-none
+                  border-right-none
+                  border-visible
+                  transparent-bg
+                "
+                (click)="filterReviewsForm.reset()"
+              >
+                <i class="material-icons icon">close</i>
+              </button>
+              <button
+                class="
+                  search-input-button
+                  btn
+                  waves-effect waves-light
+                  light-blue
+                  title-white
+                  dfc
+                  jcc
+                  bs-none
+                  border-radius-auto border-radius-tl-none border-radius-bl-none
+                "
+                (click)="filterReviews()"
+              >
+                <i class="material-icons icon">search</i>
+              </button>
+            </div>
+            <div class="search-filter-select border-radius-auto">
+              <mat-form-field class="h-full">
+                <mat-select
+                  value="all"
+                  required
+                  disableOptionCentering
+                  (selectionChange)="filterReviews($event)"
+                >
+                  <mat-option value="all"> Todas las valoraciones </mat-option>
+                  <mat-option value="five"> Cinco estrellas </mat-option>
+                  <mat-option value="four"> Cuatro estrellas </mat-option>
+                  <mat-option value="three"> Tres estrellas </mat-option>
+                  <mat-option value="two"> Dos estrellas </mat-option>
+                  <mat-option value="one"> Una estrella </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </form>
+        </div>
+      </div>
+      <!-- Comments Card Content -->
+      <div *ngIf="reviewData?.comments; else loadingCommentsData">
+        <div
+          *ngFor="let comment of reviewData.comments"
+          class="comment-card-body card-content"
+          [class.transparent-bg]="showBg === 'false'"
+          [class.pt-0]="showBg === 'false'"
+        >
+          <div class="card-comment-content dfr ais">
+            <div class="user-icon">
+              <img [src]="comment?.img | img: 'user'" />
+            </div>
+            <div class="comment-body dfc ais">
+              <div class="comment-info w-full mb-5 dfc ais">
+                <div class="comment-user-name mb-5">
+                  <span>
+                    {{ comment?.firstName + " " + comment?.lastName }}
+                  </span>
+                </div>
+                <div class="dfr jcc">
+                  <div class="ranking-percentage-stars dfr">
+                    <ngx-stars
+                      [color]="'#eb8a2f'"
+                      [initialStars]="
+                        comment.ratingValue ? comment.ratingValue : 0
+                      "
+                      [readonly]="true"
+                      [size]="1"
+                    ></ngx-stars>
+                  </div>
+                  <div class="comment-date ml-5 secondary-text">
+                    <span>{{ comment.date | dateAgo }}</span>
+                  </div>
+                </div>
+              </div>
+              <div
+                #commentBox
+                class="user-comment-content"
+                [class.show-full-comment]="commentBox | showFullMessage"
+              >
+                <span>{{ comment.comment }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer card-action" [class.px-0]="showBg === 'false'">
+          <div class="add-item-to-accordion-container m-0 dfc">
+            <!-- See More Posts Button Trigger -->
+            <button
+              class="btn bs-none transparent-bg w-full max-width-full dfr"
+              mat-icon-button
+            >
+              <span>Ver más reseñas</span>
+            </button>
+          </div>
         </div>
       </div>
     </div>
-    <!-- Comments Card Content -->
-    <ng-template *ngIf="comments; else loadingCommentsData">
-      <div
-        *ngFor="let comment of comments | orderBy: filterVariable"
-        class="comment-card-body card-content grey lighten-4"
-      >
-        <div class="card-comment-content dfr">
-          <div class="user-icon">
-            <img [src]="comment.user?.img | img: 'user'" />
-          </div>
-          <div class="comment-body dfc">
-            <div class="comment-info w-full dfr">
-              <div class="comment-user-name">
-                <a href=""
-                  ><span>{{
-                    comment.user.firstName + " " + comment.user.lastName
-                  }}</span></a
-                >
-              </div>
-              <div class="comment-date">
-                <span>{{ comment.date | dateAgo }}</span>
-              </div>
-            </div>
-            <div class="user-comment-content">
-              <span>{{ comment.comment }}</span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="card-footer card-action">
-        <div class="add-item-to-accordion-container m-0 dfc">
-          <!-- See More Posts Button Trigger -->
-          <button
-            class="btn bs-none transparent-bg w-full max-width-full dfr"
-            mat-icon-button
-          >
-            <span>Ver más reseñas</span>
-          </button>
-        </div>
-      </div>
-    </ng-template>
   </div>
   <!-- Loading Comments -->
   <ng-template #loadingCommentsData>

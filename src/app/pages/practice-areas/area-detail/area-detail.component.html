@@ -28,7 +28,7 @@
       </div>
     </div>
     <div class="area-detail-content dfr">
-      <div class="area-detail-body border-radius-auto border-default" >
+      <div class="area-detail-body border-radius-auto border-default">
         <mat-tab-group
           class="lawyer-tab"
           [selectedIndex]="selected.value"
@@ -92,11 +92,16 @@
                 <div class="item-acordion-card-inner-box p0">
                   <!-- Partner Card Body -->
                   <div
-                    class="item-acordion-card-body lawyer-card not-actions dfr"
+                    class="item-acordion-card-body lawyer-card dfr"
                     data-note-details="true"
                   >
                     <div
-                      class="item-acordion-card-body-image lawyer-card centered-img-bg dfr"
+                      class="
+                        item-acordion-card-body-image
+                        lawyer-card
+                        centered-img-bg
+                        dfr
+                      "
                     >
                       <img [src]="lawyer.img | img: 'user'" />
                     </div>
@@ -106,7 +111,10 @@
                     <div class="item-acordion-card-header-data lawyer-card dfc">
                       <div class="item-acordion-card-header-left dfr">
                         <div
-                          class="item-acordion-card-name lawyer-name lawyer-card"
+                          class="
+                            item-acordion-card-name
+                            lawyer-name lawyer-card
+                          "
                         >
                           <span>
                             {{ lawyer.firstName + " " + lawyer.lastName }}
@@ -114,6 +122,37 @@
                         </div>
                       </div>
                     </div>
+                  </div>
+                  <!-- Partner Card Actions -->
+                  <div class="item-acordion-body-actions lawyer-card px-10 dfr">
+                    <!-- Partner Rating Stars -->
+                    <button
+                      class="
+                        header-item-btn
+                        btn
+                        action-button
+                        w-full
+                        bs-none
+                        border-none border-radius-4
+                        px-5
+                        pe-none
+                        transparent-bg
+                        text-button
+                        dfc
+                        jcc
+                      "
+                      mat-icon-button
+                    >
+                      <!-- Logged In Stars -->
+                      <ngx-stars
+                        [color]="'#eb8a2f'"
+                        [initialStars]="
+                          lawyer.ratingData ? lawyer.ratingData.ratingAvg : 0
+                        "
+                        [readonly]="true"
+                        [size]="1"
+                      ></ngx-stars>
+                    </button>
                   </div>
                 </div>
               </div>
@@ -141,7 +180,13 @@
           </div>
           <button
             type="button"
-            class="contact-submit-button waves-effect waves-light btn ff-tss dfc"
+            class="
+              contact-submit-button
+              waves-effect waves-light
+              btn
+              ff-tss
+              dfc
+            "
             [routerLink]="['/contacto']"
             (click)="_utilitiesS.scrollToTop()"
           >

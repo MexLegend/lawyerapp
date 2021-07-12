@@ -52,3 +52,26 @@
 ::ng-deep .mat-progress-bar-buffer {
   background-color: var(--nav-fixed-option-bg-hover);
 }
+
+.user-icon {
+  width: 48px;
+  min-width: 48px;
+  height: 48px;
+  min-height: 48px;
+}
+
+.comment-user-name {
+  font-weight: 700;
+  font-size: 16px;
+}
+
+.comment-date {
+  font-size: 14px;
+  margin-left: 10px;
+  color: var(--secondary-text);
+  min-width: max-content;
+}
+
+.user-comment-content {
+  font-size: 14px;
+}

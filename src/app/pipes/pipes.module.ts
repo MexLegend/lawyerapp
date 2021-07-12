@@ -6,9 +6,10 @@ import { SafeHtml } from "./safeUrl.pipe";
 import { ReversePipe } from "./reverse.pipe";
 import { TruncateHtmlPipe } from "./truncateHtml.pipe";
 import { SanitizeHtmlPipe } from "./safeHtml.pipe";
-import { StringFilterPipe } from './stringFilter.pipe';
-import { DateAgoPipe } from './dateAgo.pipe';
-import { OrderByPipe } from './orderBy.pipe';
+import { StringFilterPipe } from "./stringFilter.pipe";
+import { DateAgoPipe } from "./dateAgo.pipe";
+import { OrderByPipe } from "./orderBy.pipe";
+import { ShowFullMessagePipe } from "./showFullMessage.pipe";
 @NgModule({
   imports: [CommonModule],
   declarations: [
@@ -20,6 +21,7 @@ import { OrderByPipe } from './orderBy.pipe';
     SafeHtml,
     SanitizeHtmlPipe,
     StringFilterPipe,
+    ShowFullMessagePipe,
     TruncateHtmlPipe,
   ],
   exports: [
@@ -31,6 +33,7 @@ import { OrderByPipe } from './orderBy.pipe';
     SafeHtml,
     SanitizeHtmlPipe,
     StringFilterPipe,
+    ShowFullMessagePipe,
     TruncateHtmlPipe,
   ],
 })

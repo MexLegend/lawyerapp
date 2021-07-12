@@ -1,4 +1,9 @@
-import { EventEmitter, Injectable } from "@angular/core";
+import {
+  EventEmitter,
+  Injectable,
+  QueryList,
+  ViewChildren,
+} from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Router, ActivatedRoute } from "@angular/router";
 import { Observable, throwError, Subject, Subscription } from "rxjs";
@@ -14,6 +19,7 @@ import { LocalStorageService } from "./local-storage.service";
 import { FormGroup } from "@angular/forms";
 import { MatTabGroup } from "@angular/material";
 import { WebPushNotificationsService } from "./webPushNotifications.service";
+import { NgxStarsComponent } from "ngx-stars";
 
 declare var $: any;
 
@@ -423,6 +429,7 @@ export class UsersService {
     // Close Socket Connection
     this.setSocketConnection(false);
 
+    // Reset User Data
     this.user = null;
     this.id = null;
     this.token = null;

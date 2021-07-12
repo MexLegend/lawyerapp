@@ -113,9 +113,7 @@ export class AreaDetailComponent implements OnInit {
     this.subscriptionsArray.push(
       this._practiceAreaS
         .getSpecializedLawyers(id)
-        .subscribe((lawyers: any) => {
-          this.specializedLawyers = lawyers;
-        })
+        .subscribe((lawyers: any) => (this.specializedLawyers = lawyers))
     );
   }
 

@@ -144,7 +144,7 @@ export class HomeComponent implements OnInit {
           (lawyers: any) =>
             (this.lawyers = this._ratingS.isDataRated(
               lawyers,
-              this._usersS.user.ratings
+              this._usersS.isLogged() ? this._usersS.user.ratings : null
             ))
         )
     );
@@ -165,7 +165,7 @@ export class HomeComponent implements OnInit {
       this._postsS.getPosts(true).subscribe((resp) => {
         this.posts = this._ratingS.isDataRated(
           resp.docs,
-          this._usersS.user.ratings
+          this._usersS.isLogged() ? this._usersS.user.ratings : null
         );
       })
     );

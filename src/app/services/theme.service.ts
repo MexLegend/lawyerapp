@@ -88,6 +88,7 @@ export const darkTheme = {
   "search-input-border": "#4e4e4e",
   "sidenav-divider-border-color": "#605e5e",
   "transparent-border": "transparent",
+  "visible-border": "#444444",
   // Box Shadow
   "dark-box-shadow": "0 0 4px 2px #3030304d",
   "dark-box-shadow-color": "rgba(0, 0, 0, 0.3)",
@@ -202,6 +203,7 @@ export const lightTheme = {
   "search-input-border": "#ddd",
   "sidenav-divider-border-color": "#d0d0d0",
   "transparent-border": "inherit",
+  "visible-border": "#989586",
   // Box Shadow
   "dark-box-shadow": "0 0 4px 2px rgba(0, 0, 0, 0.1)",
   "dark-box-shadow-color": "",

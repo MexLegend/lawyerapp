@@ -84,14 +84,11 @@
               border-none border-radius-4
               px-5
               transparent-bg
+              text-button
               dfc
               jcc
             "
             mat-icon-button
-            [matTooltip]="
-              lawyer.isRated ? 'Editar calificación' : 'Calificar abogado'
-            "
-            matTooltipPosition="above"
             (click)="
               this._usersS.isLogged()
                 ? openRateModal(
@@ -103,7 +100,9 @@
               $event.stopPropagation()
             "
           >
+            <!-- Logged In Stars -->
             <ngx-stars
+              *ngIf="_usersS.isLogged()"
               [color]="'#eb8a2f'"
               [initialStars]="
                 lawyer.ratingData?.rating ? lawyer.ratingData.rating : 0
@@ -111,6 +110,21 @@
               [readonly]="true"
               [size]="1"
             ></ngx-stars>
+            <!-- Logged Out Stars -->
+            <ngx-stars
+              *ngIf="!_usersS.isLogged()"
+              [color]="'#eb8a2f'"
+              [initialStars]="0"
+              [readonly]="true"
+              [size]="1"
+            ></ngx-stars>
+            <span class="w-full button-text">{{
+              this._usersS.isLogged()
+                ? lawyer.isRated
+                  ? "Editar calificación"
+                  : "Calificar abogado"
+                : "Calificar abogado"
+            }}</span>
           </button>
         </div>
       </div>

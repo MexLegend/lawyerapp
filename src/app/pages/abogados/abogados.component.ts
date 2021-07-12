@@ -9,6 +9,7 @@ import { ModalAlertService } from "../../services/modal-alert.service";
 import { UtilitiesService } from "../../services/utilities.service";
 import { MatDialog } from "@angular/material/dialog";
 import { RateComponent } from "../../modals/rate/rate.component";
+import { RatingService } from "../../services/rating.service";
 
 @Component({
   selector: "app-abogados",
@@ -21,6 +22,7 @@ export class AbogadosComponent implements OnInit {
     public _chatS: ChatService,
     public _contactS: ContactService,
     public dialog: MatDialog,
+    private _ratingS: RatingService,
     private router: Router,
     public _usersS: UsersService,
     public _utilitiesS: UtilitiesService
@@ -47,9 +49,15 @@ export class AbogadosComponent implements OnInit {
   ngOnInit() {
     // List Lawyers Subscription
     this.subscriptionsArray.push(
-      this._usersS.getLawyers().subscribe((lawyers: any) => {
-        this.lawyers = lawyers;
-      })
+      this._usersS
+        .getLawyers()
+        .subscribe(
+          (lawyers: any) =>
+            (this.lawyers = this._ratingS.isDataRated(
+              lawyers,
+              this._usersS.isLogged() ? this._usersS.user.ratings : null
+            ))
+        )
     );
 
     // Get Modal Alert Subscription
